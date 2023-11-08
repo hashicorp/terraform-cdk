@@ -1,183 +1,79 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
-import { App, TerraformStack, TerraformOutput } from "cdktf";
+import {
+  App,
+  TerraformStack,
+  TerraformIterator,
+  TerraformVariable,
+  TerraformElement,
+} from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
-import { AcmCertificate } from "./.gen/providers/aws/acm-certificate";
-import { Route53Record } from "./.gen/providers/aws/route53-record";
-import { Wafv2WebAcl } from "./.gen/providers/aws/wafv2-web-acl";
-import { CloudfrontDistribution } from "./.gen/providers/aws/cloudfront-distribution";
-import { AcmCertificateValidation } from "./.gen/providers/aws/acm-certificate-validation";
+
+import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
+import { S3BucketObject } from "./.gen/providers/aws/s3-bucket-object";
+
+export class ResourceTerraformIterator extends TerraformIterator {
+  constructor(private readonly element: TerraformElement) {
+    super();
+  }
+
+  /**
+   * Returns the currenty entry in the list or set that is being iterated over.
+   * For lists this is the same as `iterator.value`. If you need the index,
+   * use count using the escape hatch:
+   * https://developer.hashicorp.com/terraform/cdktf/concepts/resources#escape-hatch
+   */
+  public get key(): any {
+    return this._getKey();
+  }
+
+  /**
+   * Returns the value of the current item iterated over.
+   */
+  public get value(): any {
+    return this._getValue();
+  }
+
+  /**
+   * @internal used by TerraformResource to set the for_each expression
+   */
+  public _getForEachExpression(): any {
+    return this.element.fqn; // no wrapping as that is not working for resources
+  }
+}
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
     super(scope, ns);
 
-    const originId = "myS3Origin";
-    const domainName = "www.example.com";
-    const proxyTarget = "example.com";
-
     new AwsProvider(this, "aws", {
       region: "eu-central-1",
     });
 
-    const usEastProvider = new AwsProvider(this, "aws.route53", {
-      region: "us-east-1",
-      alias: "route53",
+    const bucketNames = new TerraformVariable(this, "s3_bucket_names", {
+      type: "list",
+      default: ["my-first-bucket", "my-second-bucket"],
     });
 
-    new Wafv2WebAcl(this, "wafv2", {
-      defaultAction: {
-        allow: {},
-      },
-      name: "managed-rule-example",
-      scope: "REGIONAL",
-      visibilityConfig: {
-        cloudwatchMetricsEnabled: true,
-        metricName: "managed-rule-example",
-        sampledRequestsEnabled: true,
-      },
-      rule: [
-        {
-          name: "managed-rule-example",
-          priority: 1,
-          overrideAction: {
-            count: {},
-          },
-          visibilityConfig: {
-            cloudwatchMetricsEnabled: true,
-            metricName: "managed-rule-example",
-            sampledRequestsEnabled: true,
-          },
-          statement: {
-            managedRuleGroupStatement: {
-              name: "managed-rule-example",
-              vendorName: "AWS",
-              excludedRule: [
-                {
-                  name: "SizeRestrictions_QUERYSTRING",
-                },
-                { name: "SQLInjection_QUERYSTRING" },
-              ],
-              scopeDownStatement: {
-                geoMatchStatement: {
-                  countryCodes: ["US"],
-                },
-              },
-            },
-          },
-        },
-      ],
+    const bucketNameIterator = TerraformIterator.fromList(
+      bucketNames.listValue
+    );
+    const s3Bucket = new S3Bucket(this, "s3_bucket", {
+      forEach: bucketNameIterator,
+      bucketPrefix: bucketNameIterator.value,
+      acl: "private",
     });
 
-    const cert = new AcmCertificate(this, "cert", {
-      domainName,
-      validationMethod: "DNS",
-      provider: usEastProvider,
-    });
+    // Read as TerraformIterator.fromResource(s3Bucket);
+    const bucketList = new ResourceTerraformIterator(s3Bucket);
 
-    // const zone = new DataAwsRoute53Zone(this, 'zone', {
-    //   name: 'example.com.',
-    //   privateZone: false
-    // })
-
-    const record = new Route53Record(this, "CertValidationRecord", {
-      name: cert.domainValidationOptions.get(0).resourceRecordName,
-      type: cert.domainValidationOptions.get(0).resourceRecordType,
-      records: [cert.domainValidationOptions.get(0).resourceRecordValue],
-      // zoneId: zone.zoneId,
-      zoneId: "123",
-      ttl: 60,
-      allowOverwrite: true,
-    });
-
-    new AcmCertificateValidation(this, "certvalidation", {
-      certificateArn: cert.arn,
-      validationRecordFqdns: [record.fqdn],
-      provider: usEastProvider,
-    });
-
-    const distribution = new CloudfrontDistribution(this, "cloudfront", {
-      enabled: true,
-      isIpv6Enabled: true,
-
-      viewerCertificate: {
-        acmCertificateArn: cert.arn,
-        sslSupportMethod: "sni-only",
-      },
-
-      restrictions: {
-        geoRestriction: {
-          restrictionType: "none",
-        },
-      },
-
-      origin: [
-        {
-          originId,
-          domainName: proxyTarget,
-          customOriginConfig: {
-            httpPort: 80,
-            httpsPort: 443,
-            originProtocolPolicy: "http-only",
-            originSslProtocols: ["TLSv1.2", "TLSv1.1"],
-          },
-        },
-      ],
-
-      aliases: [domainName],
-
-      defaultCacheBehavior: {
-        minTtl: 0,
-        defaultTtl: 60,
-        maxTtl: 86400,
-        allowedMethods: [
-          "DELETE",
-          "GET",
-          "HEAD",
-          "OPTIONS",
-          "PATCH",
-          "POST",
-          "PUT",
-        ],
-        cachedMethods: ["GET", "HEAD"],
-        targetOriginId: originId,
-        viewerProtocolPolicy: "redirect-to-https",
-        forwardedValues: {
-          cookies: {
-            forward: "all",
-          },
-          headers: [
-            "Host",
-            "Accept-Datetime",
-            "Accept-Encoding",
-            "Accept-Language",
-            "User-Agent",
-            "Referer",
-            "Origin",
-            "X-Forwarded-Host",
-          ],
-          queryString: true,
-        },
-      },
-    });
-
-    new Route53Record(this, "distribution_domain", {
-      name: domainName,
-      type: "A",
-      // zoneId: zone.zoneId,
-      zoneId: "123",
-      alias: [
-        {
-          name: distribution.domainName,
-          zoneId: distribution.hostedZoneId,
-          evaluateTargetHealth: true,
-        },
-      ],
-    });
-
-    new TerraformOutput(this, "distribution_domain_name", {
-      value: distribution.domainName,
+    new S3BucketObject(this, "s3_object", {
+      forEach: bucketList,
+      bucket: bucketList.getString("id"),
+      key: "index.html",
+      source: "index.html",
+      acl: "private",
     });
   }
 }
