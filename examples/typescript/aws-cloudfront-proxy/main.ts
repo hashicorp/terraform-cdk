@@ -1,47 +1,12 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
-import {
-  App,
-  TerraformStack,
-  TerraformIterator,
-  TerraformVariable,
-  TerraformElement,
-} from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws/provider";
+import { App, TerraformOutput, TerraformStack, TerraformVariable } from "cdktf";
 
+import { AwsProvider } from "./.gen/providers/aws/provider";
 import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
 import { S3BucketObject } from "./.gen/providers/aws/s3-bucket-object";
-
-export class ResourceTerraformIterator extends TerraformIterator {
-  constructor(private readonly element: TerraformElement) {
-    super();
-  }
-
-  /**
-   * Returns the currenty entry in the list or set that is being iterated over.
-   * For lists this is the same as `iterator.value`. If you need the index,
-   * use count using the escape hatch:
-   * https://developer.hashicorp.com/terraform/cdktf/concepts/resources#escape-hatch
-   */
-  public get key(): any {
-    return this._getKey();
-  }
-
-  /**
-   * Returns the value of the current item iterated over.
-   */
-  public get value(): any {
-    return this._getValue();
-  }
-
-  /**
-   * @internal used by TerraformResource to set the for_each expression
-   */
-  public _getForEachExpression(): any {
-    return this.element.fqn; // no wrapping as that is not working for resources
-  }
-}
+import { S3BucketAcl } from "./.gen/providers/aws/s3-bucket-acl/index";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
@@ -56,24 +21,41 @@ class MyStack extends TerraformStack {
       default: ["my-first-bucket", "my-second-bucket"],
     });
 
-    const bucketNameIterator = TerraformIterator.fromList(
-      bucketNames.listValue
-    );
-    const s3Bucket = new S3Bucket(this, "s3_bucket", {
-      forEach: bucketNameIterator,
-      bucketPrefix: bucketNameIterator.value,
-      acl: "private",
+    const filesToUpload = new TerraformVariable(this, "files", {
+      type: "list",
+      default: ["index.html", "404.html", "5xx.html"],
     });
 
-    // Read as TerraformIterator.fromResource(s3Bucket);
-    const bucketList = new ResourceTerraformIterator(s3Bucket);
+    const s3Buckets = bucketNames.listValue.map((bucketName) => {
+      return new S3Bucket(this, "s3_bucket", {
+        bucketPrefix: bucketName,
+      });
+    });
 
-    new S3BucketObject(this, "s3_object", {
-      forEach: bucketList,
-      bucket: bucketList.getString("id"),
-      key: "index.html",
-      source: "index.html",
-      acl: "private",
+    s3Buckets.forEach((s3Bucket) => {
+      new S3BucketAcl(this, "s3_bucket_acl", {
+        bucket: s3Bucket.id,
+        acl: "private",
+      });
+    });
+
+    s3Buckets.forEach((s3Bucket) => {
+      filesToUpload.listValue.forEach((file) => {
+        new S3BucketObject(this, "s3_object", {
+          bucket: s3Bucket.id,
+          key: file,
+          source: file,
+          acl: "private",
+        });
+      });
+    });
+
+    new TerraformOutput(this, "first_bucket", {
+      value: s3Buckets[0].id,
+    });
+
+    new TerraformOutput(this, "second_bucket", {
+      value: s3Buckets[1].id,
     });
   }
 }
