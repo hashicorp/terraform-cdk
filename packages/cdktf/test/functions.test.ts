@@ -323,6 +323,25 @@ test("functions with object inputs", () => {
   `);
 });
 
+test("conditional", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformOutput(stack, "test-output", {
+    value: Fn.conditional(false, 0, 5),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      "output": {
+        "test-output": {
+          "value": "\${false ? 0 : 5}"
+        }
+      }
+    }"
+  `);
+});
+
 test("quoted primitives in list", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");

@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { propertyAccess, rawString, Token } from ".";
+import { conditional, Expression, propertyAccess, rawString, Token } from ".";
 import { asAny } from "./functions/helpers";
 import { FnGenerated } from "./functions/terraform-functions.generated";
 
@@ -16,6 +16,20 @@ export class Fn extends FnGenerated {
     // There is currently nothing in the schema that represents this runtime check:
     // https://github.com/hashicorp/terraform/blob/6ab3faf5f65a90ae1e5bd0625fa9e83c0b34c5e1/internal/lang/funcs/crypto.go#L115-L117
     return Fn._bcrypt(str, cost ? [cost] : []);
+  }
+
+  /**
+   * {@link https://developer.hashicorp.com/terraform/language/expressions/conditionals} A conditional expression uses the value of a boolean expression to select one of two values.
+   * @param {Expression} condition
+   * @param {Expression} trueValue
+   * @param {Expression} falseValue
+   */
+  static conditional(
+    condition: Expression,
+    trueValue: Expression,
+    falseValue: Expression
+  ): any {
+    return conditional(condition, trueValue, falseValue);
   }
 
   /**
