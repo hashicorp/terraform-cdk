@@ -1,7 +1,7 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-from cdktf import TerraformStack, Token, App, TerraformCount
+from cdktf import TerraformStack, Token, TerraformCount, TerraformAsset
 from constructs import Construct
 from imports.aws.provider import AwsProvider
 from imports.aws.instance import Instance
@@ -9,6 +9,8 @@ from imports.github.data_github_organization import DataGithubOrganization
 from imports.github.provider import GithubProvider
 from imports.github.team import Team
 from imports.github.team_members import TeamMembers
+from imports.aws.s3_bucket_object import S3BucketObject
+
 
 # DOCS_BLOCK_START:iterators-define-iterators,iterators-iterators-complex-types
 from imports.aws.s3_bucket import S3Bucket
@@ -105,3 +107,36 @@ class IteratorStackTwo(TerraformStack):
                     })
                     )
         # DOCS_BLOCK_END:iterators-list-attributes
+
+        # DOCS_BLOCK_START:iterators-chain
+        map = TerraformLocal(self, "my-map", {
+            "website": {
+                "name": "website-static-files",
+                "tags": {"app": "website"}
+            },
+            "images": {
+                "name": "images",
+                "tags": {"app": "image-converter"}
+            }
+        })
+        s3_bucket_configuration_iterator = TerraformIterator.from_map(
+            map=map.as_any_map
+        )
+        s3_buckets = S3Bucket(self, "complex-iterator-buckets",
+            for_each=s3_bucket_configuration_iterator,
+            bucket=s3_bucket_configuration_iterator.get_string("name"),
+            tags=s3_bucket_configuration_iterator.get_map("tags")
+        )
+
+        # This would be TerraformIterator.from_data_sources for data_sources
+        s3_buckets_iterator = TerraformIterator.from_resources(s3_buckets)
+        help_file = TerraformAsset(self, "help",
+            path="./help"
+        )
+        S3BucketObject(self, "object",
+            for_each=s3_buckets_iterator,
+            bucket=s3_buckets_iterator.get_string("id"),
+            key="help",
+            source=help_file.path
+        )
+        # DOCS_BLOCK_END:iterators-chain

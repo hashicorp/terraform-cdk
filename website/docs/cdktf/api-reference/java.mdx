@@ -10139,6 +10139,227 @@ public java.lang.String getFriendlyUniqueId();
 
 ---
 
+### ImportableResource <a name="ImportableResource" id="cdktf.ImportableResource"></a>
+
+Class used to represent an importable resource.
+
+#### Initializers <a name="Initializers" id="cdktf.ImportableResource.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.ImportableResource;
+
+new ImportableResource(Construct scope, java.lang.String name, IImportableConfig config);
+```
+
+| **Name**                                                                                 | **Type**                                                              | **Description**   |
+| ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ImportableResource.Initializer.parameter.scope">scope</a></code>   | <code>software.constructs.Construct</code>                            | _No description._ |
+| <code><a href="#cdktf.ImportableResource.Initializer.parameter.name">name</a></code>     | <code>java.lang.String</code>                                         | _No description._ |
+| <code><a href="#cdktf.ImportableResource.Initializer.parameter.config">config</a></code> | <code><a href="#cdktf.IImportableConfig">IImportableConfig</a></code> | _No description._ |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="cdktf.ImportableResource.Initializer.parameter.scope"></a>
+
+- _Type:_ software.constructs.Construct
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="cdktf.ImportableResource.Initializer.parameter.name"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+##### `config`<sup>Required</sup> <a name="config" id="cdktf.ImportableResource.Initializer.parameter.config"></a>
+
+- _Type:_ <a href="#cdktf.IImportableConfig">IImportableConfig</a>
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                           | **Description**                                                                   |
+| -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ImportableResource.toString">toString</a></code>                             | Returns a string representation of this construct.                                |
+| <code><a href="#cdktf.ImportableResource.addOverride">addOverride</a></code>                       | _No description._                                                                 |
+| <code><a href="#cdktf.ImportableResource.overrideLogicalId">overrideLogicalId</a></code>           | Overrides the auto-generated logical ID with a specific ID.                       |
+| <code><a href="#cdktf.ImportableResource.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.ImportableResource.toMetadata">toMetadata</a></code>                         | _No description._                                                                 |
+| <code><a href="#cdktf.ImportableResource.toTerraform">toTerraform</a></code>                       | _No description._                                                                 |
+
+---
+
+##### `toString` <a name="toString" id="cdktf.ImportableResource.toString"></a>
+
+```java
+public java.lang.String toString()
+```
+
+Returns a string representation of this construct.
+
+##### `addOverride` <a name="addOverride" id="cdktf.ImportableResource.addOverride"></a>
+
+```java
+public void addOverride(java.lang.String path, java.lang.Object value)
+```
+
+###### `path`<sup>Required</sup> <a name="path" id="cdktf.ImportableResource.addOverride.parameter.path"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="cdktf.ImportableResource.addOverride.parameter.value"></a>
+
+- _Type:_ java.lang.Object
+
+---
+
+##### `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.ImportableResource.overrideLogicalId"></a>
+
+```java
+public void overrideLogicalId(java.lang.String newLogicalId)
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+###### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.ImportableResource.overrideLogicalId.parameter.newLogicalId"></a>
+
+- _Type:_ java.lang.String
+
+The new logical ID to use for this stack element.
+
+---
+
+##### `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.ImportableResource.resetOverrideLogicalId"></a>
+
+```java
+public void resetOverrideLogicalId()
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+##### `toMetadata` <a name="toMetadata" id="cdktf.ImportableResource.toMetadata"></a>
+
+```java
+public java.lang.Object toMetadata()
+```
+
+##### `toTerraform` <a name="toTerraform" id="cdktf.ImportableResource.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                                                                   | **Description**               |
+| ------------------------------------------------------------------------------------------ | ----------------------------- |
+| <code><a href="#cdktf.ImportableResource.isConstruct">isConstruct</a></code>               | Checks if `x` is a construct. |
+| <code><a href="#cdktf.ImportableResource.isTerraformElement">isTerraformElement</a></code> | _No description._             |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="cdktf.ImportableResource.isConstruct"></a>
+
+```java
+import com.hashicorp.cdktf.ImportableResource;
+
+ImportableResource.isConstruct(java.lang.Object x)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.ImportableResource.isConstruct.parameter.x"></a>
+
+- _Type:_ java.lang.Object
+
+Any object.
+
+---
+
+##### `isTerraformElement` <a name="isTerraformElement" id="cdktf.ImportableResource.isTerraformElement"></a>
+
+```java
+import com.hashicorp.cdktf.ImportableResource;
+
+ImportableResource.isTerraformElement(java.lang.Object x)
+```
+
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.ImportableResource.isTerraformElement.parameter.x"></a>
+
+- _Type:_ java.lang.Object
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                        | **Type**                                                        | **Description**   |
+| ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ImportableResource.property.node">node</a></code>                         | <code>software.constructs.Node</code>                           | The tree node.    |
+| <code><a href="#cdktf.ImportableResource.property.cdktfStack">cdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
+| <code><a href="#cdktf.ImportableResource.property.fqn">fqn</a></code>                           | <code>java.lang.String</code>                                   | _No description._ |
+| <code><a href="#cdktf.ImportableResource.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code>                                   | _No description._ |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="cdktf.ImportableResource.property.node"></a>
+
+```java
+public Node getNode();
+```
+
+- _Type:_ software.constructs.Node
+
+The tree node.
+
+---
+
+##### `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.ImportableResource.property.cdktfStack"></a>
+
+```java
+public TerraformStack getCdktfStack();
+```
+
+- _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+##### `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.ImportableResource.property.fqn"></a>
+
+```java
+public java.lang.String getFqn();
+```
+
+- _Type:_ java.lang.String
+
+---
+
+##### `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.ImportableResource.property.friendlyUniqueId"></a>
+
+```java
+public java.lang.String getFriendlyUniqueId();
+```
+
+- _Type:_ java.lang.String
+
+---
+
 ### LocalBackend <a name="LocalBackend" id="cdktf.LocalBackend"></a>
 
 #### Initializers <a name="Initializers" id="cdktf.LocalBackend.Initializer"></a>
@@ -16350,24 +16571,27 @@ TerraformResource.Builder.create(Construct scope, java.lang.String id)
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                                                                | **Description**                                                                   |
-| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.TerraformResource.toString">toString</a></code>                                   | Returns a string representation of this construct.                                |
-| <code><a href="#cdktf.TerraformResource.addOverride">addOverride</a></code>                             | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.overrideLogicalId">overrideLogicalId</a></code>                 | Overrides the auto-generated logical ID with a specific ID.                       |
-| <code><a href="#cdktf.TerraformResource.resetOverrideLogicalId">resetOverrideLogicalId</a></code>       | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.TerraformResource.toMetadata">toMetadata</a></code>                               | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.toTerraform">toTerraform</a></code>                             | Adds this resource to the terraform JSON output.                                  |
-| <code><a href="#cdktf.TerraformResource.getAnyMapAttribute">getAnyMapAttribute</a></code>               | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getBooleanAttribute">getBooleanAttribute</a></code>             | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getBooleanMapAttribute">getBooleanMapAttribute</a></code>       | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getListAttribute">getListAttribute</a></code>                   | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getNumberAttribute">getNumberAttribute</a></code>               | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getNumberListAttribute">getNumberListAttribute</a></code>       | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getNumberMapAttribute">getNumberMapAttribute</a></code>         | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getStringAttribute">getStringAttribute</a></code>               | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getStringMapAttribute">getStringMapAttribute</a></code>         | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.interpolationForAttribute">interpolationForAttribute</a></code> | _No description._                                                                 |
+| **Name**                                                                                                | **Description**                                                                                                                     |
+| ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformResource.toString">toString</a></code>                                   | Returns a string representation of this construct.                                                                                  |
+| <code><a href="#cdktf.TerraformResource.addOverride">addOverride</a></code>                             | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.overrideLogicalId">overrideLogicalId</a></code>                 | Overrides the auto-generated logical ID with a specific ID.                                                                         |
+| <code><a href="#cdktf.TerraformResource.resetOverrideLogicalId">resetOverrideLogicalId</a></code>       | Resets a previously passed logical Id to use the auto-generated logical id again.                                                   |
+| <code><a href="#cdktf.TerraformResource.toMetadata">toMetadata</a></code>                               | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.toTerraform">toTerraform</a></code>                             | Adds this resource to the terraform JSON output.                                                                                    |
+| <code><a href="#cdktf.TerraformResource.addMoveTarget">addMoveTarget</a></code>                         | Adds a user defined moveTarget string to this resource to be later used in .moveTo(moveTarget) to resolve the location of the move. |
+| <code><a href="#cdktf.TerraformResource.getAnyMapAttribute">getAnyMapAttribute</a></code>               | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getBooleanAttribute">getBooleanAttribute</a></code>             | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getBooleanMapAttribute">getBooleanMapAttribute</a></code>       | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getListAttribute">getListAttribute</a></code>                   | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getNumberAttribute">getNumberAttribute</a></code>               | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getNumberListAttribute">getNumberListAttribute</a></code>       | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getNumberMapAttribute">getNumberMapAttribute</a></code>         | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getStringAttribute">getStringAttribute</a></code>               | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getStringMapAttribute">getStringMapAttribute</a></code>         | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.importFrom">importFrom</a></code>                               | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.interpolationForAttribute">interpolationForAttribute</a></code> | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.moveTo">moveTo</a></code>                                       | Moves this resource to the target resource given by moveTarget.                                                                     |
 
 ---
 
@@ -16434,6 +16658,22 @@ public java.lang.Object toTerraform()
 ```
 
 Adds this resource to the terraform JSON output.
+
+##### `addMoveTarget` <a name="addMoveTarget" id="cdktf.TerraformResource.addMoveTarget"></a>
+
+```java
+public void addMoveTarget(java.lang.String moveTarget)
+```
+
+Adds a user defined moveTarget string to this resource to be later used in .moveTo(moveTarget) to resolve the location of the move.
+
+###### `moveTarget`<sup>Required</sup> <a name="moveTarget" id="cdktf.TerraformResource.addMoveTarget.parameter.moveTarget"></a>
+
+- _Type:_ java.lang.String
+
+The string move target that will correspond to this resource.
+
+---
 
 ##### `getAnyMapAttribute` <a name="getAnyMapAttribute" id="cdktf.TerraformResource.getAnyMapAttribute"></a>
 
@@ -16543,6 +16783,25 @@ public java.util.Map< java.lang.String, java.lang.String > getStringMapAttribute
 
 ---
 
+##### `importFrom` <a name="importFrom" id="cdktf.TerraformResource.importFrom"></a>
+
+```java
+public void importFrom(java.lang.String id)
+public void importFrom(java.lang.String id, TerraformProvider provider)
+```
+
+###### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResource.importFrom.parameter.id"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+###### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.TerraformResource.importFrom.parameter.provider"></a>
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
 ##### `interpolationForAttribute` <a name="interpolationForAttribute" id="cdktf.TerraformResource.interpolationForAttribute"></a>
 
 ```java
@@ -16552,6 +16811,31 @@ public IResolvable interpolationForAttribute(java.lang.String terraformAttribute
 ###### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.interpolationForAttribute.parameter.terraformAttribute"></a>
 
 - _Type:_ java.lang.String
+
+---
+
+##### `moveTo` <a name="moveTo" id="cdktf.TerraformResource.moveTo"></a>
+
+```java
+public void moveTo(java.lang.String moveTarget)
+public void moveTo(java.lang.String moveTarget, java.lang.String OR java.lang.Number index)
+```
+
+Moves this resource to the target resource given by moveTarget.
+
+###### `moveTarget`<sup>Required</sup> <a name="moveTarget" id="cdktf.TerraformResource.moveTo.parameter.moveTarget"></a>
+
+- _Type:_ java.lang.String
+
+The previously set user defined string set by .addMoveTarget() corresponding to the resource to move to.
+
+---
+
+###### `index`<sup>Optional</sup> <a name="index" id="cdktf.TerraformResource.moveTo.parameter.index"></a>
+
+- _Type:_ java.lang.String OR java.lang.Number
+
+Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to.
 
 ---
 
@@ -17026,11 +17310,12 @@ TerraformStack.of(IConstruct construct)
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                            | **Type**                                                                         | **Description**   |
-| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformStack.property.node">node</a></code>                 | <code>software.constructs.Node</code>                                            | The tree node.    |
-| <code><a href="#cdktf.TerraformStack.property.dependencies">dependencies</a></code> | <code>java.util.List< <a href="#cdktf.TerraformStack">TerraformStack</a>></code> | _No description._ |
-| <code><a href="#cdktf.TerraformStack.property.synthesizer">synthesizer</a></code>   | <code><a href="#cdktf.IStackSynthesizer">IStackSynthesizer</a></code>            | _No description._ |
+| **Name**                                                                            | **Type**                                                                            | **Description**   |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformStack.property.node">node</a></code>                 | <code>software.constructs.Node</code>                                               | The tree node.    |
+| <code><a href="#cdktf.TerraformStack.property.dependencies">dependencies</a></code> | <code>java.util.List< <a href="#cdktf.TerraformStack">TerraformStack</a>></code>    | _No description._ |
+| <code><a href="#cdktf.TerraformStack.property.moveTargets">moveTargets</a></code>   | <code><a href="#cdktf.TerraformResourceTargets">TerraformResourceTargets</a></code> | _No description._ |
+| <code><a href="#cdktf.TerraformStack.property.synthesizer">synthesizer</a></code>   | <code><a href="#cdktf.IStackSynthesizer">IStackSynthesizer</a></code>               | _No description._ |
 
 ---
 
@@ -17053,6 +17338,16 @@ public java.util.List< TerraformStack > getDependencies();
 ```
 
 - _Type:_ java.util.List< <a href="#cdktf.TerraformStack">TerraformStack</a>>
+
+---
+
+##### `moveTargets`<sup>Required</sup> <a name="moveTargets" id="cdktf.TerraformStack.property.moveTargets"></a>
+
+```java
+public TerraformResourceTargets getMoveTargets();
+```
+
+- _Type:_ <a href="#cdktf.TerraformResourceTargets">TerraformResourceTargets</a>
 
 ---
 
@@ -25939,6 +26234,48 @@ public TerraformProviderGeneratorMetadata getTerraformGeneratorMetadata();
 
 ---
 
+### TerraformResourceImport <a name="TerraformResourceImport" id="cdktf.TerraformResourceImport"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformResourceImport.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformResourceImport;
+
+TerraformResourceImport.builder()
+    .id(java.lang.String)
+//  .provider(TerraformProvider)
+    .build();
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                             | **Type**                                                              | **Description**   |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformResourceImport.property.id">id</a></code>             | <code>java.lang.String</code>                                         | _No description._ |
+| <code><a href="#cdktf.TerraformResourceImport.property.provider">provider</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | _No description._ |
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResourceImport.property.id"></a>
+
+```java
+public java.lang.String getId();
+```
+
+- _Type:_ java.lang.String
+
+---
+
+##### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.TerraformResourceImport.property.provider"></a>
+
+```java
+public TerraformProvider getProvider();
+```
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
 ### TerraformResourceLifecycle <a name="TerraformResourceLifecycle" id="cdktf.TerraformResourceLifecycle"></a>
 
 #### Initializer <a name="Initializer" id="cdktf.TerraformResourceLifecycle.Initializer"></a>
@@ -26028,6 +26365,49 @@ public java.lang.Object getReplaceTriggeredBy();
 ```
 
 - _Type:_ java.util.List< java.lang.String OR <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>>
+
+---
+
+### TerraformResourceMove <a name="TerraformResourceMove" id="cdktf.TerraformResourceMove"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformResourceMove.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformResourceMove;
+
+TerraformResourceMove.builder()
+    .moveTarget(java.lang.String)
+//  .index(java.lang.String)
+//  .index(java.lang.Number)
+    .build();
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                               | **Type**                                          | **Description**   |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformResourceMove.property.moveTarget">moveTarget</a></code> | <code>java.lang.String</code>                     | _No description._ |
+| <code><a href="#cdktf.TerraformResourceMove.property.index">index</a></code>           | <code>java.lang.String OR java.lang.Number</code> | _No description._ |
+
+---
+
+##### `moveTarget`<sup>Required</sup> <a name="moveTarget" id="cdktf.TerraformResourceMove.property.moveTarget"></a>
+
+```java
+public java.lang.String getMoveTarget();
+```
+
+- _Type:_ java.lang.String
+
+---
+
+##### `index`<sup>Optional</sup> <a name="index" id="cdktf.TerraformResourceMove.property.index"></a>
+
+```java
+public java.lang.Object getIndex();
+```
+
+- _Type:_ java.lang.String OR java.lang.Number
 
 ---
 
@@ -33626,10 +34006,28 @@ name of the property to retrieve.
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                                  | **Description**                     |
-| ------------------------------------------------------------------------- | ----------------------------------- |
-| <code><a href="#cdktf.ListTerraformIterator.fromList">fromList</a></code> | Creates a new iterator from a list. |
-| <code><a href="#cdktf.ListTerraformIterator.fromMap">fromMap</a></code>   | Creates a new iterator from a map.  |
+| **Name**                                                                                | **Description**                                                                               |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ListTerraformIterator.fromDataSources">fromDataSources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
+| <code><a href="#cdktf.ListTerraformIterator.fromList">fromList</a></code>               | Creates a new iterator from a list.                                                           |
+| <code><a href="#cdktf.ListTerraformIterator.fromMap">fromMap</a></code>                 | Creates a new iterator from a map.                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.fromResources">fromResources</a></code>     | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `fromDataSources` <a name="fromDataSources" id="cdktf.ListTerraformIterator.fromDataSources"></a>
+
+```java
+import com.hashicorp.cdktf.ListTerraformIterator;
+
+ListTerraformIterator.fromDataSources(ITerraformResource resource)
+```
+
+Creates a new iterator from a data source that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.ListTerraformIterator.fromDataSources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -33662,6 +34060,22 @@ Creates a new iterator from a map.
 ###### `map`<sup>Required</sup> <a name="map" id="cdktf.ListTerraformIterator.fromMap.parameter.map"></a>
 
 - _Type:_ <a href="#cdktf.ComplexMap">ComplexMap</a> OR java.util.Map< java.lang.String, java.lang.Object > OR java.util.Map< java.lang.String, java.lang.String > OR java.util.Map< java.lang.String, java.lang.Number > OR java.util.Map< java.lang.String, java.lang.Boolean >
+
+---
+
+##### `fromResources` <a name="fromResources" id="cdktf.ListTerraformIterator.fromResources"></a>
+
+```java
+import com.hashicorp.cdktf.ListTerraformIterator;
+
+ListTerraformIterator.fromResources(ITerraformResource resource)
+```
+
+Creates a new iterator from a resource that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.ListTerraformIterator.fromResources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -34180,10 +34594,28 @@ name of the property to retrieve.
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                                 | **Description**                     |
-| ------------------------------------------------------------------------ | ----------------------------------- |
-| <code><a href="#cdktf.MapTerraformIterator.fromList">fromList</a></code> | Creates a new iterator from a list. |
-| <code><a href="#cdktf.MapTerraformIterator.fromMap">fromMap</a></code>   | Creates a new iterator from a map.  |
+| **Name**                                                                               | **Description**                                                                               |
+| -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.MapTerraformIterator.fromDataSources">fromDataSources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
+| <code><a href="#cdktf.MapTerraformIterator.fromList">fromList</a></code>               | Creates a new iterator from a list.                                                           |
+| <code><a href="#cdktf.MapTerraformIterator.fromMap">fromMap</a></code>                 | Creates a new iterator from a map.                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.fromResources">fromResources</a></code>     | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `fromDataSources` <a name="fromDataSources" id="cdktf.MapTerraformIterator.fromDataSources"></a>
+
+```java
+import com.hashicorp.cdktf.MapTerraformIterator;
+
+MapTerraformIterator.fromDataSources(ITerraformResource resource)
+```
+
+Creates a new iterator from a data source that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.MapTerraformIterator.fromDataSources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -34216,6 +34648,22 @@ Creates a new iterator from a map.
 ###### `map`<sup>Required</sup> <a name="map" id="cdktf.MapTerraformIterator.fromMap.parameter.map"></a>
 
 - _Type:_ <a href="#cdktf.ComplexMap">ComplexMap</a> OR java.util.Map< java.lang.String, java.lang.Object > OR java.util.Map< java.lang.String, java.lang.String > OR java.util.Map< java.lang.String, java.lang.Number > OR java.util.Map< java.lang.String, java.lang.Boolean >
+
+---
+
+##### `fromResources` <a name="fromResources" id="cdktf.MapTerraformIterator.fromResources"></a>
+
+```java
+import com.hashicorp.cdktf.MapTerraformIterator;
+
+MapTerraformIterator.fromResources(ITerraformResource resource)
+```
+
+Creates a new iterator from a resource that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.MapTerraformIterator.fromResources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -35253,6 +35701,325 @@ public java.lang.String getPrefix();
 
 ---
 
+### ResourceTerraformIterator <a name="ResourceTerraformIterator" id="cdktf.ResourceTerraformIterator"></a>
+
+#### Initializers <a name="Initializers" id="cdktf.ResourceTerraformIterator.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.ResourceTerraformIterator;
+
+new ResourceTerraformIterator(ITerraformResource element);
+```
+
+| **Name**                                                                                          | **Type**                                                                | **Description**   |
+| ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.Initializer.parameter.element">element</a></code> | <code><a href="#cdktf.ITerraformResource">ITerraformResource</a></code> | _No description._ |
+
+---
+
+##### `element`<sup>Required</sup> <a name="element" id="cdktf.ResourceTerraformIterator.Initializer.parameter.element"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                | **Description**   |
+| --------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.dynamic">dynamic</a></code>             | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getAny">getAny</a></code>               | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getAnyMap">getAnyMap</a></code>         | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getBoolean">getBoolean</a></code>       | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getBooleanMap">getBooleanMap</a></code> | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getList">getList</a></code>             | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getMap">getMap</a></code>               | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getNumber">getNumber</a></code>         | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getNumberList">getNumberList</a></code> | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getNumberMap">getNumberMap</a></code>   | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getString">getString</a></code>         | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getStringMap">getStringMap</a></code>   | _No description._ |
+
+---
+
+##### `dynamic` <a name="dynamic" id="cdktf.ResourceTerraformIterator.dynamic"></a>
+
+```java
+public IResolvable dynamic(java.util.Map< java.lang.String, java.lang.Object > attributes)
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.ResourceTerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ java.util.Map< java.lang.String, java.lang.Object >
+
+---
+
+##### `getAny` <a name="getAny" id="cdktf.ResourceTerraformIterator.getAny"></a>
+
+```java
+public IResolvable getAny(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getAny.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getAnyMap` <a name="getAnyMap" id="cdktf.ResourceTerraformIterator.getAnyMap"></a>
+
+```java
+public java.util.Map< java.lang.String, java.lang.Object > getAnyMap(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getAnyMap.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getBoolean` <a name="getBoolean" id="cdktf.ResourceTerraformIterator.getBoolean"></a>
+
+```java
+public IResolvable getBoolean(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getBoolean.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getBooleanMap` <a name="getBooleanMap" id="cdktf.ResourceTerraformIterator.getBooleanMap"></a>
+
+```java
+public java.util.Map< java.lang.String, java.lang.Boolean > getBooleanMap(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getBooleanMap.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getList` <a name="getList" id="cdktf.ResourceTerraformIterator.getList"></a>
+
+```java
+public java.util.List< java.lang.String > getList(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getList.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getMap` <a name="getMap" id="cdktf.ResourceTerraformIterator.getMap"></a>
+
+```java
+public java.util.Map< java.lang.String, java.lang.Object > getMap(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getMap.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getNumber` <a name="getNumber" id="cdktf.ResourceTerraformIterator.getNumber"></a>
+
+```java
+public java.lang.Number getNumber(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getNumber.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getNumberList` <a name="getNumberList" id="cdktf.ResourceTerraformIterator.getNumberList"></a>
+
+```java
+public java.util.List< java.lang.Number > getNumberList(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getNumberList.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getNumberMap` <a name="getNumberMap" id="cdktf.ResourceTerraformIterator.getNumberMap"></a>
+
+```java
+public java.util.Map< java.lang.String, java.lang.Number > getNumberMap(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getNumberMap.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getString` <a name="getString" id="cdktf.ResourceTerraformIterator.getString"></a>
+
+```java
+public java.lang.String getString(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getString.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+##### `getStringMap` <a name="getStringMap" id="cdktf.ResourceTerraformIterator.getStringMap"></a>
+
+```java
+public java.util.Map< java.lang.String, java.lang.String > getStringMap(java.lang.String attribute)
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getStringMap.parameter.attribute"></a>
+
+- _Type:_ java.lang.String
+
+name of the property to retrieve.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                                                                    | **Description**                                                                               |
+| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.fromDataSources">fromDataSources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
+| <code><a href="#cdktf.ResourceTerraformIterator.fromList">fromList</a></code>               | Creates a new iterator from a list.                                                           |
+| <code><a href="#cdktf.ResourceTerraformIterator.fromMap">fromMap</a></code>                 | Creates a new iterator from a map.                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.fromResources">fromResources</a></code>     | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `fromDataSources` <a name="fromDataSources" id="cdktf.ResourceTerraformIterator.fromDataSources"></a>
+
+```java
+import com.hashicorp.cdktf.ResourceTerraformIterator;
+
+ResourceTerraformIterator.fromDataSources(ITerraformResource resource)
+```
+
+Creates a new iterator from a data source that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.ResourceTerraformIterator.fromDataSources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+##### `fromList` <a name="fromList" id="cdktf.ResourceTerraformIterator.fromList"></a>
+
+```java
+import com.hashicorp.cdktf.ResourceTerraformIterator;
+
+ResourceTerraformIterator.fromList(java.util.List< java.lang.String > OR IResolvable OR java.util.List< java.lang.Number > OR ComplexList OR StringMapList OR NumberMapList OR BooleanMapList OR AnyMapList OR java.util.List< java.lang.Boolean OR IResolvable > list)
+```
+
+Creates a new iterator from a list.
+
+###### `list`<sup>Required</sup> <a name="list" id="cdktf.ResourceTerraformIterator.fromList.parameter.list"></a>
+
+- _Type:_ java.util.List< java.lang.String > OR <a href="#cdktf.IResolvable">IResolvable</a> OR java.util.List< java.lang.Number > OR <a href="#cdktf.ComplexList">ComplexList</a> OR <a href="#cdktf.StringMapList">StringMapList</a> OR <a href="#cdktf.NumberMapList">NumberMapList</a> OR <a href="#cdktf.BooleanMapList">BooleanMapList</a> OR <a href="#cdktf.AnyMapList">AnyMapList</a> OR java.util.List< java.lang.Boolean OR <a href="#cdktf.IResolvable">IResolvable</a>>
+
+---
+
+##### `fromMap` <a name="fromMap" id="cdktf.ResourceTerraformIterator.fromMap"></a>
+
+```java
+import com.hashicorp.cdktf.ResourceTerraformIterator;
+
+ResourceTerraformIterator.fromMap(ComplexMap OR java.util.Map< java.lang.String, java.lang.Object > OR java.util.Map< java.lang.String, java.lang.String > OR java.util.Map< java.lang.String, java.lang.Number > OR java.util.Map< java.lang.String, java.lang.Boolean > map)
+```
+
+Creates a new iterator from a map.
+
+###### `map`<sup>Required</sup> <a name="map" id="cdktf.ResourceTerraformIterator.fromMap.parameter.map"></a>
+
+- _Type:_ <a href="#cdktf.ComplexMap">ComplexMap</a> OR java.util.Map< java.lang.String, java.lang.Object > OR java.util.Map< java.lang.String, java.lang.String > OR java.util.Map< java.lang.String, java.lang.Number > OR java.util.Map< java.lang.String, java.lang.Boolean >
+
+---
+
+##### `fromResources` <a name="fromResources" id="cdktf.ResourceTerraformIterator.fromResources"></a>
+
+```java
+import com.hashicorp.cdktf.ResourceTerraformIterator;
+
+ResourceTerraformIterator.fromResources(ITerraformResource resource)
+```
+
+Creates a new iterator from a resource that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.ResourceTerraformIterator.fromResources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                         | **Type**                      | **Description**                                                            |
+| -------------------------------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.property.key">key</a></code>     | <code>java.lang.Object</code> | Returns the currenty entry in the list or set that is being iterated over. |
+| <code><a href="#cdktf.ResourceTerraformIterator.property.value">value</a></code> | <code>java.lang.Object</code> | Returns the value of the current item iterated over.                       |
+
+---
+
+##### `key`<sup>Required</sup> <a name="key" id="cdktf.ResourceTerraformIterator.property.key"></a>
+
+```java
+public java.lang.Object getKey();
+```
+
+- _Type:_ java.lang.Object
+
+Returns the currenty entry in the list or set that is being iterated over.
+
+For lists this is the same as `iterator.value`. If you need the index,
+use count using the escape hatch:
+https://developer.hashicorp.com/terraform/cdktf/concepts/resources#escape-hatch
+
+---
+
+##### `value`<sup>Required</sup> <a name="value" id="cdktf.ResourceTerraformIterator.property.value"></a>
+
+```java
+public java.lang.Object getValue();
+```
+
+- _Type:_ java.lang.Object
+
+Returns the value of the current item iterated over.
+
+---
+
 ### StringConcat <a name="StringConcat" id="cdktf.StringConcat"></a>
 
 - _Implements:_ <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
@@ -36146,10 +36913,28 @@ name of the property to retrieve.
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                              | **Description**                     |
-| --------------------------------------------------------------------- | ----------------------------------- |
-| <code><a href="#cdktf.TerraformIterator.fromList">fromList</a></code> | Creates a new iterator from a list. |
-| <code><a href="#cdktf.TerraformIterator.fromMap">fromMap</a></code>   | Creates a new iterator from a map.  |
+| **Name**                                                                            | **Description**                                                                               |
+| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformIterator.fromDataSources">fromDataSources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
+| <code><a href="#cdktf.TerraformIterator.fromList">fromList</a></code>               | Creates a new iterator from a list.                                                           |
+| <code><a href="#cdktf.TerraformIterator.fromMap">fromMap</a></code>                 | Creates a new iterator from a map.                                                            |
+| <code><a href="#cdktf.TerraformIterator.fromResources">fromResources</a></code>     | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `fromDataSources` <a name="fromDataSources" id="cdktf.TerraformIterator.fromDataSources"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformIterator;
+
+TerraformIterator.fromDataSources(ITerraformResource resource)
+```
+
+Creates a new iterator from a data source that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.TerraformIterator.fromDataSources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -36182,6 +36967,76 @@ Creates a new iterator from a map.
 ###### `map`<sup>Required</sup> <a name="map" id="cdktf.TerraformIterator.fromMap.parameter.map"></a>
 
 - _Type:_ <a href="#cdktf.ComplexMap">ComplexMap</a> OR java.util.Map< java.lang.String, java.lang.Object > OR java.util.Map< java.lang.String, java.lang.String > OR java.util.Map< java.lang.String, java.lang.Number > OR java.util.Map< java.lang.String, java.lang.Boolean >
+
+---
+
+##### `fromResources` <a name="fromResources" id="cdktf.TerraformIterator.fromResources"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformIterator;
+
+TerraformIterator.fromResources(ITerraformResource resource)
+```
+
+Creates a new iterator from a resource that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.TerraformIterator.fromResources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+### TerraformResourceTargets <a name="TerraformResourceTargets" id="cdktf.TerraformResourceTargets"></a>
+
+#### Initializers <a name="Initializers" id="cdktf.TerraformResourceTargets.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformResourceTargets;
+
+new TerraformResourceTargets();
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                           | **Description**   |
+| -------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformResourceTargets.addResourceTarget">addResourceTarget</a></code>     | _No description._ |
+| <code><a href="#cdktf.TerraformResourceTargets.getResourceByTarget">getResourceByTarget</a></code> | _No description._ |
+
+---
+
+##### `addResourceTarget` <a name="addResourceTarget" id="cdktf.TerraformResourceTargets.addResourceTarget"></a>
+
+```java
+public void addResourceTarget(TerraformResource resource, java.lang.String target)
+```
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.TerraformResourceTargets.addResourceTarget.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.TerraformResource">TerraformResource</a>
+
+---
+
+###### `target`<sup>Required</sup> <a name="target" id="cdktf.TerraformResourceTargets.addResourceTarget.parameter.target"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+##### `getResourceByTarget` <a name="getResourceByTarget" id="cdktf.TerraformResourceTargets.getResourceByTarget"></a>
+
+```java
+public TerraformResource getResourceByTarget(java.lang.String target)
+```
+
+###### `target`<sup>Required</sup> <a name="target" id="cdktf.TerraformResourceTargets.getResourceByTarget.parameter.target"></a>
+
+- _Type:_ java.lang.String
 
 ---
 
@@ -37738,6 +38593,50 @@ Join the fragment on the left and on the right.
 
 ---
 
+### IImportableConfig <a name="IImportableConfig" id="cdktf.IImportableConfig"></a>
+
+- _Implemented By:_ <a href="#cdktf.IImportableConfig">IImportableConfig</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                 | **Type**                                                              | **Description**   |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.IImportableConfig.property.importId">importId</a></code>                           | <code>java.lang.String</code>                                         | _No description._ |
+| <code><a href="#cdktf.IImportableConfig.property.terraformResourceType">terraformResourceType</a></code> | <code>java.lang.String</code>                                         | _No description._ |
+| <code><a href="#cdktf.IImportableConfig.property.provider">provider</a></code>                           | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | _No description._ |
+
+---
+
+##### `importId`<sup>Required</sup> <a name="importId" id="cdktf.IImportableConfig.property.importId"></a>
+
+```java
+public java.lang.String getImportId();
+```
+
+- _Type:_ java.lang.String
+
+---
+
+##### `terraformResourceType`<sup>Required</sup> <a name="terraformResourceType" id="cdktf.IImportableConfig.property.terraformResourceType"></a>
+
+```java
+public java.lang.String getTerraformResourceType();
+```
+
+- _Type:_ java.lang.String
+
+---
+
+##### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.IImportableConfig.property.provider"></a>
+
+```java
+public TerraformProvider getProvider();
+```
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
 ### IInterpolatingParent <a name="IInterpolatingParent" id="cdktf.IInterpolatingParent"></a>
 
 - _Implemented By:_ <a href="#cdktf.AnyMapList">AnyMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.ComplexComputedList">ComplexComputedList</a>, <a href="#cdktf.ComplexObject">ComplexObject</a>, <a href="#cdktf.MapList">MapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>
@@ -38284,7 +39183,7 @@ public java.lang.String getFqn();
 
 ### ITerraformIterator <a name="ITerraformIterator" id="cdktf.ITerraformIterator"></a>
 
-- _Implemented By:_ <a href="#cdktf.ListTerraformIterator">ListTerraformIterator</a>, <a href="#cdktf.MapTerraformIterator">MapTerraformIterator</a>, <a href="#cdktf.TerraformIterator">TerraformIterator</a>, <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+- _Implemented By:_ <a href="#cdktf.ListTerraformIterator">ListTerraformIterator</a>, <a href="#cdktf.MapTerraformIterator">MapTerraformIterator</a>, <a href="#cdktf.ResourceTerraformIterator">ResourceTerraformIterator</a>, <a href="#cdktf.TerraformIterator">TerraformIterator</a>, <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
 
 ### ITerraformResource <a name="ITerraformResource" id="cdktf.ITerraformResource"></a>
 

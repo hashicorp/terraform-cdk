@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
 	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucket"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucketobject"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/integrations/github/datagithuborganization"
 	github "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/integrations/github/provider"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/integrations/github/team"
@@ -97,6 +98,37 @@ func NewIteratorsStack(scope constructs.Construct, name string) cdktf.TerraformS
 		},
 	})
 	// DOCS_BLOCK_END:iterators-count
+
+	// DOCS_BLOCK_START:iterators-chain
+	config := cdktf.NewTerraformLocal(stack, jsii.String("config-local"), []map[string]interface{}{
+		{
+			"name": "website-static-files",
+			"tags": map[string]string{"app": "website"},
+		},
+		{
+			"name": "images",
+			"tags": map[string]string{"app": "image-converter"},
+		},
+	})
+
+	s3BucketConfigurationIterator := cdktf.TerraformIterator_FromList(config.Expression())
+	s3Buckets := s3bucket.NewS3Bucket(stack, jsii.String("complex-iterator-buckets"), &s3bucket.S3BucketConfig{
+		ForEach: s3BucketConfigurationIterator,
+		Bucket:  s3BucketConfigurationIterator.GetString(jsii.String("name")),
+		Tags:    s3BucketConfigurationIterator.GetStringMap(jsii.String("tags")),
+	})
+
+	s3BucketsIterator := cdktf.TerraformIterator_FromResources(s3Buckets)
+	helpFile := cdktf.NewTerraformAsset(stack, jsii.String("help"), &cdktf.TerraformAssetConfig{
+		Path: jsii.String("./help"),
+	})
+	s3bucketobject.NewS3BucketObject(stack, jsii.String("object"), &s3bucketobject.S3BucketObjectConfig{
+		ForEach: s3BucketsIterator,
+		Bucket:  s3BucketsIterator.GetString(jsii.String("id")),
+		Key:     jsii.String("help"),
+		Source:  helpFile.Path(),
+	})
+	// DOCS_BLOCK_END:iterators-chain
 
 	return stack
 }

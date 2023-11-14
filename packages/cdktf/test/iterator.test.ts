@@ -393,3 +393,62 @@ test("count can count references", () => {
     "data${count.index}"
   );
 });
+
+test("chained iterators used in for_each", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
+  const source = new TestResource(stack, "test", {
+    forEach: it,
+    name: "foo",
+  });
+
+  const chainedIt = TerraformIterator.fromResources(source);
+  new TestResource(stack, "chained", {
+    forEach: chainedIt,
+    name: chainedIt.getString("string_value"),
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.for_each",
+    "${test_resource.test}"
+  );
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.name",
+    "${each.value.string_value}"
+  );
+});
+
+test("chained iterators from singular resources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const source = new TestResource(stack, "test", {
+    name: "foo",
+  });
+
+  expect(() => {
+    TerraformIterator.fromResources(source);
+  }).toThrowErrorMatchingInlineSnapshot(
+    `"Cannot create iterator from resource without for_each argument"`
+  );
+});
+
+test("chained iterators used with count", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const resource = new TestResource(stack, "test", { name: "foo" });
+  const it = TerraformCount.of(resource.numericValue);
+
+  const datasFromCount = new TestDataSource(stack, "test_data", {
+    count: it,
+    name: `data${it.index}`,
+  });
+
+  expect(() => {
+    TerraformIterator.fromDataSources(datasFromCount);
+  }).toThrowErrorMatchingInlineSnapshot(
+    `"Cannot create iterator from resource with count argument. Please use the same TerraformCount used in the resource passed here instead."`
+  );
+});
