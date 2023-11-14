@@ -10607,6 +10607,240 @@ friendly_unique_id: str
 
 ---
 
+### ImportableResource <a name="ImportableResource" id="cdktf.ImportableResource"></a>
+
+Class used to represent an importable resource.
+
+#### Initializers <a name="Initializers" id="cdktf.ImportableResource.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.ImportableResource(
+  scope: Construct,
+  name: str,
+  config: IImportableConfig
+)
+```
+
+| **Name**                                                                                 | **Type**                                                              | **Description**   |
+| ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ImportableResource.Initializer.parameter.scope">scope</a></code>   | <code>constructs.Construct</code>                                     | _No description._ |
+| <code><a href="#cdktf.ImportableResource.Initializer.parameter.name">name</a></code>     | <code>str</code>                                                      | _No description._ |
+| <code><a href="#cdktf.ImportableResource.Initializer.parameter.config">config</a></code> | <code><a href="#cdktf.IImportableConfig">IImportableConfig</a></code> | _No description._ |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="cdktf.ImportableResource.Initializer.parameter.scope"></a>
+
+- _Type:_ constructs.Construct
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="cdktf.ImportableResource.Initializer.parameter.name"></a>
+
+- _Type:_ str
+
+---
+
+##### `config`<sup>Required</sup> <a name="config" id="cdktf.ImportableResource.Initializer.parameter.config"></a>
+
+- _Type:_ <a href="#cdktf.IImportableConfig">IImportableConfig</a>
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                              | **Description**                                                                   |
+| ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ImportableResource.toString">to_string</a></code>                               | Returns a string representation of this construct.                                |
+| <code><a href="#cdktf.ImportableResource.addOverride">add_override</a></code>                         | _No description._                                                                 |
+| <code><a href="#cdktf.ImportableResource.overrideLogicalId">override_logical_id</a></code>            | Overrides the auto-generated logical ID with a specific ID.                       |
+| <code><a href="#cdktf.ImportableResource.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.ImportableResource.toMetadata">to_metadata</a></code>                           | _No description._                                                                 |
+| <code><a href="#cdktf.ImportableResource.toTerraform">to_terraform</a></code>                         | _No description._                                                                 |
+
+---
+
+##### `to_string` <a name="to_string" id="cdktf.ImportableResource.toString"></a>
+
+```python
+def to_string() - > str
+```
+
+Returns a string representation of this construct.
+
+##### `add_override` <a name="add_override" id="cdktf.ImportableResource.addOverride"></a>
+
+```python
+def add_override(
+  path: str,
+  value: typing.Any
+) - > None
+```
+
+###### `path`<sup>Required</sup> <a name="path" id="cdktf.ImportableResource.addOverride.parameter.path"></a>
+
+- _Type:_ str
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="cdktf.ImportableResource.addOverride.parameter.value"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `override_logical_id` <a name="override_logical_id" id="cdktf.ImportableResource.overrideLogicalId"></a>
+
+```python
+def override_logical_id(
+  new_logical_id: str
+) - > None
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+###### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.ImportableResource.overrideLogicalId.parameter.newLogicalId"></a>
+
+- _Type:_ str
+
+The new logical ID to use for this stack element.
+
+---
+
+##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.ImportableResource.resetOverrideLogicalId"></a>
+
+```python
+def reset_override_logical_id() - > None
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+##### `to_metadata` <a name="to_metadata" id="cdktf.ImportableResource.toMetadata"></a>
+
+```python
+def to_metadata() - > typing.Any
+```
+
+##### `to_terraform` <a name="to_terraform" id="cdktf.ImportableResource.toTerraform"></a>
+
+```python
+def to_terraform() - > typing.Any
+```
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                                                                     | **Description**               |
+| -------------------------------------------------------------------------------------------- | ----------------------------- |
+| <code><a href="#cdktf.ImportableResource.isConstruct">is_construct</a></code>                | Checks if `x` is a construct. |
+| <code><a href="#cdktf.ImportableResource.isTerraformElement">is_terraform_element</a></code> | _No description._             |
+
+---
+
+##### `is_construct` <a name="is_construct" id="cdktf.ImportableResource.isConstruct"></a>
+
+```python
+import cdktf
+
+cdktf.ImportableResource.is_construct(
+  x: typing.Any
+)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.ImportableResource.isConstruct.parameter.x"></a>
+
+- _Type:_ typing.Any
+
+Any object.
+
+---
+
+##### `is_terraform_element` <a name="is_terraform_element" id="cdktf.ImportableResource.isTerraformElement"></a>
+
+```python
+import cdktf
+
+cdktf.ImportableResource.is_terraform_element(
+  x: typing.Any
+)
+```
+
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.ImportableResource.isTerraformElement.parameter.x"></a>
+
+- _Type:_ typing.Any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                          | **Type**                                                        | **Description**   |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ImportableResource.property.node">node</a></code>                           | <code>constructs.Node</code>                                    | The tree node.    |
+| <code><a href="#cdktf.ImportableResource.property.cdktfStack">cdktf_stack</a></code>              | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
+| <code><a href="#cdktf.ImportableResource.property.fqn">fqn</a></code>                             | <code>str</code>                                                | _No description._ |
+| <code><a href="#cdktf.ImportableResource.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code>                                                | _No description._ |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="cdktf.ImportableResource.property.node"></a>
+
+```python
+node: Node
+```
+
+- _Type:_ constructs.Node
+
+The tree node.
+
+---
+
+##### `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.ImportableResource.property.cdktfStack"></a>
+
+```python
+cdktf_stack: TerraformStack
+```
+
+- _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+##### `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.ImportableResource.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- _Type:_ str
+
+---
+
+##### `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.ImportableResource.property.friendlyUniqueId"></a>
+
+```python
+friendly_unique_id: str
+```
+
+- _Type:_ str
+
+---
+
 ### LocalBackend <a name="LocalBackend" id="cdktf.LocalBackend"></a>
 
 #### Initializers <a name="Initializers" id="cdktf.LocalBackend.Initializer"></a>
@@ -17102,24 +17336,27 @@ cdktf.TerraformResource(
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                                                                  | **Description**                                                                   |
-| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.TerraformResource.toString">to_string</a></code>                                    | Returns a string representation of this construct.                                |
-| <code><a href="#cdktf.TerraformResource.addOverride">add_override</a></code>                              | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.overrideLogicalId">override_logical_id</a></code>                 | Overrides the auto-generated logical ID with a specific ID.                       |
-| <code><a href="#cdktf.TerraformResource.resetOverrideLogicalId">reset_override_logical_id</a></code>      | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.TerraformResource.toMetadata">to_metadata</a></code>                                | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.toTerraform">to_terraform</a></code>                              | Adds this resource to the terraform JSON output.                                  |
-| <code><a href="#cdktf.TerraformResource.getAnyMapAttribute">get_any_map_attribute</a></code>              | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getBooleanAttribute">get_boolean_attribute</a></code>             | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getBooleanMapAttribute">get_boolean_map_attribute</a></code>      | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getListAttribute">get_list_attribute</a></code>                   | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getNumberAttribute">get_number_attribute</a></code>               | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getNumberListAttribute">get_number_list_attribute</a></code>      | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getNumberMapAttribute">get_number_map_attribute</a></code>        | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getStringAttribute">get_string_attribute</a></code>               | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.getStringMapAttribute">get_string_map_attribute</a></code>        | _No description._                                                                 |
-| <code><a href="#cdktf.TerraformResource.interpolationForAttribute">interpolation_for_attribute</a></code> | _No description._                                                                 |
+| **Name**                                                                                                  | **Description**                                                                                                                     |
+| --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformResource.toString">to_string</a></code>                                    | Returns a string representation of this construct.                                                                                  |
+| <code><a href="#cdktf.TerraformResource.addOverride">add_override</a></code>                              | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.overrideLogicalId">override_logical_id</a></code>                 | Overrides the auto-generated logical ID with a specific ID.                                                                         |
+| <code><a href="#cdktf.TerraformResource.resetOverrideLogicalId">reset_override_logical_id</a></code>      | Resets a previously passed logical Id to use the auto-generated logical id again.                                                   |
+| <code><a href="#cdktf.TerraformResource.toMetadata">to_metadata</a></code>                                | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.toTerraform">to_terraform</a></code>                              | Adds this resource to the terraform JSON output.                                                                                    |
+| <code><a href="#cdktf.TerraformResource.addMoveTarget">add_move_target</a></code>                         | Adds a user defined moveTarget string to this resource to be later used in .moveTo(moveTarget) to resolve the location of the move. |
+| <code><a href="#cdktf.TerraformResource.getAnyMapAttribute">get_any_map_attribute</a></code>              | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getBooleanAttribute">get_boolean_attribute</a></code>             | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getBooleanMapAttribute">get_boolean_map_attribute</a></code>      | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getListAttribute">get_list_attribute</a></code>                   | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getNumberAttribute">get_number_attribute</a></code>               | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getNumberListAttribute">get_number_list_attribute</a></code>      | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getNumberMapAttribute">get_number_map_attribute</a></code>        | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getStringAttribute">get_string_attribute</a></code>               | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.getStringMapAttribute">get_string_map_attribute</a></code>        | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.importFrom">import_from</a></code>                                | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.interpolationForAttribute">interpolation_for_attribute</a></code> | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.moveTo">move_to</a></code>                                        | Moves this resource to the target resource given by moveTarget.                                                                     |
 
 ---
 
@@ -17191,6 +17428,24 @@ def to_terraform() - > typing.Any
 ```
 
 Adds this resource to the terraform JSON output.
+
+##### `add_move_target` <a name="add_move_target" id="cdktf.TerraformResource.addMoveTarget"></a>
+
+```python
+def add_move_target(
+  move_target: str
+) - > None
+```
+
+Adds a user defined moveTarget string to this resource to be later used in .moveTo(moveTarget) to resolve the location of the move.
+
+###### `move_target`<sup>Required</sup> <a name="move_target" id="cdktf.TerraformResource.addMoveTarget.parameter.moveTarget"></a>
+
+- _Type:_ str
+
+The string move target that will correspond to this resource.
+
+---
 
 ##### `get_any_map_attribute` <a name="get_any_map_attribute" id="cdktf.TerraformResource.getAnyMapAttribute"></a>
 
@@ -17318,6 +17573,27 @@ def get_string_map_attribute(
 
 ---
 
+##### `import_from` <a name="import_from" id="cdktf.TerraformResource.importFrom"></a>
+
+```python
+def import_from(
+  id: str,
+  provider: TerraformProvider = None
+) - > None
+```
+
+###### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResource.importFrom.parameter.id"></a>
+
+- _Type:_ str
+
+---
+
+###### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.TerraformResource.importFrom.parameter.provider"></a>
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
 ##### `interpolation_for_attribute` <a name="interpolation_for_attribute" id="cdktf.TerraformResource.interpolationForAttribute"></a>
 
 ```python
@@ -17329,6 +17605,33 @@ def interpolation_for_attribute(
 ###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.TerraformResource.interpolationForAttribute.parameter.terraformAttribute"></a>
 
 - _Type:_ str
+
+---
+
+##### `move_to` <a name="move_to" id="cdktf.TerraformResource.moveTo"></a>
+
+```python
+def move_to(
+  move_target: str,
+  index: typing.Union[str, typing.Union[int, float]] = None
+) - > None
+```
+
+Moves this resource to the target resource given by moveTarget.
+
+###### `move_target`<sup>Required</sup> <a name="move_target" id="cdktf.TerraformResource.moveTo.parameter.moveTarget"></a>
+
+- _Type:_ str
+
+The previously set user defined string set by .addMoveTarget() corresponding to the resource to move to.
+
+---
+
+###### `index`<sup>Optional</sup> <a name="index" id="cdktf.TerraformResource.moveTo.parameter.index"></a>
+
+- _Type:_ typing.Union[str, typing.Union[int, float]]
+
+Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to.
 
 ---
 
@@ -17831,11 +18134,12 @@ cdktf.TerraformStack.of(
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                            | **Type**                                                                     | **Description**   |
-| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformStack.property.node">node</a></code>                 | <code>constructs.Node</code>                                                 | The tree node.    |
-| <code><a href="#cdktf.TerraformStack.property.dependencies">dependencies</a></code> | <code>typing.List[<a href="#cdktf.TerraformStack">TerraformStack</a>]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformStack.property.synthesizer">synthesizer</a></code>   | <code><a href="#cdktf.IStackSynthesizer">IStackSynthesizer</a></code>        | _No description._ |
+| **Name**                                                                            | **Type**                                                                            | **Description**   |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformStack.property.node">node</a></code>                 | <code>constructs.Node</code>                                                        | The tree node.    |
+| <code><a href="#cdktf.TerraformStack.property.dependencies">dependencies</a></code> | <code>typing.List[<a href="#cdktf.TerraformStack">TerraformStack</a>]</code>        | _No description._ |
+| <code><a href="#cdktf.TerraformStack.property.moveTargets">move_targets</a></code>  | <code><a href="#cdktf.TerraformResourceTargets">TerraformResourceTargets</a></code> | _No description._ |
+| <code><a href="#cdktf.TerraformStack.property.synthesizer">synthesizer</a></code>   | <code><a href="#cdktf.IStackSynthesizer">IStackSynthesizer</a></code>               | _No description._ |
 
 ---
 
@@ -17858,6 +18162,16 @@ dependencies: typing.List[TerraformStack]
 ```
 
 - _Type:_ typing.List[<a href="#cdktf.TerraformStack">TerraformStack</a>]
+
+---
+
+##### `move_targets`<sup>Required</sup> <a name="move_targets" id="cdktf.TerraformStack.property.moveTargets"></a>
+
+```python
+move_targets: TerraformResourceTargets
+```
+
+- _Type:_ <a href="#cdktf.TerraformResourceTargets">TerraformResourceTargets</a>
 
 ---
 
@@ -26754,6 +27068,48 @@ terraform_generator_metadata: TerraformProviderGeneratorMetadata
 
 ---
 
+### TerraformResourceImport <a name="TerraformResourceImport" id="cdktf.TerraformResourceImport"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformResourceImport.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformResourceImport(
+  id: str,
+  provider: TerraformProvider = None
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                             | **Type**                                                              | **Description**   |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformResourceImport.property.id">id</a></code>             | <code>str</code>                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformResourceImport.property.provider">provider</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | _No description._ |
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResourceImport.property.id"></a>
+
+```python
+id: str
+```
+
+- _Type:_ str
+
+---
+
+##### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.TerraformResourceImport.property.provider"></a>
+
+```python
+provider: TerraformProvider
+```
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
 ### TerraformResourceLifecycle <a name="TerraformResourceLifecycle" id="cdktf.TerraformResourceLifecycle"></a>
 
 #### Initializer <a name="Initializer" id="cdktf.TerraformResourceLifecycle.Initializer"></a>
@@ -26841,6 +27197,48 @@ replace_triggered_by: typing.List[typing.Union[str, ITerraformDependable]]
 ```
 
 - _Type:_ typing.List[typing.Union[str, <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]]
+
+---
+
+### TerraformResourceMove <a name="TerraformResourceMove" id="cdktf.TerraformResourceMove"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformResourceMove.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformResourceMove(
+  move_target: str,
+  index: typing.Union[str, typing.Union[int, float]] = None
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                | **Type**                                                 | **Description**   |
+| --------------------------------------------------------------------------------------- | -------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformResourceMove.property.moveTarget">move_target</a></code> | <code>str</code>                                         | _No description._ |
+| <code><a href="#cdktf.TerraformResourceMove.property.index">index</a></code>            | <code>typing.Union[str, typing.Union[int, float]]</code> | _No description._ |
+
+---
+
+##### `move_target`<sup>Required</sup> <a name="move_target" id="cdktf.TerraformResourceMove.property.moveTarget"></a>
+
+```python
+move_target: str
+```
+
+- _Type:_ str
+
+---
+
+##### `index`<sup>Optional</sup> <a name="index" id="cdktf.TerraformResourceMove.property.index"></a>
+
+```python
+index: typing.Union[str, typing.Union[int, float]]
+```
+
+- _Type:_ typing.Union[str, typing.Union[int, float]]
 
 ---
 
@@ -35212,10 +35610,30 @@ name of the property to retrieve.
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                                   | **Description**                     |
-| -------------------------------------------------------------------------- | ----------------------------------- |
-| <code><a href="#cdktf.ListTerraformIterator.fromList">from_list</a></code> | Creates a new iterator from a list. |
-| <code><a href="#cdktf.ListTerraformIterator.fromMap">from_map</a></code>   | Creates a new iterator from a map.  |
+| **Name**                                                                                  | **Description**                                                                               |
+| ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ListTerraformIterator.fromDataSources">from_data_sources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
+| <code><a href="#cdktf.ListTerraformIterator.fromList">from_list</a></code>                | Creates a new iterator from a list.                                                           |
+| <code><a href="#cdktf.ListTerraformIterator.fromMap">from_map</a></code>                  | Creates a new iterator from a map.                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.fromResources">from_resources</a></code>      | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `from_data_sources` <a name="from_data_sources" id="cdktf.ListTerraformIterator.fromDataSources"></a>
+
+```python
+import cdktf
+
+cdktf.ListTerraformIterator.from_data_sources(
+  resource: ITerraformResource
+)
+```
+
+Creates a new iterator from a data source that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.ListTerraformIterator.fromDataSources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -35252,6 +35670,24 @@ Creates a new iterator from a map.
 ###### `map`<sup>Required</sup> <a name="map" id="cdktf.ListTerraformIterator.fromMap.parameter.map"></a>
 
 - _Type:_ typing.Union[<a href="#cdktf.ComplexMap">ComplexMap</a>, typing.Mapping[typing.Any], typing.Mapping[str], typing.Mapping[typing.Union[int, float]], typing.Mapping[bool]]
+
+---
+
+##### `from_resources` <a name="from_resources" id="cdktf.ListTerraformIterator.fromResources"></a>
+
+```python
+import cdktf
+
+cdktf.ListTerraformIterator.from_resources(
+  resource: ITerraformResource
+)
+```
+
+Creates a new iterator from a resource that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.ListTerraformIterator.fromResources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -35809,10 +36245,30 @@ name of the property to retrieve.
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                                  | **Description**                     |
-| ------------------------------------------------------------------------- | ----------------------------------- |
-| <code><a href="#cdktf.MapTerraformIterator.fromList">from_list</a></code> | Creates a new iterator from a list. |
-| <code><a href="#cdktf.MapTerraformIterator.fromMap">from_map</a></code>   | Creates a new iterator from a map.  |
+| **Name**                                                                                 | **Description**                                                                               |
+| ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.MapTerraformIterator.fromDataSources">from_data_sources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
+| <code><a href="#cdktf.MapTerraformIterator.fromList">from_list</a></code>                | Creates a new iterator from a list.                                                           |
+| <code><a href="#cdktf.MapTerraformIterator.fromMap">from_map</a></code>                  | Creates a new iterator from a map.                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.fromResources">from_resources</a></code>      | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `from_data_sources` <a name="from_data_sources" id="cdktf.MapTerraformIterator.fromDataSources"></a>
+
+```python
+import cdktf
+
+cdktf.MapTerraformIterator.from_data_sources(
+  resource: ITerraformResource
+)
+```
+
+Creates a new iterator from a data source that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.MapTerraformIterator.fromDataSources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -35849,6 +36305,24 @@ Creates a new iterator from a map.
 ###### `map`<sup>Required</sup> <a name="map" id="cdktf.MapTerraformIterator.fromMap.parameter.map"></a>
 
 - _Type:_ typing.Union[<a href="#cdktf.ComplexMap">ComplexMap</a>, typing.Mapping[typing.Any], typing.Mapping[str], typing.Mapping[typing.Union[int, float]], typing.Mapping[bool]]
+
+---
+
+##### `from_resources` <a name="from_resources" id="cdktf.MapTerraformIterator.fromResources"></a>
+
+```python
+import cdktf
+
+cdktf.MapTerraformIterator.from_resources(
+  resource: ITerraformResource
+)
+```
+
+Creates a new iterator from a resource that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.MapTerraformIterator.fromResources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -36969,6 +37443,359 @@ prefix: str
 
 ---
 
+### ResourceTerraformIterator <a name="ResourceTerraformIterator" id="cdktf.ResourceTerraformIterator"></a>
+
+#### Initializers <a name="Initializers" id="cdktf.ResourceTerraformIterator.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.ResourceTerraformIterator(
+  element: ITerraformResource
+)
+```
+
+| **Name**                                                                                          | **Type**                                                                | **Description**   |
+| ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.Initializer.parameter.element">element</a></code> | <code><a href="#cdktf.ITerraformResource">ITerraformResource</a></code> | _No description._ |
+
+---
+
+##### `element`<sup>Required</sup> <a name="element" id="cdktf.ResourceTerraformIterator.Initializer.parameter.element"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                  | **Description**   |
+| ----------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.dynamic">dynamic</a></code>               | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getAny">get_any</a></code>                | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getAnyMap">get_any_map</a></code>         | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getBoolean">get_boolean</a></code>        | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getBooleanMap">get_boolean_map</a></code> | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getList">get_list</a></code>              | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getMap">get_map</a></code>                | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getNumber">get_number</a></code>          | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getNumberList">get_number_list</a></code> | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getNumberMap">get_number_map</a></code>   | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getString">get_string</a></code>          | _No description._ |
+| <code><a href="#cdktf.ResourceTerraformIterator.getStringMap">get_string_map</a></code>   | _No description._ |
+
+---
+
+##### `dynamic` <a name="dynamic" id="cdktf.ResourceTerraformIterator.dynamic"></a>
+
+```python
+def dynamic(
+  attributes: typing.Mapping[typing.Any]
+) - > IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.ResourceTerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ typing.Mapping[typing.Any]
+
+---
+
+##### `get_any` <a name="get_any" id="cdktf.ResourceTerraformIterator.getAny"></a>
+
+```python
+def get_any(
+  attribute: str
+) - > IResolvable
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getAny.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_any_map` <a name="get_any_map" id="cdktf.ResourceTerraformIterator.getAnyMap"></a>
+
+```python
+def get_any_map(
+  attribute: str
+) - > typing.Mapping[typing.Any]
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getAnyMap.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_boolean` <a name="get_boolean" id="cdktf.ResourceTerraformIterator.getBoolean"></a>
+
+```python
+def get_boolean(
+  attribute: str
+) - > IResolvable
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getBoolean.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_boolean_map` <a name="get_boolean_map" id="cdktf.ResourceTerraformIterator.getBooleanMap"></a>
+
+```python
+def get_boolean_map(
+  attribute: str
+) - > typing.Mapping[bool]
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getBooleanMap.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_list` <a name="get_list" id="cdktf.ResourceTerraformIterator.getList"></a>
+
+```python
+def get_list(
+  attribute: str
+) - > typing.List[str]
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getList.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_map` <a name="get_map" id="cdktf.ResourceTerraformIterator.getMap"></a>
+
+```python
+def get_map(
+  attribute: str
+) - > typing.Mapping[typing.Any]
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getMap.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_number` <a name="get_number" id="cdktf.ResourceTerraformIterator.getNumber"></a>
+
+```python
+def get_number(
+  attribute: str
+) - > typing.Union[int, float]
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getNumber.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_number_list` <a name="get_number_list" id="cdktf.ResourceTerraformIterator.getNumberList"></a>
+
+```python
+def get_number_list(
+  attribute: str
+) - > typing.List[typing.Union[int, float]]
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getNumberList.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_number_map` <a name="get_number_map" id="cdktf.ResourceTerraformIterator.getNumberMap"></a>
+
+```python
+def get_number_map(
+  attribute: str
+) - > typing.Mapping[typing.Union[int, float]]
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getNumberMap.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_string` <a name="get_string" id="cdktf.ResourceTerraformIterator.getString"></a>
+
+```python
+def get_string(
+  attribute: str
+) - > str
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getString.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+##### `get_string_map` <a name="get_string_map" id="cdktf.ResourceTerraformIterator.getStringMap"></a>
+
+```python
+def get_string_map(
+  attribute: str
+) - > typing.Mapping[str]
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.ResourceTerraformIterator.getStringMap.parameter.attribute"></a>
+
+- _Type:_ str
+
+name of the property to retrieve.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                                                                      | **Description**                                                                               |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.fromDataSources">from_data_sources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
+| <code><a href="#cdktf.ResourceTerraformIterator.fromList">from_list</a></code>                | Creates a new iterator from a list.                                                           |
+| <code><a href="#cdktf.ResourceTerraformIterator.fromMap">from_map</a></code>                  | Creates a new iterator from a map.                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.fromResources">from_resources</a></code>      | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `from_data_sources` <a name="from_data_sources" id="cdktf.ResourceTerraformIterator.fromDataSources"></a>
+
+```python
+import cdktf
+
+cdktf.ResourceTerraformIterator.from_data_sources(
+  resource: ITerraformResource
+)
+```
+
+Creates a new iterator from a data source that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.ResourceTerraformIterator.fromDataSources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+##### `from_list` <a name="from_list" id="cdktf.ResourceTerraformIterator.fromList"></a>
+
+```python
+import cdktf
+
+cdktf.ResourceTerraformIterator.from_list(
+  list: typing.Union[typing.List[str], IResolvable, typing.List[typing.Union[int, float]], ComplexList, StringMapList, NumberMapList, BooleanMapList, AnyMapList, typing.List[typing.Union[bool, IResolvable]]]
+)
+```
+
+Creates a new iterator from a list.
+
+###### `list`<sup>Required</sup> <a name="list" id="cdktf.ResourceTerraformIterator.fromList.parameter.list"></a>
+
+- _Type:_ typing.Union[typing.List[str], <a href="#cdktf.IResolvable">IResolvable</a>, typing.List[typing.Union[int, float]], <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]
+
+---
+
+##### `from_map` <a name="from_map" id="cdktf.ResourceTerraformIterator.fromMap"></a>
+
+```python
+import cdktf
+
+cdktf.ResourceTerraformIterator.from_map(
+  map: typing.Union[ComplexMap, typing.Mapping[typing.Any], typing.Mapping[str], typing.Mapping[typing.Union[int, float]], typing.Mapping[bool]]
+)
+```
+
+Creates a new iterator from a map.
+
+###### `map`<sup>Required</sup> <a name="map" id="cdktf.ResourceTerraformIterator.fromMap.parameter.map"></a>
+
+- _Type:_ typing.Union[<a href="#cdktf.ComplexMap">ComplexMap</a>, typing.Mapping[typing.Any], typing.Mapping[str], typing.Mapping[typing.Union[int, float]], typing.Mapping[bool]]
+
+---
+
+##### `from_resources` <a name="from_resources" id="cdktf.ResourceTerraformIterator.fromResources"></a>
+
+```python
+import cdktf
+
+cdktf.ResourceTerraformIterator.from_resources(
+  resource: ITerraformResource
+)
+```
+
+Creates a new iterator from a resource that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.ResourceTerraformIterator.fromResources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                         | **Type**                | **Description**                                                            |
+| -------------------------------------------------------------------------------- | ----------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.property.key">key</a></code>     | <code>typing.Any</code> | Returns the currenty entry in the list or set that is being iterated over. |
+| <code><a href="#cdktf.ResourceTerraformIterator.property.value">value</a></code> | <code>typing.Any</code> | Returns the value of the current item iterated over.                       |
+
+---
+
+##### `key`<sup>Required</sup> <a name="key" id="cdktf.ResourceTerraformIterator.property.key"></a>
+
+```python
+key: typing.Any
+```
+
+- _Type:_ typing.Any
+
+Returns the currenty entry in the list or set that is being iterated over.
+
+For lists this is the same as `iterator.value`. If you need the index,
+use count using the escape hatch:
+https://developer.hashicorp.com/terraform/cdktf/concepts/resources#escape-hatch
+
+---
+
+##### `value`<sup>Required</sup> <a name="value" id="cdktf.ResourceTerraformIterator.property.value"></a>
+
+```python
+value: typing.Any
+```
+
+- _Type:_ typing.Any
+
+Returns the value of the current item iterated over.
+
+---
+
 ### StringConcat <a name="StringConcat" id="cdktf.StringConcat"></a>
 
 - _Implements:_ <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
@@ -37929,10 +38756,30 @@ name of the property to retrieve.
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                               | **Description**                     |
-| ---------------------------------------------------------------------- | ----------------------------------- |
-| <code><a href="#cdktf.TerraformIterator.fromList">from_list</a></code> | Creates a new iterator from a list. |
-| <code><a href="#cdktf.TerraformIterator.fromMap">from_map</a></code>   | Creates a new iterator from a map.  |
+| **Name**                                                                              | **Description**                                                                               |
+| ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformIterator.fromDataSources">from_data_sources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
+| <code><a href="#cdktf.TerraformIterator.fromList">from_list</a></code>                | Creates a new iterator from a list.                                                           |
+| <code><a href="#cdktf.TerraformIterator.fromMap">from_map</a></code>                  | Creates a new iterator from a map.                                                            |
+| <code><a href="#cdktf.TerraformIterator.fromResources">from_resources</a></code>      | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `from_data_sources` <a name="from_data_sources" id="cdktf.TerraformIterator.fromDataSources"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformIterator.from_data_sources(
+  resource: ITerraformResource
+)
+```
+
+Creates a new iterator from a data source that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.TerraformIterator.fromDataSources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
 
 ---
 
@@ -37969,6 +38816,83 @@ Creates a new iterator from a map.
 ###### `map`<sup>Required</sup> <a name="map" id="cdktf.TerraformIterator.fromMap.parameter.map"></a>
 
 - _Type:_ typing.Union[<a href="#cdktf.ComplexMap">ComplexMap</a>, typing.Mapping[typing.Any], typing.Mapping[str], typing.Mapping[typing.Union[int, float]], typing.Mapping[bool]]
+
+---
+
+##### `from_resources` <a name="from_resources" id="cdktf.TerraformIterator.fromResources"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformIterator.from_resources(
+  resource: ITerraformResource
+)
+```
+
+Creates a new iterator from a resource that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.TerraformIterator.fromResources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+### TerraformResourceTargets <a name="TerraformResourceTargets" id="cdktf.TerraformResourceTargets"></a>
+
+#### Initializers <a name="Initializers" id="cdktf.TerraformResourceTargets.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformResourceTargets()
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                              | **Description**   |
+| ----------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformResourceTargets.addResourceTarget">add_resource_target</a></code>      | _No description._ |
+| <code><a href="#cdktf.TerraformResourceTargets.getResourceByTarget">get_resource_by_target</a></code> | _No description._ |
+
+---
+
+##### `add_resource_target` <a name="add_resource_target" id="cdktf.TerraformResourceTargets.addResourceTarget"></a>
+
+```python
+def add_resource_target(
+  resource: TerraformResource,
+  target: str
+) - > None
+```
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.TerraformResourceTargets.addResourceTarget.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.TerraformResource">TerraformResource</a>
+
+---
+
+###### `target`<sup>Required</sup> <a name="target" id="cdktf.TerraformResourceTargets.addResourceTarget.parameter.target"></a>
+
+- _Type:_ str
+
+---
+
+##### `get_resource_by_target` <a name="get_resource_by_target" id="cdktf.TerraformResourceTargets.getResourceByTarget"></a>
+
+```python
+def get_resource_by_target(
+  target: str
+) - > TerraformResource
+```
+
+###### `target`<sup>Required</sup> <a name="target" id="cdktf.TerraformResourceTargets.getResourceByTarget.parameter.target"></a>
+
+- _Type:_ str
 
 ---
 
@@ -39719,6 +40643,50 @@ Join the fragment on the left and on the right.
 
 ---
 
+### IImportableConfig <a name="IImportableConfig" id="cdktf.IImportableConfig"></a>
+
+- _Implemented By:_ <a href="#cdktf.IImportableConfig">IImportableConfig</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                   | **Type**                                                              | **Description**   |
+| ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.IImportableConfig.property.importId">import_id</a></code>                            | <code>str</code>                                                      | _No description._ |
+| <code><a href="#cdktf.IImportableConfig.property.terraformResourceType">terraform_resource_type</a></code> | <code>str</code>                                                      | _No description._ |
+| <code><a href="#cdktf.IImportableConfig.property.provider">provider</a></code>                             | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | _No description._ |
+
+---
+
+##### `import_id`<sup>Required</sup> <a name="import_id" id="cdktf.IImportableConfig.property.importId"></a>
+
+```python
+import_id: str
+```
+
+- _Type:_ str
+
+---
+
+##### `terraform_resource_type`<sup>Required</sup> <a name="terraform_resource_type" id="cdktf.IImportableConfig.property.terraformResourceType"></a>
+
+```python
+terraform_resource_type: str
+```
+
+- _Type:_ str
+
+---
+
+##### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.IImportableConfig.property.provider"></a>
+
+```python
+provider: TerraformProvider
+```
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
 ### IInterpolatingParent <a name="IInterpolatingParent" id="cdktf.IInterpolatingParent"></a>
 
 - _Implemented By:_ <a href="#cdktf.AnyMapList">AnyMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.ComplexComputedList">ComplexComputedList</a>, <a href="#cdktf.ComplexObject">ComplexObject</a>, <a href="#cdktf.MapList">MapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>
@@ -40284,7 +41252,7 @@ fqn: str
 
 ### ITerraformIterator <a name="ITerraformIterator" id="cdktf.ITerraformIterator"></a>
 
-- _Implemented By:_ <a href="#cdktf.ListTerraformIterator">ListTerraformIterator</a>, <a href="#cdktf.MapTerraformIterator">MapTerraformIterator</a>, <a href="#cdktf.TerraformIterator">TerraformIterator</a>, <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+- _Implemented By:_ <a href="#cdktf.ListTerraformIterator">ListTerraformIterator</a>, <a href="#cdktf.MapTerraformIterator">MapTerraformIterator</a>, <a href="#cdktf.ResourceTerraformIterator">ResourceTerraformIterator</a>, <a href="#cdktf.TerraformIterator">TerraformIterator</a>, <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
 
 ### ITerraformResource <a name="ITerraformResource" id="cdktf.ITerraformResource"></a>
 

@@ -434,6 +434,212 @@ teammembers.NewTeamMembers(stack, jsii.String("members"), &teammembers.TeamMembe
 
 </CodeTabs>
 
+## Chaining Iterators
+
+Sometimes the need arises to loop over resources created through an iterator; commonly referrred as chaining.
+To chain iterators you can use the `TerraformIterator.fromResources` or `TerraformIterator.fromDataSources` methods with the resource or data source you want to chain as an argument.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-chain -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-chain -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-chain -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-chain -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#iterators-chain -->
+
+<CodeTabs>
+
+```ts
+    const s3BucketConfigurationIterator = TerraformIterator.fromMap({
+      website: {
+        name: "website-static-files",
+        tags: { app: "website" },
+      },
+      images: {
+        name: "images",
+        tags: { app: "image-converter" },
+      },
+    });
+
+    const s3Buckets = new S3Bucket(this, "complex-iterator-buckets", {
+      forEach: s3BucketConfigurationIterator,
+      bucket: s3BucketConfigurationIterator.getString("name"),
+      tags: s3BucketConfigurationIterator.getStringMap("tags"),
+    });
+
+    // This would be TerraformIterator.fromDataSources for data_sources
+    const s3BucketsIterator = TerraformIterator.fromResources(s3Buckets);
+    const helpFile = new TerraformAsset(this, "help", {
+      path: "./help",
+    });
+    new S3BucketObject(this, "object", {
+      forEach: s3BucketsIterator,
+      bucket: s3BucketsIterator.getString("id"),
+      key: "help",
+      source: helpFile.path,
+    });
+  }
+}
+```
+
+```python
+        map = TerraformLocal(self, "my-map", {
+            "website": {
+                "name": "website-static-files",
+                "tags": {"app": "website"}
+            },
+            "images": {
+                "name": "images",
+                "tags": {"app": "image-converter"}
+            }
+        })
+        s3_bucket_configuration_iterator = TerraformIterator.from_map(
+            map=map.as_any_map
+        )
+        s3_buckets = S3Bucket(self, "complex-iterator-buckets",
+            for_each=s3_bucket_configuration_iterator,
+            bucket=s3_bucket_configuration_iterator.get_string("name"),
+            tags=s3_bucket_configuration_iterator.get_map("tags")
+        )
+
+        # This would be TerraformIterator.from_data_sources for data_sources
+        s3_buckets_iterator = TerraformIterator.from_resources(s3_buckets)
+        help_file = TerraformAsset(self, "help",
+            path="./help"
+        )
+        S3BucketObject(self, "object",
+            for_each=s3_buckets_iterator,
+            bucket=s3_buckets_iterator.get_string("id"),
+            key="help",
+            source=help_file.path
+        )
+```
+
+```java
+        TerraformLocal myComplexLocal = new TerraformLocal(this, "my-map", new HashMap() {
+            {
+                put("website", new HashMap() {
+                    {
+                        put("name", "website-static-files");
+                        put("tags", new HashMap<String, String>() {
+                            {
+                                put("app", "website");
+                            }
+                        });
+                    }
+                });
+                put("images", new HashMap() {
+                    {
+                        put("name", "images");
+                        put("tags", new HashMap<String, String>() {
+                            {
+                                put("app", "image-converter");
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        TerraformIterator s3BucketConfigurationIterator = TerraformIterator.fromMap(myComplexLocal.getAsAnyMap());
+        S3Bucket s3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+                .forEach(s3BucketConfigurationIterator)
+                .bucket(s3BucketConfigurationIterator.getString("name"))
+                .tags(s3BucketConfigurationIterator.getStringMap("tags"))
+                .build());
+
+        TerraformAsset asset = new TerraformAsset(this, "help", TerraformAssetConfig.builder()
+                .path(Paths.get(System.getProperty("user.dir"), "help").toString())
+                .build()
+        );
+
+        // This would be TerraformIterator.fromDataSources for data_sources
+        TerraformIterator s3BucketIterator = TerraformIterator.fromResources(s3Bucket);
+        new S3BucketObject(this, "object", S3BucketObjectConfig.builder()
+                .forEach(s3BucketIterator)
+                .bucket(s3BucketIterator.getString("id"))
+                .key("help")
+                .source(asset.getPath())
+                .build()
+        );
+```
+
+```csharp
+            // We need a local to be able to pass the list to the iterator
+            TerraformLocal configuration = new TerraformLocal(this, "configuration", new Dictionary<string, object> {
+                {
+                    "website ",
+                    new Dictionary<string, object> {
+                        { "name", "website-static-files" },
+                        { "tags", new Dictionary<string, string> {
+                            { "app", "website" }
+                        }}
+                    }
+                },
+                {
+                    "images",
+                    new Dictionary<string, object> {
+                        { "name", "images" },
+                        { "tags", new Dictionary<string, string> {
+                            { "app", "image-converter" }
+                        }}
+                    }
+                }
+            });
+            MapTerraformIterator s3BucketConfigurationIterator = MapTerraformIterator.FromMap(configuration.AsAnyMap);
+            S3Bucket s3Buckets = new S3Bucket(this, "complex-iterator-buckets", new S3BucketConfig
+            {
+                ForEach = s3BucketConfigurationIterator,
+                Bucket = s3BucketConfigurationIterator.GetString("name"),
+                Tags = s3BucketConfigurationIterator.GetStringMap("tags")
+            });
+
+            // This would be TerraformIterator.fromDataSources for data_sources
+            TerraformIterator s3BucketsIterator = TerraformIterator.FromResources(s3Buckets);
+            TerraformAsset helpFile = new TerraformAsset(this, "help", new TerraformAssetConfig
+            {
+                Path = "./help"
+            });
+            new S3BucketObject(this, "object", new S3BucketObjectConfig
+            {
+                ForEach = s3BucketsIterator,
+                Bucket = s3BucketsIterator.GetString("id"),
+                Key = "help",
+                Source = helpFile.Path
+            });
+```
+
+```go
+	config := cdktf.NewTerraformLocal(stack, jsii.String("config-local"), []map[string]interface{}{
+		{
+			"name": "website-static-files",
+			"tags": map[string]string{"app": "website"},
+		},
+		{
+			"name": "images",
+			"tags": map[string]string{"app": "image-converter"},
+		},
+	})
+
+	s3BucketConfigurationIterator := cdktf.TerraformIterator_FromList(config.Expression())
+	s3Buckets := s3bucket.NewS3Bucket(stack, jsii.String("complex-iterator-buckets"), &s3bucket.S3BucketConfig{
+		ForEach: s3BucketConfigurationIterator,
+		Bucket:  s3BucketConfigurationIterator.GetString(jsii.String("name")),
+		Tags:    s3BucketConfigurationIterator.GetStringMap(jsii.String("tags")),
+	})
+
+	s3BucketsIterator := cdktf.TerraformIterator_FromResources(s3Buckets)
+	helpFile := cdktf.NewTerraformAsset(stack, jsii.String("help"), &cdktf.TerraformAssetConfig{
+		Path: jsii.String("./help"),
+	})
+	s3bucketobject.NewS3BucketObject(stack, jsii.String("object"), &s3bucketobject.S3BucketObjectConfig{
+		ForEach: s3BucketsIterator,
+		Bucket:  s3BucketsIterator.GetString(jsii.String("id")),
+		Key:     jsii.String("help"),
+		Source:  helpFile.Path(),
+	})
+```
+
+</CodeTabs>
+
 ## Using Count
 
 You can also use the `TerraformCount` class to achieve the equivalent of setting `count` on resources in HCL Terraform. Refer to the [Terraform docs](/terraform/language/meta-arguments/count) for more information on the count meta argument.

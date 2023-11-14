@@ -10,6 +10,10 @@ import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
 
+// DOCS_BLOCK_END:iterators,iterators-complex-types
+import { TerraformAsset } from "cdktf";
+import { S3BucketObject } from "@cdktf/provider-aws/lib/s3-bucket-object";
+// DOCS_BLOCK_START:iterators,iterators-complex-types
 export class IteratorsStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -78,7 +82,38 @@ export class IteratorsStack extends TerraformStack {
     });
     // DOCS_BLOCK_END:iterators-complex-types
 
-    // DOCS_BLOCK_START:iterators,iterators-complex-types
+    // DOCS_BLOCK_START:iterators-chain
+    const s3BucketConfigurationIterator = TerraformIterator.fromMap({
+      website: {
+        name: "website-static-files",
+        tags: { app: "website" },
+      },
+      images: {
+        name: "images",
+        tags: { app: "image-converter" },
+      },
+    });
+
+    const s3Buckets = new S3Bucket(this, "complex-iterator-buckets", {
+      forEach: s3BucketConfigurationIterator,
+      bucket: s3BucketConfigurationIterator.getString("name"),
+      tags: s3BucketConfigurationIterator.getStringMap("tags"),
+    });
+
+    // This would be TerraformIterator.fromDataSources for data_sources
+    const s3BucketsIterator = TerraformIterator.fromResources(s3Buckets);
+    const helpFile = new TerraformAsset(this, "help", {
+      path: "./help",
+    });
+    new S3BucketObject(this, "object", {
+      forEach: s3BucketsIterator,
+      bucket: s3BucketsIterator.getString("id"),
+      key: "help",
+      source: helpFile.path,
+    });
+    // DOCS_BLOCK_END:iterators-chain
+
+    // DOCS_BLOCK_START:iterators,iterators-complex-types,iterators-chain
   }
 }
-// DOCS_BLOCK_END:iterators,iterators-complex-types
+// DOCS_BLOCK_END:iterators,iterators-complex-types,iterators-chain
