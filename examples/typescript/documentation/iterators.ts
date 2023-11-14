@@ -5,10 +5,16 @@ import { Team } from "@cdktf/provider-github/lib/team";
 import { DataGithubOrganization } from "@cdktf/provider-github/lib/data-github-organization";
 import { TeamMembers } from "@cdktf/provider-github/lib/team-members";
 // DOCS_BLOCK_START:iterators,iterators-complex-types
-import { TerraformIterator, TerraformStack, TerraformVariable } from "cdktf";
+import {
+  TerraformAsset,
+  TerraformIterator,
+  TerraformStack,
+  TerraformVariable,
+} from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
+import { S3BucketObject } from "@cdktf/provider-aws/lib/s3-bucket-object";
 
 export class IteratorsStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -77,6 +83,35 @@ export class IteratorsStack extends TerraformStack {
       tags: complexIterator.getStringMap("tags"),
     });
     // DOCS_BLOCK_END:iterators-complex-types
+
+    // TODO: write documentation for the following
+    const complexIterator2 = TerraformIterator.fromMap({
+      website: {
+        name: "website-static-files",
+        tags: { app: "website" },
+      },
+      images: {
+        name: "images",
+        tags: { app: "image-converter" },
+      },
+    });
+
+    const s3Buckets = new S3Bucket(this, "complex-iterator-buckets", {
+      forEach: complexIterator2,
+      bucket: complexIterator2.getString("name"),
+      tags: complexIterator2.getStringMap("tags"),
+    });
+
+    const s3BucketsIterator = TerraformIterator.fromResources(s3Buckets);
+    const helpFile = new TerraformAsset(this, "help", {
+      path: "./help",
+    });
+    new S3BucketObject(this, "object", {
+      forEach: s3BucketsIterator,
+      bucket: s3BucketsIterator.getString("id"),
+      key: "help",
+      source: helpFile.path,
+    });
 
     // DOCS_BLOCK_START:iterators,iterators-complex-types
   }

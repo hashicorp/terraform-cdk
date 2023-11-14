@@ -14,6 +14,7 @@ import {
 } from "./complex-computed-list";
 import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
 import { Fn } from "./terraform-functions";
+import { ITerraformResource } from "./terraform-resource";
 import {
   FOR_EXPRESSION_KEY,
   FOR_EXPRESSION_VALUE,
@@ -78,6 +79,26 @@ export abstract class TerraformIterator implements ITerraformIterator {
       | { [key: string]: boolean }
   ): MapTerraformIterator {
     return new MapTerraformIterator(map);
+  }
+
+  /**
+   * Creates a new iterator from a resource that
+   * has been created with the `for_each` argument.
+   */
+  public static fromResources(
+    resource: ITerraformResource
+  ): ResourceTerraformIterator {
+    return new ResourceTerraformIterator(resource);
+  }
+
+  /**
+   * Creates a new iterator from a data source that
+   * has been created with the `for_each` argument.
+   */
+  public static fromDataSource(
+    resource: ITerraformResource
+  ): ResourceTerraformIterator {
+    return new ResourceTerraformIterator(resource);
   }
 
   /**
@@ -282,5 +303,42 @@ export class MapTerraformIterator extends TerraformIterator {
    */
   public get value(): any {
     return this._getValue();
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class ResourceTerraformIterator extends TerraformIterator {
+  constructor(private readonly element: ITerraformResource) {
+    super();
+    // TODO: how should we handle count in this?
+    if (!element.forEach) {
+      throw new Error(
+        "Cannot create iterator from resource without for_each argument"
+      );
+    }
+  }
+
+  /**
+   * Returns the currenty entry in the list or set that is being iterated over.
+   * For lists this is the same as `iterator.value`. If you need the index,
+   * use count using the escape hatch:
+   * https://developer.hashicorp.com/terraform/cdktf/concepts/resources#escape-hatch
+   */
+  public get key(): any {
+    return this._getKey();
+  }
+
+  /**
+   * Returns the value of the current item iterated over.
+   */
+  public get value(): any {
+    return this._getValue();
+  }
+
+  /**
+   * @internal used by TerraformResource to set the for_each expression
+   */
+  public _getForEachExpression(): any {
+    return this.element.fqn; // no wrapping as that is not working for resources
   }
 }
