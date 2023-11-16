@@ -56,7 +56,7 @@ refactoring-example    # aws_s3_bucket.new-bucket (new-bucket) will be created
 
 Terraform plans to destroy the old bucket and create a new one to replace it. The replacement can be harmful if there is already state in the resource, such as files in the bucket or data in the database.
 
-To avoid the recreation of the resource, use the `moveTo` function.
+To avoid this recreation behavior, use one of the move instance functions (`moveTo`, `moveToId`, `moveFromId`) available on the resource.
 
 ```typescript
 import { Construct } from "constructs";
@@ -140,6 +140,48 @@ new S3Bucket(this, "moved-bucket", {
 ```
 
 This allows you to efficiently integrate existing resources into a `foreach` composition without destroying the existing deployed resource.
+
+### Move By Resource Address
+
+In instances where the move target workflow does not easily fit your use case, resource moves can be performed by directly specifying the full resource address to be moved to/from.
+
+#### Move To
+
+```typescript
+new S3Bucket(this, "bucket-moved", {
+  bucket: "move-bucket",
+}).moveToId("aws_s3_bucket.bucket-new");
+
+new S3Bucket(this, "bucket-new", {
+  bucket: "move-bucket",
+});
+```
+
+#### Move From
+
+```typescript
+new S3Bucket(this, "bucket-moved", {
+  bucket: "move-bucket",
+}).hasMoved();
+
+new S3Bucket(this, "bucket-new", {
+  bucket: "move-bucket",
+}).moveFromId("aws_s3_bucket.bucket-moved");
+```
+
+Note that in moving from a specified resource address, the resource being moved from must be marked as moved.
+
+#### Nested Constructs
+
+Resource addresses in the context of nested constructs will not simply be the specified id given to the resource. When dealing with moving resources by their address to/from nested constructs, run `cdktf synth` and refer to `cdktf.out/stacks/'your stack name'` to find the exact address to move to/from.
+
+```typescript
+new S3Bucket(this, "bucket-moved", {
+  bucket: "bucket-moved",
+}).moveToId("aws_s3_bucket.nested-construct_bucket-new_5A0C9225"); // moving to S3Bucket "bucket-new" in NestedConstruct "nested-construct"
+
+new NestedConstruct(this, "nested-construct", {});
+```
 
 ## Moving Resources From One Stack To Another
 
