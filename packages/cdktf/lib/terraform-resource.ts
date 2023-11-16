@@ -335,7 +335,7 @@ export class TerraformResource
         to: ${this._movedById.to}
       }
 
-      Only one move operation can occur at a time. Remove one of the operations.
+      Only one move operation can occur plan/apply. Remove one of the operations.
       `);
     } else if (this._movedByTarget) {
       const movedBlockByTarget = this._buildMovedBlockByTarget(
@@ -400,7 +400,7 @@ export class TerraformResource
         to: ${this.terraformResourceType}.${this.friendlyUniqueId} (Resource calling the move to operation)
       }
 
-      Only one move operation can occur at a time. Remove one of the operations.
+      Only one move operation can occur per plan/apply. Remove one of the operations.
       `);
     }
     this._movedById = {
@@ -434,7 +434,7 @@ export class TerraformResource
         to: ${id}
       }
 
-      Only one move operation can occur at a time. Remove one of the operations.
+      Only one move operation can occur plan/apply. Remove one of the operations.
       `);
     }
     this._movedById = {
