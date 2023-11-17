@@ -8,6 +8,8 @@ description: >-
 
 0.17 is focused around fixing issues with the [AWS Quicksight](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template) resources. We also removed the deprecated feature flags that were used to enable potentially breaking changes in previous releases.
 
+If you encounter breaking changes from the removal of these feature flags, use the `MigrateIds` `Aspect` at the root of your affected stacks to migrate resources to use the current form of id generation without their recreation.
+
 ## AWS Quicksight
 
 A few individual Terraform Resources have very deeply nested schemas with a lot of attributes. This blows up the config classes and slows down the code generation for languages besides TypeScript. To work around this we sometimes limit the depth of the config classes and use `any` on deeper levels, and we directly expose some attributes as `any` on the top level config class.
