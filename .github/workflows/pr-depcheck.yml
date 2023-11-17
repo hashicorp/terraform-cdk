@@ -1,0 +1,34 @@
+name: Depcheck
+on:
+  merge_group:
+    types: [checks_requested]
+  pull_request:
+    branches:
+      - main
+jobs:
+  depcheck:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [
+            # cdktf,
+            # cdktf-cli,
+            # "@cdktf/hcl2cdk",
+            # "@cdktf/hcl2json",
+            # "@cdktf/provider-schema",
+            # "@cdktf/provider-generator",
+            "@cdktf/commons",
+            # "@cdktf/cli-core",
+          ]
+
+    steps:
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - name: "Run Depcheck"
+        run: |
+          npx lerna exec --scope '${{ matrix.package }}' -- npx -y depcheck --ignores="@types/*,jsii,jsii-pacmak,jsii-srcmak,jsii-docgen,yoga-layout-prebuilt,eslint,jest,tsc-files,typescript,esbuild,esbuild-jest,graphology-types"

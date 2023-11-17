@@ -2329,26 +2329,11 @@
   resolved "https://registry.yarnpkg.com/@types/detect-port/-/detect-port-1.3.5.tgz#deecde143245989dee0e82115f3caba5ee0ea747"
   integrity sha512-Rf3/lB9WkDfIL9eEKaSYKc+1L/rNVYBjThk22JTqQw0YozXarX8YljFAz+HCoC6h4B4KwCMsBPZHaFezwT4BNA==
 
-"@types/follow-redirects@^1.14.3":
-  version "1.14.3"
-  resolved "https://registry.yarnpkg.com/@types/follow-redirects/-/follow-redirects-1.14.3.tgz#1be9803ef23578e05daae9b25cc4119e2c79c6b1"
-  integrity sha512-VN4w0rKWI4DVySabR5/9P65nwcVEAr1taWFyYW3YR7rHYO/bOgG+LHpWfSzthPmCEfmawuXsMd4huQeSoc7jpg==
-  dependencies:
-    "@types/node" "*"
-
 "@types/follow-redirects@^1.14.4":
   version "1.14.4"
   resolved "https://registry.yarnpkg.com/@types/follow-redirects/-/follow-redirects-1.14.4.tgz#ca054d72ef574c77949fc5fff278b430fcd508ec"
   integrity sha512-GWXfsD0Jc1RWiFmMuMFCpXMzi9L7oPDVwxUnZdg89kDNnqsRfUKXEtUYtA98A6lig1WXH/CYY/fvPW9HuN5fTA==
   dependencies:
-    "@types/node" "*"
-
-"@types/fs-extra@^11.0.3":
-  version "11.0.3"
-  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-11.0.3.tgz#72c3a247c8dd5703c93d900c584e006476146866"
-  integrity sha512-sF59BlXtUdzEAL1u0MSvuzWd7PdZvZEtnaVkzX5mjpdWTJ8brG0jUqve3jPCzSzvAKKMHTG8F8o/WMQLtleZdQ==
-  dependencies:
-    "@types/jsonfile" "*"
     "@types/node" "*"
 
 "@types/fs-extra@^11.0.4":
@@ -2709,11 +2694,6 @@
   version "8.3.4"
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
   integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
-
-"@types/uuid@^9.0.6":
-  version "9.0.6"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.6.tgz#c91ae743d8344a54b2b0c691195f5ff5265f6dfb"
-  integrity sha512-BT2Krtx4xaO6iwzwMFUYvWBWkV2pr37zD68Vmp1CDV196MzczBRxuEpD6Pr395HAgebC/co7hOphs53r8V7jew==
 
 "@types/uuid@^9.0.7":
   version "9.0.7"
