@@ -31,12 +31,11 @@
   "license": "MPL-2.0",
   "dependencies": {
     "@cdktf/commons": "0.0.0",
-    "@cdktf/hcl2json": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
     "@types/node": "18.18.8",
     "codemaker": "^1.91.0",
-    "deepmerge": "^4.3.1",
     "fs-extra": "^8.1.0",
+    "glob": "^10.3.3",
     "jsii-srcmak": "^0.1.954"
   },
   "devDependencies": {
