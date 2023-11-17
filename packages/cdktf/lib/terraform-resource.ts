@@ -137,6 +137,10 @@ export class TerraformResource
     );
   }
 
+  public hasResourceMove() {
+    return this._movedById || this._movedByTarget;
+  }
+
   public getStringAttribute(terraformAttribute: string) {
     return Token.asString(this.interpolationForAttribute(terraformAttribute));
   }
@@ -339,23 +343,11 @@ export class TerraformResource
       Only one move operation can occur per plan/apply. Remove one of the operations.
       `);
     } else if (this._movedByTarget) {
-      this.node.addValidation(
-        new ValidateTerraformVersion(
-          ">=1.5",
-          `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-        )
-      );
       const movedBlockByTarget = this._buildMovedBlockByTarget(
         this._movedByTarget
       );
       return { to: movedBlockByTarget.to, from: movedBlockByTarget.from };
     } else if (this._movedById) {
-      this.node.addValidation(
-        new ValidateTerraformVersion(
-          ">=1.5",
-          `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-        )
-      );
       return { to: this._movedById.to, from: this._movedById.from };
     } else {
       return undefined;
