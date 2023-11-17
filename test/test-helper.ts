@@ -102,11 +102,11 @@ export class TestDriver {
           env: this.env,
         });
         process.stdout.on("data", (data) => {
-          console.log(data);
+          console.log(data.toString());
           stdout.push(data.toString());
         });
         process.stderr.on("data", (data) => {
-          console.log(data);
+          console.log(data.toString());
           stderr.push(data.toString());
         });
         process.on("close", (code) => {
