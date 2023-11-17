@@ -35,12 +35,15 @@ type ListType =
   | Array<string>
   | Array<number>
   | Array<boolean | IResolvable>
-  | IResolvable // e.g. array of booleans
+  | IResolvable; // e.g. array of booleans
+
+type ComplexListType =
   | ComplexList
   | StringMapList
   | NumberMapList
   | BooleanMapList
-  | AnyMapList;
+  | AnyMapList
+  | IResolvable; // e.g. a reference to a complex list (e.g. via a variable)
 
 type MapType =
   | { [key: string]: any }
@@ -66,6 +69,22 @@ export abstract class TerraformIterator implements ITerraformIterator {
     // TODO: this could return different iterators depending on the type of the list
     // for example it could return a NumberListIterator whose iterator.key would be a number
     return new ListTerraformIterator(list);
+  }
+
+  /**
+   * Creates a new iterator from a complex list. One example for this would be a list of maps.
+   * The list will be converted into a map with the mapKeyAttributeName as the key.
+   * @param list the list to iterate over
+   * @param mapKeyAttributeName the name of the attribute that should be used as the key in the map
+   *
+   * @example
+   * TODO: put AWS certificate validation example
+   */
+  public static fromComplexList(
+    list: ComplexListType,
+    mapKeyAttributeName: string
+  ): DynamicListTerraformIterator {
+    return new DynamicListTerraformIterator(list, mapKeyAttributeName);
   }
 
   /**
@@ -417,7 +436,7 @@ export class ResourceTerraformIterator extends TerraformIterator {
   }
 
   /**
-   * Returns the currenty entry in the list or set that is being iterated over.
+   * Returns the current entry in the list or set that is being iterated over.
    * For lists this is the same as `iterator.value`. If you need the index,
    * use count via `TerraformCount`:
    * https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-count
@@ -438,5 +457,44 @@ export class ResourceTerraformIterator extends TerraformIterator {
    */
   public _getForEachExpression(): any {
     return this.element.fqn; // no wrapping necessary for resources
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class DynamicListTerraformIterator extends MapTerraformIterator {
+  constructor(
+    private readonly list: ListType,
+    private readonly mapKeyAttributeName: string
+  ) {
+    super(list);
+  }
+
+  /**
+   * @internal used by TerraformResource to set the for_each expression
+   */
+  public _getForEachExpression(): any {
+    // uses a Lazy value to be able to render a conversion into a map in the context of a TerraformResource
+    return Lazy.anyValue(
+      {
+        produce: (context) => {
+          switch (context.iteratorContext) {
+            case "FOR_EXPRESSION":
+              return this.list;
+            case "DYNAMIC_BLOCK": // fallthrough
+            default: // same as dynamic block, as this is the case when a iterator is passed to the root level of e.g. a resource
+              // Turn list into a map
+              // { for k,v in <input> : <keyExpression> => <valueExpression>}
+              return forExpression(
+                this.list, // input
+                FOR_EXPRESSION_VALUE, // valueExpression
+                Fn.lookupNested(FOR_EXPRESSION_VALUE, [
+                  this.mapKeyAttributeName,
+                ]) // keyExpression
+              );
+          }
+        },
+      },
+      { displayHint: "<iterator value>" }
+    );
   }
 }
