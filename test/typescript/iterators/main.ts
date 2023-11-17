@@ -11,9 +11,14 @@ import {
   TerraformOutput,
   TerraformAsset,
   AssetType,
+  Token,
 } from "cdktf";
 import * as ArchiveProvider from "./.gen/providers/archive";
 import * as NomadProvider from "./.gen/providers/nomad";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { AcmCertificate } from "./.gen/providers/aws/acm-certificate";
+import { DataAwsRoute53Zone } from "./.gen/providers/aws/data-aws-route53-zone";
+import { Route53Record } from "./.gen/providers/aws/route53-record";
 
 export class TestIterators extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -166,6 +171,77 @@ export class TestIteratorsSynthOnly extends TerraformStack {
         },
       },
     });
+
+    // AWS Certificate Validation example
+    // HCL:
+    // resource "aws_acm_certificate" "example" {
+    //   domain_name       = "example.com"
+    //   validation_method = "DNS"
+    // }
+    // data "aws_route53_zone" "example" {
+    //   name         = "example.com"
+    //   private_zone = false
+    // }
+    // resource "aws_route53_record" "example" {
+    //   for_each = {
+    //     for dvo in aws_acm_certificate.example.domain_validation_options : dvo.domain_name => {
+    //       name   = dvo.resource_record_name
+    //       record = dvo.resource_record_value
+    //       type   = dvo.resource_record_type
+    //     }
+    //   }
+    //   allow_overwrite = true
+    //   name            = each.value.name
+    //   records         = [each.value.record]
+    //   ttl             = 60
+    //   type            = each.value.type
+    //   zone_id         = data.aws_route53_zone.example.zone_id
+    // }
+    // resource "aws_acm_certificate_validation" "example" {
+    //   certificate_arn         = aws_acm_certificate.example.arn
+    //   validation_record_fqdns = [for record in aws_route53_record.example : record.fqdn]
+    // }
+
+    // CDKTF:
+    new AwsProvider(this, "aws");
+
+    const example = new AcmCertificate(this, "cert", {
+      domainName: "example.com",
+      validationMethod: "DNS",
+    });
+    const dataAwsRoute53ZoneExample = new DataAwsRoute53Zone(this, "dns_zone", {
+      name: "example.com",
+      privateZone: false,
+    });
+
+    const exampleForEachIterator = TerraformIterator.fromComplexList(
+      example.domainValidationOptions,
+      "domain_name"
+    );
+
+    new Route53Record(this, "record", {
+      allowOverwrite: true,
+      name: exampleForEachIterator.getString("name"),
+      records: [exampleForEachIterator.getString("record")],
+      ttl: 60,
+      type: exampleForEachIterator.getString("type"),
+      zoneId: Token.asString(dataAwsRoute53ZoneExample.zoneId),
+      forEach: exampleForEachIterator,
+    });
+
+    // TODO: this requires chained iterators, which is not supported yet
+    // new AcmCertificateValidation(
+    //   this,
+    //   "example_3",
+    //   {
+    //     certificateArn: example.arn,
+    //     validationRecordFqdns: Token.asList(
+    //       "${[ for record in ${" +
+    //         awsRoute53RecordExample.fqn +
+    //         "} : record.fqdn]}"
+    //     ),
+    //   }
+    // );
   }
 }
 

@@ -90,16 +90,18 @@ export class TestDriver {
 
   public async exec(
     command: string,
-    args: string[] = []
+    args: string[] = [],
+    cwd?: string
   ): Promise<{ stdout: string; stderr: string }> {
     try {
       return await new Promise((resolve, reject) => {
-        const stdout = [],
-          stderr = [];
+        const stdout: string[] = [],
+          stderr: string[] = [];
         const process = spawn(command, args, {
           shell: true,
           stdio: "pipe",
           env: this.env,
+          cwd,
         });
         process.stdout.on("data", (data) => {
           stdout.push(data.toString());
