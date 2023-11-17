@@ -624,7 +624,7 @@ it("moves correctly when target set after call to moveTo", () => {
   );
 });
 
-it.only("override logical ID - before moveTo", () => {
+it("override logical ID - before moveTo", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
@@ -666,7 +666,7 @@ it.only("override logical ID - before moveTo", () => {
   );
 });
 
-it.only("override logical ID - before addTarget", () => {
+it("override logical ID - before addTarget", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
