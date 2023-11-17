@@ -19,8 +19,8 @@ jobs:
         package: [
             cdktf,
             # cdktf-cli,
-            # "@cdktf/hcl2cdk",
             "@cdktf/hcl2json",
+            "@cdktf/hcl2cdk",
             "@cdktf/provider-schema",
             "@cdktf/provider-generator",
             "@cdktf/commons",
