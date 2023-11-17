@@ -208,10 +208,6 @@ export class MoveFromIDStack extends TerraformStack {
       region: "us-west-2",
     });
     if (process.env.STEP_2) {
-      new S3Bucket(this, "test-bucket-move-by", {
-        bucket: "test-move-bucket-move-from-id",
-      }).hasMoved();
-
       new S3Bucket(this, "test-bucket-1", {
         bucket: "test-move-bucket-move-from-id",
       }).moveFromId("aws_s3_bucket.test-bucket-move-by");

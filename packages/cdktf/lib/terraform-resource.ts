@@ -303,7 +303,9 @@ export class TerraformResource
     );
   }
 
-  private _buildMovedBlockByTarget(movedTarget: TerraformResourceMoveByTarget) {
+  private _buildMovedBlockByTarget(
+    movedTarget: TerraformResourceMoveByTarget
+  ): { to: string; from: string } {
     const { moveTarget, index } = movedTarget;
     const resourceToMoveTo = this._getResourceTarget(moveTarget);
     if (this.terraformResourceType !== resourceToMoveTo.terraformResourceType) {
@@ -323,8 +325,7 @@ export class TerraformResource
     return { to, from };
   }
 
-  private _buildMovedBlock() {
-    let movedBlock: { to: string; from: string } | undefined;
+  private _buildMovedBlock(): { to: string; from: string } | undefined {
     if (this._movedByTarget && this._movedById) {
       throw new Error(`
       ${this.node.id} has been given two separate moved operations.
@@ -338,16 +339,27 @@ export class TerraformResource
       Only one move operation can occur per plan/apply. Remove one of the operations.
       `);
     } else if (this._movedByTarget) {
+      this.node.addValidation(
+        new ValidateTerraformVersion(
+          ">=1.5",
+          `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+        )
+      );
       const movedBlockByTarget = this._buildMovedBlockByTarget(
         this._movedByTarget
       );
-      movedBlock = { to: movedBlockByTarget.to, from: movedBlockByTarget.from };
+      return { to: movedBlockByTarget.to, from: movedBlockByTarget.from };
     } else if (this._movedById) {
-      movedBlock = { to: this._movedById.to, from: this._movedById.from };
+      this.node.addValidation(
+        new ValidateTerraformVersion(
+          ">=1.5",
+          `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+        )
+      );
+      return { to: this._movedById.to, from: this._movedById.from };
     } else {
-      movedBlock = undefined;
+      return undefined;
     }
-    return movedBlock;
   }
 
   /**
@@ -366,12 +378,6 @@ export class TerraformResource
     }
     this._movedByTarget = { moveTarget, index };
     this._hasMoved = true;
-    this.node.addValidation(
-      new ValidateTerraformVersion(
-        ">=1.5",
-        `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-      )
-    );
   }
 
   /**
@@ -408,12 +414,6 @@ export class TerraformResource
       from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
     };
     this._hasMoved = true;
-    this.node.addValidation(
-      new ValidateTerraformVersion(
-        ">=1.5",
-        `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-      )
-    );
   }
 
   /**
@@ -441,24 +441,5 @@ export class TerraformResource
       to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
       from: id,
     };
-    this.node.addValidation(
-      new ValidateTerraformVersion(
-        ">=1.5",
-        `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-      )
-    );
-  }
-
-  /**
-   * Marks this resource as moved. Required to be present on a resource being moved from.
-   */
-  public hasMoved() {
-    this._hasMoved = true;
-    this.node.addValidation(
-      new ValidateTerraformVersion(
-        ">=1.5",
-        `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-      )
-    );
   }
 }
