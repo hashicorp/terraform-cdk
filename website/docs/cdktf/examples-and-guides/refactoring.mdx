@@ -160,27 +160,28 @@ new S3Bucket(this, "bucket-new", {
 #### Move From
 
 ```typescript
-new S3Bucket(this, "bucket-moved", {
-  bucket: "move-bucket",
-}).hasMoved();
+// Old resource
+// new S3Bucket(this, "bucket-moved", {
+//   bucket: "move-bucket",
+// });
 
 new S3Bucket(this, "bucket-new", {
   bucket: "move-bucket",
 }).moveFromId("aws_s3_bucket.bucket-moved");
 ```
 
-Note that in moving from a specified resource address, the resource being moved from must be marked as moved.
+Note that in moving from a specified resource address, the original resource being moved from must be removed.
 
 #### Nested Constructs
 
-Resource addresses in the context of nested constructs will not simply be the specified id given to the resource. When dealing with moving resources by their address to/from nested constructs, run `cdktf synth` and refer to `cdktf.out/stacks/<stack name>/cdk.tf.json` to find the exact address to move to/from.
+Resource addresses in the context of nested constructs will not simply be the specified id given to the resource. When dealing with moving resources by their address to/from nested constructs, run `cdktf synth` and refer to `cdktf.out/stacks/'your stack name'` to find the exact address to move to/from.
 
 ```typescript
 new S3Bucket(this, "bucket-moved", {
   bucket: "bucket-moved",
 }).moveToId("aws_s3_bucket.nested-construct_bucket-new_5A0C9225"); // moving to S3Bucket "bucket-new" in NestedConstruct "nested-construct"
 
-new NestedConstruct(this, "nested-construct"); // contains the moved S3 bucket resource with the id "bucket-new"
+new NestedConstruct(this, "nested-construct", {});
 ```
 
 ## Moving Resources From One Stack To Another
