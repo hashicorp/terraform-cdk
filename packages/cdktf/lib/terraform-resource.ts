@@ -335,7 +335,7 @@ export class TerraformResource
         to: ${this._movedById.to}
       }
 
-      Only one move operation can occur plan/apply. Remove one of the operations.
+      Only one move operation can occur per plan/apply. Remove one of the operations.
       `);
     } else if (this._movedByTarget) {
       const movedBlockByTarget = this._buildMovedBlockByTarget(
@@ -384,7 +384,7 @@ export class TerraformResource
 
   /**
    * Moves this resource to the resource corresponding to "id"
-   * @param id Full id of resource to move to
+   * @param id Full id of resource to move to, e.g. "aws_s3_bucket.example"
    */
   public moveToId(id: string) {
     if (this._movedById) {
@@ -418,7 +418,7 @@ export class TerraformResource
 
   /**
    * Move the resource corresponding to "id" to this resource. Note that the resource being moved from must be marked as moved using it's instance function.
-   * @param id Full id of resource being moved from
+   * @param id Full id of resource being moved from, e.g. "aws_s3_bucket.example"
    */
   public moveFromId(id: string) {
     if (this._movedById) {

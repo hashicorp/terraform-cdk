@@ -158,7 +158,7 @@ function allocateLogicalIdOldVersion(
 }
 
 /**
- * For migrating past 0.17 where id generation changed
+ * For migrating past 0.17 where the feature flag for the old id generation logic was removed after being deprecated since 0.15
  */
 export class MigrateIdsAspect implements IAspect {
   visit(node: IConstruct) {
