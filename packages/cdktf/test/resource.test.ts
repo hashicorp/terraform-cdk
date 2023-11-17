@@ -624,7 +624,7 @@ it("moves correctly when target set after call to moveTo", () => {
   );
 });
 
-it("override logical ID - before moveTo", () => {
+it("override logical ID - before move to id", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
@@ -666,22 +666,13 @@ it("override logical ID - before moveTo", () => {
   );
 });
 
-it("override logical ID - before addTarget", () => {
+it("override logical ID - before move from id", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
 
   const construct = new Construct(stack, "construct");
   const nestedContruct = new Construct(construct, "nested-construct");
-
-  new TestResource(stack, "simple", {
-    name: "foo",
-    provisioners: [
-      { type: "local-exec", command: "echo 'hello' > world.txt" },
-      { type: "local-exec", command: "echo 'hello' > world1.txt" },
-      { type: "local-exec", command: "echo 'hello' > world2.txt" },
-    ],
-  }).hasMoved();
 
   const resource = new TestResource(nestedContruct, "simple", {
     name: "foo",
