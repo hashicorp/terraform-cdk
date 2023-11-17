@@ -7,8 +7,8 @@ import {
   Testing,
   TerraformOutput,
   LocalBackend,
-} from "cdktf/lib";
-import { TerraformModule } from "cdktf/lib/terraform-module";
+} from "../lib";
+import { TerraformModule } from "../lib/terraform-module";
 import { TestProvider } from "./helper";
 import { Construct } from "constructs";
 
