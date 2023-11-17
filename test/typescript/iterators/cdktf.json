@@ -3,7 +3,8 @@
   "app": "npx ts-node main.ts",
   "terraformProviders": [
     "archive@ ~> 2.2.0",
-    "nomad@ ~> 1.4.17"
+    "nomad@ ~> 1.4.17",
+    "hashicorp/aws@~> 5.26"
   ],
   "context": {}
 }
