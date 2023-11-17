@@ -24,7 +24,7 @@ jobs:
             "@cdktf/provider-schema",
             "@cdktf/provider-generator",
             "@cdktf/commons",
-            # "@cdktf/cli-core",
+            "@cdktf/cli-core",
           ]
 
     steps:
