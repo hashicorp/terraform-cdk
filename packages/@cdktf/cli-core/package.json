@@ -50,8 +50,6 @@
     "fs-extra": "^8.1.0",
     "https-proxy-agent": "^5.0.1",
     "indent-string": "^4.0.0",
-    "ink-testing-library": "^2.1.0",
-    "ink-use-stdout-dimensions": "^1.0.5",
     "jsii-pacmak": "^1.91.0",
     "jsii-srcmak": "^0.1.964",
     "jsii": "^5.2.29",
