@@ -38,7 +38,7 @@ import {
   ConstructsMakerProviderTarget,
 } from "@cdktf/commons";
 import { templates, templatesDir } from "@cdktf/cli-core";
-import ciDetect from "@npmcli/ci-detect";
+import ciInfo from "ci-info";
 import { isInteractiveTerminal } from "./check-environment";
 import { getTerraformVersion } from "./terraform-check";
 import * as semver from "semver";
@@ -155,7 +155,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     }
   }
 
-  const ci: string | false = ciDetect();
+  const ci: string | false = ciInfo.isCI ? ciInfo.name! : false;
   const sendCrashReports =
     argv.enableCrashReporting ??
     (ci ? false : await askForCrashReportingConsent());
