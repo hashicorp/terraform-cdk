@@ -92,7 +92,7 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
             });
 
             ListTerraformIterator iterator = ListTerraformIterator.FromList(list.ListValue);
-            S3Bucket s3Bucket = new S3Bucket(this, "bucket", new S3BucketConfig
+            S3Bucket s3Bucket = new S3Bucket(this, "value-bucket", new S3BucketConfig
             {
                 ForEach = iterator,
                 Bucket = Token.AsString(iterator.Value)
@@ -100,16 +100,16 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
 ```
 
 ```go
-	list := cdktf.NewTerraformVariable(stack, jsii.String("list"), &cdktf.TerraformVariableConfig{
-		Type: cdktf.VariableType_LIST_STRING(),
-	})
+list := cdktf.NewTerraformVariable(stack, jsii.String("list"), &cdktf.TerraformVariableConfig{
+	Type: cdktf.VariableType_LIST_STRING(),
+})
 
-	simpleIterator := cdktf.TerraformIterator_FromList(list.ListValue())
+simpleIterator := cdktf.TerraformIterator_FromList(list.ListValue())
 
-	s3bucket.NewS3Bucket(stack, jsii.String("iterator-bucket"), &s3bucket.S3BucketConfig{
-		ForEach: simpleIterator,
-		Bucket:  cdktf.Token_AsString(simpleIterator.Value(), nil),
-	})
+s3bucket.NewS3Bucket(stack, jsii.String("iterator-bucket"), &s3bucket.S3BucketConfig{
+	ForEach: simpleIterator,
+	Bucket:  cdktf.Token_AsString(simpleIterator.Value(), nil),
+})
 ```
 
 </CodeTabs>
@@ -248,7 +248,7 @@ TerraformLocal complexLocal = new TerraformLocal(this, "complex_local", new Dict
     }
 });
 MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(complexLocal.AsAnyMap);
-new S3Bucket(this, "bucket", new S3BucketConfig
+new S3Bucket(this, "tag-bucket", new S3BucketConfig
 {
     ForEach = mapIterator,
     Bucket = mapIterator.GetString("name"),
@@ -257,24 +257,24 @@ new S3Bucket(this, "bucket", new S3BucketConfig
 ```
 
 ```go
-	complexList := cdktf.NewTerraformLocal(stack, jsii.String("complex-list-local"), []map[string]interface{}{
-		{
-			"name": "website-static-files",
-			"tags": map[string]string{"app": "website"},
-		},
-		{
-			"name": "images",
-			"tags": map[string]string{"app": "image-converter"},
-		},
-	})
+complexList := cdktf.NewTerraformLocal(stack, jsii.String("complex-list-local"), []map[string]interface{}{
+	{
+		"name": "website-static-files",
+		"tags": map[string]string{"app": "website"},
+	},
+	{
+		"name": "images",
+		"tags": map[string]string{"app": "image-converter"},
+	},
+})
 
-	complexIterator := cdktf.TerraformIterator_FromList(complexList.Expression())
+complexIterator := cdktf.TerraformIterator_FromList(complexList.Expression())
 
-	s3bucket.NewS3Bucket(stack, jsii.String("complex-iterator-bucket"), &s3bucket.S3BucketConfig{
-		ForEach: complexIterator,
-		Bucket:  complexIterator.GetString(jsii.String("name")),
-		Tags:    complexIterator.GetStringMap(jsii.String("tags")),
-	})
+s3bucket.NewS3Bucket(stack, jsii.String("complex-iterator-bucket"), &s3bucket.S3BucketConfig{
+	ForEach: complexIterator,
+	Bucket:  complexIterator.GetString(jsii.String("name")),
+	Tags:    complexIterator.GetStringMap(jsii.String("tags")),
+})
 ```
 
 </CodeTabs>
@@ -407,29 +407,29 @@ new TeamMembers(this, "members", {
 ```
 
 ```go
-	orgName := "my-org"
+orgName := "my-org"
 
-	github.NewGithubProvider(stack, jsii.String("github"), &github.GithubProviderConfig{
-		Organization: &orgName,
-	})
+github.NewGithubProvider(stack, jsii.String("github"), &github.GithubProviderConfig{
+	Organization: &orgName,
+})
 
-	team := team.NewTeam(stack, jsii.String("core-team"), &team.TeamConfig{
-		Name: jsii.String("core"),
-	})
+team := team.NewTeam(stack, jsii.String("core-team"), &team.TeamConfig{
+	Name: jsii.String("core"),
+})
 
-	orgMembers := datagithuborganization.NewDataGithubOrganization(stack, jsii.String("org"), &datagithuborganization.DataGithubOrganizationConfig{
-		Name: &orgName,
-	})
+orgMembers := datagithuborganization.NewDataGithubOrganization(stack, jsii.String("org"), &datagithuborganization.DataGithubOrganizationConfig{
+	Name: &orgName,
+})
 
-	orgMemberIterator := cdktf.TerraformIterator_FromList(orgMembers.Members())
+orgMemberIterator := cdktf.TerraformIterator_FromList(orgMembers.Members())
 
-	teammembers.NewTeamMembers(stack, jsii.String("members"), &teammembers.TeamMembersConfig{
-		TeamId: team.Id(),
-		Members: orgMemberIterator.Dynamic(&map[string]interface{}{
-			"username": orgMemberIterator.Value(),
-			"role":     jsii.String("maintainer"),
-		}),
-	})
+teammembers.NewTeamMembers(stack, jsii.String("members"), &teammembers.TeamMembersConfig{
+	TeamId: team.Id(),
+	Members: orgMemberIterator.Dynamic(&map[string]interface{}{
+		"username": orgMemberIterator.Value(),
+		"role":     jsii.String("maintainer"),
+	}),
+})
 ```
 
 </CodeTabs>
