@@ -16,7 +16,7 @@ A few individual Terraform Resources have very deeply nested schemas with a lot 
 
 - `aws_quicksight_template.definition`, `aws_quicksight_dashboard.definition`, and `aws_quicksight_analysis.definition` are set to `any`
 
-This means when configuring these attributes you need to pass in the configuration as objects and with snake case keys. Alternatively you can also use the [escape hatch](concepts/resources#escape-hatch).
+This means when configuring these attributes you need to pass in the configuration as objects and with snake case keys. Alternatively you can also use the [escape hatch](/terraform/cdktf/concepts/resources#escape-hatch).
 
 ### Removal: The feature flags that go into the `context` field of the `cdktf.json` file were removed
 
