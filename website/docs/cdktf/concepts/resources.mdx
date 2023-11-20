@@ -334,38 +334,38 @@ import imports.kubernetes.namespace.NamespaceMetadata;
 ```
 
 ```go
-	exampleNamespace := namespace.NewNamespace(stack, jsii.String("tf-cdk-example"), &namespace.NamespaceConfig{
-		Metadata: &namespace.NamespaceMetadata{
-			Name: jsii.String("tf-cdk-example"),
-		},
-	})
+exampleNamespace := namespace.NewNamespace(stack, jsii.String("tf-cdk-example"), &namespace.NamespaceConfig{
+	Metadata: &namespace.NamespaceMetadata{
+		Name: jsii.String("tf-cdk-example"),
+	},
+})
 
-	deployment.NewDeployment(stack, jsii.String("nginx-deployment"), &deployment.DeploymentConfig{
-		Metadata: &deployment.DeploymentMetadata{
-			Name:      jsii.String("nginx"),
-			Namespace: exampleNamespace.Metadata().Name(), // Reference the name property
-			Labels: &map[string]*string{
-				"app": jsii.String("my-app"),
-			},
+deployment.NewDeployment(stack, jsii.String("nginx-deployment"), &deployment.DeploymentConfig{
+	Metadata: &deployment.DeploymentMetadata{
+		Name:      jsii.String("nginx"),
+		Namespace: exampleNamespace.Metadata().Name(), // Reference the name property
+		Labels: &map[string]*string{
+			"app": jsii.String("my-app"),
 		},
-		Spec: &deployment.DeploymentSpec{
-			Template: &deployment.DeploymentSpecTemplate{
-				Metadata: &deployment.DeploymentSpecTemplateMetadata{
-					Labels: &map[string]*string{
-						"app": jsii.String("my-app"),
-					},
-				},
-				Spec: &deployment.DeploymentSpecTemplateSpec{
-					Container: []deployment.DeploymentSpecTemplateSpecContainer{
-						{
-							Name:  jsii.String("nginx"),
-							Image: jsii.String("nginx:1.7.9"),
-						},
-					},
+	},
+	Spec: &deployment.DeploymentSpec{
+		Template: &deployment.DeploymentSpecTemplate{
+			Metadata: &deployment.DeploymentSpecTemplateMetadata{
+				Labels: &map[string]*string{
+					"app": jsii.String("my-app"),
 				},
 			},
+			Spec: &deployment.DeploymentSpecTemplateSpec{
+				Container: []deployment.DeploymentSpecTemplateSpecContainer{
+					{
+						Name:  jsii.String("nginx"),
+						Image: jsii.String("nginx:1.7.9"),
+					},
+				},
+			},
 		},
-	})
+	},
+})
 ```
 
 </CodeTabs>
@@ -1135,30 +1135,30 @@ new SecurityGroup(this, "security2", new SecurityGroupConfig
 ```
 
 ```go
-	ports := []float64{22, 80, 443, 5432}
-	ingress := make([]securitygroup.SecurityGroupIngress, 0)
-	for _, port := range ports {
-		ingress = append(ingress, securitygroup.SecurityGroupIngress{
-			FromPort:   jsii.Number(port),
-			ToPort:     jsii.Number(port),
+ports := []float64{22, 80, 443, 5432}
+ingress := make([]securitygroup.SecurityGroupIngress, 0)
+for _, port := range ports {
+	ingress = append(ingress, securitygroup.SecurityGroupIngress{
+		FromPort:   jsii.Number(port),
+		ToPort:     jsii.Number(port),
+		CidrBlocks: &[]*string{jsii.String("0.0.0.0/0")},
+		Protocol:   jsii.String("-1"),
+	})
+}
+
+securitygroup.NewSecurityGroup(stack, jsii.String("security2"), &securitygroup.SecurityGroupConfig{
+	Name:  jsii.String("security2"),
+	VpcId: jsii.String("vpcs"),
+	Egress: &[]securitygroup.SecurityGroupEgress{
+		{
+			FromPort:   jsii.Number(0),
+			ToPort:     jsii.Number(0),
 			CidrBlocks: &[]*string{jsii.String("0.0.0.0/0")},
 			Protocol:   jsii.String("-1"),
-		})
-	}
-
-	securitygroup.NewSecurityGroup(stack, jsii.String("security2"), &securitygroup.SecurityGroupConfig{
-		Name:  jsii.String("security2"),
-		VpcId: jsii.String("vpcs"),
-		Egress: &[]securitygroup.SecurityGroupEgress{
-			{
-				FromPort:   jsii.Number(0),
-				ToPort:     jsii.Number(0),
-				CidrBlocks: &[]*string{jsii.String("0.0.0.0/0")},
-				Protocol:   jsii.String("-1"),
-			},
 		},
-		Ingress: &ingress,
-	})
+	},
+	Ingress: &ingress,
+})
 ```
 
 </CodeTabs>
