@@ -540,7 +540,7 @@ To chain iterators you can use the `TerraformIterator.fromResources` or `Terrafo
         });
 
         TerraformIterator s3BucketConfigurationIterator = TerraformIterator.fromMap(myComplexLocal.getAsAnyMap());
-        S3Bucket s3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+        S3Bucket s3Bucket = new S3Bucket(this, "buckets", S3BucketConfig.builder()
                 .forEach(s3BucketConfigurationIterator)
                 .bucket(s3BucketConfigurationIterator.getString("name"))
                 .tags(s3BucketConfigurationIterator.getStringMap("tags"))
@@ -589,7 +589,7 @@ To chain iterators you can use the `TerraformIterator.fromResources` or `Terrafo
             {
                 ForEach = s3BucketConfigurationIterator,
                 Bucket = s3BucketConfigurationIterator.GetString("name"),
-                Tags = s3BucketConfigurationIterator.GetMap("tags")
+                Tags = mapIterator.GetStringMap("tags")
             });
 
             // This would be TerraformIterator.fromDataSources for data_sources
@@ -639,6 +639,16 @@ s3bucketobject.NewS3BucketObject(stack, jsii.String("object"), &s3bucketobject.S
 ```
 
 </CodeTabs>
+
+## Using for expressions
+
+To use the values of an iterator for example in a list attribute for a resource you can use one of the following methods (given that `iterator` got created through one of the static methods on `TerraformIterator`):
+
+- `iterator.mapToKey()`: Results in equivalent of `[for k, v in var.iteratorSource : k]`.
+- `iterator.mapToValue()`: Results in equivalent of `[for k, v in var.iteratorSource : v]`.
+- `iterator.mapToValueProperty("foo")`: Results in equivalent of `[for k, v in var.iteratorSource : v.foo]`.
+- `iterator.forExpressionForList('uppercase(val.owner) if val.owner != ""')`: Results in equivalent of `[ for key, val in toset(var.list): uppercase(val.owner) if val.owner != "" ]`.
+- `iterator.forExpressionForMap("val.teamName", `join(",", val.teamMembers) if length(val.teamMembers) > 0`)`: Results in equivalent of `{ for key, val in toset(var.list): val.teamName => join(",", val.teamMembers) if length(val.teamMembers) > 0 }`.
 
 ## Using Count
 

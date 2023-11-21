@@ -246,7 +246,7 @@ import { TerraformStack, TerraformVariable, Token } from "cdktf";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { Instance } from "@cdktf/provider-aws/lib/instance";
 import { DnsimpleProvider } from "@cdktf/provider-dnsimple/lib/provider";
-import { Record } from "@cdktf/provider-dnsimple/lib/record";
+import { ZoneRecord } from "@cdktf/provider-dnsimple/lib/zone-record";
 
 export class ProvidersStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -278,8 +278,8 @@ export class ProvidersStack extends TerraformStack {
       account: dnsimpleAccount.stringValue,
     });
 
-    new Record(this, "web-www", {
-      domain: "example.com",
+    new ZoneRecord(this, "web-www", {
+      zoneName: "example.com",
       name: "web",
       value: instance.publicIp,
       type: "A",

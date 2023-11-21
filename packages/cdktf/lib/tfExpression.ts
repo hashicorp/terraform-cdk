@@ -12,16 +12,11 @@ const TERRAFORM_IDENTIFIER_REGEX = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 class TFExpression extends Intrinsic implements IResolvable {
-  protected resolveArg(context: IResolveContext, arg: any): string {
+  protected resolveExpressionPart(context: IResolveContext, arg: any): string {
     const resolvedArg = context.resolve(arg);
     if (Tokenization.isResolvable(arg)) {
       return resolvedArg;
     }
-
-    if (typeof arg === "string") {
-      return this.resolveString(arg, resolvedArg);
-    }
-
     if (Array.isArray(resolvedArg)) {
       return `[${resolvedArg
         .map((_, index) => this.resolveArg(context, arg[index]))
@@ -35,6 +30,16 @@ class TFExpression extends Intrinsic implements IResolvable {
     }
 
     return resolvedArg;
+  }
+
+  protected resolveArg(context: IResolveContext, arg: any): string {
+    const resolvedArg = context.resolve(arg);
+
+    if (typeof arg === "string") {
+      return this.resolveString(arg, resolvedArg);
+    }
+
+    return this.resolveExpressionPart(context, arg);
   }
 
   /**
@@ -108,6 +113,21 @@ class TFExpression extends Intrinsic implements IResolvable {
       : `"${joinResult}"`;
   }
 }
+// A string that represents an input value NOT to be escaped
+// eslint-disable-next-line jsdoc/require-jsdoc
+class UnescapedString extends TFExpression {
+  constructor(private readonly str: string) {
+    super(str);
+  }
+
+  public resolve() {
+    return this.str;
+  }
+
+  public toString() {
+    return this.str;
+  }
+}
 
 // A string that represents an input value to be escaped
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -129,6 +149,11 @@ class RawString extends TFExpression {
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function rawString(str: string): IResolvable {
   return new RawString(str);
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export function unescapedString(str: string): IResolvable {
+  return new UnescapedString(str);
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -194,12 +219,16 @@ export function insideTfExpression(arg: any) {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 class PropertyAccess extends TFExpression {
-  constructor(private target: Expression, private args: Expression[]) {
+  constructor(
+    private target: Expression,
+    private args: Expression[],
+    private forceNoBraces = false
+  ) {
     super({ target, args });
   }
 
   public resolve(context: IResolveContext): string {
-    const suppressBraces = context.suppressBraces;
+    const suppressBraces = this.forceNoBraces || context.suppressBraces;
     context.suppressBraces = true;
 
     const serializedArgs = this.args
@@ -234,8 +263,12 @@ class PropertyAccess extends TFExpression {
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-export function propertyAccess(target: Expression, args: Expression[]) {
-  return new PropertyAccess(target, args) as IResolvable;
+export function propertyAccess(
+  target: Expression,
+  args: Expression[],
+  forceNoBraces = false
+) {
+  return new PropertyAccess(target, args, forceNoBraces) as IResolvable;
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -388,11 +421,12 @@ class ForExpression extends TFExpression {
     const key = this.resolveArg(context, FOR_EXPRESSION_KEY);
     const value = this.resolveArg(context, FOR_EXPRESSION_VALUE);
     const input = this.resolveArg(context, this.input);
-    const valueExpr = this.resolveArg(context, this.valueExpression);
+    const valueExpr = this.resolveExpressionPart(context, this.valueExpression);
 
     let expr: string;
     if (this.keyExpression) {
-      const keyExpr = this.resolveArg(context, this.keyExpression);
+      const keyExpr = this.resolveExpressionPart(context, this.keyExpression);
+
       expr = `{ for ${key}, ${value} in ${input}: ${keyExpr} => ${valueExpr} }`;
     } else {
       expr = `[ for ${key}, ${value} in ${input}: ${valueExpr}]`;
