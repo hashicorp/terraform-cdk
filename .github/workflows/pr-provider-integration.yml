@@ -19,3 +19,15 @@ jobs:
     with:
       concurrency_group_prefix: pr
     secrets: inherit
+  results:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: Example Integration Tests Result
+    needs: [provider_integration_test]
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+               contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+          }}
