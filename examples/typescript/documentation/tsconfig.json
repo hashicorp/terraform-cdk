@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "lib": [
+      "es2018"
+    ],
+    "module": "CommonJS",
+    "noEmitOnError": true,
+    "resolveJsonModule": true,
+    "strict": false,
+    "stripInternal": true,
+    "target": "ES2018",
+    "incremental": true,
+    "paths": {
+      "@cdktf/provider-aws/lib/*": ["./.gen/providers/aws/*/index.ts"],
+      "@cdktf/provider-dnsimple/lib/*": ["./.gen/providers/dnsimple/*/index.ts"],
+      "@cdktf/provider-github/lib/*": ["./.gen/providers/github/*/index.ts"],
+      "@cdktf/provider-kubernetes/lib/*": ["./.gen/providers/kubernetes/*/index.ts"],
+      "@cdktf/provider-random/lib/*": ["./.gen/providers/random/*/index.ts"]
+    }
+  },
+  "include": [ "**/*.ts" ],
+  "exclude": [
+    "node_modules"
+  ]
+}
