@@ -68,7 +68,7 @@ public class MainIterator2 extends TerraformStack {
         });
 
         TerraformIterator s3BucketConfigurationIterator = TerraformIterator.fromMap(myComplexLocal.getAsAnyMap());
-        S3Bucket s3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+        S3Bucket s3Bucket = new S3Bucket(this, "buckets", S3BucketConfig.builder()
                 .forEach(s3BucketConfigurationIterator)
                 .bucket(s3BucketConfigurationIterator.getString("name"))
                 .tags(s3BucketConfigurationIterator.getStringMap("tags"))
