@@ -318,6 +318,7 @@ export class ResourceTerraformIterator extends TerraformIterator {
     }
 
     if (!element.forEach) {
+      console.log({ element });
       throw new Error(
         "Cannot create iterator from resource without for_each argument"
       );
