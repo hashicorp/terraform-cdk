@@ -254,8 +254,8 @@ export class ListTerraformIterator extends TerraformIterator {
   /**
    * Returns the currenty entry in the list or set that is being iterated over.
    * For lists this is the same as `iterator.value`. If you need the index,
-   * use count using the escape hatch:
-   * https://developer.hashicorp.com/terraform/cdktf/concepts/resources#escape-hatch
+   * use count via `TerraformCount`:
+   * https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-count
    */
   public get key(): any {
     return this._getKey();
@@ -328,8 +328,8 @@ export class ResourceTerraformIterator extends TerraformIterator {
   /**
    * Returns the currenty entry in the list or set that is being iterated over.
    * For lists this is the same as `iterator.value`. If you need the index,
-   * use count using the escape hatch:
-   * https://developer.hashicorp.com/terraform/cdktf/concepts/resources#escape-hatch
+   * use count via `TerraformCount`:
+   * https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-count
    */
   public get key(): any {
     return this._getKey();
