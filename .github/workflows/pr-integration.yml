@@ -1,5 +1,7 @@
 name: Integration Tests - PR
 on:
+  merge_group:
+    types: [checks_requested]
   pull_request:
     types:
       - opened
@@ -11,7 +13,8 @@ on:
 
 jobs:
   integration_test:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-integration') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
+    name: "Integration Tests - PR"
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci/skip-integration') && !contains(github.event.pull_request.labels.*.name, 'ci/unit-only') }}
     uses: ./.github/workflows/integration.yml
     with:
       concurrency_group_prefix: pr
