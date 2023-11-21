@@ -139,7 +139,7 @@ class Parser {
     const fileName = getFileName(provider, baseName);
 
     const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;
-    const attributes = this.renderAttributesForBlock(
+    let attributes = this.renderAttributesForBlock(
       new Scope({
         name: baseName,
         isProvider,
@@ -210,6 +210,17 @@ class Parser {
         disposeStructs(previousAttribute);
       }
     );
+
+    // Remove deprecated attributes that may conflict after being snake cased
+    // Example: oci_core_ipsec_connection_tunnel_management (hashicorp/oci@=5.21.0) has bgp_ipv6_state and bgp_ipv6state
+    // (which both result in "bgpIpv6State" when camel-cased, with the second one being deprecated: true)
+    // As we currently don't handle any deprecated ones at all, we'll just delete one of the two attributes for now
+    attributes = attributes.filter((attr, idx) => {
+      const hasOtherWithSameName = attributes
+        .slice(idx + 1) // only search after the index of the current attribute to avoid deleting both
+        .some((other) => other.name === attr.name && other !== attr);
+      return !hasOtherWithSameName;
+    });
 
     const resourceModel = new ResourceModel({
       terraformType: type,
