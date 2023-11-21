@@ -13,6 +13,7 @@ on:
 
 jobs:
   all_unit_tests:
+    name: "All Unit Tests"
     if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
     uses: ./.github/workflows/unit.yml
     strategy:
@@ -37,6 +38,7 @@ jobs:
     secrets: inherit
 
   cdktf_cli_core:
+    name: "@cdktf/cli Unit Tests"
     if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/cli-core') }}
     uses: ./.github/workflows/unit.yml
     strategy:
@@ -50,6 +52,7 @@ jobs:
     secrets: inherit
 
   cdktf_commons:
+    name: "@cdktf/commons Unit Tests"
     if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/commons') }}
     uses: ./.github/workflows/unit.yml
     strategy:
@@ -63,6 +66,7 @@ jobs:
     secrets: inherit
 
   cdktf_hcl2cdk:
+    name: "@cdktf/hcl2cdk Unit Tests"
     if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/hcl2cdk') }}
     uses: ./.github/workflows/unit.yml
     strategy:
@@ -76,6 +80,7 @@ jobs:
     secrets: inherit
 
   cdktf_hcl2json:
+    name: "@cdktf/hcl2json Unit Tests"
     if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/hcl2json') }}
     uses: ./.github/workflows/unit.yml
     strategy:
@@ -89,6 +94,7 @@ jobs:
     secrets: inherit
 
   cdktf_provider_generator:
+    name: "@cdktf/provider-generator Unit Tests"
     if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/provider-generator') }}
     uses: ./.github/workflows/unit.yml
     strategy:
@@ -102,6 +108,7 @@ jobs:
     secrets: inherit
 
   cdktf_cli:
+    name: "cdktf-cli Unit Tests"
     if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/cdktf-cli') }}
     uses: ./.github/workflows/unit.yml
     strategy:
@@ -115,6 +122,7 @@ jobs:
     secrets: inherit
 
   cdktf:
+    name: "cdktf Unit Tests"
     if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/cdktf') }}
     uses: ./.github/workflows/unit.yml
     strategy:
