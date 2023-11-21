@@ -28990,20 +28990,25 @@ new ListTerraformIterator(list: string[] | IResolvable | number[] | ComplexList 
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                                            | **Description**   |
-| ----------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.ListTerraformIterator.dynamic">dynamic</a></code>             | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getAny">getAny</a></code>               | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getAnyMap">getAnyMap</a></code>         | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getBoolean">getBoolean</a></code>       | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getBooleanMap">getBooleanMap</a></code> | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getList">getList</a></code>             | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getMap">getMap</a></code>               | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getNumber">getNumber</a></code>         | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getNumberList">getNumberList</a></code> | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getNumberMap">getNumberMap</a></code>   | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getString">getString</a></code>         | _No description._ |
-| <code><a href="#cdktf.ListTerraformIterator.getStringMap">getStringMap</a></code>   | _No description._ |
+| **Name**                                                                                          | **Description**                                                                              |
+| ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ListTerraformIterator.dynamic">dynamic</a></code>                           | Creates a dynamic expression that can be used to loop over this iterator in a dynamic block. |
+| <code><a href="#cdktf.ListTerraformIterator.forExpressionForList">forExpressionForList</a></code> | Creates a for expression that results in a list.                                             |
+| <code><a href="#cdktf.ListTerraformIterator.forExpressionForMap">forExpressionForMap</a></code>   | Creates a for expression that results in a map.                                              |
+| <code><a href="#cdktf.ListTerraformIterator.getAny">getAny</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getAnyMap">getAnyMap</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getBoolean">getBoolean</a></code>                     | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getBooleanMap">getBooleanMap</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getList">getList</a></code>                           | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getMap">getMap</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getNumber">getNumber</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getNumberList">getNumberList</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getNumberMap">getNumberMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getString">getString</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.getStringMap">getStringMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.ListTerraformIterator.mapToKey">mapToKey</a></code>                         | Creates a for expression that maps the iterators to its keys.                                |
+| <code><a href="#cdktf.ListTerraformIterator.mapToValue">mapToValue</a></code>                     | Creates a for expression that maps the iterators to its value in case it is a map.           |
+| <code><a href="#cdktf.ListTerraformIterator.mapToValueProperty">mapToValueProperty</a></code>     | Creates a for expression that takes the given key from the values of this iterator.          |
 
 ---
 
@@ -29013,9 +29018,71 @@ new ListTerraformIterator(list: string[] | IResolvable | number[] | ComplexList 
 public dynamic(attributes: {[ key: string ]: any}): IResolvable
 ```
 
+Creates a dynamic expression that can be used to loop over this iterator in a dynamic block.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+See https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-for-list-attributes
+
 ###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.ListTerraformIterator.dynamic.parameter.attributes"></a>
 
 - _Type:_ {[ key: string ]: any}
+
+---
+
+##### `forExpressionForList` <a name="forExpressionForList" id="cdktf.ListTerraformIterator.forExpressionForList"></a>
+
+```typescript
+public forExpressionForList(expression: string | IResolvable): IResolvable
+```
+
+Creates a for expression that results in a list.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraforms for expression syntax.
+For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+
+You may write any valid Terraform for each expression, it will result
+in `[ for key, val in var.myIteratorSource: < expression > ]`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.ListTerraformIterator.forExpressionForList.parameter.expression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
+
+The expression to use in the for mapping.
+
+---
+
+##### `forExpressionForMap` <a name="forExpressionForMap" id="cdktf.ListTerraformIterator.forExpressionForMap"></a>
+
+```typescript
+public forExpressionForMap(keyExpression: string | IResolvable, valueExpression: string | IResolvable): IResolvable
+```
+
+Creates a for expression that results in a map.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraforms for expression syntax.
+For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+
+You may write any valid Terraform for each expression, it will result
+in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `keyExpression`<sup>Required</sup> <a name="keyExpression" id="cdktf.ListTerraformIterator.forExpressionForMap.parameter.keyExpression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+###### `valueExpression`<sup>Required</sup> <a name="valueExpression" id="cdktf.ListTerraformIterator.forExpressionForMap.parameter.valueExpression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
 
 ---
 
@@ -29170,6 +29237,49 @@ public getStringMap(attribute: string): {[ key: string ]: string}
 - _Type:_ string
 
 name of the property to retrieve.
+
+---
+
+##### `mapToKey` <a name="mapToKey" id="cdktf.ListTerraformIterator.mapToKey"></a>
+
+```typescript
+public mapToKey(): IResolvable
+```
+
+Creates a for expression that maps the iterators to its keys.
+
+For lists these would be the indices, for maps the keys.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+##### `mapToValue` <a name="mapToValue" id="cdktf.ListTerraformIterator.mapToValue"></a>
+
+```typescript
+public mapToValue(): IResolvable
+```
+
+Creates a for expression that maps the iterators to its value in case it is a map.
+
+For lists these would stay the same.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+##### `mapToValueProperty` <a name="mapToValueProperty" id="cdktf.ListTerraformIterator.mapToValueProperty"></a>
+
+```typescript
+public mapToValueProperty(property: string): IResolvable
+```
+
+Creates a for expression that takes the given key from the values of this iterator.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `property`<sup>Required</sup> <a name="property" id="cdktf.ListTerraformIterator.mapToValueProperty.parameter.property"></a>
+
+- _Type:_ string
+
+The property of the iterators values to map to.
 
 ---
 
@@ -29578,20 +29688,25 @@ new MapTerraformIterator(map: StringMap | NumberMap | BooleanMap | AnyMap | Comp
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                                           | **Description**   |
-| ---------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.MapTerraformIterator.dynamic">dynamic</a></code>             | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getAny">getAny</a></code>               | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getAnyMap">getAnyMap</a></code>         | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getBoolean">getBoolean</a></code>       | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getBooleanMap">getBooleanMap</a></code> | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getList">getList</a></code>             | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getMap">getMap</a></code>               | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getNumber">getNumber</a></code>         | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getNumberList">getNumberList</a></code> | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getNumberMap">getNumberMap</a></code>   | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getString">getString</a></code>         | _No description._ |
-| <code><a href="#cdktf.MapTerraformIterator.getStringMap">getStringMap</a></code>   | _No description._ |
+| **Name**                                                                                         | **Description**                                                                              |
+| ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.MapTerraformIterator.dynamic">dynamic</a></code>                           | Creates a dynamic expression that can be used to loop over this iterator in a dynamic block. |
+| <code><a href="#cdktf.MapTerraformIterator.forExpressionForList">forExpressionForList</a></code> | Creates a for expression that results in a list.                                             |
+| <code><a href="#cdktf.MapTerraformIterator.forExpressionForMap">forExpressionForMap</a></code>   | Creates a for expression that results in a map.                                              |
+| <code><a href="#cdktf.MapTerraformIterator.getAny">getAny</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getAnyMap">getAnyMap</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getBoolean">getBoolean</a></code>                     | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getBooleanMap">getBooleanMap</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getList">getList</a></code>                           | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getMap">getMap</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getNumber">getNumber</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getNumberList">getNumberList</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getNumberMap">getNumberMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getString">getString</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.getStringMap">getStringMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.MapTerraformIterator.mapToKey">mapToKey</a></code>                         | Creates a for expression that maps the iterators to its keys.                                |
+| <code><a href="#cdktf.MapTerraformIterator.mapToValue">mapToValue</a></code>                     | Creates a for expression that maps the iterators to its value in case it is a map.           |
+| <code><a href="#cdktf.MapTerraformIterator.mapToValueProperty">mapToValueProperty</a></code>     | Creates a for expression that takes the given key from the values of this iterator.          |
 
 ---
 
@@ -29601,9 +29716,71 @@ new MapTerraformIterator(map: StringMap | NumberMap | BooleanMap | AnyMap | Comp
 public dynamic(attributes: {[ key: string ]: any}): IResolvable
 ```
 
+Creates a dynamic expression that can be used to loop over this iterator in a dynamic block.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+See https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-for-list-attributes
+
 ###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.MapTerraformIterator.dynamic.parameter.attributes"></a>
 
 - _Type:_ {[ key: string ]: any}
+
+---
+
+##### `forExpressionForList` <a name="forExpressionForList" id="cdktf.MapTerraformIterator.forExpressionForList"></a>
+
+```typescript
+public forExpressionForList(expression: string | IResolvable): IResolvable
+```
+
+Creates a for expression that results in a list.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraforms for expression syntax.
+For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+
+You may write any valid Terraform for each expression, it will result
+in `[ for key, val in var.myIteratorSource: < expression > ]`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.MapTerraformIterator.forExpressionForList.parameter.expression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
+
+The expression to use in the for mapping.
+
+---
+
+##### `forExpressionForMap` <a name="forExpressionForMap" id="cdktf.MapTerraformIterator.forExpressionForMap"></a>
+
+```typescript
+public forExpressionForMap(keyExpression: string | IResolvable, valueExpression: string | IResolvable): IResolvable
+```
+
+Creates a for expression that results in a map.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraforms for expression syntax.
+For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+
+You may write any valid Terraform for each expression, it will result
+in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `keyExpression`<sup>Required</sup> <a name="keyExpression" id="cdktf.MapTerraformIterator.forExpressionForMap.parameter.keyExpression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+###### `valueExpression`<sup>Required</sup> <a name="valueExpression" id="cdktf.MapTerraformIterator.forExpressionForMap.parameter.valueExpression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
 
 ---
 
@@ -29758,6 +29935,49 @@ public getStringMap(attribute: string): {[ key: string ]: string}
 - _Type:_ string
 
 name of the property to retrieve.
+
+---
+
+##### `mapToKey` <a name="mapToKey" id="cdktf.MapTerraformIterator.mapToKey"></a>
+
+```typescript
+public mapToKey(): IResolvable
+```
+
+Creates a for expression that maps the iterators to its keys.
+
+For lists these would be the indices, for maps the keys.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+##### `mapToValue` <a name="mapToValue" id="cdktf.MapTerraformIterator.mapToValue"></a>
+
+```typescript
+public mapToValue(): IResolvable
+```
+
+Creates a for expression that maps the iterators to its value in case it is a map.
+
+For lists these would stay the same.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+##### `mapToValueProperty` <a name="mapToValueProperty" id="cdktf.MapTerraformIterator.mapToValueProperty"></a>
+
+```typescript
+public mapToValueProperty(property: string): IResolvable
+```
+
+Creates a for expression that takes the given key from the values of this iterator.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `property`<sup>Required</sup> <a name="property" id="cdktf.MapTerraformIterator.mapToValueProperty.parameter.property"></a>
+
+- _Type:_ string
+
+The property of the iterators values to map to.
 
 ---
 
@@ -30894,20 +31114,25 @@ new ResourceTerraformIterator(element: ITerraformResource)
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                                                | **Description**   |
-| --------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.ResourceTerraformIterator.dynamic">dynamic</a></code>             | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getAny">getAny</a></code>               | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getAnyMap">getAnyMap</a></code>         | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getBoolean">getBoolean</a></code>       | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getBooleanMap">getBooleanMap</a></code> | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getList">getList</a></code>             | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getMap">getMap</a></code>               | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getNumber">getNumber</a></code>         | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getNumberList">getNumberList</a></code> | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getNumberMap">getNumberMap</a></code>   | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getString">getString</a></code>         | _No description._ |
-| <code><a href="#cdktf.ResourceTerraformIterator.getStringMap">getStringMap</a></code>   | _No description._ |
+| **Name**                                                                                              | **Description**                                                                              |
+| ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.dynamic">dynamic</a></code>                           | Creates a dynamic expression that can be used to loop over this iterator in a dynamic block. |
+| <code><a href="#cdktf.ResourceTerraformIterator.forExpressionForList">forExpressionForList</a></code> | Creates a for expression that results in a list.                                             |
+| <code><a href="#cdktf.ResourceTerraformIterator.forExpressionForMap">forExpressionForMap</a></code>   | Creates a for expression that results in a map.                                              |
+| <code><a href="#cdktf.ResourceTerraformIterator.getAny">getAny</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getAnyMap">getAnyMap</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getBoolean">getBoolean</a></code>                     | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getBooleanMap">getBooleanMap</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getList">getList</a></code>                           | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getMap">getMap</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getNumber">getNumber</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getNumberList">getNumberList</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getNumberMap">getNumberMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getString">getString</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.getStringMap">getStringMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.ResourceTerraformIterator.mapToKey">mapToKey</a></code>                         | Creates a for expression that maps the iterators to its keys.                                |
+| <code><a href="#cdktf.ResourceTerraformIterator.mapToValue">mapToValue</a></code>                     | Creates a for expression that maps the iterators to its value in case it is a map.           |
+| <code><a href="#cdktf.ResourceTerraformIterator.mapToValueProperty">mapToValueProperty</a></code>     | Creates a for expression that takes the given key from the values of this iterator.          |
 
 ---
 
@@ -30917,9 +31142,71 @@ new ResourceTerraformIterator(element: ITerraformResource)
 public dynamic(attributes: {[ key: string ]: any}): IResolvable
 ```
 
+Creates a dynamic expression that can be used to loop over this iterator in a dynamic block.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+See https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-for-list-attributes
+
 ###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.ResourceTerraformIterator.dynamic.parameter.attributes"></a>
 
 - _Type:_ {[ key: string ]: any}
+
+---
+
+##### `forExpressionForList` <a name="forExpressionForList" id="cdktf.ResourceTerraformIterator.forExpressionForList"></a>
+
+```typescript
+public forExpressionForList(expression: string | IResolvable): IResolvable
+```
+
+Creates a for expression that results in a list.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraforms for expression syntax.
+For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+
+You may write any valid Terraform for each expression, it will result
+in `[ for key, val in var.myIteratorSource: < expression > ]`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.ResourceTerraformIterator.forExpressionForList.parameter.expression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
+
+The expression to use in the for mapping.
+
+---
+
+##### `forExpressionForMap` <a name="forExpressionForMap" id="cdktf.ResourceTerraformIterator.forExpressionForMap"></a>
+
+```typescript
+public forExpressionForMap(keyExpression: string | IResolvable, valueExpression: string | IResolvable): IResolvable
+```
+
+Creates a for expression that results in a map.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraforms for expression syntax.
+For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+
+You may write any valid Terraform for each expression, it will result
+in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `keyExpression`<sup>Required</sup> <a name="keyExpression" id="cdktf.ResourceTerraformIterator.forExpressionForMap.parameter.keyExpression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+###### `valueExpression`<sup>Required</sup> <a name="valueExpression" id="cdktf.ResourceTerraformIterator.forExpressionForMap.parameter.valueExpression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
 
 ---
 
@@ -31074,6 +31361,49 @@ public getStringMap(attribute: string): {[ key: string ]: string}
 - _Type:_ string
 
 name of the property to retrieve.
+
+---
+
+##### `mapToKey` <a name="mapToKey" id="cdktf.ResourceTerraformIterator.mapToKey"></a>
+
+```typescript
+public mapToKey(): IResolvable
+```
+
+Creates a for expression that maps the iterators to its keys.
+
+For lists these would be the indices, for maps the keys.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+##### `mapToValue` <a name="mapToValue" id="cdktf.ResourceTerraformIterator.mapToValue"></a>
+
+```typescript
+public mapToValue(): IResolvable
+```
+
+Creates a for expression that maps the iterators to its value in case it is a map.
+
+For lists these would stay the same.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+##### `mapToValueProperty` <a name="mapToValueProperty" id="cdktf.ResourceTerraformIterator.mapToValueProperty"></a>
+
+```typescript
+public mapToValueProperty(property: string): IResolvable
+```
+
+Creates a for expression that takes the given key from the values of this iterator.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `property`<sup>Required</sup> <a name="property" id="cdktf.ResourceTerraformIterator.mapToValueProperty.parameter.property"></a>
+
+- _Type:_ string
+
+The property of the iterators values to map to.
 
 ---
 
@@ -31897,20 +32227,25 @@ new TerraformIterator();
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                                        | **Description**   |
-| ------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformIterator.dynamic">dynamic</a></code>             | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getAny">getAny</a></code>               | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getAnyMap">getAnyMap</a></code>         | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getBoolean">getBoolean</a></code>       | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getBooleanMap">getBooleanMap</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getList">getList</a></code>             | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getMap">getMap</a></code>               | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getNumber">getNumber</a></code>         | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getNumberList">getNumberList</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getNumberMap">getNumberMap</a></code>   | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getString">getString</a></code>         | _No description._ |
-| <code><a href="#cdktf.TerraformIterator.getStringMap">getStringMap</a></code>   | _No description._ |
+| **Name**                                                                                      | **Description**                                                                              |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformIterator.dynamic">dynamic</a></code>                           | Creates a dynamic expression that can be used to loop over this iterator in a dynamic block. |
+| <code><a href="#cdktf.TerraformIterator.forExpressionForList">forExpressionForList</a></code> | Creates a for expression that results in a list.                                             |
+| <code><a href="#cdktf.TerraformIterator.forExpressionForMap">forExpressionForMap</a></code>   | Creates a for expression that results in a map.                                              |
+| <code><a href="#cdktf.TerraformIterator.getAny">getAny</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getAnyMap">getAnyMap</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getBoolean">getBoolean</a></code>                     | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getBooleanMap">getBooleanMap</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getList">getList</a></code>                           | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getMap">getMap</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getNumber">getNumber</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getNumberList">getNumberList</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getNumberMap">getNumberMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getString">getString</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.getStringMap">getStringMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.TerraformIterator.mapToKey">mapToKey</a></code>                         | Creates a for expression that maps the iterators to its keys.                                |
+| <code><a href="#cdktf.TerraformIterator.mapToValue">mapToValue</a></code>                     | Creates a for expression that maps the iterators to its value in case it is a map.           |
+| <code><a href="#cdktf.TerraformIterator.mapToValueProperty">mapToValueProperty</a></code>     | Creates a for expression that takes the given key from the values of this iterator.          |
 
 ---
 
@@ -31920,9 +32255,71 @@ new TerraformIterator();
 public dynamic(attributes: {[ key: string ]: any}): IResolvable
 ```
 
+Creates a dynamic expression that can be used to loop over this iterator in a dynamic block.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+See https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-for-list-attributes
+
 ###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.TerraformIterator.dynamic.parameter.attributes"></a>
 
 - _Type:_ {[ key: string ]: any}
+
+---
+
+##### `forExpressionForList` <a name="forExpressionForList" id="cdktf.TerraformIterator.forExpressionForList"></a>
+
+```typescript
+public forExpressionForList(expression: string | IResolvable): IResolvable
+```
+
+Creates a for expression that results in a list.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraforms for expression syntax.
+For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+
+You may write any valid Terraform for each expression, it will result
+in `[ for key, val in var.myIteratorSource: < expression > ]`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.TerraformIterator.forExpressionForList.parameter.expression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
+
+The expression to use in the for mapping.
+
+---
+
+##### `forExpressionForMap` <a name="forExpressionForMap" id="cdktf.TerraformIterator.forExpressionForMap"></a>
+
+```typescript
+public forExpressionForMap(keyExpression: string | IResolvable, valueExpression: string | IResolvable): IResolvable
+```
+
+Creates a for expression that results in a map.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraforms for expression syntax.
+For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+
+You may write any valid Terraform for each expression, it will result
+in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `keyExpression`<sup>Required</sup> <a name="keyExpression" id="cdktf.TerraformIterator.forExpressionForMap.parameter.keyExpression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+###### `valueExpression`<sup>Required</sup> <a name="valueExpression" id="cdktf.TerraformIterator.forExpressionForMap.parameter.valueExpression"></a>
+
+- _Type:_ string | <a href="#cdktf.IResolvable">IResolvable</a>
 
 ---
 
@@ -32077,6 +32474,49 @@ public getStringMap(attribute: string): {[ key: string ]: string}
 - _Type:_ string
 
 name of the property to retrieve.
+
+---
+
+##### `mapToKey` <a name="mapToKey" id="cdktf.TerraformIterator.mapToKey"></a>
+
+```typescript
+public mapToKey(): IResolvable
+```
+
+Creates a for expression that maps the iterators to its keys.
+
+For lists these would be the indices, for maps the keys.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+##### `mapToValue` <a name="mapToValue" id="cdktf.TerraformIterator.mapToValue"></a>
+
+```typescript
+public mapToValue(): IResolvable
+```
+
+Creates a for expression that maps the iterators to its value in case it is a map.
+
+For lists these would stay the same.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+##### `mapToValueProperty` <a name="mapToValueProperty" id="cdktf.TerraformIterator.mapToValueProperty"></a>
+
+```typescript
+public mapToValueProperty(property: string): IResolvable
+```
+
+Creates a for expression that takes the given key from the values of this iterator.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `property`<sup>Required</sup> <a name="property" id="cdktf.TerraformIterator.mapToValueProperty.parameter.property"></a>
+
+- _Type:_ string
+
+The property of the iterators values to map to.
 
 ---
 

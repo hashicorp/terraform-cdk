@@ -18,6 +18,7 @@ import { ITerraformResource } from "./terraform-resource";
 import {
   FOR_EXPRESSION_KEY,
   FOR_EXPRESSION_VALUE,
+  forExpression,
   propertyAccess,
   ref,
 } from "./tfExpression";
@@ -235,12 +236,101 @@ export abstract class TerraformIterator implements ITerraformIterator {
     );
   }
 
+  /**
+   * Creates a dynamic expression that can be used to loop over this iterator
+   * in a dynamic block.
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   * See https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-for-list-attributes
+   */
   public dynamic(attributes: { [key: string]: any }): IResolvable {
     return Token.asAny(
       new TerraformDynamicExpression({
         iterator: this,
         content: attributes,
       })
+    );
+  }
+
+  /**
+   * Creates a for expression that maps the iterators to its keys.
+   * For lists these would be the indices, for maps the keys.
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   */
+  public mapToKey(): IResolvable {
+    return Token.asAny(
+      forExpression(this._getForEachExpression(), FOR_EXPRESSION_KEY)
+    );
+  }
+
+  /**
+   * Creates a for expression that maps the iterators to its value in case it is a map.
+   * For lists these would stay the same.
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   */
+  public mapToValue(): IResolvable {
+    return Token.asAny(
+      forExpression(this._getForEachExpression(), FOR_EXPRESSION_VALUE)
+    );
+  }
+
+  /**
+   * Creates a for expression that takes the given key from the values of this iterator.
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   * @param property The property of the iterators values to map to
+   */
+  public mapToValueProperty(property: string): IResolvable {
+    return Token.asAny(
+      forExpression(
+        this._getForEachExpression(),
+        propertyAccess(FOR_EXPRESSION_VALUE, [property])
+      )
+    );
+  }
+
+  /**
+   * Creates a for expression that results in a list.
+   * This method allows you to create every possible for expression, but requires more knowledge about
+   * Terraforms for expression syntax.
+   * For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+   *
+   * You may write any valid Terraform for each expression, it will result
+   * in `[ for key, val in var.myIteratorSource: <expression> ]`.
+   *
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   * @param expression The expression to use in the for mapping
+   */
+  public forExpressionForList(expression: string | IResolvable) {
+    return Token.asAny(forExpression(this._getForEachExpression(), expression));
+  }
+
+  /**
+   * Creates a for expression that results in a map.
+   * This method allows you to create every possible for expression, but requires more knowledge about
+   * Terraforms for expression syntax.
+   * For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+   *
+   * You may write any valid Terraform for each expression, it will result
+   * in `{ for key, val in var.myIteratorSource: <keyExpression> => <valueExpression> }`.
+   *
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   * @param expression The expression to use in the for mapping
+   */
+  public forExpressionForMap(
+    keyExpression: string | IResolvable,
+    valueExpression: string | IResolvable
+  ) {
+    return Token.asAny(
+      forExpression(
+        this._getForEachExpression(),
+        valueExpression,
+        keyExpression
+      )
     );
   }
 }
