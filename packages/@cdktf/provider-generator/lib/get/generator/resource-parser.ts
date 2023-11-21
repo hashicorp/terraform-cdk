@@ -88,6 +88,24 @@ export function sanitizeClassOrNamespaceName(
   }
 }
 
+/**
+ * Remove attributes that may conflict after being snake cased
+ * Example: oci_core_ipsec_connection_tunnel_management (hashicorp/oci@=5.21.0) has bgp_ipv6_state and bgp_ipv6state
+ * (which both result in "bgpIpv6State" when camel-cased, with the second one being deprecated: true)
+ * As we currently don't handle any deprecated ones at all, we'll just delete one of the two attributes for now
+ * @param attributes
+ */
+function deduplicateAttributesWithSameName(
+  attributes: AttributeModel[]
+): AttributeModel[] {
+  return attributes.filter((attr, idx) => {
+    const hasOtherWithSameName = attributes
+      .slice(idx + 1) // only search after the index of the current attribute to avoid deleting both
+      .some((other) => other.name === attr.name && other !== attr);
+    return !hasOtherWithSameName;
+  });
+}
+
 class Parser {
   private structs = new Array<Struct>();
 
@@ -211,16 +229,7 @@ class Parser {
       }
     );
 
-    // Remove deprecated attributes that may conflict after being snake cased
-    // Example: oci_core_ipsec_connection_tunnel_management (hashicorp/oci@=5.21.0) has bgp_ipv6_state and bgp_ipv6state
-    // (which both result in "bgpIpv6State" when camel-cased, with the second one being deprecated: true)
-    // As we currently don't handle any deprecated ones at all, we'll just delete one of the two attributes for now
-    attributes = attributes.filter((attr, idx) => {
-      const hasOtherWithSameName = attributes
-        .slice(idx + 1) // only search after the index of the current attribute to avoid deleting both
-        .some((other) => other.name === attr.name && other !== attr);
-      return !hasOtherWithSameName;
-    });
+    attributes = deduplicateAttributesWithSameName(attributes);
 
     const resourceModel = new ResourceModel({
       terraformType: type,
@@ -441,7 +450,7 @@ class Parser {
         continue;
       }
       // create a struct for this block
-      const blockAttributes = this.renderAttributesForBlock(
+      let blockAttributes = this.renderAttributesForBlock(
         new Scope({
           name: `${parentType.name}_${blockTypeName}`,
           parent: parentType,
@@ -450,6 +459,8 @@ class Parser {
         }),
         blockType.block
       );
+
+      blockAttributes = deduplicateAttributesWithSameName(blockAttributes);
 
       const blockStruct = this.addStruct(
         [
@@ -561,7 +572,7 @@ class Parser {
     attrs: { [name: string]: Attribute },
     nesting_mode: string
   ) {
-    const attributes = new Array<AttributeModel>();
+    let attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
     for (const [terraformName, att] of Object.entries(attrs)) {
       // nested types support computed, optional and required on attribute level
@@ -605,6 +616,8 @@ class Parser {
         })
       );
     }
+
+    attributes = deduplicateAttributesWithSameName(attributes);
 
     return this.addStruct(scope, attributes, nesting_mode);
   }
