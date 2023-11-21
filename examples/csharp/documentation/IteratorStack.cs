@@ -144,7 +144,7 @@ namespace Examples
             {
                 ForEach = s3BucketConfigurationIterator,
                 Bucket = s3BucketConfigurationIterator.GetString("name"),
-                Tags = s3BucketConfigurationIterator.GetMap("tags")
+                Tags = mapIterator.GetStringMap("tags")
             });
 
             // This would be TerraformIterator.fromDataSources for data_sources
@@ -160,7 +160,7 @@ namespace Examples
                 Key = "help",
                 Source = helpFile.Path
             });
-            // // DOCS_BLOCK_END:iterators-chain
+            // DOCS_BLOCK_END:iterators-chain
         }
     }
 }
