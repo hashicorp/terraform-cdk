@@ -138,7 +138,7 @@ jobs:
   results:
     if: ${{ always() }}
     runs-on: ubuntu-latest
-    name: Unit Tests Result
+    name: Result
     needs: [all_unit_tests]
     steps:
       - run: exit 1

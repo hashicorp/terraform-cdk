@@ -22,7 +22,7 @@ jobs:
   results:
     if: ${{ always() }}
     runs-on: ubuntu-latest
-    name: Example Integration Tests Result
+    name: Result
     needs: [examples]
     steps:
       - run: exit 1
