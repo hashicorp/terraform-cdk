@@ -11,7 +11,7 @@ on:
 
 jobs:
   examples:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-examples') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci/skip-examples') && !contains(github.event.pull_request.labels.*.name, 'ci/unit-only') }}
     uses: ./.github/workflows/examples.yml
     with:
       concurrency_group_prefix: pr
