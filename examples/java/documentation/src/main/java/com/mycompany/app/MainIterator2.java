@@ -88,6 +88,39 @@ public class MainIterator2 extends TerraformStack {
                 .source(asset.getPath())
                 .build()
         );
-    // DOCS_BLOCK_END:iterators-chain
+        // DOCS_BLOCK_END:iterators-chain
+
+        // DOCS_BLOCK_START:iterators-for-expression
+        TerraformLocal values = new TerraformLocal(this, "values", new HashMap() {
+            {
+                put("website", new HashMap() {
+                    {
+                        put("name", "website-static-files");
+                        put("tags", new HashMap<String, String>() {
+                            {
+                                put("app", "website");
+                            }
+                        });
+                    }
+                });
+                put("images", new HashMap() {
+                    {
+                        put("name", "images");
+                        put("tags", new HashMap<String, String>() {
+                            {
+                                put("app", "image-converter");
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        TerraformIterator mapIterator = TerraformIterator.fromMap(values.getAsAnyMap());
+        new TerraformLocal(this, "list-of-keys", mapIterator.mapToKey());
+        new TerraformLocal(this, "list-of-names", mapIterator.mapToValueProperty("name"));
+        new TerraformLocal(this, "list-of-names-of-included", mapIterator.forExpressionForList("val.name if val.included"));
+        new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.forExpressionForMap("val.name", "val.tags if val.included"));
+        // DOCS_BLOCK_END:iterators-for-expression
     }
 }

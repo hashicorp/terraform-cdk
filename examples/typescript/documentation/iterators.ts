@@ -5,7 +5,13 @@ import { Team } from "@cdktf/provider-github/lib/team";
 import { DataGithubOrganization } from "@cdktf/provider-github/lib/data-github-organization";
 import { TeamMembers } from "@cdktf/provider-github/lib/team-members";
 // DOCS_BLOCK_START:iterators,iterators-complex-types
-import { TerraformIterator, TerraformStack, TerraformVariable } from "cdktf";
+import {
+  TerraformIterator,
+  TerraformLocal,
+  TerraformOutput,
+  TerraformStack,
+  TerraformVariable,
+} from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
@@ -113,7 +119,37 @@ export class IteratorsStack extends TerraformStack {
     });
     // DOCS_BLOCK_END:iterators-chain
 
-    // DOCS_BLOCK_START:iterators,iterators-complex-types,iterators-chain
+    // DOCS_BLOCK_START:iterators-for-expression
+    const mapIterator = TerraformIterator.fromMap({
+      website: {
+        name: "website-static-files",
+        tags: { app: "website" },
+        included: true,
+      },
+      images: {
+        name: "images",
+        tags: { app: "image-converter" },
+      },
+    });
+    new TerraformLocal(this, "list-of-keys", mapIterator.mapToKey());
+    new TerraformLocal(
+      this,
+      "list-of-names",
+      mapIterator.mapToValueProperty("name")
+    );
+    new TerraformLocal(
+      this,
+      "list-of-names-of-included",
+      mapIterator.forExpressionForList("val.name if val.included")
+    );
+    new TerraformLocal(
+      this,
+      "map-with-names-as-key-and-tags-as-value-of-included",
+      mapIterator.forExpressionForMap("val.name", "val.tags if val.included")
+    );
+    // DOCS_BLOCK_END:iterators-for-expression
+
+    // DOCS_BLOCK_START:iterators,iterators-complex-types
   }
 }
-// DOCS_BLOCK_END:iterators,iterators-complex-types,iterators-chain
+// DOCS_BLOCK_END:iterators,iterators-complex-types
