@@ -289,6 +289,18 @@ export class TestDriver {
     return child;
   };
 
+  /**
+   * runs terraform init and terraform validate in the output directory for the given stack name
+   * @param stack the name of the stack to validate
+   * @returns the stdout of terraform validate
+   */
+  async validate(stack: string) {
+    const cwd = path.join(this.workingDirectory, "cdktf.out", "stacks", stack);
+    await this.exec("terraform", ["init"], cwd);
+    const res = await this.exec("terraform", ["validate"], cwd);
+    return res.stdout;
+  }
+
   setupTypescriptProject = async (options?: {
     init?: { additionalOptions?: string };
   }) => {
