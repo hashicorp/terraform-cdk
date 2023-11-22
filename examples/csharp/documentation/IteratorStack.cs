@@ -161,6 +161,34 @@ namespace Examples
                 Source = helpFile.Path
             });
             // DOCS_BLOCK_END:iterators-chain
+
+            // DOCS_BLOCK_START:iterators-for-expression
+            TerraformLocal values = new TerraformLocal(this, "values", new Dictionary<string, object> {
+                {
+                    "website ",
+                    new Dictionary<string, object> {
+                        { "name", "website-static-files" },
+                        { "tags", new Dictionary<string, string> {
+                            { "app", "website" }
+                        }}
+                    }
+                },
+                {
+                    "images",
+                    new Dictionary<string, object> {
+                        { "name", "images" },
+                        { "tags", new Dictionary<string, string> {
+                            { "app", "image-converter" }
+                        }}
+                    }
+                }
+            });
+            MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(values.AsAnyMap);
+            new TerraformLocal(this, "list-of-keys", mapIterator.MapToKey());
+            new TerraformLocal(this, "list-of-names", mapIterator.MapToValueProperty("name"));
+            new TerraformLocal(this, "list-of-names-of-included", mapIterator.ForExpressionForList("val.name if val.included"));
+            new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.ForExpressionForMap("val.name", "val.tags if val.included"));
+            // DOCS_BLOCK_END:iterators-for-expression
         }
     }
 }

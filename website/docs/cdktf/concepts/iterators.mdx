@@ -29,7 +29,13 @@ The following example uses an iterator to create a unique name for each new S3 b
 <CodeTabs>
 
 ```ts
-import { TerraformIterator, TerraformStack, TerraformVariable } from "cdktf";
+import {
+  TerraformIterator,
+  TerraformLocal,
+  TerraformOutput,
+  TerraformStack,
+  TerraformVariable,
+} from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
@@ -129,7 +135,13 @@ The iterator also exposes methods to access nested attributes. The following exa
 <CodeTabs>
 
 ```ts
-import { TerraformIterator, TerraformStack, TerraformVariable } from "cdktf";
+import {
+  TerraformIterator,
+  TerraformLocal,
+  TerraformOutput,
+  TerraformStack,
+  TerraformVariable,
+} from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
@@ -448,36 +460,34 @@ To chain iterators you can use the `TerraformIterator.fromResources` or `Terrafo
 <CodeTabs>
 
 ```ts
-    const s3BucketConfigurationIterator = TerraformIterator.fromMap({
-      website: {
-        name: "website-static-files",
-        tags: { app: "website" },
-      },
-      images: {
-        name: "images",
-        tags: { app: "image-converter" },
-      },
-    });
+const s3BucketConfigurationIterator = TerraformIterator.fromMap({
+  website: {
+    name: "website-static-files",
+    tags: { app: "website" },
+  },
+  images: {
+    name: "images",
+    tags: { app: "image-converter" },
+  },
+});
 
-    const s3Buckets = new S3Bucket(this, "complex-iterator-buckets", {
-      forEach: s3BucketConfigurationIterator,
-      bucket: s3BucketConfigurationIterator.getString("name"),
-      tags: s3BucketConfigurationIterator.getStringMap("tags"),
-    });
+const s3Buckets = new S3Bucket(this, "complex-iterator-buckets", {
+  forEach: s3BucketConfigurationIterator,
+  bucket: s3BucketConfigurationIterator.getString("name"),
+  tags: s3BucketConfigurationIterator.getStringMap("tags"),
+});
 
-    // This would be TerraformIterator.fromDataSources for data_sources
-    const s3BucketsIterator = TerraformIterator.fromResources(s3Buckets);
-    const helpFile = new TerraformAsset(this, "help", {
-      path: "./help",
-    });
-    new S3BucketObject(this, "object", {
-      forEach: s3BucketsIterator,
-      bucket: s3BucketsIterator.getString("id"),
-      key: "help",
-      source: helpFile.path,
-    });
-  }
-}
+// This would be TerraformIterator.fromDataSources for data_sources
+const s3BucketsIterator = TerraformIterator.fromResources(s3Buckets);
+const helpFile = new TerraformAsset(this, "help", {
+  path: "./help",
+});
+new S3BucketObject(this, "object", {
+  forEach: s3BucketsIterator,
+  bucket: s3BucketsIterator.getString("id"),
+  key: "help",
+  source: helpFile.path,
+});
 ```
 
 ```python
@@ -649,6 +659,146 @@ To use the values of an iterator for example in a list attribute for a resource 
 - `iterator.mapToValueProperty("foo")`: Results in equivalent of `[for k, v in var.iteratorSource : v.foo]`.
 - `iterator.forExpressionForList('uppercase(val.owner) if val.owner != ""')`: Results in equivalent of `[ for key, val in toset(var.list): uppercase(val.owner) if val.owner != "" ]`.
 - `iterator.forExpressionForMap("val.teamName", `join(",", val.teamMembers) if length(val.teamMembers) > 0`)`: Results in equivalent of `{ for key, val in toset(var.list): val.teamName => join(",", val.teamMembers) if length(val.teamMembers) > 0 }`.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-for-expression -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-for-expression -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-for-expression -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-for-expression -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#iterators-for-expression -->
+
+<CodeTabs>
+
+```ts
+const mapIterator = TerraformIterator.fromMap({
+  website: {
+    name: "website-static-files",
+    tags: { app: "website" },
+    included: true,
+  },
+  images: {
+    name: "images",
+    tags: { app: "image-converter" },
+  },
+});
+new TerraformLocal(this, "list-of-keys", mapIterator.mapToKey());
+new TerraformLocal(
+  this,
+  "list-of-names",
+  mapIterator.mapToValueProperty("name")
+);
+new TerraformLocal(
+  this,
+  "list-of-names-of-included",
+  mapIterator.forExpressionForList("val.name if val.included")
+);
+new TerraformLocal(
+  this,
+  "map-with-names-as-key-and-tags-as-value-of-included",
+  mapIterator.forExpressionForMap("val.name", "val.tags if val.included")
+);
+```
+
+```python
+values = TerraformLocal(self, "map-local", {
+    "website": {
+        "name": "website-static-files",
+        "tags": {"app": "website"}
+    },
+    "images": {
+        "name": "images",
+        "tags": {"app": "image-converter"}
+    }
+})
+mapIterator = TerraformIterator.from_map(
+    map=values.as_any_map
+)
+TerraformLocal(self, "list-of-keys", mapIterator.map_to_key())
+TerraformLocal(self, "list-of-names", mapIterator.map_to_value_property("name"))
+TerraformLocal(self, "list-of-names-of-included", mapIterator.for_expression_for_list("val.name if val.included"))
+TerraformLocal(self, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.for_expression_for_map("val.name", "val.tags if val.included"))
+```
+
+```java
+        TerraformLocal values = new TerraformLocal(this, "values", new HashMap() {
+            {
+                put("website", new HashMap() {
+                    {
+                        put("name", "website-static-files");
+                        put("tags", new HashMap<String, String>() {
+                            {
+                                put("app", "website");
+                            }
+                        });
+                    }
+                });
+                put("images", new HashMap() {
+                    {
+                        put("name", "images");
+                        put("tags", new HashMap<String, String>() {
+                            {
+                                put("app", "image-converter");
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        TerraformIterator mapIterator = TerraformIterator.fromMap(values.getAsAnyMap());
+        new TerraformLocal(this, "list-of-keys", mapIterator.mapToKey());
+        new TerraformLocal(this, "list-of-names", mapIterator.mapToValueProperty("name"));
+        new TerraformLocal(this, "list-of-names-of-included", mapIterator.forExpressionForList("val.name if val.included"));
+        new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.forExpressionForMap("val.name", "val.tags if val.included"));
+```
+
+```csharp
+TerraformLocal values = new TerraformLocal(this, "values", new Dictionary<string, object> {
+    {
+        "website ",
+        new Dictionary<string, object> {
+            { "name", "website-static-files" },
+            { "tags", new Dictionary<string, string> {
+                { "app", "website" }
+            }}
+        }
+    },
+    {
+        "images",
+        new Dictionary<string, object> {
+            { "name", "images" },
+            { "tags", new Dictionary<string, string> {
+                { "app", "image-converter" }
+            }}
+        }
+    }
+});
+MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(values.AsAnyMap);
+new TerraformLocal(this, "list-of-keys", mapIterator.MapToKey());
+new TerraformLocal(this, "list-of-names", mapIterator.MapToValueProperty("name"));
+new TerraformLocal(this, "list-of-names-of-included", mapIterator.ForExpressionForList("val.name if val.included"));
+new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.ForExpressionForMap("val.name", "val.tags if val.included"));
+```
+
+```go
+values := cdktf.NewTerraformLocal(stack, jsii.String("values"), []map[string]interface{}{
+	{
+		"name": "website-static-files",
+		"tags": map[string]string{"app": "website"},
+	},
+	{
+		"name": "images",
+		"tags": map[string]string{"app": "image-converter"},
+	},
+})
+
+mapIterator := cdktf.TerraformIterator_FromList(values.Expression())
+cdktf.NewTerraformLocal(stack, jsii.String("list-of-keys"), mapIterator.MapToKey())
+cdktf.NewTerraformLocal(stack, jsii.String("list-of-names"), mapIterator.MapToValueProperty(jsii.String("name")))
+cdktf.NewTerraformLocal(stack, jsii.String("list-of-names-of-included"), mapIterator.ForExpressionForList(jsii.String("val.name if val.included")))
+cdktf.NewTerraformLocal(stack, jsii.String("map-with-names-as-key-and-tags-as-value-of-included"), mapIterator.ForExpressionForMap(jsii.String("val.name"), jsii.String("val.tags if val.included")))
+```
+
+</CodeTabs>
 
 ## Using Count
 

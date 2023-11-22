@@ -130,5 +130,24 @@ func NewIteratorsStack(scope constructs.Construct, name string) cdktf.TerraformS
 	})
 	// DOCS_BLOCK_END:iterators-chain
 
+	// DOCS_BLOCK_START:iterators-for-expression
+	values := cdktf.NewTerraformLocal(stack, jsii.String("values"), []map[string]interface{}{
+		{
+			"name": "website-static-files",
+			"tags": map[string]string{"app": "website"},
+		},
+		{
+			"name": "images",
+			"tags": map[string]string{"app": "image-converter"},
+		},
+	})
+
+	mapIterator := cdktf.TerraformIterator_FromList(values.Expression())
+	cdktf.NewTerraformLocal(stack, jsii.String("list-of-keys"), mapIterator.MapToKey())
+	cdktf.NewTerraformLocal(stack, jsii.String("list-of-names"), mapIterator.MapToValueProperty(jsii.String("name")))
+	cdktf.NewTerraformLocal(stack, jsii.String("list-of-names-of-included"), mapIterator.ForExpressionForList(jsii.String("val.name if val.included")))
+	cdktf.NewTerraformLocal(stack, jsii.String("map-with-names-as-key-and-tags-as-value-of-included"), mapIterator.ForExpressionForMap(jsii.String("val.name"), jsii.String("val.tags if val.included")))
+	// DOCS_BLOCK_END:iterators-for-expression
+
 	return stack
 }
