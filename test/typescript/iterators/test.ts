@@ -69,9 +69,8 @@ describe("iterators integration test", () => {
   });
 
   test("non-synth stack is valid Terraform", async () => {
-    await driver.exec("terraform", ["init"]);
-    const res = await driver.exec("terraform", ["validate"]);
-    expect(res.stdout).toContain("Success! The configuration is valid.");
+    const out = await driver.validate("test-iterators-synth-only");
+    expect(out).toContain("Success! The configuration is valid.");
   });
 
   test("apply produces the correct result for outputs", async () => {
