@@ -28,7 +28,7 @@ jobs:
           ]
 
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: "Run Depcheck"
         run: |
           npx lerna exec --scope '${{ matrix.package }}' -- npx -y depcheck --ignores="@types/*,jsii,jsii-pacmak,jsii-srcmak,jsii-docgen,yoga-layout-prebuilt,eslint,jest,tsc-files,typescript,esbuild,esbuild-jest,graphology-types"
