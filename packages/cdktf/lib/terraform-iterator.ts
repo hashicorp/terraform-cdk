@@ -78,7 +78,25 @@ export abstract class TerraformIterator implements ITerraformIterator {
    * @param mapKeyAttributeName the name of the attribute that should be used as the key in the map
    *
    * @example
-   * TODO: put AWS certificate validation example
+   * const cert = new AcmCertificate(this, "cert", {
+   *    domainName: "example.com",
+   *    validationMethod: "DNS",
+   *  });
+   *
+   * const dvoIterator = TerraformIterator.fromComplexList(
+   *   cert.domainValidationOptions,
+   *   "domain_name"
+   * );
+   *
+   * new Route53Record(this, "record", {
+   *   allowOverwrite: true,
+   *   name: dvoIterator.getString("name"),
+   *   records: [dvoIterator.getString("record")],
+   *   ttl: 60,
+   *   type: dvoIterator.getString("type"),
+   *   zoneId: Token.asString(dataAwsRoute53ZoneExample.zoneId),
+   *   forEach: dvoIterator,
+   * });
    */
   public static fromComplexList(
     list: ComplexListType,
@@ -363,7 +381,7 @@ export class ListTerraformIterator extends TerraformIterator {
   }
 
   /**
-   * Returns the currenty entry in the list or set that is being iterated over.
+   * Returns the currently entry in the list or set that is being iterated over.
    * For lists this is the same as `iterator.value`. If you need the index,
    * use count via `TerraformCount`:
    * https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-count
