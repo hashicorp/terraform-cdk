@@ -10,6 +10,7 @@ import { ConstructOrder, IConstruct, MetadataEntry } from "constructs";
 import { Aspects, IAspect } from "../aspect";
 import { StackAnnotation } from "../manifest";
 import { ValidateTerraformVersion } from "../validations/validate-terraform-version";
+import { jsonToHcl } from "../hcl/json-to-hcl";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class StackSynthesizer implements IStackSynthesizer {
@@ -87,11 +88,21 @@ export class StackSynthesizer implements IStackSynthesizer {
       );
     }
 
-    const tfConfig = this.stack.toTerraform();
+    const jsonTfConfig = this.stack.toTerraform();
+
+    const hclConfig = jsonToHcl(jsonTfConfig);
 
     fs.writeFileSync(
       path.join(session.outdir, stackManifest.synthesizedStackPath),
-      stringify(tfConfig, { space: 2 })
+      stringify(jsonTfConfig, { space: 2 })
+    );
+
+    fs.writeFileSync(
+      path.join(
+        session.outdir,
+        stackManifest.synthesizedStackPath.replace(/\.tf\.json$/, ".tf")
+      ),
+      hclConfig
     );
   }
 }
