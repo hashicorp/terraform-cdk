@@ -32,9 +32,9 @@ The following example uses an iterator to create a unique name for each new S3 b
 import {
   TerraformIterator,
   TerraformLocal,
-  TerraformOutput,
   TerraformStack,
   TerraformVariable,
+  Token,
 } from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
@@ -138,9 +138,9 @@ The iterator also exposes methods to access nested attributes. The following exa
 import {
   TerraformIterator,
   TerraformLocal,
-  TerraformOutput,
   TerraformStack,
   TerraformVariable,
+  Token,
 } from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
@@ -298,7 +298,40 @@ There are resources with attributes which are lists of objects whose properties 
 The following example validates an ACM certificate through DNS validation:
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-complex-lists -->
+
 ```ts
+const cert = new AcmCertificate(this, "cert", {
+  domainName: "example.com",
+  validationMethod: "DNS",
+});
+const dataAwsRoute53ZoneExample = new DataAwsRoute53Zone(this, "dns_zone", {
+  name: "example.com",
+  privateZone: false,
+});
+
+const exampleForEachIterator = TerraformIterator.fromComplexList(
+  cert.domainValidationOptions,
+  "domain_name"
+);
+
+const records = new Route53Record(this, "record", {
+  forEach: exampleForEachIterator,
+  allowOverwrite: true,
+  name: exampleForEachIterator.getString("name"),
+  records: [exampleForEachIterator.getString("record")],
+  ttl: 60,
+  type: exampleForEachIterator.getString("type"),
+  zoneId: dataAwsRoute53ZoneExample.zoneId,
+});
+
+const recordsIterator = TerraformIterator.fromResources(records);
+
+new AcmCertificateValidation(this, "validation", {
+  certificateArn: cert.arn,
+  validationRecordFqdns: Token.asList(
+    recordsIterator.mapToValueProperty("fqdn")
+  ),
+});
 ```
 
 ## Using Iterators for List Attributes
