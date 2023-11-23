@@ -134,3 +134,16 @@ jobs:
       package: "cdktf"
       terraform_version: ${{ matrix.terraform_version }}
     secrets: inherit
+
+  results:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: Result
+    needs: [all_unit_tests]
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+               contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+          }}
