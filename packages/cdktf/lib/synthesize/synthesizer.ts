@@ -13,6 +13,7 @@ import { ValidateTerraformVersion } from "../validations/validate-terraform-vers
 import { encounteredAnnotationWithLevelError } from "../errors";
 
 const hclOutput = process.env.SYNTH_HCL_OUTPUT;
+import { jsonToHcl } from "../hcl/json-to-hcl";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class StackSynthesizer implements IStackSynthesizer {
@@ -99,11 +100,21 @@ export class StackSynthesizer implements IStackSynthesizer {
       return;
     }
 
-    const tfConfig = this.stack.toTerraform();
+    const jsonTfConfig = this.stack.toTerraform();
+
+    const hclConfig = jsonToHcl(jsonTfConfig);
 
     fs.writeFileSync(
       path.join(session.outdir, stackManifest.synthesizedStackPath),
-      stringify(tfConfig, { space: 2 })
+      stringify(jsonTfConfig, { space: 2 })
+    );
+
+    fs.writeFileSync(
+      path.join(
+        session.outdir,
+        stackManifest.synthesizedStackPath.replace(/\.tf\.json$/, ".tf")
+      ),
+      hclConfig
     );
   }
 }
