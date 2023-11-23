@@ -7,8 +7,8 @@
 // https://github.com/ts-terraform/ts-terraform
 // https://github.com/aaronpowell/webpack-golang-wasm-async-loader
 
-import fs from "fs-extra";
-import path from "path";
+import * as fs from "fs-extra";
+import { join, resolve } from "path";
 import { deepMerge } from "./deepmerge";
 import { gunzipSync } from "zlib";
 import { Reference, findAllReferencesInAst } from "./references";
@@ -85,9 +85,7 @@ function goBridge(getBytes: Promise<Buffer>) {
 }
 
 const loadWasm = async () => {
-  return gunzipSync(
-    await fs.readFile(path.join(__dirname, "..", "main.wasm.gz"))
-  );
+  return gunzipSync(await fs.readFile(join(__dirname, "..", "main.wasm.gz")));
 };
 
 const wasm = goBridge(loadWasm());
@@ -107,7 +105,7 @@ export async function convertFiles(
   const tfJSONFileContents: Record<string, any>[] = [];
 
   for (const file of fs.readdirSync(workingDirectory)) {
-    const filePath = path.resolve(workingDirectory, file);
+    const filePath = resolve(workingDirectory, file);
     if (!fs.lstatSync(filePath).isDirectory()) {
       if (file.match(/\.tf$/)) {
         tfFileContents += fs.readFileSync(filePath, "utf-8");
