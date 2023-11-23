@@ -4,6 +4,9 @@ import { GithubProvider } from "@cdktf/provider-github/lib/provider";
 import { Team } from "@cdktf/provider-github/lib/team";
 import { DataGithubOrganization } from "@cdktf/provider-github/lib/data-github-organization";
 import { TeamMembers } from "@cdktf/provider-github/lib/team-members";
+import { AcmCertificate } from "@cdktf/provider-aws/lib/acm-certificate";
+import { DataAwsRoute53Zone } from "@cdktf/provider-aws/lib/data-aws-route53-zone";
+import { Route53Record } from "@cdktf/provider-aws/lib/route53-record";
 // DOCS_BLOCK_START:iterators,iterators-complex-types
 import {
   TerraformIterator,
@@ -87,6 +90,44 @@ export class IteratorsStack extends TerraformStack {
       tags: complexIterator.getStringMap("tags"),
     });
     // DOCS_BLOCK_END:iterators-complex-types
+    // DOCS_BLOCK_START:iterators-complex-lists
+    const cert = new AcmCertificate(this, "cert", {
+      domainName: "example.com",
+      validationMethod: "DNS",
+    });
+    const dataAwsRoute53ZoneExample = new DataAwsRoute53Zone(this, "dns_zone", {
+      name: "example.com",
+      privateZone: false,
+    });
+
+    const exampleForEachIterator = TerraformIterator.fromComplexList(
+      cert.domainValidationOptions,
+      "domain_name"
+    );
+
+    new Route53Record(this, "record", {
+      allowOverwrite: true,
+      name: exampleForEachIterator.getString("name"),
+      records: [exampleForEachIterator.getString("record")],
+      ttl: 60,
+      type: exampleForEachIterator.getString("type"),
+      zoneId: dataAwsRoute53ZoneExample.zoneId,
+      forEach: exampleForEachIterator,
+    });
+    // TODO: this requires chained iterators, which comes in PR #3272
+    // new AcmCertificateValidation(
+    //   this,
+    //   "example_3",
+    //   {
+    //     certificateArn: example.arn,
+    //     validationRecordFqdns: Token.asList(
+    //       "${[ for record in ${" +
+    //         awsRoute53RecordExample.fqn +
+    //         "} : record.fqdn]}"
+    //     ),
+    //   }
+    // );
+    // DOCS_BLOCK_END:iterators-complex-lists
 
     // DOCS_BLOCK_START:iterators-chain
     const s3BucketConfigurationIterator = TerraformIterator.fromMap({
