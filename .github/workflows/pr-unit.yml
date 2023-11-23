@@ -14,7 +14,7 @@ on:
 jobs:
   all_unit_tests:
     name: "All Unit Tests"
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci/skip-unit') }}
     uses: ./.github/workflows/unit.yml
     strategy:
       fail-fast: false
@@ -138,8 +138,18 @@ jobs:
   results:
     if: ${{ always() }}
     runs-on: ubuntu-latest
-    name: Result
-    needs: [all_unit_tests]
+    name: Unit Tests - PR - Result
+    needs:
+      [
+        all_unit_tests,
+        cdktf,
+        cdktf_cli,
+        cdktf_provider_generator,
+        cdktf_hcl2json,
+        cdktf_hcl2cdk,
+        cdktf_commons,
+        cdktf_cli_core,
+      ]
     steps:
       - run: exit 1
         if: >-
