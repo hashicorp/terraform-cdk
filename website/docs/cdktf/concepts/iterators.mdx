@@ -291,6 +291,16 @@ s3bucket.NewS3Bucket(stack, jsii.String("complex-iterator-bucket"), &s3bucket.S3
 
 </CodeTabs>
 
+## Using Iterators on Complex Lists
+
+There are resources with attributes which are lists of objects whose properties are not all known at plan time. When trying to iterate over these directly, Terraform will error and complain about an invalid `for_each` argument. To workaround this problem, you can use the `TerraformIterator.fromComplexList()` method to create an iterator that transforms the list of objects into a map first, which has a key that is known at plan time and whose name is passed to that method. This is common for the `aws_acm_certificate` resource, whose `domain_validation_options` attribute is a list of objects with a `domain_name` property that is known at plan time.
+
+The following example validates an ACM certificate through DNS validation:
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-complex-lists -->
+```ts
+```
+
 ## Using Iterators for List Attributes
 
 You can also use iterators to create a list of objects based on each item in a list and assign the result as a value to a property of a resource. This is equivalent to using `Array.map` in TypeScript and using [dynamic blocks](/terraform/language/expressions/dynamic-blocks) in a Terraform HCL configuration.
