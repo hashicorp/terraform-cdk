@@ -13,7 +13,7 @@ on:
 
 jobs:
   examples:
-    name: "Examples Integration Test - PR"
+    name: "Examples Integration Tests - PR"
     if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci/skip-examples') && !contains(github.event.pull_request.labels.*.name, 'ci/unit-only') }}
     uses: ./.github/workflows/examples.yml
     with:
@@ -22,7 +22,7 @@ jobs:
   results:
     if: ${{ always() }}
     runs-on: ubuntu-latest
-    name: Result
+    name: "Examples Integration Tests - PR - Result"
     needs: [examples]
     steps:
       - run: exit 1
