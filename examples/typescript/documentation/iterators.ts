@@ -5,15 +5,16 @@ import { Team } from "@cdktf/provider-github/lib/team";
 import { DataGithubOrganization } from "@cdktf/provider-github/lib/data-github-organization";
 import { TeamMembers } from "@cdktf/provider-github/lib/team-members";
 import { AcmCertificate } from "@cdktf/provider-aws/lib/acm-certificate";
+import { AcmCertificateValidation } from "@cdktf/provider-aws/lib/acm-certificate-validation";
 import { DataAwsRoute53Zone } from "@cdktf/provider-aws/lib/data-aws-route53-zone";
 import { Route53Record } from "@cdktf/provider-aws/lib/route53-record";
 // DOCS_BLOCK_START:iterators,iterators-complex-types
 import {
   TerraformIterator,
   TerraformLocal,
-  TerraformOutput,
   TerraformStack,
   TerraformVariable,
+  Token,
 } from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
@@ -105,28 +106,24 @@ export class IteratorsStack extends TerraformStack {
       "domain_name"
     );
 
-    new Route53Record(this, "record", {
+    const records = new Route53Record(this, "record", {
+      forEach: exampleForEachIterator,
       allowOverwrite: true,
       name: exampleForEachIterator.getString("name"),
       records: [exampleForEachIterator.getString("record")],
       ttl: 60,
       type: exampleForEachIterator.getString("type"),
       zoneId: dataAwsRoute53ZoneExample.zoneId,
-      forEach: exampleForEachIterator,
     });
-    // TODO: this requires chained iterators, which comes in PR #3272
-    // new AcmCertificateValidation(
-    //   this,
-    //   "example_3",
-    //   {
-    //     certificateArn: example.arn,
-    //     validationRecordFqdns: Token.asList(
-    //       "${[ for record in ${" +
-    //         awsRoute53RecordExample.fqn +
-    //         "} : record.fqdn]}"
-    //     ),
-    //   }
-    // );
+
+    const recordsIterator = TerraformIterator.fromResources(records);
+
+    new AcmCertificateValidation(this, "validation", {
+      certificateArn: cert.arn,
+      validationRecordFqdns: Token.asList(
+        recordsIterator.mapToValueProperty("fqdn")
+      ),
+    });
     // DOCS_BLOCK_END:iterators-complex-lists
 
     // DOCS_BLOCK_START:iterators-chain
