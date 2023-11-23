@@ -17,6 +17,7 @@ import * as ArchiveProvider from "./.gen/providers/archive";
 import * as NomadProvider from "./.gen/providers/nomad";
 import { AwsProvider } from "./.gen/providers/aws/provider";
 import { AcmCertificate } from "./.gen/providers/aws/acm-certificate";
+import { AcmCertificateValidation } from "./.gen/providers/aws/acm-certificate-validation";
 import { DataAwsRoute53Zone } from "./.gen/providers/aws/data-aws-route53-zone";
 import { Route53Record } from "./.gen/providers/aws/route53-record";
 
@@ -219,29 +220,24 @@ export class TestIteratorsSynthOnly extends TerraformStack {
       "domain_name"
     );
 
-    new Route53Record(this, "record", {
+    const records = new Route53Record(this, "record", {
+      forEach: exampleForEachIterator,
       allowOverwrite: true,
       name: exampleForEachIterator.getString("name"),
       records: [exampleForEachIterator.getString("record")],
       ttl: 60,
       type: exampleForEachIterator.getString("type"),
-      zoneId: Token.asString(dataAwsRoute53ZoneExample.zoneId),
-      forEach: exampleForEachIterator,
+      zoneId: dataAwsRoute53ZoneExample.zoneId,
     });
 
-    // TODO: this requires chained iterators, which is not supported yet
-    // new AcmCertificateValidation(
-    //   this,
-    //   "example_3",
-    //   {
-    //     certificateArn: example.arn,
-    //     validationRecordFqdns: Token.asList(
-    //       "${[ for record in ${" +
-    //         awsRoute53RecordExample.fqn +
-    //         "} : record.fqdn]}"
-    //     ),
-    //   }
-    // );
+    const recordsIterator = TerraformIterator.fromResources(records);
+
+    new AcmCertificateValidation(this, "validation", {
+      certificateArn: example.arn,
+      validationRecordFqdns: Token.asList(
+        recordsIterator.mapToValueProperty("fqdn")
+      ),
+    });
   }
 }
 
