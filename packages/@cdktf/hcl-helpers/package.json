@@ -13,7 +13,15 @@
   "license": "MPL-2.0",
   "main": "src/index.js",
   "scripts": {
-    "test": "node ./__tests__/@cdktf/hcl-helpers.test.js"
+    "build": "tsc && ./build-go.sh",
+    "watch": "tsc -w",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "test": "jest",
+    "test:ci": "jest --ci",
+    "jest-watch": "jest --watch",
+    "package": "./package.sh",
+    "dist-clean": "rm -rf dist",
+    "prebuild": "./prebuild.sh"
   },
   "directories": {
     "lib": "lib",
