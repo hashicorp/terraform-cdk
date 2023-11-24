@@ -184,8 +184,8 @@ namespace Examples
                 }
             });
             MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(values.AsAnyMap);
-            new TerraformLocal(this, "list-of-keys", mapIterator.MapToKey());
-            new TerraformLocal(this, "list-of-names", mapIterator.MapToValueProperty("name"));
+            new TerraformLocal(this, "list-of-keys", mapIterator.Keys());
+            new TerraformLocal(this, "list-of-names", mapIterator.PluckProperty("name"));
             new TerraformLocal(this, "list-of-names-of-included", mapIterator.ForExpressionForList("val.name if val.included"));
             new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.ForExpressionForMap("val.name", "val.tags if val.included"));
             // DOCS_BLOCK_END:iterators-for-expression

@@ -113,21 +113,6 @@ class TFExpression extends Intrinsic implements IResolvable {
       : `"${joinResult}"`;
   }
 }
-// A string that represents an input value NOT to be escaped
-// eslint-disable-next-line jsdoc/require-jsdoc
-class UnescapedString extends TFExpression {
-  constructor(private readonly str: string) {
-    super(str);
-  }
-
-  public resolve() {
-    return this.str;
-  }
-
-  public toString() {
-    return this.str;
-  }
-}
 
 // A string that represents an input value to be escaped
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -149,11 +134,6 @@ class RawString extends TFExpression {
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function rawString(str: string): IResolvable {
   return new RawString(str);
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function unescapedString(str: string): IResolvable {
-  return new UnescapedString(str);
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -219,16 +199,12 @@ export function insideTfExpression(arg: any) {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 class PropertyAccess extends TFExpression {
-  constructor(
-    private target: Expression,
-    private args: Expression[],
-    private forceNoBraces = false
-  ) {
+  constructor(private target: Expression, private args: Expression[]) {
     super({ target, args });
   }
 
   public resolve(context: IResolveContext): string {
-    const suppressBraces = this.forceNoBraces || context.suppressBraces;
+    const suppressBraces = context.suppressBraces;
     context.suppressBraces = true;
 
     const serializedArgs = this.args
@@ -263,12 +239,8 @@ class PropertyAccess extends TFExpression {
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-export function propertyAccess(
-  target: Expression,
-  args: Expression[],
-  forceNoBraces = false
-) {
-  return new PropertyAccess(target, args, forceNoBraces) as IResolvable;
+export function propertyAccess(target: Expression, args: Expression[]) {
+  return new PropertyAccess(target, args) as IResolvable;
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc

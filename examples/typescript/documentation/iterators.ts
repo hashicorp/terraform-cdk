@@ -131,11 +131,11 @@ export class IteratorsStack extends TerraformStack {
         tags: { app: "image-converter" },
       },
     });
-    new TerraformLocal(this, "list-of-keys", mapIterator.mapToKey());
+    new TerraformLocal(this, "list-of-keys", mapIterator.keys());
     new TerraformLocal(
       this,
       "list-of-names",
-      mapIterator.mapToValueProperty("name")
+      mapIterator.pluckProperty("name")
     );
     new TerraformLocal(
       this,

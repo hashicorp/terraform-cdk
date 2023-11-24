@@ -33837,9 +33837,9 @@ new ListTerraformIterator(java.util.List< java.lang.String > OR IResolvable OR j
 | <code><a href="#cdktf.ListTerraformIterator.getNumberMap">getNumberMap</a></code>                 | _No description._                                                                            |
 | <code><a href="#cdktf.ListTerraformIterator.getString">getString</a></code>                       | _No description._                                                                            |
 | <code><a href="#cdktf.ListTerraformIterator.getStringMap">getStringMap</a></code>                 | _No description._                                                                            |
-| <code><a href="#cdktf.ListTerraformIterator.mapToKey">mapToKey</a></code>                         | Creates a for expression that maps the iterators to its keys.                                |
-| <code><a href="#cdktf.ListTerraformIterator.mapToValue">mapToValue</a></code>                     | Creates a for expression that maps the iterators to its value in case it is a map.           |
-| <code><a href="#cdktf.ListTerraformIterator.mapToValueProperty">mapToValueProperty</a></code>     | Creates a for expression that takes the given key from the values of this iterator.          |
+| <code><a href="#cdktf.ListTerraformIterator.keys">keys</a></code>                                 | Creates a for expression that maps the iterators to its keys.                                |
+| <code><a href="#cdktf.ListTerraformIterator.pluckProperty">pluckProperty</a></code>               | Creates a for expression that accesses the key on each element of the iterator.              |
+| <code><a href="#cdktf.ListTerraformIterator.values">values</a></code>                             | Creates a for expression that maps the iterators to its value in case it is a map.           |
 
 ---
 
@@ -33871,7 +33871,7 @@ Creates a for expression that results in a list.
 
 This method allows you to create every possible for expression, but requires more knowledge about
 Terraforms for expression syntax.
-For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+For the most common use cases you can use keys(), values(), and pluckProperty() instead.
 
 You may write any valid Terraform for each expression, it will result
 in `[ for key, val in var.myIteratorSource: < expression > ]`.
@@ -33897,7 +33897,7 @@ Creates a for expression that results in a map.
 
 This method allows you to create every possible for expression, but requires more knowledge about
 Terraforms for expression syntax.
-For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+For the most common use cases you can use keys(), values(), and pluckProperty instead.
 
 You may write any valid Terraform for each expression, it will result
 in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
@@ -34071,10 +34071,10 @@ name of the property to retrieve.
 
 ---
 
-##### `mapToKey` <a name="mapToKey" id="cdktf.ListTerraformIterator.mapToKey"></a>
+##### `keys` <a name="keys" id="cdktf.ListTerraformIterator.keys"></a>
 
 ```java
-public IResolvable mapToKey()
+public IResolvable keys()
 ```
 
 Creates a for expression that maps the iterators to its keys.
@@ -34083,10 +34083,29 @@ For lists these would be the indices, for maps the keys.
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
 
-##### `mapToValue` <a name="mapToValue" id="cdktf.ListTerraformIterator.mapToValue"></a>
+##### `pluckProperty` <a name="pluckProperty" id="cdktf.ListTerraformIterator.pluckProperty"></a>
 
 ```java
-public IResolvable mapToValue()
+public IResolvable pluckProperty(java.lang.String property)
+```
+
+Creates a for expression that accesses the key on each element of the iterator.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `property`<sup>Required</sup> <a name="property" id="cdktf.ListTerraformIterator.pluckProperty.parameter.property"></a>
+
+- _Type:_ java.lang.String
+
+The property of the iterators values to map to.
+
+---
+
+##### `values` <a name="values" id="cdktf.ListTerraformIterator.values"></a>
+
+```java
+public IResolvable values()
 ```
 
 Creates a for expression that maps the iterators to its value in case it is a map.
@@ -34094,25 +34113,6 @@ Creates a for expression that maps the iterators to its value in case it is a ma
 For lists these would stay the same.
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
-
-##### `mapToValueProperty` <a name="mapToValueProperty" id="cdktf.ListTerraformIterator.mapToValueProperty"></a>
-
-```java
-public IResolvable mapToValueProperty(java.lang.String property)
-```
-
-Creates a for expression that takes the given key from the values of this iterator.
-
-As this returns an IResolvable you might need to wrap the output in
-a Token, e.g. `Token.asString`.
-
-###### `property`<sup>Required</sup> <a name="property" id="cdktf.ListTerraformIterator.mapToValueProperty.parameter.property"></a>
-
-- _Type:_ java.lang.String
-
-The property of the iterators values to map to.
-
----
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
@@ -34535,9 +34535,9 @@ new MapTerraformIterator(StringMap OR NumberMap OR BooleanMap OR AnyMap OR Compl
 | <code><a href="#cdktf.MapTerraformIterator.getNumberMap">getNumberMap</a></code>                 | _No description._                                                                            |
 | <code><a href="#cdktf.MapTerraformIterator.getString">getString</a></code>                       | _No description._                                                                            |
 | <code><a href="#cdktf.MapTerraformIterator.getStringMap">getStringMap</a></code>                 | _No description._                                                                            |
-| <code><a href="#cdktf.MapTerraformIterator.mapToKey">mapToKey</a></code>                         | Creates a for expression that maps the iterators to its keys.                                |
-| <code><a href="#cdktf.MapTerraformIterator.mapToValue">mapToValue</a></code>                     | Creates a for expression that maps the iterators to its value in case it is a map.           |
-| <code><a href="#cdktf.MapTerraformIterator.mapToValueProperty">mapToValueProperty</a></code>     | Creates a for expression that takes the given key from the values of this iterator.          |
+| <code><a href="#cdktf.MapTerraformIterator.keys">keys</a></code>                                 | Creates a for expression that maps the iterators to its keys.                                |
+| <code><a href="#cdktf.MapTerraformIterator.pluckProperty">pluckProperty</a></code>               | Creates a for expression that accesses the key on each element of the iterator.              |
+| <code><a href="#cdktf.MapTerraformIterator.values">values</a></code>                             | Creates a for expression that maps the iterators to its value in case it is a map.           |
 
 ---
 
@@ -34569,7 +34569,7 @@ Creates a for expression that results in a list.
 
 This method allows you to create every possible for expression, but requires more knowledge about
 Terraforms for expression syntax.
-For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+For the most common use cases you can use keys(), values(), and pluckProperty() instead.
 
 You may write any valid Terraform for each expression, it will result
 in `[ for key, val in var.myIteratorSource: < expression > ]`.
@@ -34595,7 +34595,7 @@ Creates a for expression that results in a map.
 
 This method allows you to create every possible for expression, but requires more knowledge about
 Terraforms for expression syntax.
-For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+For the most common use cases you can use keys(), values(), and pluckProperty instead.
 
 You may write any valid Terraform for each expression, it will result
 in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
@@ -34769,10 +34769,10 @@ name of the property to retrieve.
 
 ---
 
-##### `mapToKey` <a name="mapToKey" id="cdktf.MapTerraformIterator.mapToKey"></a>
+##### `keys` <a name="keys" id="cdktf.MapTerraformIterator.keys"></a>
 
 ```java
-public IResolvable mapToKey()
+public IResolvable keys()
 ```
 
 Creates a for expression that maps the iterators to its keys.
@@ -34781,10 +34781,29 @@ For lists these would be the indices, for maps the keys.
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
 
-##### `mapToValue` <a name="mapToValue" id="cdktf.MapTerraformIterator.mapToValue"></a>
+##### `pluckProperty` <a name="pluckProperty" id="cdktf.MapTerraformIterator.pluckProperty"></a>
 
 ```java
-public IResolvable mapToValue()
+public IResolvable pluckProperty(java.lang.String property)
+```
+
+Creates a for expression that accesses the key on each element of the iterator.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `property`<sup>Required</sup> <a name="property" id="cdktf.MapTerraformIterator.pluckProperty.parameter.property"></a>
+
+- _Type:_ java.lang.String
+
+The property of the iterators values to map to.
+
+---
+
+##### `values` <a name="values" id="cdktf.MapTerraformIterator.values"></a>
+
+```java
+public IResolvable values()
 ```
 
 Creates a for expression that maps the iterators to its value in case it is a map.
@@ -34792,25 +34811,6 @@ Creates a for expression that maps the iterators to its value in case it is a ma
 For lists these would stay the same.
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
-
-##### `mapToValueProperty` <a name="mapToValueProperty" id="cdktf.MapTerraformIterator.mapToValueProperty"></a>
-
-```java
-public IResolvable mapToValueProperty(java.lang.String property)
-```
-
-Creates a for expression that takes the given key from the values of this iterator.
-
-As this returns an IResolvable you might need to wrap the output in
-a Token, e.g. `Token.asString`.
-
-###### `property`<sup>Required</sup> <a name="property" id="cdktf.MapTerraformIterator.mapToValueProperty.parameter.property"></a>
-
-- _Type:_ java.lang.String
-
-The property of the iterators values to map to.
-
----
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
@@ -35961,9 +35961,9 @@ new ResourceTerraformIterator(ITerraformResource element);
 | <code><a href="#cdktf.ResourceTerraformIterator.getNumberMap">getNumberMap</a></code>                 | _No description._                                                                            |
 | <code><a href="#cdktf.ResourceTerraformIterator.getString">getString</a></code>                       | _No description._                                                                            |
 | <code><a href="#cdktf.ResourceTerraformIterator.getStringMap">getStringMap</a></code>                 | _No description._                                                                            |
-| <code><a href="#cdktf.ResourceTerraformIterator.mapToKey">mapToKey</a></code>                         | Creates a for expression that maps the iterators to its keys.                                |
-| <code><a href="#cdktf.ResourceTerraformIterator.mapToValue">mapToValue</a></code>                     | Creates a for expression that maps the iterators to its value in case it is a map.           |
-| <code><a href="#cdktf.ResourceTerraformIterator.mapToValueProperty">mapToValueProperty</a></code>     | Creates a for expression that takes the given key from the values of this iterator.          |
+| <code><a href="#cdktf.ResourceTerraformIterator.keys">keys</a></code>                                 | Creates a for expression that maps the iterators to its keys.                                |
+| <code><a href="#cdktf.ResourceTerraformIterator.pluckProperty">pluckProperty</a></code>               | Creates a for expression that accesses the key on each element of the iterator.              |
+| <code><a href="#cdktf.ResourceTerraformIterator.values">values</a></code>                             | Creates a for expression that maps the iterators to its value in case it is a map.           |
 
 ---
 
@@ -35995,7 +35995,7 @@ Creates a for expression that results in a list.
 
 This method allows you to create every possible for expression, but requires more knowledge about
 Terraforms for expression syntax.
-For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+For the most common use cases you can use keys(), values(), and pluckProperty() instead.
 
 You may write any valid Terraform for each expression, it will result
 in `[ for key, val in var.myIteratorSource: < expression > ]`.
@@ -36021,7 +36021,7 @@ Creates a for expression that results in a map.
 
 This method allows you to create every possible for expression, but requires more knowledge about
 Terraforms for expression syntax.
-For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+For the most common use cases you can use keys(), values(), and pluckProperty instead.
 
 You may write any valid Terraform for each expression, it will result
 in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
@@ -36195,10 +36195,10 @@ name of the property to retrieve.
 
 ---
 
-##### `mapToKey` <a name="mapToKey" id="cdktf.ResourceTerraformIterator.mapToKey"></a>
+##### `keys` <a name="keys" id="cdktf.ResourceTerraformIterator.keys"></a>
 
 ```java
-public IResolvable mapToKey()
+public IResolvable keys()
 ```
 
 Creates a for expression that maps the iterators to its keys.
@@ -36207,10 +36207,29 @@ For lists these would be the indices, for maps the keys.
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
 
-##### `mapToValue` <a name="mapToValue" id="cdktf.ResourceTerraformIterator.mapToValue"></a>
+##### `pluckProperty` <a name="pluckProperty" id="cdktf.ResourceTerraformIterator.pluckProperty"></a>
 
 ```java
-public IResolvable mapToValue()
+public IResolvable pluckProperty(java.lang.String property)
+```
+
+Creates a for expression that accesses the key on each element of the iterator.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `property`<sup>Required</sup> <a name="property" id="cdktf.ResourceTerraformIterator.pluckProperty.parameter.property"></a>
+
+- _Type:_ java.lang.String
+
+The property of the iterators values to map to.
+
+---
+
+##### `values` <a name="values" id="cdktf.ResourceTerraformIterator.values"></a>
+
+```java
+public IResolvable values()
 ```
 
 Creates a for expression that maps the iterators to its value in case it is a map.
@@ -36218,25 +36237,6 @@ Creates a for expression that maps the iterators to its value in case it is a ma
 For lists these would stay the same.
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
-
-##### `mapToValueProperty` <a name="mapToValueProperty" id="cdktf.ResourceTerraformIterator.mapToValueProperty"></a>
-
-```java
-public IResolvable mapToValueProperty(java.lang.String property)
-```
-
-Creates a for expression that takes the given key from the values of this iterator.
-
-As this returns an IResolvable you might need to wrap the output in
-a Token, e.g. `Token.asString`.
-
-###### `property`<sup>Required</sup> <a name="property" id="cdktf.ResourceTerraformIterator.mapToValueProperty.parameter.property"></a>
-
-- _Type:_ java.lang.String
-
-The property of the iterators values to map to.
-
----
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
@@ -37074,9 +37074,9 @@ new TerraformIterator();
 | <code><a href="#cdktf.TerraformIterator.getNumberMap">getNumberMap</a></code>                 | _No description._                                                                            |
 | <code><a href="#cdktf.TerraformIterator.getString">getString</a></code>                       | _No description._                                                                            |
 | <code><a href="#cdktf.TerraformIterator.getStringMap">getStringMap</a></code>                 | _No description._                                                                            |
-| <code><a href="#cdktf.TerraformIterator.mapToKey">mapToKey</a></code>                         | Creates a for expression that maps the iterators to its keys.                                |
-| <code><a href="#cdktf.TerraformIterator.mapToValue">mapToValue</a></code>                     | Creates a for expression that maps the iterators to its value in case it is a map.           |
-| <code><a href="#cdktf.TerraformIterator.mapToValueProperty">mapToValueProperty</a></code>     | Creates a for expression that takes the given key from the values of this iterator.          |
+| <code><a href="#cdktf.TerraformIterator.keys">keys</a></code>                                 | Creates a for expression that maps the iterators to its keys.                                |
+| <code><a href="#cdktf.TerraformIterator.pluckProperty">pluckProperty</a></code>               | Creates a for expression that accesses the key on each element of the iterator.              |
+| <code><a href="#cdktf.TerraformIterator.values">values</a></code>                             | Creates a for expression that maps the iterators to its value in case it is a map.           |
 
 ---
 
@@ -37108,7 +37108,7 @@ Creates a for expression that results in a list.
 
 This method allows you to create every possible for expression, but requires more knowledge about
 Terraforms for expression syntax.
-For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+For the most common use cases you can use keys(), values(), and pluckProperty() instead.
 
 You may write any valid Terraform for each expression, it will result
 in `[ for key, val in var.myIteratorSource: < expression > ]`.
@@ -37134,7 +37134,7 @@ Creates a for expression that results in a map.
 
 This method allows you to create every possible for expression, but requires more knowledge about
 Terraforms for expression syntax.
-For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+For the most common use cases you can use keys(), values(), and pluckProperty instead.
 
 You may write any valid Terraform for each expression, it will result
 in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
@@ -37308,10 +37308,10 @@ name of the property to retrieve.
 
 ---
 
-##### `mapToKey` <a name="mapToKey" id="cdktf.TerraformIterator.mapToKey"></a>
+##### `keys` <a name="keys" id="cdktf.TerraformIterator.keys"></a>
 
 ```java
-public IResolvable mapToKey()
+public IResolvable keys()
 ```
 
 Creates a for expression that maps the iterators to its keys.
@@ -37320,10 +37320,29 @@ For lists these would be the indices, for maps the keys.
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
 
-##### `mapToValue` <a name="mapToValue" id="cdktf.TerraformIterator.mapToValue"></a>
+##### `pluckProperty` <a name="pluckProperty" id="cdktf.TerraformIterator.pluckProperty"></a>
 
 ```java
-public IResolvable mapToValue()
+public IResolvable pluckProperty(java.lang.String property)
+```
+
+Creates a for expression that accesses the key on each element of the iterator.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `property`<sup>Required</sup> <a name="property" id="cdktf.TerraformIterator.pluckProperty.parameter.property"></a>
+
+- _Type:_ java.lang.String
+
+The property of the iterators values to map to.
+
+---
+
+##### `values` <a name="values" id="cdktf.TerraformIterator.values"></a>
+
+```java
+public IResolvable values()
 ```
 
 Creates a for expression that maps the iterators to its value in case it is a map.
@@ -37331,25 +37350,6 @@ Creates a for expression that maps the iterators to its value in case it is a ma
 For lists these would stay the same.
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
-
-##### `mapToValueProperty` <a name="mapToValueProperty" id="cdktf.TerraformIterator.mapToValueProperty"></a>
-
-```java
-public IResolvable mapToValueProperty(java.lang.String property)
-```
-
-Creates a for expression that takes the given key from the values of this iterator.
-
-As this returns an IResolvable you might need to wrap the output in
-a Token, e.g. `Token.asString`.
-
-###### `property`<sup>Required</sup> <a name="property" id="cdktf.TerraformIterator.mapToValueProperty.parameter.property"></a>
-
-- _Type:_ java.lang.String
-
-The property of the iterators values to map to.
-
----
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 

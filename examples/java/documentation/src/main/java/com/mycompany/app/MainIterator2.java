@@ -117,8 +117,8 @@ public class MainIterator2 extends TerraformStack {
         });
 
         TerraformIterator mapIterator = TerraformIterator.fromMap(values.getAsAnyMap());
-        new TerraformLocal(this, "list-of-keys", mapIterator.mapToKey());
-        new TerraformLocal(this, "list-of-names", mapIterator.mapToValueProperty("name"));
+        new TerraformLocal(this, "list-of-keys", mapIterator.keys());
+        new TerraformLocal(this, "list-of-names", mapIterator.pluckProperty("name"));
         new TerraformLocal(this, "list-of-names-of-included", mapIterator.forExpressionForList("val.name if val.included"));
         new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.forExpressionForMap("val.name", "val.tags if val.included"));
         // DOCS_BLOCK_END:iterators-for-expression
