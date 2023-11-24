@@ -132,7 +132,7 @@ func NewIteratorsStack(scope constructs.Construct, name string) cdktf.TerraformS
 
 	acm_certificate_validation.NewAcmCertificateValidation(stack, jsii.String("validation"), &acm_certificate_validation.AcmCertificateValidationConfig{
 		CertificateArn:        cert.Arn(),
-		ValidationRecordFqdns: cdktf.Token_AsList(recordsIterator.MapToValueProperty(jsii.String("fqdn")), nil),
+		ValidationRecordFqdns: cdktf.Token_AsList(recordsIterator.PluckProperty(jsii.String("fqdn")), nil),
 	})
 	// DOCS_BLOCK_END:iterators-complex-lists
 

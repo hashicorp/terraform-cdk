@@ -332,9 +332,7 @@ const recordsIterator = TerraformIterator.fromResources(records);
 
 new AcmCertificateValidation(this, "validation", {
   certificateArn: cert.arn,
-  validationRecordFqdns: Token.asList(
-    recordsIterator.mapToValueProperty("fqdn")
-  ),
+  validationRecordFqdns: Token.asList(recordsIterator.pluckProperty("fqdn")),
 });
 ```
 
@@ -371,7 +369,7 @@ new AcmCertificateValidation(this, "validation", {
         AcmCertificateValidation(self, "validation",
                                  certificate_arn=cert.arn,
                                  validation_record_fqdns=Token.as_list(
-                                     records_iterator.map_to_value_property(
+                                     records_iterator.pluck_property(
                                          "fqdn")
                                  ),
                                  )
@@ -408,7 +406,7 @@ new AcmCertificateValidation(this, "validation", {
         new AcmCertificateValidation(this, "validation", AcmCertificateValidationConfig.builder()
             .certificateArn(cert.arn)
             .validationRecordFqdns(Token.asList(
-                recordsIterator.mapToValueProperty("fqdn")
+                recordsIterator.pluckProperty("fqdn")
             ))
             .build());
 ```
@@ -444,7 +442,7 @@ new AcmCertificateValidation(this, "validation", {
             new AcmCertificateValidation(this, "validation", new AcmCertificateValidationConfig
             {
                 CertificateArn = cert.Arn,
-                ValidationRecordFqdns = Token.AsList(recordsIterator.MapToValueProperty("fqdn"))
+                ValidationRecordFqdns = Token.AsList(recordsIterator.PluckProperty("fqdn"))
             });
 ```
 
@@ -475,7 +473,7 @@ recordsIterator := cdktf.TerraformIterator_FromResources(records)
 
 acm_certificate_validation.NewAcmCertificateValidation(stack, jsii.String("validation"), &acm_certificate_validation.AcmCertificateValidationConfig{
 	CertificateArn:        cert.Arn(),
-	ValidationRecordFqdns: cdktf.Token_AsList(recordsIterator.MapToValueProperty(jsii.String("fqdn")), nil),
+	ValidationRecordFqdns: cdktf.Token_AsList(recordsIterator.PluckProperty(jsii.String("fqdn")), nil),
 })
 ```
 
@@ -901,9 +899,12 @@ mapIterator = TerraformIterator.from_map(
 )
 TerraformLocal(self, "list-of-keys", mapIterator.keys())
 TerraformLocal(self, "list-of-values", mapIterator.values())
-TerraformLocal(self, "list-of-names", mapIterator.pluck_property("name"))
-TerraformLocal(self, "list-of-names-of-included", mapIterator.for_expression_for_list("val.name if val.included"))
-TerraformLocal(self, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.for_expression_for_map("val.name", "val.tags if val.included"))
+TerraformLocal(self, "list-of-names",
+               mapIterator.pluck_property("name"))
+TerraformLocal(self, "list-of-names-of-included",
+               mapIterator.for_expression_for_list("val.name if val.included"))
+TerraformLocal(self, "map-with-names-as-key-and-tags-as-value-of-included",
+               mapIterator.for_expression_for_map("val.name", "val.tags if val.included"))
 ```
 
 ```java

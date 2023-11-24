@@ -145,7 +145,7 @@ class IteratorStackTwo(TerraformStack):
         AcmCertificateValidation(self, "validation",
                                  certificate_arn=cert.arn,
                                  validation_record_fqdns=Token.as_list(
-                                     records_iterator.map_to_value_property(
+                                     records_iterator.pluck_property(
                                          "fqdn")
                                  ),
                                  )
@@ -202,7 +202,10 @@ class IteratorStackTwo(TerraformStack):
         )
         TerraformLocal(self, "list-of-keys", mapIterator.keys())
         TerraformLocal(self, "list-of-values", mapIterator.values())
-        TerraformLocal(self, "list-of-names", mapIterator.pluck_property("name"))
-        TerraformLocal(self, "list-of-names-of-included", mapIterator.for_expression_for_list("val.name if val.included"))
-        TerraformLocal(self, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.for_expression_for_map("val.name", "val.tags if val.included"))
+        TerraformLocal(self, "list-of-names",
+                       mapIterator.pluck_property("name"))
+        TerraformLocal(self, "list-of-names-of-included",
+                       mapIterator.for_expression_for_list("val.name if val.included"))
+        TerraformLocal(self, "map-with-names-as-key-and-tags-as-value-of-included",
+                       mapIterator.for_expression_for_map("val.name", "val.tags if val.included"))
         # DOCS_BLOCK_END:iterators-for-expression
