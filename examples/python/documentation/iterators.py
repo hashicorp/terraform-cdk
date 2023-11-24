@@ -156,8 +156,8 @@ class IteratorStackTwo(TerraformStack):
         mapIterator = TerraformIterator.from_map(
             map=values.as_any_map
         )
-        TerraformLocal(self, "list-of-keys", mapIterator.map_to_key())
-        TerraformLocal(self, "list-of-names", mapIterator.map_to_value_property("name"))
+        TerraformLocal(self, "list-of-keys", mapIterator.keys())
+        TerraformLocal(self, "list-of-names", mapIterator.pluck_property("name"))
         TerraformLocal(self, "list-of-names-of-included", mapIterator.for_expression_for_list("val.name if val.included"))
         TerraformLocal(self, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.for_expression_for_map("val.name", "val.tags if val.included"))
         # DOCS_BLOCK_END:iterators-for-expression

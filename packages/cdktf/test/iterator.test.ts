@@ -464,7 +464,7 @@ test("for expressions from iterators", () => {
     name: "foo",
     tags: {
       // Take a value from items of the list
-      arnProperties: Token.asString(it.mapToValueProperty("arn")),
+      arnProperties: Token.asString(it.pluckProperty("arn")),
       // Filter out empty values
       owners: Token.asString(
         it.forExpressionForList(`val.owner if val.owner != ""`)
@@ -478,7 +478,7 @@ test("for expressions from iterators", () => {
         )
       ),
       // Get the keys of the map
-      keys: Token.asString(it.mapToKey()),
+      keys: Token.asString(it.keys()),
     },
   });
 

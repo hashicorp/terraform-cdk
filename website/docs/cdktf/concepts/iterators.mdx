@@ -654,9 +654,9 @@ s3bucketobject.NewS3BucketObject(stack, jsii.String("object"), &s3bucketobject.S
 
 To use the values of an iterator for example in a list attribute for a resource you can use one of the following methods (given that `iterator` got created through one of the static methods on `TerraformIterator`):
 
-- `iterator.mapToKey()`: Results in equivalent of `[for k, v in var.iteratorSource : k]`.
-- `iterator.mapToValue()`: Results in equivalent of `[for k, v in var.iteratorSource : v]`.
-- `iterator.mapToValueProperty("foo")`: Results in equivalent of `[for k, v in var.iteratorSource : v.foo]`.
+- `iterator.keys()`: Results in equivalent of `[for k, v in var.iteratorSource : k]`.
+- `iterator.values()`: Results in equivalent of `[for k, v in var.iteratorSource : v]`.
+- `iterator.pluckProperty("foo")`: Results in equivalent of `[for k, v in var.iteratorSource : v.foo]`.
 - `iterator.forExpressionForList('uppercase(val.owner) if val.owner != ""')`: Results in equivalent of `[ for key, val in toset(var.list): uppercase(val.owner) if val.owner != "" ]`.
 - `iterator.forExpressionForMap("val.teamName", `join(",", val.teamMembers) if length(val.teamMembers) > 0`)`: Results in equivalent of `{ for key, val in toset(var.list): val.teamName => join(",", val.teamMembers) if length(val.teamMembers) > 0 }`.
 
@@ -680,12 +680,8 @@ const mapIterator = TerraformIterator.fromMap({
     tags: { app: "image-converter" },
   },
 });
-new TerraformLocal(this, "list-of-keys", mapIterator.mapToKey());
-new TerraformLocal(
-  this,
-  "list-of-names",
-  mapIterator.mapToValueProperty("name")
-);
+new TerraformLocal(this, "list-of-keys", mapIterator.keys());
+new TerraformLocal(this, "list-of-names", mapIterator.pluckProperty("name"));
 new TerraformLocal(
   this,
   "list-of-names-of-included",
@@ -712,8 +708,8 @@ values = TerraformLocal(self, "map-local", {
 mapIterator = TerraformIterator.from_map(
     map=values.as_any_map
 )
-TerraformLocal(self, "list-of-keys", mapIterator.map_to_key())
-TerraformLocal(self, "list-of-names", mapIterator.map_to_value_property("name"))
+TerraformLocal(self, "list-of-keys", mapIterator.keys())
+TerraformLocal(self, "list-of-names", mapIterator.pluck_property("name"))
 TerraformLocal(self, "list-of-names-of-included", mapIterator.for_expression_for_list("val.name if val.included"))
 TerraformLocal(self, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.for_expression_for_map("val.name", "val.tags if val.included"))
 ```
@@ -745,8 +741,8 @@ TerraformLocal(self, "map-with-names-as-key-and-tags-as-value-of-included", mapI
         });
 
         TerraformIterator mapIterator = TerraformIterator.fromMap(values.getAsAnyMap());
-        new TerraformLocal(this, "list-of-keys", mapIterator.mapToKey());
-        new TerraformLocal(this, "list-of-names", mapIterator.mapToValueProperty("name"));
+        new TerraformLocal(this, "list-of-keys", mapIterator.keys());
+        new TerraformLocal(this, "list-of-names", mapIterator.pluckProperty("name"));
         new TerraformLocal(this, "list-of-names-of-included", mapIterator.forExpressionForList("val.name if val.included"));
         new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.forExpressionForMap("val.name", "val.tags if val.included"));
 ```
@@ -773,8 +769,8 @@ TerraformLocal values = new TerraformLocal(this, "values", new Dictionary<string
     }
 });
 MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(values.AsAnyMap);
-new TerraformLocal(this, "list-of-keys", mapIterator.MapToKey());
-new TerraformLocal(this, "list-of-names", mapIterator.MapToValueProperty("name"));
+new TerraformLocal(this, "list-of-keys", mapIterator.Keys());
+new TerraformLocal(this, "list-of-names", mapIterator.PluckProperty("name"));
 new TerraformLocal(this, "list-of-names-of-included", mapIterator.ForExpressionForList("val.name if val.included"));
 new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.ForExpressionForMap("val.name", "val.tags if val.included"));
 ```
@@ -792,8 +788,8 @@ values := cdktf.NewTerraformLocal(stack, jsii.String("values"), []map[string]int
 })
 
 mapIterator := cdktf.TerraformIterator_FromList(values.Expression())
-cdktf.NewTerraformLocal(stack, jsii.String("list-of-keys"), mapIterator.MapToKey())
-cdktf.NewTerraformLocal(stack, jsii.String("list-of-names"), mapIterator.MapToValueProperty(jsii.String("name")))
+cdktf.NewTerraformLocal(stack, jsii.String("list-of-keys"), mapIterator.Keys())
+cdktf.NewTerraformLocal(stack, jsii.String("list-of-names"), mapIterator.PluckProperty(jsii.String("name")))
 cdktf.NewTerraformLocal(stack, jsii.String("list-of-names-of-included"), mapIterator.ForExpressionForList(jsii.String("val.name if val.included")))
 cdktf.NewTerraformLocal(stack, jsii.String("map-with-names-as-key-and-tags-as-value-of-included"), mapIterator.ForExpressionForMap(jsii.String("val.name"), jsii.String("val.tags if val.included")))
 ```
