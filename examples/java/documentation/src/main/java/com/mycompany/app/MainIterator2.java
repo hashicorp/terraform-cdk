@@ -80,7 +80,7 @@ public class MainIterator2 extends TerraformStack {
         new AcmCertificateValidation(this, "validation", AcmCertificateValidationConfig.builder()
             .certificateArn(cert.arn)
             .validationRecordFqdns(Token.asList(
-                recordsIterator.mapToValueProperty("fqdn")
+                recordsIterator.pluckProperty("fqdn")
             ))
             .build());
         // DOCS_BLOCK_END:iterators-complex-lists

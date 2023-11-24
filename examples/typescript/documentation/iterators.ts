@@ -121,7 +121,7 @@ export class IteratorsStack extends TerraformStack {
     new AcmCertificateValidation(this, "validation", {
       certificateArn: cert.arn,
       validationRecordFqdns: Token.asList(
-        recordsIterator.mapToValueProperty("fqdn")
+        recordsIterator.pluckProperty("fqdn")
       ),
     });
     // DOCS_BLOCK_END:iterators-complex-lists
