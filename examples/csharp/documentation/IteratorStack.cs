@@ -102,6 +102,41 @@ namespace Examples
             });
             // DOCS_BLOCK_END:iterators-list-attributes
 
+            // DOCS_BLOCK_START:iterators-complex-lists
+            var cert = new AcmCertificate(this, "cert", new AcmCertificateConfig
+            {
+                DomainName = "example.com",
+                ValidationMethod = "DNS"
+            });
+
+            var dataAwsRoute53ZoneExample = new DataAwsRoute53Zone(this, "dns_zone", new DataAwsRoute53ZoneConfig
+            {
+                Name = "example.com",
+                PrivateZone = false
+            });
+
+            var exampleForEachIterator = TerraformIterator.FromComplexList(cert.DomainValidationOptions, "domain_name");
+
+            var records = new Route53Record(this, "record", new Route53RecordConfig
+            {
+                ForEach = exampleForEachIterator,
+                AllowOverwrite = true,
+                Name = exampleForEachIterator.GetString("name"),
+                Records = new List<string> { exampleForEachIterator.GetString("record") },
+                TTL = 60,
+                Type = exampleForEachIterator.GetString("type"),
+                ZoneId = dataAwsRoute53ZoneExample.ZoneId
+            });
+
+            var recordsIterator = TerraformIterator.FromResources(records);
+
+            new AcmCertificateValidation(this, "validation", new AcmCertificateValidationConfig
+            {
+                CertificateArn = cert.Arn,
+                ValidationRecordFqdns = Token.AsList(recordsIterator.MapToValueProperty("fqdn"))
+            });
+            // DOCS_BLOCK_END:iterators-complex-lists
+
             // DOCS_BLOCK_START:iterators-count
             var servers = new TerraformVariable(this, "servers", new TerraformVariableConfig {
                 Type = "number"
