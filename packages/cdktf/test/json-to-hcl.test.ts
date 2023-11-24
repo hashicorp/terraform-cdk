@@ -6,6 +6,8 @@ import {
   TerraformLocal,
   TerraformOutput,
   TerraformVariable,
+  TerraformHclModule,
+  VariableType,
 } from "../lib";
 import {
   OtherTestResource,
@@ -14,6 +16,7 @@ import {
   TestResource,
 } from "./helper";
 import * as b from "../lib/backends";
+import { Construct } from "constructs";
 
 test("string local", async () => {
   const app = Testing.app();
@@ -60,7 +63,7 @@ test("with provider alias", async () => {
       alias      = "foo"
     }
 
-    resource "test_resource" "bar" {
+    resource "test_resource" "test" {
       name     = "bar"
       provider = "test.foo"
     }
@@ -106,7 +109,7 @@ test("with formatting", async () => {
       alias      = "foo"
     }
 
-    resource "test_resource" "bar" {
+    resource "test_resource" "test" {
       name     = "bar"
       provider = "test.foo"
     }
@@ -149,15 +152,15 @@ test("serialize list interpolation", async () => {
     provider "test" {
     }
 
-    resource "other_test_resource" "undefined" {
+    resource "other_test_resource" "othertest" {
     }
 
-    resource "test_resource" "bar" {
+    resource "test_resource" "test" {
       name  = "bar"
       names = "\${other_test_resource.othertest.names}"
     }
 
-    resource "test_resource" "foo" {
+    resource "test_resource" "test2" {
       name = "foo"
     }
 
@@ -316,7 +319,7 @@ describe("output", () => {
       "provider "test" {
       }
 
-      resource "test_resource" "foo" {
+      resource "test_resource" "weird-long-running-resource" {
         name = "foo"
       }
 
@@ -350,7 +353,10 @@ describe("output", () => {
     });
 
     expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
-      "output "test-output" {
+      "variable "test-variable" {
+      }
+
+      output "test-output" {
         value = "\${var.test-variable}"
       }
 
@@ -435,8 +441,6 @@ describe("backends", () => {
         name: "my-app-prod",
       },
     });
-
-    console.log(Testing.synth(stack));
 
     expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
       "data "terraform_remote_state" "remote" {
@@ -527,4 +531,457 @@ describe("backends", () => {
       "
     `);
   });
+});
+
+test("with complex computed list", async () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "tests");
+  new TestProvider(stack, "provider", {});
+  new TestProvider(stack, "other_provider", {
+    type: "other",
+  });
+
+  const otherResource = new OtherTestResource(stack, "othertest", {});
+
+  new TestResource(stack, "test", {
+    name: otherResource.complexComputedList.get(0).id,
+  });
+
+  expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    "provider "other" {
+    }
+
+    provider "test" {
+    }
+
+    resource "other_test_resource" "othertest" {
+    }
+
+    resource "test_resource" "test" {
+      name = "\${other_test_resource.othertest.complex_computed_list[0].id}"
+    }
+
+    terraform {
+      required_providers = {
+        other = {
+          version = "~> 2.0"
+        }
+        test = {
+          version = "~> 2.0"
+        }
+      }
+    }
+
+    "
+  `);
+});
+
+it("moves multiple resources", async () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const construct = new Construct(stack, "construct");
+  const nestedContruct = new Construct(construct, "nested-construct");
+
+  new TestResource(nestedContruct, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).addMoveTarget("test-1");
+
+  new TestResource(nestedContruct, "simple-2", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).addMoveTarget("test-2");
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).moveTo("test-1");
+
+  new TestResource(stack, "simple-2", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).moveTo("test-2");
+
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "provider "test" {
+    }
+
+    resource "test_resource" "construct_nested-construct_simple_2C3755B0" {
+      name = "foo"
+      provisioner = [
+        {
+          local-exec = {
+            command = "echo 'hello' > world.txt"
+          }
+        }
+        {
+          local-exec = {
+            command = "echo 'hello' > world1.txt"
+          }
+        }
+        {
+          local-exec = {
+            command = "echo 'hello' > world2.txt"
+          }
+        }
+      ]
+    }
+
+    resource "test_resource" "construct_nested-construct_simple-2_078CE0AF" {
+      name = "foo"
+      provisioner = [
+        {
+          local-exec = {
+            command = "echo 'hello' > world.txt"
+          }
+        }
+        {
+          local-exec = {
+            command = "echo 'hello' > world1.txt"
+          }
+        }
+        {
+          local-exec = {
+            command = "echo 'hello' > world2.txt"
+          }
+        }
+      ]
+    }
+
+    terraform {
+      required_providers = {
+        test = {
+          version = "~> 2.0"
+        }
+      }
+    }
+
+    moved {
+      from = "test_resource.simple"
+      to   = "test_resource.construct_nested-construct_simple_2C3755B0"
+    }
+
+    moved {
+      from = "test_resource.simple-2"
+      to   = "test_resource.construct_nested-construct_simple-2_078CE0AF"
+    }
+
+    "
+  `);
+});
+
+it("supports local-exec provisioner", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [{ type: "local-exec", command: "echo 'hello' > world.txt" }],
+  });
+
+  new TestResource(stack, "advanced", {
+    name: "foo",
+    provisioners: [
+      {
+        type: "local-exec",
+        command: 'echo "hello $person" > greeting.txt',
+        workingDir: "/tmp",
+        environment: {
+          person: "daniel",
+        },
+        interpreter: ["/bin/bash", "-c"],
+      },
+    ],
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "provider "test" {
+    }
+
+    resource "test_resource" "advanced" {
+      name = "foo"
+      provisioner = [
+        {
+          local-exec = {
+            command = "echo " hello $ person " > greeting.txt"
+            environment = {
+              person = "daniel"
+            }
+            interpreter = [
+              "/bin/bash"
+              "-c"
+            ]
+            working_dir = "/tmp"
+          }
+        }
+      ]
+    }
+
+    resource "test_resource" "simple" {
+      name = "foo"
+      provisioner = [
+        {
+          local-exec = {
+            command = "echo 'hello' > world.txt"
+          }
+        }
+      ]
+    }
+
+    terraform {
+      required_providers = {
+        test = {
+          version = "~> 2.0"
+        }
+      }
+    }
+
+    "
+  `);
+});
+
+test("pass variables", () => {
+  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformHclModule(stack, "test", {
+    source: "./test/fixtures/hcl-module/",
+    variables: {
+      param1: "name",
+      param2: 1,
+      param3: ["id1", "id2"],
+    },
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "module "test" {
+      param1 = "name"
+      param2 = "1"
+      param3 = [
+        "id1"
+        "id2"
+      ]
+      source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
+    }
+
+    "
+  `);
+});
+
+test("simple provider", () => {
+  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const stack = new TerraformStack(app, "test");
+
+  const provider = new TestProvider(stack, "provider", {
+    accessKey: "key",
+    alias: "provider1",
+  });
+
+  new TerraformHclModule(stack, "test", {
+    source: "./test/fixtures/hcl-module/",
+    providers: [provider],
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "provider "test" {
+      access_key = "key"
+      alias      = "provider1"
+    }
+
+    terraform {
+      required_providers = {
+        test = {
+          version = "~> 2.0"
+        }
+      }
+    }
+
+    module "test" {
+      providers = {
+        test = "test.provider1"
+      }
+      source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
+    }
+
+    "
+  `);
+});
+
+test("multiple providers", () => {
+  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const stack = new TerraformStack(app, "test");
+
+  const provider1 = new TestProvider(stack, "provider1", {
+    accessKey: "key",
+  });
+
+  const provider2 = new TestProvider(stack, "provider2", {
+    accessKey: "key",
+    type: "differentType",
+  });
+
+  new TerraformHclModule(stack, "test", {
+    source: "./test/fixtures/hcl-module/",
+    providers: [provider1, provider2],
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "provider "differentType" {
+      access_key = "key"
+    }
+
+    provider "test" {
+      access_key = "key"
+    }
+
+    terraform {
+      required_providers = {
+        differentType = {
+          version = "~> 2.0"
+        }
+        test = {
+          version = "~> 2.0"
+        }
+      }
+    }
+
+    module "test" {
+      providers = {
+        differentType = "differentType"
+        test          = "test"
+      }
+      source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
+    }
+
+    "
+  `);
+});
+
+test("string type", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "string",
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "variable "test-variable" {
+      type = "string"
+    }
+
+    "
+  `);
+});
+
+test("number type", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "number",
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "variable "test-variable" {
+      type = "number"
+    }
+
+    "
+  `);
+});
+
+test("bool type", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "bool",
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "variable "test-variable" {
+      type = "bool"
+    }
+
+    "
+  `);
+});
+
+test("any type", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: VariableType.ANY,
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "variable "test-variable" {
+      type = "any"
+    }
+
+    "
+  `);
+});
+
+test("default value", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    default: "my-val",
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "variable "test-variable" {
+      default = "my-val"
+    }
+
+    "
+  `);
+});
+
+test("description", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    description: "A Test Variable",
+  });
+
+  console.log(Testing.synth(stack));
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "variable "test-variable" {
+      description = "A Test Variable"
+    }
+
+    "
+  `);
+});
+
+test("collection type", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "list(string)",
+  });
+  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+    "variable "test-variable" {
+      type = "list(string)"
+    }
+
+    "
+  `);
 });
