@@ -86,6 +86,34 @@ function providerToHcl(providers: any): string[] {
   return hcl.flat(0);
 }
 
+function dataSourcesToHcl(dataSources: any): string[] {
+  const dataSourceTypes = Object.keys(dataSources);
+
+  if (dataSourceTypes.length === 0) {
+    return [];
+  }
+
+  let hcl: string[] = [];
+
+  for (const dataSourceType of dataSourceTypes) {
+    const dataSourcesOfType = dataSources[dataSourceType];
+    for (const dataSourceName of Object.keys(dataSourcesOfType)) {
+      const dataSource = dataSourcesOfType[dataSourceName];
+      hcl = hcl.concat([
+        `data "${dataSourceType}" "${dataSourceName}" {`,
+        ...Object.entries(dataSource).map(
+          ([name, value]) =>
+            `  ${name} = ${jsonExpressionToHcl(value as string)}`
+        ),
+        "}",
+        "",
+      ]);
+    }
+  }
+
+  return hcl;
+}
+
 function resourcesToHcl(resources: any): string[] {
   const resourceTypes = Object.keys(resources);
 
@@ -195,6 +223,10 @@ export async function jsonToHcl(jsonTf: any): Promise<string> {
 
   if (jsonTf.resource) {
     hcl = hcl.concat(resourcesToHcl(jsonTf.resource));
+  }
+
+  if (jsonTf.data) {
+    hcl = hcl.concat(dataSourcesToHcl(jsonTf.data));
   }
 
   if (jsonTf.terraform) {

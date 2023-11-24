@@ -13,6 +13,7 @@ import {
   TestProvider,
   TestResource,
 } from "./helper";
+import * as b from "../lib/backends";
 
 test("string local", async () => {
   const app = Testing.app();
@@ -372,7 +373,158 @@ test("module with simple provider", async () => {
     providers: [provider],
   });
 
-  console.log(Testing.synth(stack));
+  expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    "provider "test" {
+      access_key = "key"
+      alias      = "provider1"
+    }
 
-  expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`Promise {}`);
+    terraform {
+      required_providers = {
+        test = {
+          version = "~> 2.0"
+        }
+      }
+    }
+
+    module "test" {
+      module_parameter = "myParam"
+      providers = {
+        test = "test.provider1"
+      }
+      source  = "my-module"
+      version = "1.0"
+    }
+
+    "
+  `);
+});
+
+describe("backends", () => {
+  test("local", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new b.DataTerraformRemoteStateLocal(stack, "remote", {
+      path: "relative/path/to/terraform.tfstate",
+      workspaceDir: "local_workspace",
+    });
+
+    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+      "data "terraform_remote_state" "remote" {
+        backend = "local"
+        config = {
+          path          = "relative/path/to/terraform.tfstate"
+          workspace_dir = "local_workspace"
+        }
+      }
+
+      "
+    `);
+  });
+
+  test("remote", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new b.DataTerraformRemoteState(stack, "remote", {
+      hostname: "app.terraform.io",
+      organization: "company",
+
+      workspaces: {
+        name: "my-app-prod",
+      },
+    });
+
+    console.log(Testing.synth(stack));
+
+    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+      "data "terraform_remote_state" "remote" {
+        backend = "remote"
+        config = {
+          hostname     = "app.terraform.io"
+          organization = "company"
+          workspaces = {
+            name = "my-app-prod"
+          }
+        }
+      }
+
+      "
+    `);
+  });
+
+  test("azurerm", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new b.DataTerraformRemoteStateAzurerm(stack, "remote", {
+      resourceGroupName: "StorageAccount-ResourceGroup",
+      storageAccountName: "abcd1234",
+      containerName: "tfstate",
+      key: "prod.terraform.tfstate",
+      clientId: "ARM_CLIENT_ID",
+      clientSecret: "ARM_CLIENT_SECRET",
+      endpoint: "ARM_ENDPOINT",
+      environment: "public",
+    });
+
+    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+      "data "terraform_remote_state" "remote" {
+        backend = "azurerm"
+        config = {
+          client_id            = "ARM_CLIENT_ID"
+          client_secret        = "ARM_CLIENT_SECRET"
+          container_name       = "tfstate"
+          endpoint             = "ARM_ENDPOINT"
+          environment          = "public"
+          key                  = "prod.terraform.tfstate"
+          resource_group_name  = "StorageAccount-ResourceGroup"
+          storage_account_name = "abcd1234"
+        }
+      }
+
+      "
+    `);
+  });
+
+  test("consul", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new b.DataTerraformRemoteStateConsul(stack, "remote", {
+      address: "demo.consul.io",
+      scheme: "https",
+      path: "full/path",
+      accessToken: "CONSUL_HTTP_TOKEN",
+      caFile: "CONSUL_CACERT",
+      certFile: "CONSUL_CLIENT_CERT",
+      datacenter: "agent",
+      gzip: true,
+      httpAuth: "CONSUL_HTTP_AUTH",
+      keyFile: "CONSUL_CLIENT_KEY",
+      lock: true,
+    });
+
+    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+      "data "terraform_remote_state" "remote" {
+        backend = "consul"
+        config = {
+          access_token = "CONSUL_HTTP_TOKEN"
+          address      = "demo.consul.io"
+          ca_file      = "CONSUL_CACERT"
+          cert_file    = "CONSUL_CLIENT_CERT"
+          datacenter   = "agent"
+          gzip         = "true"
+          http_auth    = "CONSUL_HTTP_AUTH"
+          key_file     = "CONSUL_CLIENT_KEY"
+          lock         = "true"
+          path         = "full/path"
+          scheme       = "https"
+        }
+      }
+
+      "
+    `);
+  });
 });
