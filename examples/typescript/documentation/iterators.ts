@@ -132,6 +132,7 @@ export class IteratorsStack extends TerraformStack {
       },
     });
     new TerraformLocal(this, "list-of-keys", mapIterator.keys());
+    new TerraformLocal(this, "list-of-values", mapIterator.values());
     new TerraformLocal(
       this,
       "list-of-names",
