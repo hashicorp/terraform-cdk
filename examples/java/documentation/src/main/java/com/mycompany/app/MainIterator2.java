@@ -13,6 +13,14 @@ import imports.aws.s3_bucket_object.S3BucketObjectConfig;
 import software.constructs.Construct;
 import imports.aws.provider.AwsProvider;
 import imports.aws.provider.AwsProviderConfig;
+import imports.aws.acm.AcmCertificate;
+import imports.aws.acm.AcmCertificateConfig;
+import imports.aws.acm.AcmCertificateValidation;
+import imports.aws.acm.AcmCertificateValidationConfig;
+import imports.aws.route53.DataAwsRoute53Zone;
+import imports.aws.route53.DataAwsRoute53ZoneConfig;
+import imports.aws.route53.Route53Record;
+import imports.aws.route53.Route53RecordConfig;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -40,6 +48,42 @@ public class MainIterator2 extends TerraformStack {
                 .bucket(Token.asString(terraformIterator.getString("")))
                 .build());
         // DOCS_BLOCK_END:iterators-define-iterators
+
+        // DOCS_BLOCK_START:iterators-complex-lists
+        AcmCertificate cert = new AcmCertificate(this, "cert", AcmCertificateConfig.builder()
+            .domainName("example.com")
+            .validationMethod("DNS")
+            .build());
+        
+        DataAwsRoute53Zone dataAwsRoute53ZoneExample = new DataAwsRoute53Zone(this, "dns_zone", DataAwsRoute53ZoneConfig.builder()
+            .name("example.com")
+            .privateZone(false)
+            .build());
+
+        TerraformIterator exampleForEachIterator = TerraformIterator.fromComplexList(
+            cert.domainValidationOptions,
+            "domain_name"
+        );
+
+        Route53Record records = new Route53Record(this, "record", Route53RecordConfig.builder()
+            .forEach(exampleForEachIterator)
+            .allowOverwrite(true)
+            .name(exampleForEachIterator.getString("name"))
+            .records(Arrays.asList(exampleForEachIterator.getString("record")))
+            .ttl(60)
+            .type(exampleForEachIterator.getString("type"))
+            .zoneId(dataAwsRoute53ZoneExample.zoneId)
+            .build());
+
+        TerraformIterator recordsIterator = TerraformIterator.fromResources(records);
+
+        new AcmCertificateValidation(this, "validation", AcmCertificateValidationConfig.builder()
+            .certificateArn(cert.arn)
+            .validationRecordFqdns(Token.asList(
+                recordsIterator.mapToValueProperty("fqdn")
+            ))
+            .build());
+        // DOCS_BLOCK_END:iterators-complex-lists
 
         // DOCS_BLOCK_START:iterators-chain
         TerraformLocal myComplexLocal = new TerraformLocal(this, "my-map", new HashMap() {
