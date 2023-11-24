@@ -10,6 +10,10 @@ from imports.github.provider import GithubProvider
 from imports.github.team import Team
 from imports.github.team_members import TeamMembers
 from imports.aws.s3_bucket_object import S3BucketObject
+from imports.aws.acm_certificate import AcmCertificate
+from imports.aws.acm_certificate_validation import AcmCertificateValidation
+from imports.aws.data_aws_route53_zone import DataAwsRoute53Zone
+from imports.aws.route53_record import Route53Record
 
 
 # DOCS_BLOCK_START:iterators-define-iterators,iterators-iterators-complex-types
@@ -48,20 +52,21 @@ class IteratorStackOne(TerraformStack):
 
         # DOCS_BLOCK_START:iterators-count
         servers = TerraformVariable(self, "servers",
-            type="number"
-        )
+                                    type="number"
+                                    )
 
         count = TerraformCount.of(servers.number_value)
 
         Instance(self, "server",
-            count=count,
-            ami="ami-a1b2c3d4",
-            instance_type="t2.micro",
-            tags={
-                "Name": "Server ${" + Token().as_string(count.index) + "}"
-            }
-        )
+                 count=count,
+                 ami="ami-a1b2c3d4",
+                 instance_type="t2.micro",
+                 tags={
+                     "Name": "Server ${" + Token().as_string(count.index) + "}"
+                 }
+                 )
         # DOCS_BLOCK_END:iterators-count
+
 
 class IteratorStackTwo(TerraformStack):
     def __init__(self, scope: Construct, id: str):
@@ -107,6 +112,44 @@ class IteratorStackTwo(TerraformStack):
                     })
                     )
         # DOCS_BLOCK_END:iterators-list-attributes
+        # DOCS_BLOCK_START:iterators-complex-lists
+        cert = AcmCertificate(self, "cert",
+                              domain_name="example.com",
+                              validation_method="DNS",
+                              )
+        data_aws_route53_zone_example = DataAwsRoute53Zone(self, "dns_zone",
+                                                           name="example.com",
+                                                           private_zone=False
+                                                           )
+
+        example_for_each_iterator = TerraformIterator.from_complex_list(
+            cert.domain_validation_options,
+            "domain_name"
+        )
+
+        records = Route53Record(self, "record",
+                                for_each=example_for_each_iterator,
+                                allow_overwrite=True,
+                                name=example_for_each_iterator.get_string(
+                                    "name"),
+                                records=[
+                                    example_for_each_iterator.get_string("record")],
+                                ttl=60,
+                                type=example_for_each_iterator.get_string(
+                                    "type"),
+                                zone_id=data_aws_route53_zone_example.zone_id,
+                                )
+
+        records_iterator = TerraformIterator.from_resources(records)
+
+        AcmCertificateValidation(self, "validation",
+                                 certificate_arn=cert.arn,
+                                 validation_record_fqdns=Token.as_list(
+                                     records_iterator.map_to_value_property(
+                                         "fqdn")
+                                 ),
+                                 )
+        # DOCS_BLOCK_END:iterators-complex-lists
 
         # DOCS_BLOCK_START:iterators-chain
         map = TerraformLocal(self, "my-map", {
@@ -123,24 +166,25 @@ class IteratorStackTwo(TerraformStack):
             map=map.as_any_map
         )
         s3_buckets = S3Bucket(self, "complex-iterator-buckets",
-            for_each=s3_bucket_configuration_iterator,
-            bucket=s3_bucket_configuration_iterator.get_string("name"),
-            tags=s3_bucket_configuration_iterator.get_map("tags")
-        )
+                              for_each=s3_bucket_configuration_iterator,
+                              bucket=s3_bucket_configuration_iterator.get_string(
+                                  "name"),
+                              tags=s3_bucket_configuration_iterator.get_map(
+                                  "tags")
+                              )
 
         # This would be TerraformIterator.from_data_sources for data_sources
         s3_buckets_iterator = TerraformIterator.from_resources(s3_buckets)
         help_file = TerraformAsset(self, "help",
-            path="./help"
-        )
+                                   path="./help"
+                                   )
         S3BucketObject(self, "object",
-            for_each=s3_buckets_iterator,
-            bucket=s3_buckets_iterator.get_string("id"),
-            key="help",
-            source=help_file.path
-        )
+                       for_each=s3_buckets_iterator,
+                       bucket=s3_buckets_iterator.get_string("id"),
+                       key="help",
+                       source=help_file.path
+                       )
         # DOCS_BLOCK_END:iterators-chain
-
 
         # DOCS_BLOCK_START:iterators-for-expression
         values = TerraformLocal(self, "map-local", {
