@@ -5,13 +5,9 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"syscall/js"
 
-	"github.com/zclconf/go-cty/cty"
-
-	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/hashicorp/hcl/v2/hclwrite"
 )
 
@@ -59,12 +55,9 @@ func main() {
 			return nil, fmt.Errorf("No arguments provided")
 		}
 
-		formatted, err := hclwrite.Format([]byte(args[1].String()))
-		if err != nil {
-			return nil, err
-		}
+		formatted := hclwrite.Format([]byte(args[0].String()))
 
-		return string(formatted), err
+		return string(formatted), nil
 	})
 
 	<-c

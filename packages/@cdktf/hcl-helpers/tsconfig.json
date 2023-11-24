@@ -7,9 +7,7 @@
     "experimentalDecorators": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "lib": [
-      "es2019"
-    ],
+    "lib": ["es2019"],
     "module": "CommonJS",
     "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
@@ -31,13 +29,6 @@
     "allowJs": true,
     "checkJs": false
   },
-  "include": [
-    "lib/**/*.ts",
-    "test/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.d.ts",
-    "wasm/*"
-  ],
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules", "**/*.d.ts", "wasm/*"]
 }
