@@ -184,7 +184,7 @@ namespace Examples
                     }
                 }
             });
-            MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(values.AsAnyMap);
+            // MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(values.AsAnyMap);
             // new TerraformLocal(this, "list-of-keys", mapIterator.Keys());
             // new TerraformLocal(this, "list-of-values", mapIterator.Values());
             // new TerraformLocal(this, "list-of-names", mapIterator.PluckProperty("name"));
