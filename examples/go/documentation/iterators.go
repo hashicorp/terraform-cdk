@@ -7,10 +7,16 @@ import (
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/acm_certificate"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/acm_certificate_validation"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/data_route53_zone"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
 	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/route53_record"
+
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucket"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucketobject"
+
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/integrations/github/datagithuborganization"
 	github "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/integrations/github/provider"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/integrations/github/team"
@@ -98,6 +104,37 @@ func NewIteratorsStack(scope constructs.Construct, name string) cdktf.TerraformS
 		},
 	})
 	// DOCS_BLOCK_END:iterators-count
+
+	// DOCS_BLOCK_START:iterators-complex-lists
+	cert := acm_certificate.NewAcmCertificate(stack, jsii.String("cert"), &acm_certificate.AcmCertificateConfig{
+		DomainName:       jsii.String("example.com"),
+		ValidationMethod: jsii.String("DNS"),
+	})
+
+	dataAwsRoute53ZoneExample := data_route53_zone.NewDataAwsRoute53Zone(stack, jsii.String("dns_zone"), &data_route53_zone.DataAwsRoute53ZoneConfig{
+		Name:        jsii.String("example.com"),
+		PrivateZone: jsii.Bool(false),
+	})
+
+	exampleForEachIterator := cdktf.TerraformIterator_FromComplexList(cert.DomainValidationOptions(), jsii.String("domain_name"))
+
+	records := route53_record.NewRoute53Record(stack, jsii.String("record"), &route53_record.Route53RecordConfig{
+		ForEach:        exampleForEachIterator,
+		AllowOverwrite: jsii.Bool(true),
+		Name:           exampleForEachIterator.GetString(jsii.String("name")),
+		Records:        []*string{exampleForEachIterator.GetString(jsii.String("record"))},
+		Ttl:            jsii.Number(60),
+		Type:           exampleForEachIterator.GetString(jsii.String("type")),
+		ZoneId:         dataAwsRoute53ZoneExample.ZoneId(),
+	})
+
+	recordsIterator := cdktf.TerraformIterator_FromResources(records)
+
+	acm_certificate_validation.NewAcmCertificateValidation(stack, jsii.String("validation"), &acm_certificate_validation.AcmCertificateValidationConfig{
+		CertificateArn:        cert.Arn(),
+		ValidationRecordFqdns: cdktf.Token_AsList(recordsIterator.MapToValueProperty(jsii.String("fqdn")), nil),
+	})
+	// DOCS_BLOCK_END:iterators-complex-lists
 
 	// DOCS_BLOCK_START:iterators-chain
 	config := cdktf.NewTerraformLocal(stack, jsii.String("config-local"), []map[string]interface{}{
