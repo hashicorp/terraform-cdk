@@ -60,7 +60,31 @@ function jsonExpressionToHcl(jsonExpression: string | number): string {
   return `"${jsonExpression}"`;
 }
 
-function providerToHcl(providers: any): string[] {
+function variablesToHcl(variables: any): string[] {
+  const variableNames = Object.keys(variables);
+
+  if (variableNames.length === 0) {
+    return [];
+  }
+
+  let hcl: string[] = [];
+
+  for (const variableName of variableNames) {
+    const variable = variables[variableName];
+    hcl = hcl.concat([
+      `variable "${variableName}" {`,
+      ...Object.entries(variable).map(
+        ([name, value]) => `  ${name} = ${jsonExpressionToHcl(value as string)}`
+      ),
+      "}",
+      "",
+    ]);
+  }
+
+  return hcl.flat(0);
+}
+
+function providersToHcl(providers: any): string[] {
   const providerTypes = Object.keys(providers);
 
   if (providerTypes.length === 0) {
@@ -128,7 +152,7 @@ function resourcesToHcl(resources: any): string[] {
     for (const resourceName of Object.keys(resourcesOfType)) {
       const resource = resourcesOfType[resourceName];
       hcl = hcl.concat([
-        `resource "${resourceType}" "${resource.name}" {`,
+        `resource "${resourceType}" "${resourceName}" {`,
         ...Object.entries(resource).map(
           ([name, value]) =>
             `  ${name} = ${jsonExpressionToHcl(value as string)}`
@@ -142,19 +166,18 @@ function resourcesToHcl(resources: any): string[] {
   return hcl.flat(0);
 }
 
+function movedBlocksToHcl(movedBlocks: any): string[] {
+  return movedBlocks
+    .map((movedBlock: any) => {
+      const { from, to } = movedBlock;
+      return [`moved {`, `  from = "${from}"`, `  to = "${to}"`, `}`, ""].join(
+        "\n"
+      );
+    })
+    .flat(0);
+}
+
 function modulesToHcl(modules: any): string[] {
-  /*
-"module": {
-        "test": {
-          "module_parameter": "myParam",
-          "providers": {
-            "test": "test.provider1"
-          },
-          "source": "my-module",
-          "version": "1.0"
-        }
-      },
-   */
   const moduleNames = Object.keys(modules);
 
   if (moduleNames.length === 0) {
@@ -217,8 +240,12 @@ export async function jsonToHcl(jsonTf: any): Promise<string> {
     ]);
   }
 
+  if (jsonTf.variable) {
+    hcl = hcl.concat(variablesToHcl(jsonTf.variable));
+  }
+
   if (jsonTf.provider) {
-    hcl = hcl.concat(providerToHcl(provider));
+    hcl = hcl.concat(providersToHcl(provider));
   }
 
   if (jsonTf.resource) {
@@ -246,6 +273,10 @@ export async function jsonToHcl(jsonTf: any): Promise<string> {
 
   if (jsonTf.module) {
     hcl = hcl.concat(modulesToHcl(jsonTf.module));
+  }
+
+  if (jsonTf.moved) {
+    hcl = hcl.concat(movedBlocksToHcl(jsonTf.moved));
   }
 
   return formatHCL(hcl.flat(0).join("\n") + "\n");
