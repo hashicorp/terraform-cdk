@@ -121,7 +121,7 @@ namespace Examples
             // We need a local to be able to pass the list to the iterator
             TerraformLocal configuration = new TerraformLocal(this, "configuration", new Dictionary<string, object> {
                 {
-                    "website ",
+                    "website",
                     new Dictionary<string, object> {
                         { "name", "website-static-files" },
                         { "tags", new Dictionary<string, string> {
@@ -162,8 +162,9 @@ namespace Examples
             });
             // DOCS_BLOCK_END:iterators-chain
 
+            /*
             // DOCS_BLOCK_START:iterators-for-expression
-            TerraformLocal values = new TerraformLocal(this, "values", new Dictionary<string, object> {
+            TerraformLocal values = new TerraformLocal(this, "iterator-values", new Dictionary<string, object> {
                 {
                     "website",
                     new Dictionary<string, object> {
@@ -190,6 +191,7 @@ namespace Examples
             new TerraformLocal(this, "list-of-names-of-included", mapIterator.ForExpressionForList("val.name if val.included"));
             new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.ForExpressionForMap("val.name", "val.tags if val.included"));
             // DOCS_BLOCK_END:iterators-for-expression
+            */
         }
     }
 }
