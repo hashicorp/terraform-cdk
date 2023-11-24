@@ -165,7 +165,7 @@ namespace Examples
             // DOCS_BLOCK_START:iterators-for-expression
             TerraformLocal values = new TerraformLocal(this, "values", new Dictionary<string, object> {
                 {
-                    "website ",
+                    "website",
                     new Dictionary<string, object> {
                         { "name", "website-static-files" },
                         { "tags", new Dictionary<string, string> {
@@ -185,6 +185,7 @@ namespace Examples
             });
             MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(values.AsAnyMap);
             new TerraformLocal(this, "list-of-keys", mapIterator.Keys());
+            new TerraformLocal(this, "list-of-values", mapIterator.Values());
             new TerraformLocal(this, "list-of-names", mapIterator.PluckProperty("name"));
             new TerraformLocal(this, "list-of-names-of-included", mapIterator.ForExpressionForList("val.name if val.included"));
             new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.ForExpressionForMap("val.name", "val.tags if val.included"));

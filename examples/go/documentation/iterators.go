@@ -144,6 +144,7 @@ func NewIteratorsStack(scope constructs.Construct, name string) cdktf.TerraformS
 
 	mapIterator := cdktf.TerraformIterator_FromList(values.Expression())
 	cdktf.NewTerraformLocal(stack, jsii.String("list-of-keys"), mapIterator.Keys())
+	cdktf.NewTerraformLocal(stack, jsii.String("list-of-values"), mapIterator.Values())
 	cdktf.NewTerraformLocal(stack, jsii.String("list-of-names"), mapIterator.PluckProperty(jsii.String("name")))
 	cdktf.NewTerraformLocal(stack, jsii.String("list-of-names-of-included"), mapIterator.ForExpressionForList(jsii.String("val.name if val.included")))
 	cdktf.NewTerraformLocal(stack, jsii.String("map-with-names-as-key-and-tags-as-value-of-included"), mapIterator.ForExpressionForMap(jsii.String("val.name"), jsii.String("val.tags if val.included")))
