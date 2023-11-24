@@ -295,7 +295,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
    * Creates a for expression that results in a list.
    * This method allows you to create every possible for expression, but requires more knowledge about
    * Terraforms for expression syntax.
-   * For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty instead.
+   * For the most common use cases you can use mapToKey(), mapToValue(), and mapToValueProperty() instead.
    *
    * You may write any valid Terraform for each expression, it will result
    * in `[ for key, val in var.myIteratorSource: <expression> ]`.
