@@ -99,6 +99,7 @@ jobs:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
       GITHUB_API_TOKEN_CDKTF: ${{ secrets.GITHUB_TOKEN }}
+      CDKTF_HCL_OUTPUT: ${{ matrix.hclOutput }}
     timeout-minutes: 60
 
     steps:

@@ -22,7 +22,8 @@ export class StackSynthesizer implements IStackSynthesizer {
    */
   constructor(
     protected stack: TerraformStack,
-    private continueOnErrorAnnotations = false
+    private continueOnErrorAnnotations = false,
+    private hclOutput = false
   ) {}
 
   synthesize(session: ISynthesisSession) {
@@ -90,19 +91,25 @@ export class StackSynthesizer implements IStackSynthesizer {
 
     const jsonTfConfig = this.stack.toTerraform();
 
-    const hclConfig = jsonToHcl(jsonTfConfig);
+    if (this.hclOutput) {
+      // This is async code, because the `jsonToHcl` function makes a call to the
+      // Golang's `hclwrite` package for eventually formatting generated HCL. I'm not sure
+      // how this will change the execution of synth.
+      jsonToHcl(jsonTfConfig).then((hcl) => {
+        fs.writeFileSync(
+          path.join(
+            session.outdir,
+            stackManifest.synthesizedStackPath.replace(/\.tf\.json$/, ".tf")
+          ),
+          hcl
+        );
+      });
+      return;
+    }
 
     fs.writeFileSync(
       path.join(session.outdir, stackManifest.synthesizedStackPath),
       stringify(jsonTfConfig, { space: 2 })
-    );
-
-    fs.writeFileSync(
-      path.join(
-        session.outdir,
-        stackManifest.synthesizedStackPath.replace(/\.tf\.json$/, ".tf")
-      ),
-      hclConfig
     );
   }
 }

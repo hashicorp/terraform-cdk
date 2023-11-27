@@ -71,7 +71,8 @@ export class SynthStack {
     workingDirectory = process.cwd(),
     graceful = false, // will not exit the process but rethrow the error instead
     noColor = false,
-    synthOrigin?: SynthOrigin
+    synthOrigin?: SynthOrigin,
+    hcl = false
   ): Promise<SynthesizedStack[]> {
     // start performance timer
     const startTime = performance.now();
@@ -118,6 +119,7 @@ might fail while synthesizing with an out of memory error.`);
           ...env,
           CDKTF_OUTDIR: outdir,
           CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS: "true", // we want to display the errors ourselves
+          CDKTF_HCL_OUTPUT: hcl.toString(),
         },
         cwd: workingDirectory,
         signal: abortSignal,

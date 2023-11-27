@@ -74,7 +74,8 @@ export class TerraformStack extends Construct {
     this.cdktfVersion = this.node.tryGetContext("cdktfVersion");
     this.synthesizer = new StackSynthesizer(
       this,
-      process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS !== undefined
+      process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS !== undefined,
+      process.env.CDKTF_HCL_OUTPUT === "true"
     );
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
     this.node.addValidation(new ValidateProviderPresence(this));
