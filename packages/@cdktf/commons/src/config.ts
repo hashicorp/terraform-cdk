@@ -96,12 +96,17 @@ export class TerraformModuleConstraint
   private parseDependencyConstraint(
     item: string
   ): TerraformDependencyConstraint {
+    console.log("item: ", item);
     const localMatch = getLocalMatch(item);
+    console.log("local match: ", localMatch);
     if (localMatch) {
       const fqn = localMatch[2];
       const nameParts = fqn.split("/");
       const name = nameParts.pop() ?? fqn;
       const namespace = nameParts.pop();
+      console.log("fqn: ", fqn);
+      console.log("name: ", name);
+      console.log("namespace: ", namespace);
 
       return {
         name,
@@ -125,7 +130,13 @@ export class TerraformModuleConstraint
         namespace = `${namespace}/${name}/${moduleNameParts.join("/")}`;
         name = moduleName ?? name;
       }
-
+      console.log("name parts: ", nameParts);
+      console.log("name: ", name);
+      console.log("namespace: ", namespace);
+      console.log("module parts length", moduleParts.length);
+      console.log("source: ", source);
+      console.log("fqn: ", source.replace("//", "/").replace(/\./g, "-"));
+      console.log("module parts: ", moduleParts);
       return {
         name,
         source,

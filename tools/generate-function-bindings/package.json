@@ -1,6 +1,6 @@
 {
   "name": "generate-function-bindings",
-  "version": "0.0.0",
+  "version": "0.19.1-dev.2",
   "private": "true",
   "description": "Tool to generate CDK for Terraform function bindings",
   "scripts": {
@@ -32,14 +32,14 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "cdktf": "0.0.0",
+    "cdktf": "0.19.1-dev.2",
     "log4js": "^6.7.0"
   },
   "devDependencies": {
-    "@cdktf/provider-generator": "0.0.0",
     "@babel/generator": "^7.20.4",
     "@babel/template": "^7.18.10",
     "@babel/types": "^7.20.2",
+    "@cdktf/provider-generator": "0.19.1-dev.2",
     "ts-node": "^10.9.1"
   },
   "eslintConfig": {

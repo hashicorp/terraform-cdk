@@ -1,6 +1,6 @@
 {
   "name": "@cdktf/provider-generator",
-  "version": "0.0.0",
+  "version": "0.19.1-dev.2",
   "description": "Exposes API to generate Terraform CDK provider bindings",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -27,11 +27,15 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
-  "keywords": ["cdk", "cdktf", "terraform"],
+  "keywords": [
+    "cdk",
+    "cdktf",
+    "terraform"
+  ],
   "license": "MPL-2.0",
   "dependencies": {
-    "@cdktf/commons": "0.0.0",
-    "@cdktf/provider-schema": "0.0.0",
+    "@cdktf/commons": "0.19.1-dev.2",
+    "@cdktf/provider-schema": "0.19.1-dev.2",
     "@types/node": "18.18.8",
     "codemaker": "^1.91.0",
     "fs-extra": "^8.1.0",

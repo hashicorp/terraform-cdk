@@ -1,0 +1,8 @@
+github.com/Masterminds/semver/v3 v3.2.1 h1:RN9w6+7QoMeJVGyfmbcgs28Br8cvmnucEXnY0rYXWg0=
+github.com/Masterminds/semver/v3 v3.2.1/go.mod h1:qvl/7zhW3nngYb5+80sSMF+FG2BjYrf8m9wsX0PNOMQ=
+github.com/aws/constructs-go/constructs/v10 v10.1.167 h1:9qy6KEHleT8/4UDSTspRRd82h+MKDxcCqwEG3R23Tyo=
+github.com/aws/constructs-go/constructs/v10 v10.1.167/go.mod h1:UXHdJzEYgQPF75bdwT+sWUqMKhXQgW/65MIxFI/ulmE=
+github.com/aws/jsii-runtime-go v1.91.0 h1:KJAgMbRY7/Cp2ocV5rIf4GmLBiFYYAMYVDeAebP2kfE=
+github.com/aws/jsii-runtime-go v1.91.0/go.mod h1:xLBI2fKjWK68+eqqmvkv4HL1f4YUPLiAi5BT3wNUD74=
+github.com/hashicorp/terraform-cdk-go/cdktf v0.19.1 h1:hYAGBc2FcJ9bkoi7KW2yBQ6NgW9W8gpUKidggGUIc2o=
+github.com/hashicorp/terraform-cdk-go/cdktf v0.19.1/go.mod h1:RxPi3ST02Xrw+L9kCqNe8boHcXupDQCdJwGGcD3wemg=

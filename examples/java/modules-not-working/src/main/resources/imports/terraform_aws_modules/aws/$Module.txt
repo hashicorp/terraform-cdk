@@ -1,0 +1,2 @@
+rds.Rds=imports.terraform_aws_modules.aws.Rds
+rds.RdsConfig=imports.terraform_aws_modules.aws.RdsConfig

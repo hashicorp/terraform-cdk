@@ -28,6 +28,7 @@ export async function generateProviderBindingsFromSchema(
   const code = new CodeMaker();
   const generator = new TerraformProviderGenerator(code, schemaJSON);
   generator.generateAll();
+  console.log("schema json", schemaJSON);
 
   await code.save(targetPath);
 

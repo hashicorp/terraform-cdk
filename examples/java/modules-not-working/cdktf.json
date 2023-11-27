@@ -1,0 +1,14 @@
+{
+  "language": "java",
+  "app": "./gradlew run",
+  "sendCrashReports": "false",
+  "codeMakerOutput": "imports",
+  "terraformProviders": [],
+  "terraformModules": [
+    "terraform-aws-modules/vpc/aws@5.0.0",
+    "terraform-aws-modules/rds/aws@5.0.0"
+  ],
+  "context": {
+
+  }
+}

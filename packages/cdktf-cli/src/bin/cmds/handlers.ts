@@ -311,6 +311,8 @@ export async function get(argv: {
       ...modules.map((c) => new TerraformModuleConstraint(c)),
     ];
 
+    console.log("constraints", constraints);
+
     if (constraints.length === 0) {
       logger.warn(
         `WARNING: No providers or modules found in "cdktf.json" config file, therefore cdktf get does nothing.`

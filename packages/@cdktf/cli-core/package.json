@@ -1,6 +1,6 @@
 {
   "name": "@cdktf/cli-core",
-  "version": "0.0.0",
+  "version": "0.19.1-dev.2",
   "description": "CDK for Terraform CLI Core, meant for internal use only",
   "scripts": {
     "build": "tsc",
@@ -37,14 +37,14 @@
   ],
   "license": "MPL-2.0",
   "dependencies": {
-    "@cdktf/commons": "0.0.0",
-    "@cdktf/hcl2cdk": "0.0.0",
-    "@cdktf/hcl2json": "0.0.0",
-    "@cdktf/provider-schema": "0.0.0",
+    "@cdktf/commons": "0.19.1-dev.2",
+    "@cdktf/hcl2cdk": "0.19.1-dev.2",
+    "@cdktf/hcl2json": "0.19.1-dev.2",
     "@cdktf/node-pty-prebuilt-multiarch": "0.10.1-pre.11",
+    "@cdktf/provider-schema": "0.19.1-dev.2",
     "@sentry/node": "^7.80.0",
     "archiver": "^5.3.2",
-    "cdktf": "0.0.0",
+    "cdktf": "0.19.1-dev.2",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "cli-spinners": "2.9.1",
@@ -129,7 +129,7 @@
     "src/**/*.{ts,tsx}": "tsc-files ambient.d.ts --noEmit"
   },
   "devDependencies": {
-    "@cdktf/provider-generator": "0.0.0",
+    "@cdktf/provider-generator": "0.19.1-dev.2",
     "@npmcli/ci-detect": "^1.4.0",
     "@skorfmann/ink-confirm-input": "^3.0.0",
     "@skorfmann/terraform-cloud": "^1.15.0",

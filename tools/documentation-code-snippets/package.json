@@ -1,6 +1,6 @@
 {
     "name": "@tools/documentation-code-snippets",
-    "version": "0.0.0",
+    "version": "0.19.1-dev.2",
     "scripts": {
         "update-snippets": "ts-node ./update-documentation-code-snippets.ts",
         "update-snippets:watch": "nodemon ./update-documentation-code-snippets.ts",

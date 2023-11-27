@@ -1,7 +1,7 @@
 {
   "//": "This example is used to verify all code samples in the documentation work correctly.",
   "name": "@examples/typescript-documentation",
-  "version": "0.0.0",
+  "version": "0.19.1-dev.2",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
@@ -21,13 +21,13 @@
     "@cdktf/provider-github": "^6.0.2",
     "@cdktf/provider-kubernetes": "^4.0.2",
     "@cdktf/provider-random": "^4.0.0",
-    "cdktf": "0.0.0",
+    "cdktf": "0.19.1-dev.2",
     "constructs": "^10.0.25"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "18.11.19",
-    "cdktf-cli": "0.0.0",
+    "cdktf-cli": "0.19.1-dev.2",
     "jest": "^27.5.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2"

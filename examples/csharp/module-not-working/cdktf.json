@@ -1,0 +1,13 @@
+{
+  "language": "csharp",
+  "app": "dotnet run -p MyTerraformStack.csproj",
+  "sendCrashReports": "false",
+  "terraformProviders": [],
+  "terraformModules": [
+    "terraform-aws-modules/vpc/aws@5.0.0",
+    "terraform-aws-modules/rds/aws@5.0.0"
+  ],
+  "context": {
+
+  }
+}

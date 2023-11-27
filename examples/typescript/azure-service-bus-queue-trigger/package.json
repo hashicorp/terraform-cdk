@@ -1,6 +1,6 @@
 {
   "name": "@examples/typescript-azure-service-bus-queue-trigger",
-  "version": "1.0.0",
+  "version": "0.19.1-dev.2",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@cdktf/provider-azurerm": "^9.0.6",
-    "cdktf": "^0.0.0",
+    "cdktf": "0.19.1-dev.2",
     "constructs": "^10.0.25"
   },
   "devDependencies": {

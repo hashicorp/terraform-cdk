@@ -1,6 +1,6 @@
 {
   "name": "cdktf",
-  "version": "0.0.0",
+  "version": "0.19.1-dev.2",
   "description": "Cloud Development Kit for Terraform",
   "scripts": {
     "build": "jsii --silence-warnings reserved-word",

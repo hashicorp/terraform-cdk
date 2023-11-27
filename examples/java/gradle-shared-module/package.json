@@ -2,7 +2,7 @@
   "//": "this example is currently disabled as it somehow fails to install in CI but works locally, using mvn install would probably need to be switched to a Gradle only solution. Tracked in #2759",
   "private": "true",
   "name": "@examples/java-gradle-shared-module",
-  "version": "0.0.0",
+  "version": "0.19.1-dev.2",
   "license": "MPL-2.0",
   "scripts": {
     "reinstall": "mvn install:install-file -Dfile=./../../../dist/java/com/hashicorp/cdktf/0.0.0/cdktf-0.0.0.jar -DgroupId=com.hashicorp -DartifactId=cdktf -Dversion=0.0.0 -Dpackaging=jar",

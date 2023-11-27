@@ -13,5 +13,5 @@
     "tools/*"
   ],
   "npmClient": "yarn",
-  "version": "0.0.0"
+  "version": "0.19.1-dev.2"
 }

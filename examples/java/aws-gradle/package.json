@@ -1,6 +1,6 @@
 {
   "name": "@examples/java-aws-gradle",
-  "version": "0.0.0",
+  "version": "0.19.1-dev.2",
   "license": "MPL-2.0",
   "scripts": {
     "reinstall": "./reinstall.sh",

@@ -316,7 +316,6 @@ export class ConstructsMaker {
         2
       )}`
     );
-
     // All languages besides TS keep their providers in the same folders as modules
     // this makes it impossible for us to distinguish a no longer required provider
     // from a manually written construct or a module
@@ -401,8 +400,13 @@ export class ConstructsMaker {
     if (this.options.outputJsii) {
       opts.jsii = { path: this.options.outputJsii };
     }
-
+    // TODO: Issue seems to stem around here - issue for csharp, java, and python
     if (this.isPythonTarget) {
+      console.log("target name: ", target.name);
+      console.log(
+        "target info:\n",
+        `module name: ${target.srcMakName}, outdir: ${this.codeMakerOutdir}`
+      );
       opts.python = {
         outdir: this.codeMakerOutdir,
         moduleName: target.srcMakName,
@@ -480,8 +484,11 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
       ConstructsMakerTarget.from(constraint, this.options.targetLanguage)
     );
 
+    console.log("targets: ", targets);
+
     const endSchemaTimer = logTimespan("Gathering schema");
     const schemas = await this.getSchemas(constraintsToGenerate);
+    console.log("schemas: ", schemas);
     endSchemaTimer();
 
     const endGenerateTimer = logTimespan("Generate TS");
@@ -537,7 +544,6 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
         })
         // sort by depth, so we start with the shallowest files
         .sort((a, b) => a.split("/").length - b.split("/").length);
-
       const visitedDirectories: string[] = [];
       for (const initPyPath of allInitPyPaths) {
         const directoryPath = path.dirname(initPyPath);

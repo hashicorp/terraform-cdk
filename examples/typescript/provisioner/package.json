@@ -1,6 +1,6 @@
 {
   "name": "@examples/typescript-provisioner",
-  "version": "0.0.0",
+  "version": "0.19.1-dev.2",
   "main": "main.js",
   "license": "MPL-2.0",
   "scripts": {
@@ -15,7 +15,7 @@
     "upgrade:next": "npm i cdktf@next cdktf-cli@next"
   },
   "dependencies": {
-    "cdktf": "0.0.0",
+    "cdktf": "0.19.1-dev.2",
     "constructs": "^10.0.25"
   },
   "devDependencies": {
