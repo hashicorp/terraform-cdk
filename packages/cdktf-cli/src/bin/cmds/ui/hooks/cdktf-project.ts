@@ -13,6 +13,7 @@ export type LogEntry = {
 type CdktfProjectOpts = {
   outDir: string;
   synthCommand: string;
+  hcl?: boolean;
 };
 
 export type Status =
@@ -66,6 +67,7 @@ export function useCdktfProject<T>(
   useEffect(() => {
     const project = new CdktfProject({
       outDir: opts.outDir,
+      hcl: opts.hcl,
       synthCommand: opts.synthCommand,
       onUpdate: (update: ProjectUpdate) => {
         if (["synthesizing"].includes(update.type)) {
