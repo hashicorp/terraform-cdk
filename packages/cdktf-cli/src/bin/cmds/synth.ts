@@ -34,6 +34,11 @@ class Command extends BaseCommand {
         desc: "Should `codeMakerOutput` existence check be performed? By default it will be checked if providers or modules are configured.",
         default: shouldCheckCodeMakerOutput(config),
       })
+      .option("hcl", {
+        type: "boolean",
+        desc: "Should the output be in HCL format?",
+        default: false,
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {

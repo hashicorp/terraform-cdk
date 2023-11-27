@@ -17,6 +17,7 @@ interface CommonSynthConfig {
 
 interface SynthConfig extends CommonSynthConfig {
   synthCommand: string;
+  hcl: boolean;
 }
 type SynthOutputConfig = {
   stacks: SynthesizedStack[];
@@ -33,9 +34,10 @@ const SynthOutput = ({ stacks }: SynthOutputConfig): React.ReactElement => {
 export const Synth = ({
   outDir,
   synthCommand,
+  hcl,
 }: SynthConfig): React.ReactElement => {
   const { returnValue, logEntries, status } = useCdktfProject(
-    { outDir, synthCommand },
+    { outDir, synthCommand, hcl },
     (project) => project.synth()
   );
 

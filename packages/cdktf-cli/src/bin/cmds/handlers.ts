@@ -435,6 +435,7 @@ export async function synth(argv: any) {
     const checkCodeMakerOutput = argv.checkCodeMakerOutput;
     const command = argv.app;
     const outDir = argv.output;
+    const hcl = argv.hcl;
 
     if (
       checkCodeMakerOutput &&
@@ -450,6 +451,7 @@ export async function synth(argv: any) {
       React.createElement(Synth, {
         outDir,
         synthCommand: command,
+        hcl,
       })
     );
   } finally {

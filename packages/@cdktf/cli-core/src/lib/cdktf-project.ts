@@ -135,6 +135,7 @@ export type CdktfProjectOptions = {
   onLog?: (log: LogMessage) => void;
   workingDirectory?: string;
   synthOrigin?: SynthOrigin;
+  hcl?: boolean;
 };
 export class CdktfProject {
   public stacks?: SynthesizedStack[];
@@ -147,6 +148,7 @@ export class CdktfProject {
   private onLog?: (log: LogMessage) => void;
   private abortSignal: AbortSignal;
   private synthOrigin?: SynthOrigin;
+  private hcl?: boolean;
 
   // Set during deploy / destroy
   public stacksToRun: CdktfStack[] = [];
@@ -163,6 +165,7 @@ export class CdktfProject {
     onLog,
     workingDirectory = process.cwd(),
     synthOrigin,
+    hcl = false,
   }: CdktfProjectOptions) {
     this.synthCommand = synthCommand;
     this.outDir = outDir;
@@ -172,6 +175,7 @@ export class CdktfProject {
     const ac = new AbortController();
     this.abortSignal = ac.signal;
     this.synthOrigin = synthOrigin;
+    this.hcl = hcl;
 
     this.hardAbort = ac.abort.bind(ac);
     this.ioHandler = new CdktfProjectIOHandler();
@@ -352,6 +356,7 @@ export class CdktfProject {
     this.onUpdate({
       type: "synthesizing",
     });
+
     const stacks = await SynthStack.synth(
       this.abortSignal as any,
       this.synthCommand,
@@ -359,7 +364,8 @@ export class CdktfProject {
       this.workingDirectory,
       false,
       noColor,
-      this.synthOrigin
+      this.synthOrigin,
+      this.hcl
     );
 
     printAnnotations(stacks);

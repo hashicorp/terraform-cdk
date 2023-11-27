@@ -20,6 +20,8 @@ export interface AppConfig {
   readonly outdir?: string;
   readonly stackTraces?: boolean;
 
+  readonly hclOutput?: boolean;
+
   /**
    * Additional context values for the application.
    *
@@ -55,6 +57,8 @@ export class App extends Construct {
    */
   public readonly outdir: string;
 
+  public readonly hclOutput: boolean;
+
   /**
    * The stack which will be synthesized. If not set, all stacks will be synthesized.
    */
@@ -80,7 +84,14 @@ export class App extends Construct {
     super(undefined as any, "");
     Object.defineProperty(this, APP_SYMBOL, { value: true });
 
-    this.outdir = config.outdir ?? process.env.CDKTF_OUTDIR ?? "cdktf.out";
+    this.outdir = process.env.CDKTF_OUTDIR ?? config.outdir ?? "cdktf.out";
+    const envHclOutput = process.env.CDKTF_HCL_OUTPUT;
+    let hclOutput = config.hclOutput || false;
+    if (envHclOutput !== undefined) {
+      hclOutput = envHclOutput === "true";
+    }
+
+    this.hclOutput = hclOutput;
     this.targetStackId = process.env.CDKTF_TARGET_STACK_ID;
     this.skipValidation = config.skipValidation || false;
     this.skipBackendValidation = config.skipBackendValidation || false;
