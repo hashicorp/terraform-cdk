@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 package imports.terraform_aws_modules.aws;
 
 @javax.annotation.Generated(value = "jsii-pacmak/1.91.0 (build 1b1f239)", date = "2023-11-27T19:56:36.291Z")
