@@ -17,8 +17,8 @@ import imports.aws.acm_certificate.AcmCertificate;
 import imports.aws.acm_certificate.AcmCertificateConfig;
 import imports.aws.acm_certificate_validation.AcmCertificateValidation;
 import imports.aws.acm_certificate_validation.AcmCertificateValidationConfig;
-import imports.aws.data_route53_zone.DataAwsRoute53Zone;
-import imports.aws.data_route53_zone.DataAwsRoute53ZoneConfig;
+import imports.aws.data_aws_route53_zone.DataAwsRoute53Zone;
+import imports.aws.data_aws_route53_zone.DataAwsRoute53ZoneConfig;
 import imports.aws.route53_record.Route53Record;
 import imports.aws.route53_record.Route53RecordConfig;
 
@@ -77,7 +77,7 @@ public class MainIterator2 extends TerraformStack {
 
         TerraformIterator recordsIterator = TerraformIterator.fromResources(records);
 
-        new AcmCertificateValidation(this, "validation", AcmCertificateValidationConfig.builder()
+        AcmCertificateValidation validation = new AcmCertificateValidation(this, "validation", AcmCertificateValidationConfig.builder()
             .certificateArn(cert.arn)
             .validationRecordFqdns(Token.asList(
                 recordsIterator.pluckProperty("fqdn")
