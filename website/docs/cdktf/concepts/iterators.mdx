@@ -387,7 +387,7 @@ new AcmCertificateValidation(this, "validation", {
             .build());
 
         TerraformIterator exampleForEachIterator = TerraformIterator.fromComplexList(
-            cert.domainValidationOptions,
+            cert.getDomainValidationOptions(),
             "domain_name"
         );
 
@@ -398,13 +398,13 @@ new AcmCertificateValidation(this, "validation", {
             .records(Arrays.asList(exampleForEachIterator.getString("record")))
             .ttl(60)
             .type(exampleForEachIterator.getString("type"))
-            .zoneId(dataAwsRoute53ZoneExample.zoneId)
+            .zoneId(dataAwsRoute53ZoneExample.getZoneId())
             .build());
 
         TerraformIterator recordsIterator = TerraformIterator.fromResources(records);
 
-        new AcmCertificateValidation(this, "validation", AcmCertificateValidationConfig.builder()
-            .certificateArn(cert.arn)
+        AcmCertificateValidation validation = new AcmCertificateValidation(this, "validation", AcmCertificateValidationConfig.builder()
+            .certificateArn(cert.getArn())
             .validationRecordFqdns(Token.asList(
                 recordsIterator.pluckProperty("fqdn")
             ))
@@ -447,23 +447,23 @@ new AcmCertificateValidation(this, "validation", {
 ```
 
 ```go
-cert := acm_certificate.NewAcmCertificate(stack, jsii.String("cert"), &acm_certificate.AcmCertificateConfig{
+cert := acmcertificate.NewAcmCertificate(stack, jsii.String("cert"), &acmcertificate.AcmCertificateConfig{
 	DomainName:       jsii.String("example.com"),
 	ValidationMethod: jsii.String("DNS"),
 })
 
-dataAwsRoute53ZoneExample := data_route53_zone.NewDataAwsRoute53Zone(stack, jsii.String("dns_zone"), &data_route53_zone.DataAwsRoute53ZoneConfig{
+dataAwsRoute53ZoneExample := dataawsroute53zone.NewDataAwsRoute53Zone(stack, jsii.String("dns_zone"), &dataawsroute53zone.DataAwsRoute53ZoneConfig{
 	Name:        jsii.String("example.com"),
 	PrivateZone: jsii.Bool(false),
 })
 
 exampleForEachIterator := cdktf.TerraformIterator_FromComplexList(cert.DomainValidationOptions(), jsii.String("domain_name"))
 
-records := route53_record.NewRoute53Record(stack, jsii.String("record"), &route53_record.Route53RecordConfig{
+records := route53record.NewRoute53Record(stack, jsii.String("record"), &route53record.Route53RecordConfig{
 	ForEach:        exampleForEachIterator,
 	AllowOverwrite: jsii.Bool(true),
 	Name:           exampleForEachIterator.GetString(jsii.String("name")),
-	Records:        []*string{exampleForEachIterator.GetString(jsii.String("record"))},
+	Records:        jsii.Strings(*exampleForEachIterator.GetString(jsii.String("record"))),
 	Ttl:            jsii.Number(60),
 	Type:           exampleForEachIterator.GetString(jsii.String("type")),
 	ZoneId:         dataAwsRoute53ZoneExample.ZoneId(),
@@ -471,7 +471,7 @@ records := route53_record.NewRoute53Record(stack, jsii.String("record"), &route5
 
 recordsIterator := cdktf.TerraformIterator_FromResources(records)
 
-acm_certificate_validation.NewAcmCertificateValidation(stack, jsii.String("validation"), &acm_certificate_validation.AcmCertificateValidationConfig{
+acmcertificatevalidation.NewAcmCertificateValidation(stack, jsii.String("validation"), &acmcertificatevalidation.AcmCertificateValidationConfig{
 	CertificateArn:        cert.Arn(),
 	ValidationRecordFqdns: cdktf.Token_AsList(recordsIterator.PluckProperty(jsii.String("fqdn")), nil),
 })
@@ -764,7 +764,7 @@ new S3BucketObject(this, "object", {
             // We need a local to be able to pass the list to the iterator
             TerraformLocal configuration = new TerraformLocal(this, "configuration", new Dictionary<string, object> {
                 {
-                    "website ",
+                    "website",
                     new Dictionary<string, object> {
                         { "name", "website-static-files" },
                         { "tags", new Dictionary<string, string> {
@@ -942,7 +942,7 @@ TerraformLocal(self, "map-with-names-as-key-and-tags-as-value-of-included",
 ```
 
 ```csharp
-TerraformLocal values = new TerraformLocal(this, "values", new Dictionary<string, object> {
+TerraformLocal values = new TerraformLocal(this, "iterator-values", new Dictionary<string, object> {
     {
         "website",
         new Dictionary<string, object> {
