@@ -25,7 +25,7 @@ const LIST_ERROR_EXPLANATION = `In CDKTF we represent lists where the value is o
 Arrays with a single element that is a string token, e.g. ["Token.1"]. This is because at compile time we
 don't know the length of the list, so far CDKTF did not invoke Terraform to communicate with the cloud provider.
 This is done at a later stage on the synthesized static JSON file.
-As we don't know the length of the list not the content we can not differenciate if the list was accessed at the first index,
+As we don't know the length of the list not the content we can not differentiate if the list was accessed at the first index,
 the last index, or as part of a loop. To avoid this ambiguity:
 
 - If you want to access a singular item use 'Fn.element(list, 0)' (not 'list[0]')
@@ -35,13 +35,13 @@ To learn more about tokens see https://developer.hashicorp.com/terraform/cdktf/c
 To learn more about iterators see https://developer.hashicorp.com/terraform/cdktf/concepts/iterators`;
 
 const MAP_ERROR_EXPLANATION = `In CDKTF we represent maps where the value is only known at runtime (versus compile / synth time) as
-Objects with a single key-value pair where the value is a string token, e.g. { "&{TfToken[Token.1]}": "String Map Token Value" }. This is because at compile time we
+objects with a single key-value pair where the value is a string token, e.g. { "&{TfToken[Token.1]}": "String Map Token Value" }. This is because at compile time we
 don't know the contents of the map, so far CDKTF did not invoke Terraform to communicate with the cloud provider.
 This is done at a later stage on the synthesized static JSON file.
 As we don't know the contents of the map we do not know which key was accessed, or if the map was accessed as part of a loop.
 To avoid this ambiguity:
 
-- If you want to access a singular item use 'Fn.lookup(map, key, default)' (not 'map[key]')
+- If you want to access a singular item use 'Fn.lookup(map, key)' (not 'map[key]')
 - If you want to loop over the map use 'TerraformIterator.fromMap(map)' (not 'for (const [key, value] of map)' or 'Object.entries(map).forEach((key, value) => ...)')
 
 To learn more about tokens see https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
@@ -146,8 +146,8 @@ it does not create an infinite construct nesting.`);
 
   if (typeof obj === "function") {
     throw new Error(
-      `Trying to resolve a non-data object (e.g. a function) at '${pathName}': ${obj}. Only token are supported for lazy evaluation.
-If you want to have a lazy value computed, please use the Lazy class, e.g. Lazy.stringValue({ produce: () => "Hello World" })`
+      `Trying to resolve a non-data object (e.g. a function) at '${pathName}': ${obj}. Only tokens are supported for lazy evaluation.
+If you want to have a lazily computed value, please use the Lazy class, e.g. Lazy.stringValue({ produce: () => "Hello World" })`
     );
   }
 
