@@ -24,3 +24,31 @@ test("generate a resource with nested types", async () => {
   );
   expect(output).toMatchSnapshot();
 });
+
+test("generate a resource with nested type and no attributes", async () => {
+  const code = new CodeMaker();
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "nested-type-without-attributes.test")
+  );
+  const spec = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        __dirname,
+        "fixtures",
+        "nested-type-without-attributes.test.fixture.json"
+      ),
+      "utf-8"
+    )
+  );
+  new TerraformProviderGenerator(code, spec).generateAll();
+  await code.save(workdir);
+
+  const output = fs.readFileSync(
+    path.join(
+      workdir,
+      "providers/test/nested-type-without-attributes-resource/index.ts"
+    ),
+    "utf-8"
+  );
+  expect(output).toMatchSnapshot();
+});

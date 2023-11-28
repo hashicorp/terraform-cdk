@@ -1,0 +1,39 @@
+{
+    "format_version": "0.2",
+    "provider_schemas": {
+        "registry.terraform.io/hashicorp/test": {
+            "resource_schemas": {
+                "nested_type_without_attributes_resource": {
+                    "version": 1,
+                    "block": {
+                        "attributes": {
+                            "name": {
+                                "type": "string",
+                                "description": "name of the resource",
+                                "description_kind": "plain",
+                                "optional": true,
+                                "computed": true
+                            },
+                            "predictor_bot_detection": {
+                                "nested_type": {
+                                    "nesting_mode": "single"
+                                },
+                                "description": "A single nested object that specifies options for the Bot Detection predictor.  At least one of the following must be defined: `predictor_anonymous_network`, `predictor_bot_detection`, `predictor_composite`, `predictor_custom_map`, `predictor_device`, `predictor_geovelocity`, `predictor_ip_reputation`, `predictor_user_location_anomaly`, `predictor_user_risk_behavior`, `predictor_velocity`.",
+                                "description_kind": "markdown",
+                                "optional": true
+                            },
+                            "id": {
+                                "type": "string",
+                                "description": "id of the resource",
+                                "description_kind": "plain",
+                                "computed": true
+                            }
+                        },
+                        "description": "The nested_types_resource is an example that uses nested_type instead of type",
+                        "description_kind": "plain"
+                    }
+                }
+            }
+        }
+    }
+}
