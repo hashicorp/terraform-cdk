@@ -294,7 +294,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
   /**
    * Creates a for expression that results in a list.
    * This method allows you to create every possible for expression, but requires more knowledge about
-   * Terraforms for expression syntax.
+   * Terraform's for expression syntax.
    * For the most common use cases you can use keys(), values(), and pluckProperty() instead.
    *
    * You may write any valid Terraform for each expression, e.g.
