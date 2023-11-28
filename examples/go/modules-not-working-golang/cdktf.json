@@ -8,7 +8,6 @@
     "terraform-aws-modules/vpc/aws@5.0.0",
     "terraform-aws-modules/rds/aws@5.0.0"
   ],
-  "context": {
-
-  }
+  "context": {},
+  "projectId": "20966bee-f4c9-45ba-879e-23b9f6d9ef28"
 }

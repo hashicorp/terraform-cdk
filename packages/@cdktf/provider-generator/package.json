@@ -1,6 +1,6 @@
 {
   "name": "@cdktf/provider-generator",
-  "version": "0.19.1-dev.2",
+  "version": "0.19.1-dev.9",
   "description": "Exposes API to generate Terraform CDK provider bindings",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -34,8 +34,8 @@
   ],
   "license": "MPL-2.0",
   "dependencies": {
-    "@cdktf/commons": "0.19.1-dev.2",
-    "@cdktf/provider-schema": "0.19.1-dev.2",
+    "@cdktf/commons": "0.19.1-dev.9",
+    "@cdktf/provider-schema": "0.19.1-dev.9",
     "@types/node": "18.18.8",
     "codemaker": "^1.91.0",
     "fs-extra": "^8.1.0",

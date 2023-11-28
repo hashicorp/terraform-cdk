@@ -1,6 +1,6 @@
 {
   "name": "@cdktf/provider-schema",
-  "version": "0.19.1-dev.2",
+  "version": "0.19.1-dev.9",
   "publishConfig": {
     "access": "public"
   },
@@ -37,8 +37,8 @@
   ],
   "license": "MPL-2.0",
   "dependencies": {
-    "@cdktf/commons": "0.19.1-dev.2",
-    "@cdktf/hcl2json": "0.19.1-dev.2",
+    "@cdktf/commons": "0.19.1-dev.9",
+    "@cdktf/hcl2json": "0.19.1-dev.9",
     "deepmerge": "^4.3.1",
     "fs-extra": "^11.1.1"
   },

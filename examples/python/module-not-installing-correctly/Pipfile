@@ -8,4 +8,4 @@ python_version = "3"
 
 [packages]
 pytest = "*"
-cdktf = {path = "./../../../dist/python/cdktf-0.19.1.dev2-py3-none-any.whl"}
+cdktf = {path = "./../../../dist/python/cdktf-0.19.1.dev9-py3-none-any.whl"}

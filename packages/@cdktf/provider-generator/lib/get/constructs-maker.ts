@@ -401,14 +401,19 @@ export class ConstructsMaker {
       opts.jsii = { path: this.options.outputJsii };
     }
     // TODO: Issue seems to stem around here - issue for csharp, java, and python
+    /**
+     * what does a normal source look like
+     */
     if (this.isPythonTarget) {
       console.log("target name: ", target.name);
       console.log(
         "target info:\n",
         `module name: ${target.srcMakName}, outdir: ${this.codeMakerOutdir}`
       );
+      const outdir = path.join(this.codeMakerOutdir, target.name ?? "");
+      console.log("outdir: ", outdir);
       opts.python = {
-        outdir: this.codeMakerOutdir,
+        outdir: outdir,
         moduleName: target.srcMakName,
       };
     }
@@ -443,6 +448,14 @@ export class ConstructsMaker {
       // jsii-srcmac will produce a folder inside this dir named after "packageName"
       // so this results in e.g. .gen/hashicorp/random
       const outdir = path.join(this.codeMakerOutdir, target.namespace ?? "");
+
+      console.log("outdir: ", outdir);
+      console.log(
+        "target info:\n",
+        `module name: ${await determineGoModuleName(outdir)}, package name: ${
+          target.srcMakName
+        }`
+      );
 
       opts.golang = {
         outdir,

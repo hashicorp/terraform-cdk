@@ -1,5 +1,6 @@
 github.com/Masterminds/semver/v3 v3.2.0 h1:3MEsd0SM6jqZojhjLWWeBY+Kcjy9i6MQAeY7YgDP83g=
 github.com/Masterminds/semver/v3 v3.2.0/go.mod h1:qvl/7zhW3nngYb5+80sSMF+FG2BjYrf8m9wsX0PNOMQ=
+github.com/Masterminds/semver/v3 v3.2.1 h1:RN9w6+7QoMeJVGyfmbcgs28Br8cvmnucEXnY0rYXWg0=
 github.com/Masterminds/semver/v3 v3.2.1/go.mod h1:qvl/7zhW3nngYb5+80sSMF+FG2BjYrf8m9wsX0PNOMQ=
 github.com/aws/jsii-runtime-go v1.73.0 h1:4ncTOPq5SAHI0KgkP1ZdH49hRYVE3VCOZKqtilvvbnc=
 github.com/aws/jsii-runtime-go v1.73.0/go.mod h1:Li7bq0fd6cg3hbRmYQf3l2VOF9dRwF9fLk3GgHOsHVQ=
@@ -7,6 +8,7 @@ github.com/aws/jsii-runtime-go v1.75.0 h1:NhpUfyiL7/wsRuUekFsz8FFBCYLfPD/l61kKg9
 github.com/aws/jsii-runtime-go v1.75.0/go.mod h1:TKCyrtM0pygEPo4rDZzbMSDNCDNTSYSN6/mGyHI6O3I=
 github.com/aws/jsii-runtime-go v1.79.0 h1:iYNJR1RCCba6N/vrzT9pNKC1gPDbLYGJV1YLn5pqTPA=
 github.com/aws/jsii-runtime-go v1.79.0/go.mod h1:4IGCggNIyxe54k/INmsXrEjx9hUYQGw2W7a1I5x6l78=
+github.com/aws/jsii-runtime-go v1.91.0 h1:KJAgMbRY7/Cp2ocV5rIf4GmLBiFYYAMYVDeAebP2kfE=
 github.com/aws/jsii-runtime-go v1.91.0/go.mod h1:xLBI2fKjWK68+eqqmvkv4HL1f4YUPLiAi5BT3wNUD74=
 github.com/fatih/color v1.15.0/go.mod h1:0h5ZqXfHYED7Bhv2ZJamyIOUej9KtShiJESRwBDUSsw=
 github.com/mattn/go-colorable v0.1.13/go.mod h1:7S9/ev0klgBDR4GtXTXX8a3vIGJpMovkB8vQcUbaXHg=
