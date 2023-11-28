@@ -1,5 +1,185 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`generate a resource with nested type and no attributes 1`] = `
+"// https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_type_without_attributes_resource
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface NestedTypeWithoutAttributesResourceConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * name of the resource
+  *
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_type_without_attributes_resource#name NestedTypeWithoutAttributesResource#name}
+  */
+  readonly name?: string;
+  /**
+  * A single nested object that specifies options for the Bot Detection predictor.  At least one of the following must be defined: \`predictor_anonymous_network\`, \`predictor_bot_detection\`, \`predictor_composite\`, \`predictor_custom_map\`, \`predictor_device\`, \`predictor_geovelocity\`, \`predictor_ip_reputation\`, \`predictor_user_location_anomaly\`, \`predictor_user_risk_behavior\`, \`predictor_velocity\`.
+  *
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_type_without_attributes_resource#predictor_bot_detection NestedTypeWithoutAttributesResource#predictor_bot_detection}
+  */
+  readonly predictorBotDetection?: NestedTypeWithoutAttributesResourcePredictorBotDetection;
+}
+export interface NestedTypeWithoutAttributesResourcePredictorBotDetection {
+}
+
+export function nestedTypeWithoutAttributesResourcePredictorBotDetectionToTerraform(struct?: NestedTypeWithoutAttributesResourcePredictorBotDetection | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class NestedTypeWithoutAttributesResourcePredictorBotDetectionOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false);
+  }
+
+  public get internalValue(): NestedTypeWithoutAttributesResourcePredictorBotDetection | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: NestedTypeWithoutAttributesResourcePredictorBotDetection | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+    }
+  }
+}
+
+/**
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_type_without_attributes_resource nested_type_without_attributes_resource}
+*/
+export class NestedTypeWithoutAttributesResource extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = "nested_type_without_attributes_resource";
+
+  // ==============
+  // STATIC Methods
+  // ==============
+  /**
+  * Generates CDKTF code for importing a NestedTypeWithoutAttributesResource resource upon running "cdktf plan <stack-name>"
+  * @param scope The scope in which to define this construct
+  * @param importToId The construct id used in the generated config for the NestedTypeWithoutAttributesResource to import
+  * @param importFromId The id of the existing NestedTypeWithoutAttributesResource that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_type_without_attributes_resource#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the NestedTypeWithoutAttributesResource to import is found
+  */
+  public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "nested_type_without_attributes_resource", importId: importFromId, provider });
+      }
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_type_without_attributes_resource nested_type_without_attributes_resource} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options NestedTypeWithoutAttributesResourceConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: NestedTypeWithoutAttributesResourceConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'nested_type_without_attributes_resource',
+      terraformGeneratorMetadata: {
+        providerName: 'test'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
+    });
+    this._name = config.name;
+    this._predictorBotDetection.internalValue = config.predictorBotDetection;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // name - computed: true, optional: true, required: false
+  private _name?: string; 
+  public get name() {
+    return this.getStringAttribute('name');
+  }
+  public set name(value: string) {
+    this._name = value;
+  }
+  public resetName() {
+    this._name = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get nameInput() {
+    return this._name;
+  }
+
+  // predictor_bot_detection - computed: false, optional: true, required: false
+  private _predictorBotDetection = new NestedTypeWithoutAttributesResourcePredictorBotDetectionOutputReference(this, "predictor_bot_detection");
+  public get predictorBotDetection() {
+    return this._predictorBotDetection;
+  }
+  public putPredictorBotDetection(value: NestedTypeWithoutAttributesResourcePredictorBotDetection) {
+    this._predictorBotDetection.internalValue = value;
+  }
+  public resetPredictorBotDetection() {
+    this._predictorBotDetection.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get predictorBotDetectionInput() {
+    return this._predictorBotDetection.internalValue;
+  }
+
+  // id - computed: true, optional: false, required: false
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      name: cdktf.stringToTerraform(this._name),
+      predictor_bot_detection: nestedTypeWithoutAttributesResourcePredictorBotDetectionToTerraform(this._predictorBotDetection.internalValue),
+    };
+  }
+}
+"
+`;
+
 exports[`generate a resource with nested types 1`] = `
 "// https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource
 // generated from terraform resource schema

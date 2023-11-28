@@ -569,52 +569,54 @@ class Parser {
   }
   private addAnonymousStruct(
     scope: Scope[],
-    attrs: { [name: string]: Attribute },
+    attrs: { [name: string]: Attribute } | undefined,
     nesting_mode: string
   ) {
     let attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
-    for (const [terraformName, att] of Object.entries(attrs)) {
-      // nested types support computed, optional and required on attribute level
-      // if parent is computed, child always is computed as well
-      const computed =
-        !!parent.isComputed || (parent.isNestedType && !!att.computed);
-      const optional = parent.isNestedType
-        ? !!att.optional
-        : !!parent.isOptional;
-      const required = parent.isNestedType
-        ? !!att.required
-        : !!parent.isRequired;
-      const name = toCamelCase(terraformName);
-      const type = this.renderAttributeType(
-        [
-          ...scope,
-          new Scope({
-            name: terraformName,
-            parent,
-            isProvider: parent.isProvider,
-            isComputed: computed,
-            isOptional: optional,
-            isRequired: required,
-            isNestedType: parent.isNestedType,
-          }),
-        ],
-        att.type || att.nested_type
-      );
-      attributes.push(
-        new AttributeModel({
-          name,
-          storageName: `_${name}`,
-          computed: computed,
-          description: att.description,
-          optional: optional,
-          terraformName,
-          terraformFullName: parent.fullName(terraformName),
-          type,
-          provider: parent.isProvider,
-          required: required,
-        })
-      );
+    if (attrs) {
+      for (const [terraformName, att] of Object.entries(attrs)) {
+        // nested types support computed, optional and required on attribute level
+        // if parent is computed, child always is computed as well
+        const computed =
+          !!parent.isComputed || (parent.isNestedType && !!att.computed);
+        const optional = parent.isNestedType
+          ? !!att.optional
+          : !!parent.isOptional;
+        const required = parent.isNestedType
+          ? !!att.required
+          : !!parent.isRequired;
+        const name = toCamelCase(terraformName);
+        const type = this.renderAttributeType(
+          [
+            ...scope,
+            new Scope({
+              name: terraformName,
+              parent,
+              isProvider: parent.isProvider,
+              isComputed: computed,
+              isOptional: optional,
+              isRequired: required,
+              isNestedType: parent.isNestedType,
+            }),
+          ],
+          att.type || att.nested_type
+        );
+        attributes.push(
+          new AttributeModel({
+            name,
+            storageName: `_${name}`,
+            computed: computed,
+            description: att.description,
+            optional: optional,
+            terraformName,
+            terraformFullName: parent.fullName(terraformName),
+            type,
+            provider: parent.isProvider,
+            required: required,
+          })
+        );
+      }
     }
 
     attributes = deduplicateAttributesWithSameName(attributes);

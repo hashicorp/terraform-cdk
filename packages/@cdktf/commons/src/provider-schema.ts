@@ -34,7 +34,7 @@ type AttributeNestedTypeNesting = "invalid" | "single" | "list" | "set" | "map";
  * AttributeNestedType here
  */
 export interface AttributeNestedType {
-  attributes: { [name: string]: Attribute };
+  attributes: { [name: string]: Attribute } | undefined;
   nesting_mode: AttributeNestedTypeNesting;
 }
 
@@ -45,7 +45,8 @@ export function isAttributeNestedType(
     typeof type === "object" &&
     !Array.isArray(type) &&
     typeof type.nesting_mode === "string" &&
-    typeof type.attributes === "object"
+    (typeof type.attributes === "object" ||
+      typeof type.attributes === "undefined")
   );
 }
 
