@@ -204,7 +204,8 @@ ${MAP_ERROR_EXPLANATION}`
   if (typeof obj === "number") {
     if (obj === Token.NUMBER_MAP_TOKEN_VALUE) {
       throw new Error(
-        `Found an encoded map token in a scalar number context. ${MAP_ERROR_EXPLANATION}`
+        `Found an encoded map token in a scalar number context.
+${MAP_ERROR_EXPLANATION}`
       );
     }
 
