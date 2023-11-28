@@ -33870,11 +33870,12 @@ public IResolvable forExpressionForList(java.lang.String OR IResolvable expressi
 Creates a for expression that results in a list.
 
 This method allows you to create every possible for expression, but requires more knowledge about
-Terraforms for expression syntax.
+Terraform's for expression syntax.
 For the most common use cases you can use keys(), values(), and pluckProperty() instead.
 
-You may write any valid Terraform for each expression, it will result
-in `[ for key, val in var.myIteratorSource: < expression > ]`.
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromList(myIteratorSourceVar).forExpressionForList("val.foo if val.bar == true")`
+will result in `[ for key, val in var.myIteratorSource: val.foo if val.bar == true ]`.
 
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
@@ -33899,8 +33900,9 @@ This method allows you to create every possible for expression, but requires mor
 Terraforms for expression syntax.
 For the most common use cases you can use keys(), values(), and pluckProperty instead.
 
-You may write any valid Terraform for each expression, it will result
-in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromMap(myIteratorSourceVar).forExpressionForMap("key", "val.foo if val.bar == true")`
+will result in `{ for key, val in var.myIteratorSource: key = > val.foo if val.bar == true }`.
 
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
@@ -34568,11 +34570,12 @@ public IResolvable forExpressionForList(java.lang.String OR IResolvable expressi
 Creates a for expression that results in a list.
 
 This method allows you to create every possible for expression, but requires more knowledge about
-Terraforms for expression syntax.
+Terraform's for expression syntax.
 For the most common use cases you can use keys(), values(), and pluckProperty() instead.
 
-You may write any valid Terraform for each expression, it will result
-in `[ for key, val in var.myIteratorSource: < expression > ]`.
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromList(myIteratorSourceVar).forExpressionForList("val.foo if val.bar == true")`
+will result in `[ for key, val in var.myIteratorSource: val.foo if val.bar == true ]`.
 
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
@@ -34597,8 +34600,9 @@ This method allows you to create every possible for expression, but requires mor
 Terraforms for expression syntax.
 For the most common use cases you can use keys(), values(), and pluckProperty instead.
 
-You may write any valid Terraform for each expression, it will result
-in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromMap(myIteratorSourceVar).forExpressionForMap("key", "val.foo if val.bar == true")`
+will result in `{ for key, val in var.myIteratorSource: key = > val.foo if val.bar == true }`.
 
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
@@ -35994,11 +35998,12 @@ public IResolvable forExpressionForList(java.lang.String OR IResolvable expressi
 Creates a for expression that results in a list.
 
 This method allows you to create every possible for expression, but requires more knowledge about
-Terraforms for expression syntax.
+Terraform's for expression syntax.
 For the most common use cases you can use keys(), values(), and pluckProperty() instead.
 
-You may write any valid Terraform for each expression, it will result
-in `[ for key, val in var.myIteratorSource: < expression > ]`.
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromList(myIteratorSourceVar).forExpressionForList("val.foo if val.bar == true")`
+will result in `[ for key, val in var.myIteratorSource: val.foo if val.bar == true ]`.
 
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
@@ -36023,8 +36028,9 @@ This method allows you to create every possible for expression, but requires mor
 Terraforms for expression syntax.
 For the most common use cases you can use keys(), values(), and pluckProperty instead.
 
-You may write any valid Terraform for each expression, it will result
-in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromMap(myIteratorSourceVar).forExpressionForMap("key", "val.foo if val.bar == true")`
+will result in `{ for key, val in var.myIteratorSource: key = > val.foo if val.bar == true }`.
 
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
@@ -37107,11 +37113,12 @@ public IResolvable forExpressionForList(java.lang.String OR IResolvable expressi
 Creates a for expression that results in a list.
 
 This method allows you to create every possible for expression, but requires more knowledge about
-Terraforms for expression syntax.
+Terraform's for expression syntax.
 For the most common use cases you can use keys(), values(), and pluckProperty() instead.
 
-You may write any valid Terraform for each expression, it will result
-in `[ for key, val in var.myIteratorSource: < expression > ]`.
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromList(myIteratorSourceVar).forExpressionForList("val.foo if val.bar == true")`
+will result in `[ for key, val in var.myIteratorSource: val.foo if val.bar == true ]`.
 
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.
@@ -37136,8 +37143,9 @@ This method allows you to create every possible for expression, but requires mor
 Terraforms for expression syntax.
 For the most common use cases you can use keys(), values(), and pluckProperty instead.
 
-You may write any valid Terraform for each expression, it will result
-in `{ for key, val in var.myIteratorSource: < keyExpression > => < valueExpression > }`.
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromMap(myIteratorSourceVar).forExpressionForMap("key", "val.foo if val.bar == true")`
+will result in `{ for key, val in var.myIteratorSource: key = > val.foo if val.bar == true }`.
 
 As this returns an IResolvable you might need to wrap the output in
 a Token, e.g. `Token.asString`.

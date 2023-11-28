@@ -297,8 +297,9 @@ export abstract class TerraformIterator implements ITerraformIterator {
    * Terraforms for expression syntax.
    * For the most common use cases you can use keys(), values(), and pluckProperty() instead.
    *
-   * You may write any valid Terraform for each expression, it will result
-   * in `[ for key, val in var.myIteratorSource: <expression> ]`.
+   * You may write any valid Terraform for each expression, e.g.
+   * `TerraformIterator.fromList(myIteratorSourceVar).forExpressionForList("val.foo if val.bar == true")`
+   * will result in `[ for key, val in var.myIteratorSource: val.foo if val.bar == true ]`.
    *
    * As this returns an IResolvable you might need to wrap the output in
    * a Token, e.g. `Token.asString`.
@@ -314,8 +315,9 @@ export abstract class TerraformIterator implements ITerraformIterator {
    * Terraforms for expression syntax.
    * For the most common use cases you can use keys(), values(), and pluckProperty instead.
    *
-   * You may write any valid Terraform for each expression, it will result
-   * in `{ for key, val in var.myIteratorSource: <keyExpression> => <valueExpression> }`.
+   * You may write any valid Terraform for each expression, e.g.
+   * `TerraformIterator.fromMap(myIteratorSourceVar).forExpressionForMap("key", "val.foo if val.bar == true")`
+   * will result in `{ for key, val in var.myIteratorSource: key => val.foo if val.bar == true }`.
    *
    * As this returns an IResolvable you might need to wrap the output in
    * a Token, e.g. `Token.asString`.
