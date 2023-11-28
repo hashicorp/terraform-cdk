@@ -235,7 +235,7 @@ export class TestIteratorsSynthOnly extends TerraformStack {
     new AcmCertificateValidation(this, "validation", {
       certificateArn: example.arn,
       validationRecordFqdns: Token.asList(
-        recordsIterator.mapToValueProperty("fqdn")
+        recordsIterator.pluckProperty("fqdn")
       ),
     });
   }
