@@ -61,7 +61,7 @@ public class MainIterator2 extends TerraformStack {
             .build());
 
         TerraformIterator exampleForEachIterator = TerraformIterator.fromComplexList(
-            cert.domainValidationOptions,
+            cert.getDomainValidationOptions(),
             "domain_name"
         );
 
@@ -72,13 +72,13 @@ public class MainIterator2 extends TerraformStack {
             .records(Arrays.asList(exampleForEachIterator.getString("record")))
             .ttl(60)
             .type(exampleForEachIterator.getString("type"))
-            .zoneId(dataAwsRoute53ZoneExample.zoneId)
+            .zoneId(dataAwsRoute53ZoneExample.getZoneId())
             .build());
 
         TerraformIterator recordsIterator = TerraformIterator.fromResources(records);
 
         AcmCertificateValidation validation = new AcmCertificateValidation(this, "validation", AcmCertificateValidationConfig.builder()
-            .certificateArn(cert.arn)
+            .certificateArn(cert.getArn())
             .validationRecordFqdns(Token.asList(
                 recordsIterator.pluckProperty("fqdn")
             ))
