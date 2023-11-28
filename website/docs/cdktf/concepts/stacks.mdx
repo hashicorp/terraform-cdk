@@ -846,7 +846,7 @@ This means that you need to create a separate workspace for each stack and you n
 
 We add the stack dependencies in the `cdktf.out/manifest.json` file for each stack under `dependencies`.
 By default a stack is dependant on another stack when the data used origins in that stack.
-If you e.g. write `this.allResources = Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)` in Stack C and use `stackC.allResources` in Stack D, Stack D will be dependant on Stack A and B, but not C since that is not the origin of the data.
+If you e.g. write `this.allResources = Fn.concat([resourceFromStackA.items, resourceFromStackB.items])` in Stack C and use `stackC.allResources` in Stack D, Stack D will be dependant on Stack A and B, but not C since that is not the origin of the data.
 
 To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
