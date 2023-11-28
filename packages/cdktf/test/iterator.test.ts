@@ -10,7 +10,7 @@ import {
   TerraformVariable,
   Token,
 } from "../lib";
-import { TestResource } from "./helper";
+import { OtherTestResource, TestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
 
 test("iterator inline list", () => {
@@ -349,6 +349,30 @@ test("iterator chaining on data sources", () => {
   );
   expect(synth).toHaveProperty(
     "data.test_data_source.chained.name",
+    "${each.value}"
+  );
+});
+
+test("iterator can be accessed from Complex List", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const resource = new OtherTestResource(stack, "test", {});
+
+  const it = resource.complexComputedList.all;
+  new TestDataSource(stack, "iterated", {
+    forEach: it,
+    name: it.value,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty(
+    "data.test_data_source.iterated.for_each",
+    "${toset(other_test_resource.test.complex_computed_list)}"
+  );
+  expect(synth).toHaveProperty(
+    "data.test_data_source.iterated.name",
     "${each.value}"
   );
 });
