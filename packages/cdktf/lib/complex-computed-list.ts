@@ -5,7 +5,12 @@ import {
   IInterpolatingParent,
   ITerraformAddressable,
 } from "./terraform-addressable";
-import { propertyAccess, Fn } from ".";
+import {
+  propertyAccess,
+  Fn,
+  TerraformIterator,
+  ListTerraformIterator,
+} from ".";
 import { captureStackTrace } from "./tokens/private/stack-trace";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -291,6 +296,10 @@ export abstract class ComplexList
         )
       );
     }
+  }
+
+  public get all(): ListTerraformIterator {
+    return TerraformIterator.fromList(Token.asList(this.computeFqn()));
   }
 }
 
