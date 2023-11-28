@@ -1,5 +1,7 @@
 name: Examples - PR
 on:
+  merge_group:
+    types: [checks_requested]
   pull_request:
     types:
       - opened
@@ -11,8 +13,21 @@ on:
 
 jobs:
   examples:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-examples') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
+    name: "Examples Integration Tests - PR"
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci/skip-examples') && !contains(github.event.pull_request.labels.*.name, 'ci/unit-only') }}
     uses: ./.github/workflows/examples.yml
     with:
       concurrency_group_prefix: pr
     secrets: inherit
+  results:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: "Examples Integration Tests - PR - Result"
+    needs: [examples]
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+               contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+          }}

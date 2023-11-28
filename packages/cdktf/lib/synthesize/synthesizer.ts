@@ -9,6 +9,7 @@ import { AnnotationMetadataEntryType, Annotations } from "../annotations";
 import { ConstructOrder, IConstruct, MetadataEntry } from "constructs";
 import { Aspects, IAspect } from "../aspect";
 import { StackAnnotation } from "../manifest";
+import { ValidateTerraformVersion } from "../validations/validate-terraform-version";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class StackSynthesizer implements IStackSynthesizer {
@@ -25,6 +26,15 @@ export class StackSynthesizer implements IStackSynthesizer {
 
   synthesize(session: ISynthesisSession) {
     invokeAspects(this.stack);
+
+    if (this.stack.hasResourceMove()) {
+      this.stack.node.addValidation(
+        new ValidateTerraformVersion(
+          ">=1.5",
+          `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+        )
+      );
+    }
 
     if (!session.skipValidation) {
       this.stack.runAllValidations();

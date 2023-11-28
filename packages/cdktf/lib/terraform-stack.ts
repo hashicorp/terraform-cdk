@@ -19,6 +19,7 @@ import { ValidateProviderPresence } from "./validations";
 import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
 import { TerraformResourceTargets } from "./terraform-resource-targets";
+import { TerraformResource } from "./terraform-resource";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type StackIdentifier = string;
@@ -327,6 +328,15 @@ export class TerraformStack extends Construct {
         `Validation failed with the following errors:\n  ${errorList}`
       );
     }
+  }
+
+  public hasResourceMove(): boolean {
+    return terraformElements(this).some((e) => {
+      if (TerraformResource.isTerraformResource(e) && e.hasResourceMove()) {
+        return true;
+      }
+      return false;
+    });
   }
 }
 

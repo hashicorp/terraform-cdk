@@ -1,5 +1,7 @@
 name: Provider Integration Tests - PR
 on:
+  merge_group:
+    types: [checks_requested]
   pull_request:
     types:
       - opened
@@ -11,8 +13,21 @@ on:
 
 jobs:
   provider_integration_test:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/provider-integration') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
+    name: "Provider Integration Tests - PR"
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'ci/skip-provider-integration') && !contains(github.event.pull_request.labels.*.name, 'ci/unit-only') }}
     uses: ./.github/workflows/provider-integration.yml
     with:
       concurrency_group_prefix: pr
     secrets: inherit
+  results:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: "Provider Integration Tests - PR - Result"
+    needs: [provider_integration_test]
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+               contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+          }}

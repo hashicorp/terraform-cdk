@@ -134,30 +134,30 @@ new TerraformResource(this, "resource", {
 ```
 
 ```go
-	nodeGroupConfig := cdktf.NewTerraformVariable(stack, jsii.String("node-group-config"), &cdktf.TerraformVariableConfig{
-		Type: cdktf.VariableType_Object(&map[string]*string{
-			"node_group_name": cdktf.VariableType_STRING(),
-			"instance_types":  cdktf.VariableType_List(cdktf.VariableType_STRING()),
-			"min_size":        cdktf.VariableType_NUMBER(),
-			"desired_size":    cdktf.VariableType_NUMBER(),
-			"max_size":        cdktf.VariableType_NUMBER(),
-		}),
-		Nullable:    jsii.Bool(false),
-		Description: jsii.String("Node group configuration"),
-	})
+nodeGroupConfig := cdktf.NewTerraformVariable(stack, jsii.String("node-group-config"), &cdktf.TerraformVariableConfig{
+	Type: cdktf.VariableType_Object(&map[string]*string{
+		"node_group_name": cdktf.VariableType_STRING(),
+		"instance_types":  cdktf.VariableType_List(cdktf.VariableType_STRING()),
+		"min_size":        cdktf.VariableType_NUMBER(),
+		"desired_size":    cdktf.VariableType_NUMBER(),
+		"max_size":        cdktf.VariableType_NUMBER(),
+	}),
+	Nullable:    jsii.Bool(false),
+	Description: jsii.String("Node group configuration"),
+})
 
-	eksnodegroup.NewEksNodeGroup(stack, jsii.String("node-group"), &eksnodegroup.EksNodeGroupConfig{
-		ClusterName:   jsii.String("my-cluster"),
-		NodeRoleArn:   jsii.String("arn:::::dummy"),
-		SubnetIds:     jsii.Strings("id-1234"),
-		NodeGroupName: jsii.String(fmt.Sprintf("${%s.node_group_name}", *nodeGroupConfig.Fqn())),
-		InstanceTypes: cdktf.Token_AsList(fmt.Sprintf("${%s.instance_types}", *nodeGroupConfig.Fqn()), &cdktf.EncodingOptions{}),
-		ScalingConfig: &eksnodegroup.EksNodeGroupScalingConfig{
-			DesiredSize: cdktf.Token_AsNumber(fmt.Sprintf("${%s.desired_size}", *nodeGroupConfig.Fqn())),
-			MinSize:     cdktf.Token_AsNumber(fmt.Sprintf("${%s.min_size}", *nodeGroupConfig.Fqn())),
-			MaxSize:     cdktf.Token_AsNumber(fmt.Sprintf("${%s.max_size}", *nodeGroupConfig.Fqn())),
-		},
-	})
+eksnodegroup.NewEksNodeGroup(stack, jsii.String("node-group"), &eksnodegroup.EksNodeGroupConfig{
+	ClusterName:   jsii.String("my-cluster"),
+	NodeRoleArn:   jsii.String("arn:::::dummy"),
+	SubnetIds:     jsii.Strings("id-1234"),
+	NodeGroupName: jsii.String(fmt.Sprintf("${%s.node_group_name}", *nodeGroupConfig.Fqn())),
+	InstanceTypes: cdktf.Token_AsList(fmt.Sprintf("${%s.instance_types}", *nodeGroupConfig.Fqn()), &cdktf.EncodingOptions{}),
+	ScalingConfig: &eksnodegroup.EksNodeGroupScalingConfig{
+		DesiredSize: cdktf.Token_AsNumber(fmt.Sprintf("${%s.desired_size}", *nodeGroupConfig.Fqn())),
+		MinSize:     cdktf.Token_AsNumber(fmt.Sprintf("${%s.min_size}", *nodeGroupConfig.Fqn())),
+		MaxSize:     cdktf.Token_AsNumber(fmt.Sprintf("${%s.max_size}", *nodeGroupConfig.Fqn())),
+	},
+})
 ```
 
 </CodeTabs>

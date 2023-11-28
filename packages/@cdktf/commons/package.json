@@ -30,26 +30,36 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
-  "keywords": ["cdk", "cdktf", "terraform"],
+  "keywords": [
+    "cdk",
+    "cdktf",
+    "terraform"
+  ],
   "license": "MPL-2.0",
   "dependencies": {
-    "@sentry/node": "^7.77.0",
+    "@sentry/node": "^7.81.0",
     "cdktf": "0.0.0",
     "ci-info": "^3.9.0",
-    "codemaker": "^1.91.0",
-    "constructs": "^10.0.25",
+    "codemaker": "^1.92.0",
     "cross-spawn": "^7.0.3",
     "follow-redirects": "^1.15.3",
     "fs-extra": "^11.1.1",
     "is-valid-domain": "^0.1.6",
     "log4js": "^6.9.1",
+    "strip-ansi": "^6.0.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/follow-redirects": "^1.14.3",
-    "@types/fs-extra": "^11.0.3",
-    "@types/uuid": "^9.0.6",
+    "@types/follow-redirects": "^1.14.4",
+    "@types/fs-extra": "^11.0.4",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react": "^7.33.2",
     "jest": "^29.7.0",
+    "lint-staged": ">=10",
     "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
   },
