@@ -77,6 +77,8 @@ export abstract class TerraformIterator implements ITerraformIterator {
    * @param list the list to iterate over
    * @param mapKeyAttributeName the name of the attribute that should be used as the key in the map
    *
+   * Visit https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-on-complex-lists for more information.
+   *
    * @example
    * const cert = new AcmCertificate(this, "cert", {
    *    domainName: "example.com",
