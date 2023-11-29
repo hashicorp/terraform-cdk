@@ -32,17 +32,17 @@ if (!exampleToBuild) {
 
 async function runInExample(command) {
   try {
-    return run(`npx lerna run --stream --scope='${exampleToBuild}' ${command}`);
+    return await run(`npx lerna run --scope='${exampleToBuild}' ${command}`);
   } catch (e) {
     const err = new Error(
-      `Failed to run ${command} in ${exampleToBuild} with status ${e.status} and signal ${e.signal}`
+      `Failed to run ${command} in ${exampleToBuild} with status ${e.code} and signal ${e.signal}`
     );
-    console.error(err.message);
+    console.error(e.message);
     console.error(e);
     console.error("STDERR:");
     process.stderr.write(e.stderr);
     console.error("STDOUT:");
-    process.stdout.write(e.stdout);
+    process.stderr.write(e.stdout);
     throw err;
   }
 }
@@ -58,7 +58,8 @@ async function main() {
   try {
     await main();
   } catch (e) {
-    console.error(e);
+    console.log("Failed to build example (check logs above!)");
+    console.error(e.message);
     process.exitCode = 1; // just set the exit code and let Node terminate when it's down printing logs
   }
 })();
