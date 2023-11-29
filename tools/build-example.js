@@ -19,8 +19,8 @@ async function run(command) {
     maxBuffer: 256 * 1024 * 1024, // ~270 MB; Nodejs default is 1024 * 1024 (bytes) which is ~1 MiB
     cwd: path.resolve(__dirname, ".."),
   });
-  console.log(stdout.toString());
-  console.error(stderr.toString());
+  process.stdout.write(stdout);
+  process.stderr.write(stderr);
 }
 
 const exampleToBuild = process.argv[2];
