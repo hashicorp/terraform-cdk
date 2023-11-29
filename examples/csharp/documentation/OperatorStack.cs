@@ -29,7 +29,7 @@ namespace Examples
             });
 
             new TerraformOutput(this, "half-of-the-zone", new TerraformOutputConfig {
-                Value = Op.Div(Fn.LengthOf(zones.Names), 2)
+                Value = Op.Div(Fn.LengthOf(Token.AsList(zones.Names)), 2)
             });
             // DOCS_BLOCK_END:operators            
         }
