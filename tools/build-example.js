@@ -40,9 +40,9 @@ async function runInExample(command) {
     console.error(err.message);
     console.error(e);
     console.error("STDERR:");
-    console.error(e.stderr.toString());
+    process.stderr.write(e.stderr);
     console.error("STDOUT:");
-    console.error(e.stdout.toString());
+    process.stdout.write(e.stdout);
     throw err;
   }
 }
@@ -59,6 +59,6 @@ async function main() {
     await main();
   } catch (e) {
     console.error(e);
-    process.exit(1);
+    process.exitCode = 1; // just set the exit code and let Node terminate when it's down printing logs
   }
 })();
