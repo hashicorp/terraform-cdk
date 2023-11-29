@@ -27,6 +27,7 @@ namespace Examples
                 Region = "eu-central-1"
             });
 
+/*
             // DOCS_BLOCK_START:iterators-define-iterators
             TerraformVariable list = new TerraformVariable(this, "list", new TerraformVariableConfig
             {
@@ -161,10 +162,10 @@ namespace Examples
                 Source = helpFile.Path
             });
             // DOCS_BLOCK_END:iterators-chain
-
-            /*
+*/
+            
             // DOCS_BLOCK_START:iterators-for-expression
-            TerraformLocal values = new TerraformLocal(this, "iterator-values", new Dictionary<string, object> {
+            TerraformLocal values = new TerraformLocal(this, "values", new Dictionary<string, object> {
                 {
                     "website",
                     new Dictionary<string, object> {
@@ -184,14 +185,14 @@ namespace Examples
                     }
                 }
             });
-            MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(values.AsAnyMap);
-            new TerraformLocal(this, "list-of-keys", mapIterator.Keys());
-            new TerraformLocal(this, "list-of-values", mapIterator.Values());
-            new TerraformLocal(this, "list-of-names", mapIterator.PluckProperty("name"));
-            new TerraformLocal(this, "list-of-names-of-included", mapIterator.ForExpressionForList("val.name if val.included"));
-            new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.ForExpressionForMap("val.name", "val.tags if val.included"));
+            MapTerraformIterator mapIterator = TerraformIterator.FromMap(values.AsAnyMap);
+            new TerraformLocal(this, "list-of-keys", Token.AsList(mapIterator.Keys()));
+            // new TerraformLocal(this, "list-of-values", Token.AsList(mapIterator.Values()));
+            // new TerraformLocal(this, "list-of-names", Token.AsList(mapIterator.PluckProperty("name")));
+            // new TerraformLocal(this, "list-of-names-of-included", Token.AsList(mapIterator.ForExpressionForList("val.name if val.included")));
+            // new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", Token.AsAnyMap(mapIterator.ForExpressionForMap("val.name", "val.tags if val.included")));
             // DOCS_BLOCK_END:iterators-for-expression
-            */
+            
         }
     }
 }
