@@ -10,6 +10,7 @@ using Constructs;
 using HashiCorp.Cdktf;
 using aws.Provider;
 using aws.S3Bucket;
+using aws.S3BucketObject;
 using aws.Instance;
 using aws.AcmCertificate;
 using aws.AcmCertificateValidation;
@@ -126,8 +127,8 @@ namespace Examples
                 ForEach = exampleForEachIterator,
                 AllowOverwrite = true,
                 Name = exampleForEachIterator.GetString("name"),
-                Records = new List<string> { exampleForEachIterator.GetString("record") },
-                TTL = 60,
+                Records = new string[] { exampleForEachIterator.GetString("record") },
+                Ttl = 60,
                 Type = exampleForEachIterator.GetString("type"),
                 ZoneId = dataAwsRoute53ZoneExample.ZoneId
             });
