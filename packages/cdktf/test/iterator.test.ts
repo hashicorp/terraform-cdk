@@ -359,7 +359,7 @@ test("iterator can be accessed from Complex List", () => {
 
   const resource = new OtherTestResource(stack, "test", {});
 
-  const it = resource.complexComputedList.all;
+  const it = resource.complexComputedList.allWithMapKey("name");
   new TestDataSource(stack, "iterated", {
     forEach: it,
     name: it.value,

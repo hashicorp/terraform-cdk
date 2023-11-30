@@ -9,7 +9,7 @@ import {
   propertyAccess,
   Fn,
   TerraformIterator,
-  ListTerraformIterator,
+  DynamicListTerraformIterator,
 } from ".";
 import { captureStackTrace } from "./tokens/private/stack-trace";
 
@@ -298,8 +298,19 @@ export abstract class ComplexList
     }
   }
 
-  public get all(): ListTerraformIterator {
-    return TerraformIterator.fromList(Token.asList(this.computeFqn()));
+  /**
+   * Creating an iterator for this complex list.
+   * The list will be converted into a map with the mapKeyAttributeName as the key.
+   * @param mapKeyAttributeName
+   * @returns
+   */
+  public allWithMapKey(
+    mapKeyAttributeName: string
+  ): DynamicListTerraformIterator {
+    return TerraformIterator.fromComplexList(
+      Token.asAny(this.computeFqn()),
+      mapKeyAttributeName
+    );
   }
 }
 

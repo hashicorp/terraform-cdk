@@ -12450,9 +12450,12 @@ cdktf.NewTerraformResource(scope Construct, id *string, config TerraformResource
 | <code><a href="#cdktf.TerraformResource.getNumberMapAttribute">GetNumberMapAttribute</a></code>         | _No description._                                                                                                                   |
 | <code><a href="#cdktf.TerraformResource.getStringAttribute">GetStringAttribute</a></code>               | _No description._                                                                                                                   |
 | <code><a href="#cdktf.TerraformResource.getStringMapAttribute">GetStringMapAttribute</a></code>         | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.hasResourceMove">HasResourceMove</a></code>                     | _No description._                                                                                                                   |
 | <code><a href="#cdktf.TerraformResource.importFrom">ImportFrom</a></code>                               | _No description._                                                                                                                   |
 | <code><a href="#cdktf.TerraformResource.interpolationForAttribute">InterpolationForAttribute</a></code> | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.moveFromId">MoveFromId</a></code>                               | Move the resource corresponding to "id" to this resource.                                                                           |
 | <code><a href="#cdktf.TerraformResource.moveTo">MoveTo</a></code>                                       | Moves this resource to the target resource given by moveTarget.                                                                     |
+| <code><a href="#cdktf.TerraformResource.moveToId">MoveToId</a></code>                                   | Moves this resource to the resource corresponding to "id".                                                                          |
 
 ---
 
@@ -12644,6 +12647,12 @@ func GetStringMapAttribute(terraformAttribute *string) *map[string]*string
 
 ---
 
+##### `HasResourceMove` <a name="HasResourceMove" id="cdktf.TerraformResource.hasResourceMove"></a>
+
+```go
+func HasResourceMove() interface{}
+```
+
 ##### `ImportFrom` <a name="ImportFrom" id="cdktf.TerraformResource.importFrom"></a>
 
 ```go
@@ -12674,6 +12683,24 @@ func InterpolationForAttribute(terraformAttribute *string) IResolvable
 
 ---
 
+##### `MoveFromId` <a name="MoveFromId" id="cdktf.TerraformResource.moveFromId"></a>
+
+```go
+func MoveFromId(id *string)
+```
+
+Move the resource corresponding to "id" to this resource.
+
+Note that the resource being moved from must be marked as moved using it's instance function.
+
+###### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResource.moveFromId.parameter.id"></a>
+
+- _Type:_ \*string
+
+Full id of resource being moved from, e.g. "aws_s3_bucket.example".
+
+---
+
 ##### `MoveTo` <a name="MoveTo" id="cdktf.TerraformResource.moveTo"></a>
 
 ```go
@@ -12695,6 +12722,22 @@ The previously set user defined string set by .addMoveTarget() corresponding to 
 - _Type:_ interface{}
 
 Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to.
+
+---
+
+##### `MoveToId` <a name="MoveToId" id="cdktf.TerraformResource.moveToId"></a>
+
+```go
+func MoveToId(id *string)
+```
+
+Moves this resource to the resource corresponding to "id".
+
+###### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResource.moveToId.parameter.id"></a>
+
+- _Type:_ \*string
+
+Full id of resource to move to, e.g. "aws_s3_bucket.example".
 
 ---
 
@@ -12971,6 +13014,7 @@ cdktf.NewTerraformStack(scope Construct, id *string) TerraformStack
 | <code><a href="#cdktf.TerraformStack.dependsOn">DependsOn</a></code>                                                     | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.ensureBackendExists">EnsureBackendExists</a></code>                                 | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.getLogicalId">GetLogicalId</a></code>                                               | _No description._                                  |
+| <code><a href="#cdktf.TerraformStack.hasResourceMove">HasResourceMove</a></code>                                         | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.prepareStack">PrepareStack</a></code>                                               | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.registerIncomingCrossStackReference">RegisterIncomingCrossStackReference</a></code> | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.registerOutgoingCrossStackReference">RegisterOutgoingCrossStackReference</a></code> | _No description._                                  |
@@ -13052,6 +13096,12 @@ func GetLogicalId(tfElement interface{}) *string
 - _Type:_ interface{}
 
 ---
+
+##### `HasResourceMove` <a name="HasResourceMove" id="cdktf.TerraformStack.hasResourceMove"></a>
+
+```go
+func HasResourceMove() *bool
+```
 
 ##### `PrepareStack` <a name="PrepareStack" id="cdktf.TerraformStack.prepareStack"></a>
 
@@ -22143,14 +22193,56 @@ ReplaceTriggeredBy *[]interface{}
 
 ---
 
-### TerraformResourceMove <a name="TerraformResourceMove" id="cdktf.TerraformResourceMove"></a>
+### TerraformResourceMoveById <a name="TerraformResourceMoveById" id="cdktf.TerraformResourceMoveById"></a>
 
-#### Initializer <a name="Initializer" id="cdktf.TerraformResourceMove.Initializer"></a>
+#### Initializer <a name="Initializer" id="cdktf.TerraformResourceMoveById.Initializer"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
-&cdktf.TerraformResourceMove {
+&cdktf.TerraformResourceMoveById {
+	From: *string,
+	To: *string,
+}
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                       | **Type**              | **Description**   |
+| ------------------------------------------------------------------------------ | --------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformResourceMoveById.property.from">From</a></code> | <code>\*string</code> | _No description._ |
+| <code><a href="#cdktf.TerraformResourceMoveById.property.to">To</a></code>     | <code>\*string</code> | _No description._ |
+
+---
+
+##### `From`<sup>Required</sup> <a name="From" id="cdktf.TerraformResourceMoveById.property.from"></a>
+
+```go
+From *string
+```
+
+- _Type:_ \*string
+
+---
+
+##### `To`<sup>Required</sup> <a name="To" id="cdktf.TerraformResourceMoveById.property.to"></a>
+
+```go
+To *string
+```
+
+- _Type:_ \*string
+
+---
+
+### TerraformResourceMoveByTarget <a name="TerraformResourceMoveByTarget" id="cdktf.TerraformResourceMoveByTarget"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformResourceMoveByTarget.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.TerraformResourceMoveByTarget {
 	MoveTarget: *string,
 	Index: interface{},
 }
@@ -22158,14 +22250,14 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                               | **Type**                 | **Description**   |
-| -------------------------------------------------------------------------------------- | ------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformResourceMove.property.moveTarget">MoveTarget</a></code> | <code>\*string</code>    | _No description._ |
-| <code><a href="#cdktf.TerraformResourceMove.property.index">Index</a></code>           | <code>interface{}</code> | _No description._ |
+| **Name**                                                                                       | **Type**                 | **Description**   |
+| ---------------------------------------------------------------------------------------------- | ------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResourceMoveByTarget.property.moveTarget">MoveTarget</a></code> | <code>\*string</code>    | _No description._ |
+| <code><a href="#cdktf.TerraformResourceMoveByTarget.property.index">Index</a></code>           | <code>interface{}</code> | _No description._ |
 
 ---
 
-##### `MoveTarget`<sup>Required</sup> <a name="MoveTarget" id="cdktf.TerraformResourceMove.property.moveTarget"></a>
+##### `MoveTarget`<sup>Required</sup> <a name="MoveTarget" id="cdktf.TerraformResourceMoveByTarget.property.moveTarget"></a>
 
 ```go
 MoveTarget *string
@@ -22175,7 +22267,7 @@ MoveTarget *string
 
 ---
 
-##### `Index`<sup>Optional</sup> <a name="Index" id="cdktf.TerraformResourceMove.property.index"></a>
+##### `Index`<sup>Optional</sup> <a name="Index" id="cdktf.TerraformResourceMoveByTarget.property.index"></a>
 
 ```go
 Index interface{}
@@ -22818,12 +22910,29 @@ cdktf.NewAnyListList(terraformResource IInterpolatingParent, terraformAttribute 
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                            | **Description**                                           |
-| ------------------------------------------------------------------- | --------------------------------------------------------- |
-| <code><a href="#cdktf.AnyListList.computeFqn">ComputeFqn</a></code> | _No description._                                         |
-| <code><a href="#cdktf.AnyListList.resolve">Resolve</a></code>       | Produce the Token's value at resolution time.             |
-| <code><a href="#cdktf.AnyListList.toString">ToString</a></code>     | Return a string representation of this resolvable object. |
-| <code><a href="#cdktf.AnyListList.get">Get</a></code>               | _No description._                                         |
+| **Name**                                                                  | **Description**                                           |
+| ------------------------------------------------------------------------- | --------------------------------------------------------- |
+| <code><a href="#cdktf.AnyListList.allWithMapKey">AllWithMapKey</a></code> | Creating an iterator for this complex list.               |
+| <code><a href="#cdktf.AnyListList.computeFqn">ComputeFqn</a></code>       | _No description._                                         |
+| <code><a href="#cdktf.AnyListList.resolve">Resolve</a></code>             | Produce the Token's value at resolution time.             |
+| <code><a href="#cdktf.AnyListList.toString">ToString</a></code>           | Return a string representation of this resolvable object. |
+| <code><a href="#cdktf.AnyListList.get">Get</a></code>                     | _No description._                                         |
+
+---
+
+##### `AllWithMapKey` <a name="AllWithMapKey" id="cdktf.AnyListList.allWithMapKey"></a>
+
+```go
+func AllWithMapKey(mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creating an iterator for this complex list.
+
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.AnyListList.allWithMapKey.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
 
 ---
 
@@ -23462,12 +23571,29 @@ cdktf.NewBooleanList(terraformResource IInterpolatingParent, terraformAttribute 
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                            | **Description**                                           |
-| ------------------------------------------------------------------- | --------------------------------------------------------- |
-| <code><a href="#cdktf.BooleanList.computeFqn">ComputeFqn</a></code> | _No description._                                         |
-| <code><a href="#cdktf.BooleanList.resolve">Resolve</a></code>       | Produce the Token's value at resolution time.             |
-| <code><a href="#cdktf.BooleanList.toString">ToString</a></code>     | Return a string representation of this resolvable object. |
-| <code><a href="#cdktf.BooleanList.get">Get</a></code>               | _No description._                                         |
+| **Name**                                                                  | **Description**                                           |
+| ------------------------------------------------------------------------- | --------------------------------------------------------- |
+| <code><a href="#cdktf.BooleanList.allWithMapKey">AllWithMapKey</a></code> | Creating an iterator for this complex list.               |
+| <code><a href="#cdktf.BooleanList.computeFqn">ComputeFqn</a></code>       | _No description._                                         |
+| <code><a href="#cdktf.BooleanList.resolve">Resolve</a></code>             | Produce the Token's value at resolution time.             |
+| <code><a href="#cdktf.BooleanList.toString">ToString</a></code>           | Return a string representation of this resolvable object. |
+| <code><a href="#cdktf.BooleanList.get">Get</a></code>                     | _No description._                                         |
+
+---
+
+##### `AllWithMapKey` <a name="AllWithMapKey" id="cdktf.BooleanList.allWithMapKey"></a>
+
+```go
+func AllWithMapKey(mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creating an iterator for this complex list.
+
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.BooleanList.allWithMapKey.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
 
 ---
 
@@ -23584,12 +23710,29 @@ cdktf.NewBooleanListList(terraformResource IInterpolatingParent, terraformAttrib
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                                | **Description**                                           |
-| ----------------------------------------------------------------------- | --------------------------------------------------------- |
-| <code><a href="#cdktf.BooleanListList.computeFqn">ComputeFqn</a></code> | _No description._                                         |
-| <code><a href="#cdktf.BooleanListList.resolve">Resolve</a></code>       | Produce the Token's value at resolution time.             |
-| <code><a href="#cdktf.BooleanListList.toString">ToString</a></code>     | Return a string representation of this resolvable object. |
-| <code><a href="#cdktf.BooleanListList.get">Get</a></code>               | _No description._                                         |
+| **Name**                                                                      | **Description**                                           |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------- |
+| <code><a href="#cdktf.BooleanListList.allWithMapKey">AllWithMapKey</a></code> | Creating an iterator for this complex list.               |
+| <code><a href="#cdktf.BooleanListList.computeFqn">ComputeFqn</a></code>       | _No description._                                         |
+| <code><a href="#cdktf.BooleanListList.resolve">Resolve</a></code>             | Produce the Token's value at resolution time.             |
+| <code><a href="#cdktf.BooleanListList.toString">ToString</a></code>           | Return a string representation of this resolvable object. |
+| <code><a href="#cdktf.BooleanListList.get">Get</a></code>                     | _No description._                                         |
+
+---
+
+##### `AllWithMapKey` <a name="AllWithMapKey" id="cdktf.BooleanListList.allWithMapKey"></a>
+
+```go
+func AllWithMapKey(mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creating an iterator for this complex list.
+
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.BooleanListList.allWithMapKey.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
 
 ---
 
@@ -24373,11 +24516,28 @@ cdktf.NewComplexList(terraformResource IInterpolatingParent, terraformAttribute 
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                            | **Description**                                           |
-| ------------------------------------------------------------------- | --------------------------------------------------------- |
-| <code><a href="#cdktf.ComplexList.computeFqn">ComputeFqn</a></code> | _No description._                                         |
-| <code><a href="#cdktf.ComplexList.resolve">Resolve</a></code>       | Produce the Token's value at resolution time.             |
-| <code><a href="#cdktf.ComplexList.toString">ToString</a></code>     | Return a string representation of this resolvable object. |
+| **Name**                                                                  | **Description**                                           |
+| ------------------------------------------------------------------------- | --------------------------------------------------------- |
+| <code><a href="#cdktf.ComplexList.allWithMapKey">AllWithMapKey</a></code> | Creating an iterator for this complex list.               |
+| <code><a href="#cdktf.ComplexList.computeFqn">ComputeFqn</a></code>       | _No description._                                         |
+| <code><a href="#cdktf.ComplexList.resolve">Resolve</a></code>             | Produce the Token's value at resolution time.             |
+| <code><a href="#cdktf.ComplexList.toString">ToString</a></code>           | Return a string representation of this resolvable object. |
+
+---
+
+##### `AllWithMapKey` <a name="AllWithMapKey" id="cdktf.ComplexList.allWithMapKey"></a>
+
+```go
+func AllWithMapKey(mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creating an iterator for this complex list.
+
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.ComplexList.allWithMapKey.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
 
 ---
 
@@ -24960,6 +25120,496 @@ then finally post-process it.
 
 ---
 
+### DynamicListTerraformIterator <a name="DynamicListTerraformIterator" id="cdktf.DynamicListTerraformIterator"></a>
+
+#### Initializers <a name="Initializers" id="cdktf.DynamicListTerraformIterator.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.NewDynamicListTerraformIterator(list interface{}, mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+| **Name**                                                                                                                     | **Type**                 | **Description**   |
+| ---------------------------------------------------------------------------------------------------------------------------- | ------------------------ | ----------------- |
+| <code><a href="#cdktf.DynamicListTerraformIterator.Initializer.parameter.list">list</a></code>                               | <code>interface{}</code> | _No description._ |
+| <code><a href="#cdktf.DynamicListTerraformIterator.Initializer.parameter.mapKeyAttributeName">mapKeyAttributeName</a></code> | <code>\*string</code>    | _No description._ |
+
+---
+
+##### `list`<sup>Required</sup> <a name="list" id="cdktf.DynamicListTerraformIterator.Initializer.parameter.list"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.DynamicListTerraformIterator.Initializer.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                                 | **Description**                                                                              |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.DynamicListTerraformIterator.dynamic">Dynamic</a></code>                           | Creates a dynamic expression that can be used to loop over this iterator in a dynamic block. |
+| <code><a href="#cdktf.DynamicListTerraformIterator.forExpressionForList">ForExpressionForList</a></code> | Creates a for expression that results in a list.                                             |
+| <code><a href="#cdktf.DynamicListTerraformIterator.forExpressionForMap">ForExpressionForMap</a></code>   | Creates a for expression that results in a map.                                              |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getAny">GetAny</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getAnyMap">GetAnyMap</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getBoolean">GetBoolean</a></code>                     | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getBooleanMap">GetBooleanMap</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getList">GetList</a></code>                           | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getMap">GetMap</a></code>                             | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getNumber">GetNumber</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getNumberList">GetNumberList</a></code>               | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getNumberMap">GetNumberMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getString">GetString</a></code>                       | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.getStringMap">GetStringMap</a></code>                 | _No description._                                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.keys">Keys</a></code>                                 | Creates a for expression that maps the iterators to its keys.                                |
+| <code><a href="#cdktf.DynamicListTerraformIterator.pluckProperty">PluckProperty</a></code>               | Creates a for expression that accesses the key on each element of the iterator.              |
+| <code><a href="#cdktf.DynamicListTerraformIterator.values">Values</a></code>                             | Creates a for expression that maps the iterators to its value in case it is a map.           |
+
+---
+
+##### `Dynamic` <a name="Dynamic" id="cdktf.DynamicListTerraformIterator.dynamic"></a>
+
+```go
+func Dynamic(attributes *map[string]interface{}) IResolvable
+```
+
+Creates a dynamic expression that can be used to loop over this iterator in a dynamic block.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+See https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-for-list-attributes
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.DynamicListTerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ \*map[string]interface{}
+
+---
+
+##### `ForExpressionForList` <a name="ForExpressionForList" id="cdktf.DynamicListTerraformIterator.forExpressionForList"></a>
+
+```go
+func ForExpressionForList(expression interface{}) IResolvable
+```
+
+Creates a for expression that results in a list.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraform's for expression syntax.
+For the most common use cases you can use keys(), values(), and pluckProperty() instead.
+
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromList(myIteratorSourceVar).forExpressionForList("val.foo if val.bar == true")`
+will result in `[ for key, val in var.myIteratorSource: val.foo if val.bar == true ]`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.DynamicListTerraformIterator.forExpressionForList.parameter.expression"></a>
+
+- _Type:_ interface{}
+
+The expression to use in the for mapping.
+
+---
+
+##### `ForExpressionForMap` <a name="ForExpressionForMap" id="cdktf.DynamicListTerraformIterator.forExpressionForMap"></a>
+
+```go
+func ForExpressionForMap(keyExpression interface{}, valueExpression interface{}) IResolvable
+```
+
+Creates a for expression that results in a map.
+
+This method allows you to create every possible for expression, but requires more knowledge about
+Terraforms for expression syntax.
+For the most common use cases you can use keys(), values(), and pluckProperty instead.
+
+You may write any valid Terraform for each expression, e.g.
+`TerraformIterator.fromMap(myIteratorSourceVar).forExpressionForMap("key", "val.foo if val.bar == true")`
+will result in `{ for key, val in var.myIteratorSource: key = > val.foo if val.bar == true }`.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `keyExpression`<sup>Required</sup> <a name="keyExpression" id="cdktf.DynamicListTerraformIterator.forExpressionForMap.parameter.keyExpression"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `valueExpression`<sup>Required</sup> <a name="valueExpression" id="cdktf.DynamicListTerraformIterator.forExpressionForMap.parameter.valueExpression"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `GetAny` <a name="GetAny" id="cdktf.DynamicListTerraformIterator.getAny"></a>
+
+```go
+func GetAny(attribute *string) IResolvable
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getAny.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetAnyMap` <a name="GetAnyMap" id="cdktf.DynamicListTerraformIterator.getAnyMap"></a>
+
+```go
+func GetAnyMap(attribute *string) *map[string]interface{}
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getAnyMap.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetBoolean` <a name="GetBoolean" id="cdktf.DynamicListTerraformIterator.getBoolean"></a>
+
+```go
+func GetBoolean(attribute *string) IResolvable
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getBoolean.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetBooleanMap` <a name="GetBooleanMap" id="cdktf.DynamicListTerraformIterator.getBooleanMap"></a>
+
+```go
+func GetBooleanMap(attribute *string) *map[string]*bool
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getBooleanMap.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetList` <a name="GetList" id="cdktf.DynamicListTerraformIterator.getList"></a>
+
+```go
+func GetList(attribute *string) *[]*string
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getList.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetMap` <a name="GetMap" id="cdktf.DynamicListTerraformIterator.getMap"></a>
+
+```go
+func GetMap(attribute *string) *map[string]interface{}
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getMap.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetNumber` <a name="GetNumber" id="cdktf.DynamicListTerraformIterator.getNumber"></a>
+
+```go
+func GetNumber(attribute *string) *f64
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getNumber.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetNumberList` <a name="GetNumberList" id="cdktf.DynamicListTerraformIterator.getNumberList"></a>
+
+```go
+func GetNumberList(attribute *string) *[]*f64
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getNumberList.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetNumberMap` <a name="GetNumberMap" id="cdktf.DynamicListTerraformIterator.getNumberMap"></a>
+
+```go
+func GetNumberMap(attribute *string) *map[string]*f64
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getNumberMap.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetString` <a name="GetString" id="cdktf.DynamicListTerraformIterator.getString"></a>
+
+```go
+func GetString(attribute *string) *string
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getString.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `GetStringMap` <a name="GetStringMap" id="cdktf.DynamicListTerraformIterator.getStringMap"></a>
+
+```go
+func GetStringMap(attribute *string) *map[string]*string
+```
+
+###### `attribute`<sup>Required</sup> <a name="attribute" id="cdktf.DynamicListTerraformIterator.getStringMap.parameter.attribute"></a>
+
+- _Type:_ \*string
+
+name of the property to retrieve.
+
+---
+
+##### `Keys` <a name="Keys" id="cdktf.DynamicListTerraformIterator.keys"></a>
+
+```go
+func Keys() IResolvable
+```
+
+Creates a for expression that maps the iterators to its keys.
+
+For lists these would be the indices, for maps the keys.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+##### `PluckProperty` <a name="PluckProperty" id="cdktf.DynamicListTerraformIterator.pluckProperty"></a>
+
+```go
+func PluckProperty(property *string) IResolvable
+```
+
+Creates a for expression that accesses the key on each element of the iterator.
+
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+###### `property`<sup>Required</sup> <a name="property" id="cdktf.DynamicListTerraformIterator.pluckProperty.parameter.property"></a>
+
+- _Type:_ \*string
+
+The property of the iterators values to map to.
+
+---
+
+##### `Values` <a name="Values" id="cdktf.DynamicListTerraformIterator.values"></a>
+
+```go
+func Values() IResolvable
+```
+
+Creates a for expression that maps the iterators to its value in case it is a map.
+
+For lists these would stay the same.
+As this returns an IResolvable you might need to wrap the output in
+a Token, e.g. `Token.asString`.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                                                                       | **Description**                                                                               |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.DynamicListTerraformIterator.fromComplexList">FromComplexList</a></code> | Creates a new iterator from a complex list.                                                   |
+| <code><a href="#cdktf.DynamicListTerraformIterator.fromDataSources">FromDataSources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
+| <code><a href="#cdktf.DynamicListTerraformIterator.fromList">FromList</a></code>               | Creates a new iterator from a list.                                                           |
+| <code><a href="#cdktf.DynamicListTerraformIterator.fromMap">FromMap</a></code>                 | Creates a new iterator from a map.                                                            |
+| <code><a href="#cdktf.DynamicListTerraformIterator.fromResources">FromResources</a></code>     | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `FromComplexList` <a name="FromComplexList" id="cdktf.DynamicListTerraformIterator.fromComplexList"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.DynamicListTerraformIterator_FromComplexList(list interface{}, mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creates a new iterator from a complex list.
+
+One example for this would be a list of maps.
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+_Example_
+
+```go
+// Example automatically generated from non-compiling source. May contain errors.
+cert := NewAcmCertificate(this, jsii.String("cert"), map[string]*string{
+	"domainName": jsii.String("example.com"),
+	"validationMethod": jsii.String("DNS"),
+})
+
+dvoIterator := terraformIterator_FromComplexList(cert.domainValidationOptions, jsii.String("domain_name"))
+
+NewRoute53Record(this, jsii.String("record"), map[string]interface{}{
+	"allowOverwrite": jsii.Boolean(true),
+	"name": dvoIterator.getString(jsii.String("name")),
+	"records": []interface{}{
+		dvoIterator.getString(jsii.String("record")),
+	},
+	"ttl": jsii.Number(60),
+	"type": dvoIterator.getString(jsii.String("type")),
+	"zoneId": Token_asString(dataAwsRoute53ZoneExample.zoneId),
+	"forEach": dvoIterator,
+})
+```
+
+###### `list`<sup>Required</sup> <a name="list" id="cdktf.DynamicListTerraformIterator.fromComplexList.parameter.list"></a>
+
+- _Type:_ interface{}
+
+the list to iterate over.
+
+---
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.DynamicListTerraformIterator.fromComplexList.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
+
+the name of the attribute that should be used as the key in the map.
+
+Visit https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-on-complex-lists for more information.
+
+---
+
+##### `FromDataSources` <a name="FromDataSources" id="cdktf.DynamicListTerraformIterator.fromDataSources"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.DynamicListTerraformIterator_FromDataSources(resource ITerraformResource) ResourceTerraformIterator
+```
+
+Creates a new iterator from a data source that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.DynamicListTerraformIterator.fromDataSources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+##### `FromList` <a name="FromList" id="cdktf.DynamicListTerraformIterator.fromList"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.DynamicListTerraformIterator_FromList(list interface{}) ListTerraformIterator
+```
+
+Creates a new iterator from a list.
+
+###### `list`<sup>Required</sup> <a name="list" id="cdktf.DynamicListTerraformIterator.fromList.parameter.list"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `FromMap` <a name="FromMap" id="cdktf.DynamicListTerraformIterator.fromMap"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.DynamicListTerraformIterator_FromMap(map interface{}) MapTerraformIterator
+```
+
+Creates a new iterator from a map.
+
+###### `map`<sup>Required</sup> <a name="map" id="cdktf.DynamicListTerraformIterator.fromMap.parameter.map"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `FromResources` <a name="FromResources" id="cdktf.DynamicListTerraformIterator.fromResources"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.DynamicListTerraformIterator_FromResources(resource ITerraformResource) ResourceTerraformIterator
+```
+
+Creates a new iterator from a resource that has been created with the `for_each` argument.
+
+###### `resource`<sup>Required</sup> <a name="resource" id="cdktf.DynamicListTerraformIterator.fromResources.parameter.resource"></a>
+
+- _Type:_ <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                            | **Type**                 | **Description**                                                              |
+| ----------------------------------------------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------- |
+| <code><a href="#cdktf.DynamicListTerraformIterator.property.key">Key</a></code>     | <code>\*string</code>    | Returns the key of the current entry in the map that is being iterated over. |
+| <code><a href="#cdktf.DynamicListTerraformIterator.property.value">Value</a></code> | <code>interface{}</code> | Returns the value of the current item iterated over.                         |
+
+---
+
+##### `Key`<sup>Required</sup> <a name="Key" id="cdktf.DynamicListTerraformIterator.property.key"></a>
+
+```go
+func Key() *string
+```
+
+- _Type:_ \*string
+
+Returns the key of the current entry in the map that is being iterated over.
+
+---
+
+##### `Value`<sup>Required</sup> <a name="Value" id="cdktf.DynamicListTerraformIterator.property.value"></a>
+
+```go
+func Value() interface{}
+```
+
+- _Type:_ interface{}
+
+Returns the value of the current item iterated over.
+
+---
+
 ### Fn <a name="Fn" id="cdktf.Fn"></a>
 
 #### Initializers <a name="Initializers" id="cdktf.Fn.Initializer"></a>
@@ -25089,6 +25739,7 @@ cdktf.NewFn() Fn
 | <code><a href="#cdktf.Fn.yamlencode">Yamlencode</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/yamlencode yamlencode} encodes a given value to a string using [YAML 1.2](https://yaml.org/spec/1.2/spec.html) block syntax.                                                                                                                                                                      |
 | <code><a href="#cdktf.Fn.zipmap">Zipmap</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/zipmap zipmap} constructs a map from a list of keys and a corresponding list of values.                                                                                                                                                                                                           |
 | <code><a href="#cdktf.Fn.bcrypt">Bcrypt</a></code>                     | {@link /terraform/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.                                                |
+| <code><a href="#cdktf.Fn.conditional">Conditional</a></code>           | {@link https://developer.hashicorp.com/terraform/language/expressions/conditionals} A conditional expression uses the value of a boolean expression to select one of two values.                                                                                                                                                                                      |
 | <code><a href="#cdktf.Fn.join">Join</a></code>                         | {@link /terraform/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.                                                                                                                                                                                               |
 | <code><a href="#cdktf.Fn.lookup">Lookup</a></code>                     | {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.                                                                                                                                                        |
 | <code><a href="#cdktf.Fn.lookupNested">LookupNested</a></code>         | returns a property access expression that accesses the property at the given path in the given inputMap.                                                                                                                                                                                                                                                              |
@@ -27106,6 +27757,34 @@ cdktf.Fn_Bcrypt(str *string, cost *f64) *string
 ###### `cost`<sup>Optional</sup> <a name="cost" id="cdktf.Fn.bcrypt.parameter.cost"></a>
 
 - _Type:_ \*f64
+
+---
+
+##### `Conditional` <a name="Conditional" id="cdktf.Fn.conditional"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Fn_Conditional(condition interface{}, trueValue interface{}, falseValue interface{}) interface{}
+```
+
+{@link https://developer.hashicorp.com/terraform/language/expressions/conditionals} A conditional expression uses the value of a boolean expression to select one of two values.
+
+###### `condition`<sup>Required</sup> <a name="condition" id="cdktf.Fn.conditional.parameter.condition"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `trueValue`<sup>Required</sup> <a name="trueValue" id="cdktf.Fn.conditional.parameter.trueValue"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `falseValue`<sup>Required</sup> <a name="falseValue" id="cdktf.Fn.conditional.parameter.falseValue"></a>
+
+- _Type:_ interface{}
 
 ---
 
@@ -29894,10 +30573,66 @@ a Token, e.g. `Token.asString`.
 
 | **Name**                                                                                | **Description**                                                                               |
 | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ListTerraformIterator.fromComplexList">FromComplexList</a></code> | Creates a new iterator from a complex list.                                                   |
 | <code><a href="#cdktf.ListTerraformIterator.fromDataSources">FromDataSources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
 | <code><a href="#cdktf.ListTerraformIterator.fromList">FromList</a></code>               | Creates a new iterator from a list.                                                           |
 | <code><a href="#cdktf.ListTerraformIterator.fromMap">FromMap</a></code>                 | Creates a new iterator from a map.                                                            |
 | <code><a href="#cdktf.ListTerraformIterator.fromResources">FromResources</a></code>     | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `FromComplexList` <a name="FromComplexList" id="cdktf.ListTerraformIterator.fromComplexList"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.ListTerraformIterator_FromComplexList(list interface{}, mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creates a new iterator from a complex list.
+
+One example for this would be a list of maps.
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+_Example_
+
+```go
+// Example automatically generated from non-compiling source. May contain errors.
+cert := NewAcmCertificate(this, jsii.String("cert"), map[string]*string{
+	"domainName": jsii.String("example.com"),
+	"validationMethod": jsii.String("DNS"),
+})
+
+dvoIterator := terraformIterator_FromComplexList(cert.domainValidationOptions, jsii.String("domain_name"))
+
+NewRoute53Record(this, jsii.String("record"), map[string]interface{}{
+	"allowOverwrite": jsii.Boolean(true),
+	"name": dvoIterator.getString(jsii.String("name")),
+	"records": []interface{}{
+		dvoIterator.getString(jsii.String("record")),
+	},
+	"ttl": jsii.Number(60),
+	"type": dvoIterator.getString(jsii.String("type")),
+	"zoneId": Token_asString(dataAwsRoute53ZoneExample.zoneId),
+	"forEach": dvoIterator,
+})
+```
+
+###### `list`<sup>Required</sup> <a name="list" id="cdktf.ListTerraformIterator.fromComplexList.parameter.list"></a>
+
+- _Type:_ interface{}
+
+the list to iterate over.
+
+---
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.ListTerraformIterator.fromComplexList.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
+
+the name of the attribute that should be used as the key in the map.
+
+Visit https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-on-complex-lists for more information.
 
 ---
 
@@ -29967,10 +30702,10 @@ Creates a new iterator from a resource that has been created with the `for_each`
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                     | **Type**                 | **Description**                                                            |
-| ---------------------------------------------------------------------------- | ------------------------ | -------------------------------------------------------------------------- |
-| <code><a href="#cdktf.ListTerraformIterator.property.key">Key</a></code>     | <code>interface{}</code> | Returns the currenty entry in the list or set that is being iterated over. |
-| <code><a href="#cdktf.ListTerraformIterator.property.value">Value</a></code> | <code>interface{}</code> | Returns the value of the current item iterated over.                       |
+| **Name**                                                                     | **Type**                 | **Description**                                                             |
+| ---------------------------------------------------------------------------- | ------------------------ | --------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ListTerraformIterator.property.key">Key</a></code>     | <code>interface{}</code> | Returns the currently entry in the list or set that is being iterated over. |
+| <code><a href="#cdktf.ListTerraformIterator.property.value">Value</a></code> | <code>interface{}</code> | Returns the value of the current item iterated over.                        |
 
 ---
 
@@ -29982,7 +30717,7 @@ func Key() interface{}
 
 - _Type:_ interface{}
 
-Returns the currenty entry in the list or set that is being iterated over.
+Returns the currently entry in the list or set that is being iterated over.
 
 For lists this is the same as `iterator.value`. If you need the index,
 use count via `TerraformCount`:
@@ -30594,10 +31329,66 @@ a Token, e.g. `Token.asString`.
 
 | **Name**                                                                               | **Description**                                                                               |
 | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.MapTerraformIterator.fromComplexList">FromComplexList</a></code> | Creates a new iterator from a complex list.                                                   |
 | <code><a href="#cdktf.MapTerraformIterator.fromDataSources">FromDataSources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
 | <code><a href="#cdktf.MapTerraformIterator.fromList">FromList</a></code>               | Creates a new iterator from a list.                                                           |
 | <code><a href="#cdktf.MapTerraformIterator.fromMap">FromMap</a></code>                 | Creates a new iterator from a map.                                                            |
 | <code><a href="#cdktf.MapTerraformIterator.fromResources">FromResources</a></code>     | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `FromComplexList` <a name="FromComplexList" id="cdktf.MapTerraformIterator.fromComplexList"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.MapTerraformIterator_FromComplexList(list interface{}, mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creates a new iterator from a complex list.
+
+One example for this would be a list of maps.
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+_Example_
+
+```go
+// Example automatically generated from non-compiling source. May contain errors.
+cert := NewAcmCertificate(this, jsii.String("cert"), map[string]*string{
+	"domainName": jsii.String("example.com"),
+	"validationMethod": jsii.String("DNS"),
+})
+
+dvoIterator := terraformIterator_FromComplexList(cert.domainValidationOptions, jsii.String("domain_name"))
+
+NewRoute53Record(this, jsii.String("record"), map[string]interface{}{
+	"allowOverwrite": jsii.Boolean(true),
+	"name": dvoIterator.getString(jsii.String("name")),
+	"records": []interface{}{
+		dvoIterator.getString(jsii.String("record")),
+	},
+	"ttl": jsii.Number(60),
+	"type": dvoIterator.getString(jsii.String("type")),
+	"zoneId": Token_asString(dataAwsRoute53ZoneExample.zoneId),
+	"forEach": dvoIterator,
+})
+```
+
+###### `list`<sup>Required</sup> <a name="list" id="cdktf.MapTerraformIterator.fromComplexList.parameter.list"></a>
+
+- _Type:_ interface{}
+
+the list to iterate over.
+
+---
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.MapTerraformIterator.fromComplexList.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
+
+the name of the attribute that should be used as the key in the map.
+
+Visit https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-on-complex-lists for more information.
 
 ---
 
@@ -30695,6 +31486,47 @@ func Value() interface{}
 - _Type:_ interface{}
 
 Returns the value of the current item iterated over.
+
+---
+
+### MigrateIds <a name="MigrateIds" id="cdktf.MigrateIds"></a>
+
+- _Implements:_ <a href="#cdktf.IAspect">IAspect</a>
+
+For migrating past 0.17 where the feature flag for the old id generation logic was removed after being deprecated since 0.15.
+
+#### Initializers <a name="Initializers" id="cdktf.MigrateIds.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.NewMigrateIds() MigrateIds
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                 | **Description**                      |
+| -------------------------------------------------------- | ------------------------------------ |
+| <code><a href="#cdktf.MigrateIds.visit">Visit</a></code> | All aspects can visit an IConstruct. |
+
+---
+
+##### `Visit` <a name="Visit" id="cdktf.MigrateIds.visit"></a>
+
+```go
+func Visit(node IConstruct)
+```
+
+All aspects can visit an IConstruct.
+
+###### `node`<sup>Required</sup> <a name="node" id="cdktf.MigrateIds.visit.parameter.node"></a>
+
+- _Type:_ github.com/aws/constructs-go/constructs/v10.IConstruct
 
 ---
 
@@ -30836,12 +31668,29 @@ cdktf.NewNumberListList(terraformResource IInterpolatingParent, terraformAttribu
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                               | **Description**                                           |
-| ---------------------------------------------------------------------- | --------------------------------------------------------- |
-| <code><a href="#cdktf.NumberListList.computeFqn">ComputeFqn</a></code> | _No description._                                         |
-| <code><a href="#cdktf.NumberListList.resolve">Resolve</a></code>       | Produce the Token's value at resolution time.             |
-| <code><a href="#cdktf.NumberListList.toString">ToString</a></code>     | Return a string representation of this resolvable object. |
-| <code><a href="#cdktf.NumberListList.get">Get</a></code>               | _No description._                                         |
+| **Name**                                                                     | **Description**                                           |
+| ---------------------------------------------------------------------------- | --------------------------------------------------------- |
+| <code><a href="#cdktf.NumberListList.allWithMapKey">AllWithMapKey</a></code> | Creating an iterator for this complex list.               |
+| <code><a href="#cdktf.NumberListList.computeFqn">ComputeFqn</a></code>       | _No description._                                         |
+| <code><a href="#cdktf.NumberListList.resolve">Resolve</a></code>             | Produce the Token's value at resolution time.             |
+| <code><a href="#cdktf.NumberListList.toString">ToString</a></code>           | Return a string representation of this resolvable object. |
+| <code><a href="#cdktf.NumberListList.get">Get</a></code>                     | _No description._                                         |
+
+---
+
+##### `AllWithMapKey` <a name="AllWithMapKey" id="cdktf.NumberListList.allWithMapKey"></a>
+
+```go
+func AllWithMapKey(mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creating an iterator for this complex list.
+
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.NumberListList.allWithMapKey.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
 
 ---
 
@@ -32022,10 +32871,66 @@ a Token, e.g. `Token.asString`.
 
 | **Name**                                                                                    | **Description**                                                                               |
 | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.fromComplexList">FromComplexList</a></code> | Creates a new iterator from a complex list.                                                   |
 | <code><a href="#cdktf.ResourceTerraformIterator.fromDataSources">FromDataSources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
 | <code><a href="#cdktf.ResourceTerraformIterator.fromList">FromList</a></code>               | Creates a new iterator from a list.                                                           |
 | <code><a href="#cdktf.ResourceTerraformIterator.fromMap">FromMap</a></code>                 | Creates a new iterator from a map.                                                            |
 | <code><a href="#cdktf.ResourceTerraformIterator.fromResources">FromResources</a></code>     | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `FromComplexList` <a name="FromComplexList" id="cdktf.ResourceTerraformIterator.fromComplexList"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.ResourceTerraformIterator_FromComplexList(list interface{}, mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creates a new iterator from a complex list.
+
+One example for this would be a list of maps.
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+_Example_
+
+```go
+// Example automatically generated from non-compiling source. May contain errors.
+cert := NewAcmCertificate(this, jsii.String("cert"), map[string]*string{
+	"domainName": jsii.String("example.com"),
+	"validationMethod": jsii.String("DNS"),
+})
+
+dvoIterator := terraformIterator_FromComplexList(cert.domainValidationOptions, jsii.String("domain_name"))
+
+NewRoute53Record(this, jsii.String("record"), map[string]interface{}{
+	"allowOverwrite": jsii.Boolean(true),
+	"name": dvoIterator.getString(jsii.String("name")),
+	"records": []interface{}{
+		dvoIterator.getString(jsii.String("record")),
+	},
+	"ttl": jsii.Number(60),
+	"type": dvoIterator.getString(jsii.String("type")),
+	"zoneId": Token_asString(dataAwsRoute53ZoneExample.zoneId),
+	"forEach": dvoIterator,
+})
+```
+
+###### `list`<sup>Required</sup> <a name="list" id="cdktf.ResourceTerraformIterator.fromComplexList.parameter.list"></a>
+
+- _Type:_ interface{}
+
+the list to iterate over.
+
+---
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.ResourceTerraformIterator.fromComplexList.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
+
+the name of the attribute that should be used as the key in the map.
+
+Visit https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-on-complex-lists for more information.
 
 ---
 
@@ -32095,10 +33000,10 @@ Creates a new iterator from a resource that has been created with the `for_each`
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                         | **Type**                 | **Description**                                                            |
-| -------------------------------------------------------------------------------- | ------------------------ | -------------------------------------------------------------------------- |
-| <code><a href="#cdktf.ResourceTerraformIterator.property.key">Key</a></code>     | <code>interface{}</code> | Returns the currenty entry in the list or set that is being iterated over. |
-| <code><a href="#cdktf.ResourceTerraformIterator.property.value">Value</a></code> | <code>interface{}</code> | Returns the value of the current item iterated over.                       |
+| **Name**                                                                         | **Type**                 | **Description**                                                           |
+| -------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ResourceTerraformIterator.property.key">Key</a></code>     | <code>interface{}</code> | Returns the current entry in the list or set that is being iterated over. |
+| <code><a href="#cdktf.ResourceTerraformIterator.property.value">Value</a></code> | <code>interface{}</code> | Returns the value of the current item iterated over.                      |
 
 ---
 
@@ -32110,7 +33015,7 @@ func Key() interface{}
 
 - _Type:_ interface{}
 
-Returns the currenty entry in the list or set that is being iterated over.
+Returns the current entry in the list or set that is being iterated over.
 
 For lists this is the same as `iterator.value`. If you need the index,
 use count via `TerraformCount`:
@@ -32217,12 +33122,29 @@ cdktf.NewStringListList(terraformResource IInterpolatingParent, terraformAttribu
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                               | **Description**                                           |
-| ---------------------------------------------------------------------- | --------------------------------------------------------- |
-| <code><a href="#cdktf.StringListList.computeFqn">ComputeFqn</a></code> | _No description._                                         |
-| <code><a href="#cdktf.StringListList.resolve">Resolve</a></code>       | Produce the Token's value at resolution time.             |
-| <code><a href="#cdktf.StringListList.toString">ToString</a></code>     | Return a string representation of this resolvable object. |
-| <code><a href="#cdktf.StringListList.get">Get</a></code>               | _No description._                                         |
+| **Name**                                                                     | **Description**                                           |
+| ---------------------------------------------------------------------------- | --------------------------------------------------------- |
+| <code><a href="#cdktf.StringListList.allWithMapKey">AllWithMapKey</a></code> | Creating an iterator for this complex list.               |
+| <code><a href="#cdktf.StringListList.computeFqn">ComputeFqn</a></code>       | _No description._                                         |
+| <code><a href="#cdktf.StringListList.resolve">Resolve</a></code>             | Produce the Token's value at resolution time.             |
+| <code><a href="#cdktf.StringListList.toString">ToString</a></code>           | Return a string representation of this resolvable object. |
+| <code><a href="#cdktf.StringListList.get">Get</a></code>                     | _No description._                                         |
+
+---
+
+##### `AllWithMapKey` <a name="AllWithMapKey" id="cdktf.StringListList.allWithMapKey"></a>
+
+```go
+func AllWithMapKey(mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creating an iterator for this complex list.
+
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.StringListList.allWithMapKey.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
 
 ---
 
@@ -33137,10 +34059,66 @@ a Token, e.g. `Token.asString`.
 
 | **Name**                                                                            | **Description**                                                                               |
 | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformIterator.fromComplexList">FromComplexList</a></code> | Creates a new iterator from a complex list.                                                   |
 | <code><a href="#cdktf.TerraformIterator.fromDataSources">FromDataSources</a></code> | Creates a new iterator from a data source that has been created with the `for_each` argument. |
 | <code><a href="#cdktf.TerraformIterator.fromList">FromList</a></code>               | Creates a new iterator from a list.                                                           |
 | <code><a href="#cdktf.TerraformIterator.fromMap">FromMap</a></code>                 | Creates a new iterator from a map.                                                            |
 | <code><a href="#cdktf.TerraformIterator.fromResources">FromResources</a></code>     | Creates a new iterator from a resource that has been created with the `for_each` argument.    |
+
+---
+
+##### `FromComplexList` <a name="FromComplexList" id="cdktf.TerraformIterator.fromComplexList"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.TerraformIterator_FromComplexList(list interface{}, mapKeyAttributeName *string) DynamicListTerraformIterator
+```
+
+Creates a new iterator from a complex list.
+
+One example for this would be a list of maps.
+The list will be converted into a map with the mapKeyAttributeName as the key.
+
+_Example_
+
+```go
+// Example automatically generated from non-compiling source. May contain errors.
+cert := NewAcmCertificate(this, jsii.String("cert"), map[string]*string{
+	"domainName": jsii.String("example.com"),
+	"validationMethod": jsii.String("DNS"),
+})
+
+dvoIterator := terraformIterator_FromComplexList(cert.domainValidationOptions, jsii.String("domain_name"))
+
+NewRoute53Record(this, jsii.String("record"), map[string]interface{}{
+	"allowOverwrite": jsii.Boolean(true),
+	"name": dvoIterator.getString(jsii.String("name")),
+	"records": []interface{}{
+		dvoIterator.getString(jsii.String("record")),
+	},
+	"ttl": jsii.Number(60),
+	"type": dvoIterator.getString(jsii.String("type")),
+	"zoneId": Token_asString(dataAwsRoute53ZoneExample.zoneId),
+	"forEach": dvoIterator,
+})
+```
+
+###### `list`<sup>Required</sup> <a name="list" id="cdktf.TerraformIterator.fromComplexList.parameter.list"></a>
+
+- _Type:_ interface{}
+
+the list to iterate over.
+
+---
+
+###### `mapKeyAttributeName`<sup>Required</sup> <a name="mapKeyAttributeName" id="cdktf.TerraformIterator.fromComplexList.parameter.mapKeyAttributeName"></a>
+
+- _Type:_ \*string
+
+the name of the attribute that should be used as the key in the map.
+
+Visit https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-on-complex-lists for more information.
 
 ---
 
@@ -34753,7 +35731,7 @@ Produce the value.
 
 ### IAspect <a name="IAspect" id="cdktf.IAspect"></a>
 
-- _Implemented By:_ <a href="#cdktf.IAspect">IAspect</a>
+- _Implemented By:_ <a href="#cdktf.MigrateIds">MigrateIds</a>, <a href="#cdktf.IAspect">IAspect</a>
 
 Represents an Aspect.
 
@@ -35405,7 +36383,7 @@ func Fqn() *string
 
 ### ITerraformIterator <a name="ITerraformIterator" id="cdktf.ITerraformIterator"></a>
 
-- _Implemented By:_ <a href="#cdktf.ListTerraformIterator">ListTerraformIterator</a>, <a href="#cdktf.MapTerraformIterator">MapTerraformIterator</a>, <a href="#cdktf.ResourceTerraformIterator">ResourceTerraformIterator</a>, <a href="#cdktf.TerraformIterator">TerraformIterator</a>, <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+- _Implemented By:_ <a href="#cdktf.DynamicListTerraformIterator">DynamicListTerraformIterator</a>, <a href="#cdktf.ListTerraformIterator">ListTerraformIterator</a>, <a href="#cdktf.MapTerraformIterator">MapTerraformIterator</a>, <a href="#cdktf.ResourceTerraformIterator">ResourceTerraformIterator</a>, <a href="#cdktf.TerraformIterator">TerraformIterator</a>, <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
 
 ### ITerraformResource <a name="ITerraformResource" id="cdktf.ITerraformResource"></a>
 
