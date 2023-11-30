@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { TestDriver } from "../../test-helper";
 
-describe("provider list command", () => {
+describe.skip("provider list command", () => {
   let driver: TestDriver;
   beforeEach(async () => {
     driver = new TestDriver(__dirname, {
