@@ -236,9 +236,14 @@ Command output on stdout:
     for (const stackName in manifest.stacks) {
       const stack = manifest.stacks[stackName];
       const filePath = path.join(outdir, stack.synthesizedStackPath);
-      const jsonContent: SynthesizedStackMetadata = JSON.parse(
-        fs.readFileSync(filePath).toString()
-      );
+      let jsonContent: SynthesizedStackMetadata = {};
+      if (filePath.endsWith(".tf.json")) {
+        jsonContent = JSON.parse(fs.readFileSync(filePath).toString());
+      } else {
+        const metadataPath = path.join(outdir, stack.stackMetadataPath!);
+        jsonContent = JSON.parse(fs.readFileSync(metadataPath).toString());
+      }
+
       stacks.push({
         ...stack,
         workingDirectory: path.join(outdir, stack.workingDirectory),
