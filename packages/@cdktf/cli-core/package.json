@@ -42,7 +42,8 @@
     "@cdktf/hcl2json": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
     "@cdktf/node-pty-prebuilt-multiarch": "0.10.1-pre.11",
-    "@sentry/node": "7.92.0",
+    "@cdktf/hcl-helpers": "0.0.0",
+    "@sentry/node": "7.91.0",
     "archiver": "5.3.2",
     "cdktf": "0.0.0",
     "chalk": "4.1.2",
@@ -167,4 +168,3 @@
     "typescript": "5.2.2",
     "utility-types": "3.10.0"
   }
-}
