@@ -33,10 +33,10 @@
     "@cdktf/commons": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
     "@types/node": "18.18.8",
-    "codemaker": "1.91.0",
+    "codemaker": "1.92.0",
     "fs-extra": "8.1.0",
     "glob": "10.3.3",
-    "jsii-srcmak": "0.1.954"
+    "jsii-srcmak": "0.1.981"
   },
   "devDependencies": {
     "@types/deepmerge": "2.2.0",
