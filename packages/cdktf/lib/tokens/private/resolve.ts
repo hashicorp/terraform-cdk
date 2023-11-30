@@ -35,8 +35,8 @@ To learn more about tokens see https://developer.hashicorp.com/terraform/cdktf/c
 To learn more about iterators see https://developer.hashicorp.com/terraform/cdktf/concepts/iterators`;
 
 const MAP_ERROR_EXPLANATION = `In CDKTF we represent maps where the value is only known at runtime (versus compile / synth time) as
-objects with a single key-value pair where the value is a string token, e.g. { "&{TfToken[Token.1]}": "String Map Token Value" }. This is because at compile time we
-don't know the contents of the map, so far CDKTF did not invoke Terraform to communicate with the cloud provider.
+objects with a single key-value pair where the value is a string token, e.g. { "&{TfToken[Token.1]}": "String Map Token Value" }.
+This is because the length of the list isn't know at compile time, as CDKTF has not yet invoked Terraform to communicate with the cloud provider.
 This is done at a later stage on the synthesized static JSON file.
 As we don't know the contents of the map we do not know which key was accessed, or if the map was accessed as part of a loop.
 To avoid this ambiguity:
@@ -263,7 +263,7 @@ ${MAP_ERROR_EXPLANATION}`
   // mistake somewhere and resolve will get into an infinite loop recursing into
   // child.parent <---> parent.children
   if (isConstruct(obj)) {
-throw new Error(`Trying to resolve() a Construct at '${pathName}'. 
+    throw new Error(`Trying to resolve() a Construct at '${pathName}'. 
 This often means that there is an unintended cyclic dependency in your construct tree, leading to the resolution being stuck in an infinite loop which will eventually fail.`);
   }
 
