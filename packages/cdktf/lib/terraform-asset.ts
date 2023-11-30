@@ -12,6 +12,11 @@ import {
 import { ISynthesisSession } from "./synthesize";
 import { addCustomSynthesis } from "./synthesize/synthesizer";
 import { TerraformStack } from "./terraform-stack";
+import {
+  assetExpectsDirectory,
+  assetOutOfScopeOfCDKTFJson,
+  assetTypeNotImplemented,
+} from "./errors";
 
 export interface TerraformAssetConfig {
   // path to the file or folder configured. If relative, the path is resolved from the location of cdktf.json
@@ -66,9 +71,7 @@ export class TerraformAsset extends Construct {
         );
         this.sourcePath = path.relative(process.cwd(), absolutePath);
       } else {
-        throw new Error(
-          `TerraformAsset ${id} was created with a relative path '${config.path}', but no cdktf.json file was found to base it on.`
-        );
+        throw assetOutOfScopeOfCDKTFJson(id, config.path);
       }
     }
 
@@ -78,15 +81,11 @@ export class TerraformAsset extends Construct {
     this.assetHash = config.assetHash || hashPath(this.sourcePath);
 
     if (stat.isFile() && this.type !== AssetType.FILE) {
-      throw new Error(
-        `TerraformAsset ${id} expects path to be a directory, a file was passed: '${config.path}'`
-      );
+      throw assetExpectsDirectory(id, config.path);
     }
 
     if (!stat.isFile() && this.type === AssetType.FILE) {
-      throw new Error(
-        `TerraformAsset ${id} expects path to be a file, a directory was passed: '${config.path}'`
-      );
+      throw assetExpectsDirectory(id, config.path);
     }
 
     addCustomSynthesis(this, {
@@ -160,7 +159,7 @@ export class TerraformAsset extends Construct {
         archiveSync(this.sourcePath, targetPath);
         break;
       default:
-        throw new Error(`Asset type ${this.type} is not implemented`);
+        throw assetTypeNotImplemented();
     }
   }
 }
