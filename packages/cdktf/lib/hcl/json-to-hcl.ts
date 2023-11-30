@@ -15,6 +15,9 @@ function jsonObjectToHcl(jsonObject: any): string {
   ].join("\n");
 }
 
+/**
+ *
+ */
 function jsonExpressionToHcl(jsonExpression: string | number): string {
   if (Array.isArray(jsonExpression)) {
     return [
@@ -65,6 +68,9 @@ function jsonExpressionToHcl(jsonExpression: string | number): string {
   return `"${jsonExpression}"`;
 }
 
+/**
+ *
+ */
 function variablesToHcl(variables: any): string[] {
   const variableNames = Object.keys(variables);
 
@@ -89,6 +95,9 @@ function variablesToHcl(variables: any): string[] {
   return hcl.flat(0);
 }
 
+/**
+ *
+ */
 function providersToHcl(providers: any): string[] {
   const providerTypes = Object.keys(providers);
 
@@ -115,6 +124,9 @@ function providersToHcl(providers: any): string[] {
   return hcl.flat(0);
 }
 
+/**
+ *
+ */
 function dataSourcesToHcl(dataSources: any): string[] {
   const dataSourceTypes = Object.keys(dataSources);
 
@@ -143,6 +155,9 @@ function dataSourcesToHcl(dataSources: any): string[] {
   return hcl;
 }
 
+/**
+ *
+ */
 function resourcesToHcl(resources: any): string[] {
   const resourceTypes = Object.keys(resources);
 
@@ -171,6 +186,9 @@ function resourcesToHcl(resources: any): string[] {
   return hcl.flat(0);
 }
 
+/**
+ *
+ */
 function movedBlocksToHcl(movedBlocks: any): string[] {
   return movedBlocks
     .map((movedBlock: any) => {
@@ -182,6 +200,9 @@ function movedBlocksToHcl(movedBlocks: any): string[] {
     .flat(0);
 }
 
+/**
+ *
+ */
 function modulesToHcl(modules: any): string[] {
   const moduleNames = Object.keys(modules);
 
@@ -206,6 +227,9 @@ function modulesToHcl(modules: any): string[] {
   return hcl;
 }
 
+/**
+ *
+ */
 function outputsToHcl(outputs: any): string[] {
   const outputNames = Object.keys(outputs);
 
@@ -230,7 +254,10 @@ function outputsToHcl(outputs: any): string[] {
   return hcl.flat(0);
 }
 
-export async function jsonToHcl(jsonTf: any): Promise<string> {
+/**
+ *
+ */
+export function jsonToHcl(jsonTf: any): string {
   const { locals, provider } = jsonTf;
 
   let hcl: string[] = [];
@@ -284,9 +311,5 @@ export async function jsonToHcl(jsonTf: any): Promise<string> {
     hcl = hcl.concat(movedBlocksToHcl(jsonTf.moved));
   }
 
-  return formatHCL(hcl.flat(0).join("\n") + "\n");
-}
-
-export async function formatHCL(hcl: string): Promise<string> {
-  return format(hcl);
+  return hcl.join("\n");
 }

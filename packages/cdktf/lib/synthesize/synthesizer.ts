@@ -95,15 +95,14 @@ export class StackSynthesizer implements IStackSynthesizer {
       // This is async code, because the `jsonToHcl` function makes a call to the
       // Golang's `hclwrite` package for eventually formatting generated HCL. I'm not sure
       // how this will change the execution of synth.
-      jsonToHcl(jsonTfConfig).then((hcl) => {
-        fs.writeFileSync(
-          path.join(
-            session.outdir,
-            stackManifest.synthesizedStackPath.replace(/\.tf\.json$/, ".tf")
-          ),
-          hcl
-        );
-      });
+      const hcl = jsonToHcl(jsonTfConfig);
+      fs.writeFileSync(
+        path.join(
+          session.outdir,
+          stackManifest.synthesizedStackPath.replace(/\.tf\.json$/, ".tf")
+        ),
+        hcl
+      );
       return;
     }
 

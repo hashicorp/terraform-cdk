@@ -42,6 +42,7 @@
     "@cdktf/commons": "0.0.0",
     "@cdktf/hcl2cdk": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
+    "@cdktf/hcl-helpers": "0.0.0",
     "@inquirer/prompts": "^2.3.0",
     "@sentry/node": "^7.64.0",
     "cdktf": "0.0.0",

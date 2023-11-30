@@ -7,6 +7,7 @@ import indentString from "indent-string";
 import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
 import { performance } from "perf_hooks";
 import { logger, readConfigSync, sendTelemetry, shell } from "@cdktf/commons";
+import { format } from "@cdktf/hcl-helpers";
 
 const chalkColour = new chalk.Instance();
 
@@ -157,6 +158,11 @@ Command output on stdout:
       process.exit(1);
     }
 
+    // Apply formatting to HCL files if hcl output was selected
+    if (hcl) {
+      SynthStack.formatHclFiles(outdir);
+    }
+
     // end performance timer
     const endTime = performance.now();
 
@@ -188,6 +194,29 @@ Command output on stdout:
     }
 
     return stacks;
+  }
+
+  public static async formatHclFiles(outDir: string) {
+    const manifestPath = path.join(outDir, Manifest.fileName);
+    if (!(await fs.pathExists(manifestPath))) {
+      throw new Error(
+        `Could not find manifest file at ${manifestPath}. In case --skip-synth was passed, please try again without the flag.`
+      );
+    }
+
+    const manifest = JSON.parse(
+      fs.readFileSync(manifestPath).toString()
+    ) as ManifestJson;
+
+    for (const stackName in manifest.stacks) {
+      const stack = manifest.stacks[stackName];
+      const filePath = path.join(outDir, stack.synthesizedStackPath);
+
+      const hclContent = await fs.readFile(filePath, "utf8");
+      const formattedHcl = await format(hclContent);
+
+      await fs.writeFile(filePath, formattedHcl, "utf8");
+    }
   }
 
   public static async readSynthesizedStacks(
