@@ -376,7 +376,7 @@ async function gatherInfo(
       throw Errors.Usage(
         `You must be part of an organization in Terraform Cloud in order to use it as a RemoteBackend or CloudBackend.\n`
       );
-    };
+    }
 
     // todo: add validation for the organization name and workspace. add error handling
     const organizationSelect = await select({
