@@ -7,6 +7,8 @@ import {
   Fn,
   TerraformHclModule,
   TerraformCount,
+  TerraformVariable,
+  Token,
 } from "../lib";
 import { TestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
@@ -391,5 +393,111 @@ test("count can count references", () => {
   expect(synth).toHaveProperty(
     "data.test_data_source.test_data.name",
     "data${count.index}"
+  );
+});
+
+test("chained iterators used in for_each", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
+  const source = new TestResource(stack, "test", {
+    forEach: it,
+    name: "foo",
+  });
+
+  const chainedIt = TerraformIterator.fromResources(source);
+  new TestResource(stack, "chained", {
+    forEach: chainedIt,
+    name: chainedIt.getString("string_value"),
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.for_each",
+    "${test_resource.test}"
+  );
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.name",
+    "${each.value.string_value}"
+  );
+});
+
+test("chained iterators from singular resources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const source = new TestResource(stack, "test", {
+    name: "foo",
+  });
+
+  expect(() => {
+    TerraformIterator.fromResources(source);
+  }).toThrowErrorMatchingInlineSnapshot(
+    `"Cannot create iterator from resource without for_each argument"`
+  );
+});
+
+test("chained iterators used with count", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const resource = new TestResource(stack, "test", { name: "foo" });
+  const it = TerraformCount.of(resource.numericValue);
+
+  const datasFromCount = new TestDataSource(stack, "test_data", {
+    count: it,
+    name: `data${it.index}`,
+  });
+
+  expect(() => {
+    TerraformIterator.fromDataSources(datasFromCount);
+  }).toThrowErrorMatchingInlineSnapshot(
+    `"Cannot create iterator from resource with count argument. Please use the same TerraformCount used in the resource passed here instead."`
+  );
+});
+
+test("for expressions from iterators", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const variable = new TerraformVariable(stack, "list", {});
+  const it = TerraformIterator.fromList(variable.listValue);
+  new TestResource(stack, "test", {
+    name: "foo",
+    tags: {
+      // Take a value from items of the list
+      arnProperties: Token.asString(it.pluckProperty("arn")),
+      // Filter out empty values
+      owners: Token.asString(
+        it.forExpressionForList(`val.owner if val.owner != ""`)
+      ),
+
+      // Filter out teams with no members and join them with a comma
+      teams: Token.asString(
+        it.forExpressionForMap(
+          "val.teamName",
+          `join(",", val.teamMembers) if length(val.teamMembers) > 0`
+        )
+      ),
+      // Get the keys of the map
+      keys: Token.asString(it.keys()),
+    },
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+  expect(synth).toHaveProperty(
+    "resource.test_resource.test.tags.arnProperties",
+    "${[ for key, val in toset(var.list): val.arn]}"
+  );
+  expect(synth).toHaveProperty(
+    "resource.test_resource.test.tags.owners",
+    '${[ for key, val in toset(var.list): val.owner if val.owner != ""]}'
+  );
+
+  expect(synth).toHaveProperty(
+    "resource.test_resource.test.tags.teams",
+    `\${{ for key, val in toset(var.list): val.teamName => join(",", val.teamMembers) if length(val.teamMembers) > 0 }}`
+  );
+  expect(synth).toHaveProperty(
+    "resource.test_resource.test.tags.keys",
+    "${[ for key, val in toset(var.list): key]}"
   );
 });

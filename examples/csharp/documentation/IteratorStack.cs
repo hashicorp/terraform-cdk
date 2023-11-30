@@ -116,6 +116,82 @@ namespace Examples
                 }
             });
             // DOCS_BLOCK_END:iterators-count
+
+            // DOCS_BLOCK_START:iterators-chain
+            // We need a local to be able to pass the list to the iterator
+            TerraformLocal configuration = new TerraformLocal(this, "configuration", new Dictionary<string, object> {
+                {
+                    "website",
+                    new Dictionary<string, object> {
+                        { "name", "website-static-files" },
+                        { "tags", new Dictionary<string, string> {
+                            { "app", "website" }
+                        }}
+                    }
+                },
+                {
+                    "images",
+                    new Dictionary<string, object> {
+                        { "name", "images" },
+                        { "tags", new Dictionary<string, string> {
+                            { "app", "image-converter" }
+                        }}
+                    }
+                }
+            });
+            MapTerraformIterator s3BucketConfigurationIterator = MapTerraformIterator.FromMap(configuration.AsAnyMap);
+            S3Bucket s3Buckets = new S3Bucket(this, "complex-iterator-buckets", new S3BucketConfig
+            {
+                ForEach = s3BucketConfigurationIterator,
+                Bucket = s3BucketConfigurationIterator.GetString("name"),
+                Tags = mapIterator.GetStringMap("tags")
+            });
+
+            // This would be TerraformIterator.fromDataSources for data_sources
+            TerraformIterator s3BucketsIterator = TerraformIterator.FromResources(s3Buckets);
+            TerraformAsset helpFile = new TerraformAsset(this, "help", new TerraformAssetConfig
+            {
+                Path = "./help"
+            });
+            new S3BucketObject(this, "object", new S3BucketObjectConfig
+            {
+                ForEach = s3BucketsIterator,
+                Bucket = s3BucketsIterator.GetString("id"),
+                Key = "help",
+                Source = helpFile.Path
+            });
+            // DOCS_BLOCK_END:iterators-chain
+
+            /*
+            // DOCS_BLOCK_START:iterators-for-expression
+            TerraformLocal values = new TerraformLocal(this, "iterator-values", new Dictionary<string, object> {
+                {
+                    "website",
+                    new Dictionary<string, object> {
+                        { "name", "website-static-files" },
+                        { "tags", new Dictionary<string, string> {
+                            { "app", "website" }
+                        }}
+                    }
+                },
+                {
+                    "images",
+                    new Dictionary<string, object> {
+                        { "name", "images" },
+                        { "tags", new Dictionary<string, string> {
+                            { "app", "image-converter" }
+                        }}
+                    }
+                }
+            });
+            MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(values.AsAnyMap);
+            new TerraformLocal(this, "list-of-keys", mapIterator.Keys());
+            new TerraformLocal(this, "list-of-values", mapIterator.Values());
+            new TerraformLocal(this, "list-of-names", mapIterator.PluckProperty("name"));
+            new TerraformLocal(this, "list-of-names-of-included", mapIterator.ForExpressionForList("val.name if val.included"));
+            new TerraformLocal(this, "map-with-names-as-key-and-tags-as-value-of-included", mapIterator.ForExpressionForMap("val.name", "val.tags if val.included"));
+            // DOCS_BLOCK_END:iterators-for-expression
+            */
         }
     }
 }

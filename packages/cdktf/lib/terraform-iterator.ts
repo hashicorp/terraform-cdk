@@ -14,9 +14,11 @@ import {
 } from "./complex-computed-list";
 import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
 import { Fn } from "./terraform-functions";
+import { ITerraformResource } from "./terraform-resource";
 import {
   FOR_EXPRESSION_KEY,
   FOR_EXPRESSION_VALUE,
+  forExpression,
   propertyAccess,
   ref,
 } from "./tfExpression";
@@ -78,6 +80,26 @@ export abstract class TerraformIterator implements ITerraformIterator {
       | { [key: string]: boolean }
   ): MapTerraformIterator {
     return new MapTerraformIterator(map);
+  }
+
+  /**
+   * Creates a new iterator from a resource that
+   * has been created with the `for_each` argument.
+   */
+  public static fromResources(
+    resource: ITerraformResource
+  ): ResourceTerraformIterator {
+    return new ResourceTerraformIterator(resource);
+  }
+
+  /**
+   * Creates a new iterator from a data source that
+   * has been created with the `for_each` argument.
+   */
+  public static fromDataSources(
+    resource: ITerraformResource
+  ): ResourceTerraformIterator {
+    return new ResourceTerraformIterator(resource);
   }
 
   /**
@@ -214,12 +236,103 @@ export abstract class TerraformIterator implements ITerraformIterator {
     );
   }
 
+  /**
+   * Creates a dynamic expression that can be used to loop over this iterator
+   * in a dynamic block.
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   * See https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-iterators-for-list-attributes
+   */
   public dynamic(attributes: { [key: string]: any }): IResolvable {
     return Token.asAny(
       new TerraformDynamicExpression({
         iterator: this,
         content: attributes,
       })
+    );
+  }
+
+  /**
+   * Creates a for expression that maps the iterators to its keys.
+   * For lists these would be the indices, for maps the keys.
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   */
+  public keys(): IResolvable {
+    return Token.asAny(
+      forExpression(this._getForEachExpression(), FOR_EXPRESSION_KEY)
+    );
+  }
+
+  /**
+   * Creates a for expression that maps the iterators to its value in case it is a map.
+   * For lists these would stay the same.
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   */
+  public values(): IResolvable {
+    return Token.asAny(
+      forExpression(this._getForEachExpression(), FOR_EXPRESSION_VALUE)
+    );
+  }
+
+  /**
+   * Creates a for expression that accesses the key on each element of the iterator.
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   * @param property The property of the iterators values to map to
+   */
+  public pluckProperty(property: string): IResolvable {
+    return Token.asAny(
+      forExpression(
+        this._getForEachExpression(),
+        propertyAccess(FOR_EXPRESSION_VALUE, [property])
+      )
+    );
+  }
+
+  /**
+   * Creates a for expression that results in a list.
+   * This method allows you to create every possible for expression, but requires more knowledge about
+   * Terraform's for expression syntax.
+   * For the most common use cases you can use keys(), values(), and pluckProperty() instead.
+   *
+   * You may write any valid Terraform for each expression, e.g.
+   * `TerraformIterator.fromList(myIteratorSourceVar).forExpressionForList("val.foo if val.bar == true")`
+   * will result in `[ for key, val in var.myIteratorSource: val.foo if val.bar == true ]`.
+   *
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   * @param expression The expression to use in the for mapping
+   */
+  public forExpressionForList(expression: string | IResolvable) {
+    return Token.asAny(forExpression(this._getForEachExpression(), expression));
+  }
+
+  /**
+   * Creates a for expression that results in a map.
+   * This method allows you to create every possible for expression, but requires more knowledge about
+   * Terraforms for expression syntax.
+   * For the most common use cases you can use keys(), values(), and pluckProperty instead.
+   *
+   * You may write any valid Terraform for each expression, e.g.
+   * `TerraformIterator.fromMap(myIteratorSourceVar).forExpressionForMap("key", "val.foo if val.bar == true")`
+   * will result in `{ for key, val in var.myIteratorSource: key => val.foo if val.bar == true }`.
+   *
+   * As this returns an IResolvable you might need to wrap the output in
+   * a Token, e.g. `Token.asString`.
+   * @param expression The expression to use in the for mapping
+   */
+  public forExpressionForMap(
+    keyExpression: string | IResolvable,
+    valueExpression: string | IResolvable
+  ) {
+    return Token.asAny(
+      forExpression(
+        this._getForEachExpression(),
+        valueExpression,
+        keyExpression
+      )
     );
   }
 }
@@ -233,8 +346,8 @@ export class ListTerraformIterator extends TerraformIterator {
   /**
    * Returns the currenty entry in the list or set that is being iterated over.
    * For lists this is the same as `iterator.value`. If you need the index,
-   * use count using the escape hatch:
-   * https://developer.hashicorp.com/terraform/cdktf/concepts/resources#escape-hatch
+   * use count via `TerraformCount`:
+   * https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-count
    */
   public get key(): any {
     return this._getKey();
@@ -282,5 +395,48 @@ export class MapTerraformIterator extends TerraformIterator {
    */
   public get value(): any {
     return this._getValue();
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class ResourceTerraformIterator extends TerraformIterator {
+  constructor(private readonly element: ITerraformResource) {
+    super();
+
+    if (element.count) {
+      throw new Error(
+        "Cannot create iterator from resource with count argument. Please use the same TerraformCount used in the resource passed here instead."
+      );
+    }
+
+    if (!element.forEach) {
+      throw new Error(
+        "Cannot create iterator from resource without for_each argument"
+      );
+    }
+  }
+
+  /**
+   * Returns the currenty entry in the list or set that is being iterated over.
+   * For lists this is the same as `iterator.value`. If you need the index,
+   * use count via `TerraformCount`:
+   * https://developer.hashicorp.com/terraform/cdktf/concepts/iterators#using-count
+   */
+  public get key(): any {
+    return this._getKey();
+  }
+
+  /**
+   * Returns the value of the current item iterated over.
+   */
+  public get value(): any {
+    return this._getValue();
+  }
+
+  /**
+   * @internal used by TerraformResource to set the for_each expression
+   */
+  public _getForEachExpression(): any {
+    return this.element.fqn; // no wrapping necessary for resources
   }
 }

@@ -9,7 +9,7 @@ import { Instance } from "@cdktf/provider-aws/lib/instance";
 
 // DOCS_BLOCK_START:providers-import-classes
 import { DnsimpleProvider } from "@cdktf/provider-dnsimple/lib/provider";
-import { Record } from "@cdktf/provider-dnsimple/lib/record";
+import { ZoneRecord } from "@cdktf/provider-dnsimple/lib/zone-record";
 // DOCS_BLOCK_END:providers-import-classes
 
 // DOCS_BLOCK_START:providers-import,providers-import-classes
@@ -47,8 +47,8 @@ export class ProvidersStack extends TerraformStack {
       account: dnsimpleAccount.stringValue,
     });
 
-    new Record(this, "web-www", {
-      domain: "example.com",
+    new ZoneRecord(this, "web-www", {
+      zoneName: "example.com",
       name: "web",
       value: instance.publicIp,
       type: "A",

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // DOCS_BLOCK_START:aspect-tagging
 import { Construct, IConstruct } from "constructs";
-import { Aspects, IAspect, TerraformStack, App } from "cdktf";
+import { Aspects, IAspect, TerraformStack } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
 import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
 

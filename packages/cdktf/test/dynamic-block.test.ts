@@ -88,3 +88,29 @@ test("dynamic blocks are properly rendered for providers", () => {
     },
   ]);
 });
+
+test("chained iterators used in dynamic blocks", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
+  const source = new TestResource(stack, "test", {
+    forEach: it,
+    name: "foo",
+  });
+
+  const chainedIt = TerraformIterator.fromResources(source);
+  new TestResource(stack, "chained", {
+    name: "foo",
+    listBlock: chainedIt.dynamic({ name: chainedIt.getString("string_value") }),
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.dynamic.list_block.for_each",
+    "${test_resource.test}"
+  );
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.dynamic.list_block.content",
+    { name: "${each.value.string_value}" }
+  );
+});
