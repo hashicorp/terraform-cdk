@@ -24,7 +24,7 @@ test("string local", async () => {
 
   new TerraformLocal(stack, "greeting", "Hello, ${var.name}");
 
-  const hcl = await Testing.synthHCL(stack);
+  const hcl = await Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
     "locals {
       greeting = "Hello, \${var.name}"
@@ -52,7 +52,7 @@ test("with provider alias", async () => {
     provider,
   });
 
-  const hcl = await Testing.synthHCL(stack);
+  const hcl = await Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
     "provider "test" {
       access_key = 1
@@ -98,7 +98,7 @@ test("with formatting", async () => {
     provider,
   });
 
-  const hcl = await Testing.synthHCL(stack);
+  const hcl = await Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
     "provider "test" {
       access_key = 1
@@ -145,7 +145,7 @@ test("serialize list interpolation", async () => {
   const otherResource = new OtherTestResource(stack, "othertest", {});
   resource.names = otherResource.names;
 
-  expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+  expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "provider "other" {
     }
 
@@ -187,7 +187,7 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: 1,
     });
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = "1"
       }
@@ -203,7 +203,7 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: "1",
     });
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = 1
       }
@@ -219,7 +219,7 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: true,
     });
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = "true"
       }
@@ -235,7 +235,7 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: { foo: "bar" },
     });
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = {
           foo = "bar"
@@ -253,7 +253,7 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: ["foo", "bar"],
     });
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = [
           "foo"
@@ -273,7 +273,7 @@ describe("output", () => {
       value: 1,
       description: "test-description",
     });
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         description = "test-description"
         value       = "1"
@@ -291,7 +291,7 @@ describe("output", () => {
       value: 1,
       sensitive: true,
     });
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         sensitive = "true"
         value     = "1"
@@ -315,7 +315,7 @@ describe("output", () => {
       dependsOn: [resource],
     });
 
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "provider "test" {
       }
 
@@ -352,7 +352,7 @@ describe("output", () => {
       value: variable.value,
     });
 
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "variable "test-variable" {
       }
 
@@ -379,7 +379,7 @@ test("module with simple provider", async () => {
     providers: [provider],
   });
 
-  expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+  expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "provider "test" {
       access_key = "key"
       alias      = "provider1"
@@ -416,7 +416,7 @@ describe("backends", () => {
       workspaceDir: "local_workspace",
     });
 
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "data "terraform_remote_state" "remote" {
         backend = "local"
         config = {
@@ -442,7 +442,7 @@ describe("backends", () => {
       },
     });
 
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "data "terraform_remote_state" "remote" {
         backend = "remote"
         config = {
@@ -473,7 +473,7 @@ describe("backends", () => {
       environment: "public",
     });
 
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "data "terraform_remote_state" "remote" {
         backend = "azurerm"
         config = {
@@ -510,7 +510,7 @@ describe("backends", () => {
       lock: true,
     });
 
-    expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "data "terraform_remote_state" "remote" {
         backend = "consul"
         config = {
@@ -547,7 +547,7 @@ test("with complex computed list", async () => {
     name: otherResource.complexComputedList.get(0).id,
   });
 
-  expect(await Testing.synthHCL(stack)).toMatchInlineSnapshot(`
+  expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "provider "other" {
     }
 
@@ -620,7 +620,7 @@ it("moves multiple resources", async () => {
     ],
   }).moveTo("test-2");
 
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "provider "test" {
     }
 
@@ -712,7 +712,7 @@ it("supports local-exec provisioner", () => {
       },
     ],
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "provider "test" {
     }
 
@@ -770,7 +770,7 @@ test("pass variables", () => {
       param3: ["id1", "id2"],
     },
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "module "test" {
       param1 = "name"
       param2 = "1"
@@ -798,7 +798,7 @@ test("simple provider", () => {
     source: "./test/fixtures/hcl-module/",
     providers: [provider],
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "provider "test" {
       access_key = "key"
       alias      = "provider1"
@@ -840,7 +840,7 @@ test("multiple providers", () => {
     source: "./test/fixtures/hcl-module/",
     providers: [provider1, provider2],
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "provider "differentType" {
       access_key = "key"
     }
@@ -879,7 +879,7 @@ test("string type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "string",
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "string"
     }
@@ -895,7 +895,7 @@ test("number type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "number",
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "number"
     }
@@ -911,7 +911,7 @@ test("bool type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "bool",
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "bool"
     }
@@ -927,7 +927,7 @@ test("any type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: VariableType.ANY,
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "any"
     }
@@ -943,7 +943,7 @@ test("default value", () => {
   new TerraformVariable(stack, "test-variable", {
     default: "my-val",
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "variable "test-variable" {
       default = "my-val"
     }
@@ -961,7 +961,7 @@ test("description", () => {
   });
 
   console.log(Testing.synth(stack));
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "variable "test-variable" {
       description = "A Test Variable"
     }
@@ -977,7 +977,7 @@ test("collection type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "list(string)",
   });
-  expect(Testing.synthHCL(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "list(string)"
     }
