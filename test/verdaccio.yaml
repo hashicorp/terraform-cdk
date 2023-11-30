@@ -9,6 +9,7 @@
 
 # path to a directory with all packages
 storage: ./storage
+max_body_size: 100mb
 
 auth:
   htpasswd:
@@ -79,3 +80,4 @@ logs:
 # See https://github.com/verdaccio/verdaccio/issues/301
 server:
   keepAliveTimeout: 0
+  max_body_size: 100mb
