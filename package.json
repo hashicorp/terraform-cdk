@@ -77,17 +77,17 @@
   },
   "devDependencies": {
     "@types/prettier": "2.6.0",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "changelog-parser": "^2.8.1",
-    "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-monorepo": "^0.3.2",
-    "husky": ">=6",
-    "lerna": "^6.6.1",
-    "lint-staged": ">=10",
-    "prettier": "^2.7.1",
-    "standard-version": "^9.5.0"
+    "@typescript-eslint/eslint-plugin": "4.33.0",
+    "@typescript-eslint/parser": "4.33.0",
+    "changelog-parser": "2.8.1",
+    "eslint": "7.32.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-monorepo": "0.3.2",
+    "husky": "8.0.3",
+    "lerna": "6.6.1",
+    "lint-staged": "15.1.0",
+    "prettier": "2.7.1",
+    "standard-version": "9.5.0"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,css,md}": "prettier --write",
