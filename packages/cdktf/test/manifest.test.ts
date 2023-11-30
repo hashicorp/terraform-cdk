@@ -13,19 +13,15 @@ test("stacksFolder", () => {
   expect(Manifest.stacksFolder).toEqual("stacks");
 });
 
-test("stacksFilename", () => {
-  expect(Manifest.stackFileName).toEqual("cdk.tf.json");
-});
-
 test("create stacks folder", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
-  new Manifest("0.0.0", outdir);
+  new Manifest("0.0.0", outdir, false);
   expect(fs.existsSync(path.join(outdir, Manifest.stacksFolder))).toBeTruthy();
 });
 
 test("get stack manifest", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
-  const manifest = new Manifest("0.0.0", outdir);
+  const manifest = new Manifest("0.0.0", outdir, false);
 
   const app = new App();
   const stackManifest = manifest.forStack(
@@ -46,7 +42,7 @@ test("get stack manifest", () => {
 
 test("write manifest", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
-  const manifest = new Manifest("0.0.0", outdir);
+  const manifest = new Manifest("0.0.0", outdir, false);
 
   const app = new App();
   manifest.forStack(new TerraformStack(app, "this-is-a-stack"));
