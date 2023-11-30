@@ -1,5 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
+import { dynamicBlockNotSupported } from "./errors";
 import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
 import { ITerraformIterator } from "./terraform-iterator";
 import { IResolvable, IResolveContext, Lazy, Token } from "./tokens";
@@ -35,10 +36,7 @@ export class TerraformDynamicBlock implements IResolvable {
   }
 
   public resolve(): any {
-    throw new Error(
-      `Tried to directly resolve a TerraformDynamicBlock which is not supported.
-Dynamic blocks are only supported on block attributes of resources, data sources and providers.`
-    );
+    throw dynamicBlockNotSupported(this.forEach._getForEachExpression());
   }
 
   public toTerraformDynamicBlockJson(): IResolvable {
