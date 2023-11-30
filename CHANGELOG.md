@@ -4,6 +4,10 @@
 
 - feat(lib): add move workflows for specifying ids directly [\#3231](https://github.com/hashicorp/terraform-cdk/pull/3231)
 
+### fix
+
+- fix(provider-generator): fix oci provider by skipping attributes that conflict after being camel cased [\#3285](https://github.com/hashicorp/terraform-cdk/pull/3285)
+
 ## 0.19.1
 
 ### feat
