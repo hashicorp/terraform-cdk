@@ -1,3 +1,9 @@
+## 0.19.2
+
+### feat
+
+- feat(lib): add move workflows for specifying ids directly [\#3231](https://github.com/hashicorp/terraform-cdk/pull/3231)
+
 ## 0.19.1
 
 ### feat
