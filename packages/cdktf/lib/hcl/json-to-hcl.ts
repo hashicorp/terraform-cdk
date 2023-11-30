@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { format } from "@cdktf/hcl-helpers";
-
+/**
+ *
+ */
 function jsonObjectToHcl(jsonObject: any): string {
   return [
     "{",
