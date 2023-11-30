@@ -7,6 +7,7 @@ import { DISABLE_STACK_TRACE_IN_METADATA } from "./annotations";
 import { Manifest } from "./manifest";
 import { ISynthesisSession } from "./synthesize";
 import { TerraformStack } from "./terraform-stack";
+import { appValidationFailure, noAppFound } from "./errors";
 
 const APP_SYMBOL = Symbol.for("cdktf/App");
 export const CONTEXT_ENV = "CDKTF_CONTEXT_JSON";
@@ -115,9 +116,7 @@ export class App extends Construct {
       const node = c.node;
 
       if (!node.scope) {
-        throw new Error(
-          `No app could be identified for the construct at path '${construct.node.path}'`
-        );
+        throw noAppFound(construct.node.path);
       }
 
       return _lookup(node.scope);
@@ -145,9 +144,7 @@ export class App extends Construct {
       const validations = this.node.validate();
       if (validations.length) {
         const errorList = validations.join("\n  ");
-        throw new Error(
-          `App level validation failed with the following errors:\n  ${errorList}`
-        );
+        throw appValidationFailure(errorList);
       }
     }
 

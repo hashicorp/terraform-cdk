@@ -12,6 +12,7 @@ import {
   DynamicListTerraformIterator,
 } from ".";
 import { captureStackTrace } from "./tokens/private/stack-trace";
+import { providerVersionMismatch } from "./errors";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 abstract class ComplexResolvable implements IResolvable, ITerraformAddressable {
@@ -223,9 +224,7 @@ export class ComplexComputedList extends ComplexComputedAttribute {
     protected wrapsSet?: boolean
   ) {
     super(terraformResource, terraformAttribute);
-    throw new Error(
-      "Version mismatch detected: The provider bindings seem to have been built for an older version of CDKTF. Upgrade your pre-built provider or re-run cdktf get with a more recent version (>= 0.10) of the cdktf-cli."
-    );
+    throw providerVersionMismatch();
   }
 
   public interpolationForAttribute(property: string) {
