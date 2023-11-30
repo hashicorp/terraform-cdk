@@ -32,7 +32,7 @@ export const assetOutOfScopeOfCDKTFJson = (id: string, configPath: string) =>
   new Error(
     `TerraformAsset ${id} was created with a relative path '${configPath}', but no cdktf.json file was found to base it on.
 
-The cdktf.json is needed to establish the base for the relative path (e.g the '.' in './foo/bar). We cannot find the cdktf.json within your current working directory '${process.cwd()}'
+The cdktf.json is needed to establish the base for the relative path (e.g the '.' in './foo/bar'). We cannot find the cdktf.json within your current working directory '${process.cwd()}'
 To avoid this, please place a cdktf.json at the root of your project. Learn more here: https://developer.hashicorp.com/terraform/cdktf/create-and-deploy/configuration-file
 To learn more about TerraformAsset read here: https://developer.hashicorp.com/terraform/cdktf/concepts/assets
 `
@@ -51,3 +51,14 @@ Possible Asset types include: FILE, DIRECTORY, and ARCHIVE
 The values are to be taken from the AssetType Enum.
 To learn more about TerraformAsset read here: https://developer.hashicorp.com/terraform/cdktf/concepts/assets
   `);
+
+export const dynamicBlockNotSupported = (foreachExpression: string) =>
+  new Error(
+    `Tried to directly resolve a TerraformDynamicBlock which is not supported.
+The TerraformDynamicBlock is created by calling '.dynamic' on a TerraformIterator instance.
+Dynamic blocks are only supported on block attributes of resources, data sources and providers.
+The expression used for the dynamic block: '${`.dynamic({
+
+})`}'
+`
+  );
