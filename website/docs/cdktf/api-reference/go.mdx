@@ -12450,9 +12450,12 @@ cdktf.NewTerraformResource(scope Construct, id *string, config TerraformResource
 | <code><a href="#cdktf.TerraformResource.getNumberMapAttribute">GetNumberMapAttribute</a></code>         | _No description._                                                                                                                   |
 | <code><a href="#cdktf.TerraformResource.getStringAttribute">GetStringAttribute</a></code>               | _No description._                                                                                                                   |
 | <code><a href="#cdktf.TerraformResource.getStringMapAttribute">GetStringMapAttribute</a></code>         | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.hasResourceMove">HasResourceMove</a></code>                     | _No description._                                                                                                                   |
 | <code><a href="#cdktf.TerraformResource.importFrom">ImportFrom</a></code>                               | _No description._                                                                                                                   |
 | <code><a href="#cdktf.TerraformResource.interpolationForAttribute">InterpolationForAttribute</a></code> | _No description._                                                                                                                   |
+| <code><a href="#cdktf.TerraformResource.moveFromId">MoveFromId</a></code>                               | Move the resource corresponding to "id" to this resource.                                                                           |
 | <code><a href="#cdktf.TerraformResource.moveTo">MoveTo</a></code>                                       | Moves this resource to the target resource given by moveTarget.                                                                     |
+| <code><a href="#cdktf.TerraformResource.moveToId">MoveToId</a></code>                                   | Moves this resource to the resource corresponding to "id".                                                                          |
 
 ---
 
@@ -12644,6 +12647,12 @@ func GetStringMapAttribute(terraformAttribute *string) *map[string]*string
 
 ---
 
+##### `HasResourceMove` <a name="HasResourceMove" id="cdktf.TerraformResource.hasResourceMove"></a>
+
+```go
+func HasResourceMove() interface{}
+```
+
 ##### `ImportFrom` <a name="ImportFrom" id="cdktf.TerraformResource.importFrom"></a>
 
 ```go
@@ -12674,6 +12683,24 @@ func InterpolationForAttribute(terraformAttribute *string) IResolvable
 
 ---
 
+##### `MoveFromId` <a name="MoveFromId" id="cdktf.TerraformResource.moveFromId"></a>
+
+```go
+func MoveFromId(id *string)
+```
+
+Move the resource corresponding to "id" to this resource.
+
+Note that the resource being moved from must be marked as moved using it's instance function.
+
+###### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResource.moveFromId.parameter.id"></a>
+
+- _Type:_ \*string
+
+Full id of resource being moved from, e.g. "aws_s3_bucket.example".
+
+---
+
 ##### `MoveTo` <a name="MoveTo" id="cdktf.TerraformResource.moveTo"></a>
 
 ```go
@@ -12695,6 +12722,22 @@ The previously set user defined string set by .addMoveTarget() corresponding to 
 - _Type:_ interface{}
 
 Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to.
+
+---
+
+##### `MoveToId` <a name="MoveToId" id="cdktf.TerraformResource.moveToId"></a>
+
+```go
+func MoveToId(id *string)
+```
+
+Moves this resource to the resource corresponding to "id".
+
+###### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResource.moveToId.parameter.id"></a>
+
+- _Type:_ \*string
+
+Full id of resource to move to, e.g. "aws_s3_bucket.example".
 
 ---
 
@@ -12971,6 +13014,7 @@ cdktf.NewTerraformStack(scope Construct, id *string) TerraformStack
 | <code><a href="#cdktf.TerraformStack.dependsOn">DependsOn</a></code>                                                     | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.ensureBackendExists">EnsureBackendExists</a></code>                                 | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.getLogicalId">GetLogicalId</a></code>                                               | _No description._                                  |
+| <code><a href="#cdktf.TerraformStack.hasResourceMove">HasResourceMove</a></code>                                         | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.prepareStack">PrepareStack</a></code>                                               | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.registerIncomingCrossStackReference">RegisterIncomingCrossStackReference</a></code> | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.registerOutgoingCrossStackReference">RegisterOutgoingCrossStackReference</a></code> | _No description._                                  |
@@ -13052,6 +13096,12 @@ func GetLogicalId(tfElement interface{}) *string
 - _Type:_ interface{}
 
 ---
+
+##### `HasResourceMove` <a name="HasResourceMove" id="cdktf.TerraformStack.hasResourceMove"></a>
+
+```go
+func HasResourceMove() *bool
+```
 
 ##### `PrepareStack` <a name="PrepareStack" id="cdktf.TerraformStack.prepareStack"></a>
 
@@ -22143,14 +22193,56 @@ ReplaceTriggeredBy *[]interface{}
 
 ---
 
-### TerraformResourceMove <a name="TerraformResourceMove" id="cdktf.TerraformResourceMove"></a>
+### TerraformResourceMoveById <a name="TerraformResourceMoveById" id="cdktf.TerraformResourceMoveById"></a>
 
-#### Initializer <a name="Initializer" id="cdktf.TerraformResourceMove.Initializer"></a>
+#### Initializer <a name="Initializer" id="cdktf.TerraformResourceMoveById.Initializer"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
-&cdktf.TerraformResourceMove {
+&cdktf.TerraformResourceMoveById {
+	From: *string,
+	To: *string,
+}
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                       | **Type**              | **Description**   |
+| ------------------------------------------------------------------------------ | --------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformResourceMoveById.property.from">From</a></code> | <code>\*string</code> | _No description._ |
+| <code><a href="#cdktf.TerraformResourceMoveById.property.to">To</a></code>     | <code>\*string</code> | _No description._ |
+
+---
+
+##### `From`<sup>Required</sup> <a name="From" id="cdktf.TerraformResourceMoveById.property.from"></a>
+
+```go
+From *string
+```
+
+- _Type:_ \*string
+
+---
+
+##### `To`<sup>Required</sup> <a name="To" id="cdktf.TerraformResourceMoveById.property.to"></a>
+
+```go
+To *string
+```
+
+- _Type:_ \*string
+
+---
+
+### TerraformResourceMoveByTarget <a name="TerraformResourceMoveByTarget" id="cdktf.TerraformResourceMoveByTarget"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformResourceMoveByTarget.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.TerraformResourceMoveByTarget {
 	MoveTarget: *string,
 	Index: interface{},
 }
@@ -22158,14 +22250,14 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                               | **Type**                 | **Description**   |
-| -------------------------------------------------------------------------------------- | ------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformResourceMove.property.moveTarget">MoveTarget</a></code> | <code>\*string</code>    | _No description._ |
-| <code><a href="#cdktf.TerraformResourceMove.property.index">Index</a></code>           | <code>interface{}</code> | _No description._ |
+| **Name**                                                                                       | **Type**                 | **Description**   |
+| ---------------------------------------------------------------------------------------------- | ------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResourceMoveByTarget.property.moveTarget">MoveTarget</a></code> | <code>\*string</code>    | _No description._ |
+| <code><a href="#cdktf.TerraformResourceMoveByTarget.property.index">Index</a></code>           | <code>interface{}</code> | _No description._ |
 
 ---
 
-##### `MoveTarget`<sup>Required</sup> <a name="MoveTarget" id="cdktf.TerraformResourceMove.property.moveTarget"></a>
+##### `MoveTarget`<sup>Required</sup> <a name="MoveTarget" id="cdktf.TerraformResourceMoveByTarget.property.moveTarget"></a>
 
 ```go
 MoveTarget *string
@@ -22175,7 +22267,7 @@ MoveTarget *string
 
 ---
 
-##### `Index`<sup>Optional</sup> <a name="Index" id="cdktf.TerraformResourceMove.property.index"></a>
+##### `Index`<sup>Optional</sup> <a name="Index" id="cdktf.TerraformResourceMoveByTarget.property.index"></a>
 
 ```go
 Index interface{}
@@ -25089,6 +25181,7 @@ cdktf.NewFn() Fn
 | <code><a href="#cdktf.Fn.yamlencode">Yamlencode</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/yamlencode yamlencode} encodes a given value to a string using [YAML 1.2](https://yaml.org/spec/1.2/spec.html) block syntax.                                                                                                                                                                      |
 | <code><a href="#cdktf.Fn.zipmap">Zipmap</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/zipmap zipmap} constructs a map from a list of keys and a corresponding list of values.                                                                                                                                                                                                           |
 | <code><a href="#cdktf.Fn.bcrypt">Bcrypt</a></code>                     | {@link /terraform/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.                                                |
+| <code><a href="#cdktf.Fn.conditional">Conditional</a></code>           | {@link https://developer.hashicorp.com/terraform/language/expressions/conditionals} A conditional expression uses the value of a boolean expression to select one of two values.                                                                                                                                                                                      |
 | <code><a href="#cdktf.Fn.join">Join</a></code>                         | {@link /terraform/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.                                                                                                                                                                                               |
 | <code><a href="#cdktf.Fn.lookup">Lookup</a></code>                     | {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.                                                                                                                                                        |
 | <code><a href="#cdktf.Fn.lookupNested">LookupNested</a></code>         | returns a property access expression that accesses the property at the given path in the given inputMap.                                                                                                                                                                                                                                                              |
@@ -27106,6 +27199,34 @@ cdktf.Fn_Bcrypt(str *string, cost *f64) *string
 ###### `cost`<sup>Optional</sup> <a name="cost" id="cdktf.Fn.bcrypt.parameter.cost"></a>
 
 - _Type:_ \*f64
+
+---
+
+##### `Conditional` <a name="Conditional" id="cdktf.Fn.conditional"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Fn_Conditional(condition interface{}, trueValue interface{}, falseValue interface{}) interface{}
+```
+
+{@link https://developer.hashicorp.com/terraform/language/expressions/conditionals} A conditional expression uses the value of a boolean expression to select one of two values.
+
+###### `condition`<sup>Required</sup> <a name="condition" id="cdktf.Fn.conditional.parameter.condition"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `trueValue`<sup>Required</sup> <a name="trueValue" id="cdktf.Fn.conditional.parameter.trueValue"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `falseValue`<sup>Required</sup> <a name="falseValue" id="cdktf.Fn.conditional.parameter.falseValue"></a>
+
+- _Type:_ interface{}
 
 ---
 
@@ -30695,6 +30816,47 @@ func Value() interface{}
 - _Type:_ interface{}
 
 Returns the value of the current item iterated over.
+
+---
+
+### MigrateIds <a name="MigrateIds" id="cdktf.MigrateIds"></a>
+
+- _Implements:_ <a href="#cdktf.IAspect">IAspect</a>
+
+For migrating past 0.17 where the feature flag for the old id generation logic was removed after being deprecated since 0.15.
+
+#### Initializers <a name="Initializers" id="cdktf.MigrateIds.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.NewMigrateIds() MigrateIds
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                 | **Description**                      |
+| -------------------------------------------------------- | ------------------------------------ |
+| <code><a href="#cdktf.MigrateIds.visit">Visit</a></code> | All aspects can visit an IConstruct. |
+
+---
+
+##### `Visit` <a name="Visit" id="cdktf.MigrateIds.visit"></a>
+
+```go
+func Visit(node IConstruct)
+```
+
+All aspects can visit an IConstruct.
+
+###### `node`<sup>Required</sup> <a name="node" id="cdktf.MigrateIds.visit.parameter.node"></a>
+
+- _Type:_ github.com/aws/constructs-go/constructs/v10.IConstruct
 
 ---
 
@@ -34753,7 +34915,7 @@ Produce the value.
 
 ### IAspect <a name="IAspect" id="cdktf.IAspect"></a>
 
-- _Implemented By:_ <a href="#cdktf.IAspect">IAspect</a>
+- _Implemented By:_ <a href="#cdktf.MigrateIds">MigrateIds</a>, <a href="#cdktf.IAspect">IAspect</a>
 
 Represents an Aspect.
 
