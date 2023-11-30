@@ -121,7 +121,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
     throw new Error(`Unable to resolve object tree with circular reference at '${pathName}'.
 This error is thrown if the depth of the object tree is greater than 200 to protect against cyclic references.
 To resolve this inspect the construct creating the cyclic reference (most likely in '${pathName}') and make sure
-it does not create an infinite construct nesting.`);
+it does not create an infinite nesting of constructs.`);
   }
 
   //
@@ -263,9 +263,8 @@ ${MAP_ERROR_EXPLANATION}`
   // mistake somewhere and resolve will get into an infinite loop recursing into
   // child.parent <---> parent.children
   if (isConstruct(obj)) {
-    throw new Error(`Trying to resolve() a Construct at '${pathName}'. 
-This often means that there is an unintended cyclic dependency in your construct tree.
-This leads to the resolution being stuck in an infinite loop and will eventually fail.`);
+throw new Error(`Trying to resolve() a Construct at '${pathName}'. 
+This often means that there is an unintended cyclic dependency in your construct tree, leading to the resolution being stuck in an infinite loop which will eventually fail.`);
   }
 
   const result: any = {};
