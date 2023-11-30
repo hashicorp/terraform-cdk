@@ -137,7 +137,7 @@ export class Testing {
   /**
    * Returns the Terraform synthesized JSON.
    */
-  public static async synthHCL(stack: TerraformStack, runValidations = false) {
+  public static async synthHcl(stack: TerraformStack, runValidations = false) {
     invokeAspects(stack);
     if (runValidations) {
       stack.runAllValidations();
@@ -175,7 +175,7 @@ export class Testing {
   public static fullSynth(stack: TerraformStack): string {
     const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
 
-    const manifest = new Manifest("stubbed", outdir);
+    const manifest = new Manifest("stubbed", outdir, false);
 
     stack.synthesizer.synthesize({
       outdir,

@@ -29,13 +29,20 @@ export interface IManifest {
 export class Manifest implements IManifest {
   public static readonly fileName = "manifest.json";
   public static readonly stacksFolder = "stacks";
-  public static readonly stackFileName = "cdk.tf.json";
 
   public readonly stacks: Record<StackManifest["name"], StackManifest> = {};
+  public readonly stackFileName: string;
 
-  constructor(public readonly version: string, public readonly outdir: string) {
+  constructor(
+    public readonly version: string,
+    public readonly outdir: string,
+    public readonly hclOutput: boolean
+  ) {
     const stacksPath = path.join(this.outdir, Manifest.stacksFolder);
     if (!fs.existsSync(stacksPath)) fs.mkdirSync(stacksPath);
+
+    this.stackFileName = hclOutput ? "cdk.tf" : "cdk.tf.json";
+    console.log("HCL output: ", this.stackFileName, hclOutput);
   }
 
   public forStack(stack: TerraformStack): StackManifest {
@@ -53,7 +60,7 @@ export class Manifest implements IManifest {
       synthesizedStackPath: path.join(
         Manifest.stacksFolder,
         node.id,
-        Manifest.stackFileName
+        this.stackFileName
       ),
       annotations: [], // will be replaced later when processed in App
       dependencies: stack.dependencies.map((item) => item.node.path),

@@ -212,10 +212,9 @@ Command output on stdout:
       const stack = manifest.stacks[stackName];
       const filePath = path.join(outDir, stack.synthesizedStackPath);
 
-      const hclContent = await fs.readFile(filePath, "utf8");
+      const hclContent = fs.readFileSync(filePath).toString();
       const formattedHcl = await format(hclContent);
-
-      await fs.writeFile(filePath, formattedHcl, "utf8");
+      fs.writeFileSync(filePath, formattedHcl);
     }
   }
 

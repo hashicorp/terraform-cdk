@@ -107,7 +107,7 @@ export class App extends Construct {
     if (!fs.existsSync(this.outdir)) {
       fs.mkdirSync(this.outdir);
     }
-    this.manifest = new Manifest(version, this.outdir);
+    this.manifest = new Manifest(version, this.outdir, this.hclOutput);
   }
 
   public static isApp(x: any): x is App {
