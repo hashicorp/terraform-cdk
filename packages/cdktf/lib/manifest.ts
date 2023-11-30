@@ -15,6 +15,8 @@ export interface StackManifest {
   readonly name: string;
   readonly constructPath: string;
   readonly synthesizedStackPath: string;
+  // Only valid for HCL synthesis, for JSON the metadata is within the synthesized output
+  readonly stackMetadataPath: string;
   readonly workingDirectory: string;
   readonly annotations: StackAnnotation[];
   readonly dependencies: string[];
@@ -29,6 +31,7 @@ export interface IManifest {
 export class Manifest implements IManifest {
   public static readonly fileName = "manifest.json";
   public static readonly stacksFolder = "stacks";
+  public static readonly stackMetadataPath = "metadata.json";
 
   public readonly stacks: Record<StackManifest["name"], StackManifest> = {};
   public readonly stackFileName: string;
@@ -42,7 +45,6 @@ export class Manifest implements IManifest {
     if (!fs.existsSync(stacksPath)) fs.mkdirSync(stacksPath);
 
     this.stackFileName = hclOutput ? "cdk.tf" : "cdk.tf.json";
-    console.log("HCL output: ", this.stackFileName, hclOutput);
   }
 
   public forStack(stack: TerraformStack): StackManifest {
@@ -61,6 +63,11 @@ export class Manifest implements IManifest {
         Manifest.stacksFolder,
         node.id,
         this.stackFileName
+      ),
+      stackMetadataPath: path.join(
+        Manifest.stacksFolder,
+        node.id,
+        Manifest.stackMetadataPath
       ),
       annotations: [], // will be replaced later when processed in App
       dependencies: stack.dependencies.map((item) => item.node.path),

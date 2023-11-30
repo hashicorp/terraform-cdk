@@ -142,10 +142,13 @@ function dataSourcesToHcl(dataSources: any): string[] {
       const dataSource = dataSourcesOfType[dataSourceName];
       hcl = hcl.concat([
         `data "${dataSourceType}" "${dataSourceName}" {`,
-        ...Object.entries(dataSource).map(
-          ([name, value]) =>
-            `  ${name} = ${jsonExpressionToHcl(value as string)}`
-        ),
+        ...Object.entries(dataSource).map(([name, value]) => {
+          if (name === "//") {
+            return `//CDKTF:META ${JSON.stringify((value as any).metadata)}`;
+          }
+
+          return `  ${name} = ${jsonExpressionToHcl(value as string)}`;
+        }),
         "}",
         "",
       ]);
@@ -153,6 +156,36 @@ function dataSourcesToHcl(dataSources: any): string[] {
   }
 
   return hcl;
+}
+
+/**
+ *
+ */
+function resourcesMetadata(resources: any): any {
+  const resourceTypes = Object.keys(resources);
+
+  if (resourceTypes.length === 0) {
+    return {};
+  }
+
+  const metadata: any = {};
+
+  for (const resourceType of resourceTypes) {
+    const resourcesOfType = resources[resourceType];
+
+    const resourcesMetadata: any = {};
+
+    for (const resourceName of Object.keys(resourcesOfType)) {
+      const resource = resourcesOfType[resourceName];
+      resourcesMetadata[resourceName] = {
+        "//": resource["//"],
+      };
+    }
+
+    metadata[resourceType] = resourcesMetadata;
+  }
+
+  return metadata;
 }
 
 /**
@@ -173,10 +206,12 @@ function resourcesToHcl(resources: any): string[] {
       const resource = resourcesOfType[resourceName];
       hcl = hcl.concat([
         `resource "${resourceType}" "${resourceName}" {`,
-        ...Object.entries(resource).map(
-          ([name, value]) =>
-            `  ${name} = ${jsonExpressionToHcl(value as string)}`
-        ),
+        ...Object.entries(resource).map(([name, value]) => {
+          if (name === "//") {
+            return `//CDKTF:META ${JSON.stringify((value as any).metadata)}`;
+          }
+          return `  ${name} = ${jsonExpressionToHcl(value as string)}`;
+        }),
         "}",
         "",
       ]);
@@ -257,7 +292,32 @@ function outputsToHcl(outputs: any): string[] {
 /**
  *
  */
-export function jsonToHcl(jsonTf: any): string {
+function getPureMetadata(jsonTf: any): any {
+  const { resource, data, terraform } = jsonTf;
+
+  const metadata: any = {
+    "//": jsonTf["//"],
+  };
+
+  if (resource) {
+    metadata.resource = resourcesMetadata(resource);
+  }
+
+  if (data) {
+    metadata.data = resourcesMetadata(resource);
+  }
+
+  if (terraform) {
+    metadata.terraform = terraform;
+  }
+
+  return metadata;
+}
+
+/**
+ *
+ */
+export function jsonToHcl(jsonTf: any): { hcl: string; metadata: any } {
   const { locals, provider } = jsonTf;
 
   let hcl: string[] = [];
@@ -270,6 +330,10 @@ export function jsonToHcl(jsonTf: any): string {
       "}",
       "",
     ]);
+  }
+
+  if (jsonTf["//"]) {
+    hcl.push("//CDKTF:META " + JSON.stringify(jsonTf["//"]));
   }
 
   if (jsonTf.variable) {
@@ -311,5 +375,8 @@ export function jsonToHcl(jsonTf: any): string {
     hcl = hcl.concat(movedBlocksToHcl(jsonTf.moved));
   }
 
-  return hcl.join("\n");
+  return {
+    hcl: hcl.join("\n"),
+    metadata: getPureMetadata(jsonTf),
+  };
 }
