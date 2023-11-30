@@ -22,6 +22,6 @@
   },
   "dependencies": {
     "cdktf": "0.0.0",
-    "constructs": "10.0.25"
+    "constructs": "10.3.0"
   }
 }
