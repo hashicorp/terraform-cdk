@@ -97,12 +97,15 @@ export class StackSynthesizer implements IStackSynthesizer {
       // how this will change the execution of synth.
       const hcl = jsonToHcl(jsonTfConfig);
       fs.writeFileSync(
-        path.join(
-          session.outdir,
-          stackManifest.synthesizedStackPath.replace(/\.tf\.json$/, ".tf")
-        ),
-        hcl
+        path.join(session.outdir, stackManifest.synthesizedStackPath),
+        hcl.hcl
       );
+
+      fs.writeFileSync(
+        path.join(session.outdir, stackManifest.stackMetadataPath!),
+        stringify(hcl.metadata, { space: 2 })
+      );
+
       return;
     }
 
