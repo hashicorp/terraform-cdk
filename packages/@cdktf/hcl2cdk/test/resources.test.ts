@@ -529,4 +529,23 @@ describe("resources", () => {
       resources: ["aws_ecs_task_definition"],
     }
   );
+
+  testCase.test(
+    "built-in data resource",
+    `
+    variable "revision" {
+      default = 1
+    }
+
+    resource "terraform_data" "replacement" {
+      input = var.revision
+    }
+  `,
+    [],
+    Snapshot.yes,
+    Synth.yes,
+    {
+      resources: ["terraform_data"],
+    }
+  );
 });
