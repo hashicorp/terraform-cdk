@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Construct } from "constructs";
 import * as cdktf from "cdktf";
 import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
