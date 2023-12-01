@@ -369,7 +369,7 @@ test("iterator can be accessed from Complex List", () => {
 
   expect(synth).toHaveProperty(
     "data.test_data_source.iterated.for_each",
-    "${toset(other_test_resource.test.complex_computed_list)}"
+    "${{ for key, val in other_test_resource.test.complex_computed_list: val.name => val }}"
   );
   expect(synth).toHaveProperty(
     "data.test_data_source.iterated.name",
