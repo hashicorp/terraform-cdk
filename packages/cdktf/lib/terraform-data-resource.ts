@@ -4,10 +4,17 @@
  */
 
 import { Construct } from "constructs";
-import * as cdktf from "cdktf";
 import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
+import {
+  TerraformMetaArguments,
+  TerraformResource,
+} from "./terraform-resource";
+import { TerraformProvider } from "./terraform-provider";
+import { ImportableResource } from "./importable-resource";
+import { AnyMap } from "./complex-computed-list";
+import { anyToTerraform, hashMapper } from "./runtime";
 
-export interface DataConfig extends cdktf.TerraformMetaArguments {
+export interface DataConfig extends TerraformMetaArguments {
   /**
    * (Optional) A value which will be stored in the instance state, and reflected in the output attribute after apply.
    * https://developer.hashicorp.com/terraform/language/resources/terraform-data#input
@@ -31,7 +38,7 @@ export interface DataConfig extends cdktf.TerraformMetaArguments {
  *
  * https://developer.hashicorp.com/terraform/language/resources/terraform-data
  */
-export class DataResource extends cdktf.TerraformResource {
+export class DataResource extends TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
@@ -51,9 +58,9 @@ export class DataResource extends cdktf.TerraformResource {
     scope: Construct,
     importToId: string,
     importFromId: string,
-    provider?: cdktf.TerraformProvider
+    provider?: TerraformProvider
   ) {
-    return new cdktf.ImportableResource(scope, importToId, {
+    return new ImportableResource(scope, importToId, {
       terraformResourceType: "terraform_data",
       importId: importFromId,
       provider,
@@ -127,7 +134,7 @@ export class DataResource extends cdktf.TerraformResource {
   }
 
   // output - computed: true, optional: false, required: false
-  private _output = new cdktf.AnyMap(this, "output");
+  private _output = new AnyMap(this, "output");
   public get output() {
     return this._output;
   }
@@ -158,10 +165,8 @@ export class DataResource extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      input: cdktf.hashMapper(cdktf.anyToTerraform)(this._input),
-      triggers_replace: cdktf.hashMapper(cdktf.anyToTerraform)(
-        this._triggersReplace
-      ),
+      input: hashMapper(anyToTerraform)(this._input),
+      triggers_replace: hashMapper(anyToTerraform)(this._triggersReplace),
     };
   }
 }
