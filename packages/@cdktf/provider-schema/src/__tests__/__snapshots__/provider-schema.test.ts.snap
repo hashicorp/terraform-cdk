@@ -643,102 +643,95 @@ exports[`readSchema generates a single module schema 1`] = `
 
 exports[`readSchema generates a single provider schema 1`] = `
 {
-  "format_version": "1.0",
+  "format_version": "STUBBED VERSION",
   "provider_schemas": {
     "registry.terraform.io/hashicorp/null": {
-      "data_source_schemas": {
-        "null_data_source": {
-          "block": {
-            "attributes": {
-              "has_computed_default": {
-                "computed": true,
-                "description": "If set, its literal value will be stored and returned. If not, its value defaults to \`"default"\`. This argument exists primarily for testing and has little practical use.",
-                "description_kind": "markdown",
-                "optional": true,
-                "type": "string",
-              },
-              "id": {
-                "computed": true,
-                "deprecated": true,
-                "description": "This attribute is only present for some legacy compatibility issues and should not be used. It will be removed in a future version.",
-                "description_kind": "markdown",
-                "type": "string",
-              },
-              "inputs": {
-                "description": "A map of arbitrary strings that is copied into the \`outputs\` attribute, and accessible directly for interpolation.",
-                "description_kind": "markdown",
-                "optional": true,
-                "type": [
-                  "map",
-                  "string",
-                ],
-              },
-              "outputs": {
-                "computed": true,
-                "description": "After the data source is "read", a copy of the \`inputs\` map.",
-                "description_kind": "markdown",
-                "type": [
-                  "map",
-                  "string",
-                ],
-              },
-              "random": {
-                "computed": true,
-                "description": "A random value. This is primarily for testing and has little practical use; prefer the [hashicorp/random provider](https://registry.terraform.io/providers/hashicorp/random) for more practical random number use-cases.",
-                "description_kind": "markdown",
-                "type": "string",
-              },
-            },
-            "deprecated": true,
-            "description": "The \`null_data_source\` data source implements the standard data source lifecycle but does not
-interact with any external APIs.
-
-Historically, the \`null_data_source\` was typically used to construct intermediate values to re-use elsewhere in configuration. The
-same can now be achieved using [locals](https://www.terraform.io/docs/language/values/locals.html).
-",
-            "description_kind": "markdown",
-          },
-          "version": 0,
-        },
-      },
       "provider": {
-        "block": {
-          "description_kind": "plain",
-        },
         "version": 0,
+        "block": {
+          "description_kind": "plain"
+        }
       },
       "resource_schemas": {
         "null_resource": {
+          "version": 0,
           "block": {
             "attributes": {
               "id": {
-                "computed": true,
+                "type": "string",
                 "description": "This is set to a random value at create time.",
                 "description_kind": "markdown",
-                "type": "string",
+                "computed": true
               },
               "triggers": {
-                "description": "A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.",
-                "description_kind": "markdown",
-                "optional": true,
                 "type": [
                   "map",
-                  "string",
+                  "string"
                 ],
-              },
+                "description": "A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.",
+                "description_kind": "markdown",
+                "optional": true
+              }
             },
-            "description": "The \`null_resource\` resource implements the standard resource lifecycle but takes no further action.
-
-The \`triggers\` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.",
-            "description_kind": "markdown",
-          },
-          "version": 0,
-        },
+            "description": "The \`null_resource\` resource implements the standard resource lifecycle but takes no further action.\\n\\nThe \`triggers\` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.",
+            "description_kind": "markdown"
+          }
+        }
       },
-    },
+      "data_source_schemas": {
+        "null_data_source": {
+          "version": 0,
+          "block": {
+            "attributes": {
+              "has_computed_default": {
+                "type": "string",
+                "description": "If set, its literal value will be stored and returned. If not, its value defaults to \`\\"default\\"\`. This argument exists primarily for testing and has little practical use.",
+                "description_kind": "markdown",
+                "optional": true,
+                "computed": true
+              },
+              "id": {
+                "type": "string",
+                "description": "This attribute is only present for some legacy compatibility issues and should not be used. It will be removed in a future version.",
+                "description_kind": "markdown",
+                "deprecated": true,
+                "computed": true
+              },
+              "inputs": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "description": "A map of arbitrary strings that is copied into the \`outputs\` attribute, and accessible directly for interpolation.",
+                "description_kind": "markdown",
+                "optional": true
+              },
+              "outputs": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "description": "After the data source is \\"read\\", a copy of the \`inputs\` map.",
+                "description_kind": "markdown",
+                "computed": true
+              },
+              "random": {
+                "type": "string",
+                "description": "A random value. This is primarily for testing and has little practical use; prefer the [hashicorp/random provider](https://registry.terraform.io/providers/hashicorp/random) for more practical random number use-cases.",
+                "description_kind": "markdown",
+                "computed": true
+              }
+            },
+            "description": "The \`null_data_source\` data source implements the standard data source lifecycle but does not\\ninteract with any external APIs.\\n\\nHistorically, the \`null_data_source\` was typically used to construct intermediate values to re-use elsewhere in configuration. The\\nsame can now be achieved using [locals](https://www.terraform.io/docs/language/values/locals.html).\\n",
+            "description_kind": "markdown",
+            "deprecated": true
+          }
+        }
+      }
+    }
   },
   "provider_versions": {
-    "registry.terraform.io/hashicorp/null": "3.1.0",
-  },
+    "registry.terraform.io/hashicorp/null": "3.1.0"
+  }
 }
 `;
