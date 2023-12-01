@@ -138,7 +138,7 @@ namespace Examples
             new AcmCertificateValidation(this, "validation", new AcmCertificateValidationConfig
             {
                 CertificateArn = cert.Arn,
-                ValidationRecordFqdns = Token.AsList(recordsIterator.PluckProperty("fqdn"))
+                ValidationRecordFqdns = recordsIterator.PluckProperty("fqdn")
             });
             // DOCS_BLOCK_END:iterators-complex-lists
 
