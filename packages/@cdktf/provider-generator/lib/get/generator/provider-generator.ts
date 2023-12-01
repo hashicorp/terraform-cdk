@@ -188,7 +188,7 @@ export class TerraformProviderGenerator {
       ? resource.provider
       : resource.terraformType;
     this.code.line(
-      `Refer to the Terraform Registory for docs: [\`${type}\`](${resource.linkToDocs}).`
+      `Refer to the Terraform Registry for docs: [\`${type}\`](${resource.linkToDocs}).`
     );
     this.code.closeFile(filePath);
   }
