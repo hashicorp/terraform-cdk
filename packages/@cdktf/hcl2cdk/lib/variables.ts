@@ -115,6 +115,14 @@ export function constructAst(
     return t.identifier("TerraformVariable");
   }
 
+  if (type === "terraform.data") {
+    scope.importables.push({
+      constructName: "DataResource",
+      provider: "cdktf",
+    });
+    return t.identifier("DataResource");
+  }
+
   // resources or data sources
   if (!type.includes("./") && type.includes(".")) {
     const parts = type.split(".");

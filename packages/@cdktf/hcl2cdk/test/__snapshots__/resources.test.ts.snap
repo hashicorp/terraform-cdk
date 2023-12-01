@@ -73,6 +73,27 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
+exports[`resources built-in data resource snapshot typescript 1`] = `
+"import { Construct } from "constructs";
+import { TerraformVariable, DataResource, TerraformStack } from "cdktf";
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+    /*The following providers are missing schema information and might need manual adjustments to synthesize correctly: terraform.
+    For a more precise conversion please use the --provider flag in convert.*/
+    /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+    You can read more about this at https://cdk.tf/variables*/
+    const revision = new TerraformVariable(this, "revision", {
+      default: 1,
+    });
+    new DataResource(this, "replacement", {
+      input: revision.value,
+    });
+  }
+}
+"
+`;
+
 exports[`resources complex resource snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";

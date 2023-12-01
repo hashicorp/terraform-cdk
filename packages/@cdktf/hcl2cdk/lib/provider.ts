@@ -21,6 +21,7 @@ export function getProviderRequirements(plan: Plan) {
   const explicitProviders = Object.keys(plan.provider || {});
   const implicitProviders = Object.keys({ ...plan.resource, ...plan.data })
     .filter((type) => type !== "terraform_remote_state")
+    .filter((type) => type !== "terraform_data")
     .map((type) => type.split("_")[0]);
 
   const providerRequirements = Array.from(
