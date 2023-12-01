@@ -607,6 +607,11 @@ export const functionsMapGenerated = {
       },
     ],
   },
+  plantimestamp: {
+    name: "plantimestamp",
+    returnType: "string",
+    parameters: [],
+  },
   pow: {
     name: "pow",
     returnType: "number",
@@ -810,6 +815,18 @@ export const functionsMapGenerated = {
   },
   startswith: {
     name: "startswith",
+    returnType: "bool",
+    parameters: [
+      {
+        type: "string",
+      },
+      {
+        type: "string",
+      },
+    ],
+  },
+  strcontains: {
+    name: "strcontains",
     returnType: "bool",
     parameters: [
       {
