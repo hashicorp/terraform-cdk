@@ -22,19 +22,16 @@ namespace Examples
                 Region = "eu-central-1"
             });
 
-            /*
+            
             // DOCS_BLOCK_START:operators
             DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones", new DataAwsAvailabilityZonesConfig {
                 State = "available"
             });
 
-            // This does not work in CDKTF as of now, refer to
-            // https://github.com/hashicorp/terraform-cdk/issues/2557
             new TerraformOutput(this, "half-of-the-zone", new TerraformOutputConfig {
-                Value = Op.Div(Fn.LengthOf(zones.Names), 2)
+                Value = Op.Div(Fn.LengthOf(Token.AsList(zones.Names)), 2)
             });
-            // DOCS_BLOCK_END:operators
-            */
+            // DOCS_BLOCK_END:operators            
         }
     }
 }
