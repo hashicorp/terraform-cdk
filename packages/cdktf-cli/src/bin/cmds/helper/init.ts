@@ -372,6 +372,13 @@ async function gatherInfo(
       token
     );
 
+    if (organizationIds.length == 0) {
+      throw Errors.Usage(
+        `You must be part of an organization in Terraform Cloud in order to use it as a RemoteBackend or CloudBackend.
+You can create one here: https://${terraformRemoteHostname}/app/organizations/new`
+      );
+    }
+
     // todo: add validation for the organization name and workspace. add error handling
     const organizationSelect = await select({
       message: "Terraform Cloud Organization Name",

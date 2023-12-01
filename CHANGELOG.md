@@ -1,3 +1,32 @@
+## 0.19.1
+
+### feat
+
+- feat(cli): Include provider info in cdktf debug [\#3190](https://github.com/hashicorp/terraform-cdk/pull/3190)
+
+### fix
+
+- fix(cli): Don't send telemetry events if request body is larger than 8KB [\#3255](https://github.com/hashicorp/terraform-cdk/pull/3255)
+
+### chore
+
+- chore: disable provider schema tests [\#3257](https://github.com/hashicorp/terraform-cdk/pull/3257)
+- chore: update cdktf version being used in documentation tool [\#3256](https://github.com/hashicorp/terraform-cdk/pull/3256)
+- chore: fix provider-schema tests [\#3254](https://github.com/hashicorp/terraform-cdk/pull/3254)
+- chore: update registry docs version [\#3249](https://github.com/hashicorp/terraform-cdk/pull/3249)
+- chore: Upgrade dependencies for @cdktf/hcl2json [\#3248](https://github.com/hashicorp/terraform-cdk/pull/3248)
+- chore: Upgrade dependencies for cdktf [\#3247](https://github.com/hashicorp/terraform-cdk/pull/3247)
+- chore: Upgrade dependencies for @cdktf/provider-schema [\#3246](https://github.com/hashicorp/terraform-cdk/pull/3246)
+- chore: Upgrade dependencies for @cdktf/provider-generator [\#3245](https://github.com/hashicorp/terraform-cdk/pull/3245)
+- chore: Upgrade dependencies for @cdktf/commons [\#3241](https://github.com/hashicorp/terraform-cdk/pull/3241)
+- chore: use no scope for commit message [\#3240](https://github.com/hashicorp/terraform-cdk/pull/3240)
+- chore: run yarn upgrade per package [\#3212](https://github.com/hashicorp/terraform-cdk/pull/3212)
+- chore: fix link to refactoring guide [\#3211](https://github.com/hashicorp/terraform-cdk/pull/3211)
+- chore: add tags to jsii-terraform image [\#3210](https://github.com/hashicorp/terraform-cdk/pull/3210)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3208](https://github.com/hashicorp/terraform-cdk/pull/3208)
+- chore: add @cdktf/provider-schema tests to CI [\#3203](https://github.com/hashicorp/terraform-cdk/pull/3203)
+- chore: update zod [\#3200](https://github.com/hashicorp/terraform-cdk/pull/3200)
+
 ## 0.19.0
 
 **Breaking changes**

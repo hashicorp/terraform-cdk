@@ -119,6 +119,7 @@ export class OtherTestResource extends TerraformResource {
       count: config.count,
       lifecycle: config.lifecycle,
       provisioners: config.provisioners,
+      forEach: config.forEach,
     });
   }
 

@@ -223,10 +223,34 @@ async function collectSnippetsFromFile(
         return Math.min(leadingWhitespace, currentMin);
       }, Number.MAX_VALUE);
 
+      const whitespaceTrimmedLines = snippet.lines.map((line) =>
+        line.substring(whiteSpacesToRemove)
+      );
+
+      function numberOfPrefixedTabs(input: string) {
+        let count = 0;
+        for (const char of input) {
+          if (char === "\t") {
+            count++;
+          } else {
+            break;
+          }
+        }
+        return count;
+      }
+
+      const tabsToRemove = whitespaceTrimmedLines.reduce((currentMin, line) => {
+        if (line === "") return currentMin; // ignore empty lines
+        if (line === "\n") return currentMin; // ignore newline lines
+
+        const leadingTabs = numberOfPrefixedTabs(line);
+        return Math.min(leadingTabs, currentMin);
+      }, Number.MAX_VALUE);
+
       return {
         snippetId: id,
-        content: snippet.lines
-          .map((line) => line.substring(whiteSpacesToRemove))
+        content: whitespaceTrimmedLines
+          .map((line) => line.substring(tabsToRemove))
           .join("\n"),
         sourcePath,
       };

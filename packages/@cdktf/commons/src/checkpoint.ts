@@ -15,6 +15,8 @@ const BASE_URL = `https://checkpoint-api.hashicorp.com/v1/`;
 
 const VALID_STATUS_CODES = [200, 201];
 
+const MAX_REQUEST_BODY_SIZE = 8192;
+
 function homeDir() {
   return process.env.CDKTF_HOME
     ? path.resolve(process.env.CDKTF_HOME)
@@ -182,6 +184,13 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
   reportParams.projectId = reportParams.projectId || getProjectId();
 
   const postData = JSON.stringify(reportParams);
+
+  if (postData.length > MAX_REQUEST_BODY_SIZE) {
+    logger.warn(
+      `Skipped sending telemetry as the request body size was ${postData.length} bytes. The limit is ${MAX_REQUEST_BODY_SIZE} bytes`
+    );
+    return;
+  }
 
   try {
     await post(`${BASE_URL}telemetry/${reportParams.product}`, postData);

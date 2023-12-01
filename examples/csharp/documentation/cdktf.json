@@ -1,6 +1,6 @@
 {
   "language": "csharp",
-  "app": "dotnet run -p MyTerraformStack.csproj",
+  "app": "dotnet run --property WarningLevel=1 --project MyTerraformStack.csproj",
   "terraformProviders": [
     "aws@~> 3.0",
     "kubernetes@~> 2.0",

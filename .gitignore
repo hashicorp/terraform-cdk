@@ -37,3 +37,5 @@ terraform-cdk.github-issues
 .idea
 tsconfig.tsbuildinfo
 examples/java/gradle-shared-module/.gradle/
+
+.nx/

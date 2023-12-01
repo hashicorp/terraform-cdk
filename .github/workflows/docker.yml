@@ -9,13 +9,14 @@ on:
       - "website/**"
       - "cdk.tf/**"
       - "tools/update-github-project-board/**"
+  workflow_dispatch: {}
 
 jobs:
   build-docker-image:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
       - name: Cache Docker layers
@@ -36,12 +37,20 @@ jobs:
           AVAILABLE_TERRAFORM_VERSIONS=$(cat .terraform.versions.json | jq -r '.available | join(" ")')
           echo "default=$DEFAULT_TERRAFORM_VERSION" >> $GITHUB_OUTPUT
           echo "available=$AVAILABLE_TERRAFORM_VERSIONS" >> $GITHUB_OUTPUT
+      - id: cdktf-version
+        run: |
+          CDKTF_VERSION=$(cat package.json | jq -r '.version')
+          echo "cdktf=$CDKTF_VERSION" >> $GITHUB_OUTPUT
+      - id: git-sha
+        run: |
+          GIT_SHA=$(git rev-parse HEAD)
+          echo "git-sha=$GIT_SHA" >> $GITHUB_OUTPUT
       - name: Build and push
-        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
         with:
           pull: true
           push: true
-          tags: hashicorp/jsii-terraform:latest
+          tags: hashicorp/jsii-terraform:latest,hashicorp/jsii-terraform:${{ steps.cdktf-version.outputs.cdktf }},hashicorp/jsii-terraform:${{ steps.cdktf-version.outputs.cdktf }}-${{ steps.git-sha.outputs.git-sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           build-args: |

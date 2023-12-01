@@ -60,6 +60,17 @@ describe("iterators integration test", () => {
       "topology_request.required.dynamic.topology.iterator",
       "each"
     );
+
+    expect(stack2.byId("record")).toHaveProperty(
+      "for_each",
+      "${{ for key, val in tolist(aws_acm_certificate.cert.domain_validation_options): val.domain_name => val }}"
+    );
+    expect(stack2.byId("record")).toHaveProperty("name", "${each.value.name}");
+  });
+
+  test("non-synth stack is valid Terraform", async () => {
+    const out = await driver.validate("test-iterators-synth-only");
+    expect(out).toContain("Success! The configuration is valid.");
   });
 
   test("apply produces the correct result for outputs", async () => {

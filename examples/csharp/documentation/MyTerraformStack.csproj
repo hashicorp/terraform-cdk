@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <WarningLevel>0</WarningLevel>
     <NoWarn>CS8602</NoWarn>
-    
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,7 +40,7 @@
   <ItemGroup>
     <ProjectReference Include=".gen\vpc\vpc.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include=".gen\eks\eks.csproj" />
   </ItemGroup>

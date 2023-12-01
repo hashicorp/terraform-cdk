@@ -13,7 +13,7 @@ import { readSchema } from "../";
 import * as fs from "fs-extra";
 import * as path from "path";
 
-describe("read", () => {
+describe.skip("read", () => {
   describe("disabled cache", () => {
     it("can generate a provider schema", async () => {
       const schema = await readSchema([
@@ -34,7 +34,7 @@ describe("read", () => {
     it("can load cached value", async () => {
       await withTempDir("cache", async () => {
         const cached = { my: "schema" };
-        const cacheKey = "kreuzwerker%2Fdocker@=3.0.2";
+        const cacheKey = "kreuzwerker%2Fdocker@%3D3.0.2";
         await fs.writeFile(
           path.join(process.cwd(), `${cacheKey}.json`),
           JSON.stringify(cached)

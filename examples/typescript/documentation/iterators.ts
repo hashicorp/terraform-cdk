@@ -4,12 +4,26 @@ import { GithubProvider } from "@cdktf/provider-github/lib/provider";
 import { Team } from "@cdktf/provider-github/lib/team";
 import { DataGithubOrganization } from "@cdktf/provider-github/lib/data-github-organization";
 import { TeamMembers } from "@cdktf/provider-github/lib/team-members";
+import { AcmCertificate } from "@cdktf/provider-aws/lib/acm-certificate";
+import { AcmCertificateValidation } from "@cdktf/provider-aws/lib/acm-certificate-validation";
+import { DataAwsRoute53Zone } from "@cdktf/provider-aws/lib/data-aws-route53-zone";
+import { Route53Record } from "@cdktf/provider-aws/lib/route53-record";
 // DOCS_BLOCK_START:iterators,iterators-complex-types
-import { TerraformIterator, TerraformStack, TerraformVariable } from "cdktf";
+import {
+  TerraformIterator,
+  TerraformLocal,
+  TerraformStack,
+  TerraformVariable,
+  Token,
+} from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
 
+// DOCS_BLOCK_END:iterators,iterators-complex-types
+import { TerraformAsset } from "cdktf";
+import { S3BucketObject } from "@cdktf/provider-aws/lib/s3-bucket-object";
+// DOCS_BLOCK_START:iterators,iterators-complex-types
 export class IteratorsStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -60,16 +74,16 @@ export class IteratorsStack extends TerraformStack {
     // DOCS_BLOCK_END:iterators
 
     // DOCS_BLOCK_START:iterators-complex-types
-    const complexIterator = TerraformIterator.fromList([
-      {
+    const complexIterator = TerraformIterator.fromMap({
+      website: {
         name: "website-static-files",
         tags: { app: "website" },
       },
-      {
+      images: {
         name: "images",
         tags: { app: "image-converter" },
       },
-    ] as any);
+    });
 
     new S3Bucket(this, "complex-iterator-bucket", {
       forEach: complexIterator,
@@ -77,6 +91,102 @@ export class IteratorsStack extends TerraformStack {
       tags: complexIterator.getStringMap("tags"),
     });
     // DOCS_BLOCK_END:iterators-complex-types
+    // DOCS_BLOCK_START:iterators-complex-lists
+    const cert = new AcmCertificate(this, "cert", {
+      domainName: "example.com",
+      validationMethod: "DNS",
+    });
+    const dataAwsRoute53ZoneExample = new DataAwsRoute53Zone(this, "dns_zone", {
+      name: "example.com",
+      privateZone: false,
+    });
+
+    const exampleForEachIterator = TerraformIterator.fromComplexList(
+      cert.domainValidationOptions,
+      "domain_name"
+    );
+
+    const records = new Route53Record(this, "record", {
+      forEach: exampleForEachIterator,
+      allowOverwrite: true,
+      name: exampleForEachIterator.getString("name"),
+      records: [exampleForEachIterator.getString("record")],
+      ttl: 60,
+      type: exampleForEachIterator.getString("type"),
+      zoneId: dataAwsRoute53ZoneExample.zoneId,
+    });
+
+    const recordsIterator = TerraformIterator.fromResources(records);
+
+    new AcmCertificateValidation(this, "validation", {
+      certificateArn: cert.arn,
+      validationRecordFqdns: Token.asList(
+        recordsIterator.pluckProperty("fqdn")
+      ),
+    });
+    // DOCS_BLOCK_END:iterators-complex-lists
+
+    // DOCS_BLOCK_START:iterators-chain
+    const s3BucketConfigurationIterator = TerraformIterator.fromMap({
+      website: {
+        name: "website-static-files",
+        tags: { app: "website" },
+      },
+      images: {
+        name: "images",
+        tags: { app: "image-converter" },
+      },
+    });
+
+    const s3Buckets = new S3Bucket(this, "complex-iterator-buckets", {
+      forEach: s3BucketConfigurationIterator,
+      bucket: s3BucketConfigurationIterator.getString("name"),
+      tags: s3BucketConfigurationIterator.getStringMap("tags"),
+    });
+
+    // This would be TerraformIterator.fromDataSources for data_sources
+    const s3BucketsIterator = TerraformIterator.fromResources(s3Buckets);
+    const helpFile = new TerraformAsset(this, "help", {
+      path: "./help",
+    });
+    new S3BucketObject(this, "object", {
+      forEach: s3BucketsIterator,
+      bucket: s3BucketsIterator.getString("id"),
+      key: "help",
+      source: helpFile.path,
+    });
+    // DOCS_BLOCK_END:iterators-chain
+
+    // DOCS_BLOCK_START:iterators-for-expression
+    const mapIterator = TerraformIterator.fromMap({
+      website: {
+        name: "website-static-files",
+        tags: { app: "website" },
+        included: true,
+      },
+      images: {
+        name: "images",
+        tags: { app: "image-converter" },
+      },
+    });
+    new TerraformLocal(this, "list-of-keys", mapIterator.keys());
+    new TerraformLocal(this, "list-of-values", mapIterator.values());
+    new TerraformLocal(
+      this,
+      "list-of-names",
+      mapIterator.pluckProperty("name")
+    );
+    new TerraformLocal(
+      this,
+      "list-of-names-of-included",
+      mapIterator.forExpressionForList("val.name if val.included")
+    );
+    new TerraformLocal(
+      this,
+      "map-with-names-as-key-and-tags-as-value-of-included",
+      mapIterator.forExpressionForMap("val.name", "val.tags if val.included")
+    );
+    // DOCS_BLOCK_END:iterators-for-expression
 
     // DOCS_BLOCK_START:iterators,iterators-complex-types
   }
