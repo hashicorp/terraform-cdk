@@ -215,10 +215,13 @@ export class TestIteratorsSynthOnly extends TerraformStack {
       privateZone: false,
     });
 
-    const exampleForEachIterator = TerraformIterator.fromComplexList(
-      example.domainValidationOptions,
-      "domain_name"
-    );
+    // One could also use the manual notation:
+    // const exampleForEachIterator = TerraformIterator.fromComplexList(
+    //   example.domainValidationOptions,
+    //   "domain_name"
+    // );
+    const exampleForEachIterator =
+      example.domainValidationOptions.allWithMapKey("domain_name");
 
     const records = new Route53Record(this, "record", {
       forEach: exampleForEachIterator,

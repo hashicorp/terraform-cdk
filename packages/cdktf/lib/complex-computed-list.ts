@@ -5,7 +5,12 @@ import {
   IInterpolatingParent,
   ITerraformAddressable,
 } from "./terraform-addressable";
-import { propertyAccess, Fn } from ".";
+import {
+  propertyAccess,
+  Fn,
+  TerraformIterator,
+  DynamicListTerraformIterator,
+} from ".";
 import { captureStackTrace } from "./tokens/private/stack-trace";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -291,6 +296,21 @@ export abstract class ComplexList
         )
       );
     }
+  }
+
+  /**
+   * Creating an iterator for this complex list.
+   * The list will be converted into a map with the mapKeyAttributeName as the key.
+   * @param mapKeyAttributeName
+   * @returns
+   */
+  public allWithMapKey(
+    mapKeyAttributeName: string
+  ): DynamicListTerraformIterator {
+    return TerraformIterator.fromComplexList(
+      Token.asAny(this.computeFqn()),
+      mapKeyAttributeName
+    );
   }
 }
 
