@@ -20,7 +20,6 @@ import { AcmCertificate } from "./.gen/providers/aws/acm-certificate";
 import { AcmCertificateValidation } from "./.gen/providers/aws/acm-certificate-validation";
 import { DataAwsRoute53Zone } from "./.gen/providers/aws/data-aws-route53-zone";
 import { Route53Record } from "./.gen/providers/aws/route53-record";
-import { Domain } from "../../../examples/typescript/documentation/.gen/providers/dnsimple/domain/index";
 
 export class TestIterators extends TerraformStack {
   constructor(scope: Construct, id: string) {
