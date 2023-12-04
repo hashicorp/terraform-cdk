@@ -10,6 +10,7 @@ import { ConstructOrder, IConstruct, MetadataEntry } from "constructs";
 import { Aspects, IAspect } from "../aspect";
 import { StackAnnotation } from "../manifest";
 import { ValidateTerraformVersion } from "../validations/validate-terraform-version";
+import { encounteredAnnotationWithLevelError } from "../errors";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class StackSynthesizer implements IStackSynthesizer {
@@ -79,11 +80,11 @@ export class StackSynthesizer implements IStackSynthesizer {
       !this.continueOnErrorAnnotations &&
       annotations.some(isErrorAnnotation)
     ) {
-      throw new Error(
-        `Encountered Annotations with level "ERROR":\n${annotations
+      throw encounteredAnnotationWithLevelError(
+        annotations
           .filter(isErrorAnnotation)
           .map((a) => `[${a.constructPath}] ${a.message}`)
-          .join("\n")}`
+          .join("\n")
       );
     }
 

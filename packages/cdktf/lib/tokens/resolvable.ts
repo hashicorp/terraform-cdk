@@ -5,6 +5,13 @@ import { IConstruct } from "constructs";
 import { TokenString } from "./private/encoding";
 import { TokenMap } from "./private/token-map";
 import { TokenizedStringFragments } from "./string-fragments";
+import {
+  cannotConcatenateStringsInTokenizedMap,
+  cannotConcatenateStringsInTokenizedStringArray,
+  mapValueAddedToReferenceList,
+  numberValueAddedToReferenceList,
+  stringValueAddedToReferenceList,
+} from "../errors";
 
 /**
  * Current resolution context for tokens
@@ -220,18 +227,14 @@ export class DefaultTokenResolver implements ITokenResolver {
   public resolveList(xs: string[], context: IResolveContext) {
     // Must be a singleton list token, because concatenation is not allowed.
     if (xs.length !== 1) {
-      throw new Error(
-        `Cannot add elements to list token, got: ${xs}. You tried to add a value to a referenced list, instead use Fn.concat([yourReferencedList, ["my", "new", "items"]]).`
-      );
+      throw stringValueAddedToReferenceList(xs);
     }
 
     const str = TokenString.forListToken(xs[0]);
     const tokenMap = TokenMap.instance();
     const fragments = str.split(tokenMap.lookupToken.bind(tokenMap));
     if (fragments.length !== 1) {
-      throw new Error(
-        `Cannot concatenate strings in a tokenized string array, got: ${xs[0]}`
-      );
+      throw cannotConcatenateStringsInTokenizedStringArray(xs[0]);
     }
 
     return fragments.mapTokens(context).firstValue;
@@ -243,9 +246,7 @@ export class DefaultTokenResolver implements ITokenResolver {
   public resolveNumberList(xs: number[], context: IResolveContext) {
     // Must be a singleton list token, because concatenation is not allowed.
     if (xs.length !== 1) {
-      throw new Error(
-        `Cannot add elements to list token, got: ${xs}. You tried to add a value to a referenced list, instead use Fn.concat([yourReferencedList, [42, 43, 44]]).`
-      );
+      throw numberValueAddedToReferenceList(xs);
     }
 
     const token = TokenMap.instance().lookupNumberList(xs);
@@ -261,20 +262,14 @@ export class DefaultTokenResolver implements ITokenResolver {
   public resolveMap(xs: { [key: string]: any }, context: IResolveContext) {
     const keys = Object.keys(xs);
     if (keys.length !== 1) {
-      throw new Error(
-        `Cannot add elements to map token, got: ${JSON.stringify(
-          xs
-        )}. You tried to add a value to a referenced map, instead use Fn.mergeMaps([yourReferencedMap, { your: 'value' }]).`
-      );
+      throw mapValueAddedToReferenceList(JSON.stringify(xs));
     }
 
     const str = TokenString.forMapToken(keys[0]);
     const tokenMap = TokenMap.instance();
     const fragments = str.split(tokenMap.lookupToken.bind(tokenMap));
     if (fragments.length !== 1) {
-      throw new Error(
-        `Cannot concatenate strings in a tokenized map, got: ${xs[0]}`
-      );
+      throw cannotConcatenateStringsInTokenizedMap(xs[0]);
     }
 
     return fragments.mapTokens(context).firstValue;

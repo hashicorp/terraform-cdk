@@ -5,6 +5,7 @@ import { TerraformElement, TerraformResource } from ".";
 import { IAspect } from "./aspect";
 import { IConstruct, Node } from "constructs";
 import * as crypto from "crypto";
+import { cannotCalcIdForEmptySetOfComponents } from "./errors";
 
 /**
  * We have to copy this from the old CDKTF version for now, so that we can
@@ -44,9 +45,7 @@ function makeUniqueIdOldVersion(components: string[], allowSepChars: boolean) {
   components = components.filter((x) => x !== HIDDEN_ID);
 
   if (components.length === 0) {
-    throw new Error(
-      "Unable to calculate a unique id for an empty set of components"
-    );
+    throw cannotCalcIdForEmptySetOfComponents();
   }
 
   // top-level resources will simply use the `name` as-is in order to support

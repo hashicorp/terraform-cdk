@@ -9,6 +9,7 @@ import { Token } from "./tokens";
 import { ref, dependable } from "./tfExpression";
 import { TerraformAsset } from "./terraform-asset";
 import { ITerraformIterator } from "./terraform-iterator";
+import { modulesWithSameAlias } from "./errors";
 
 export interface TerraformModuleUserConfig {
   readonly providers?: (TerraformProvider | TerraformModuleProvider)[];
@@ -152,9 +153,7 @@ export abstract class TerraformModule
     const uniqueModuleAliases = new Set();
     moduleAliases?.forEach((alias) => {
       if (uniqueModuleAliases.has(alias)) {
-        throw new Error(
-          `Error: Multiple providers have the same alias: "${alias}"`
-        );
+        throw modulesWithSameAlias(alias);
       }
       uniqueModuleAliases.add(alias);
     });

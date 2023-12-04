@@ -4,6 +4,10 @@
 // tslint:disable-next-line:no-var-requires
 import * as crypto from "crypto";
 import { unresolved } from "./encoding";
+import {
+  IdIncludesUnresolvedTokens,
+  cannotCalcIdForEmptySetOfComponents,
+} from "../../errors";
 
 /**
  * Resources with this ID are hidden from humans
@@ -37,19 +41,13 @@ export function makeUniqueId(components: string[]) {
   components = components.filter((x) => x !== HIDDEN_ID);
 
   if (components.length === 0) {
-    throw new Error(
-      "Unable to calculate a unique id for an empty set of components"
-    );
+    throw cannotCalcIdForEmptySetOfComponents();
   }
 
   // Lazy require in order to break a module dependency cycle
   const unresolvedTokens = components.filter((c) => unresolved(c));
   if (unresolvedTokens.length > 0) {
-    throw new Error(
-      `ID components may not include unresolved tokens: ${unresolvedTokens.join(
-        ","
-      )}`
-    );
+    throw IdIncludesUnresolvedTokens(unresolvedTokens.join(","));
   }
 
   // top-level resources will simply use the `name` as-is in order to support

@@ -1,6 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 // copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/private/token-map.ts
+import { unknownNumberTokenFound, unrecognizedTokenKey } from "../../errors";
 import { IResolvable } from "../resolvable";
 import { TokenizedStringFragments } from "../string-fragments";
 import {
@@ -169,7 +170,7 @@ export class TokenMap {
     }
     const t = this.numberTokenMap.get(tokenIndex);
     if (t === undefined) {
-      throw new Error("Encoded representation of unknown number Token found");
+      throw unknownNumberTokenFound();
     }
     return t;
   }
@@ -187,7 +188,7 @@ export class TokenMap {
     }
     const t = this.numberTokenMap.get(tokenIndex);
     if (t === undefined) {
-      throw new Error("Encoded representation of unknown number Token found");
+      throw unknownNumberTokenFound();
     }
     return t;
   }
@@ -200,7 +201,7 @@ export class TokenMap {
   public lookupToken(key: string): IResolvable {
     const token = this.stringTokenMap.get(key);
     if (!token) {
-      throw new Error(`Unrecognized token key: ${key}`);
+      throw unrecognizedTokenKey(key);
     }
     return token;
   }
