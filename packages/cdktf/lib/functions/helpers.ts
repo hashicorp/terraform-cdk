@@ -4,6 +4,14 @@ import { Tokenization, Token } from "../tokens/token";
 import { call } from "../tfExpression";
 import { IResolvable } from "../tokens/resolvable";
 import { TokenString, extractTokenDouble } from "../tokens/private/encoding";
+import {
+  functionArgumnetValidationFailure,
+  functionRecievedWrongNumberOfArgs,
+  listElementIsOfWrongType,
+  valueContainsUnescapedQuotes,
+  valueIsInvalidNumberOrToken,
+  valueIsInvalidStringOrToken,
+} from "../errors";
 
 type TFValue<T> = { variadic?: boolean; value: T };
 type TFValueValidator<T> = (value: T) => TFValue<T>;
@@ -33,13 +41,11 @@ export function mapValue<T>(value: T): TFValue<T> {
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function stringValue<T extends string>(value: T): TFValue<T> {
   if (typeof value !== "string" && !Tokenization.isResolvable(value)) {
-    throw new Error(`'${value}' is not a valid string nor a token`);
+    throw valueIsInvalidStringOrToken(value);
   }
 
   if (typeof value === "string" && hasUnescapedDoubleQuotes(value)) {
-    throw new Error(
-      `'${value}' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string.`
-    );
+    throw valueContainsUnescapedQuotes(value);
   }
 
   return { value };
@@ -48,7 +54,7 @@ export function stringValue<T extends string>(value: T): TFValue<T> {
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function numericValue<T>(value: T): TFValue<T> {
   if (typeof value !== "number" && !Tokenization.isResolvable(value)) {
-    throw new Error(`${value} is not a valid number nor a token`);
+    throw valueIsInvalidNumberOrToken(value as string);
   }
   return { value };
 }
@@ -98,9 +104,7 @@ export function listOf<T>(type: TFValueValidator<T>): TFValueValidator<T[]> {
             type(item);
             return typeof item === "string" ? `"${item}"` : item;
           } catch (error) {
-            throw new Error(
-              `Element in list ${value} at position ${i} is not of the right type: ${error}`
-            );
+            throw listElementIsOfWrongType(value, i, error);
           }
         }),
     };
@@ -158,8 +162,10 @@ export function terraformFunction(
 ): ExecutableTfFunction {
   return function (...args: any[]) {
     if (args.length !== argValidators.length) {
-      throw new Error(
-        `${name} takes ${argValidators.length} arguments, but ${args.length} were provided`
+      throw functionRecievedWrongNumberOfArgs(
+        name,
+        argValidators.length,
+        args.length
       );
     }
     return call(
@@ -172,9 +178,7 @@ export function terraformFunction(
           if (val.variadic) return [...carry, ...val.value];
           else return [...carry, val.value];
         } catch (error) {
-          throw new Error(
-            `Argument ${i} of ${name} failed the validation: ${error}`
-          );
+          throw functionArgumnetValidationFailure(i, name, error);
         }
       }, [])
     );

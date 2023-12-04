@@ -5,6 +5,7 @@ import { Construct } from "constructs";
 import { Token } from ".";
 import { TerraformStack } from "./terraform-stack";
 import { ref } from "./tfExpression";
+import { unresolvedToken } from "./errors";
 
 const TERRAFORM_ELEMENT_SYMBOL = Symbol.for("cdktf/TerraformElement");
 
@@ -37,9 +38,7 @@ export class TerraformElement extends Construct {
     this._elementType = elementType;
 
     if (Token.isUnresolved(id)) {
-      throw new Error(
-        "You cannot use a Token (e.g. a reference to an attribute) as the id of a construct"
-      );
+      throw unresolvedToken();
     }
 
     this.node.addMetadata("stacktrace", "trace");

@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
+import { moveTargetAlreadySet, moveTargetNotSet } from "./errors";
 import { TerraformResource } from "./terraform-resource";
 
 /**
@@ -23,10 +24,9 @@ export class TerraformResourceTargets {
 
   public addResourceTarget(resource: TerraformResource, target: string): void {
     if (this._resourceTargetMap.has(target)) {
-      throw new Error(
-        `Target "${target}" has already been set at ${
-          this._resourceTargetMap.get(target)?.friendlyUniqueId
-        }`
+      throw moveTargetAlreadySet(
+        target,
+        this._resourceTargetMap.get(target)?.friendlyUniqueId
       );
     }
     this._resourceTargetMap.set(target, resource);
@@ -35,12 +35,7 @@ export class TerraformResourceTargets {
   public getResourceByTarget(target: string): TerraformResource {
     const result = this._resourceTargetMap.get(target);
     if (!result) {
-      throw new Error(`Target "${target}" has not been set:
-      
-            Current Target Entries:\n ${this.prettyPrintEntries()}
-
-            To add this target, call .addMoveTarget("${target}") on the instance of the resource to move to.
-            `);
+      throw moveTargetNotSet(target, this.prettyPrintEntries());
     }
     return result;
   }

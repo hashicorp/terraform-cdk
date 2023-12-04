@@ -6,6 +6,7 @@ import { DataTerraformRemoteState } from "./remote-backend";
 import { TerraformRemoteState } from "../terraform-remote-state";
 import { TerraformBackend } from "../terraform-backend";
 import { ValidateTerraformVersion } from "../validations/validate-terraform-version";
+import { cloudBackendWorkspaceIsNotDefinedByName } from "../errors";
 
 /**
  * checks whether the given hostname belongs to tfc or (else) to tfe
@@ -76,9 +77,7 @@ export class CloudBackend extends TerraformBackend {
       });
     }
 
-    throw new Error(
-      "The Cloud backend only supports cross-stack references when the workspace is defined by name instead of by tags."
-    );
+    throw cloudBackendWorkspaceIsNotDefinedByName();
   }
 }
 

@@ -1,5 +1,9 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
+import {
+  sourceOrTargetNotAnObject,
+  targetNotResolvableWithOverrides,
+} from "./errors";
 import { TerraformDynamicBlock } from "./terraform-dynamic-block";
 import { Tokenization } from "./tokens/token";
 
@@ -12,17 +16,14 @@ export const terraformBinaryName =
  */
 export function deepMerge(target: any, ...sources: any[]) {
   if (Tokenization.isResolvable(target) && sources.length > 0) {
-    throw new Error(
-      `Invalid usage. Target (${target.toString()}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.`
-    );
+    throw targetNotResolvableWithOverrides(target.toString());
   }
 
   for (const source of sources) {
     if (typeof source !== "object" || typeof target !== "object") {
-      throw new Error(
-        `Invalid usage. Both source (${JSON.stringify(
-          source
-        )}) and target (${JSON.stringify(target)}) must be objects`
+      throw sourceOrTargetNotAnObject(
+        JSON.stringify(source),
+        JSON.stringify(target)
       );
     }
 

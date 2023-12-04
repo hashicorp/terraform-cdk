@@ -4,6 +4,11 @@ import * as fs from "fs";
 import * as path from "path";
 import { execSync, SpawnSyncReturns } from "child_process";
 import { snakeCase, terraformBinaryName } from "../util";
+import {
+  invalidStack,
+  matchersFoundErrorsInStack,
+  matchersPathIsNotDirectory,
+} from "../errors";
 
 // TerraformConstructor is class with the static property 'tfResourceType'
 export interface TerraformConstructor {
@@ -144,7 +149,7 @@ function getAssertElementWithProperties(
     try {
       stack = JSON.parse(stackContent) as SynthesizedStack;
     } catch (e) {
-      throw new Error(`invalid JSON string passed: ${stackContent}`);
+      throw invalidStack(stackContent);
     }
 
     const items =
@@ -326,7 +331,7 @@ export function getToHaveProviderWithProperties(
 export function toBeValidTerraform(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
-      throw new Error("Path is not a directory");
+      throw matchersPathIsNotDirectory();
     }
   } catch (e) {
     return new AssertionReturn(
@@ -353,10 +358,10 @@ export function toBeValidTerraform(received: string): AssertionReturn {
 
       const result = JSON.parse(out.toString());
       if (!result.valid) {
-        throw new Error(
-          `Found ${
-            result.error_count
-          } Errors in stack ${name}: ${result.diagnostics.join("\n")}`
+        throw matchersFoundErrorsInStack(
+          result.error_count,
+          name,
+          result.diagnostics.join("\n")
         );
       }
     });
@@ -380,7 +385,7 @@ export function toBeValidTerraform(received: string): AssertionReturn {
 export function toPlanSuccessfully(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
-      throw new Error("Path is not a directory");
+      throw matchersPathIsNotDirectory();
     }
   } catch (e) {
     return new AssertionReturn(

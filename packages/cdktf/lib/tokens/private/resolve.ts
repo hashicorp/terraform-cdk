@@ -20,6 +20,15 @@ import {
 } from "./encoding";
 import { TokenMap } from "./token-map";
 import { Token } from "../token";
+import {
+  cannotResolveFunction,
+  constructsCannotBeResolved,
+  encodedListTokenInScalarStringContext,
+  encodedMapTokenInScalarNumberContext,
+  encodedMapTokenInScalarStringContext,
+  mapKeyMustResolveToString,
+  unableToResolveCircularReference,
+} from "../../errors";
 
 const LIST_ERROR_EXPLANATION = `In CDKTF we represent lists where the value is only known at runtime (versus compile / synth time) as
 Arrays with a single element that is a string token, e.g. ["Token.1"]. This is because at compile time we
@@ -118,10 +127,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
 
   // protect against cyclic references by limiting depth.
   if (prefix.length > 200) {
-    throw new Error(`Unable to resolve object tree with circular reference at '${pathName}'.
-This error is thrown if the depth of the object tree is greater than 200 to protect against cyclic references.
-To resolve this inspect the construct creating the cyclic reference (most likely in '${pathName}') and make sure
-it does not create an infinite nesting of constructs.`);
+    throw unableToResolveCircularReference(pathName);
   }
 
   //
@@ -145,10 +151,7 @@ it does not create an infinite nesting of constructs.`);
   //
 
   if (typeof obj === "function") {
-    throw new Error(
-      `Trying to resolve a non-data object (e.g. a function) at '${pathName}': ${obj}. Only tokens are supported for lazy evaluation.
-If you want to have a lazily computed value, please use the Lazy class, e.g. Lazy.stringValue({ produce: () => "Hello World" })`
-    );
+    throw cannotResolveFunction(pathName, obj);
   }
 
   //
@@ -157,18 +160,14 @@ If you want to have a lazily computed value, please use the Lazy class, e.g. Laz
   if (typeof obj === "string") {
     // If this is a "list element" Token, it should never occur by itself in string context
     if (TokenString.forListToken(obj).test()) {
-      throw new Error(`Found an encoded list token string in a scalar string context.
-${LIST_ERROR_EXPLANATION}`);
+      throw encodedListTokenInScalarStringContext(LIST_ERROR_EXPLANATION);
     }
 
     if (
       obj === Token.STRING_MAP_TOKEN_VALUE ||
       obj === Token.ANY_MAP_TOKEN_VALUE
     ) {
-      throw new Error(
-        `Found an encoded map token in a scalar string context.
-${MAP_ERROR_EXPLANATION}`
-      );
+      throw encodedMapTokenInScalarStringContext(MAP_ERROR_EXPLANATION);
     }
 
     let str: string = obj;
@@ -203,10 +202,7 @@ ${MAP_ERROR_EXPLANATION}`
   //
   if (typeof obj === "number") {
     if (obj === Token.NUMBER_MAP_TOKEN_VALUE) {
-      throw new Error(
-        `Found an encoded map token in a scalar number context.
-${MAP_ERROR_EXPLANATION}`
-      );
+      throw encodedMapTokenInScalarNumberContext(MAP_ERROR_EXPLANATION);
     }
 
     return resolveNumberToken(obj, makeContext()[0]);
@@ -263,19 +259,14 @@ ${MAP_ERROR_EXPLANATION}`
   // mistake somewhere and resolve will get into an infinite loop recursing into
   // child.parent <---> parent.children
   if (isConstruct(obj)) {
-    throw new Error(`Trying to resolve() a Construct at '${pathName}'. 
-This often means that there is an unintended cyclic dependency in your construct tree, leading to the resolution being stuck in an infinite loop which will eventually fail.`);
+    throw constructsCannotBeResolved(pathName);
   }
 
   const result: any = {};
   for (const key of Object.keys(obj)) {
     const resolvedKey = makeContext()[0].resolve(key);
     if (typeof resolvedKey !== "string") {
-      throw new Error(
-        `At "${pathName}" the key "${key}" is used in a map so it must resolve to a string, but it resolves to a ${typeof resolvedKey}: ${JSON.stringify(
-          resolvedKey
-        )}`
-      );
+      throw mapKeyMustResolveToString(pathName, key, resolvedKey);
     }
 
     const value = makeContext(key)[0].resolve(obj[key]);

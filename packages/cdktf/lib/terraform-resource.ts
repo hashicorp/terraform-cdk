@@ -24,6 +24,12 @@ import {
 } from "./terraform-provisioner";
 import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
 import { TerraformStack } from "./terraform-stack";
+import {
+  movedToResourceOfDifferentType,
+  resourceGivenTwoMoveOperationsById,
+  resourceGivenTwoMoveOperationsByTarget,
+  resourceGivenTwoMoveOperationsByTargetAndId,
+} from "./errors";
 
 const TERRAFORM_RESOURCE_SYMBOL = Symbol.for("cdktf/TerraformResource");
 
@@ -342,11 +348,10 @@ export class TerraformResource
     const { moveTarget, index } = movedTarget;
     const resourceToMoveTo = this._getResourceTarget(moveTarget);
     if (this.terraformResourceType !== resourceToMoveTo.terraformResourceType) {
-      throw new Error(
-        `You have tried to move a resource to a different type:
-
-        The move target "${moveTarget}" corresponding to the resource of type ${resourceToMoveTo.terraformResourceType} to move to differs from the resource of type ${this.terraformResourceType} being moved from
-        `
+      throw movedToResourceOfDifferentType(
+        moveTarget,
+        this.terraformResourceType,
+        resourceToMoveTo.terraformResourceType
       );
     }
     const to = index
@@ -360,17 +365,11 @@ export class TerraformResource
 
   private _buildMovedBlock(): { to: string; from: string } | undefined {
     if (this._movedByTarget && this._movedById) {
-      throw new Error(`
-      ${this.node.id} has been given two separate moved operations.
-
-      Move target: "${this._movedByTarget.moveTarget}"
-      Move by id: {
-        from: ${this._movedById.from}
-        to: ${this._movedById.to}
-      }
-
-      Only one move operation can occur per plan/apply. Remove one of the operations.
-      `);
+      throw resourceGivenTwoMoveOperationsByTargetAndId(
+        this.node.id,
+        this._movedByTarget.moveTarget,
+        { to: this._movedById.to, from: this._movedById.from }
+      );
     } else if (this._movedByTarget) {
       const movedBlockByTarget = this._buildMovedBlockByTarget(
         this._movedByTarget
@@ -390,11 +389,10 @@ export class TerraformResource
    */
   public moveTo(moveTarget: string, index?: string | number) {
     if (this._movedByTarget) {
-      throw new Error(
-        `The resource ${this.friendlyUniqueId} has been given two moveTargets: "${this._movedByTarget.moveTarget}" and "${moveTarget}"
-
-        A resource can only be moved once per plan/apply
-        `
+      throw resourceGivenTwoMoveOperationsByTarget(
+        this.friendlyUniqueId,
+        this._movedByTarget.moveTarget,
+        moveTarget
       );
     }
     this._movedByTarget = { moveTarget, index };
@@ -415,21 +413,16 @@ export class TerraformResource
    */
   public moveToId(id: string) {
     if (this._movedById) {
-      throw new Error(`
-      ${this.node.id} has been given two separate moved operations.
-
-      {
-        from: ${this._movedById.from}
-        to: ${this._movedById.to}
-      }
-      {
-        from: ${id}
-        to: ${this.terraformResourceType}.${this.friendlyUniqueId} (Resource calling the move to operation)
-      }
-
-      Only one move operation can occur per plan/apply. Remove one of the operations.
-      `);
+      throw resourceGivenTwoMoveOperationsById(
+        this.node.id,
+        { to: this._movedById.from, from: this._movedById.to },
+        {
+          to: id,
+          from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+        }
+      );
     }
+
     this._movedById = {
       to: id,
       from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
@@ -443,20 +436,14 @@ export class TerraformResource
    */
   public moveFromId(id: string) {
     if (this._movedById) {
-      throw new Error(`
-      ${this.node.id} has been given two separate moved operations.
-
-      {
-        from: ${this._movedById.from}
-        to: ${this._movedById.to}
-      }
-      {
-        from: ${this.terraformResourceType}.${this.friendlyUniqueId} (Resource calling the move from operation)
-        to: ${id}
-      }
-
-      Only one move operation can occur plan/apply. Remove one of the operations.
-      `);
+      throw resourceGivenTwoMoveOperationsById(
+        this.node.id,
+        { to: this._movedById.from, from: this._movedById.to },
+        {
+          to: id,
+          from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+        }
+      );
     }
     this._movedById = {
       to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,

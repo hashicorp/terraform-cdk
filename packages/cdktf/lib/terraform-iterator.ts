@@ -12,6 +12,10 @@ import {
   StringMap,
   StringMapList,
 } from "./complex-computed-list";
+import {
+  iteratorOnResourceWithCount,
+  iteratorOnResourceWithoutForEach,
+} from "./errors";
 import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
 import { Fn } from "./terraform-functions";
 import { ITerraformResource } from "./terraform-resource";
@@ -443,15 +447,11 @@ export class ResourceTerraformIterator extends TerraformIterator {
     super();
 
     if (element.count) {
-      throw new Error(
-        "Cannot create iterator from resource with count argument. Please use the same TerraformCount used in the resource passed here instead."
-      );
+      throw iteratorOnResourceWithCount();
     }
 
     if (!element.forEach) {
-      throw new Error(
-        "Cannot create iterator from resource without for_each argument"
-      );
+      throw iteratorOnResourceWithoutForEach();
     }
   }
 

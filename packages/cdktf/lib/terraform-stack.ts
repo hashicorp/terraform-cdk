@@ -20,6 +20,13 @@ import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
 import { TerraformResourceTargets } from "./terraform-resource-targets";
 import { TerraformResource } from "./terraform-resource";
+import {
+  noStackForConstruct,
+  stackContainsDisallowedChar,
+  stackHasCircularDependency,
+  stackIdContainsWhitespace,
+  stackValidationFailure,
+} from "./errors";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type StackIdentifier = string;
@@ -41,7 +48,7 @@ function throwIfIdIsGlobCharacter(str: string): void {
 
   ["*", "?", "[", "]", "{", "}", "!"].forEach((char) => {
     if (str.includes(char)) {
-      throw new Error(err(char));
+      throw stackContainsDisallowedChar(str, char);
     }
   });
 }
@@ -49,9 +56,7 @@ function throwIfIdIsGlobCharacter(str: string): void {
 // eslint-disable-next-line jsdoc/require-jsdoc
 function throwIfIdContainsWhitespace(str: string): void {
   if (/\s/.test(str)) {
-    throw new Error(
-      `Can not create TerraformStack with id "${str}". It contains a whitespace character.`
-    );
+    throw stackIdContainsWhitespace(str);
   }
 }
 
@@ -104,9 +109,7 @@ export class TerraformStack extends Construct {
           hint = `. You seem to have passed your root App as scope to a construct. Pass a stack (inheriting from TerraformStack) as scope to your construct instead.`;
         }
 
-        throw new Error(
-          `No stack could be identified for the construct at path '${construct.node.path}'${hint}`
-        );
+        throw noStackForConstruct(construct.node.path, hint);
       }
 
       return _lookup(node.scope);
@@ -298,9 +301,7 @@ export class TerraformStack extends Construct {
 
   public addDependency(dependency: TerraformStack) {
     if (dependency.dependsOn(this)) {
-      throw new Error(
-        `Can not add dependency ${dependency} to ${this} since it would result in a loop`
-      );
+      throw stackHasCircularDependency(this, dependency);
     }
 
     if (this.dependencies.includes(dependency)) {
@@ -324,9 +325,7 @@ export class TerraformStack extends Construct {
       const errorList = errors
         .map((e) => `[${e.source.node.path}] ${e.message}`)
         .join("\n  ");
-      throw new Error(
-        `Validation failed with the following errors:\n  ${errorList}`
-      );
+      throw stackValidationFailure(errorList);
     }
   }
 

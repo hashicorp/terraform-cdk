@@ -1,6 +1,10 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 // copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/private/encoding.ts
+import {
+  canOnlyEncodePositiveIntegers,
+  indexTooLargeToEncode,
+} from "../../errors";
 import { IFragmentConcatenator, IResolvable } from "../resolvable";
 import { TokenizedStringFragments } from "../string-fragments";
 import { Tokenization } from "../token";
@@ -452,10 +456,10 @@ const BITS32 = Math.pow(2, 32);
  */
 export function createTokenDouble(x: number, list: boolean) {
   if (Math.floor(x) !== x || x < 0) {
-    throw new Error("Can only encode positive integers");
+    throw canOnlyEncodePositiveIntegers();
   }
   if (x > MAX_ENCODABLE_INTEGER) {
-    throw new Error(`Got an index too large to encode: ${x}`);
+    throw indexTooLargeToEncode(x);
   }
 
   const buf = new ArrayBuffer(8);
