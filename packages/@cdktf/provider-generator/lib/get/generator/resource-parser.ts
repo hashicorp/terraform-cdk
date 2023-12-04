@@ -575,7 +575,7 @@ class Parser {
     let attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
     if (attrs) {
-      for (const [terraformName, att] of Object.entries(attrs)) {
+      for (const [terraformName, att] of Object.entries(attrs || {})) {
         // nested types support computed, optional and required on attribute level
         // if parent is computed, child always is computed as well
         const computed =
