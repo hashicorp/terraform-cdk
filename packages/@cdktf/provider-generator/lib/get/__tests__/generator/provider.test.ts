@@ -47,3 +47,5 @@ test("generate provider with only block_types", async () => {
   );
   expect(output).toMatchSnapshot();
 });
+
+test("name in constraint does not match resolved name in fqpn", () => {});
