@@ -9,6 +9,7 @@ import {
   TerraformResourceConfig,
   TerraformResourceLifecycle,
   ITerraformResource,
+  lifecycleToTerraform,
 } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge, processDynamicAttributes } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
@@ -115,7 +116,7 @@ export class TerraformDataSource
         ? this.count.toTerraform()
         : this.count,
       provider: this.provider?.fqn,
-      lifecycle: this.lifecycle,
+      lifecycle: lifecycleToTerraform(this.lifecycle),
       forEach: this.forEach?._getForEachExpression(),
     };
   }

@@ -328,6 +328,23 @@ it("maintains the same order of provisioner", () => {
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
+it("supports resource and attribute references in lifecycle.replaceTriggeredBy", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const other = new TestResource(stack, "other", { name: "other" });
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    lifecycle: {
+      replaceTriggeredBy: [other, other.stringValue],
+    },
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
 test("includes import block when import is present", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
