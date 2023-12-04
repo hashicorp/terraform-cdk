@@ -87,6 +87,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
       case Language.JAVA:
       case Language.CSHARP:
       case Language.PYTHON:
+        return this.simplifiedFqn;
       default:
         return this.simplifiedName;
     }
@@ -109,6 +110,10 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
     return (
       this.namespace?.replace(/\//gi, ".").replace(/-/gi, "_") ?? this.name
     );
+  }
+
+  protected get simplifiedFqn(): string {
+    return this.fqn.replace(/\//gi, ".").replace(/-/gi, "_");
   }
 }
 

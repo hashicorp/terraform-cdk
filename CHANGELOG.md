@@ -1,3 +1,11 @@
+## 0.20.0 (Unreleased)
+
+**Breaking changes**
+
+### Module names / import paths changing
+
+To resolve [\#3026](https://github.com/hashicorp/terraform-cdk/issues/3026) we improved the logic for generating names for [Terraform Modules](https://developer.hashicorp.com/terraform/cdktf/concepts/modules). This makes the default module names nicer, but also leads to breaking changes for Python, C#, and Java. When updating CDKTF, please generate the new bindings with `cdktf get` after updating the CLI and update your module imports.
+
 ## 0.19.1
 
 ### feat
