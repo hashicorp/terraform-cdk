@@ -143,7 +143,7 @@ export class TerraformModuleConstraint
       toProcess = prefixMatch[2];
     }
 
-    // strip off any protocl
+    // strip off any protocol
     const protocolMatch = toProcess.match(/^([a-zA-Z]*):\/\/(.*)/);
     if (protocolMatch) {
       toProcess = protocolMatch[2];
