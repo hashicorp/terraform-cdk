@@ -349,6 +349,7 @@ You can read more about this at https://cdk.tf/variables`
   // We add a comment if there are providers with missing schema information
   const providersLackingSchema = Object.keys(providerRequirements).filter(
     (providerName) =>
+      providerName !== "terraform" &&
       !Object.keys(providerSchema.provider_schemas || {}).some((schemaName) =>
         schemaName.endsWith(providerName)
       )
