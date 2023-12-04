@@ -143,13 +143,15 @@ function dataSourcesToHcl(dataSources: any): string[] {
       const dataSource = dataSourcesOfType[dataSourceName];
       hcl = hcl.concat([
         `data "${dataSourceType}" "${dataSourceName}" {`,
-        ...Object.entries(dataSource).map(([name, value]) => {
-          if (name === "//") {
-            return `//CDKTF:META ${JSON.stringify((value as any).metadata)}`;
-          }
+        ...Object.entries(dataSource)
+          .map(([name, value]) => {
+            if (name === "//") {
+              return "";
+            }
 
-          return `  ${name} = ${jsonExpressionToHcl(value as string)}`;
-        }),
+            return `  ${name} = ${jsonExpressionToHcl(value as string)}`;
+          })
+          .filter((s) => !!s),
         "}",
         "",
       ]);
@@ -207,12 +209,14 @@ function resourcesToHcl(resources: any): string[] {
       const resource = resourcesOfType[resourceName];
       hcl = hcl.concat([
         `resource "${resourceType}" "${resourceName}" {`,
-        ...Object.entries(resource).map(([name, value]) => {
-          if (name === "//") {
-            return `//CDKTF:META ${JSON.stringify((value as any).metadata)}`;
-          }
-          return `  ${name} = ${jsonExpressionToHcl(value as string)}`;
-        }),
+        ...Object.entries(resource)
+          .map(([name, value]) => {
+            if (name === "//") {
+              return "";
+            }
+            return `  ${name} = ${jsonExpressionToHcl(value as string)}`;
+          })
+          .filter((s) => !!s),
         "}",
         "",
       ]);
@@ -252,9 +256,14 @@ function modulesToHcl(modules: any): string[] {
     const module = modules[moduleName];
     hcl = hcl.concat([
       `module "${moduleName}" {`,
-      ...Object.entries(module).map(
-        ([name, value]) => `  ${name} = ${jsonExpressionToHcl(value as string)}`
-      ),
+      ...Object.entries(module)
+        .map(([name, value]) => {
+          if (name === "//") {
+            return "";
+          }
+          return `  ${name} = ${jsonExpressionToHcl(value as string)}`;
+        })
+        .filter((s) => !!s),
       "}",
       "",
     ]);
@@ -318,7 +327,7 @@ function getPureMetadata(jsonTf: any): any {
 /**
  *
  */
-export function jsonToHcl(jsonTf: any): { hcl: string; metadata: any } {
+export function jsonToHcl(jsonTf: any): Record<string, any> {
   const { locals, provider } = jsonTf;
 
   let hcl: string[] = [];
@@ -331,10 +340,6 @@ export function jsonToHcl(jsonTf: any): { hcl: string; metadata: any } {
       "}",
       "",
     ]);
-  }
-
-  if (jsonTf["//"]) {
-    hcl.push("//CDKTF:META " + JSON.stringify(jsonTf["//"]));
   }
 
   if (jsonTf.variable) {
