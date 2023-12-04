@@ -64,15 +64,17 @@ export function lifecycleToTerraform(
 
   return {
     ...lifecycle,
-    ...(lifecycle?.replaceTriggeredBy?.length && {
-      replaceTriggeredBy: lifecycle?.replaceTriggeredBy?.map((x) => {
-        if (typeof x === "string") {
-          return x;
-        } else {
-          return x.fqn;
+    ...(lifecycle?.replaceTriggeredBy?.length
+      ? {
+          replaceTriggeredBy: lifecycle?.replaceTriggeredBy?.map((x) => {
+            if (typeof x === "string") {
+              return x;
+            } else {
+              return x.fqn;
+            }
+          }),
         }
-      }),
-    }),
+      : undefined),
   };
 }
 
