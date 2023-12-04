@@ -50,6 +50,32 @@ export interface TerraformResourceLifecycle {
   readonly postcondition?: Postcondition[];
 }
 
+/**
+ * prepares a lifecycle object for being rendered as JSON
+ * currently this function:
+ *  - converts all replaceTriggeredBy items that are ITerraformDependables to strings
+ */
+export function lifecycleToTerraform(
+  lifecycle?: TerraformResourceLifecycle
+): TerraformResourceLifecycle | undefined {
+  if (!lifecycle) {
+    return undefined;
+  }
+
+  return {
+    ...lifecycle,
+    ...(lifecycle?.replaceTriggeredBy?.length && {
+      replaceTriggeredBy: lifecycle?.replaceTriggeredBy?.map((x) => {
+        if (typeof x === "string") {
+          return x;
+        } else {
+          return x.fqn;
+        }
+      }),
+    }),
+  };
+}
+
 export interface TerraformMetaArguments {
   readonly dependsOn?: ITerraformDependable[];
   readonly count?: number | TerraformCount;
@@ -190,13 +216,14 @@ export class TerraformResource
       !this.forEach || typeof this.count === "undefined",
       `forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the resource at path: ${this.node.path}`
     );
+
     return {
       dependsOn: this.dependsOn,
       count: TerraformCount.isTerraformCount(this.count)
         ? this.count.toTerraform()
         : this.count,
       provider: this.provider?.fqn,
-      lifecycle: this.lifecycle,
+      lifecycle: lifecycleToTerraform(this.lifecycle),
       forEach: this.forEach?._getForEachExpression(),
       connection: this.connection,
     };
