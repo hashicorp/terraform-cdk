@@ -140,7 +140,7 @@ export class Testing {
   /**
    * Returns the Terraform synthesized JSON.
    */
-  public static async synthHcl(stack: TerraformStack, runValidations = false) {
+  public static synthHcl(stack: TerraformStack, runValidations = false) {
     invokeAspects(stack);
     if (runValidations) {
       stack.runAllValidations();
