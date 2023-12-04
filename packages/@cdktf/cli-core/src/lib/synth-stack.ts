@@ -7,7 +7,7 @@ import indentString from "indent-string";
 import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
 import { performance } from "perf_hooks";
 import { logger, readConfigSync, sendTelemetry, shell } from "@cdktf/commons";
-import { format } from "@cdktf/hcl-helpers";
+import { format } from "@cdktf/hcl-tools";
 
 const chalkColour = new chalk.Instance();
 
