@@ -120,7 +120,7 @@ might fail while synthesizing with an out of memory error.`);
           ...env,
           CDKTF_OUTDIR: outdir,
           CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS: "true", // we want to display the errors ourselves
-          HCL_OUTPUT: hcl.toString(),
+          SYNTH_HCL_OUTPUT: hcl.toString(),
         },
         cwd: workingDirectory,
         signal: abortSignal,
