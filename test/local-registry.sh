@@ -35,7 +35,5 @@ function stopLocalRegistry {
   # Restore the original NPM and Yarn registry URLs and stop Verdaccio
   npm set registry "$original_npm_registry_url"
   yarn config set registry "$original_yarn_registry_url"
-  listener_pid=`lsof -i :4873 -t`
-  [ -n "$listener_pid" ] && kill $listener_pid
-  [ -n "$verdaccio_pid" ] && kill $verdaccio_pid
+  kill $verdaccio_pid
 }
