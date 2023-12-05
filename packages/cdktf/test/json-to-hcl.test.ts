@@ -24,12 +24,11 @@ test("string local", async () => {
 
   new TerraformLocal(stack, "greeting", "Hello, ${var.name}");
 
-  const hcl = await Testing.synthHcl(stack);
+  const hcl = Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
     "locals {
       greeting = "Hello, \${var.name}"
     }
-
     "
   `);
 });
@@ -52,7 +51,7 @@ test("with provider alias", async () => {
     provider,
   });
 
-  const hcl = await Testing.synthHcl(stack);
+  const hcl = Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
     "provider "test" {
       access_key = 1
@@ -60,22 +59,21 @@ test("with provider alias", async () => {
 
     provider "test" {
       access_key = 123
-      alias      = "foo"
+      alias = "foo"
     }
 
     resource "test_resource" "test" {
-      name     = "bar"
+      name = "bar"
       provider = "test.foo"
     }
 
     terraform {
       required_providers = {
-        test = {
-          version = "~> 2.0"
-        }
-      }
+    test = {
+    version = "~> 2.0"
     }
-
+    }
+    }
     "
   `);
 });
@@ -98,7 +96,7 @@ test("with formatting", async () => {
     provider,
   });
 
-  const hcl = await Testing.synthHcl(stack);
+  const hcl = Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
     "provider "test" {
       access_key = 1
@@ -106,22 +104,21 @@ test("with formatting", async () => {
 
     provider "test" {
       access_key = 123
-      alias      = "foo"
+      alias = "foo"
     }
 
     resource "test_resource" "test" {
-      name     = "bar"
+      name = "bar"
       provider = "test.foo"
     }
 
     terraform {
       required_providers = {
-        test = {
-          version = "~> 2.0"
-        }
-      }
+    test = {
+    version = "~> 2.0"
     }
-
+    }
+    }
     "
   `);
 });
@@ -145,18 +142,15 @@ test("serialize list interpolation", async () => {
   const otherResource = new OtherTestResource(stack, "othertest", {});
   resource.names = otherResource.names;
 
-  expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
-    "provider "other" {
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "provider "test" {
     }
 
-    provider "test" {
-    }
-
-    resource "other_test_resource" "othertest" {
+    provider "other" {
     }
 
     resource "test_resource" "test" {
-      name  = "bar"
+      name = "bar"
       names = "\${other_test_resource.othertest.names}"
     }
 
@@ -164,17 +158,19 @@ test("serialize list interpolation", async () => {
       name = "foo"
     }
 
-    terraform {
-      required_providers = {
-        other = {
-          version = "~> 2.0"
-        }
-        test = {
-          version = "~> 2.0"
-        }
-      }
+    resource "other_test_resource" "othertest" {
     }
 
+    terraform {
+      required_providers = {
+    test = {
+    version = "~> 2.0"
+    }
+    other = {
+    version = "~> 2.0"
+    }
+    }
+    }
     "
   `);
 });
@@ -187,11 +183,10 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: 1,
     });
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = "1"
       }
-
       "
     `);
   });
@@ -203,11 +198,10 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: "1",
     });
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = 1
       }
-
       "
     `);
   });
@@ -219,11 +213,10 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: true,
     });
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = "true"
       }
-
       "
     `);
   });
@@ -235,13 +228,12 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: { foo: "bar" },
     });
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = {
-          foo = "bar"
-        }
+      foo = "bar"
       }
-
+      }
       "
     `);
   });
@@ -253,14 +245,13 @@ describe("output", () => {
     new TerraformOutput(stack, "test-output", {
       value: ["foo", "bar"],
     });
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
         value = [
-          "foo"
-          "bar"
-        ]
+      "foo"
+      "bar"
+      ]
       }
-
       "
     `);
   });
@@ -273,12 +264,11 @@ describe("output", () => {
       value: 1,
       description: "test-description",
     });
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
+        value = "1"
         description = "test-description"
-        value       = "1"
       }
-
       "
     `);
   });
@@ -291,12 +281,11 @@ describe("output", () => {
       value: 1,
       sensitive: true,
     });
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "output "test-output" {
+        value = "1"
         sensitive = "true"
-        value     = "1"
       }
-
       "
     `);
   });
@@ -315,7 +304,7 @@ describe("output", () => {
       dependsOn: [resource],
     });
 
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "provider "test" {
       }
 
@@ -325,19 +314,18 @@ describe("output", () => {
 
       terraform {
         required_providers = {
-          test = {
-            version = "~> 2.0"
-          }
-        }
+      test = {
+      version = "~> 2.0"
+      }
+      }
       }
 
       output "test-output" {
-        depends_on = [
-          "\${test_resource.weird-long-running-resource}"
-        ]
         value = "1"
+        depends_on = [
+      "\${test_resource.weird-long-running-resource}"
+      ]
       }
-
       "
     `);
   });
@@ -352,14 +340,13 @@ describe("output", () => {
       value: variable.value,
     });
 
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "variable "test-variable" {
       }
 
       output "test-output" {
         value = "\${var.test-variable}"
       }
-
       "
     `);
   });
@@ -379,29 +366,28 @@ test("module with simple provider", async () => {
     providers: [provider],
   });
 
-  expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "provider "test" {
       access_key = "key"
-      alias      = "provider1"
+      alias = "provider1"
     }
 
     terraform {
       required_providers = {
-        test = {
-          version = "~> 2.0"
-        }
-      }
+    test = {
+    version = "~> 2.0"
+    }
+    }
     }
 
     module "test" {
       module_parameter = "myParam"
-      providers = {
-        test = "test.provider1"
-      }
-      source  = "my-module"
+      source = "my-module"
       version = "1.0"
+      providers = {
+    test = "test.provider1"
     }
-
+    }
     "
   `);
 });
@@ -416,7 +402,7 @@ describe("backends", () => {
       workspaceDir: "local_workspace",
     });
 
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "data "terraform_remote_state" "remote" {
         backend = "local"
         config = {
@@ -442,7 +428,7 @@ describe("backends", () => {
       },
     });
 
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "data "terraform_remote_state" "remote" {
         backend = "remote"
         config = {
@@ -473,7 +459,7 @@ describe("backends", () => {
       environment: "public",
     });
 
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "data "terraform_remote_state" "remote" {
         backend = "azurerm"
         config = {
@@ -510,7 +496,7 @@ describe("backends", () => {
       lock: true,
     });
 
-    expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "data "terraform_remote_state" "remote" {
         backend = "consul"
         config = {
@@ -547,11 +533,11 @@ test("with complex computed list", async () => {
     name: otherResource.complexComputedList.get(0).id,
   });
 
-  expect(await Testing.synthHcl(stack)).toMatchInlineSnapshot(`
-    "provider "other" {
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "provider "test" {
     }
 
-    provider "test" {
+    provider "other" {
     }
 
     resource "other_test_resource" "othertest" {
@@ -563,15 +549,14 @@ test("with complex computed list", async () => {
 
     terraform {
       required_providers = {
-        other = {
-          version = "~> 2.0"
-        }
-        test = {
-          version = "~> 2.0"
-        }
-      }
+    test = {
+    version = "~> 2.0"
     }
-
+    other = {
+    version = "~> 2.0"
+    }
+    }
+    }
     "
   `);
 });
@@ -620,70 +605,69 @@ it("moves multiple resources", async () => {
     ],
   }).moveTo("test-2");
 
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "provider "test" {
     }
 
     resource "test_resource" "construct_nested-construct_simple_2C3755B0" {
       name = "foo"
       provisioner = [
-        {
-          local-exec = {
-            command = "echo 'hello' > world.txt"
-          }
-        }
-        {
-          local-exec = {
-            command = "echo 'hello' > world1.txt"
-          }
-        }
-        {
-          local-exec = {
-            command = "echo 'hello' > world2.txt"
-          }
-        }
-      ]
+    {
+    local-exec = {
+    command = "echo 'hello' > world.txt"
+    }
+    }
+    {
+    local-exec = {
+    command = "echo 'hello' > world1.txt"
+    }
+    }
+    {
+    local-exec = {
+    command = "echo 'hello' > world2.txt"
+    }
+    }
+    ]
     }
 
     resource "test_resource" "construct_nested-construct_simple-2_078CE0AF" {
       name = "foo"
       provisioner = [
-        {
-          local-exec = {
-            command = "echo 'hello' > world.txt"
-          }
-        }
-        {
-          local-exec = {
-            command = "echo 'hello' > world1.txt"
-          }
-        }
-        {
-          local-exec = {
-            command = "echo 'hello' > world2.txt"
-          }
-        }
-      ]
+    {
+    local-exec = {
+    command = "echo 'hello' > world.txt"
+    }
+    }
+    {
+    local-exec = {
+    command = "echo 'hello' > world1.txt"
+    }
+    }
+    {
+    local-exec = {
+    command = "echo 'hello' > world2.txt"
+    }
+    }
+    ]
     }
 
     terraform {
       required_providers = {
-        test = {
-          version = "~> 2.0"
-        }
-      }
+    test = {
+    version = "~> 2.0"
+    }
+    }
     }
 
     moved {
       from = "test_resource.simple"
-      to   = "test_resource.construct_nested-construct_simple_2C3755B0"
+      to = "test_resource.construct_nested-construct_simple_2C3755B0"
     }
 
     moved {
       from = "test_resource.simple-2"
-      to   = "test_resource.construct_nested-construct_simple-2_078CE0AF"
+      to = "test_resource.construct_nested-construct_simple-2_078CE0AF"
     }
-
     "
   `);
 });
@@ -712,48 +696,47 @@ it("supports local-exec provisioner", () => {
       },
     ],
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "provider "test" {
-    }
-
-    resource "test_resource" "advanced" {
-      name = "foo"
-      provisioner = [
-        {
-          local-exec = {
-            command = "echo " hello $ person " > greeting.txt"
-            environment = {
-              person = "daniel"
-            }
-            interpreter = [
-              "/bin/bash"
-              "-c"
-            ]
-            working_dir = "/tmp"
-          }
-        }
-      ]
     }
 
     resource "test_resource" "simple" {
       name = "foo"
       provisioner = [
-        {
-          local-exec = {
-            command = "echo 'hello' > world.txt"
-          }
-        }
-      ]
+    {
+    local-exec = {
+    command = "echo 'hello' > world.txt"
+    }
+    }
+    ]
+    }
+
+    resource "test_resource" "advanced" {
+      name = "foo"
+      provisioner = [
+    {
+    local-exec = {
+    command = "echo "hello $person" > greeting.txt"
+    working_dir = "/tmp"
+    environment = {
+    person = "daniel"
+    }
+    interpreter = [
+    "/bin/bash"
+    "-c"
+    ]
+    }
+    }
+    ]
     }
 
     terraform {
       required_providers = {
-        test = {
-          version = "~> 2.0"
-        }
-      }
+    test = {
+    version = "~> 2.0"
     }
-
+    }
+    }
     "
   `);
 });
@@ -770,17 +753,16 @@ test("pass variables", () => {
       param3: ["id1", "id2"],
     },
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "module "test" {
       param1 = "name"
       param2 = "1"
       param3 = [
-        "id1"
-        "id2"
-      ]
+    "id1"
+    "id2"
+    ]
       source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
-
     "
   `);
 });
@@ -798,27 +780,26 @@ test("simple provider", () => {
     source: "./test/fixtures/hcl-module/",
     providers: [provider],
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "provider "test" {
       access_key = "key"
-      alias      = "provider1"
+      alias = "provider1"
     }
 
     terraform {
       required_providers = {
-        test = {
-          version = "~> 2.0"
-        }
-      }
+    test = {
+    version = "~> 2.0"
+    }
+    }
     }
 
     module "test" {
-      providers = {
-        test = "test.provider1"
-      }
       source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
+      providers = {
+    test = "test.provider1"
     }
-
+    }
     "
   `);
 });
@@ -840,34 +821,33 @@ test("multiple providers", () => {
     source: "./test/fixtures/hcl-module/",
     providers: [provider1, provider2],
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
-    "provider "differentType" {
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "provider "test" {
       access_key = "key"
     }
 
-    provider "test" {
+    provider "differentType" {
       access_key = "key"
     }
 
     terraform {
       required_providers = {
-        differentType = {
-          version = "~> 2.0"
-        }
-        test = {
-          version = "~> 2.0"
-        }
-      }
+    test = {
+    version = "~> 2.0"
+    }
+    differentType = {
+    version = "~> 2.0"
+    }
+    }
     }
 
     module "test" {
-      providers = {
-        differentType = "differentType"
-        test          = "test"
-      }
       source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
+      providers = {
+    test = "test"
+    differentType = "differentType"
     }
-
+    }
     "
   `);
 });
@@ -879,11 +859,10 @@ test("string type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "string",
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "string"
     }
-
     "
   `);
 });
@@ -895,11 +874,10 @@ test("number type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "number",
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "number"
     }
-
     "
   `);
 });
@@ -911,11 +889,10 @@ test("bool type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "bool",
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "bool"
     }
-
     "
   `);
 });
@@ -927,11 +904,10 @@ test("any type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: VariableType.ANY,
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "any"
     }
-
     "
   `);
 });
@@ -943,11 +919,10 @@ test("default value", () => {
   new TerraformVariable(stack, "test-variable", {
     default: "my-val",
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "variable "test-variable" {
       default = "my-val"
     }
-
     "
   `);
 });
@@ -961,11 +936,10 @@ test("description", () => {
   });
 
   console.log(Testing.synth(stack));
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "variable "test-variable" {
       description = "A Test Variable"
     }
-
     "
   `);
 });
@@ -977,11 +951,10 @@ test("collection type", () => {
   new TerraformVariable(stack, "test-variable", {
     type: "list(string)",
   });
-  expect(Testing.synthHcl(stack)).resolves.toMatchInlineSnapshot(`
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "variable "test-variable" {
       type = "list(string)"
     }
-
     "
   `);
 });
