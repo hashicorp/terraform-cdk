@@ -148,31 +148,9 @@ export class Testing {
 
     const tfConfig = stack.toTerraform();
 
-    // eslint-disable-next-line jsdoc/require-jsdoc
-    function removeMetadata(item: any): any {
-      if (item !== null && typeof item === "object") {
-        if (Array.isArray(item)) {
-          return item.map(removeMetadata);
-        }
+    const config = jsonToHcl(tfConfig);
 
-        const cleanedItem = Object.entries(item)
-          // order alphabetically
-          .sort(([a], [b]) => a.localeCompare(b))
-          .reduce(
-            (acc, [key, value]) => ({ ...acc, [key]: removeMetadata(value) }),
-            {}
-          );
-
-        // Remove metadata
-        delete (cleanedItem as any)["//"];
-        return cleanedItem;
-      }
-
-      return item;
-    }
-    const cleaned = removeMetadata(tfConfig);
-
-    return jsonToHcl(cleaned);
+    return config.hcl;
   }
 
   public static fullSynth(stack: TerraformStack): string {
