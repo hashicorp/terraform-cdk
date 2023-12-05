@@ -294,15 +294,14 @@ describe("matchers", () => {
           "Expected subject to be a valid terraform stack"
         )
       );
+      const tf1_3 =
+        "There are some problems with the configuration, described below";
+      const tf1_4 =
+        "Terraform encountered problems during initialisation, including problems\n with the configuration, described below";
+      const tf1_5 = "Extra characters appear after the JSON value";
+
       expect(res.message).toEqual(
-        expect.stringContaining(
-          "There are some problems with the configuration, described below."
-        )
-      );
-      expect(res.message).toEqual(
-        expect.stringContaining(
-          "Expected subject to be a valid terraform stack"
-        )
+        expect.stringMatching(new RegExp(`${tf1_3}|${tf1_4}|${tf1_5}`))
       );
     });
   });
