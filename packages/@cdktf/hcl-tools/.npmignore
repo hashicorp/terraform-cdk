@@ -1,0 +1,25 @@
+*.ts
+
+!*.d.ts
+!*.js
+!.jsii
+
+test
+jest.config.js
+
+# Exclude jsii outdir
+dist
+coverage
+
+**/*wasm
+!wasm/
+tsconfig.tsbuildinfo
+wasm.md
+**/*.go
+go.sum
+go.mod
+package.sh
+build-go.sh
+prebuild.sh
+tsconfig.json
+Dockerfile
