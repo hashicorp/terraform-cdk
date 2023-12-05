@@ -85,7 +85,7 @@ export class App extends Construct {
     Object.defineProperty(this, APP_SYMBOL, { value: true });
 
     this.outdir = process.env.CDKTF_OUTDIR ?? config.outdir ?? "cdktf.out";
-    const envHclOutput = process.env.HCL_OUTPUT;
+    const envHclOutput = process.env.SYNTH_HCL_OUTPUT;
     let hclOutput = config.hclOutput || false;
     if (envHclOutput !== undefined) {
       hclOutput = envHclOutput === "true";
