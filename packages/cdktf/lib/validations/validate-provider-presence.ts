@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { IConstruct, IValidation, Node } from "constructs";
+import { IConstruct, IValidation } from "constructs";
 import { TerraformProvider } from "../terraform-provider";
 import { TerraformResource } from "../terraform-resource";
 import { TerraformDataSource } from "../terraform-data-source";
@@ -33,7 +33,10 @@ export class ValidateProviderPresence implements IValidation {
       TerraformResource.isTerraformResource(node) ||
       TerraformDataSource.isTerraformDataSource(node)
     ) {
-      if (node.terraformGeneratorMetadata) {
+      if (
+        node.terraformGeneratorMetadata &&
+        node.terraformGeneratorMetadata.providerName !== "terraform"
+      ) {
         this.providerNames.add(node.terraformGeneratorMetadata.providerName);
       }
     }
@@ -42,7 +45,7 @@ export class ValidateProviderPresence implements IValidation {
       this.foundProviders.push(node);
     }
 
-    for (const child of Node.of(node).children) {
+    for (const child of node.node.children) {
       this.check(child);
     }
   }
