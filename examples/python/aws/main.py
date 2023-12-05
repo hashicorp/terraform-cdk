@@ -3,11 +3,11 @@
 
 from constructs import Construct
 from cdktf import App, TerraformStack
+from imports.aws.iam_role import IamRole
+from imports.aws.lambda_function import LambdaFunction
 from imports.aws.provider import AwsProvider
 from imports.aws.sns_topic import SnsTopic
-from imports.terraform_aws_modules.aws import Vpc
-from imports.aws.lambda_function import LambdaFunction
-from imports.aws.iam_role import IamRole
+from imports.vpc import Vpc
 
 
 class MyStack(TerraformStack):
