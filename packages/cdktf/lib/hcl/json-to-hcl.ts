@@ -129,6 +129,10 @@ function providersToHcl(providers: any): string[] {
  *
  */
 function dataSourcesToHcl(dataSources: any): string[] {
+  if (!dataSources) {
+    return [];
+  }
+
   const dataSourceTypes = Object.keys(dataSources);
 
   if (dataSourceTypes.length === 0) {
@@ -165,6 +169,10 @@ function dataSourcesToHcl(dataSources: any): string[] {
  *
  */
 function resourcesMetadata(resources: any): any {
+  if (!resources) {
+    return {};
+  }
+
   const resourceTypes = Object.keys(resources);
 
   if (resourceTypes.length === 0) {
@@ -195,6 +203,9 @@ function resourcesMetadata(resources: any): any {
  *
  */
 function resourcesToHcl(resources: any): string[] {
+  if (!resources) {
+    return [];
+  }
   const resourceTypes = Object.keys(resources);
 
   if (resourceTypes.length === 0) {
@@ -276,6 +287,10 @@ function modulesToHcl(modules: any): string[] {
  *
  */
 function outputsToHcl(outputs: any): string[] {
+  if (!outputs) {
+    return [];
+  }
+
   const outputNames = Object.keys(outputs);
 
   if (outputNames.length === 0) {

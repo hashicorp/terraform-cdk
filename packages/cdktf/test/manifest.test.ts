@@ -34,6 +34,7 @@ test("get stack manifest", () => {
       "constructPath": "this-is-a-stack",
       "dependencies": [],
       "name": "this-is-a-stack",
+      "stackMetadataPath": "stacks/this-is-a-stack/metadata.json",
       "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
       "workingDirectory": "stacks/this-is-a-stack",
     }
@@ -59,6 +60,7 @@ test("write manifest", () => {
           "constructPath": "this-is-a-stack",
           "workingDirectory": "stacks/this-is-a-stack",
           "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
+          "stackMetadataPath": "stacks/this-is-a-stack/metadata.json",
           "annotations": [],
           "dependencies": []
         }
@@ -93,6 +95,7 @@ describe("manifest annotations", () => {
             "constructPath": "this-is-a-stack",
             "workingDirectory": "stacks/this-is-a-stack",
             "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
+            "stackMetadataPath": "stacks/this-is-a-stack/metadata.json",
             "annotations": [
               {
                 "constructPath": "this-is-a-stack",

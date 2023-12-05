@@ -406,11 +406,10 @@ describe("backends", () => {
       "data "terraform_remote_state" "remote" {
         backend = "local"
         config = {
-          path          = "relative/path/to/terraform.tfstate"
-          workspace_dir = "local_workspace"
-        }
+      path = "relative/path/to/terraform.tfstate"
+      workspace_dir = "local_workspace"
       }
-
+      }
       "
     `);
   });
@@ -432,14 +431,13 @@ describe("backends", () => {
       "data "terraform_remote_state" "remote" {
         backend = "remote"
         config = {
-          hostname     = "app.terraform.io"
-          organization = "company"
-          workspaces = {
-            name = "my-app-prod"
-          }
-        }
+      hostname = "app.terraform.io"
+      organization = "company"
+      workspaces = {
+      name = "my-app-prod"
       }
-
+      }
+      }
       "
     `);
   });
@@ -463,17 +461,16 @@ describe("backends", () => {
       "data "terraform_remote_state" "remote" {
         backend = "azurerm"
         config = {
-          client_id            = "ARM_CLIENT_ID"
-          client_secret        = "ARM_CLIENT_SECRET"
-          container_name       = "tfstate"
-          endpoint             = "ARM_ENDPOINT"
-          environment          = "public"
-          key                  = "prod.terraform.tfstate"
-          resource_group_name  = "StorageAccount-ResourceGroup"
-          storage_account_name = "abcd1234"
-        }
+      resource_group_name = "StorageAccount-ResourceGroup"
+      storage_account_name = "abcd1234"
+      container_name = "tfstate"
+      key = "prod.terraform.tfstate"
+      client_id = "ARM_CLIENT_ID"
+      client_secret = "ARM_CLIENT_SECRET"
+      endpoint = "ARM_ENDPOINT"
+      environment = "public"
       }
-
+      }
       "
     `);
   });
@@ -500,20 +497,19 @@ describe("backends", () => {
       "data "terraform_remote_state" "remote" {
         backend = "consul"
         config = {
-          access_token = "CONSUL_HTTP_TOKEN"
-          address      = "demo.consul.io"
-          ca_file      = "CONSUL_CACERT"
-          cert_file    = "CONSUL_CLIENT_CERT"
-          datacenter   = "agent"
-          gzip         = "true"
-          http_auth    = "CONSUL_HTTP_AUTH"
-          key_file     = "CONSUL_CLIENT_KEY"
-          lock         = "true"
-          path         = "full/path"
-          scheme       = "https"
-        }
+      address = "demo.consul.io"
+      scheme = "https"
+      path = "full/path"
+      access_token = "CONSUL_HTTP_TOKEN"
+      ca_file = "CONSUL_CACERT"
+      cert_file = "CONSUL_CLIENT_CERT"
+      datacenter = "agent"
+      gzip = "true"
+      http_auth = "CONSUL_HTTP_AUTH"
+      key_file = "CONSUL_CLIENT_KEY"
+      lock = "true"
       }
-
+      }
       "
     `);
   });
@@ -935,7 +931,6 @@ test("description", () => {
     description: "A Test Variable",
   });
 
-  console.log(Testing.synth(stack));
   expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "variable "test-variable" {
       description = "A Test Variable"
