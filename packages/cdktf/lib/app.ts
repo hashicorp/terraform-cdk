@@ -79,7 +79,7 @@ export class App extends Construct {
     super(undefined as any, "");
     Object.defineProperty(this, APP_SYMBOL, { value: true });
 
-    this.outdir = process.env.CDKTF_OUTDIR ?? config.outdir ?? "cdktf.out";
+    this.outdir = config.outdir ?? process.env.CDKTF_OUTDIR ?? "cdktf.out";
     this.targetStackId = process.env.CDKTF_TARGET_STACK_ID;
     this.skipValidation = config.skipValidation || false;
     this.skipBackendValidation = config.skipBackendValidation || false;
