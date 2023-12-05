@@ -135,7 +135,7 @@ might fail while synthesizing with an out of memory error.`);
             ...currentContext,
             cdktfRelativeModules: relativeModules,
           }),
-          HCL_OUTPUT: hcl.toString(),
+          SYNTH_HCL_OUTPUT: hcl.toString(),
         },
         cwd: workingDirectory,
         signal: abortSignal,
