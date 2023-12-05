@@ -1167,7 +1167,7 @@ securitygroup.NewSecurityGroup(stack, jsii.String("security2"), &securitygroup.S
 
 ### Built-in `terraform_data` resource
 
-There is a special resource built into Terraform itself. It is called [`terraform_data`](/terraform/language/resources/terraform-data) and implements the standard resource lifecycle, but does not directly take any other actions. In CDKTF it is exposed as the `TerraformData` class and you can import it directly from the `cdktf` package.
+The [`terraform_data`](/terraform/language/resources/terraform-data) resource implements the standard resource lifecycle but does not directly perform any other actions. In CDKTF, the resource is exposed as the `TerraformData` class and you can import it directly from the `cdktf` package.
 
 ### Large Resource Configurations
 
