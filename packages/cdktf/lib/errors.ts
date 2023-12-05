@@ -64,36 +64,47 @@ The expression used for the dynamic block: '${`.dynamic({
 `
   );
 
-// The ones below have no added context, or in other words, are the same as they have been
-
-export const unresolvedToken = () =>
+export const unresolvedTokenInConstructId = (id: string) =>
   new Error(
-    `You cannot use a Token (e.g. a reference to an attribute) as the id of a construct`
+    `You cannot use a Token (e.g. a reference to an attribute) as the id of a construct.
+The following id was passed: "${id}"
+Ids of constructs must be known at synthesis time and the value of tokens is only known when Terraform runs, hence you cannot use tokens in construct ids.`
   );
 
 export const iteratorOnResourceWithCount = () =>
   new Error(
-    `Cannot create iterator from resource with count argument. Please use the same TerraformCount used in the resource passed here instead.`
+    `Cannot create iterator from a resource with a count argument.
+The resource passed to the iterator has a count argument which determines how many instances of the resource are created.
+Please re-use the same TerraformCount used in this resource on the resource where you planned to use this iterator instead.
+
+If you need to use the iterator to populate a list attribute, replace the count on the resource with an iterator passed into the forEach argument.`
   );
 
 export const iteratorOnResourceWithoutForEach = () =>
-  new Error(`Cannot create iterator from resource without for_each argument`);
+  new Error(`Cannot create iterator from resource without forEach argument.
+The resource passed to the iterator does not have a forEach argument, meaning only a single instance of it will be created.
+If you want to create more instances of this resource pass an iterator to the forEach argument of the resource first.
+  `);
 
 export const modulesWithSameAlias = (alias: string) =>
-  new Error(`Error: Multiple providers have the same alias: "${alias}"`);
+  new Error(`Error: Multiple providers have the same alias: "${alias}"
+When passing multiple providers of the same type to modules, each provider must have a unique alias.
+  `);
 
 export const moveTargetAlreadySet = (
   target: string,
   friendlyUniqueId: string | undefined
 ) =>
-  new Error(`Target "${target}" has already been set at ${friendlyUniqueId}`);
+  new Error(`Target "${target}" has already been used for the construct at ${friendlyUniqueId}.
+Target must be a string that is unique across all resources in the same stack.`);
 
 export const moveTargetNotSet = (target: string, entries: string) =>
-  new Error(`Target "${target}" has not been set:
-      
-Current Target Entries:\n ${entries}
+  new Error(`Target "${target}" has not been set.
+You tried to move a resource to a target that has not been set on any resource.
+Call .addMoveTarget("${target}") on the instance of the resource you want to move this one to.
 
-To add this target, call .addMoveTarget("${target}") on the instance of the resource to move to.
+Alternatively you can use one of the following targets (in case you had a typo):
+${entries}
 `);
 
 export const movedToResourceOfDifferentType = (
@@ -101,10 +112,18 @@ export const movedToResourceOfDifferentType = (
   originalResourceType: string,
   destinationResourceType: string
 ) =>
-  new Error(`You have tried to move a resource to a different type:
+  new Error(`You have tried to move a resource to a different type which is not supported.
 
-The move target "${moveTarget}" corresponding to the resource of type ${destinationResourceType} to move to differs from the resource of type ${originalResourceType} being moved from
+The move target "${moveTarget}" corresponding to the resource of type ${destinationResourceType} to move to differs from the resource of type ${originalResourceType} being moved from.
+
+If this was intentional, you can instead try importing the existing resource into your target as described in the import docs:
+https://developer.hashicorp.com/terraform/cdktf/concepts/resources#importing-resources
+
+Please note, that you will manually need to remove the original resource from your state file after importing it, using the "terraform state rm" command in the output directory of the stack this resource is defined in. Read more about the command here:
+https://developer.hashicorp.com/terraform/cli/commands/state/rm
 `);
+
+// The ones below have no added context, or in other words, are the same as they have been
 
 export const resourceGivenTwoMoveOperationsByTargetAndId = (
   id: string,

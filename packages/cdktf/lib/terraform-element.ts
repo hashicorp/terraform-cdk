@@ -5,7 +5,7 @@ import { Construct } from "constructs";
 import { Token } from ".";
 import { TerraformStack } from "./terraform-stack";
 import { ref } from "./tfExpression";
-import { unresolvedToken } from "./errors";
+import { unresolvedTokenInConstructId } from "./errors";
 
 const TERRAFORM_ELEMENT_SYMBOL = Symbol.for("cdktf/TerraformElement");
 
@@ -38,7 +38,7 @@ export class TerraformElement extends Construct {
     this._elementType = elementType;
 
     if (Token.isUnresolved(id)) {
-      throw unresolvedToken();
+      throw unresolvedTokenInConstructId(id);
     }
 
     this.node.addMetadata("stacktrace", "trace");

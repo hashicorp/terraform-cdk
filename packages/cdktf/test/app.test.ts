@@ -105,7 +105,10 @@ test("app synth supports app level validations", () => {
   expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
     "App level validation failed with the following errors:
       error1
-      error2"
+      error2
+    Validations allow for dynamic verification of your project.
+    To skip validations, add 'skipValidation: true' to your App config
+        "
   `);
   expect(mockValidation.validate).toHaveBeenCalledTimes(1);
 });
