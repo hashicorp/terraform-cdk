@@ -43,9 +43,6 @@ export interface TerraformStackMetadata {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 function throwIfIdIsGlobCharacter(str: string): void {
-  const err = (char: string) =>
-    `Can not create Terraform stack with id "${str}". It contains a glob character: "${char}"`;
-
   ["*", "?", "[", "]", "{", "}", "!"].forEach((char) => {
     if (str.includes(char)) {
       throw stackContainsDisallowedChar(str, char);

@@ -53,7 +53,7 @@ The values are to be taken from the AssetType Enum.
 To learn more about TerraformAsset read here: https://developer.hashicorp.com/terraform/cdktf/concepts/assets
   `);
 
-export const dynamicBlockNotSupported = (foreachExpression: string) =>
+export const dynamicBlockNotSupported = (_foreachExpression: string) =>
   new Error(
     `Tried to directly resolve a TerraformDynamicBlock which is not supported.
 The TerraformDynamicBlock is created by calling '.dynamic' on a TerraformIterator instance.
