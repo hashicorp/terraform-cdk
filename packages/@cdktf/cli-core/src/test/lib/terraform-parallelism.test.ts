@@ -72,7 +72,7 @@ const stackWithName = (name: string) => {
           },
         },
       },
-      terraformVersion: "1.2.8",
+      terraformVersion: "1.5.5",
       variables: {},
       outputs: {},
       resources: [
