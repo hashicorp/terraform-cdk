@@ -30,7 +30,7 @@ jobs:
             "@cdktf/commons",
             "@cdktf/cli-core",
           ]
-        terraform_version: ["1.5.5", "1.4.6"]
+        terraform_version: ["1.6.5", "1.5.5"]
     with:
       concurrency_group_prefix: pr-all
       package: ${{ matrix.package }}
@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        terraform_version: ["1.5.5"]
+        terraform_version: ["1.6.5"]
     with:
       concurrency_group_prefix: pr-cdktf-cli-core
       package: "@cdktf/cli-core"
@@ -58,7 +58,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        terraform_version: ["1.5.5"]
+        terraform_version: ["1.6.5"]
     with:
       concurrency_group_prefix: pr-cdktf-commons
       package: "@cdktf/commons"
@@ -72,7 +72,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        terraform_version: ["1.5.5"]
+        terraform_version: ["1.6.5"]
     with:
       concurrency_group_prefix: pr-cdktf-hcl2cdk
       package: "@cdktf/hcl2cdk"
@@ -86,7 +86,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        terraform_version: ["1.5.5"]
+        terraform_version: ["1.6.5"]
     with:
       concurrency_group_prefix: pr-cdktf-hcl2json
       package: "@cdktf/hcl2json"
@@ -100,7 +100,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        terraform_version: ["1.5.5"]
+        terraform_version: ["1.6.5"]
     with:
       concurrency_group_prefix: pr-cdktf-provider-generator
       package: "@cdktf/provider-generator"
@@ -114,7 +114,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        terraform_version: ["1.5.5"]
+        terraform_version: ["1.6.5"]
     with:
       concurrency_group_prefix: pr-cdktf-cli
       package: "cdktf-cli"
@@ -128,7 +128,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        terraform_version: ["1.5.5"]
+        terraform_version: ["1.6.5"]
     with:
       concurrency_group_prefix: pr-cdktf
       package: "cdktf"
