@@ -23,6 +23,6 @@ class TokenStack(TerraformStack):
             vpc_id = vpc.vpc_id_output,
             cluster_name = "my-kubernetes-cluster",
             subnetIds = Token.as_list(vpc.public_subnets_output),
-            cloudwatch_log_group_retention_in_days = log_retention.number_value 
+            cloudwatch_log_group_retention_in_days = log_retention.number_value
         )
         #DOCS_BLOCK_END:tokens
