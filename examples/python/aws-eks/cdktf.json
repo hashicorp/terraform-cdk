@@ -9,9 +9,16 @@
     }
   ],
   "terraformModules": [
-    "terraform-aws-modules/vpc/aws@5.0.0",
-    "terraform-aws-modules/rds/aws@5.0.0"
+    {
+      "name": "vpc",
+      "source": "terraform-aws-modules/vpc/aws",
+      "version": "2.77.0"
+    },
+    {
+      "name": "eks",
+      "source": "terraform-aws-modules/eks/aws",
+      "version": "~> 15.0"
+    }
   ],
   "codeMakerOutput": "imports"
 }
-
