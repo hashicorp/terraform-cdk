@@ -331,7 +331,7 @@ export function getToHaveProviderWithProperties(
 export function toBeValidTerraform(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
-      throw matchersPathIsNotDirectory();
+      throw matchersPathIsNotDirectory("toBeValidTerraform");
     }
   } catch (e) {
     return new AssertionReturn(
@@ -385,7 +385,7 @@ export function toBeValidTerraform(received: string): AssertionReturn {
 export function toPlanSuccessfully(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
-      throw matchersPathIsNotDirectory();
+      throw matchersPathIsNotDirectory("toPlanSuccessfully");
     }
   } catch (e) {
     return new AssertionReturn(

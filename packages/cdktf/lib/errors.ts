@@ -123,8 +123,6 @@ Please note, that you will manually need to remove the original resource from yo
 https://developer.hashicorp.com/terraform/cli/commands/state/rm
 `);
 
-// The ones below have no added context, or in other words, are the same as they have been
-
 export const resourceGivenTwoMoveOperationsByTargetAndId = (
   id: string,
   existingTarget: string,
@@ -253,17 +251,21 @@ export const cloudBackendWorkspaceIsNotDefinedByName = () =>
 
 `);
 
+// TODO: expand explanation
 export const valueIsInvalidStringOrToken = (value: string) =>
   new Error(`'${value}' is not a valid string nor a token`);
 
+// TODO: expand explanation
 export const valueContainsUnescapedQuotes = (value: string) =>
   new Error(
     `'${value}' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string.`
   );
 
+// TODO: expand explanation
 export const valueIsInvalidNumberOrToken = (value: string) =>
   new Error(`${value} is not a valid number nor a token`);
 
+// TODO: expand explanation
 export const listElementIsOfWrongType = (
   value: any[],
   position: number,
@@ -273,6 +275,7 @@ export const listElementIsOfWrongType = (
     `Element in list ${value} at position ${position} is not of the right type: ${error}`
   );
 
+// TODO: expand explanation
 export const functionRecievedWrongNumberOfArgs = (
   name: string,
   argValidatorsLength: number,
@@ -282,6 +285,7 @@ export const functionRecievedWrongNumberOfArgs = (
     `${name} takes ${argValidatorsLength} arguments, but ${argsLength} were provided`
   );
 
+// TODO: expand explanation
 export const functionArgumnetValidationFailure = (
   argNumber: number,
   name: string,
@@ -289,15 +293,26 @@ export const functionArgumnetValidationFailure = (
 ) =>
   new Error(`Argument ${argNumber} of ${name} failed the validation: ${error}`);
 
+// TODO: expand explanation
 export const cannotCalcIdForEmptySetOfComponents = () =>
-  new Error(`Unable to calculate a unique id for an empty set of components`);
+  new Error(`Unable to calculate a unique id for an empty set of components
+  
 
+`);
+
+// TODO: expand explanation
 export const encounteredAnnotationWithLevelError = (errors: string) =>
   new Error(`Encountered Annotations with level "ERROR":\n${errors}`);
 
-export const matchersPathIsNotDirectory = () =>
-  new Error(`Path is not a directory`);
+export const matchersPathIsNotDirectory = (functionName: string) =>
+  new Error(`Path is not a directory
 
+Ensure that you are passing the result of Testing.fullSynth('instance of your stack') in your usage of '${functionName}'.
+
+To learn more about testing in CDKTF see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests
+`);
+
+// TODO: expand explanation ???
 export const matchersFoundErrorsInStack = (
   errorCount: any,
   stackName: string,
@@ -306,10 +321,20 @@ export const matchersFoundErrorsInStack = (
   new Error(`Found ${errorCount} Errors in stack ${stackName}: ${diagnostics}`);
 
 export const jestNotInstantiated = () =>
-  new Error(`expect is not defined, jest was not propely instantiated`);
+  new Error(`expect is not defined, jest was not propely instantiated
+  
+Ensure you have a 'setup.js' file in your project's directory that calls 'cdktf.Testing.setupJest()'
+
+To learn more about setting up testing see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests#:~:text=Add%20Testing%20to%20Your%20Application
+`);
 
 export const expectNotGloballyAccessible = () =>
-  new Error(`setupJest called, but expect is not globally accessible`);
+  new Error(`setupJest called, but expect is not globally accessible
+
+To learn more about setting up testing see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests#:~:text=Add%20Testing%20to%20Your%20Application
+`);
+
+// The ones below have no added context, or in other words, are the same as they have been
 
 export const stringValueAddedToReferenceList = (listToken: string[]) =>
   new Error(
