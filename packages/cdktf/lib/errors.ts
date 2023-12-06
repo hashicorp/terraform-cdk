@@ -140,6 +140,8 @@ Move by id: {
 }
 
 Only one move operation can occur per plan/apply. Remove one of the operations.
+
+To learn more about moving resources see: https://developer.hashicorp.com/terraform/cdktf/examples-and-guides/refactoring#:~:text=Moving%20%26%20Renaming%20Resources%20Within%20a%20Stack
 `);
 
 export const resourceGivenTwoMoveOperationsById = (
@@ -160,6 +162,8 @@ ${id} has been given two separate moved operations.
 }
 
 Only one move operation can occur per plan/apply. Remove one of the operations.
+
+To learn more about moving resources see: https://developer.hashicorp.com/terraform/cdktf/examples-and-guides/refactoring#:~:text=Moving%20%26%20Renaming%20Resources%20Within%20a%20Stack
 `);
 
 export const resourceGivenTwoMoveOperationsByTarget = (
@@ -170,57 +174,84 @@ export const resourceGivenTwoMoveOperationsByTarget = (
   new Error(`The resource ${resourceId} has been given two moveTargets: "${newMoveTarget}" and "${existingMoveTarget}"
 
 A resource can only be moved once per plan/apply
+
+To learn more about moving resources see: https://developer.hashicorp.com/terraform/cdktf/examples-and-guides/refactoring#:~:text=Moving%20%26%20Renaming%20Resources%20Within%20a%20Stack
 `);
 
 export const stackContainsDisallowedChar = (
   stackId: string,
   invalidChar: string
 ) =>
-  new Error(
-    `Can not create Terraform stack with id "${stackId}". It contains a glob character: "${invalidChar}"`
-  );
+  new Error(`Can not create Terraform stack with id "${stackId}". It contains a glob character: "${invalidChar}"
+
+Glob characters are disallowed in stack names due to their use in deploying/destroy multiple stacks 
+
+Such as 'cdktf deploy \`*-production\`' which deploys all stacks with names that end in '-production'
+`);
 
 export const stackIdContainsWhitespace = (stackId: string) =>
-  new Error(
-    `Can not create TerraformStack with id "${stackId}". It contains a whitespace character.`
-  );
+  new Error(`Can not create TerraformStack with id "${stackId}". It contains a whitespace character.
+
+Please remove any whitespace characters in your TerraformStack id like so: "${stackId.replace(
+    /\s/g,
+    ""
+  )}"
+`);
 
 export const noStackForConstruct = (constructPath: string, hint: string) =>
-  new Error(
-    `No stack could be identified for the construct at path '${constructPath}'${hint}`
-  );
+  new Error(`No stack could be identified for the construct at path '${constructPath}'${hint}
+
+Constructs can only be used as a part of a TerraformStack. While Constructs represent a collection of infrastructure, they must be used within a TerraformStack to be apart of a dedication Terraform configuration.
+
+To learn more about Constructs vs. TerraformStacks see here: https://developer.hashicorp.com/terraform/cdktf/concepts/constructs#:~:text=Constructs%20vs.%20Stacks
+`);
 
 export const stackHasCircularDependency = (
   thisStack: TerraformStack,
   dependency: TerraformStack
 ) =>
-  new Error(
-    `Can not add dependency ${dependency} to ${thisStack} since it would result in a loop`
-  );
+  new Error(`Can not add dependency ${dependency} to ${thisStack} since it would result in a loop
+
+This is caused by the TerraformStack ${dependency} already being dependent on ${thisStack} directly, or dependent on a TerraformStack within ${thisStack}
+  
+To learn more about cross-stack references see here: https://developer.hashicorp.com/terraform/cdktf/concepts/stacks#:~:text=Cross%2DStack%20References
+`);
 
 export const stackValidationFailure = (errorList: string) =>
-  new Error(`Validation failed with the following errors:\n  ${errorList}`);
+  new Error(`Validation failed with the following errors:\n  ${errorList}
+  
+If you wish to ignore these validations, pass 'skipValidation: true' to your App config
+`);
 
+// TODO: validate explanation
 export const targetNotResolvableWithOverrides = (target: string) =>
-  new Error(
-    `Invalid usage. Target (${target}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.`
-  );
+  new Error(`Invalid usage. Target (${target}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.
 
+Because the target is a resolvable Token any overrides cannot be applied as it has not yet been resolved. 
+
+To learn more about Tokens see here: https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
+`);
+
+// TODO: expand explanation
 export const sourceOrTargetNotAnObject = (source: string, target: string) =>
-  new Error(
-    `Invalid usage. Both source (${source}) and target (${target}) must be objects`
-  );
+  new Error(`Invalid usage. Both source (${source}) and target (${target}) must be objects
 
+
+`);
+
+// TODO: expand explanation???
 export const constructDependencyBelowV10 = () =>
   new Error(`Version mismatch! The constructs depedency appears to be lower than v10 which is required as of cdktf version 0.6.
 Your current constructs version is missing Construct.node which was added in v10.
 Please update your constructs dependency: https://cdk.tf/upgrade-constructs-v10
 `);
 
+// TODO: expand explanation
 export const cloudBackendWorkspaceIsNotDefinedByName = () =>
-  new Error(
-    `The Cloud backend only supports cross-stack references when the workspace is defined by name instead of by tags.`
-  );
+  new Error(`The Cloud backend only supports cross-stack references when the workspace is defined by name instead of by tags.
+
+
+`);
 
 export const valueIsInvalidStringOrToken = (value: string) =>
   new Error(`'${value}' is not a valid string nor a token`);
