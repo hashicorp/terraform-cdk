@@ -79,8 +79,8 @@ export class TokensStack extends TerraformStack {
         new Eks(this, "EksModules", EksConfig.builder()
                 .vpcId(vpc.getVpcIdOutput())
                 .clusterName("my-kubernetes-cluster")
-                .subnets(Token.asList(vpc.getPublicSubnetsOutput()))
-                .clusterCreateTimeout(logRetention.getNumberValue())
+                .subnetIds(Token.asList(vpc.getPublicSubnetsOutput()))
+                .cloudwatchLogGroupRetentionInDays(logRetention.getNumberValue())
                 .build()
         );
 ```
@@ -98,8 +98,8 @@ export class TokensStack extends TerraformStack {
         Eks(self, "EksModules",
             vpc_id = vpc.vpc_id_output,
             cluster_name = "my-kubernetes-cluster",
-            subnets = Token.as_list(vpc.public_subnets_output),
-            cluster_create_timeout = log_retention.number_value
+            subnetIds = Token.as_list(vpc.public_subnets_output),
+            cloudwatch_log_group_retention_in_days = log_retention.number_value
         )
 ```
 
@@ -111,7 +111,7 @@ export class TokensStack extends TerraformStack {
             // <ItemGroup>
             //     <ProjectReference Include=".gen\eks\eks.csproj" />
             // </ItemGroup>
-            TerraformVariable clusterCreateTimeout = new TerraformVariable(this, "clusterCreateTimeout", new TerraformVariableConfig
+            TerraformVariable cloudwatchLogGroupRetentionInDays = new TerraformVariable(this, "cloudwatchLogGroupRetentionInDays", new TerraformVariableConfig
             {
                 Type = "number"
             });
@@ -125,9 +125,9 @@ export class TokensStack extends TerraformStack {
             new Eks(this, "eks", new EksConfig
             {
                 ClusterName = "my-kubernetes-cluster",
-                Subnets = Token.AsList(vpc.PublicSubnetsOutput),
+                SubnetIds = Token.AsList(vpc.PublicSubnetsOutput),
                 VpcId = vpc.VpcIdOutput,
-                ClusterCreateTimeout = clusterCreateTimeout.NumberValue
+                CloudwatchLogGroupRetentionInDays = cloudwatchLogGroupRetentionInDays.NumberValue
             });
 ```
 
