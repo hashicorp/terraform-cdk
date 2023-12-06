@@ -14,12 +14,12 @@
     {
       "name": "vpc",
       "source": "terraform-aws-modules/vpc/aws",
-      "version": "~> 3.0"
+      "version": "~> 5.2"
     },
     {
       "name": "eks",
       "source": "terraform-aws-modules/eks/aws",
-      "version": "~> 3.0"
+      "version": "~> 19.0"
     },
     {
       "name": "my_local_module",

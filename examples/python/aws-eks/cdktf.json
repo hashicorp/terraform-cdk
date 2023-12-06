@@ -12,12 +12,12 @@
     {
       "name": "vpc",
       "source": "terraform-aws-modules/vpc/aws",
-      "version": "2.77.0"
+      "version": "5.2.0"
     },
     {
       "name": "eks",
       "source": "terraform-aws-modules/eks/aws",
-      "version": "~> 15.0"
+      "version": "~> 19.0"
     }
   ],
   "codeMakerOutput": "imports"
