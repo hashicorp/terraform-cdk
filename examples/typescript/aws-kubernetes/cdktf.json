@@ -6,7 +6,7 @@
     "aws@~> 5.0.0"
   ],
   "terraformModules": [
-    "terraform-aws-modules/vpc/aws@ ~> 5.2",
-    "terraform-aws-modules/eks/aws@ ~> 19.0"
+    "terraform-aws-modules/vpc/aws@ ~> 3.2.0",
+    "terraform-aws-modules/eks/aws@ ~> 17.24.0"
   ]
 }
