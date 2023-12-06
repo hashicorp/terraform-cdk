@@ -21,6 +21,7 @@ describe("cross stack references", () => {
             "constructPath": "origin",
             "workingDirectory": "stacks/origin",
             "synthesizedStackPath": "stacks/origin/cdk.tf.json",
+            "stackMetadataPath": "stacks/origin/metadata.json",
             "annotations": [],
             "dependencies": []
           },
@@ -29,6 +30,7 @@ describe("cross stack references", () => {
             "constructPath": "passthrough",
             "workingDirectory": "stacks/passthrough",
             "synthesizedStackPath": "stacks/passthrough/cdk.tf.json",
+            "stackMetadataPath": "stacks/passthrough/metadata.json",
             "annotations": [],
             "dependencies": [
               "origin"
@@ -39,6 +41,7 @@ describe("cross stack references", () => {
             "constructPath": "sink",
             "workingDirectory": "stacks/sink",
             "synthesizedStackPath": "stacks/sink/cdk.tf.json",
+            "stackMetadataPath": "stacks/sink/metadata.json",
             "annotations": [],
             "dependencies": [
               "origin"
@@ -49,6 +52,7 @@ describe("cross stack references", () => {
             "constructPath": "fns",
             "workingDirectory": "stacks/fns",
             "synthesizedStackPath": "stacks/fns/cdk.tf.json",
+            "stackMetadataPath": "stacks/fns/metadata.json",
             "annotations": [],
             "dependencies": [
               "origin"
@@ -59,6 +63,7 @@ describe("cross stack references", () => {
             "constructPath": "functionOutput",
             "workingDirectory": "stacks/functionOutput",
             "synthesizedStackPath": "stacks/functionOutput/cdk.tf.json",
+            "stackMetadataPath": "stacks/functionOutput/metadata.json",
             "annotations": [],
             "dependencies": [
               "origin"
@@ -69,6 +74,7 @@ describe("cross stack references", () => {
             "constructPath": "pinnedFns",
             "workingDirectory": "stacks/pinnedFns",
             "synthesizedStackPath": "stacks/pinnedFns/cdk.tf.json",
+            "stackMetadataPath": "stacks/pinnedFns/metadata.json",
             "annotations": [],
             "dependencies": [
               "origin"
@@ -79,6 +85,7 @@ describe("cross stack references", () => {
             "constructPath": "functionOutputPinned",
             "workingDirectory": "stacks/functionOutputPinned",
             "synthesizedStackPath": "stacks/functionOutputPinned/cdk.tf.json",
+            "stackMetadataPath": "stacks/functionOutputPinned/metadata.json",
             "annotations": [],
             "dependencies": [
               "pinnedFns"
@@ -89,6 +96,7 @@ describe("cross stack references", () => {
             "constructPath": "secondOrigin",
             "workingDirectory": "stacks/secondOrigin",
             "synthesizedStackPath": "stacks/secondOrigin/cdk.tf.json",
+            "stackMetadataPath": "stacks/secondOrigin/metadata.json",
             "annotations": [],
             "dependencies": []
           },
@@ -97,6 +105,7 @@ describe("cross stack references", () => {
             "constructPath": "switchedStack",
             "workingDirectory": "stacks/switchedStack",
             "synthesizedStackPath": "stacks/switchedStack/cdk.tf.json",
+            "stackMetadataPath": "stacks/switchedStack/metadata.json",
             "annotations": [],
             "dependencies": []
           }
@@ -279,6 +288,7 @@ describe("cross stack references", () => {
               "constructPath": "origin",
               "workingDirectory": "stacks/origin",
               "synthesizedStackPath": "stacks/origin/cdk.tf.json",
+              "stackMetadataPath": "stacks/origin/metadata.json",
               "annotations": [],
               "dependencies": []
             },
@@ -287,6 +297,7 @@ describe("cross stack references", () => {
               "constructPath": "passthrough",
               "workingDirectory": "stacks/passthrough",
               "synthesizedStackPath": "stacks/passthrough/cdk.tf.json",
+              "stackMetadataPath": "stacks/passthrough/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -297,6 +308,7 @@ describe("cross stack references", () => {
               "constructPath": "sink",
               "workingDirectory": "stacks/sink",
               "synthesizedStackPath": "stacks/sink/cdk.tf.json",
+              "stackMetadataPath": "stacks/sink/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -307,6 +319,7 @@ describe("cross stack references", () => {
               "constructPath": "fns",
               "workingDirectory": "stacks/fns",
               "synthesizedStackPath": "stacks/fns/cdk.tf.json",
+              "stackMetadataPath": "stacks/fns/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -317,6 +330,7 @@ describe("cross stack references", () => {
               "constructPath": "functionOutput",
               "workingDirectory": "stacks/functionOutput",
               "synthesizedStackPath": "stacks/functionOutput/cdk.tf.json",
+              "stackMetadataPath": "stacks/functionOutput/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -327,6 +341,7 @@ describe("cross stack references", () => {
               "constructPath": "pinnedFns",
               "workingDirectory": "stacks/pinnedFns",
               "synthesizedStackPath": "stacks/pinnedFns/cdk.tf.json",
+              "stackMetadataPath": "stacks/pinnedFns/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -337,6 +352,7 @@ describe("cross stack references", () => {
               "constructPath": "functionOutputPinned",
               "workingDirectory": "stacks/functionOutputPinned",
               "synthesizedStackPath": "stacks/functionOutputPinned/cdk.tf.json",
+              "stackMetadataPath": "stacks/functionOutputPinned/metadata.json",
               "annotations": [],
               "dependencies": [
                 "pinnedFns"
@@ -347,6 +363,7 @@ describe("cross stack references", () => {
               "constructPath": "secondOrigin",
               "workingDirectory": "stacks/secondOrigin",
               "synthesizedStackPath": "stacks/secondOrigin/cdk.tf.json",
+              "stackMetadataPath": "stacks/secondOrigin/metadata.json",
               "annotations": [],
               "dependencies": []
             },
@@ -355,6 +372,7 @@ describe("cross stack references", () => {
               "constructPath": "switchedStack",
               "workingDirectory": "stacks/switchedStack",
               "synthesizedStackPath": "stacks/switchedStack/cdk.tf.json",
+              "stackMetadataPath": "stacks/switchedStack/metadata.json",
               "annotations": [],
               "dependencies": [
                 "secondOrigin"
@@ -375,6 +393,7 @@ describe("cross stack references", () => {
               "constructPath": "origin",
               "workingDirectory": "stacks/origin",
               "synthesizedStackPath": "stacks/origin/cdk.tf.json",
+              "stackMetadataPath": "stacks/origin/metadata.json",
               "annotations": [],
               "dependencies": []
             },
@@ -383,6 +402,7 @@ describe("cross stack references", () => {
               "constructPath": "passthrough",
               "workingDirectory": "stacks/passthrough",
               "synthesizedStackPath": "stacks/passthrough/cdk.tf.json",
+              "stackMetadataPath": "stacks/passthrough/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -393,6 +413,7 @@ describe("cross stack references", () => {
               "constructPath": "sink",
               "workingDirectory": "stacks/sink",
               "synthesizedStackPath": "stacks/sink/cdk.tf.json",
+              "stackMetadataPath": "stacks/sink/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -403,6 +424,7 @@ describe("cross stack references", () => {
               "constructPath": "fns",
               "workingDirectory": "stacks/fns",
               "synthesizedStackPath": "stacks/fns/cdk.tf.json",
+              "stackMetadataPath": "stacks/fns/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -413,6 +435,7 @@ describe("cross stack references", () => {
               "constructPath": "functionOutput",
               "workingDirectory": "stacks/functionOutput",
               "synthesizedStackPath": "stacks/functionOutput/cdk.tf.json",
+              "stackMetadataPath": "stacks/functionOutput/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -423,6 +446,7 @@ describe("cross stack references", () => {
               "constructPath": "pinnedFns",
               "workingDirectory": "stacks/pinnedFns",
               "synthesizedStackPath": "stacks/pinnedFns/cdk.tf.json",
+              "stackMetadataPath": "stacks/pinnedFns/metadata.json",
               "annotations": [],
               "dependencies": [
                 "origin"
@@ -433,6 +457,7 @@ describe("cross stack references", () => {
               "constructPath": "functionOutputPinned",
               "workingDirectory": "stacks/functionOutputPinned",
               "synthesizedStackPath": "stacks/functionOutputPinned/cdk.tf.json",
+              "stackMetadataPath": "stacks/functionOutputPinned/metadata.json",
               "annotations": [],
               "dependencies": [
                 "pinnedFns"
@@ -443,6 +468,7 @@ describe("cross stack references", () => {
               "constructPath": "secondOrigin",
               "workingDirectory": "stacks/secondOrigin",
               "synthesizedStackPath": "stacks/secondOrigin/cdk.tf.json",
+              "stackMetadataPath": "stacks/secondOrigin/metadata.json",
               "annotations": [],
               "dependencies": []
             },
@@ -451,6 +477,7 @@ describe("cross stack references", () => {
               "constructPath": "switchedStack",
               "workingDirectory": "stacks/switchedStack",
               "synthesizedStackPath": "stacks/switchedStack/cdk.tf.json",
+              "stackMetadataPath": "stacks/switchedStack/metadata.json",
               "annotations": [],
               "dependencies": []
             }
