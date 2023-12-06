@@ -6,6 +6,32 @@ import * as path from "path";
 import { Language, TerraformModuleConstraint } from "@cdktf/commons";
 import { ConstructsMaker } from "../../constructs-maker";
 import { expectModuleToMatchSnapshot } from "../util";
+import { execSync } from "child_process";
+
+const onTf1_6AndNewer = (
+  name: string,
+  fn: () => Promise<void>,
+  timeout?: number
+) => {
+  const output = execSync("terraform version -json");
+
+  if (!output) {
+    throw new Error("Could not determine Terraform version");
+  }
+
+  const tfVersion = JSON.parse(output.toString()).terraform_version;
+
+  const [major, minor] = tfVersion.toString().split(".");
+  if (Number(major) < 1 || (Number(major) === 1 && Number(minor) < 6)) {
+    test.skip(
+      `${name} (requires Terraform >= 1.6.0; but is ${tfVersion})`,
+      fn,
+      timeout
+    );
+  } else {
+    test(name, fn, timeout);
+  }
+};
 
 test("generate some modules", async () => {
   const workdir = fs.mkdtempSync(
@@ -116,28 +142,32 @@ expectModuleToMatchSnapshot(
   ["module-with-star-default.test.fixture.tf"]
 );
 
-test("generate module that can't be initialized", async () => {
-  jest.setTimeout(120000);
+onTf1_6AndNewer(
+  "generate module that can't be initialized",
+  async () => {
+    jest.setTimeout(120000);
 
-  const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "module-generator.test-no-init")
-  );
-  const constraint = new TerraformModuleConstraint(
-    "milliHQ/next-js/aws@1.0.0-canary.5"
-  );
+    const workdir = fs.mkdtempSync(
+      path.join(os.tmpdir(), "module-generator.test-no-init")
+    );
+    const constraint = new TerraformModuleConstraint(
+      "milliHQ/next-js/aws@1.0.0-canary.5"
+    );
 
-  const maker = new ConstructsMaker(
-    {
-      codeMakerOutput: workdir,
-      targetLanguage: Language.TYPESCRIPT,
-    },
-    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
-  );
-  await maker.generate([constraint]);
+    const maker = new ConstructsMaker(
+      {
+        codeMakerOutput: workdir,
+        targetLanguage: Language.TYPESCRIPT,
+      },
+      process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+    );
+    await maker.generate([constraint]);
 
-  const output = fs.readFileSync(
-    path.join(workdir, "modules/milliHQ/aws/next-js.ts"),
-    "utf-8"
-  );
-  expect(output).toMatchSnapshot();
-}, 120000);
+    const output = fs.readFileSync(
+      path.join(workdir, "modules/milliHQ/aws/next-js.ts"),
+      "utf-8"
+    );
+    expect(output).toMatchSnapshot();
+  },
+  120000
+);
