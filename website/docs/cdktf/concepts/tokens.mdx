@@ -98,7 +98,7 @@ export class TokensStack extends TerraformStack {
         Eks(self, "EksModules",
             vpc_id = vpc.vpc_id_output,
             cluster_name = "my-kubernetes-cluster",
-            subnetIds = Token.as_list(vpc.public_subnets_output),
+            subnet_ids = Token.as_list(vpc.public_subnets_output),
             cloudwatch_log_group_retention_in_days = log_retention.number_value
         )
 ```
