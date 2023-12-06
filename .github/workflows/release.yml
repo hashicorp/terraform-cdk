@@ -136,7 +136,7 @@ jobs:
             "@cdktf/commons",
             "@cdktf/cli-core",
           ]
-        terraform_version: ["1.5.5", "1.4.6"]
+        terraform_version: ["1.6.5", "1.5.5"]
     with:
       concurrency_group_prefix: release
       package: ${{ matrix.package }}
