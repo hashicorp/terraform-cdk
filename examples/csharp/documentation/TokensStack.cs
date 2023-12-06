@@ -32,7 +32,7 @@ namespace Examples
             // <ItemGroup>
             //     <ProjectReference Include=".gen\eks\eks.csproj" />
             // </ItemGroup>
-            TerraformVariable clusterCreateTimeout = new TerraformVariable(this, "clusterCreateTimeout", new TerraformVariableConfig
+            TerraformVariable cloudwatchLogGroupRetentionInDays = new TerraformVariable(this, "cloudwatchLogGroupRetentionInDays", new TerraformVariableConfig
             {
                 Type = "number"
             });
@@ -46,9 +46,9 @@ namespace Examples
             new Eks(this, "eks", new EksConfig
             {
                 ClusterName = "my-kubernetes-cluster",
-                Subnets = Token.AsList(vpc.PublicSubnetsOutput),
+                SubnetIds = Token.AsList(vpc.PublicSubnetsOutput),
                 VpcId = vpc.VpcIdOutput,
-                ClusterCreateTimeout = clusterCreateTimeout.NumberValue
+                CloudwatchLogGroupRetentionInDays = cloudwatchLogGroupRetentionInDays.NumberValue
             });
             // DOCS_BLOCK_END:tokens
         }
