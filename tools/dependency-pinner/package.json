@@ -1,0 +1,16 @@
+{
+    "name": "@tools/dependency-pinner",
+    "version": "0.0.0",
+    "scripts": {
+        "start": "ts-node ./pin-dependencies.ts"
+    },
+    "devDependencies": {
+        "@types/yarnpkg__lockfile": "^1.1.9",
+        "ts-node": "^10.9.1"
+    },
+    "dependencies": {
+        "@yarnpkg/lockfile": "^1.1.0",
+        "execa": "^5.1.1",
+        "glob": "^8.0.3"
+    }
+}
