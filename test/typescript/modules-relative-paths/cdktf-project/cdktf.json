@@ -1,0 +1,16 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node main.ts",
+  "terraformProviders": [],
+  "terraformModules": [
+    {
+      "name": "constants",
+      "source": "../terraform-modules/constants"
+    },
+    {
+      "name": "register",
+      "source": "../terraform-modules/register"
+    }
+  ],
+  "context": {}
+}
