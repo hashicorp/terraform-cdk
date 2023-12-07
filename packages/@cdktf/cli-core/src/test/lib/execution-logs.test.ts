@@ -58,4 +58,62 @@ describe("enhanceLogs", () => {
       `"This is a message where some_thing.different (ThisConstruct) is used"`
     );
   });
+  it("properly matches to the resource when names overlap", () => {
+    expect(
+      createEnhanceLogMessage({
+        name: "demo",
+        content: JSON.stringify({
+          "//": {
+            metadata: {
+              backend: "local",
+              stackName: "demo",
+              version: "0.0.0",
+            },
+            outputs: {},
+          },
+          provider: {
+            null: [{}],
+          },
+          resource: {
+            null_resource: {
+              null_resource: {
+                "//": {
+                  metadata: {
+                    path: "demo/null_resource",
+                    uniqueId: "null_resource",
+                  },
+                },
+              },
+              null_resource2: {
+                "//": {
+                  metadata: {
+                    path: "demo/null_resource2",
+                    uniqueId: "null_resource2",
+                  },
+                },
+              },
+            },
+          },
+          terraform: {
+            backend: {
+              local: {
+                path: "path",
+              },
+            },
+            required_providers: {
+              null: {
+                source: "hashicorp/null",
+                version: "3.2.2",
+              },
+            },
+          },
+        }),
+      } as SynthesizedStack)(
+        "This is a message where null_resource.null_resource is used \n This is a message where null_resource.null_resource2 is used"
+      )
+    ).toMatchInlineSnapshot(`
+    "This is a message where null_resource.null_resource (null_resource) is used 
+     This is a message where null_resource.null_resource2 (null_resource2) is used"
+  `);
+  });
 });
