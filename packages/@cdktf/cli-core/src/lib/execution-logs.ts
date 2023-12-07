@@ -20,6 +20,14 @@ type TFJson = {
   resource: TfResourceType;
 };
 
+// escapes any special charaters used in regex
+const escapeRegexSpecialChars = (str: string) =>
+  str.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+
+// uses word boundary to match the whole of the tfIdentifer
+const lineHasExactMatch = (line: string, tfIdentifier: string) =>
+  new RegExp(`\\b${escapeRegexSpecialChars(tfIdentifier)}\\b`).test(line);
+
 export function createEnhanceLogMessage(
   stack: SynthesizedStack
 ): (message: string) => string | undefined {
@@ -57,7 +65,7 @@ export function createEnhanceLogMessage(
       .split("\n")
       .map((line) => {
         const matchingEntry = Object.entries(pathMapping).find(
-          ([tfIdentifier]) => line.includes(tfIdentifier)
+          ([tfIdentifier]) => lineHasExactMatch(line, tfIdentifier)
         );
         if (!matchingEntry) {
           return line;
