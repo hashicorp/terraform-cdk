@@ -12,7 +12,12 @@ import {
 import { TerraformProvider } from "./terraform-provider";
 import { ImportableResource } from "./importable-resource";
 import { AnyMap } from "./complex-computed-list";
-import { anyToTerraform, hashMapper } from "./runtime";
+import {
+  anyToTerraform,
+  hashMapper,
+  hashMapperHcl,
+  anyToHclTerraform,
+} from "./runtime";
 
 export interface DataConfig extends TerraformMetaArguments {
   /**
@@ -167,6 +172,13 @@ export class DataResource extends TerraformResource {
     return {
       input: hashMapper(anyToTerraform)(this._input),
       triggers_replace: hashMapper(anyToTerraform)(this._triggersReplace),
+    };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return {
+      input: hashMapperHcl(anyToHclTerraform)(this._input),
+      triggers_replace: hashMapperHcl(anyToHclTerraform)(this._triggersReplace),
     };
   }
 }

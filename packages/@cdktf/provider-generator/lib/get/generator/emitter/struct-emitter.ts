@@ -73,6 +73,7 @@ export class StructEmitter {
 
     if (!(struct instanceof ConfigStruct)) {
       this.emitToTerraformFunction(struct);
+      this.emitToHclTerraformFunction(struct);
     }
   }
 
@@ -606,6 +607,33 @@ export class StructEmitter {
     }
     this.code.closeBlock();
     this.code.closeBlock();
+  }
+
+  private emitToHclTerraformFunction(struct: Struct) {
+    this.code.line();
+    this.code.openBlock(
+      `export function ${downcaseFirst(struct.name)}ToHclTerraform(struct?: ${
+        struct.isSingleItem && !struct.isProvider
+          ? `${struct.name}OutputReference | `
+          : ""
+      }${struct.name}${!struct.isClass ? " | cdktf.IResolvable" : ""}): any`
+    );
+    this.code.line(
+      `if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }`
+    );
+    this.code.openBlock(`if (cdktf.isComplexElement(struct))`);
+    this.code.line(
+      `throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");`
+    );
+    this.code.closeBlock();
+
+    this.code.openBlock("return");
+    for (const att of struct.assignableAttributes) {
+      this.attributesEmitter.emitToTerraform(att, true);
+    }
+    this.code.closeBlock(";");
+    this.code.closeBlock();
+    this.code.line();
   }
 
   private emitToTerraformFunction(struct: Struct) {
