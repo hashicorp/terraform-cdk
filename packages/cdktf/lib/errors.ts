@@ -58,9 +58,10 @@ export const dynamicBlockNotSupported = (_foreachExpression: string) =>
     `Tried to directly resolve a TerraformDynamicBlock which is not supported.
 The TerraformDynamicBlock is created by calling '.dynamic' on a TerraformIterator instance.
 Dynamic blocks are only supported on block attributes of resources, data sources and providers.
-The expression used for the dynamic block: '${`.dynamic({
 
-})`}'
+The expression used for the dynamic block: .dynamic({
+  ${_foreachExpression}
+})
 `
   );
 
