@@ -342,6 +342,40 @@ function getPureMetadata(jsonTf: any): any {
 /**
  *
  */
+function terraformToHcl(terraform: any): string[] {
+  if (!terraform) {
+    return [];
+  }
+
+  const terraformNames = Object.keys(terraform);
+
+  if (terraformNames.length === 0) {
+    return [];
+  }
+
+  let hcl: string[] = [];
+
+  for (const terraformName of terraformNames) {
+    const terraformBlock = terraform[terraformName];
+    hcl = hcl.concat([
+      `terraform {`,
+      ...Object.entries(terraformBlock).map(([name, value]) => {
+        if (["required_providers", "backend"].includes(name)) {
+          return `${name} ${jsonExpressionToHcl(value as string)}`;
+        }
+        return `  ${name} = ${jsonExpressionToHcl(value as string)}`;
+      }),
+      "}",
+      "",
+    ]);
+  }
+
+  return hcl.flat(0);
+}
+
+/**
+ *
+ */
 export function jsonToHcl(jsonTf: any): Record<string, any> {
   const { locals, provider } = jsonTf;
 
@@ -374,14 +408,7 @@ export function jsonToHcl(jsonTf: any): Record<string, any> {
   }
 
   if (jsonTf.terraform) {
-    hcl = hcl.concat([
-      "terraform {",
-      ...Object.entries(jsonTf.terraform).map(
-        ([name, value]) => `  ${name} = ${jsonExpressionToHcl(value as string)}`
-      ),
-      "}",
-      "",
-    ]);
+    hcl = hcl.concat(terraformToHcl(jsonTf.terraform));
   }
 
   if (jsonTf.output) {
