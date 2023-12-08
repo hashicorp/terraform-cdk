@@ -7,8 +7,8 @@
 // https://github.com/ts-terraform/ts-terraform
 // https://github.com/aaronpowell/webpack-golang-wasm-async-loader
 
-import fs from "fs-extra";
-import path from "path";
+import * as fs from "fs-extra";
+import * as path from "path";
 import { deepMerge } from "./deepmerge";
 import { gunzipSync } from "zlib";
 import { Reference, findAllReferencesInAst } from "./references";
