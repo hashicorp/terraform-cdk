@@ -13,7 +13,7 @@ const onTf1_6AndNewer = (
   fn: () => Promise<void>,
   timeout?: number
 ) => {
-  const output = execSync("terraform version -json");
+  const output = execSync("$TERRAFORM_BINARY_NAME version -json");
 
   if (!output) {
     throw new Error("Could not determine Terraform version");
