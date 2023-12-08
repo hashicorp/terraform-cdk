@@ -44,6 +44,10 @@ export class Struct {
     return `${downcaseFirst(this.name)}ToTerraform`;
   }
 
+  public get hclMapperName(): string {
+    return `${downcaseFirst(this.name)}ToHclTerraform`;
+  }
+
   public get outputReferenceName(): string {
     return `${this.name}OutputReference`;
   }
