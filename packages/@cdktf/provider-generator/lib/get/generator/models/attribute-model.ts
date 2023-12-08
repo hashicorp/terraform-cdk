@@ -173,6 +173,7 @@ export class AttributeModel {
     if (this.isAssignable) {
       types.push(attTypeStruct.name);
       types.push(attTypeStruct.mapperName);
+      types.push(attTypeStruct.hclMapperName);
     }
 
     if (

@@ -629,7 +629,7 @@ export class StructEmitter {
 
     this.code.openBlock("return");
     for (const att of struct.assignableAttributes) {
-      this.attributesEmitter.emitToTerraform(att, true);
+      this.attributesEmitter.emitToHclTerraform(att, true);
     }
     this.code.closeBlock(";");
     this.code.closeBlock();
