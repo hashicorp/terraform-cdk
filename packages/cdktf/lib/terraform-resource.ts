@@ -4,7 +4,12 @@ import { Construct } from "constructs";
 import { Token } from "./tokens";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
-import { keysToSnakeCase, deepMerge, processDynamicAttributes } from "./util";
+import {
+  keysToSnakeCase,
+  deepMerge,
+  processDynamicAttributes,
+  processDynamicAttributesForHcl,
+} from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { ref, dependable } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
@@ -235,6 +240,9 @@ export class TerraformResource
   protected synthesizeAttributes(): { [name: string]: any } {
     return {};
   }
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return {};
+  }
 
   /**
    * Adds this resource to the terraform JSON output.
@@ -246,6 +254,57 @@ export class TerraformResource
       {
         provisioner: this.provisioners?.map(({ type, ...props }) => ({
           [type]: keysToSnakeCase(props),
+        })),
+      },
+      this.rawOverrides
+    );
+
+    attributes["//"] = {
+      ...(attributes["//"] ?? {}),
+      ...this.constructNodeMetadata,
+    };
+
+    const movedBlock = this._buildMovedBlock();
+    return {
+      resource: this._hasMoved
+        ? undefined
+        : {
+            [this.terraformResourceType]: {
+              [this.friendlyUniqueId]: attributes,
+            },
+          },
+      moved: movedBlock
+        ? [
+            {
+              to: movedBlock.to,
+              from: movedBlock.from,
+            },
+          ]
+        : undefined,
+      import: this._imported
+        ? [
+            {
+              provider: this._imported.provider?.fqn,
+              id: this._imported.id,
+              to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+            },
+          ]
+        : undefined,
+    };
+  }
+
+  public toHclTerraform(): any {
+    const attributes = deepMerge(
+      processDynamicAttributesForHcl(this.synthesizeHclAttributes()),
+      keysToSnakeCase(this.terraformMetaArguments),
+      {
+        provisioner: this.provisioners?.map(({ type, ...props }) => ({
+          [type]: {
+            isBlock: true,
+            type: "provisioner",
+            storageClassType: "any",
+            value: keysToSnakeCase(props),
+          },
         })),
       },
       this.rawOverrides

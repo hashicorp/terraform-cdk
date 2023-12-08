@@ -115,6 +115,39 @@ export function keysToSnakeCase(object: any): any {
  * It also invokes the .toTerraform() method on the dynamic attribute to get the correct
  * Terraform representation
  */
+export function processDynamicAttributesForHcl(attributes: {
+  [name: string]: any;
+}): {
+  [name: string]: any;
+} {
+  const result: { [name: string]: any; dynamic?: { [name: string]: any } } = {};
+  Object.entries(attributes).forEach(([attributeName, value]) => {
+    if (!value?.value) return;
+
+    if (TerraformDynamicBlock.isTerraformDynamicBlock(value.value)) {
+      if (!result.dynamic) {
+        result.dynamic = {};
+      }
+      result.dynamic[attributeName] = value.toTerraformDynamicBlockJson();
+    } else {
+      const recurse =
+        value !== null &&
+        typeof value === "object" &&
+        value.constructor === Object; // only descend into plain objects
+      result[attributeName] = recurse
+        ? processDynamicAttributes(value.value)
+        : value;
+    }
+  });
+  return result;
+}
+
+/**
+ * dynamic attributes are located at a different position than normal block attributes
+ * This method detects them and moves them from .attributeName to .dynamic.attributeName
+ * It also invokes the .toTerraform() method on the dynamic attribute to get the correct
+ * Terraform representation
+ */
 export function processDynamicAttributes(attributes: { [name: string]: any }): {
   [name: string]: any;
 } {

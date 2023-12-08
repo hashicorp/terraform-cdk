@@ -203,6 +203,56 @@ export class TerraformStack extends Construct {
     return backends[0] || new LocalBackend(this, {});
   }
 
+  public toHclTerraform(): any {
+    const tf = {};
+
+    const metadata: TerraformStackMetadata = {
+      version: this.cdktfVersion,
+      stackName: this.node.id,
+      backend: "local", // overwritten by backend implementations if used
+      cloud: undefined, // overwritten by cloud and remote backend implementations
+      ...(Object.keys(this.rawOverrides).length > 0
+        ? { overrides: { stack: Object.keys(this.rawOverrides) } }
+        : {}),
+    };
+
+    const elements = terraformElements(this);
+
+    const metadatas = elements.map((e) => resolve(this, e.toMetadata()));
+    for (const meta of metadatas) {
+      deepMerge(metadata, meta);
+    }
+
+    const outputs: OutputIdMap = elements.reduce((carry, item) => {
+      if (!TerraformOutput.isTerraformOutput(item)) {
+        return carry;
+      }
+
+      deepMerge(
+        carry,
+        item.node.path.split("/").reduceRight((innerCarry, part) => {
+          if (Object.keys(innerCarry).length === 0) {
+            return { [part]: item.friendlyUniqueId };
+          }
+          return { [part]: innerCarry };
+        }, {})
+      );
+
+      return carry;
+    }, {});
+
+    (tf as any)["//"] = { metadata, outputs };
+
+    const fragments = elements.map((e) => resolve(this, e.toHclTerraform()));
+    for (const fragment of fragments) {
+      deepMerge(tf, fragment);
+    }
+
+    deepMerge(tf, this.rawOverrides);
+
+    return resolve(this, tf);
+  }
+
   public toTerraform(): any {
     const tf = {};
 

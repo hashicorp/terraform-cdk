@@ -11,7 +11,12 @@ import {
   ITerraformResource,
   lifecycleToTerraform,
 } from "./terraform-resource";
-import { keysToSnakeCase, deepMerge, processDynamicAttributes } from "./util";
+import {
+  keysToSnakeCase,
+  deepMerge,
+  processDynamicAttributes,
+  processDynamicAttributesForHcl,
+} from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { ref, dependable } from "./tfExpression";
 import { IInterpolatingParent } from "./terraform-addressable";
@@ -124,6 +129,31 @@ export class TerraformDataSource
   // jsii can't handle abstract classes?
   protected synthesizeAttributes(): { [name: string]: any } {
     return {};
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return {};
+  }
+
+  /**
+   * Adds this resource to the terraform JSON output.
+   */
+  public toHclTerraform(): any {
+    const attributes = deepMerge(
+      processDynamicAttributesForHcl(this.synthesizeHclAttributes()),
+      keysToSnakeCase(this.terraformMetaArguments),
+      this.rawOverrides
+    );
+
+    attributes["//"] = this.constructNodeMetadata;
+
+    return {
+      data: {
+        [this.terraformResourceType]: {
+          [this.friendlyUniqueId]: attributes,
+        },
+      },
+    };
   }
 
   /**
