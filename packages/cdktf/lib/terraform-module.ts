@@ -95,6 +95,38 @@ export abstract class TerraformModule
     this.validateIfProvidersHaveUniqueKeys();
   }
 
+  public toHclTerraform(): any {
+    const attributes = deepMerge(
+      {
+        ...this.synthesizeAttributes(),
+        source: this.source,
+        version: this.version,
+        providers: this._providers?.reduce((a, p) => {
+          if (TerraformProvider.isTerraformProvider(p)) {
+            return { ...a, [p.terraformResourceType]: p.fqn };
+          } else {
+            return {
+              ...a,
+              [`${p.provider.terraformResourceType}.${p.moduleAlias}`]:
+                p.provider.fqn,
+            };
+          }
+        }, {}),
+        depends_on: this.dependsOn,
+        for_each: this.forEach?._getForEachExpression(),
+      },
+      this.rawOverrides
+    );
+
+    attributes["//"] = this.constructNodeMetadata;
+
+    return {
+      module: {
+        [this.friendlyUniqueId]: attributes,
+      },
+    };
+  }
+
   public toTerraform(): any {
     const attributes = deepMerge(
       {
