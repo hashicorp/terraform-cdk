@@ -11,6 +11,7 @@ export interface AttributeTypeModel {
   readonly inputTypeDefinition: string; // this is the type used for inputting values
   getAttributeAccessFunction(name: string): string; // this is for getting reference for simple types
   readonly toTerraformFunction: string; // this is for converting input values to Terraform syntax
+  readonly toHclTerraformFunction: string; // this is for converting input values to Terraform syntax in HCL
   readonly typeModelType: string; // so we don't need to use instanceof
   readonly hasReferenceClass: boolean; // used to determine if a stored_class getter should be used
   readonly isTokenizable: boolean; // can the type be represented by a token type
@@ -50,6 +51,10 @@ export class SkippedAttributeTypeModel implements AttributeTypeModel {
 
   get toTerraformFunction() {
     return `cdktf.anyToTerraform`;
+  }
+
+  get toHclTerraformFunction() {
+    return `cdktf.anyToHclTerraform`;
   }
 
   get hasReferenceClass() {
@@ -101,6 +106,10 @@ export class SimpleAttributeTypeModel implements AttributeTypeModel {
     return `cdktf.${this.type}ToTerraform`;
   }
 
+  get toHclTerraformFunction() {
+    return `cdktf.${this.type}ToHclTerraform`;
+  }
+
   get hasReferenceClass() {
     return false;
   }
@@ -140,6 +149,10 @@ export class StructAttributeTypeModel implements AttributeTypeModel {
 
   get toTerraformFunction() {
     return `${downcaseFirst(this.struct.name)}ToTerraform`;
+  }
+
+  get toHclTerraformFunction() {
+    return `${downcaseFirst(this.struct.name)}ToHclTerraform`;
   }
 
   get hasReferenceClass() {
@@ -224,9 +237,16 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
   get toTerraformFunction() {
     if (this.isSingleItem) {
       return this.elementType.toTerraformFunction;
-    } else {
-      return `cdktf.listMapper(${this.elementType.toTerraformFunction}, ${this.isBlock})`;
     }
+    return `cdktf.listMapper(${this.elementType.toTerraformFunction}, ${this.isBlock})`;
+  }
+
+  get toHclTerraformFunction() {
+    if (this.isSingleItem) {
+      return this.elementType.toHclTerraformFunction;
+    }
+
+    return `cdktf.listMapperHcl(${this.elementType.toHclTerraformFunction}, ${this.isBlock})`;
   }
 
   get hasReferenceClass() {
@@ -324,6 +344,13 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
     }
   }
 
+  get toHclTerraformFunction() {
+    if (this.isSingleItem) {
+      return this.elementType.toHclTerraformFunction;
+    }
+    return `cdktf.listMapperHcl(${this.elementType.toHclTerraformFunction}, ${this.isBlock})`;
+  }
+
   get hasReferenceClass() {
     return this.isSingleItem || this.isComplex;
   }
@@ -394,6 +421,10 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
 
   get toTerraformFunction() {
     return `cdktf.hashMapper(${this.elementType.toTerraformFunction})`;
+  }
+
+  get toHclTerraformFunction() {
+    return `cdktf.hashMapperHcl(${this.elementType.toHclTerraformFunction})`;
   }
 
   get hasReferenceClass() {

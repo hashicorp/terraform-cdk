@@ -38,6 +38,7 @@ export class ResourceEmitter {
     // synthesis
     this.emitHeader("SYNTHESIS");
     this.emitResourceSynthesis(resource);
+    this.emitHclResourceSynthesis(resource);
 
     this.code.closeBlock(); // construct
   }
@@ -76,6 +77,21 @@ export class ResourceEmitter {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "${resource.terraformResourceType}", importId: importFromId, provider });
       }`
     );
+  }
+
+  private emitHclResourceSynthesis(resource: ResourceModel) {
+    this.code.line();
+    this.code.openBlock(
+      `protected synthesizeHclAttributes(): { [name: string]: any }`
+    );
+    this.code.open(`return {`);
+
+    for (const att of resource.synthesizableAttributes) {
+      this.attributesEmitter.emitToHclTerraform(att, false);
+    }
+
+    this.code.close(`};`);
+    this.code.closeBlock();
   }
 
   private emitResourceSynthesis(resource: ResourceModel) {
