@@ -187,9 +187,16 @@ export class AttributesEmitter {
         ? `${varReference} === undefined ? ${customDefault} : `
         : "";
 
-    this.code.line(
-      `${att.terraformName}: ${defaultCheck}${type.toHclTerraformFunction}(${varReference}),`
-    );
+    const value = `${defaultCheck}${type.toHclTerraformFunction}(${varReference})`;
+    const isBlock = att.type.isComplex && !att.isProvider;
+    const tt = att.type.typeModelType;
+
+    this.code.open(`${att.terraformName}: {`);
+    this.code.line(`value: ${value},`);
+    this.code.line(`isBlock: ${isBlock},`);
+    this.code.line(`type: "${tt}",`);
+    this.code.line(`storageClassType: "${att.type.storedClassType}",`);
+    this.code.close("},");
   }
 
   public emitToTerraform(att: AttributeModel, isStruct: boolean) {
