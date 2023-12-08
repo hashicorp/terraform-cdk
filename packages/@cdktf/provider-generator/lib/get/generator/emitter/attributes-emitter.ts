@@ -168,6 +168,30 @@ export class AttributesEmitter {
     }
   }
 
+  public emitToHclTerraform(att: AttributeModel, isStruct: boolean) {
+    const type = att.type;
+    const context = isStruct ? "struct!" : "this";
+    const name = isStruct ? att.name : att.storageName;
+    const customDefault = CUSTOM_DEFAULTS[att.terraformFullName];
+
+    const varReference = `${context}.${name}${
+      !isStruct &&
+      type.isComplex &&
+      !att.isProvider &&
+      (type.struct?.isClass || att.getterType._type === "stored_class")
+        ? ".internalValue"
+        : ""
+    }`;
+    const defaultCheck =
+      customDefault !== undefined
+        ? `${varReference} === undefined ? ${customDefault} : `
+        : "";
+
+    this.code.line(
+      `${att.terraformName}: ${defaultCheck}${type.toHclTerraformFunction}(${varReference}),`
+    );
+  }
+
   public emitToTerraform(att: AttributeModel, isStruct: boolean) {
     const type = att.type;
     const context = isStruct ? "struct!" : "this";
