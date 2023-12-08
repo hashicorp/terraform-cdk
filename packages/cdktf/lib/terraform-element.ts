@@ -56,6 +56,10 @@ export class TerraformElement extends Construct {
     return {};
   }
 
+  public toHclTerraform(): any {
+    return {};
+  }
+
   public toMetadata(): any {
     return {};
   }

@@ -66,6 +66,27 @@ export abstract class TerraformRemoteState
   /**
    * Adds this resource to the terraform JSON output.
    */
+  public toHclTerraform(): any {
+    return {
+      data: {
+        terraform_remote_state: {
+          [this.friendlyUniqueId]: deepMerge(
+            {
+              backend: this.backend,
+              workspace: this.config.workspace,
+              defaults: this.config.defaults,
+              config: this.extractConfig(),
+            },
+            this.rawOverrides
+          ),
+        },
+      },
+    };
+  }
+
+  /**
+   * Adds this resource to the terraform JSON output.
+   */
   public toTerraform(): any {
     return {
       data: {
