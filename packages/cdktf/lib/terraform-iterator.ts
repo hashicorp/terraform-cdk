@@ -360,7 +360,8 @@ export abstract class TerraformIterator implements ITerraformIterator {
    *
    * As this returns an IResolvable you might need to wrap the output in
    * a Token, e.g. `Token.asString`.
-   * @param expression The expression to use in the for mapping
+   * @param keyExpression The expression to use as key in the for mapping
+   * @param valueExpression The expression to use as value in the for mapping
    */
   public forExpressionForMap(
     keyExpression: string | IResolvable,
