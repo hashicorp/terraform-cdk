@@ -84,13 +84,19 @@ export class ResourceEmitter {
     this.code.openBlock(
       `protected synthesizeHclAttributes(): { [name: string]: any }`
     );
-    this.code.open(`return {`);
+    this.code.open(`const attrs = {`);
 
     for (const att of resource.synthesizableAttributes) {
       this.attributesEmitter.emitToHclTerraform(att, false);
     }
 
     this.code.close(`};`);
+
+    this.code.line();
+    this.code.line(`// remove undefined attributes`);
+    this.code.line(
+      `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!value?.value))`
+    );
     this.code.closeBlock();
   }
 

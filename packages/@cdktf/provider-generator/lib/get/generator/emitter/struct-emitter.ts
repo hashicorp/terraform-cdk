@@ -627,11 +627,20 @@ export class StructEmitter {
     );
     this.code.closeBlock();
 
-    this.code.openBlock("return");
+    this.code.open(`const attrs = {`);
+
     for (const att of struct.assignableAttributes) {
       this.attributesEmitter.emitToHclTerraform(att, true);
     }
-    this.code.closeBlock(";");
+
+    this.code.close(`};`);
+
+    this.code.line();
+    this.code.line(`// remove undefined attributes`);
+    this.code.line(
+      `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!value?.value))`
+    );
+
     this.code.closeBlock();
     this.code.line();
   }
