@@ -73,6 +73,7 @@ const nativeNodeModulesPlugin = {
       "jsii",
       "jsii-pacmak",
       "@cdktf/hcl2json",
+      "@cdktf/hcl-tools",
       "yargs",
       "cdktf",
       "@cdktf/hcl2cdk",

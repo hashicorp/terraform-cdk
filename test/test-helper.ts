@@ -184,6 +184,17 @@ export class TestDriver {
   };
 
   synthesizedStack = (stackName: string) => {
+    if (
+      fs.existsSync(path.join(this.stackDirectory(stackName), "manifest.json"))
+    ) {
+      return new QueryableStack(
+        fs.readFileSync(
+          path.join(this.stackDirectory(stackName), "manifest.json"),
+          "utf-8"
+        )
+      );
+    }
+
     return new QueryableStack(
       fs.readFileSync(
         path.join(this.stackDirectory(stackName), "cdk.tf.json"),

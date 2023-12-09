@@ -20,6 +20,7 @@ export const getTerraformVersion = async (): Promise<string | null> => {
       constructPath: "",
       content: "",
       synthesizedStackPath: "",
+      stackMetadataPath: "",
       annotations: [],
       dependencies: [],
     };

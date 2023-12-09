@@ -7,6 +7,7 @@ import indentString from "indent-string";
 import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
 import { performance } from "perf_hooks";
 import { logger, readConfigSync, sendTelemetry, shell } from "@cdktf/commons";
+import { format } from "@cdktf/hcl-tools";
 
 const chalkColour = new chalk.Instance();
 
@@ -71,7 +72,8 @@ export class SynthStack {
     workingDirectory = process.cwd(),
     graceful = false, // will not exit the process but rethrow the error instead
     noColor = false,
-    synthOrigin?: SynthOrigin
+    synthOrigin?: SynthOrigin,
+    hcl = false
   ): Promise<SynthesizedStack[]> {
     // start performance timer
     const startTime = performance.now();
@@ -118,6 +120,7 @@ might fail while synthesizing with an out of memory error.`);
           ...env,
           CDKTF_OUTDIR: outdir,
           CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS: "true", // we want to display the errors ourselves
+          SYNTH_HCL_OUTPUT: hcl.toString(),
         },
         cwd: workingDirectory,
         signal: abortSignal,
@@ -155,6 +158,11 @@ Command output on stdout:
       process.exit(1);
     }
 
+    // Apply formatting to HCL files if hcl output was selected
+    if (hcl) {
+      SynthStack.formatHclFiles(outdir);
+    }
+
     // end performance timer
     const endTime = performance.now();
 
@@ -188,6 +196,28 @@ Command output on stdout:
     return stacks;
   }
 
+  public static async formatHclFiles(outDir: string) {
+    const manifestPath = path.join(outDir, Manifest.fileName);
+    if (!(await fs.pathExists(manifestPath))) {
+      throw new Error(
+        `Could not find manifest file at ${manifestPath}. In case --skip-synth was passed, please try again without the flag.`
+      );
+    }
+
+    const manifest = JSON.parse(
+      fs.readFileSync(manifestPath).toString()
+    ) as ManifestJson;
+
+    for (const stackName in manifest.stacks) {
+      const stack = manifest.stacks[stackName];
+      const filePath = path.join(outDir, stack.synthesizedStackPath);
+
+      const hclContent = fs.readFileSync(filePath).toString();
+      const formattedHcl = await format(hclContent);
+      fs.writeFileSync(filePath, formattedHcl);
+    }
+  }
+
   public static async readSynthesizedStacks(
     outdir: string
   ): Promise<SynthesizedStack[]> {
@@ -206,9 +236,14 @@ Command output on stdout:
     for (const stackName in manifest.stacks) {
       const stack = manifest.stacks[stackName];
       const filePath = path.join(outdir, stack.synthesizedStackPath);
-      const jsonContent: SynthesizedStackMetadata = JSON.parse(
-        fs.readFileSync(filePath).toString()
-      );
+      let jsonContent: SynthesizedStackMetadata = {};
+      if (filePath.endsWith(".tf.json")) {
+        jsonContent = JSON.parse(fs.readFileSync(filePath).toString());
+      } else {
+        const metadataPath = path.join(outdir, stack.stackMetadataPath!);
+        jsonContent = JSON.parse(fs.readFileSync(metadataPath).toString());
+      }
+
       stacks.push({
         ...stack,
         workingDirectory: path.join(outdir, stack.workingDirectory),

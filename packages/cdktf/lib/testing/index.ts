@@ -133,10 +133,24 @@ export class Testing {
     return stringify(cleaned, { space: 2 });
   }
 
+  /**
+   * Returns the Terraform synthesized JSON.
+   */
+  public static synthHcl(stack: TerraformStack, runValidations = false) {
+    invokeAspects(stack);
+    if (runValidations) {
+      stack.runAllValidations();
+    }
+
+    const tfConfig = stack.toHclTerraform();
+
+    return tfConfig.hcl;
+  }
+
   public static fullSynth(stack: TerraformStack): string {
     const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
 
-    const manifest = new Manifest("stubbed", outdir);
+    const manifest = new Manifest("stubbed", outdir, false);
 
     stack.synthesizer.synthesize({
       outdir,

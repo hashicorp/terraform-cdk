@@ -11,8 +11,6 @@ import { Aspects, IAspect } from "../aspect";
 import { StackAnnotation } from "../manifest";
 import { ValidateTerraformVersion } from "../validations/validate-terraform-version";
 
-const hclOutput = process.env.SYNTH_HCL_OUTPUT;
-
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class StackSynthesizer implements IStackSynthesizer {
   /**
@@ -23,7 +21,8 @@ export class StackSynthesizer implements IStackSynthesizer {
    */
   constructor(
     protected stack: TerraformStack,
-    private continueOnErrorAnnotations = false
+    private continueOnErrorAnnotations = false,
+    private hclOutput = false
   ) {}
 
   synthesize(session: ISynthesisSession) {
@@ -89,20 +88,28 @@ export class StackSynthesizer implements IStackSynthesizer {
       );
     }
 
-    if (hclOutput) {
+    if (this.hclOutput) {
+      // This is async code, because the `jsonToHcl` function makes a call to the
+      // Golang's `hclwrite` package for eventually formatting generated HCL. I'm not sure
+      // how this will change the execution of synth.
       const hcl = this.stack.toHclTerraform();
       fs.writeFileSync(
         path.join(session.outdir, stackManifest.synthesizedStackPath),
-        stringify(hcl, { space: 2 })
+        hcl.hcl
       );
+
+      fs.writeFileSync(
+        path.join(session.outdir, stackManifest.stackMetadataPath!),
+        stringify(hcl.metadata, { space: 2 })
+      );
+
       return;
     }
 
-    const tfConfig = this.stack.toTerraform();
-
+    const jsonTfConfig = this.stack.toTerraform();
     fs.writeFileSync(
       path.join(session.outdir, stackManifest.synthesizedStackPath),
-      stringify(tfConfig, { space: 2 })
+      stringify(jsonTfConfig, { space: 2 })
     );
   }
 }

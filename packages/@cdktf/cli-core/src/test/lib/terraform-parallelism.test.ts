@@ -54,6 +54,7 @@ const stackWithName = (name: string) => {
     constructPath: name,
     workingDirectory: `cdktf.out/stacks/${name}`,
     synthesizedStackPath: `stacks/${name}/cdk.tf.json`,
+    stackMetadataPath: `stacks/${name}/metadata.json`,
     annotations: [],
     dependencies: [],
     content: JSON.stringify({
