@@ -125,9 +125,7 @@ export function processDynamicAttributesForHcl(attributes: {
 } {
   const result: { [name: string]: any; dynamic?: { [name: string]: any } } = {};
   Object.entries(attributes).forEach(([attributeName, value]) => {
-    if (!value?.value) return;
-
-    if (TerraformDynamicBlock.isTerraformDynamicBlock(value.value)) {
+    if (TerraformDynamicBlock.isTerraformDynamicBlock(value)) {
       if (!result.dynamic) {
         result.dynamic = {};
       }
@@ -138,7 +136,7 @@ export function processDynamicAttributesForHcl(attributes: {
         typeof value === "object" &&
         value.constructor === Object; // only descend into plain objects
       result[attributeName] = recurse
-        ? processDynamicAttributes(value.value)
+        ? processDynamicAttributesForHcl(value)
         : value;
     }
   });
