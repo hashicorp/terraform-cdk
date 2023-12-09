@@ -20,6 +20,7 @@ import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
 import { TerraformResourceTargets } from "./terraform-resource-targets";
 import { TerraformResource } from "./terraform-resource";
+import { renderResource } from "./hcl/render";
 import {
   noStackForConstruct,
   stackContainsDisallowedChar,
@@ -204,7 +205,8 @@ export class TerraformStack extends Construct {
   }
 
   public toHclTerraform(): any {
-    const tf = {};
+    // const tf: string[] = [];
+    const tfMeta = {};
 
     const metadata: TerraformStackMetadata = {
       version: this.cdktfVersion,
@@ -241,16 +243,24 @@ export class TerraformStack extends Construct {
       return carry;
     }, {});
 
-    (tf as any)["//"] = { metadata, outputs };
+    (tfMeta as any)["//"] = { metadata, outputs };
 
-    const fragments = elements.map((e) => resolve(this, e.toHclTerraform()));
-    for (const fragment of fragments) {
-      deepMerge(tf, fragment);
-    }
+    const fragments = elements
+      .map((e) => resolve(this, e.toHclTerraform()))
+      .map((frag) => {
+        if (frag.resource) {
+          console.log(renderResource(frag.resource));
+        }
+        return frag;
+      });
 
-    deepMerge(tf, this.rawOverrides);
+    // for (const fragment of fragments) {
+    //   deepMerge(tf, fragment);
+    // }
+    //
+    // deepMerge(tf, this.rawOverrides);
 
-    return resolve(this, tf);
+    return resolve(this, fragments);
   }
 
   public toTerraform(): any {
