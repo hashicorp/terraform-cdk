@@ -6,34 +6,64 @@
 /**
  *
  */
-export function renderList(list: any): string {
-  if (list === undefined) {
+export function renderList(
+  { value, isBlock, storageClassType }: any,
+  name?: string
+): string {
+  if (value === undefined) {
     return "";
   }
-  if (!Array.isArray(list)) {
-    throw new Error(`Expected list, got ${typeof list}`);
+
+  if (name) {
+    if (isBlock) {
+      if (!Array.isArray(value)) {
+        return `${name} {` + `\n${renderAttributes(value)}\n}`;
+      }
+
+      return value
+        .map((v: any) => {
+          return `${name} {` + `\n${renderAttributes(v)}\n}`;
+        })
+        .join("\n");
+    }
+
+    if (!Array.isArray(value)) {
+      return `${name} = ${renderListValue(value, storageClassType)}`;
+    }
+
+    return `${name} = [
+${value.map((v: any) => renderListValue(v, storageClassType)).join(",\n")}
+]`;
+  }
+
+  if (!Array.isArray(value)) {
+    // A list type of only a single item
+    return renderListValue(value, storageClassType);
+  }
+
+  if (isBlock) {
+    return value
+      .map((v: any) => renderListValue(v, storageClassType))
+      .join("\n");
   }
 
   return `[
-${list.map((v: any) => renderListValue(v)).join(",\n")}
+${value.map((v: any) => renderListValue(v, storageClassType)).join(",\n")}
 ]`;
 }
 
 /**
  *
  */
-export function renderListValue(value: any): string {
-  if (typeof value === "string") {
+export function renderListValue(value: any, storageClassType: string): string {
+  if (storageClassType === "stringList") {
     return `"${value}"`;
   }
-  if (typeof value === "number") {
-    return `${value}`;
-  }
-  if (typeof value === "boolean") {
+  if (storageClassType === "numberList" || storageClassType === "booleanList") {
     return `${value}`;
   }
 
-  return `${value}`;
+  return renderBlock(value, storageClassType);
 }
 
 /**
@@ -81,6 +111,15 @@ ${renderAttributes(resourceAttributes)}
 /**
  *
  */
+export function renderBlock(block: any, _storageClassType: string): string {
+  return `{
+${renderAttributes(block)}
+}`;
+}
+
+/**
+ *
+ */
 export function renderAttributes(attributes: any): string {
   if (attributes === undefined) {
     return "";
@@ -91,13 +130,16 @@ export function renderAttributes(attributes: any): string {
         return undefined;
       }
       const { value, type, isBlock, storageClassType } = v as any;
-      if (isBlock) {
+      if (isBlock && type !== "list" && type !== "set") {
         return `${name} { 
 ${renderAttributes(value)} 
 }`;
       }
-      if (type === "list") {
-        return `${name} = ${renderList(value)}`;
+      if (type === "list" || type === "set") {
+        if (isBlock) {
+          return renderList(v, name);
+        }
+        return `${name} = ${renderList(v)}`;
       }
       if (type === "map") {
         return `${name} = ${renderMap(value)}`;
