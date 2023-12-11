@@ -4,7 +4,12 @@ import { Construct } from "constructs";
 import { Token } from "./tokens";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProviderGeneratorMetadata } from "./terraform-resource";
-import { keysToSnakeCase, deepMerge, processDynamicAttributes } from "./util";
+import {
+  keysToSnakeCase,
+  deepMerge,
+  processDynamicAttributes,
+  processDynamicAttributesForHcl,
+} from "./util";
 
 const TERRAFORM_PROVIDER_SYMBOL = Symbol.for("cdktf/TerraformProvider");
 
@@ -57,6 +62,36 @@ export abstract class TerraformProvider extends TerraformElement {
   // jsii can't handle abstract classes?
   protected synthesizeAttributes(): { [name: string]: any } {
     return {};
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return {};
+  }
+
+  public toHclTerraform(): any {
+    return {
+      terraform: {
+        required_providers: {
+          [this.terraformResourceType]: {
+            version:
+              this.terraformGeneratorMetadata?.providerVersion ||
+              this.terraformGeneratorMetadata?.providerVersionConstraint, // fallback to previous to ease transition
+            source: this.terraformProviderSource,
+          },
+        },
+      },
+      provider: {
+        [this.terraformResourceType]: [
+          deepMerge(
+            keysToSnakeCase(
+              processDynamicAttributesForHcl(this.synthesizeHclAttributes())
+            ),
+            this.rawOverrides,
+            this.metaAttributes
+          ),
+        ],
+      },
+    };
   }
 
   /**
