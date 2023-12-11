@@ -111,12 +111,119 @@ ${renderAttributes(resourceAttributes)}
 /**
  *
  */
+export function renderProvider(provider: any) {
+  const providerName = Object.keys(provider)[0];
+  const providerAttributes = provider[providerName];
+
+  return providerAttributes.map((providerInstance: any) => {
+    return `provider "${providerName}" {
+${renderAttributes(providerInstance)}
+}`;
+  });
+}
+
+/**
+ *
+ */
+export function renderTerraform(terraform: any) {
+  const blockAttributes = ["required_providers"];
+  const requiredProviders = `required_providers {
+${renderSimpleAttributes(terraform.required_providers)}
+}`;
+  const otherAttributes = Object.keys(terraform).filter(
+    (key) => !blockAttributes.includes(key)
+  );
+  return `terraform {
+${requiredProviders}
+${renderSimpleAttributes(otherAttributes)}
+}`;
+}
+
+/**
+ *
+ */
 export function renderBlock(block: any, _storageClassType: string): string {
   return `{
 ${renderAttributes(block)}
 }`;
 }
 
+/**
+ *
+ */
+function renderFuzzyJsonObject(jsonObject: any): string {
+  return [
+    "{",
+    ...Object.entries(jsonObject).map(([name, value]) => {
+      return `${name} = ${renderFuzzyJsonExpression(value as string)}`;
+    }),
+    "}",
+  ].join("\n");
+}
+/**
+ *
+ */
+function renderFuzzyJsonExpression(jsonExpression: any): string {
+  if (Array.isArray(jsonExpression)) {
+    return [
+      "[",
+      ...jsonExpression.map((value) => renderFuzzyJsonExpression(value)),
+      "]",
+    ].join("\n");
+  }
+
+  if (typeof jsonExpression === "object") {
+    return renderFuzzyJsonObject(jsonExpression);
+  }
+
+  if (!jsonExpression) {
+    return "";
+  }
+
+  if (typeof jsonExpression === "string") {
+    if (typeof jsonExpression === "string" && jsonExpression.includes("${")) {
+      return `"${jsonExpression}"`;
+    }
+
+    if (parseInt(jsonExpression, 10).toString() === jsonExpression) {
+      return jsonExpression;
+    }
+
+    if (jsonExpression.startsWith("[")) {
+      return jsonExpression;
+    }
+
+    if (jsonExpression.startsWith("{")) {
+      return jsonExpression;
+    }
+
+    if (jsonExpression.startsWith('"')) {
+      return jsonExpression;
+    }
+  }
+
+  if (jsonExpression === "true" || jsonExpression === "false") {
+    return jsonExpression as string;
+  }
+
+  if (jsonExpression === "null") {
+    return jsonExpression;
+  }
+
+  return `"${jsonExpression}"`;
+}
+
+/**
+ *
+ */
+export function renderSimpleAttributes(attributes: any): string {
+  return Object.entries(attributes)
+    .map(
+      ([name, value]) =>
+        `  ${name} = ${renderFuzzyJsonExpression(value as any)}`
+    )
+    .join("\n");
+}
 /**
  *
  */
@@ -129,6 +236,12 @@ export function renderAttributes(attributes: any): string {
       if (name === "//") {
         return undefined;
       }
+      // We might have some attributes that don't have type information
+      // just try to guess them
+      if (typeof v !== "object") {
+        return `${name} = ${renderFuzzyJsonExpression(v)}`;
+      }
+
       const { value, type, isBlock, storageClassType } = v as any;
       if (isBlock && type !== "list" && type !== "set") {
         return `${name} { 
