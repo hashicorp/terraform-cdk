@@ -20,7 +20,7 @@ import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
 import { TerraformResourceTargets } from "./terraform-resource-targets";
 import { TerraformResource } from "./terraform-resource";
-import { renderResource } from "./hcl/render";
+import { renderProvider, renderResource, renderTerraform } from "./hcl/render";
 import {
   noStackForConstruct,
   stackContainsDisallowedChar,
@@ -246,22 +246,31 @@ export class TerraformStack extends Construct {
 
     (tfMeta as any)["//"] = { metadata, outputs };
 
-    const fragments = elements
-      .map((e) => resolve(this, e.toHclTerraform()))
-      .map((frag) => {
-        if (frag.resource) {
-          console.log(renderResource(frag.resource));
-        }
-        return frag;
-      });
+    const fragments = elements.map((e) => resolve(this, e.toHclTerraform()));
 
-    // for (const fragment of fragments) {
-    //   deepMerge(tf, fragment);
-    // }
-    //
+    const tf = {};
+    for (const fragment of fragments) {
+      deepMerge(tf, fragment);
+    }
     // deepMerge(tf, this.rawOverrides);
 
-    return resolve(this, fragments);
+    const hcl = renderTerraform((tf as any).terraform);
+
+    const hclFragments = fragments.map((frag) => {
+      if (frag.resource) {
+        return renderResource(frag.resource);
+      }
+      if (frag.provider) {
+        return renderProvider(frag.provider);
+      }
+
+      return JSON.stringify(frag, null, 2);
+    });
+
+    return {
+      hcl: resolve(this, [hcl, ...hclFragments].join("\n")),
+      metadata: resolve(this, tfMeta),
+    };
   }
 
   public toTerraform(): any {
