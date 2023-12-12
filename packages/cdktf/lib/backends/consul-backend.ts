@@ -14,6 +14,10 @@ export class ConsulBackend extends TerraformBackend {
     super(scope, "backend", "consul");
   }
 
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return keysToSnakeCase({ ...this.props });
+  }
+
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
   }

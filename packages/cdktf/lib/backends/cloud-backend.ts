@@ -38,6 +38,14 @@ export class CloudBackend extends TerraformBackend {
     );
   }
 
+  public toHclTerraform(): any {
+    return {
+      terraform: {
+        cloud: deepMerge(this.synthesizeHclAttributes(), this.rawOverrides),
+      },
+    };
+  }
+
   /**
    * Adds this resource to the terraform JSON output.
    */
@@ -54,10 +62,22 @@ export class CloudBackend extends TerraformBackend {
     return { ...super.toMetadata(), cloud };
   }
 
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return {
+      ...keysToSnakeCase(this.props),
+      workspaces: {
+        value: this.props.workspaces.toHclTerraform(),
+        isBlock: true,
+        type: "map",
+        storageClassType: "stringmap",
+      },
+    };
+  }
+
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({
       ...this.props,
-      workspaces: this.props.workspaces.toTerraform(),
+      workspaces: this.props.workspaces.toHclTerraform(),
     });
   }
 
@@ -131,6 +151,11 @@ export class NamedCloudWorkspace extends CloudWorkspace {
   public constructor(public name: string, public project?: string) {
     super();
   }
+
+  public toHclTerraform(): any {
+    return this.toTerraform();
+  }
+
   public toTerraform(): any {
     return {
       name: this.name,
@@ -146,6 +171,11 @@ export class TaggedCloudWorkspaces extends CloudWorkspace {
   public constructor(public tags: string[], public project?: string) {
     super();
   }
+
+  public toHclTerraform(): any {
+    return this.toTerraform();
+  }
+
   public toTerraform(): any {
     return {
       tags: this.tags,
