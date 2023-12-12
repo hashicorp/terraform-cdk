@@ -19,6 +19,10 @@ export class RemoteBackend extends TerraformBackend {
     return keysToSnakeCase({ ...this.props });
   }
 
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return keysToSnakeCase({ ...this.props });
+  }
+
   public toMetadata() {
     const cloud = getHostNameType(this.props.hostname);
     return { ...super.toMetadata(), cloud };

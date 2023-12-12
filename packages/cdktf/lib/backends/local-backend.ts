@@ -24,6 +24,10 @@ export class LocalBackend extends TerraformBackend {
     };
   }
 
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return keysToSnakeCase({ ...this.props });
+  }
+
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({ ...this.props });
   }
