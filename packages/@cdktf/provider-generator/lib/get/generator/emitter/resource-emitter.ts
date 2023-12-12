@@ -92,11 +92,16 @@ export class ResourceEmitter {
 
     this.code.close(`};`);
 
-    this.code.line();
-    this.code.line(`// remove undefined attributes`);
-    this.code.line(
-      `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!value?.value))`
-    );
+    if (resource.synthesizableAttributes.length > 0) {
+      this.code.line();
+      this.code.line(`// remove undefined attributes`);
+      this.code.line(
+        `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))`
+      );
+    } else {
+      this.code.line(`return attrs;`);
+    }
+
     this.code.closeBlock();
   }
 

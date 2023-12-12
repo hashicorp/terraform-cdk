@@ -7,9 +7,12 @@
  *
  */
 export function renderList(
-  { value, isBlock, storageClassType }: any,
+  { value, isBlock, is_block, storageClassType, storage_class_type }: any,
   name?: string
 ): string {
+  const block = isBlock || is_block;
+  const classType = storageClassType || storage_class_type;
+
   if (value === undefined) {
     return "";
   }
@@ -20,7 +23,7 @@ export function renderList(
   }
 
   if (name) {
-    if (isBlock) {
+    if (block) {
       if (!Array.isArray(value)) {
         return `${name} {` + `\n${renderAttributes(value)}\n}`;
       }
@@ -33,27 +36,25 @@ export function renderList(
     }
 
     if (!Array.isArray(value)) {
-      return `${name} = ${renderListValue(value, storageClassType)}`;
+      return `${name} = ${renderListValue(value, classType)}`;
     }
 
     return `${name} = [
-${value.map((v: any) => renderListValue(v, storageClassType)).join(",\n")}
+${value.map((v: any) => renderListValue(v, classType)).join(",\n")}
 ]`;
   }
 
   if (!Array.isArray(value)) {
     // A list type of only a single item
-    return renderListValue(value, storageClassType);
+    return renderListValue(value, classType);
   }
 
-  if (isBlock) {
-    return value
-      .map((v: any) => renderListValue(v, storageClassType))
-      .join("\n");
+  if (block) {
+    return value.map((v: any) => renderListValue(v, classType)).join("\n");
   }
 
   return `[
-${value.map((v: any) => renderListValue(v, storageClassType)).join(",\n")}
+${value.map((v: any) => renderListValue(v, classType)).join(",\n")}
 ]`;
 }
 
@@ -315,10 +316,7 @@ export function renderAttributes(attributes: any): string {
       if (name === "//") {
         return undefined;
       }
-
-      if (name === "tags") {
-        console.log("tags", v);
-      }
+      const metaBlocks = ["lifecycle", "provisioner"];
 
       //
       // We might have some attributes that don't have type information
@@ -330,6 +328,11 @@ export function renderAttributes(attributes: any): string {
       } else if (v === null) {
         return `${name} = null`;
       } else if (typeof v === "object" && !v.hasOwnProperty("value")) {
+        if (metaBlocks.includes(name)) {
+          return `${name} { 
+${renderSimpleAttributes(v)}
+}`;
+        }
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
       } else if (v === undefined) {
         return undefined;
@@ -345,7 +348,7 @@ export function renderAttributes(attributes: any): string {
         is_block,
         storage_class_type,
       } = v as any;
-      const block = isBlock || is_block;
+      const block = isBlock || is_block || metaBlocks.includes(name);
       const classType = storageClassType || storage_class_type;
 
       if (block && type !== "list" && type !== "set") {

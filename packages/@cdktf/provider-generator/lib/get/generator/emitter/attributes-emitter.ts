@@ -188,7 +188,7 @@ export class AttributesEmitter {
         : "";
 
     const value = `${defaultCheck}${type.toHclTerraformFunction}(${varReference})`;
-    const isBlock = att.type.isComplex && !att.isProvider;
+    const isBlock = att.type.isComplex;
     const tt = att.type.typeModelType;
 
     this.code.open(`${att.terraformName}: {`);
