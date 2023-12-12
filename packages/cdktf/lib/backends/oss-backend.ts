@@ -18,6 +18,10 @@ export class OssBackend extends TerraformBackend {
     return keysToSnakeCase({ ...this.props });
   }
 
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return keysToSnakeCase({ ...this.props });
+  }
+
   public getRemoteStateDataSource(
     scope: Construct,
     name: string,
