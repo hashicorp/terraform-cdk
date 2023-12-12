@@ -139,6 +139,18 @@ ${renderAttributes(providerInstance)}
 /**
  *
  */
+export function renderModule(module: any) {
+  const moduleName = Object.keys(module)[0];
+  const moduleAttributes = module[moduleName];
+
+  return `module "${moduleName}" {
+${renderAttributes(moduleAttributes)}
+}`;
+}
+
+/**
+ *
+ */
 export function renderTerraform(terraform: any) {
   const blockAttributes = ["required_providers", "backend", "cloud"];
   const requiredProviders = `required_providers {
