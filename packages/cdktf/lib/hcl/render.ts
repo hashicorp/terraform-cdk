@@ -151,6 +151,18 @@ ${renderAttributes(moduleAttributes)}
 /**
  *
  */
+export function renderOutput(output: any) {
+  const outputName = Object.keys(output)[0];
+  const outputAttributes = output[outputName];
+
+  return `output "${outputName}" {
+${renderAttributes(outputAttributes)}
+}`;
+}
+
+/**
+ *
+ */
 export function renderTerraform(terraform: any) {
   const blockAttributes = ["required_providers", "backend", "cloud"];
   const requiredProviders = `required_providers {
@@ -332,6 +344,10 @@ ${renderAttributes(value)}
         if (classType === "number" || classType === "boolean") {
           return `${name} = ${value}`;
         }
+      }
+
+      if (type === "any") {
+        return `${name} = ${renderFuzzyJsonExpression(value)}`;
       }
 
       return `${name} = ${value}`;

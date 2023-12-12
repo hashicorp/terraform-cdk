@@ -22,6 +22,8 @@ import { TerraformResourceTargets } from "./terraform-resource-targets";
 import { TerraformResource } from "./terraform-resource";
 import {
   renderDatasource,
+  renderModule,
+  renderOutput,
   renderProvider,
   renderResource,
   renderTerraform,
@@ -276,6 +278,14 @@ export class TerraformStack extends Construct {
         if (frag.terraform) {
           deepMerge(tf, frag);
           return undefined;
+        }
+
+        if (frag.module) {
+          return renderModule(frag.module);
+        }
+
+        if (frag.output) {
+          return renderOutput(frag.output);
         }
 
         return JSON.stringify(frag, null, 2);
