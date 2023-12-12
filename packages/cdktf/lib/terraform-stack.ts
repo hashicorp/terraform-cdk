@@ -23,6 +23,7 @@ import { TerraformResource } from "./terraform-resource";
 import {
   renderDatasource,
   renderModule,
+  renderMoved,
   renderOutput,
   renderProvider,
   renderResource,
@@ -286,6 +287,10 @@ export class TerraformStack extends Construct {
 
         if (frag.output) {
           return renderOutput(frag.output);
+        }
+
+        if (frag.moved) {
+          return renderMoved(frag.moved);
         }
 
         return JSON.stringify(frag, null, 2);

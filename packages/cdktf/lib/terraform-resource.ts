@@ -327,8 +327,18 @@ export class TerraformResource
       moved: movedBlock
         ? [
             {
-              to: movedBlock.to,
-              from: movedBlock.from,
+              to: {
+                value: movedBlock.to,
+                isBlock: false,
+                type: "simple",
+                storageClassType: "reference",
+              },
+              from: {
+                value: movedBlock.from,
+                isBlock: false,
+                type: "simple",
+                storageClassType: "reference",
+              },
             },
           ]
         : undefined,
