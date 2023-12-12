@@ -103,6 +103,48 @@ export class TerraformOutput extends TerraformElement {
     };
   }
 
+  protected synthesizeHclAttributes(): { [key: string]: any } {
+    return Object.fromEntries(
+      Object.entries({
+        value: {
+          value: this.synthesizeValue(this.value),
+          type: "any",
+          isBlock: false,
+          storageClassType: "",
+        },
+        description: {
+          value: this.description,
+          type: "simple",
+          isBlock: false,
+          storageClassType: "string",
+        },
+        sensitive: {
+          value: this.sensitive,
+          type: "simple",
+          isBlock: false,
+          storageClassType: "bool",
+        },
+        depends_on: {
+          value: this.dependsOn?.map((resource) => resource.fqn),
+          type: "list",
+          isBlock: false,
+          storageClassType: "stringlist",
+        },
+      }).filter(([, value]) => value.value !== undefined)
+    );
+  }
+
+  public toHclTerraform(): any {
+    return {
+      output: {
+        [this.friendlyUniqueId]: deepMerge(
+          this.synthesizeHclAttributes(),
+          this.rawOverrides
+        ),
+      },
+    };
+  }
+
   public toTerraform(): any {
     return {
       output: {
