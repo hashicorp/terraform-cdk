@@ -20,7 +20,12 @@ import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
 import { TerraformResourceTargets } from "./terraform-resource-targets";
 import { TerraformResource } from "./terraform-resource";
-import { renderProvider, renderResource, renderTerraform } from "./hcl/render";
+import {
+  renderDatasource,
+  renderProvider,
+  renderResource,
+  renderTerraform,
+} from "./hcl/render";
 import {
   noStackForConstruct,
   stackContainsDisallowedChar,
@@ -254,19 +259,30 @@ export class TerraformStack extends Construct {
     }
     // deepMerge(tf, this.rawOverrides);
 
+    const hclFragments = fragments
+      .map((frag) => {
+        if (frag.resource) {
+          return renderResource(frag.resource);
+        }
+
+        if (frag.data) {
+          return renderDatasource(frag.data);
+        }
+
+        if (frag.provider) {
+          return renderProvider(frag.provider);
+        }
+
+        if (frag.terraform) {
+          deepMerge(tf, frag);
+          return undefined;
+        }
+
+        return JSON.stringify(frag, null, 2);
+      })
+      .filter((frag) => frag !== undefined);
+
     const hcl = renderTerraform((tf as any).terraform);
-
-    const hclFragments = fragments.map((frag) => {
-      if (frag.resource) {
-        return renderResource(frag.resource);
-      }
-      if (frag.provider) {
-        return renderProvider(frag.provider);
-      }
-
-      return JSON.stringify(frag, null, 2);
-    });
-
     return {
       hcl: resolve(this, [hcl, ...hclFragments].join("\n")),
       metadata: resolve(this, tfMeta),
