@@ -70,6 +70,11 @@ export abstract class TerraformModule
     return {};
   }
 
+  // jsii can't handle abstract classes?
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return {};
+  }
+
   public interpolationForOutput(moduleOutput: string) {
     return ref(
       `module.${this.friendlyUniqueId}${
@@ -98,9 +103,21 @@ export abstract class TerraformModule
   public toHclTerraform(): any {
     const attributes = deepMerge(
       {
-        ...this.synthesizeAttributes(),
-        source: this.source,
-        version: this.version,
+        ...this.synthesizeHclAttributes(),
+        source: {
+          value: this.source,
+          type: "simple",
+          isBlock: false,
+          storageClassType: "string",
+        },
+
+        version: {
+          value: this.version,
+          type: "simple",
+          isBlock: false,
+          storageClassType: "string",
+        },
+
         providers: this._providers?.reduce((a, p) => {
           if (TerraformProvider.isTerraformProvider(p)) {
             return { ...a, [p.terraformResourceType]: p.fqn };
@@ -112,7 +129,15 @@ export abstract class TerraformModule
             };
           }
         }, {}),
-        depends_on: this.dependsOn,
+        depends_on: this.dependsOn
+          ? {
+              value: this.dependsOn,
+              type: "list",
+              isBlock: false,
+              storageClassType: "string",
+            }
+          : undefined,
+
         for_each: this.forEach?._getForEachExpression(),
       },
       this.rawOverrides
