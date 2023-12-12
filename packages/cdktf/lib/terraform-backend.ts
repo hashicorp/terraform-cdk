@@ -23,6 +23,10 @@ export abstract class TerraformBackend extends TerraformElement {
     return {};
   }
 
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return {};
+  }
+
   /**
    * Creates a TerraformRemoteState resource that accesses this backend.
    */
@@ -31,6 +35,19 @@ export abstract class TerraformBackend extends TerraformElement {
     name: string,
     fromStack: string
   ): TerraformRemoteState;
+
+  public toHclTerraform(): any {
+    return {
+      terraform: {
+        backend: {
+          [this.name]: deepMerge(
+            this.synthesizeHclAttributes(),
+            this.rawOverrides
+          ),
+        },
+      },
+    };
+  }
 
   /**
    * Adds this resource to the terraform JSON output.

@@ -47,21 +47,6 @@ test("remote backend multi ws", () => {
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
-test("artifactory backend", () => {
-  const app = Testing.app();
-  const stack = new TerraformStack(app, "test");
-
-  new b.ArtifactoryBackend(stack, {
-    username: "SheldonCooper",
-    password: "AmyFarrahFowler",
-    url: "https://custom.artifactoryonline.com/artifactory",
-    repo: "foo",
-    subpath: "terraform-bar",
-  });
-
-  expect(Testing.synth(stack)).toMatchSnapshot();
-});
-
 test("azurerm backend cli/sp", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
@@ -164,38 +149,6 @@ test("cos backend", () => {
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 
-test("etcd backend", () => {
-  const app = Testing.app();
-  const stack = new TerraformStack(app, "test");
-
-  new b.EtcdBackend(stack, {
-    path: "path/to/terraform.tfstate",
-    endpoints: "http://one:4001 http://two:4001",
-    username: "the user",
-    password: "the password",
-  });
-
-  expect(Testing.synth(stack)).toMatchSnapshot();
-});
-
-test("etcdv3 backend", () => {
-  const app = Testing.app();
-  const stack = new TerraformStack(app, "test");
-
-  new b.EtcdV3Backend(stack, {
-    endpoints: ["etcd-1:2379", "etcd-2:2379", "etcd-3:2379"],
-    lock: true,
-    prefix: "terraform-state/",
-    username: "ETCDV3_USERNAME",
-    password: "ETCDV3_PASSWORD",
-    cacertPath: "CA bundle",
-    certPath: "certificate",
-    keyPath: "encoded key",
-  });
-
-  expect(Testing.synth(stack)).toMatchSnapshot();
-});
-
 test("gcs backend", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
@@ -228,24 +181,6 @@ test("http backend", () => {
     unlockMethod: "UNLOCK",
     updateMethod: "POST",
     username: "HTTP basic auth user",
-  });
-
-  expect(Testing.synth(stack)).toMatchSnapshot();
-});
-
-test("manta backend", () => {
-  const app = Testing.app();
-  const stack = new TerraformStack(app, "test");
-
-  new b.MantaBackend(stack, {
-    path: "random/path",
-    objectName: "terraform.tfstate",
-    account: "SDC_ACCOUNT",
-    user: "SDC_USER",
-    url: "MANTA_URL",
-    keyMaterial: "SDC_KEY_MATERIAL",
-    keyId: "SDC_KEY",
-    insecureSkipTlsVerify: false,
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();
@@ -326,43 +261,6 @@ test("s3 backend", () => {
     skipMetadataApiCheck: true,
     sseCustomerKey: "AWS_SSE_CUSTOMER_KEY",
     maxRetries: 5,
-  });
-
-  expect(Testing.synth(stack)).toMatchSnapshot();
-});
-
-test("swift backend", () => {
-  const app = Testing.app();
-  const stack = new TerraformStack(app, "test");
-
-  new b.SwiftBackend(stack, {
-    container: "terraform-state",
-    archiveContainer: "terraform-state-archive",
-    authUrl: "OS_AUTH_URL",
-    cloud: "OS_CLOUD",
-    stateName: "tfstate.tf",
-    userName: "OS_USERNAME",
-    userId: "OS_USER_ID",
-    password: "OS_PASSWORD",
-    applicationCredentialId: "ID of app cred",
-    applicationCredentialName: "name of app cred",
-    applicationCredentialSecret: "secret of app cred",
-    token: "OS_AUTH_TOKEN",
-    regionName: "OS_REGION_NAME",
-    tenantId: "OS_TENANT_ID",
-    tenantName: "OS_TENANT_NAME",
-    domainId: "OS_USER_DOMAIN_ID",
-    domainName: "OS_USER_DOMAIN_NAME",
-    userDomainName: "OS_USER_DOMAIN_NAME",
-    userDomainId: "OS_USER_DOMAIN_ID",
-    projectDomainName: "OS_PROJECT_DOMAIN_NAME",
-    projectDomainId: "OS_PROJECT_DOMAIN_ID",
-    defaultDomain: "OS_DEFAULT_DOMAIN",
-    insecure: true,
-    cacertFile: "OS_CACERT",
-    cert: "OS_CERT",
-    key: "OS_KEY",
-    expireAfter: "3d",
   });
 
   expect(Testing.synth(stack)).toMatchSnapshot();

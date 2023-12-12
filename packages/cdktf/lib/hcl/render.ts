@@ -111,6 +111,20 @@ ${renderAttributes(resourceAttributes)}
 /**
  *
  */
+export function renderDatasource(dataSource: any) {
+  const dataSourceType = Object.keys(dataSource)[0];
+  const dataSourcesWithType = dataSource[dataSourceType];
+  const dataSourceName = Object.keys(dataSourcesWithType)[0];
+  const dataSourceAttributes = dataSourcesWithType[dataSourceName];
+
+  return `data "${dataSourceType}" "${dataSourceName}" {
+${renderAttributes(dataSourceAttributes)}
+}`;
+}
+
+/**
+ *
+ */
 export function renderProvider(provider: any) {
   const providerName = Object.keys(provider)[0];
   const providerAttributes = provider[providerName];
@@ -126,15 +140,29 @@ ${renderAttributes(providerInstance)}
  *
  */
 export function renderTerraform(terraform: any) {
-  const blockAttributes = ["required_providers"];
+  const blockAttributes = ["required_providers", "backend", "cloud"];
   const requiredProviders = `required_providers {
 ${renderSimpleAttributes(terraform.required_providers)}
 }`;
+
+  const backends = Object.keys(terraform.backend || {}).map((backendName) => {
+    return `backend "${backendName}" {
+${renderAttributes(terraform.backend[backendName])}
+}`;
+  });
+
+  const cloudBackend = terraform.cloud
+    ? `cloud {
+${renderAttributes(terraform.cloud)}
+}`
+    : undefined;
+
   const otherAttributes = Object.keys(terraform).filter(
     (key) => !blockAttributes.includes(key)
   );
   return `terraform {
 ${requiredProviders}
+${[...backends, cloudBackend].join("\n")}
 ${renderSimpleAttributes(otherAttributes)}
 }`;
 }
@@ -181,7 +209,7 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
   }
 
   if (typeof jsonExpression === "string") {
-    if (typeof jsonExpression === "string" && jsonExpression.includes("${")) {
+    if (jsonExpression.includes("${")) {
       return `"${jsonExpression}"`;
     }
 
@@ -200,6 +228,8 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
     if (jsonExpression.startsWith('"')) {
       return jsonExpression;
     }
+
+    return `"${jsonExpression}"`;
   }
 
   if (jsonExpression === "true" || jsonExpression === "false") {
@@ -217,6 +247,9 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
  *
  */
 export function renderSimpleAttributes(attributes: any): string {
+  if (attributes === undefined) {
+    return "";
+  }
   return Object.entries(attributes)
     .map(
       ([name, value]) =>
@@ -236,20 +269,42 @@ export function renderAttributes(attributes: any): string {
       if (name === "//") {
         return undefined;
       }
+
+      //
       // We might have some attributes that don't have type information
       // just try to guess them
-      if (typeof v !== "object") {
+      if (typeof v === "string") {
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
+      } else if (Array.isArray(v)) {
+        return `${name} = ${renderFuzzyJsonExpression(v)}`;
+      } else if (v === null) {
+        return `${name} = null`;
+      } else if (typeof v === "object" && !v.hasOwnProperty("value")) {
+        return `${name} = ${renderFuzzyJsonExpression(v)}`;
+      } else if (v === undefined) {
+        return undefined;
       }
 
-      const { value, type, isBlock, storageClassType } = v as any;
-      if (isBlock && type !== "list" && type !== "set") {
+      // Referncing both isBlock and is_block, because sometimes we pass through a snake case filter
+      // within attributes.
+      const {
+        value,
+        type,
+        isBlock,
+        storageClassType,
+        is_block,
+        storage_class_type,
+      } = v as any;
+      const block = isBlock || is_block;
+      const classType = storageClassType || storage_class_type;
+
+      if (block && type !== "list" && type !== "set") {
         return `${name} { 
 ${renderAttributes(value)} 
 }`;
       }
       if (type === "list" || type === "set") {
-        if (isBlock) {
+        if (block) {
           return renderList(v, name);
         }
         return `${name} = ${renderList(v)}`;
@@ -259,10 +314,10 @@ ${renderAttributes(value)}
       }
 
       if (type === "simple") {
-        if (storageClassType === "string") {
+        if (classType === "string") {
           return `${name} = "${value}"`;
         }
-        if (storageClassType === "number" || storageClassType === "boolean") {
+        if (classType === "number" || classType === "boolean") {
           return `${name} = ${value}`;
         }
       }
