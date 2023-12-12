@@ -14,6 +14,11 @@ export function renderList(
     return "";
   }
 
+  if (typeof value === "string") {
+    // this could be an expression, so we don't need to do anything here
+    return `"${value}"`;
+  }
+
   if (name) {
     if (isBlock) {
       if (!Array.isArray(value)) {
@@ -70,6 +75,10 @@ export function renderListValue(value: any, storageClassType: string): string {
  *
  */
 export function renderMap(map: any): string {
+  if (typeof map === "string") {
+    // this could be an expression, so we don't need to do anything here
+    return `"${map}"`;
+  }
   return `{
 ${Object.entries(map)
   .map(([k, v]) => `${k} = ${renderMapValue(v)}`)
@@ -158,6 +167,19 @@ export function renderOutput(output: any) {
   return `output "${outputName}" {
 ${renderAttributes(outputAttributes)}
 }`;
+}
+
+/**
+ *
+ */
+export function renderMoved(move: any) {
+  const movedBlocks = move.map((moveBlock: any) => {
+    return `moved {
+${renderAttributes(moveBlock)}
+}`;
+  });
+
+  return movedBlocks.join("\n");
 }
 
 /**
@@ -294,6 +316,10 @@ export function renderAttributes(attributes: any): string {
         return undefined;
       }
 
+      if (name === "tags") {
+        console.log("tags", v);
+      }
+
       //
       // We might have some attributes that don't have type information
       // just try to guess them
@@ -348,6 +374,10 @@ ${renderAttributes(value)}
 
       if (type === "any") {
         return `${name} = ${renderFuzzyJsonExpression(value)}`;
+      }
+
+      if (type === "reference") {
+        return `${name} = ${value}`;
       }
 
       return `${name} = ${value}`;
