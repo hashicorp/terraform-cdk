@@ -635,11 +635,15 @@ export class StructEmitter {
 
     this.code.close(`};`);
 
-    this.code.line();
-    this.code.line(`// remove undefined attributes`);
-    this.code.line(
-      `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!value?.value))`
-    );
+    if (struct.assignableAttributes.length > 0) {
+      this.code.line();
+      this.code.line(`// remove undefined attributes`);
+      this.code.line(
+        `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!value?.value));`
+      );
+    } else {
+      this.code.line(`return attrs;`);
+    }
 
     this.code.closeBlock();
     this.code.line();
