@@ -7,7 +7,8 @@ set -euo pipefail
 # always run from repo root
 cd $(dirname $0)/..
 
+
 tests=$( cat ./test/provider-tests/providers.json | jq -c 'keys')
-matrix="{ \"target\": $tests }"
+matrix="{ \"target\": $tests, hclOutput: [false, true] }"
 echo $matrix
 echo "tests=$matrix" >> $GITHUB_OUTPUT
