@@ -175,7 +175,7 @@ Command output on stdout:
 
     // Apply formatting to HCL files if hcl output was selected
     if (hcl) {
-      SynthStack.formatHclFiles(outdir);
+      await SynthStack.formatHclFiles(outdir);
     }
 
     // end performance timer

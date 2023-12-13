@@ -64,6 +64,18 @@ export class TerraformLocal
     return ref(`local.${this.friendlyUniqueId}`, this.cdktfStack);
   }
 
+  public toHclTerraform() {
+    return {
+      locals: {
+        [this.friendlyUniqueId]: {
+          value: this._expression,
+          isBlock: false,
+          storageClassType: "any",
+        },
+      },
+    };
+  }
+
   public toTerraform(): any {
     return {
       locals: {
