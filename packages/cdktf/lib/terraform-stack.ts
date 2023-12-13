@@ -29,6 +29,7 @@ import {
   renderResource,
   renderTerraform,
   renderLocals,
+  renderVariable,
 } from "./hcl/render";
 import {
   noStackForConstruct,
@@ -303,6 +304,10 @@ export class TerraformStack extends Construct {
 
         if (frag.locals) {
           return renderLocals(frag.locals);
+        }
+
+        if (frag.variable) {
+          return renderVariable(frag.variable);
         }
 
         return JSON.stringify(frag, null, 2);

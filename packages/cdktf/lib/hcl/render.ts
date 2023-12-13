@@ -203,6 +203,18 @@ export function renderLocals(locals: any) {
 /**
  *
  */
+export function renderVariable(variable: any) {
+  const variableName = Object.keys(variable)[0];
+  const variableAttributes = variable[variableName];
+
+  return `variable "${variableName}" {
+${renderAttributes(variableAttributes)}
+}`;
+}
+
+/**
+ *
+ */
 export function renderMoved(move: any) {
   const movedBlocks = move.map((moveBlock: any) => {
     return `moved {
@@ -272,7 +284,7 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
   if (Array.isArray(jsonExpression)) {
     return [
       "[",
-      ...jsonExpression.map((value) => renderFuzzyJsonExpression(value)),
+      ...jsonExpression.map((value) => `${renderFuzzyJsonExpression(value)},`),
       "]",
     ].join("\n");
   }
@@ -317,7 +329,7 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
     return jsonExpression;
   }
 
-  return `${jsonExpression}"`;
+  return `${jsonExpression}`;
 }
 
 /**

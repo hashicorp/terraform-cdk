@@ -156,6 +156,48 @@ export class TerraformVariable
     return ref(`var.${this.friendlyUniqueId}`, this.cdktfStack);
   }
 
+  public synthesizeHclAttributes(): { [key: string]: any } {
+    const attrs = {
+      default: {
+        value: this.default,
+        type: "any",
+      },
+
+      description: {
+        value: this.description,
+        type: "simple",
+        storageClassType: "string",
+      },
+      type: {
+        value: this.type,
+        type: "any",
+      },
+      sensitive: {
+        value: this.sensitive,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      nullable: {
+        value: this.nullable,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      validation: {
+        value: this.validation?.map((validation) => ({
+          error_message: validation.errorMessage,
+          condition: validation.condition,
+        })),
+        isBlock: true,
+        type: "list",
+        storageClassType: "objectList",
+      },
+    };
+
+    return Object.fromEntries(
+      Object.entries(attrs).filter(([_, value]) => !!value?.value)
+    );
+  }
+
   public synthesizeAttributes(): { [key: string]: any } {
     return {
       default: this.default,
@@ -167,6 +209,17 @@ export class TerraformVariable
         error_message: validation.errorMessage,
         condition: validation.condition,
       })),
+    };
+  }
+
+  public toHclTerraform(): any {
+    return {
+      variable: {
+        [this.friendlyUniqueId]: deepMerge(
+          keysToSnakeCase(this.synthesizeHclAttributes()),
+          this.rawOverrides
+        ),
+      },
     };
   }
 
