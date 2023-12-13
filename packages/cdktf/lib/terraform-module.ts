@@ -112,12 +112,14 @@ export abstract class TerraformModule
           storageClassType: "string",
         },
 
-        version: {
-          value: this.version,
-          type: "simple",
-          isBlock: false,
-          storageClassType: "string",
-        },
+        version: this.version
+          ? {
+              value: this.version,
+              type: "simple",
+              isBlock: false,
+              storageClassType: "string",
+            }
+          : undefined,
 
         providers: this._providers?.reduce((a, p) => {
           if (TerraformProvider.isTerraformProvider(p)) {
@@ -130,6 +132,7 @@ export abstract class TerraformModule
             };
           }
         }, {}),
+
         depends_on: this.dependsOn
           ? {
               value: this.dependsOn,

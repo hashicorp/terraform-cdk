@@ -216,9 +216,6 @@ export class TerraformStack extends Construct {
   }
 
   public toHclTerraform(): { [key: string]: any } {
-    // const tf: string[] = [];
-    const tfMeta = {};
-
     const metadata: TerraformStackMetadata = {
       version: this.cdktfVersion,
       stackName: this.node.id,
@@ -254,44 +251,44 @@ export class TerraformStack extends Construct {
       return carry;
     }, {});
 
-    (tfMeta as any)["//"] = { metadata, outputs };
-
-    const fragments = elements.map((e) =>
-      resolve(
-        this,
-        ((e) => {
-          return e.toHclTerraform();
-        })(e)
-      )
-    );
-
     const tf = {};
-    for (const fragment of fragments) {
-      deepMerge(tf, fragment);
-    }
-    // deepMerge(tf, this.rawOverrides);
+    const fragments = elements.map((e) => resolve(this, e.toHclTerraform()));
 
+    const tfMeta = {
+      "//": {
+        metadata,
+        outputs,
+      },
+    };
     const hclFragments = fragments
       .map((frag) => {
         if (frag.resource) {
-          return renderResource(frag.resource);
+          const { hcl, metadata } = renderResource(frag.resource);
+          deepMerge(tfMeta, metadata);
+          return hcl;
         }
 
         if (frag.data) {
-          return renderDatasource(frag.data);
+          const { hcl, metadata } = renderDatasource(frag.data);
+          deepMerge(tfMeta, metadata);
+          return hcl;
         }
 
         if (frag.provider) {
+          deepMerge(tf, frag);
           return renderProvider(frag.provider);
         }
 
         if (frag.terraform) {
+          console.log("FF", JSON.stringify(frag));
           deepMerge(tf, frag);
           return undefined;
         }
 
         if (frag.module) {
-          return renderModule(frag.module);
+          const { hcl, metadata } = renderModule(frag.module);
+          deepMerge(tfMeta, metadata);
+          return hcl;
         }
 
         if (frag.output) {
@@ -314,7 +311,14 @@ export class TerraformStack extends Construct {
       })
       .filter((frag) => frag !== undefined);
 
-    const hcl = renderTerraform((tf as any).terraform);
+    deepMerge(tf, this.rawOverrides);
+    const terraformBlock = (tf as any)?.terraform;
+    let hcl = "";
+    if (terraformBlock) {
+      hcl = renderTerraform(terraformBlock);
+      deepMerge(tfMeta, { terraform: terraformBlock });
+    }
+
     return {
       hcl: resolve(this, [hcl, ...hclFragments].join("\n")),
       metadata: resolve(this, tfMeta),
