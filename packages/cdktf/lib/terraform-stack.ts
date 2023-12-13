@@ -28,6 +28,7 @@ import {
   renderProvider,
   renderResource,
   renderTerraform,
+  renderLocals,
 } from "./hcl/render";
 import {
   noStackForConstruct,
@@ -254,7 +255,14 @@ export class TerraformStack extends Construct {
 
     (tfMeta as any)["//"] = { metadata, outputs };
 
-    const fragments = elements.map((e) => resolve(this, e.toHclTerraform()));
+    const fragments = elements.map((e) =>
+      resolve(
+        this,
+        ((e) => {
+          return e.toHclTerraform();
+        })(e)
+      )
+    );
 
     const tf = {};
     for (const fragment of fragments) {
@@ -291,6 +299,10 @@ export class TerraformStack extends Construct {
 
         if (frag.moved) {
           return renderMoved(frag.moved);
+        }
+
+        if (frag.locals) {
+          return renderLocals(frag.locals);
         }
 
         return JSON.stringify(frag, null, 2);
