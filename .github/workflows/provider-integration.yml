@@ -133,6 +133,7 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          SYNTH_HCL_OUTPUT: ${{ matrix.hclOutput }}
 
   windows_provider:
     needs: prepare-provider-tests
@@ -196,3 +197,4 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          SYNTH_HCL_OUTPUT: ${{ matrix.hclOutput }}

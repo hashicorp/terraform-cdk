@@ -28,7 +28,7 @@ jobs:
       - id: set-examples
         run: |
           tfDefault=$(cat .terraform.versions.json | jq -r '.default')
-          examples=$(npx lerna list --scope "@examples/*" | jq  -R -s -c --arg tfDefault "${tfDefault}" 'split("\n") | map(select(length > 0)) | { target: values, terraform: [$tfDefault]}')
+          examples=$(npx lerna list --scope "@examples/*" | jq  -R -s -c --arg tfDefault "${tfDefault}" 'split("\n") | map(select(length > 0)) | { target: values, terraform: [$tfDefault], hclOutput: [false, true] }')
           echo $examples
           echo "examples=$examples" >> $GITHUB_OUTPUT
 
@@ -104,3 +104,4 @@ jobs:
           MAVEN_OPTS: "-Xmx3G"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
+          SYNTH_HCL_OUTPUT: ${{ matrix.hclOutput }}
