@@ -307,8 +307,8 @@ export class TerraformResource
         provisioner: this.provisioners?.map(({ type, ...props }) => ({
           [type]: {
             isBlock: true,
-            type: "provisioner",
-            storageClassType: "any",
+            type: "list",
+            storageClassType: "object",
             value: keysToSnakeCase(props),
           },
         })),
