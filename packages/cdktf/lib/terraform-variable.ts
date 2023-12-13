@@ -170,7 +170,7 @@ export class TerraformVariable
       },
       type: {
         value: this.type,
-        type: "any",
+        type: "type",
       },
       sensitive: {
         value: this.sensitive,
