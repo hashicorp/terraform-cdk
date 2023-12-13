@@ -140,12 +140,23 @@ export function renderResource(resource: any) {
 
   const { provisioner, dynamic, ...otherAttrs } = resourceAttributes;
 
-  return `resource "${resourceType}" "${resourceName}" {
+  return {
+    hcl: `resource "${resourceType}" "${resourceName}" {
 ${renderAttributes(otherAttrs)}
 ${(provisioner && renderProvisionerBlock(provisioner)) || ""}
 ${(dynamic && renderDynamicBlocks(dynamic)) || ""}
 
-}`;
+}`,
+    metadata: {
+      resource: {
+        [resourceType]: {
+          [resourceName]: {
+            "//": resourceAttributes["//"],
+          },
+        },
+      },
+    },
+  };
 }
 
 /**
@@ -159,10 +170,21 @@ export function renderDatasource(dataSource: any) {
 
   const { dynamic, ...otherAttrs } = dataSourceAttributes;
 
-  return `data "${dataSourceType}" "${dataSourceName}" {
+  return {
+    hcl: `data "${dataSourceType}" "${dataSourceName}" {
 ${renderAttributes(otherAttrs)}
 ${(dynamic && renderDynamicBlocks(dynamic)) || ""}
-}`;
+}`,
+    metadata: {
+      data: {
+        [dataSourceType]: {
+          [dataSourceName]: {
+            "//": dataSourceAttributes["//"],
+          },
+        },
+      },
+    },
+  };
 }
 
 /**
@@ -230,9 +252,18 @@ export function renderModule(module: any) {
   const moduleName = Object.keys(module)[0];
   const moduleAttributes = module[moduleName];
 
-  return `module "${moduleName}" {
+  return {
+    hcl: `module "${moduleName}" {
 ${renderAttributes(moduleAttributes)}
-}`;
+}`,
+    metadata: {
+      module: {
+        [moduleName]: {
+          "//": moduleAttributes["//"],
+        },
+      },
+    },
+  };
 }
 
 /**
