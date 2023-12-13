@@ -6,6 +6,24 @@
 /**
  *
  */
+function escapeQuotes(str: string): string {
+  if (!str) {
+    return str;
+  }
+  if (!str.match) {
+    console.trace(str);
+  }
+
+  // Don't attempt to escape if we have an expression
+  if (str.match(/\$\{/)) {
+    return str;
+  }
+  return str.replace(/"/g, '\\"');
+}
+
+/**
+ *
+ */
 export function renderList(
   { value, isBlock, is_block, storageClassType, storage_class_type }: any,
   name?: string
@@ -19,7 +37,7 @@ export function renderList(
 
   if (typeof value === "string") {
     // this could be an expression, so we don't need to do anything here
-    return `"${value}"`;
+    return `"${escapeQuotes(value)}"`;
   }
 
   if (name) {
@@ -63,7 +81,7 @@ ${value.map((v: any) => renderListValue(v, classType)).join(",\n")}
  */
 export function renderListValue(value: any, storageClassType: string): string {
   if (storageClassType === "stringList") {
-    return `"${value}"`;
+    return `"${escapeQuotes(value)}"`;
   }
   if (storageClassType === "numberList" || storageClassType === "booleanList") {
     return `${value}`;
@@ -78,7 +96,7 @@ export function renderListValue(value: any, storageClassType: string): string {
 export function renderMap(map: any): string {
   if (typeof map === "string") {
     // this could be an expression, so we don't need to do anything here
-    return `"${map}"`;
+    return `"${escapeQuotes(map)}"`;
   }
   return `{
 ${Object.entries(map)
@@ -92,7 +110,7 @@ ${Object.entries(map)
  */
 export function renderMapValue(value: any): string {
   if (typeof value === "string") {
-    return `"${value}"`;
+    return `"${escapeQuotes(value)}"`;
   }
   if (typeof value === "number") {
     return `${value}`;
@@ -173,6 +191,18 @@ ${renderAttributes(outputAttributes)}
 /**
  *
  */
+export function renderLocals(locals: any) {
+  const localName = Object.keys(locals)[0];
+  const localAttributes = locals[localName];
+
+  return `locals {
+    ${localName} = ${renderFuzzyJsonExpression(localAttributes.value)}
+}`;
+}
+
+/**
+ *
+ */
 export function renderMoved(move: any) {
   const movedBlocks = move.map((moveBlock: any) => {
     return `moved {
@@ -230,7 +260,7 @@ function renderFuzzyJsonObject(jsonObject: any): string {
   return [
     "{",
     ...Object.entries(jsonObject).map(([name, value]) => {
-      return `${name} = ${renderFuzzyJsonExpression(value as string)}`;
+      return `${name} = ${renderFuzzyJsonExpression(value)}`;
     }),
     "}",
   ].join("\n");
@@ -276,7 +306,7 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
       return jsonExpression;
     }
 
-    return `"${jsonExpression}"`;
+    return `"${escapeQuotes(jsonExpression)}"`;
   }
 
   if (jsonExpression === "true" || jsonExpression === "false") {
@@ -287,7 +317,7 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
     return jsonExpression;
   }
 
-  return `"${jsonExpression}"`;
+  return `${jsonExpression}"`;
 }
 
 /**
@@ -368,7 +398,7 @@ ${renderAttributes(value)}
 
       if (type === "simple") {
         if (classType === "string") {
-          return `${name} = "${value}"`;
+          return `${name} = "${escapeQuotes(value)}"`;
         }
         if (classType === "number" || classType === "boolean") {
           return `${name} = ${value}`;
