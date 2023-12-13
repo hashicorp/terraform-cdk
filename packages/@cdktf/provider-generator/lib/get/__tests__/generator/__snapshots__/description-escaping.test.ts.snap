@@ -102,6 +102,20 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
       broken_comments: cdktf.booleanToTerraform(this._brokenComments),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      broken_comments: {
+        value: cdktf.booleanToHclTerraform(this._brokenComments),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -204,6 +218,20 @@ export class CodeBlocks extends cdktf.TerraformResource {
       with_code_block: cdktf.booleanToTerraform(this._withCodeBlock),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      with_code_block: {
+        value: cdktf.booleanToHclTerraform(this._withCodeBlock),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -303,6 +331,20 @@ export class CodeBlocks extends cdktf.TerraformResource {
     return {
       with_code_block: cdktf.booleanToTerraform(this._withCodeBlock),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      with_code_block: {
+        value: cdktf.booleanToHclTerraform(this._withCodeBlock),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "

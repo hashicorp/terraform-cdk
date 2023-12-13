@@ -138,6 +138,31 @@ export function cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToTerra
   }
 }
 
+
+export function cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToHclTerraform(struct?: CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference | CloudfrontDistributionCacheBehaviorForwardedValuesCookies): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    forward: {
+      value: cdktf.stringToHclTerraform(struct!.forward),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    whitelisted_names: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.whitelistedNames),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -237,6 +262,43 @@ export function cloudfrontDistributionCacheBehaviorForwardedValuesToTerraform(st
     query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.queryStringCacheKeys),
     cookies: cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToTerraform(struct!.cookies),
   }
+}
+
+
+export function cloudfrontDistributionCacheBehaviorForwardedValuesToHclTerraform(struct?: CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference | CloudfrontDistributionCacheBehaviorForwardedValues): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    headers: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.headers),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    query_string: {
+      value: cdktf.booleanToHclTerraform(struct!.queryString),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    query_string_cache_keys: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.queryStringCacheKeys),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    cookies: {
+      value: cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToHclTerraform(struct!.cookies),
+      isBlock: true,
+      type: "set",
+      storageClassType: "CloudfrontDistributionCacheBehaviorForwardedValuesCookiesList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference extends cdktf.ComplexObject {
@@ -372,6 +434,37 @@ export function cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTe
     include_body: cdktf.booleanToTerraform(struct!.includeBody),
     lambda_arn: cdktf.stringToTerraform(struct!.lambdaArn),
   }
+}
+
+
+export function cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToHclTerraform(struct?: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    event_type: {
+      value: cdktf.stringToHclTerraform(struct!.eventType),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    include_body: {
+      value: cdktf.booleanToHclTerraform(struct!.includeBody),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    lambda_arn: {
+      value: cdktf.stringToHclTerraform(struct!.lambdaArn),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
@@ -576,6 +669,103 @@ export function cloudfrontDistributionCacheBehaviorToTerraform(struct?: Cloudfro
     forwarded_values: cloudfrontDistributionCacheBehaviorForwardedValuesToTerraform(struct!.forwardedValues),
     lambda_function_association: cdktf.listMapper(cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTerraform, true)(struct!.lambdaFunctionAssociation),
   }
+}
+
+
+export function cloudfrontDistributionCacheBehaviorToHclTerraform(struct?: CloudfrontDistributionCacheBehavior | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    allowed_methods: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.allowedMethods),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    cached_methods: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.cachedMethods),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    compress: {
+      value: cdktf.booleanToHclTerraform(struct!.compress),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    default_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.defaultTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    field_level_encryption_id: {
+      value: cdktf.stringToHclTerraform(struct!.fieldLevelEncryptionId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    max_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.maxTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    min_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.minTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    path_pattern: {
+      value: cdktf.stringToHclTerraform(struct!.pathPattern),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    smooth_streaming: {
+      value: cdktf.booleanToHclTerraform(struct!.smoothStreaming),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    target_origin_id: {
+      value: cdktf.stringToHclTerraform(struct!.targetOriginId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    trusted_signers: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.trustedSigners),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    viewer_protocol_policy: {
+      value: cdktf.stringToHclTerraform(struct!.viewerProtocolPolicy),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    forwarded_values: {
+      value: cloudfrontDistributionCacheBehaviorForwardedValuesToHclTerraform(struct!.forwardedValues),
+      isBlock: true,
+      type: "set",
+      storageClassType: "CloudfrontDistributionCacheBehaviorForwardedValuesList",
+    },
+    lambda_function_association: {
+      value: cdktf.listMapperHcl(cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToHclTerraform, true)(struct!.lambdaFunctionAssociation),
+      isBlock: true,
+      type: "set",
+      storageClassType: "CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionCacheBehaviorOutputReference extends cdktf.ComplexObject {
@@ -958,6 +1148,43 @@ export function cloudfrontDistributionCustomErrorResponseToTerraform(struct?: Cl
   }
 }
 
+
+export function cloudfrontDistributionCustomErrorResponseToHclTerraform(struct?: CloudfrontDistributionCustomErrorResponse | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    error_caching_min_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.errorCachingMinTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    error_code: {
+      value: cdktf.numberToHclTerraform(struct!.errorCode),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    response_code: {
+      value: cdktf.numberToHclTerraform(struct!.responseCode),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    response_page_path: {
+      value: cdktf.stringToHclTerraform(struct!.responsePagePath),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionCustomErrorResponseOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
   private resolvableValue?: cdktf.IResolvable;
@@ -1123,6 +1350,31 @@ export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies
   }
 }
 
+
+export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesToHclTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference | CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    forward: {
+      value: cdktf.stringToHclTerraform(struct!.forward),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    whitelisted_names: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.whitelistedNames),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -1222,6 +1474,43 @@ export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToTerra
     query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.queryStringCacheKeys),
     cookies: cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesToTerraform(struct!.cookies),
   }
+}
+
+
+export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToHclTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference | CloudfrontDistributionDefaultCacheBehaviorForwardedValues): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    headers: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.headers),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    query_string: {
+      value: cdktf.booleanToHclTerraform(struct!.queryString),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    query_string_cache_keys: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.queryStringCacheKeys),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    cookies: {
+      value: cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesToHclTerraform(struct!.cookies),
+      isBlock: true,
+      type: "list",
+      storageClassType: "CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference extends cdktf.ComplexObject {
@@ -1357,6 +1646,37 @@ export function cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociat
     include_body: cdktf.booleanToTerraform(struct!.includeBody),
     lambda_arn: cdktf.stringToTerraform(struct!.lambdaArn),
   }
+}
+
+
+export function cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationToHclTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    event_type: {
+      value: cdktf.stringToHclTerraform(struct!.eventType),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    include_body: {
+      value: cdktf.booleanToHclTerraform(struct!.includeBody),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    lambda_arn: {
+      value: cdktf.stringToHclTerraform(struct!.lambdaArn),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
@@ -1556,6 +1876,97 @@ export function cloudfrontDistributionDefaultCacheBehaviorToTerraform(struct?: C
     forwarded_values: cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToTerraform(struct!.forwardedValues),
     lambda_function_association: cdktf.listMapper(cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationToTerraform, true)(struct!.lambdaFunctionAssociation),
   }
+}
+
+
+export function cloudfrontDistributionDefaultCacheBehaviorToHclTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorOutputReference | CloudfrontDistributionDefaultCacheBehavior): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    allowed_methods: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.allowedMethods),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    cached_methods: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.cachedMethods),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    compress: {
+      value: cdktf.booleanToHclTerraform(struct!.compress),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    default_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.defaultTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    field_level_encryption_id: {
+      value: cdktf.stringToHclTerraform(struct!.fieldLevelEncryptionId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    max_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.maxTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    min_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.minTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    smooth_streaming: {
+      value: cdktf.booleanToHclTerraform(struct!.smoothStreaming),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    target_origin_id: {
+      value: cdktf.stringToHclTerraform(struct!.targetOriginId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    trusted_signers: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.trustedSigners),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    viewer_protocol_policy: {
+      value: cdktf.stringToHclTerraform(struct!.viewerProtocolPolicy),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    forwarded_values: {
+      value: cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToHclTerraform(struct!.forwardedValues),
+      isBlock: true,
+      type: "list",
+      storageClassType: "CloudfrontDistributionDefaultCacheBehaviorForwardedValuesList",
+    },
+    lambda_function_association: {
+      value: cdktf.listMapperHcl(cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationToHclTerraform, true)(struct!.lambdaFunctionAssociation),
+      isBlock: true,
+      type: "set",
+      storageClassType: "CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends cdktf.ComplexObject {
@@ -1882,6 +2293,37 @@ export function cloudfrontDistributionLoggingConfigToTerraform(struct?: Cloudfro
   }
 }
 
+
+export function cloudfrontDistributionLoggingConfigToHclTerraform(struct?: CloudfrontDistributionLoggingConfigOutputReference | CloudfrontDistributionLoggingConfig): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    bucket: {
+      value: cdktf.stringToHclTerraform(struct!.bucket),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    include_cookies: {
+      value: cdktf.booleanToHclTerraform(struct!.includeCookies),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    prefix: {
+      value: cdktf.stringToHclTerraform(struct!.prefix),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -1993,6 +2435,31 @@ export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies
   }
 }
 
+
+export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesToHclTerraform(struct?: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference | CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    forward: {
+      value: cdktf.stringToHclTerraform(struct!.forward),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    whitelisted_names: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.whitelistedNames),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -2092,6 +2559,43 @@ export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToTerra
     query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.queryStringCacheKeys),
     cookies: cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesToTerraform(struct!.cookies),
   }
+}
+
+
+export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToHclTerraform(struct?: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputReference | CloudfrontDistributionOrderedCacheBehaviorForwardedValues): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    headers: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.headers),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    query_string: {
+      value: cdktf.booleanToHclTerraform(struct!.queryString),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    query_string_cache_keys: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.queryStringCacheKeys),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    cookies: {
+      value: cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesToHclTerraform(struct!.cookies),
+      isBlock: true,
+      type: "list",
+      storageClassType: "CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputReference extends cdktf.ComplexObject {
@@ -2227,6 +2731,37 @@ export function cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociat
     include_body: cdktf.booleanToTerraform(struct!.includeBody),
     lambda_arn: cdktf.stringToTerraform(struct!.lambdaArn),
   }
+}
+
+
+export function cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationToHclTerraform(struct?: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    event_type: {
+      value: cdktf.stringToHclTerraform(struct!.eventType),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    include_body: {
+      value: cdktf.booleanToHclTerraform(struct!.includeBody),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    lambda_arn: {
+      value: cdktf.stringToHclTerraform(struct!.lambdaArn),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
@@ -2431,6 +2966,103 @@ export function cloudfrontDistributionOrderedCacheBehaviorToTerraform(struct?: C
     forwarded_values: cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToTerraform(struct!.forwardedValues),
     lambda_function_association: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationToTerraform, true)(struct!.lambdaFunctionAssociation),
   }
+}
+
+
+export function cloudfrontDistributionOrderedCacheBehaviorToHclTerraform(struct?: CloudfrontDistributionOrderedCacheBehavior | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    allowed_methods: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.allowedMethods),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    cached_methods: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.cachedMethods),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    compress: {
+      value: cdktf.booleanToHclTerraform(struct!.compress),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    default_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.defaultTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    field_level_encryption_id: {
+      value: cdktf.stringToHclTerraform(struct!.fieldLevelEncryptionId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    max_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.maxTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    min_ttl: {
+      value: cdktf.numberToHclTerraform(struct!.minTtl),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    path_pattern: {
+      value: cdktf.stringToHclTerraform(struct!.pathPattern),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    smooth_streaming: {
+      value: cdktf.booleanToHclTerraform(struct!.smoothStreaming),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    target_origin_id: {
+      value: cdktf.stringToHclTerraform(struct!.targetOriginId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    trusted_signers: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.trustedSigners),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    viewer_protocol_policy: {
+      value: cdktf.stringToHclTerraform(struct!.viewerProtocolPolicy),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    forwarded_values: {
+      value: cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToHclTerraform(struct!.forwardedValues),
+      isBlock: true,
+      type: "list",
+      storageClassType: "CloudfrontDistributionOrderedCacheBehaviorForwardedValuesList",
+    },
+    lambda_function_association: {
+      value: cdktf.listMapperHcl(cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationToHclTerraform, true)(struct!.lambdaFunctionAssociation),
+      isBlock: true,
+      type: "set",
+      storageClassType: "CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionOrderedCacheBehaviorOutputReference extends cdktf.ComplexObject {
@@ -2803,6 +3435,31 @@ export function cloudfrontDistributionOriginCustomHeaderToTerraform(struct?: Clo
   }
 }
 
+
+export function cloudfrontDistributionOriginCustomHeaderToHclTerraform(struct?: CloudfrontDistributionOriginCustomHeader | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    name: {
+      value: cdktf.stringToHclTerraform(struct!.name),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    value: {
+      value: cdktf.stringToHclTerraform(struct!.value),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionOriginCustomHeaderOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
   private resolvableValue?: cdktf.IResolvable;
@@ -2939,6 +3596,55 @@ export function cloudfrontDistributionOriginCustomOriginConfigToTerraform(struct
     origin_read_timeout: cdktf.numberToTerraform(struct!.originReadTimeout),
     origin_ssl_protocols: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.originSslProtocols),
   }
+}
+
+
+export function cloudfrontDistributionOriginCustomOriginConfigToHclTerraform(struct?: CloudfrontDistributionOriginCustomOriginConfigOutputReference | CloudfrontDistributionOriginCustomOriginConfig): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    http_port: {
+      value: cdktf.numberToHclTerraform(struct!.httpPort),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    https_port: {
+      value: cdktf.numberToHclTerraform(struct!.httpsPort),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    origin_keepalive_timeout: {
+      value: cdktf.numberToHclTerraform(struct!.originKeepaliveTimeout),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    origin_protocol_policy: {
+      value: cdktf.stringToHclTerraform(struct!.originProtocolPolicy),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    origin_read_timeout: {
+      value: cdktf.numberToHclTerraform(struct!.originReadTimeout),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    origin_ssl_protocols: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.originSslProtocols),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionOriginCustomOriginConfigOutputReference extends cdktf.ComplexObject {
@@ -3104,6 +3810,25 @@ export function cloudfrontDistributionOriginS3OriginConfigToTerraform(struct?: C
   }
 }
 
+
+export function cloudfrontDistributionOriginS3OriginConfigToHclTerraform(struct?: CloudfrontDistributionOriginS3OriginConfigOutputReference | CloudfrontDistributionOriginS3OriginConfig): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    origin_access_identity: {
+      value: cdktf.stringToHclTerraform(struct!.originAccessIdentity),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionOriginS3OriginConfigOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -3195,6 +3920,55 @@ export function cloudfrontDistributionOriginToTerraform(struct?: CloudfrontDistr
     custom_origin_config: cloudfrontDistributionOriginCustomOriginConfigToTerraform(struct!.customOriginConfig),
     s3_origin_config: cloudfrontDistributionOriginS3OriginConfigToTerraform(struct!.s3OriginConfig),
   }
+}
+
+
+export function cloudfrontDistributionOriginToHclTerraform(struct?: CloudfrontDistributionOrigin | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    domain_name: {
+      value: cdktf.stringToHclTerraform(struct!.domainName),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    origin_id: {
+      value: cdktf.stringToHclTerraform(struct!.originId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    origin_path: {
+      value: cdktf.stringToHclTerraform(struct!.originPath),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    custom_header: {
+      value: cdktf.listMapperHcl(cloudfrontDistributionOriginCustomHeaderToHclTerraform, true)(struct!.customHeader),
+      isBlock: true,
+      type: "set",
+      storageClassType: "CloudfrontDistributionOriginCustomHeaderList",
+    },
+    custom_origin_config: {
+      value: cloudfrontDistributionOriginCustomOriginConfigToHclTerraform(struct!.customOriginConfig),
+      isBlock: true,
+      type: "list",
+      storageClassType: "CloudfrontDistributionOriginCustomOriginConfigList",
+    },
+    s3_origin_config: {
+      value: cloudfrontDistributionOriginS3OriginConfigToHclTerraform(struct!.s3OriginConfig),
+      isBlock: true,
+      type: "list",
+      storageClassType: "CloudfrontDistributionOriginS3OriginConfigList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexObject {
@@ -3398,6 +4172,25 @@ export function cloudfrontDistributionOriginGroupFailoverCriteriaToTerraform(str
   }
 }
 
+
+export function cloudfrontDistributionOriginGroupFailoverCriteriaToHclTerraform(struct?: CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference | CloudfrontDistributionOriginGroupFailoverCriteria): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    status_codes: {
+      value: cdktf.listMapperHcl(cdktf.numberToHclTerraform, false)(struct!.statusCodes),
+      isBlock: false,
+      type: "set",
+      storageClassType: "numberList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -3458,6 +4251,25 @@ export function cloudfrontDistributionOriginGroupMemberToTerraform(struct?: Clou
   return {
     origin_id: cdktf.stringToTerraform(struct!.originId),
   }
+}
+
+
+export function cloudfrontDistributionOriginGroupMemberToHclTerraform(struct?: CloudfrontDistributionOriginGroupMember | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    origin_id: {
+      value: cdktf.stringToHclTerraform(struct!.originId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionOriginGroupMemberOutputReference extends cdktf.ComplexObject {
@@ -3566,6 +4378,37 @@ export function cloudfrontDistributionOriginGroupToTerraform(struct?: Cloudfront
     failover_criteria: cloudfrontDistributionOriginGroupFailoverCriteriaToTerraform(struct!.failoverCriteria),
     member: cdktf.listMapper(cloudfrontDistributionOriginGroupMemberToTerraform, true)(struct!.member),
   }
+}
+
+
+export function cloudfrontDistributionOriginGroupToHclTerraform(struct?: CloudfrontDistributionOriginGroup | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    origin_id: {
+      value: cdktf.stringToHclTerraform(struct!.originId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    failover_criteria: {
+      value: cloudfrontDistributionOriginGroupFailoverCriteriaToHclTerraform(struct!.failoverCriteria),
+      isBlock: true,
+      type: "list",
+      storageClassType: "CloudfrontDistributionOriginGroupFailoverCriteriaList",
+    },
+    member: {
+      value: cdktf.listMapperHcl(cloudfrontDistributionOriginGroupMemberToHclTerraform, true)(struct!.member),
+      isBlock: true,
+      type: "list",
+      storageClassType: "CloudfrontDistributionOriginGroupMemberList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionOriginGroupOutputReference extends cdktf.ComplexObject {
@@ -3705,6 +4548,31 @@ export function cloudfrontDistributionRestrictionsGeoRestrictionToTerraform(stru
   }
 }
 
+
+export function cloudfrontDistributionRestrictionsGeoRestrictionToHclTerraform(struct?: CloudfrontDistributionRestrictionsGeoRestrictionOutputReference | CloudfrontDistributionRestrictionsGeoRestriction): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    locations: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.locations),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    restriction_type: {
+      value: cdktf.stringToHclTerraform(struct!.restrictionType),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -3791,6 +4659,25 @@ export function cloudfrontDistributionRestrictionsToTerraform(struct?: Cloudfron
   }
 }
 
+
+export function cloudfrontDistributionRestrictionsToHclTerraform(struct?: CloudfrontDistributionRestrictionsOutputReference | CloudfrontDistributionRestrictions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    geo_restriction: {
+      value: cloudfrontDistributionRestrictionsGeoRestrictionToHclTerraform(struct!.geoRestriction),
+      isBlock: true,
+      type: "list",
+      storageClassType: "CloudfrontDistributionRestrictionsGeoRestrictionList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class CloudfrontDistributionRestrictionsOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -3871,6 +4758,49 @@ export function cloudfrontDistributionViewerCertificateToTerraform(struct?: Clou
     minimum_protocol_version: cdktf.stringToTerraform(struct!.minimumProtocolVersion),
     ssl_support_method: cdktf.stringToTerraform(struct!.sslSupportMethod),
   }
+}
+
+
+export function cloudfrontDistributionViewerCertificateToHclTerraform(struct?: CloudfrontDistributionViewerCertificateOutputReference | CloudfrontDistributionViewerCertificate): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    acm_certificate_arn: {
+      value: cdktf.stringToHclTerraform(struct!.acmCertificateArn),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    cloudfront_default_certificate: {
+      value: cdktf.booleanToHclTerraform(struct!.cloudfrontDefaultCertificate),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    iam_certificate_id: {
+      value: cdktf.stringToHclTerraform(struct!.iamCertificateId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    minimum_protocol_version: {
+      value: cdktf.stringToHclTerraform(struct!.minimumProtocolVersion),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    ssl_support_method: {
+      value: cdktf.stringToHclTerraform(struct!.sslSupportMethod),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class CloudfrontDistributionViewerCertificateOutputReference extends cdktf.ComplexObject {
@@ -4482,6 +5412,140 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
       viewer_certificate: cloudfrontDistributionViewerCertificateToTerraform(this._viewerCertificate.internalValue),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      aliases: {
+        value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(this._aliases),
+        isBlock: false,
+        type: "set",
+        storageClassType: "stringList",
+      },
+      comment: {
+        value: cdktf.stringToHclTerraform(this._comment),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      default_root_object: {
+        value: cdktf.stringToHclTerraform(this._defaultRootObject),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      enabled: {
+        value: cdktf.booleanToHclTerraform(this._enabled),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      http_version: {
+        value: cdktf.stringToHclTerraform(this._httpVersion),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      id: {
+        value: cdktf.stringToHclTerraform(this._id),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      is_ipv6_enabled: {
+        value: cdktf.booleanToHclTerraform(this._isIpv6Enabled),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      price_class: {
+        value: cdktf.stringToHclTerraform(this._priceClass),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      retain_on_delete: {
+        value: cdktf.booleanToHclTerraform(this._retainOnDelete),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      tags: {
+        value: cdktf.hashMapperHcl(cdktf.stringToHclTerraform)(this._tags),
+        isBlock: false,
+        type: "map",
+        storageClassType: "stringMap",
+      },
+      wait_for_deployment: {
+        value: cdktf.booleanToHclTerraform(this._waitForDeployment),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      web_acl_id: {
+        value: cdktf.stringToHclTerraform(this._webAclId),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      cache_behavior: {
+        value: cdktf.listMapperHcl(cloudfrontDistributionCacheBehaviorToHclTerraform, true)(this._cacheBehavior.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "CloudfrontDistributionCacheBehaviorList",
+      },
+      custom_error_response: {
+        value: cdktf.listMapperHcl(cloudfrontDistributionCustomErrorResponseToHclTerraform, true)(this._customErrorResponse.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "CloudfrontDistributionCustomErrorResponseList",
+      },
+      default_cache_behavior: {
+        value: cloudfrontDistributionDefaultCacheBehaviorToHclTerraform(this._defaultCacheBehavior.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "CloudfrontDistributionDefaultCacheBehaviorList",
+      },
+      logging_config: {
+        value: cloudfrontDistributionLoggingConfigToHclTerraform(this._loggingConfig.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "CloudfrontDistributionLoggingConfigList",
+      },
+      ordered_cache_behavior: {
+        value: cdktf.listMapperHcl(cloudfrontDistributionOrderedCacheBehaviorToHclTerraform, true)(this._orderedCacheBehavior.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "CloudfrontDistributionOrderedCacheBehaviorList",
+      },
+      origin: {
+        value: cdktf.listMapperHcl(cloudfrontDistributionOriginToHclTerraform, true)(this._origin.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "CloudfrontDistributionOriginList",
+      },
+      origin_group: {
+        value: cdktf.listMapperHcl(cloudfrontDistributionOriginGroupToHclTerraform, true)(this._originGroup.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "CloudfrontDistributionOriginGroupList",
+      },
+      restrictions: {
+        value: cloudfrontDistributionRestrictionsToHclTerraform(this._restrictions.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "CloudfrontDistributionRestrictionsList",
+      },
+      viewer_certificate: {
+        value: cloudfrontDistributionViewerCertificateToHclTerraform(this._viewerCertificate.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "CloudfrontDistributionViewerCertificateList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -4607,6 +5671,26 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
       account_id: cdktf.stringToTerraform(this._accountId),
       id: cdktf.stringToTerraform(this._id),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      account_id: {
+        value: cdktf.stringToHclTerraform(this._accountId),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      id: {
+        value: cdktf.stringToHclTerraform(this._id),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -4771,6 +5855,49 @@ export function s3BucketCorsRuleToTerraform(struct?: S3BucketCorsRule | cdktf.IR
     expose_headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.exposeHeaders),
     max_age_seconds: cdktf.numberToTerraform(struct!.maxAgeSeconds),
   }
+}
+
+
+export function s3BucketCorsRuleToHclTerraform(struct?: S3BucketCorsRule | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    allowed_headers: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.allowedHeaders),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    allowed_methods: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.allowedMethods),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    allowed_origins: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.allowedOrigins),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    expose_headers: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.exposeHeaders),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    max_age_seconds: {
+      value: cdktf.numberToHclTerraform(struct!.maxAgeSeconds),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketCorsRuleOutputReference extends cdktf.ComplexObject {
@@ -4970,6 +6097,43 @@ export function s3BucketGrantToTerraform(struct?: S3BucketGrant | cdktf.IResolva
   }
 }
 
+
+export function s3BucketGrantToHclTerraform(struct?: S3BucketGrant | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    id: {
+      value: cdktf.stringToHclTerraform(struct!.id),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    permissions: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.permissions),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    type: {
+      value: cdktf.stringToHclTerraform(struct!.type),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    uri: {
+      value: cdktf.stringToHclTerraform(struct!.uri),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketGrantOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
   private resolvableValue?: cdktf.IResolvable;
@@ -5137,6 +6301,37 @@ export function s3BucketLifecycleRuleExpirationToTerraform(struct?: S3BucketLife
   }
 }
 
+
+export function s3BucketLifecycleRuleExpirationToHclTerraform(struct?: S3BucketLifecycleRuleExpirationOutputReference | S3BucketLifecycleRuleExpiration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    date: {
+      value: cdktf.stringToHclTerraform(struct!.date),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    days: {
+      value: cdktf.numberToHclTerraform(struct!.days),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    expired_object_delete_marker: {
+      value: cdktf.booleanToHclTerraform(struct!.expiredObjectDeleteMarker),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -5246,6 +6441,25 @@ export function s3BucketLifecycleRuleNoncurrentVersionExpirationToTerraform(stru
   }
 }
 
+
+export function s3BucketLifecycleRuleNoncurrentVersionExpirationToHclTerraform(struct?: S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference | S3BucketLifecycleRuleNoncurrentVersionExpiration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    days: {
+      value: cdktf.numberToHclTerraform(struct!.days),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -5314,6 +6528,31 @@ export function s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform(stru
     days: cdktf.numberToTerraform(struct!.days),
     storage_class: cdktf.stringToTerraform(struct!.storageClass),
   }
+}
+
+
+export function s3BucketLifecycleRuleNoncurrentVersionTransitionToHclTerraform(struct?: S3BucketLifecycleRuleNoncurrentVersionTransition | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    days: {
+      value: cdktf.numberToHclTerraform(struct!.days),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    storage_class: {
+      value: cdktf.stringToHclTerraform(struct!.storageClass),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketLifecycleRuleNoncurrentVersionTransitionOutputReference extends cdktf.ComplexObject {
@@ -5440,6 +6679,37 @@ export function s3BucketLifecycleRuleTransitionToTerraform(struct?: S3BucketLife
     days: cdktf.numberToTerraform(struct!.days),
     storage_class: cdktf.stringToTerraform(struct!.storageClass),
   }
+}
+
+
+export function s3BucketLifecycleRuleTransitionToHclTerraform(struct?: S3BucketLifecycleRuleTransition | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    date: {
+      value: cdktf.stringToHclTerraform(struct!.date),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    days: {
+      value: cdktf.numberToHclTerraform(struct!.days),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    storage_class: {
+      value: cdktf.stringToHclTerraform(struct!.storageClass),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketLifecycleRuleTransitionOutputReference extends cdktf.ComplexObject {
@@ -5629,6 +6899,73 @@ export function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule 
     noncurrent_version_transition: cdktf.listMapper(s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform, true)(struct!.noncurrentVersionTransition),
     transition: cdktf.listMapper(s3BucketLifecycleRuleTransitionToTerraform, true)(struct!.transition),
   }
+}
+
+
+export function s3BucketLifecycleRuleToHclTerraform(struct?: S3BucketLifecycleRule | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    abort_incomplete_multipart_upload_days: {
+      value: cdktf.numberToHclTerraform(struct!.abortIncompleteMultipartUploadDays),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    enabled: {
+      value: cdktf.booleanToHclTerraform(struct!.enabled),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    id: {
+      value: cdktf.stringToHclTerraform(struct!.id),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    prefix: {
+      value: cdktf.stringToHclTerraform(struct!.prefix),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    tags: {
+      value: cdktf.hashMapperHcl(cdktf.stringToHclTerraform)(struct!.tags),
+      isBlock: false,
+      type: "map",
+      storageClassType: "stringMap",
+    },
+    expiration: {
+      value: s3BucketLifecycleRuleExpirationToHclTerraform(struct!.expiration),
+      isBlock: true,
+      type: "set",
+      storageClassType: "S3BucketLifecycleRuleExpirationList",
+    },
+    noncurrent_version_expiration: {
+      value: s3BucketLifecycleRuleNoncurrentVersionExpirationToHclTerraform(struct!.noncurrentVersionExpiration),
+      isBlock: true,
+      type: "set",
+      storageClassType: "S3BucketLifecycleRuleNoncurrentVersionExpirationList",
+    },
+    noncurrent_version_transition: {
+      value: cdktf.listMapperHcl(s3BucketLifecycleRuleNoncurrentVersionTransitionToHclTerraform, true)(struct!.noncurrentVersionTransition),
+      isBlock: true,
+      type: "set",
+      storageClassType: "S3BucketLifecycleRuleNoncurrentVersionTransitionList",
+    },
+    transition: {
+      value: cdktf.listMapperHcl(s3BucketLifecycleRuleTransitionToHclTerraform, true)(struct!.transition),
+      isBlock: true,
+      type: "set",
+      storageClassType: "S3BucketLifecycleRuleTransitionList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
@@ -5906,6 +7243,31 @@ export function s3BucketLoggingToTerraform(struct?: S3BucketLogging | cdktf.IRes
   }
 }
 
+
+export function s3BucketLoggingToHclTerraform(struct?: S3BucketLogging | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    target_bucket: {
+      value: cdktf.stringToHclTerraform(struct!.targetBucket),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    target_prefix: {
+      value: cdktf.stringToHclTerraform(struct!.targetPrefix),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketLoggingOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
   private resolvableValue?: cdktf.IResolvable;
@@ -6032,6 +7394,37 @@ export function s3BucketObjectLockConfigurationRuleDefaultRetentionToTerraform(s
   }
 }
 
+
+export function s3BucketObjectLockConfigurationRuleDefaultRetentionToHclTerraform(struct?: S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference | S3BucketObjectLockConfigurationRuleDefaultRetention): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    days: {
+      value: cdktf.numberToHclTerraform(struct!.days),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    mode: {
+      value: cdktf.stringToHclTerraform(struct!.mode),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    years: {
+      value: cdktf.numberToHclTerraform(struct!.years),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -6140,6 +7533,25 @@ export function s3BucketObjectLockConfigurationRuleToTerraform(struct?: S3Bucket
   }
 }
 
+
+export function s3BucketObjectLockConfigurationRuleToHclTerraform(struct?: S3BucketObjectLockConfigurationRuleOutputReference | S3BucketObjectLockConfigurationRule): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    default_retention: {
+      value: s3BucketObjectLockConfigurationRuleDefaultRetentionToHclTerraform(struct!.defaultRetention),
+      isBlock: true,
+      type: "list",
+      storageClassType: "S3BucketObjectLockConfigurationRuleDefaultRetentionList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketObjectLockConfigurationRuleOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -6207,6 +7619,31 @@ export function s3BucketObjectLockConfigurationToTerraform(struct?: S3BucketObje
     object_lock_enabled: cdktf.stringToTerraform(struct!.objectLockEnabled),
     rule: s3BucketObjectLockConfigurationRuleToTerraform(struct!.rule),
   }
+}
+
+
+export function s3BucketObjectLockConfigurationToHclTerraform(struct?: S3BucketObjectLockConfigurationOutputReference | S3BucketObjectLockConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    object_lock_enabled: {
+      value: cdktf.stringToHclTerraform(struct!.objectLockEnabled),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    rule: {
+      value: s3BucketObjectLockConfigurationRuleToHclTerraform(struct!.rule),
+      isBlock: true,
+      type: "list",
+      storageClassType: "S3BucketObjectLockConfigurationRuleList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketObjectLockConfigurationOutputReference extends cdktf.ComplexObject {
@@ -6293,6 +7730,25 @@ export function s3BucketReplicationConfigurationRulesDestinationAccessControlTra
   }
 }
 
+
+export function s3BucketReplicationConfigurationRulesDestinationAccessControlTranslationToHclTerraform(struct?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference | S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    owner: {
+      value: cdktf.stringToHclTerraform(struct!.owner),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -6375,6 +7831,49 @@ export function s3BucketReplicationConfigurationRulesDestinationToTerraform(stru
     storage_class: cdktf.stringToTerraform(struct!.storageClass),
     access_control_translation: s3BucketReplicationConfigurationRulesDestinationAccessControlTranslationToTerraform(struct!.accessControlTranslation),
   }
+}
+
+
+export function s3BucketReplicationConfigurationRulesDestinationToHclTerraform(struct?: S3BucketReplicationConfigurationRulesDestinationOutputReference | S3BucketReplicationConfigurationRulesDestination): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    account_id: {
+      value: cdktf.stringToHclTerraform(struct!.accountId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    bucket: {
+      value: cdktf.stringToHclTerraform(struct!.bucket),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    replica_kms_key_id: {
+      value: cdktf.stringToHclTerraform(struct!.replicaKmsKeyId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    storage_class: {
+      value: cdktf.stringToHclTerraform(struct!.storageClass),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    access_control_translation: {
+      value: s3BucketReplicationConfigurationRulesDestinationAccessControlTranslationToHclTerraform(struct!.accessControlTranslation),
+      isBlock: true,
+      type: "list",
+      storageClassType: "S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketReplicationConfigurationRulesDestinationOutputReference extends cdktf.ComplexObject {
@@ -6532,6 +8031,31 @@ export function s3BucketReplicationConfigurationRulesFilterToTerraform(struct?: 
   }
 }
 
+
+export function s3BucketReplicationConfigurationRulesFilterToHclTerraform(struct?: S3BucketReplicationConfigurationRulesFilterOutputReference | S3BucketReplicationConfigurationRulesFilter): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    prefix: {
+      value: cdktf.stringToHclTerraform(struct!.prefix),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    tags: {
+      value: cdktf.hashMapperHcl(cdktf.stringToHclTerraform)(struct!.tags),
+      isBlock: false,
+      type: "map",
+      storageClassType: "stringMap",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketReplicationConfigurationRulesFilterOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -6619,6 +8143,25 @@ export function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseK
   }
 }
 
+
+export function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsToHclTerraform(struct?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference | S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    enabled: {
+      value: cdktf.booleanToHclTerraform(struct!.enabled),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -6681,6 +8224,25 @@ export function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaToTe
   return {
     sse_kms_encrypted_objects: s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsToTerraform(struct!.sseKmsEncryptedObjects),
   }
+}
+
+
+export function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaToHclTerraform(struct?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputReference | S3BucketReplicationConfigurationRulesSourceSelectionCriteria): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    sse_kms_encrypted_objects: {
+      value: s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsToHclTerraform(struct!.sseKmsEncryptedObjects),
+      isBlock: true,
+      type: "set",
+      storageClassType: "S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputReference extends cdktf.ComplexObject {
@@ -6785,6 +8347,61 @@ export function s3BucketReplicationConfigurationRulesToTerraform(struct?: S3Buck
     filter: s3BucketReplicationConfigurationRulesFilterToTerraform(struct!.filter),
     source_selection_criteria: s3BucketReplicationConfigurationRulesSourceSelectionCriteriaToTerraform(struct!.sourceSelectionCriteria),
   }
+}
+
+
+export function s3BucketReplicationConfigurationRulesToHclTerraform(struct?: S3BucketReplicationConfigurationRules | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    id: {
+      value: cdktf.stringToHclTerraform(struct!.id),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    prefix: {
+      value: cdktf.stringToHclTerraform(struct!.prefix),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    priority: {
+      value: cdktf.numberToHclTerraform(struct!.priority),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    status: {
+      value: cdktf.stringToHclTerraform(struct!.status),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    destination: {
+      value: s3BucketReplicationConfigurationRulesDestinationToHclTerraform(struct!.destination),
+      isBlock: true,
+      type: "set",
+      storageClassType: "S3BucketReplicationConfigurationRulesDestinationList",
+    },
+    filter: {
+      value: s3BucketReplicationConfigurationRulesFilterToHclTerraform(struct!.filter),
+      isBlock: true,
+      type: "list",
+      storageClassType: "S3BucketReplicationConfigurationRulesFilterList",
+    },
+    source_selection_criteria: {
+      value: s3BucketReplicationConfigurationRulesSourceSelectionCriteriaToHclTerraform(struct!.sourceSelectionCriteria),
+      isBlock: true,
+      type: "set",
+      storageClassType: "S3BucketReplicationConfigurationRulesSourceSelectionCriteriaList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.ComplexObject {
@@ -7017,6 +8634,31 @@ export function s3BucketReplicationConfigurationToTerraform(struct?: S3BucketRep
   }
 }
 
+
+export function s3BucketReplicationConfigurationToHclTerraform(struct?: S3BucketReplicationConfigurationOutputReference | S3BucketReplicationConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    role: {
+      value: cdktf.stringToHclTerraform(struct!.role),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    rules: {
+      value: cdktf.listMapperHcl(s3BucketReplicationConfigurationRulesToHclTerraform, true)(struct!.rules),
+      isBlock: true,
+      type: "set",
+      storageClassType: "S3BucketReplicationConfigurationRulesList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketReplicationConfigurationOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -7101,6 +8743,31 @@ export function s3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncr
     kms_master_key_id: cdktf.stringToTerraform(struct!.kmsMasterKeyId),
     sse_algorithm: cdktf.stringToTerraform(struct!.sseAlgorithm),
   }
+}
+
+
+export function s3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultToHclTerraform(struct?: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference | S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    kms_master_key_id: {
+      value: cdktf.stringToHclTerraform(struct!.kmsMasterKeyId),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    sse_algorithm: {
+      value: cdktf.stringToHclTerraform(struct!.sseAlgorithm),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference extends cdktf.ComplexObject {
@@ -7189,6 +8856,25 @@ export function s3BucketServerSideEncryptionConfigurationRuleToTerraform(struct?
   }
 }
 
+
+export function s3BucketServerSideEncryptionConfigurationRuleToHclTerraform(struct?: S3BucketServerSideEncryptionConfigurationRuleOutputReference | S3BucketServerSideEncryptionConfigurationRule): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    apply_server_side_encryption_by_default: {
+      value: s3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultToHclTerraform(struct!.applyServerSideEncryptionByDefault),
+      isBlock: true,
+      type: "list",
+      storageClassType: "S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class S3BucketServerSideEncryptionConfigurationRuleOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -7251,6 +8937,25 @@ export function s3BucketServerSideEncryptionConfigurationToTerraform(struct?: S3
   return {
     rule: s3BucketServerSideEncryptionConfigurationRuleToTerraform(struct!.rule),
   }
+}
+
+
+export function s3BucketServerSideEncryptionConfigurationToHclTerraform(struct?: S3BucketServerSideEncryptionConfigurationOutputReference | S3BucketServerSideEncryptionConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    rule: {
+      value: s3BucketServerSideEncryptionConfigurationRuleToHclTerraform(struct!.rule),
+      isBlock: true,
+      type: "list",
+      storageClassType: "S3BucketServerSideEncryptionConfigurationRuleList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketServerSideEncryptionConfigurationOutputReference extends cdktf.ComplexObject {
@@ -7318,6 +9023,31 @@ export function s3BucketVersioningToTerraform(struct?: S3BucketVersioningOutputR
     enabled: cdktf.booleanToTerraform(struct!.enabled),
     mfa_delete: cdktf.booleanToTerraform(struct!.mfaDelete),
   }
+}
+
+
+export function s3BucketVersioningToHclTerraform(struct?: S3BucketVersioningOutputReference | S3BucketVersioning): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    enabled: {
+      value: cdktf.booleanToHclTerraform(struct!.enabled),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    mfa_delete: {
+      value: cdktf.booleanToHclTerraform(struct!.mfaDelete),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
@@ -7420,6 +9150,43 @@ export function s3BucketWebsiteToTerraform(struct?: S3BucketWebsiteOutputReferen
     redirect_all_requests_to: cdktf.stringToTerraform(struct!.redirectAllRequestsTo),
     routing_rules: cdktf.stringToTerraform(struct!.routingRules),
   }
+}
+
+
+export function s3BucketWebsiteToHclTerraform(struct?: S3BucketWebsiteOutputReference | S3BucketWebsite): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    error_document: {
+      value: cdktf.stringToHclTerraform(struct!.errorDocument),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    index_document: {
+      value: cdktf.stringToHclTerraform(struct!.indexDocument),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    redirect_all_requests_to: {
+      value: cdktf.stringToHclTerraform(struct!.redirectAllRequestsTo),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    routing_rules: {
+      value: cdktf.stringToHclTerraform(struct!.routingRules),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
@@ -8024,6 +9791,152 @@ export class S3Bucket extends cdktf.TerraformResource {
       website: s3BucketWebsiteToTerraform(this._website.internalValue),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      acceleration_status: {
+        value: cdktf.stringToHclTerraform(this._accelerationStatus),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      acl: {
+        value: cdktf.stringToHclTerraform(this._acl),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      arn: {
+        value: cdktf.stringToHclTerraform(this._arn),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      bucket: {
+        value: cdktf.stringToHclTerraform(this._bucket),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      bucket_prefix: {
+        value: cdktf.stringToHclTerraform(this._bucketPrefix),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      force_destroy: {
+        value: cdktf.booleanToHclTerraform(this._forceDestroy),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      hosted_zone_id: {
+        value: cdktf.stringToHclTerraform(this._hostedZoneId),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      id: {
+        value: cdktf.stringToHclTerraform(this._id),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      policy: {
+        value: cdktf.stringToHclTerraform(this._policy),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      region: {
+        value: cdktf.stringToHclTerraform(this._region),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      request_payer: {
+        value: cdktf.stringToHclTerraform(this._requestPayer),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      tags: {
+        value: cdktf.hashMapperHcl(cdktf.stringToHclTerraform)(this._tags),
+        isBlock: false,
+        type: "map",
+        storageClassType: "stringMap",
+      },
+      website_domain: {
+        value: cdktf.stringToHclTerraform(this._websiteDomain),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      website_endpoint: {
+        value: cdktf.stringToHclTerraform(this._websiteEndpoint),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      cors_rule: {
+        value: cdktf.listMapperHcl(s3BucketCorsRuleToHclTerraform, true)(this._corsRule.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "S3BucketCorsRuleList",
+      },
+      grant: {
+        value: cdktf.listMapperHcl(s3BucketGrantToHclTerraform, true)(this._grant.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "S3BucketGrantList",
+      },
+      lifecycle_rule: {
+        value: cdktf.listMapperHcl(s3BucketLifecycleRuleToHclTerraform, true)(this._lifecycleRule.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "S3BucketLifecycleRuleList",
+      },
+      logging: {
+        value: cdktf.listMapperHcl(s3BucketLoggingToHclTerraform, true)(this._logging.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "S3BucketLoggingList",
+      },
+      object_lock_configuration: {
+        value: s3BucketObjectLockConfigurationToHclTerraform(this._objectLockConfiguration.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "S3BucketObjectLockConfigurationList",
+      },
+      replication_configuration: {
+        value: s3BucketReplicationConfigurationToHclTerraform(this._replicationConfiguration.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "S3BucketReplicationConfigurationList",
+      },
+      server_side_encryption_configuration: {
+        value: s3BucketServerSideEncryptionConfigurationToHclTerraform(this._serverSideEncryptionConfiguration.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "S3BucketServerSideEncryptionConfigurationList",
+      },
+      versioning: {
+        value: s3BucketVersioningToHclTerraform(this._versioning.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "S3BucketVersioningList",
+      },
+      website: {
+        value: s3BucketWebsiteToHclTerraform(this._website.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "S3BucketWebsiteList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -8139,6 +10052,73 @@ export function securityGroupEgressToTerraform(struct?: SecurityGroupEgress | cd
     self: struct!.selfAttribute === undefined ? null : cdktf.booleanToTerraform(struct!.selfAttribute),
     to_port: struct!.toPort === undefined ? null : cdktf.numberToTerraform(struct!.toPort),
   }
+}
+
+
+export function securityGroupEgressToHclTerraform(struct?: SecurityGroupEgress | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    cidr_blocks: {
+      value: struct!.cidrBlocks === undefined ? null : cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.cidrBlocks),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    description: {
+      value: struct!.description === undefined ? null : cdktf.stringToHclTerraform(struct!.description),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    from_port: {
+      value: struct!.fromPort === undefined ? null : cdktf.numberToHclTerraform(struct!.fromPort),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    ipv6_cidr_blocks: {
+      value: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.ipv6CidrBlocks),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    prefix_list_ids: {
+      value: struct!.prefixListIds === undefined ? null : cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.prefixListIds),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    protocol: {
+      value: struct!.protocol === undefined ? null : cdktf.stringToHclTerraform(struct!.protocol),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    security_groups: {
+      value: struct!.securityGroups === undefined ? null : cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.securityGroups),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    self: {
+      value: struct!.selfAttribute === undefined ? null : cdktf.booleanToHclTerraform(struct!.selfAttribute),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    to_port: {
+      value: struct!.toPort === undefined ? null : cdktf.numberToHclTerraform(struct!.toPort),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class SecurityGroupEgressOutputReference extends cdktf.ComplexObject {
@@ -8454,6 +10434,73 @@ export function securityGroupIngressToTerraform(struct?: SecurityGroupIngress | 
   }
 }
 
+
+export function securityGroupIngressToHclTerraform(struct?: SecurityGroupIngress | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    cidr_blocks: {
+      value: struct!.cidrBlocks === undefined ? null : cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.cidrBlocks),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    description: {
+      value: struct!.description === undefined ? null : cdktf.stringToHclTerraform(struct!.description),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    from_port: {
+      value: struct!.fromPort === undefined ? null : cdktf.numberToHclTerraform(struct!.fromPort),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    ipv6_cidr_blocks: {
+      value: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.ipv6CidrBlocks),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    prefix_list_ids: {
+      value: struct!.prefixListIds === undefined ? null : cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.prefixListIds),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    protocol: {
+      value: struct!.protocol === undefined ? null : cdktf.stringToHclTerraform(struct!.protocol),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    security_groups: {
+      value: struct!.securityGroups === undefined ? null : cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.securityGroups),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    self: {
+      value: struct!.selfAttribute === undefined ? null : cdktf.booleanToHclTerraform(struct!.selfAttribute),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    to_port: {
+      value: struct!.toPort === undefined ? null : cdktf.numberToHclTerraform(struct!.toPort),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+}
+
 export class SecurityGroupIngressOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
   private resolvableValue?: cdktf.IResolvable;
@@ -8730,6 +10777,31 @@ export function securityGroupTimeoutsToTerraform(struct?: SecurityGroupTimeouts 
     create: cdktf.stringToTerraform(struct!.create),
     delete: cdktf.stringToTerraform(struct!.delete),
   }
+}
+
+
+export function securityGroupTimeoutsToHclTerraform(struct?: SecurityGroupTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    create: {
+      value: cdktf.stringToHclTerraform(struct!.create),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    delete: {
+      value: cdktf.stringToHclTerraform(struct!.delete),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
@@ -9065,6 +11137,74 @@ export class SecurityGroup extends cdktf.TerraformResource {
       vpc_id: cdktf.stringToTerraform(this._vpcId),
       timeouts: securityGroupTimeoutsToTerraform(this._timeouts.internalValue),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      description: {
+        value: cdktf.stringToHclTerraform(this._description),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      egress: {
+        value: cdktf.listMapperHcl(securityGroupEgressToHclTerraform, false)(this._egress.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "SecurityGroupEgressList",
+      },
+      id: {
+        value: cdktf.stringToHclTerraform(this._id),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      ingress: {
+        value: cdktf.listMapperHcl(securityGroupIngressToHclTerraform, false)(this._ingress.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "SecurityGroupIngressList",
+      },
+      name: {
+        value: cdktf.stringToHclTerraform(this._name),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      name_prefix: {
+        value: cdktf.stringToHclTerraform(this._namePrefix),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      revoke_rules_on_delete: {
+        value: cdktf.booleanToHclTerraform(this._revokeRulesOnDelete),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      tags: {
+        value: cdktf.hashMapperHcl(cdktf.stringToHclTerraform)(this._tags),
+        isBlock: false,
+        type: "map",
+        storageClassType: "stringMap",
+      },
+      vpc_id: {
+        value: cdktf.stringToHclTerraform(this._vpcId),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      timeouts: {
+        value: securityGroupTimeoutsToHclTerraform(this._timeouts.internalValue),
+        isBlock: true,
+        type: "struct",
+        storageClassType: "SecurityGroupTimeouts",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "

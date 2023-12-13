@@ -35,6 +35,17 @@ export function nestedTypeWithoutAttributesResourcePredictorBotDetectionToTerraf
   }
 }
 
+
+export function nestedTypeWithoutAttributesResourcePredictorBotDetectionToHclTerraform(struct?: NestedTypeWithoutAttributesResourcePredictorBotDetection | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
+}
+
 export class NestedTypeWithoutAttributesResourcePredictorBotDetectionOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
   private resolvableValue?: cdktf.IResolvable;
@@ -176,6 +187,26 @@ export class NestedTypeWithoutAttributesResource extends cdktf.TerraformResource
       predictor_bot_detection: nestedTypeWithoutAttributesResourcePredictorBotDetectionToTerraform(this._predictorBotDetection.internalValue),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      name: {
+        value: cdktf.stringToHclTerraform(this._name),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      predictor_bot_detection: {
+        value: nestedTypeWithoutAttributesResourcePredictorBotDetectionToHclTerraform(this._predictorBotDetection.internalValue),
+        isBlock: true,
+        type: "struct",
+        storageClassType: "NestedTypeWithoutAttributesResourcePredictorBotDetection",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -226,6 +257,37 @@ export function nestedTypesResourceArchiveRulesFilterToTerraform(struct?: Nested
     exists: cdktf.booleanToTerraform(struct!.exists),
     property: cdktf.stringToTerraform(struct!.property),
   }
+}
+
+
+export function nestedTypesResourceArchiveRulesFilterToHclTerraform(struct?: NestedTypesResourceArchiveRulesFilter | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    eq: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.eq),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    exists: {
+      value: cdktf.booleanToHclTerraform(struct!.exists),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    property: {
+      value: cdktf.stringToHclTerraform(struct!.property),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class NestedTypesResourceArchiveRulesFilterOutputReference extends cdktf.ComplexObject {
@@ -371,6 +433,31 @@ export function nestedTypesResourceArchiveRulesToTerraform(struct?: NestedTypesR
     filter: cdktf.listMapper(nestedTypesResourceArchiveRulesFilterToTerraform, false)(struct!.filter),
     rule_name: cdktf.stringToTerraform(struct!.ruleName),
   }
+}
+
+
+export function nestedTypesResourceArchiveRulesToHclTerraform(struct?: NestedTypesResourceArchiveRules | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    filter: {
+      value: cdktf.listMapperHcl(nestedTypesResourceArchiveRulesFilterToHclTerraform, false)(struct!.filter),
+      isBlock: true,
+      type: "list",
+      storageClassType: "NestedTypesResourceArchiveRulesFilterList",
+    },
+    rule_name: {
+      value: cdktf.stringToHclTerraform(struct!.ruleName),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class NestedTypesResourceArchiveRulesOutputReference extends cdktf.ComplexObject {
@@ -573,6 +660,26 @@ export class NestedTypesResource extends cdktf.TerraformResource {
       name: cdktf.stringToTerraform(this._name),
       archive_rules: cdktf.listMapper(nestedTypesResourceArchiveRulesToTerraform, false)(this._archiveRules.internalValue),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      name: {
+        value: cdktf.stringToHclTerraform(this._name),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      archive_rules: {
+        value: cdktf.listMapperHcl(nestedTypesResourceArchiveRulesToHclTerraform, false)(this._archiveRules.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "NestedTypesResourceArchiveRulesList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
