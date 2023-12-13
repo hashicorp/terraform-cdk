@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`artifactory 1`] = `
-"{
-  "data": {
-    "terraform_remote_state": {
-      "remote": {
-        "backend": "artifactory",
-        "config": {
-          "password": "AmyFarrahFowler",
-          "repo": "foo",
-          "subpath": "terraform-bar",
-          "url": "https://custom.artifactoryonline.com/artifactory",
-          "username": "SheldonCooper"
-        }
-      }
-    }
-  }
-}"
-`;
-
 exports[`azurerm 1`] = `
 "{
   "data": {
@@ -88,50 +69,6 @@ exports[`cos 1`] = `
 }"
 `;
 
-exports[`etcd 1`] = `
-"{
-  "data": {
-    "terraform_remote_state": {
-      "remote": {
-        "backend": "etcd",
-        "config": {
-          "endpoints": "http://one:4001 http://two:4001",
-          "password": "the password",
-          "path": "path/to/terraform.tfstate",
-          "username": "the user"
-        }
-      }
-    }
-  }
-}"
-`;
-
-exports[`etcdv3 1`] = `
-"{
-  "data": {
-    "terraform_remote_state": {
-      "remote": {
-        "backend": "etcdv3",
-        "config": {
-          "cacert_path": "CA bundle",
-          "cert_path": "certificate",
-          "endpoints": [
-            "etcd-1:2379",
-            "etcd-2:2379",
-            "etcd-3:2379"
-          ],
-          "key_path": "encoded key",
-          "lock": true,
-          "password": "ETCDV3_PASSWORD",
-          "prefix": "terraform-state/",
-          "username": "ETCDV3_USERNAME"
-        }
-      }
-    }
-  }
-}"
-`;
-
 exports[`gcs 1`] = `
 "{
   "data": {
@@ -186,28 +123,6 @@ exports[`local 1`] = `
         "config": {
           "path": "relative/path/to/terraform.tfstate",
           "workspace_dir": "local_workspace"
-        }
-      }
-    }
-  }
-}"
-`;
-
-exports[`manta 1`] = `
-"{
-  "data": {
-    "terraform_remote_state": {
-      "remote": {
-        "backend": "manta",
-        "config": {
-          "account": "SDC_ACCOUNT",
-          "insecure_skip_tls_verify": false,
-          "key_id": "SDC_KEY",
-          "key_material": "SDC_KEY_MATERIAL",
-          "object_name": "terraform.tfstate",
-          "path": "random/path",
-          "url": "MANTA_URL",
-          "user": "SDC_USER"
         }
       }
     }
@@ -376,47 +291,6 @@ exports[`s3 with options 1`] = `
           "someProp": "some_value"
         },
         "workspace": "my_workspace"
-      }
-    }
-  }
-}"
-`;
-
-exports[`swift 1`] = `
-"{
-  "data": {
-    "terraform_remote_state": {
-      "remote": {
-        "backend": "swift",
-        "config": {
-          "application_credential_id": "ID of app cred",
-          "application_credential_name": "name of app cred",
-          "application_credential_secret": "secret of app cred",
-          "archive_container": "terraform-state-archive",
-          "auth_url": "OS_AUTH_URL",
-          "cacert_file": "OS_CACERT",
-          "cert": "OS_CERT",
-          "cloud": "OS_CLOUD",
-          "container": "terraform-state",
-          "default_domain": "OS_DEFAULT_DOMAIN",
-          "domain_id": "OS_USER_DOMAIN_ID",
-          "domain_name": "OS_USER_DOMAIN_NAME",
-          "expire_after": "3d",
-          "insecure": true,
-          "key": "OS_KEY",
-          "password": "OS_PASSWORD",
-          "project_domain_id": "OS_PROJECT_DOMAIN_ID",
-          "project_domain_name": "OS_PROJECT_DOMAIN_NAME",
-          "region_name": "OS_REGION_NAME",
-          "state_name": "tfstate.tf",
-          "tenant_id": "OS_TENANT_ID",
-          "tenant_name": "OS_TENANT_NAME",
-          "token": "OS_AUTH_TOKEN",
-          "user_domain_id": "OS_USER_DOMAIN_ID",
-          "user_domain_name": "OS_USER_DOMAIN_NAME",
-          "user_id": "OS_USER_ID",
-          "user_name": "OS_USERNAME"
-        }
       }
     }
   }
