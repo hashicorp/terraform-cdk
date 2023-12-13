@@ -128,7 +128,7 @@ export class TerraformOutput extends TerraformElement {
           value: this.dependsOn?.map((resource) => resource.fqn),
           type: "list",
           isBlock: false,
-          storageClassType: "stringlist",
+          storageClassType: "stringList",
         },
       }).filter(([, value]) => value.value !== undefined)
     );
