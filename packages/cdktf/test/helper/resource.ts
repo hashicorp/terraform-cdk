@@ -63,6 +63,37 @@ export class TestResource extends TerraformResource {
     };
   }
 
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return Object.fromEntries(
+      Object.entries({
+        name: {
+          value: this.name,
+          type: "simple",
+          storageClassType: "string",
+        },
+        names: {
+          value: this.names,
+          type: "simple",
+          storageClassType: "string",
+        },
+        tags: {
+          value: this.tags,
+          type: "map",
+          storageClassType: "stringMap",
+        },
+
+        nested_type: {
+          value: this.nestedType,
+          type: "map",
+          storageClassType: "stringMap",
+        },
+
+        list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
+        list_attribute: listMapper((a) => a, false)(this.listAttribute), // identity function to skip writing a toTerraform function
+      }).filter(([_, v]) => !!v?.value)
+    );
+  }
+
   public get stringValue() {
     return this.getStringAttribute("string_value");
   }

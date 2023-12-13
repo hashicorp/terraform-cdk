@@ -46,6 +46,10 @@ export class TestProvider extends TerraformProvider {
       list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return this.synthesizeAttributes();
+  }
 }
 
 // Generated Docker provider to test real-world scenarios
@@ -77,6 +81,13 @@ export class DockerProvider extends TerraformProvider {
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      alias: this._alias,
+      ssh_opts: this._ssh_opts,
+    };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
     return {
       alias: this._alias,
       ssh_opts: this._ssh_opts,

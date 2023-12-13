@@ -30,4 +30,8 @@ export class TestModule extends TerraformModule {
   protected synthesizeAttributes() {
     return this.inputs;
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    return this.inputs;
+  }
 }
