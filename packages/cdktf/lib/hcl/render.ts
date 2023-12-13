@@ -131,8 +131,11 @@ export function renderResource(resource: any) {
   const resourceName = Object.keys(resourcesWithType)[0];
   const resourceAttributes = resourcesWithType[resourceName];
 
+  const { provisioner, ...otherAttrs } = resourceAttributes;
+
   return `resource "${resourceType}" "${resourceName}" {
-${renderAttributes(resourceAttributes)}
+${renderAttributes(otherAttrs)}
+${(provisioner && renderProvisionerBlock(provisioner)) || ""}
 }`;
 }
 
@@ -148,6 +151,20 @@ export function renderDatasource(dataSource: any) {
   return `data "${dataSourceType}" "${dataSourceName}" {
 ${renderAttributes(dataSourceAttributes)}
 }`;
+}
+
+/**
+ *
+ */
+export function renderProvisionerBlock(provisioners: any) {
+  return provisioners.map((provisioner: any) => {
+    const provisionerType = Object.keys(provisioner)[0];
+    const provisionerAttrs = provisioner[provisionerType];
+
+    return `provisioner "${provisionerType}" {
+${renderAttributes(provisionerAttrs.value || provisionerAttrs)}
+}`;
+  });
 }
 
 /**
