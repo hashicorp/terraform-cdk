@@ -122,6 +122,26 @@ export class BooleanList extends cdktf.TerraformResource {
       foo_optional: cdktf.listMapper(cdktf.booleanToTerraform, false)(this._fooOptional),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      foo_required: {
+        value: cdktf.listMapperHcl(cdktf.booleanToHclTerraform, false)(this._fooRequired),
+        isBlock: false,
+        type: "list",
+        storageClassType: "booleanList",
+      },
+      foo_optional: {
+        value: cdktf.listMapperHcl(cdktf.booleanToHclTerraform, false)(this._fooOptional),
+        isBlock: false,
+        type: "list",
+        storageClassType: "booleanList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -251,6 +271,26 @@ export class BooleanMap extends cdktf.TerraformResource {
       foo_optional: cdktf.hashMapper(cdktf.booleanToTerraform)(this._fooOptional),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      foo_computed_optional: {
+        value: cdktf.hashMapperHcl(cdktf.booleanToHclTerraform)(this._fooComputedOptional),
+        isBlock: false,
+        type: "map",
+        storageClassType: "booleanMap",
+      },
+      foo_optional: {
+        value: cdktf.hashMapperHcl(cdktf.booleanToHclTerraform)(this._fooOptional),
+        isBlock: false,
+        type: "map",
+        storageClassType: "booleanMap",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -276,6 +316,17 @@ export function computedComplexEgressToTerraform(struct?: ComputedComplexEgress)
   }
   return {
   }
+}
+
+
+export function computedComplexEgressToHclTerraform(struct?: ComputedComplexEgress): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
 }
 
 export class ComputedComplexEgressOutputReference extends cdktf.ComplexObject {
@@ -440,6 +491,12 @@ export class ComputedComplex extends cdktf.TerraformResource {
     return {
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+    };
+    return attrs;
+  }
 }
 "
 `;
@@ -465,6 +522,17 @@ export function computedComplexNestedResourcesAutoscalingGroupsToTerraform(struc
   }
   return {
   }
+}
+
+
+export function computedComplexNestedResourcesAutoscalingGroupsToHclTerraform(struct?: ComputedComplexNestedResourcesAutoscalingGroups): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
 }
 
 export class ComputedComplexNestedResourcesAutoscalingGroupsOutputReference extends cdktf.ComplexObject {
@@ -529,6 +597,17 @@ export function computedComplexNestedResourcesToTerraform(struct?: ComputedCompl
   }
   return {
   }
+}
+
+
+export function computedComplexNestedResourcesToHclTerraform(struct?: ComputedComplexNestedResources): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
 }
 
 export class ComputedComplexNestedResourcesOutputReference extends cdktf.ComplexObject {
@@ -659,6 +738,12 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
     return {
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+    };
+    return attrs;
+  }
 }
 "
 `;
@@ -690,6 +775,17 @@ export function blockTypeNestedComputedListInputsStartingPositionConfigurationTo
   }
   return {
   }
+}
+
+
+export function blockTypeNestedComputedListInputsStartingPositionConfigurationToHclTerraform(struct?: BlockTypeNestedComputedListInputsStartingPositionConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
 }
 
 export class BlockTypeNestedComputedListInputsStartingPositionConfigurationOutputReference extends cdktf.ComplexObject {
@@ -759,6 +855,25 @@ export function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeN
   return {
     name_prefix: cdktf.stringToTerraform(struct!.namePrefix),
   }
+}
+
+
+export function blockTypeNestedComputedListInputsToHclTerraform(struct?: BlockTypeNestedComputedListInputs | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    name_prefix: {
+      value: cdktf.stringToHclTerraform(struct!.namePrefix),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class BlockTypeNestedComputedListInputsOutputReference extends cdktf.ComplexObject {
@@ -936,6 +1051,20 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
       inputs: cdktf.listMapper(blockTypeNestedComputedListInputsToTerraform, true)(this._inputs.internalValue),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      inputs: {
+        value: cdktf.listMapperHcl(blockTypeNestedComputedListInputsToHclTerraform, true)(this._inputs.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "BlockTypeNestedComputedListInputsList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -1010,6 +1139,73 @@ export function computedOptionalComplexEgressToTerraform(struct?: ComputedOption
     self: cdktf.booleanToTerraform(struct!.selfAttribute),
     to_port: cdktf.numberToTerraform(struct!.toPort),
   }
+}
+
+
+export function computedOptionalComplexEgressToHclTerraform(struct?: ComputedOptionalComplexEgress | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    cidr_blocks: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.cidrBlocks),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    description: {
+      value: cdktf.stringToHclTerraform(struct!.description),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    from_port: {
+      value: cdktf.numberToHclTerraform(struct!.fromPort),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    ipv6_cidr_blocks: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.ipv6CidrBlocks),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    prefix_list_ids: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.prefixListIds),
+      isBlock: false,
+      type: "list",
+      storageClassType: "stringList",
+    },
+    protocol: {
+      value: cdktf.stringToHclTerraform(struct!.protocol),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+    security_groups: {
+      value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(struct!.securityGroups),
+      isBlock: false,
+      type: "set",
+      storageClassType: "stringList",
+    },
+    self: {
+      value: cdktf.booleanToHclTerraform(struct!.selfAttribute),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "boolean",
+    },
+    to_port: {
+      value: cdktf.numberToHclTerraform(struct!.toPort),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class ComputedOptionalComplexEgressOutputReference extends cdktf.ComplexObject {
@@ -1350,6 +1546,20 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
       egress: cdktf.listMapper(computedOptionalComplexEgressToTerraform, false)(this._egress.internalValue),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      egress: {
+        value: cdktf.listMapperHcl(computedOptionalComplexEgressToHclTerraform, false)(this._egress.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "ComputedOptionalComplexEgressList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -1386,6 +1596,25 @@ export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?
   return {
     date: cdktf.stringToTerraform(struct!.date),
   }
+}
+
+
+export function deeplyNestedBlockTypesLifecycleRuleExpirationToHclTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    date: {
+      value: cdktf.stringToHclTerraform(struct!.date),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference extends cdktf.ComplexObject {
@@ -1458,6 +1687,31 @@ export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNe
     abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
     expiration: deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct!.expiration),
   }
+}
+
+
+export function deeplyNestedBlockTypesLifecycleRuleToHclTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    abort_incomplete_multipart_upload_days: {
+      value: cdktf.numberToHclTerraform(struct!.abortIncompleteMultipartUploadDays),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "number",
+    },
+    expiration: {
+      value: deeplyNestedBlockTypesLifecycleRuleExpirationToHclTerraform(struct!.expiration),
+      isBlock: true,
+      type: "set",
+      storageClassType: "DeeplyNestedBlockTypesLifecycleRuleExpirationList",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class DeeplyNestedBlockTypesLifecycleRuleOutputReference extends cdktf.ComplexObject {
@@ -1644,6 +1898,20 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
       lifecycle_rule: cdktf.listMapper(deeplyNestedBlockTypesLifecycleRuleToTerraform, true)(this._lifecycleRule.internalValue),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      lifecycle_rule: {
+        value: cdktf.listMapperHcl(deeplyNestedBlockTypesLifecycleRuleToHclTerraform, true)(this._lifecycleRule.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "DeeplyNestedBlockTypesLifecycleRuleList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -1752,6 +2020,20 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
     return {
       id: cdktf.stringToTerraform(this._id),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      id: {
+        value: cdktf.stringToHclTerraform(this._id),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -1930,6 +2212,44 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
       system: cdktf.stringToTerraform(this._system),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      get_password_data: {
+        value: cdktf.stringToHclTerraform(this._getPasswordData),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      self: {
+        value: cdktf.stringToHclTerraform(this._self),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      equals: {
+        value: cdktf.stringToHclTerraform(this._equals),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      node: {
+        value: cdktf.stringToHclTerraform(this._node),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      system: {
+        value: cdktf.stringToHclTerraform(this._system),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -2030,6 +2350,20 @@ export class FunctionResource extends cdktf.TerraformResource {
     return {
       dummy: cdktf.stringToTerraform(this._dummy),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      dummy: {
+        value: cdktf.stringToHclTerraform(this._dummy),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -2156,6 +2490,20 @@ export class LicenseResource extends cdktf.TerraformResource {
       dummy: cdktf.stringToTerraform(this._dummy),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      dummy: {
+        value: cdktf.stringToHclTerraform(this._dummy),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -2256,6 +2604,20 @@ export class ObjectResource extends cdktf.TerraformResource {
     return {
       dummy: cdktf.stringToTerraform(this._dummy),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      dummy: {
+        value: cdktf.stringToHclTerraform(this._dummy),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -2358,6 +2720,20 @@ export class ProviderResource extends cdktf.TerraformResource {
       dummy: cdktf.stringToTerraform(this._dummy),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      dummy: {
+        value: cdktf.stringToHclTerraform(this._dummy),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -2458,6 +2834,20 @@ export class StaticResource extends cdktf.TerraformResource {
     return {
       dummy: cdktf.stringToTerraform(this._dummy),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      dummy: {
+        value: cdktf.stringToHclTerraform(this._dummy),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -2560,6 +2950,20 @@ export class StringResource extends cdktf.TerraformResource {
       dummy: cdktf.stringToTerraform(this._dummy),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      dummy: {
+        value: cdktf.stringToHclTerraform(this._dummy),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -2585,6 +2989,17 @@ export function complexLlToTerraform(struct?: ComplexLl): any {
   }
   return {
   }
+}
+
+
+export function complexLlToHclTerraform(struct?: ComplexLl): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
 }
 
 export class ComplexLlOutputReference extends cdktf.ComplexObject {
@@ -2675,6 +3090,17 @@ export function complexLsToTerraform(struct?: ComplexLs): any {
   }
 }
 
+
+export function complexLsToHclTerraform(struct?: ComplexLs): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
+}
+
 export class ComplexLsOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -2763,6 +3189,17 @@ export function complexSlToTerraform(struct?: ComplexSl): any {
   }
 }
 
+
+export function complexSlToHclTerraform(struct?: ComplexSl): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
+}
+
 export class ComplexSlOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
 
@@ -2849,6 +3286,17 @@ export function complexSsToTerraform(struct?: ComplexSs): any {
   }
   return {
   }
+}
+
+
+export function complexSsToHclTerraform(struct?: ComplexSs): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
 }
 
 export class ComplexSsOutputReference extends cdktf.ComplexObject {
@@ -3015,6 +3463,12 @@ export class Complex extends cdktf.TerraformResource {
     return {
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+    };
+    return attrs;
+  }
 }
 "
 `;
@@ -3046,6 +3500,17 @@ export function dataAirbyteSourceSchemaCatalogSyncCatalogSourceSchemaToTerraform
   }
   return {
   }
+}
+
+
+export function dataAirbyteSourceSchemaCatalogSyncCatalogSourceSchemaToHclTerraform(struct?: DataAirbyteSourceSchemaCatalogSyncCatalogSourceSchema): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
 }
 
 export class DataAirbyteSourceSchemaCatalogSyncCatalogSourceSchemaOutputReference extends cdktf.ComplexObject {
@@ -3090,6 +3555,17 @@ export function dataAirbyteSourceSchemaCatalogSyncCatalogToTerraform(struct?: Da
   }
   return {
   }
+}
+
+
+export function dataAirbyteSourceSchemaCatalogSyncCatalogToHclTerraform(struct?: DataAirbyteSourceSchemaCatalogSyncCatalog): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+  };
+  return attrs;
 }
 
 export class DataAirbyteSourceSchemaCatalogSyncCatalogOutputReference extends cdktf.ComplexObject {
@@ -3233,6 +3709,20 @@ export class DataAirbyteSourceSchemaCatalog extends cdktf.TerraformDataSource {
       non_computed_list_list_string: cdktf.listMapper(cdktf.listMapper(cdktf.stringToTerraform, false), false)(this._nonComputedListListString),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      non_computed_list_list_string: {
+        value: cdktf.listMapperHcl(cdktf.listMapperHcl(cdktf.stringToHclTerraform, false), false)(this._nonComputedListListString),
+        isBlock: false,
+        type: "list",
+        storageClassType: "stringListList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -3342,6 +3832,20 @@ export class ListOfStringMap extends cdktf.TerraformResource {
       settable_keys: cdktf.listMapper(cdktf.hashMapper(cdktf.stringToTerraform), false)(this._settableKeys),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      settable_keys: {
+        value: cdktf.listMapperHcl(cdktf.hashMapperHcl(cdktf.stringToHclTerraform), false)(this._settableKeys),
+        isBlock: false,
+        type: "list",
+        storageClassType: "stringMapList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -3450,6 +3954,20 @@ export class MapOfStringList extends cdktf.TerraformResource {
     return {
       settable_keys: cdktf.hashMapper(cdktf.listMapper(cdktf.stringToTerraform, false))(this._settableKeys),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      settable_keys: {
+        value: cdktf.hashMapperHcl(cdktf.listMapperHcl(cdktf.stringToHclTerraform, false))(this._settableKeys),
+        isBlock: false,
+        type: "map",
+        storageClassType: "stringListMap",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -3570,6 +4088,26 @@ export class NumberList extends cdktf.TerraformResource {
       foo_required: cdktf.listMapper(cdktf.numberToTerraform, false)(this._fooRequired),
       foo_optional: cdktf.listMapper(cdktf.numberToTerraform, false)(this._fooOptional),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      foo_required: {
+        value: cdktf.listMapperHcl(cdktf.numberToHclTerraform, false)(this._fooRequired),
+        isBlock: false,
+        type: "list",
+        storageClassType: "numberList",
+      },
+      foo_optional: {
+        value: cdktf.listMapperHcl(cdktf.numberToHclTerraform, false)(this._fooOptional),
+        isBlock: false,
+        type: "list",
+        storageClassType: "numberList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -3699,6 +4237,26 @@ export class NumberMap extends cdktf.TerraformResource {
       foo_computed_optional: cdktf.hashMapper(cdktf.numberToTerraform)(this._fooComputedOptional),
       foo_optional: cdktf.hashMapper(cdktf.numberToTerraform)(this._fooOptional),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      foo_computed_optional: {
+        value: cdktf.hashMapperHcl(cdktf.numberToHclTerraform)(this._fooComputedOptional),
+        isBlock: false,
+        type: "map",
+        storageClassType: "numberMap",
+      },
+      foo_optional: {
+        value: cdktf.hashMapperHcl(cdktf.numberToHclTerraform)(this._fooOptional),
+        isBlock: false,
+        type: "map",
+        storageClassType: "numberMap",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -3846,6 +4404,32 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
       foo_optional: cdktf.booleanToTerraform(this._fooOptional),
       foo_required: cdktf.booleanToTerraform(this._fooRequired),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      foo_computed_optional: {
+        value: cdktf.booleanToHclTerraform(this._fooComputedOptional),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      foo_optional: {
+        value: cdktf.booleanToHclTerraform(this._fooOptional),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+      foo_required: {
+        value: cdktf.booleanToHclTerraform(this._fooRequired),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "boolean",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -3995,6 +4579,32 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
       foo_required: cdktf.hashMapper(cdktf.anyToTerraform)(this._fooRequired),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      foo_computed_optional: {
+        value: cdktf.hashMapperHcl(cdktf.anyToHclTerraform)(this._fooComputedOptional),
+        isBlock: false,
+        type: "map",
+        storageClassType: "anyMap",
+      },
+      foo_optional: {
+        value: cdktf.hashMapperHcl(cdktf.anyToHclTerraform)(this._fooOptional),
+        isBlock: false,
+        type: "map",
+        storageClassType: "anyMap",
+      },
+      foo_required: {
+        value: cdktf.hashMapperHcl(cdktf.anyToHclTerraform)(this._fooRequired),
+        isBlock: false,
+        type: "map",
+        storageClassType: "anyMap",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -4142,6 +4752,32 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
       foo_required: cdktf.numberToTerraform(this._fooRequired),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      foo_computed_optional: {
+        value: cdktf.numberToHclTerraform(this._fooComputedOptional),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "number",
+      },
+      foo_optional: {
+        value: cdktf.numberToHclTerraform(this._fooOptional),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "number",
+      },
+      foo_required: {
+        value: cdktf.numberToHclTerraform(this._fooRequired),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "number",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -4288,6 +4924,32 @@ export class PrimitiveString extends cdktf.TerraformResource {
       foo_optional: cdktf.stringToTerraform(this._fooOptional),
       foo_required: cdktf.stringToTerraform(this._fooRequired),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      foo_computed_optional: {
+        value: cdktf.stringToHclTerraform(this._fooComputedOptional),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      foo_optional: {
+        value: cdktf.stringToHclTerraform(this._fooOptional),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      foo_required: {
+        value: cdktf.stringToHclTerraform(this._fooRequired),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -4456,6 +5118,38 @@ export class NameConflict extends cdktf.TerraformResource {
       template_input: cdktf.stringToTerraform(this._templateInput),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      values: {
+        value: cdktf.stringToHclTerraform(this._values),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      reset_values: {
+        value: cdktf.stringToHclTerraform(this._resetValues),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      template: {
+        value: cdktf.stringToHclTerraform(this._template),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+      template_input: {
+        value: cdktf.stringToHclTerraform(this._templateInput),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -4498,6 +5192,25 @@ export function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetList
   return {
     create: cdktf.stringToTerraform(struct!.create),
   }
+}
+
+
+export function blockTypeSetListTimeoutsSetToHclTerraform(struct?: BlockTypeSetListTimeoutsSet | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    create: {
+      value: cdktf.stringToHclTerraform(struct!.create),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class BlockTypeSetListTimeoutsSetOutputReference extends cdktf.ComplexObject {
@@ -4595,6 +5308,25 @@ export function blockTypeSetListTimeoutsListStructToTerraform(struct?: BlockType
   return {
     create: cdktf.stringToTerraform(struct!.create),
   }
+}
+
+
+export function blockTypeSetListTimeoutsListStructToHclTerraform(struct?: BlockTypeSetListTimeoutsListStruct | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    create: {
+      value: cdktf.stringToHclTerraform(struct!.create),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class BlockTypeSetListTimeoutsListStructOutputReference extends cdktf.ComplexObject {
@@ -4777,6 +5509,26 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
       timeouts_list: cdktf.listMapper(blockTypeSetListTimeoutsListStructToTerraform, true)(this._timeoutsList.internalValue),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      timeouts_set: {
+        value: cdktf.listMapperHcl(blockTypeSetListTimeoutsSetToHclTerraform, true)(this._timeoutsSet.internalValue),
+        isBlock: true,
+        type: "set",
+        storageClassType: "BlockTypeSetListTimeoutsSetList",
+      },
+      timeouts_list: {
+        value: cdktf.listMapperHcl(blockTypeSetListTimeoutsListStructToHclTerraform, true)(this._timeoutsList.internalValue),
+        isBlock: true,
+        type: "list",
+        storageClassType: "BlockTypeSetListTimeoutsListStructList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -4813,6 +5565,25 @@ export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeo
   return {
     create: cdktf.stringToTerraform(struct!.create),
   }
+}
+
+
+export function singleBlockTypeTimeoutsToHclTerraform(struct?: SingleBlockTypeTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  const attrs = {
+    create: {
+      value: cdktf.stringToHclTerraform(struct!.create),
+      isBlock: false,
+      type: "simple",
+      storageClassType: "string",
+    },
+  };
+
+  // remove undefined attributes
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
 }
 
 export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject {
@@ -4954,6 +5725,20 @@ export class SingleBlockType extends cdktf.TerraformResource {
     return {
       timeouts: singleBlockTypeTimeoutsToTerraform(this._timeouts.internalValue),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      timeouts: {
+        value: singleBlockTypeTimeoutsToHclTerraform(this._timeouts.internalValue),
+        isBlock: true,
+        type: "struct",
+        storageClassType: "SingleBlockTypeTimeouts",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
@@ -5102,6 +5887,32 @@ export class StringList extends cdktf.TerraformResource {
       subject_alternative_names_optional: cdktf.listMapper(cdktf.stringToTerraform, false)(this._subjectAlternativeNamesOptional),
     };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      subject_alternative_names_optional_computed: {
+        value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(this._subjectAlternativeNamesOptionalComputed),
+        isBlock: false,
+        type: "list",
+        storageClassType: "stringList",
+      },
+      subject_alternative_names_required: {
+        value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(this._subjectAlternativeNamesRequired),
+        isBlock: false,
+        type: "list",
+        storageClassType: "stringList",
+      },
+      subject_alternative_names_optional: {
+        value: cdktf.listMapperHcl(cdktf.stringToHclTerraform, false)(this._subjectAlternativeNamesOptional),
+        isBlock: false,
+        type: "list",
+        storageClassType: "stringList",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+  }
 }
 "
 `;
@@ -5249,6 +6060,32 @@ export class StringMap extends cdktf.TerraformResource {
       subject_alternative_names_optional: cdktf.hashMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptional),
       subject_alternative_names_required: cdktf.hashMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesRequired),
     };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      subject_alternative_names_computed_optional: {
+        value: cdktf.hashMapperHcl(cdktf.stringToHclTerraform)(this._subjectAlternativeNamesComputedOptional),
+        isBlock: false,
+        type: "map",
+        storageClassType: "stringMap",
+      },
+      subject_alternative_names_optional: {
+        value: cdktf.hashMapperHcl(cdktf.stringToHclTerraform)(this._subjectAlternativeNamesOptional),
+        isBlock: false,
+        type: "map",
+        storageClassType: "stringMap",
+      },
+      subject_alternative_names_required: {
+        value: cdktf.hashMapperHcl(cdktf.stringToHclTerraform)(this._subjectAlternativeNamesRequired),
+        isBlock: false,
+        type: "map",
+        storageClassType: "stringMap",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
   }
 }
 "
