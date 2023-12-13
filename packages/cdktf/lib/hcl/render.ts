@@ -18,7 +18,7 @@ function escapeQuotes(str: string): string {
   if (str.match(/\$\{/)) {
     return str;
   }
-  return str.replace(/"/g, '\\"');
+  return str.replace(/(?<!\\)"/g, '\\"');
 }
 
 /**
@@ -131,11 +131,20 @@ export function renderResource(resource: any) {
   const resourceName = Object.keys(resourcesWithType)[0];
   const resourceAttributes = resourcesWithType[resourceName];
 
-  const { provisioner, ...otherAttrs } = resourceAttributes;
+  if (resourceAttributes.connection) {
+    resourceAttributes.connection = {
+      value: resourceAttributes.connection,
+      isBlock: true,
+    };
+  }
+
+  const { provisioner, dynamic, ...otherAttrs } = resourceAttributes;
 
   return `resource "${resourceType}" "${resourceName}" {
 ${renderAttributes(otherAttrs)}
 ${(provisioner && renderProvisionerBlock(provisioner)) || ""}
+${(dynamic && renderDynamicBlocks(dynamic)) || ""}
+
 }`;
 }
 
@@ -148,8 +157,11 @@ export function renderDatasource(dataSource: any) {
   const dataSourceName = Object.keys(dataSourcesWithType)[0];
   const dataSourceAttributes = dataSourcesWithType[dataSourceName];
 
+  const { dynamic, ...otherAttrs } = dataSourceAttributes;
+
   return `data "${dataSourceType}" "${dataSourceName}" {
-${renderAttributes(dataSourceAttributes)}
+${renderAttributes(otherAttrs)}
+${(dynamic && renderDynamicBlocks(dynamic)) || ""}
 }`;
 }
 
@@ -157,14 +169,42 @@ ${renderAttributes(dataSourceAttributes)}
  *
  */
 export function renderProvisionerBlock(provisioners: any) {
-  return provisioners.map((provisioner: any) => {
-    const provisionerType = Object.keys(provisioner)[0];
-    const provisionerAttrs = provisioner[provisionerType];
+  return provisioners
+    .map((provisioner: any) => {
+      const provisionerType = Object.keys(provisioner)[0];
+      const provisionerAttrs = provisioner[provisionerType];
 
-    return `provisioner "${provisionerType}" {
-${renderAttributes(provisionerAttrs.value || provisionerAttrs)}
+      if (provisionerAttrs.connection) {
+        provisionerAttrs.connection = {
+          value: provisionerAttrs.connection,
+          isBlock: true,
+        };
+      }
+
+      const { dynamic, ...otherAttrs } = provisionerAttrs;
+
+      return `provisioner "${provisionerType}" {
+${renderAttributes(otherAttrs.value || otherAttrs)}
+${(dynamic && renderDynamicBlocks(dynamic)) || ""}
 }`;
-  });
+    })
+    .join("\n");
+}
+
+/**
+ *
+ */
+export function renderDynamicBlocks(dynamic: any) {
+  return Object.entries(dynamic).map(
+    ([dynamicName, dynamicAttrs]: [string, any]) => {
+      return `dynamic "${dynamicName}" {
+      for_each = ${renderFuzzyJsonExpression(dynamicAttrs?.for_each)}
+      content {
+  ${renderAttributes(dynamicAttrs.content)}
+  }
+}`;
+    }
+  );
 }
 
 /**
@@ -175,8 +215,10 @@ export function renderProvider(provider: any) {
   const providerAttributes = provider[providerName];
 
   return providerAttributes.map((providerInstance: any) => {
+    const { dynamic, ...otherAttrs } = providerInstance;
     return `provider "${providerName}" {
-${renderAttributes(providerInstance)}
+${renderAttributes(otherAttrs)}
+${(dynamic && renderDynamicBlocks(dynamic)) || ""}
 }`;
   });
 }
@@ -380,7 +422,7 @@ export function renderAttributes(attributes: any): string {
       //
       // We might have some attributes that don't have type information
       // just try to guess them
-      if (typeof v === "string") {
+      if (typeof v === "string" || typeof v === "number") {
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
       } else if (Array.isArray(v)) {
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
@@ -409,6 +451,11 @@ ${renderSimpleAttributes(v)}
       } = v as any;
       const block = isBlock || is_block || metaBlocks.includes(name);
       const classType = storageClassType || storage_class_type;
+
+      // Short circuit type checking if value is an expression
+      if (typeof value === "string" && value.includes("${")) {
+        return `${name} = "${escapeQuotes(value)}"`;
+      }
 
       if (block && type !== "list" && type !== "set") {
         return `${name} { 
