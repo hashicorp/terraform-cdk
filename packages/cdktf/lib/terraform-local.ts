@@ -64,7 +64,7 @@ export class TerraformLocal
     return ref(`local.${this.friendlyUniqueId}`, this.cdktfStack);
   }
 
-  public toHclTerraform() {
+  public toHclTerraform(): any {
     return {
       locals: {
         [this.friendlyUniqueId]: {
