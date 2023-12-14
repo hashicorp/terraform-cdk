@@ -58,16 +58,6 @@ describe("backends", () => {
   testCase.test(
     "remote state types",
     `
-      data "terraform_remote_state" "etcdv3" {
-        backend = "etcdv3"
-
-        config = {
-          endpoints = ["etcd-1:2379", "etcd-2:2379", "etcd-3:2379"]
-          lock      = true
-          prefix    = "terraform-state/"
-        }
-      }
-
       data "terraform_remote_state" "s3" {
         backend = "s3"
 
