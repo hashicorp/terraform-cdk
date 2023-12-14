@@ -55,19 +55,10 @@ class MyConvertedCode extends TerraformStack {
 
 exports[`backends remote state types snapshot typescript 1`] = `
 "import { Construct } from "constructs";
-import {
-  DataTerraformRemoteStateEtcdV3,
-  DataTerraformRemoteStateS3,
-  TerraformStack,
-} from "cdktf";
+import { DataTerraformRemoteStateS3, TerraformStack } from "cdktf";
 class MyConvertedCode extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
-    new DataTerraformRemoteStateEtcdV3(this, "etcdv3", {
-      endpoints: ["etcd-1:2379", "etcd-2:2379", "etcd-3:2379"],
-      lock: true,
-      prefix: "terraform-state/",
-    });
     new DataTerraformRemoteStateS3(this, "s3", {
       bucket: "mybucket",
       key: "path/to/my/key",
