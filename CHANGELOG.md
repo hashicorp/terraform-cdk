@@ -6,6 +6,10 @@
 
 To resolve [\#3026](https://github.com/hashicorp/terraform-cdk/issues/3026) we improved the logic for generating names for [Terraform Modules](https://developer.hashicorp.com/terraform/cdktf/concepts/modules). This makes the default module names nicer, but also leads to breaking changes for Python, C#, and Java. When updating CDKTF, please generate the new bindings with `cdktf get` after updating the CLI and update your module imports.
 
+### Removal of deprecated backends
+
+We have removed deprecated backends artifactory, etcd, etcdv3, manta, and swift. CDK for Terraform v0.14 deprecated these backends initially. Terraform removed these backends in v1.3. For migration paths from these removed backends, refer to [Upgrading to Terraform v1.3](/terraform/language/v1.3.x/upgrade-guides).
+
 ## 0.19.1
 
 ### feat
