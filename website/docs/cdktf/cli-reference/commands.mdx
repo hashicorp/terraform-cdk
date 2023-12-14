@@ -496,16 +496,23 @@ $ cdktf synth --help
 **Help Output**
 
 ```
-cdktf synth [OPTIONS]
+cdktf synth
 
 Synthesizes Terraform code for the given app in a directory.
 
 Options:
-  --version          Show version number                                                                                                                                           [boolean]
-  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                          [string]
-  --app, -a          Command to use in order to execute cdktf app
-  --output, -o       Output directory                                                                                                                                 [default: "cdktf.out"]
-  -h, --help         Show help                                                                                                                                                     [boolean]
+      --version                                  Show version number                                                                        [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert.
+                                                 Supported using the env CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.     [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured
+                                                 differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.      [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL       [string]
+  -a, --app                                      Command to use in order to execute cdktf app
+  -o, --output                                   Output directory for the synthesized Terraform config                         [default: "cdktf.out"]
+      --check-code-maker-output                  Should `codeMakerOutput` existence check be performed? By default it will be checked if providers or
+                                                 modules are configured.                                                   [boolean] [default: false]
+      --hcl                                      Should the output be in HCL format?                                       [boolean] [default: false]
+  -h, --help                                     Show help                                                                                  [boolean]
 ```
 
 **Examples**
@@ -520,6 +527,12 @@ Synthesize code when providing a custom command to execute and an output directo
 
 ```bash
 $ cdktf synth --app="npm compile && node main.js" --output="dirname"
+```
+
+Synthesize code in Terraform HCL instead of JSON
+
+```bash
+$ cdktf synth --hcl
 ```
 
 ## watch
