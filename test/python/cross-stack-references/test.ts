@@ -21,6 +21,7 @@ describe("python cross stack references", () => {
             "constructPath": "source",
             "workingDirectory": "stacks/source",
             "synthesizedStackPath": "stacks/source/cdk.tf.json",
+            "stackMetadataPath": "stacks/source/metadata.json",
             "annotations": [],
             "dependencies": []
           },
@@ -29,6 +30,7 @@ describe("python cross stack references", () => {
             "constructPath": "passthrough",
             "workingDirectory": "stacks/passthrough",
             "synthesizedStackPath": "stacks/passthrough/cdk.tf.json",
+            "stackMetadataPath": "stacks/passthrough/metadata.json",
             "annotations": [],
             "dependencies": [
               "source"
@@ -39,6 +41,7 @@ describe("python cross stack references", () => {
             "constructPath": "sink",
             "workingDirectory": "stacks/sink",
             "synthesizedStackPath": "stacks/sink/cdk.tf.json",
+            "stackMetadataPath": "stacks/sink/metadata.json",
             "annotations": [],
             "dependencies": [
               "source"
@@ -49,6 +52,7 @@ describe("python cross stack references", () => {
             "constructPath": "fns",
             "workingDirectory": "stacks/fns",
             "synthesizedStackPath": "stacks/fns/cdk.tf.json",
+            "stackMetadataPath": "stacks/fns/metadata.json",
             "annotations": [],
             "dependencies": [
               "source"
@@ -59,6 +63,7 @@ describe("python cross stack references", () => {
             "constructPath": "functionOutput",
             "workingDirectory": "stacks/functionOutput",
             "synthesizedStackPath": "stacks/functionOutput/cdk.tf.json",
+            "stackMetadataPath": "stacks/functionOutput/metadata.json",
             "annotations": [],
             "dependencies": [
               "source"
@@ -71,60 +76,60 @@ describe("python cross stack references", () => {
 
   onWindows("synth generates JSON on Windows", () => {
     expect(driver.manifest()).toMatchInlineSnapshot(`
-"{
-  "version": "stubbed",
-  "stacks": {
-    "source": {
-      "name": "source",
-      "constructPath": "source",
-      "workingDirectory": "stacks\\\\source",
-      "synthesizedStackPath": "stacks\\\\source\\\\cdk.tf.json",
-      "annotations": [],
-      "dependencies": []
-    },
-    "passthrough": {
-      "name": "passthrough",
-      "constructPath": "passthrough",
-      "workingDirectory": "stacks\\\\passthrough",
-      "synthesizedStackPath": "stacks\\\\passthrough\\\\cdk.tf.json",
-      "annotations": [],
-      "dependencies": [
-        "source"
-      ]
-    },
-    "sink": {
-      "name": "sink",
-      "constructPath": "sink",
-      "workingDirectory": "stacks\\\\sink",
-      "synthesizedStackPath": "stacks\\\\sink\\\\cdk.tf.json",
-      "annotations": [],
-      "dependencies": [
-        "source"
-      ]
-    },
-    "fns": {
-      "name": "fns",
-      "constructPath": "fns",
-      "workingDirectory": "stacks\\\\fns",
-      "synthesizedStackPath": "stacks\\\\fns\\\\cdk.tf.json",
-      "annotations": [],
-      "dependencies": [
-        "source"
-      ]
-    },
-    "functionOutput": {
-      "name": "functionOutput",
-      "constructPath": "functionOutput",
-      "workingDirectory": "stacks\\\\functionOutput",
-      "synthesizedStackPath": "stacks\\\\functionOutput\\\\cdk.tf.json",
-      "annotations": [],
-      "dependencies": [
-        "source"
-      ]
-    }
-  }
-}"
-`);
+      "{
+        "version": "stubbed",
+        "stacks": {
+          "source": {
+            "name": "source",
+            "constructPath": "source",
+            "workingDirectory": "stacks\\\\source",
+            "synthesizedStackPath": "stacks\\\\source\\\\cdk.tf.json",
+            "annotations": [],
+            "dependencies": []
+          },
+          "passthrough": {
+            "name": "passthrough",
+            "constructPath": "passthrough",
+            "workingDirectory": "stacks\\\\passthrough",
+            "synthesizedStackPath": "stacks\\\\passthrough\\\\cdk.tf.json",
+            "annotations": [],
+            "dependencies": [
+              "source"
+            ]
+          },
+          "sink": {
+            "name": "sink",
+            "constructPath": "sink",
+            "workingDirectory": "stacks\\\\sink",
+            "synthesizedStackPath": "stacks\\\\sink\\\\cdk.tf.json",
+            "annotations": [],
+            "dependencies": [
+              "source"
+            ]
+          },
+          "fns": {
+            "name": "fns",
+            "constructPath": "fns",
+            "workingDirectory": "stacks\\\\fns",
+            "synthesizedStackPath": "stacks\\\\fns\\\\cdk.tf.json",
+            "annotations": [],
+            "dependencies": [
+              "source"
+            ]
+          },
+          "functionOutput": {
+            "name": "functionOutput",
+            "constructPath": "functionOutput",
+            "workingDirectory": "stacks\\\\functionOutput",
+            "synthesizedStackPath": "stacks\\\\functionOutput\\\\cdk.tf.json",
+            "annotations": [],
+            "dependencies": [
+              "source"
+            ]
+          }
+        }
+      }"
+    `);
   });
 
   describe("deployed", () => {
