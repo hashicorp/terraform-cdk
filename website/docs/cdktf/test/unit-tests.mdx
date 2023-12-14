@@ -31,6 +31,8 @@ The following Typescript example uses `Testing.synth` to test a part of the appl
 
 The other examples use `Testing.synthScope` to test a part of the application. This creates a scope to test a subset of the application and returns a JSON string representing the synthesized HCL-JSON. Then it uses custom matchers to verify the code acts as intended. `Testing.synthScope` can test the `Constructs` that extends the `IConstruct`.
 
+-> **Note**: CDK for Terraform v0.20 introduces support for a `Testing.synthHcl` function. However, that is not compatible with other assertions, like `toHaveResourceWithProperties` etc. and should not be used.
+
 Examples in
 
 - `toHaveResource`: Checks if a certain resource exists
