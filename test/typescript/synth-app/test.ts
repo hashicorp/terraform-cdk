@@ -52,7 +52,7 @@ describe("full integration test HCL synth", () => {
     const outDir = driver.stackDirectory("hello-terra");
 
     expect(existsSync(join(outDir, "cdk.tf"))).toBeTruthy();
-    expect(existsSync(join(outDir, "manifest.json"))).toBeTruthy();
+    expect(existsSync(join(outDir, "metadata.json"))).toBeTruthy();
     expect(existsSync(join(outDir, "cdk.tf.json"))).toBeFalsy();
   });
 });

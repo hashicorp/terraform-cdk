@@ -1,5 +1,131 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`full integration test HCL synth synth generates HCL, not JSON 1`] = `
+"terraform {
+  required_providers {
+    aws = {
+      version = "2.70.4"
+      source  = "aws"
+    }
+  }
+  backend "local" {
+    path = "terraform.tfstate"
+  }
+  backend "remote" {
+    organization = "test"
+    workspaces = {
+      name = "test"
+    }
+  }
+
+
+}
+provider "aws" {
+  region = "eu-central-1"
+  ignore_tags {
+    keys = [
+      "foo"
+    ]
+  }
+
+}
+resource "aws_sns_topic" "Topic" {
+  display_name = "topic"
+  provider     = "aws"
+  lifecycle {
+    create_before_destroy = true
+  }
+
+
+
+}
+resource "aws_instance" "Instance" {
+  ami           = "ami-12345678"
+  instance_type = "t2.micro"
+  credit_specification {
+    cpu_credits = "standard"
+  }
+  ebs_block_device {
+    device_name = "/dev/sda1"
+    volume_size = 100
+  }
+  metadata_options {
+    http_endpoint = "true"
+  }
+
+
+
+}
+resource "aws_instance" "Instance2" {
+  ami           = "ami-12345678"
+  instance_type = "t2.micro"
+  credit_specification {
+    cpu_credits = "\${aws_instance.Instance.credit_specification[0].cpu_credits}"
+  }
+  metadata_options {
+    http_endpoint = "\${aws_instance.Instance.metadata_options[0].http_endpoint}"
+  }
+
+
+
+}
+output "sns-topic-arn" {
+  value = "\${aws_sns_topic.Topic.arn}"
+}
+output "instance-password" {
+  value = "\${base64decode(aws_instance.Instance.password_data)}"
+}
+output "instance-http-endpoint" {
+  value = "\${aws_instance.Instance.metadata_options[0].http_endpoint}"
+}
+output "tf-env-var-output" {
+  value = "no-value-found"
+}
+resource "aws_wafv2_web_acl" "wafv2" {
+  name  = "managed-rule-example"
+  scope = "REGIONAL"
+  default_action {
+    allow {
+
+    }
+  }
+  rule {
+    name     = "managed-rule-example"
+    priority = 1
+    override_action {
+      count {
+
+      }
+    }
+    statement {
+      managed_rule_group_statement {
+        name        = "managed-rule-example"
+        vendor_name = "AWS"
+        excluded_rule {
+          name = "SizeRestrictions_QUERYSTRING"
+        }
+        excluded_rule {
+          name = "SQLInjection_QUERYSTRING"
+        }
+      }
+    }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "managed-rule-example"
+      sampled_requests_enabled   = true
+    }
+  }
+  visibility_config {
+    cloudwatch_metrics_enabled = true
+    metric_name                = "managed-rule-example"
+    sampled_requests_enabled   = true
+  }
+
+
+
+}"
+`;
+
 exports[`full integration test synth synth generates JSON 1`] = `
 "{
   "//": {
