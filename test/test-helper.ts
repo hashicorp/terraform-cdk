@@ -187,6 +187,20 @@ export class TestDriver {
     );
   };
 
+  synthesizedStackContentsRaw = (stackName: string) => {
+    if (fs.existsSync(path.join(this.stackDirectory(stackName), "cdk.tf"))) {
+      return fs.readFileSync(
+        path.join(this.stackDirectory(stackName), "cdk.tf"),
+        "utf-8"
+      );
+    }
+
+    return fs.readFileSync(
+      path.join(this.stackDirectory(stackName), "cdk.tf.json"),
+      "utf-8"
+    );
+  };
+
   synthesizedStack = (stackName: string) => {
     if (
       fs.existsSync(path.join(this.stackDirectory(stackName), "manifest.json"))
