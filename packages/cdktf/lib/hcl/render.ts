@@ -175,11 +175,15 @@ export function renderDatasource(dataSource: any) {
 
   const { dynamic, ...otherAttrs } = dataSourceAttributes;
 
+  const hcl = [`data "${dataSourceType}" "${dataSourceName}" {`];
+
+  const attrs = renderAttributes(otherAttrs);
+  if (attrs) hcl.push(attrs);
+  if (dynamic) hcl.push(...renderDynamicBlocks(dynamic));
+  hcl.push("}");
+
   return {
-    hcl: `data "${dataSourceType}" "${dataSourceName}" {
-${renderAttributes(otherAttrs)}
-${(dynamic && renderDynamicBlocks(dynamic)) || ""}
-}`,
+    hcl: hcl.join("\n"),
     metadata: {
       data: {
         [dataSourceType]: {
@@ -210,12 +214,16 @@ export function renderProvisionerBlock(provisioners: any) {
 
       const { dynamic, ...otherAttrs } = provisionerAttrs;
 
-      return `provisioner "${provisionerType}" {
-${renderAttributes(otherAttrs.value || otherAttrs)}
-${(dynamic && renderDynamicBlocks(dynamic)) || ""}
-}`;
+      const hcl = [`provisioner "${provisionerType}" {`];
+
+      const attrs = renderAttributes(otherAttrs.value || otherAttrs);
+      if (attrs) hcl.push(attrs);
+      if (dynamic) hcl.push(...renderDynamicBlocks(dynamic));
+      hcl.push("}");
+
+      return hcl.join("\n");
     })
-    .join("\n");
+    .join("\n\n");
 }
 
 /**
@@ -241,13 +249,21 @@ export function renderProvider(provider: any) {
   const providerName = Object.keys(provider)[0];
   const providerAttributes = provider[providerName];
 
-  return providerAttributes.map((providerInstance: any) => {
-    const { dynamic, ...otherAttrs } = providerInstance;
-    return `provider "${providerName}" {
-${renderAttributes(otherAttrs)}
-${(dynamic && renderDynamicBlocks(dynamic)) || ""}
-}`;
-  });
+  return providerAttributes
+    .map((providerInstance: any) => {
+      const { dynamic, ...otherAttrs } = providerInstance;
+
+      const hcl = [`provider "${providerName}" {`];
+
+      const attrs = renderAttributes(otherAttrs);
+      if (attrs) hcl.push(attrs);
+      if (dynamic) hcl.push(...renderDynamicBlocks(dynamic));
+
+      hcl.push("}");
+
+      return hcl.join("\n");
+    })
+    .join("\n\n");
 }
 
 /**

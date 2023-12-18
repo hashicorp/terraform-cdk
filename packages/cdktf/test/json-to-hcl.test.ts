@@ -66,13 +66,11 @@ test("with provider alias", async () => {
 
     provider "test" {
     access_key = 1
-
     }
 
     provider "test" {
     access_key = 123
     alias = "foo"
-
     }
     resource "test_resource" "test" {
     name = "bar"
@@ -113,13 +111,11 @@ test("with formatting", async () => {
 
     provider "test" {
     access_key = 1
-
     }
 
     provider "test" {
     access_key = 123
     alias = "foo"
-
     }
     resource "test_resource" "test" {
     name = "bar"
@@ -162,13 +158,9 @@ test("serialize list interpolation", async () => {
     }
 
     provider "test" {
-
-
     }
 
     provider "other" {
-
-
     }
     resource "test_resource" "test" {
     name = "bar"
@@ -330,8 +322,6 @@ describe("output", () => {
       }
 
       provider "test" {
-
-
       }
       resource "test_resource" "weird-long-running-resource" {
       name = "foo"
@@ -398,7 +388,6 @@ test("module with simple provider", async () => {
     provider "test" {
     access_key = "key"
     alias = "provider1"
-
     }
     module "test" {
     module_parameter = "myParam"
@@ -429,7 +418,6 @@ describe("backends", () => {
       path = "relative/path/to/terraform.tfstate"
       workspace_dir = "local_workspace"
       }
-
       }"
     `);
   });
@@ -458,7 +446,6 @@ describe("backends", () => {
       name = "my-app-prod"
       }
       }
-
       }"
     `);
   });
@@ -492,7 +479,6 @@ describe("backends", () => {
       endpoint = "ARM_ENDPOINT"
       environment = "public"
       }
-
       }"
     `);
   });
@@ -532,7 +518,6 @@ describe("backends", () => {
       key_file = "CONSUL_CLIENT_KEY"
       lock = true
       }
-
       }"
     `);
   });
@@ -567,13 +552,9 @@ test("with complex computed list", async () => {
     }
 
     provider "test" {
-
-
     }
 
     provider "other" {
-
-
     }
     resource "other_test_resource" "othertest" {
     }
@@ -639,37 +620,33 @@ it("moves multiple resources", async () => {
     }
 
     provider "test" {
-
-
     }
     resource "test_resource" "construct_nested-construct_simple_2C3755B0" {
     name = "foo"
     provisioner "local-exec" {
     command = "echo 'hello' > world.txt"
-
     }
+
     provisioner "local-exec" {
     command = "echo 'hello' > world1.txt"
-
     }
+
     provisioner "local-exec" {
     command = "echo 'hello' > world2.txt"
-
     }
     }
     resource "test_resource" "construct_nested-construct_simple-2_078CE0AF" {
     name = "foo"
     provisioner "local-exec" {
     command = "echo 'hello' > world.txt"
-
     }
+
     provisioner "local-exec" {
     command = "echo 'hello' > world1.txt"
-
     }
+
     provisioner "local-exec" {
     command = "echo 'hello' > world2.txt"
-
     }
     }
 
@@ -721,14 +698,11 @@ it("supports local-exec provisioner", () => {
     }
 
     provider "test" {
-
-
     }
     resource "test_resource" "simple" {
     name = "foo"
     provisioner "local-exec" {
     command = "echo 'hello' > world.txt"
-
     }
     }
     resource "test_resource" "advanced" {
@@ -743,7 +717,6 @@ it("supports local-exec provisioner", () => {
     "/bin/bash",
     "-c",
     ]
-
     }
     }"
   `);
@@ -796,7 +769,6 @@ test("simple provider", () => {
     provider "test" {
     access_key = "key"
     alias = "provider1"
-
     }
     module "test" {
     source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
@@ -840,12 +812,10 @@ test("multiple providers", () => {
 
     provider "test" {
     access_key = "key"
-
     }
 
     provider "differentType" {
     access_key = "key"
-
     }
     module "test" {
     source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
@@ -993,7 +963,6 @@ test("import block", () => {
 
     provider "test" {
     access_key = "key"
-
     }
     resource "test_resource" "test" {
     }
