@@ -37,9 +37,23 @@ export class ImportableResource extends TerraformElement {
     return {
       import: [
         {
-          to: expectedResourceAddress,
-          id: this.config.importId,
-          provider: this.config.provider ? this.config.provider.fqn : undefined,
+          to: {
+            value: expectedResourceAddress,
+            type: "simple",
+            storageClassType: "reference",
+          },
+          id: {
+            value: this.config.importId,
+            type: "simple",
+            storageClassType: "string",
+          },
+          provider: this.config.provider
+            ? {
+                value: this.config.provider.fqn,
+                type: "simple",
+                storageClassType: "reference",
+              }
+            : undefined,
         },
       ],
     };

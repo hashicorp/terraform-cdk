@@ -140,13 +140,18 @@ export function renderResource(resource: any) {
 
   const { provisioner, dynamic, ...otherAttrs } = resourceAttributes;
 
-  return {
-    hcl: `resource "${resourceType}" "${resourceName}" {
-${renderAttributes(otherAttrs)}
-${(provisioner && renderProvisionerBlock(provisioner)) || ""}
-${(dynamic && renderDynamicBlocks(dynamic)) || ""}
+  const hcl = [`resource "${resourceType}" "${resourceName}" {`];
 
-}`,
+  const attrs = renderAttributes(otherAttrs);
+
+  if (attrs) hcl.push(attrs);
+  if (provisioner) hcl.push(renderProvisionerBlock(provisioner));
+  if (dynamic) hcl.push(...renderDynamicBlocks(dynamic));
+
+  hcl.push("}");
+
+  return {
+    hcl: hcl.join("\n"),
     metadata: {
       resource: {
         [resourceType]: {
@@ -313,6 +318,19 @@ ${renderAttributes(moveBlock)}
   });
 
   return movedBlocks.join("\n");
+}
+
+/**
+ *
+ */
+export function renderImport(imports: any) {
+  const importBlocks = imports.map((importBlock: any) => {
+    return `import {
+${renderAttributes(importBlock)}
+}`;
+  });
+
+  return importBlocks.join("\n");
 }
 
 /**
