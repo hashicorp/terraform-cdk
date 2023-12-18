@@ -30,6 +30,7 @@ import {
   renderTerraform,
   renderLocals,
   renderVariable,
+  renderImport,
 } from "./hcl/render";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -262,57 +263,61 @@ export class TerraformStack extends Construct {
     };
     const hclFragments = fragments
       .map((frag) => {
+        let res = "";
         if (frag.resource) {
           const { hcl, metadata } = renderResource(frag.resource);
           deepMerge(tfMeta, metadata);
-          return hcl;
+          res = [res, hcl].join("\n");
         }
 
         if (frag.data) {
           const { hcl, metadata } = renderDatasource(frag.data);
           deepMerge(tfMeta, metadata);
-          return hcl;
+          res = [res, hcl].join("\n");
         }
 
         if (frag.provider) {
           deepMerge(tf, frag);
-          return renderProvider(frag.provider);
+          res = [res, renderProvider(frag.provider)].join("\n\n");
         }
 
         if (frag.terraform) {
-          console.log("FF", JSON.stringify(frag));
           deepMerge(tf, frag);
-          return undefined;
         }
 
         if (frag.module) {
           const { hcl, metadata } = renderModule(frag.module);
           deepMerge(tfMeta, metadata);
-          return hcl;
+          res = [res, hcl].join("\n");
         }
 
         if (frag.output) {
-          return renderOutput(frag.output);
+          res = [res, renderOutput(frag.output)].join("\n\n");
         }
 
         if (frag.moved) {
-          return renderMoved(frag.moved);
+          res = [res, renderMoved(frag.moved)].join("\n\n");
+        }
+
+        if (frag.import) {
+          res = [res, renderImport(frag.import)].join("\n\n");
         }
 
         if (frag.locals) {
-          return renderLocals(frag.locals);
+          res = [res, renderLocals(frag.locals)].join("\n\n");
         }
 
         if (frag.variable) {
-          return renderVariable(frag.variable);
+          res = [res, renderVariable(frag.variable)].join("\n\n");
         }
 
-        return JSON.stringify(frag, null, 2);
+        return res;
       })
       .filter((frag) => frag !== undefined);
 
     deepMerge(tf, this.rawOverrides);
     const terraformBlock = (tf as any)?.terraform;
+
     let hcl = "";
     if (terraformBlock) {
       hcl = renderTerraform(terraformBlock);
@@ -320,7 +325,7 @@ export class TerraformStack extends Construct {
     }
 
     return {
-      hcl: resolve(this, [hcl, ...hclFragments].join("\n")),
+      hcl: resolve(this, [hcl, ...hclFragments].join("")),
       metadata: resolve(this, tfMeta),
     };
   }

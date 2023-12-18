@@ -345,9 +345,23 @@ export class TerraformResource
       import: this._imported
         ? [
             {
-              provider: this._imported.provider?.fqn,
-              id: this._imported.id,
-              to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+              to: {
+                value: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+                type: "simple",
+                storageClassType: "reference",
+              },
+              id: {
+                value: this._imported.id,
+                type: "simple",
+                storageClassType: "string",
+              },
+              provider: this._imported.provider
+                ? {
+                    value: this._imported.provider.fqn,
+                    type: "simple",
+                    storageClassType: "reference",
+                  }
+                : undefined,
             },
           ]
         : undefined,
