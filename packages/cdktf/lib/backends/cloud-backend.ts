@@ -128,12 +128,13 @@ export abstract class CloudWorkspace {
  * You will only be able to use the workspace specified in the configuration with this working directory, and cannot manage workspaces from the CLI (e.g. terraform workspace select or terraform workspace new).
  */
 export class NamedCloudWorkspace extends CloudWorkspace {
-  public constructor(public name: string) {
+  public constructor(public name: string, public project?: string) {
     super();
   }
   public toTerraform(): any {
     return {
       name: this.name,
+      project: this.project,
     };
   }
 }
@@ -142,12 +143,13 @@ export class NamedCloudWorkspace extends CloudWorkspace {
  *  A set of Terraform Cloud workspace tags. You will be able to use this working directory with any workspaces that have all of the specified tags, and can use the terraform workspace commands to switch between them or create new workspaces. New workspaces will automatically have the specified tags. This option conflicts with name.
  */
 export class TaggedCloudWorkspaces extends CloudWorkspace {
-  public constructor(public tags: string[]) {
+  public constructor(public tags: string[], public project?: string) {
     super();
   }
   public toTerraform(): any {
     return {
       tags: this.tags,
+      project: this.project,
     };
   }
 }
