@@ -23,7 +23,9 @@ export function deepMerge(target: any, ...sources: any[]) {
     if (typeof source !== "object" || typeof target !== "object") {
       throw sourceOrTargetNotAnObject(
         JSON.stringify(source),
-        JSON.stringify(target)
+        typeof source,
+        JSON.stringify(target),
+        typeof target
       );
     }
 
