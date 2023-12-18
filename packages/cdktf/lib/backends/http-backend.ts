@@ -101,6 +101,20 @@ export interface HttpBackendConfig {
    * (Optional) The maximum time in seconds to wait between HTTP request attempts. Defaults to 30.
    */
   readonly retryWaitMax?: number;
+  /**
+   * (Optional) A PEM-encoded certificate used by the server to verify the client
+   * during mutual TLS (mTLS) authentication.
+   */
+  readonly clientCertificatePem?: string;
+  /**
+   * (Optional) A PEM-encoded private key, required if client_certificate_pem is specified.
+   */
+  readonly clientPrivateKeyPem?: string;
+  /**
+   * (Optional) A PEM-encoded CA certificate chain used by the client to verify server
+   * certificates during TLS authentication.
+   */
+  readonly clientCaCertificatePem?: string;
 }
 
 export interface DataTerraformRemoteStateHttpConfig

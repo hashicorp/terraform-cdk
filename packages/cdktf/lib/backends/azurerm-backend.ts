@@ -83,6 +83,12 @@ export interface AzurermBackendConfig {
    */
   readonly endpoint?: string;
   /**
+   * (Optional) The Hostname of the Azure Metadata Service (for example management.azure.com),
+   * used to obtain the Cloud Environment when using a Custom Azure Environment.
+   * This can also be sourced from the ARM_METADATA_HOSTNAME Environment Variable.)
+   */
+  readonly metadataHost?: string;
+  /**
    * (Optional) Should the Blob used to store the Terraform Statefile be
    * snapshotted before use? Defaults to false. This value can also be sourced
    * from the ARM_SNAPSHOT environment variable.
@@ -169,6 +175,16 @@ export interface AzurermBackendConfig {
    * ACTIONS_ID_TOKEN_REQUEST_TOKEN environment variables.
    */
   readonly oidcRequestToken?: string;
+  /**
+   * (Optional) The ID token when authenticating using OpenID Connect (OIDC).
+   * This can also be sourced from the ARM_OIDC_TOKEN environment variable.
+   */
+  readonly oidcToken?: string;
+  /**
+   * (Optional) The path to a file containing an ID token when authenticating using OpenID Connect (OIDC).
+   * This can also be sourced from the ARM_OIDC_TOKEN_FILE_PATH environment variable.
+   */
+  readonly oidcTokenFilePath?: string;
   /**
    * (Optional) Should OIDC authentication be used? This can also be sourced
    * from the ARM_USE_OIDC environment variable.

@@ -93,6 +93,19 @@ export interface GcsBackendConfig {
    * (Optional) The delegation chain for an impersonating a service account
    */
   readonly impersonateServiceAccountDelegates?: string[];
+  /**
+   * (Optional) A Cloud KMS key ('customer-managed encryption key') used when reading and writing state files in the bucket.
+   * Format should be projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}/cryptoKeys/{{name}}.
+   * For more information, including IAM requirements, see {@link https://cloud.google.com/storage/docs/encryption/customer-managed-keys Customer-managed Encryption Keys}.
+   */
+  readonly kmsEncryptionKey?: string;
+  /**
+   * (Optional) A URL containing three parts: the protocol,
+   * the DNS name pointing to a Private Service Connect endpoint,
+   * and the path for the Cloud Storage API (/storage/v1/b).
+   * {@link https://developer.hashicorp.com/terraform/language/settings/backends/gcs#storage_custom_endpoint See here for more details}
+   */
+  readonly storeageCustomEndpoint?: string;
 }
 
 export interface DataTerraformRemoteStateGcsConfig
