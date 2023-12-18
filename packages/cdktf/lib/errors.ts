@@ -222,104 +222,28 @@ export const stackValidationFailure = (errorList: string) =>
 If you wish to ignore these validations, pass 'skipValidation: true' to your App config
 `);
 
-// TODO: validate explanation
-export const targetNotResolvableWithOverrides = (target: string) =>
-  new Error(`Invalid usage. Target (${target}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.
-
-Because the target is a resolvable Token any overrides cannot be applied as it has not yet been resolved. 
-
-To learn more about Tokens see here: https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
-`);
-
-// TODO: expand explanation
-export const sourceOrTargetNotAnObject = (source: string, target: string) =>
-  new Error(`Invalid usage. Both source (${source}) and target (${target}) must be objects
-
-
-`);
-
-// TODO: expand explanation???
-export const constructDependencyBelowV10 = () =>
-  new Error(`Version mismatch! The constructs depedency appears to be lower than v10 which is required as of cdktf version 0.6.
-Your current constructs version is missing Construct.node which was added in v10.
-Please update your constructs dependency: https://cdk.tf/upgrade-constructs-v10
-`);
-
-// TODO: expand explanation
-export const cloudBackendWorkspaceIsNotDefinedByName = () =>
-  new Error(`The Cloud backend only supports cross-stack references when the workspace is defined by name instead of by tags.
-
-
-`);
-
-// TODO: expand explanation
-export const valueIsInvalidStringOrToken = (value: string) =>
-  new Error(`'${value}' is not a valid string nor a token`);
-
-// TODO: expand explanation
-export const valueContainsUnescapedQuotes = (value: string) =>
-  new Error(
-    `'${value}' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string.`
-  );
-
-// TODO: expand explanation
-export const valueIsInvalidNumberOrToken = (value: string) =>
-  new Error(`${value} is not a valid number nor a token`);
-
-// TODO: expand explanation
-export const listElementIsOfWrongType = (
-  value: any[],
-  position: number,
-  error: unknown
-) =>
-  new Error(
-    `Element in list ${value} at position ${position} is not of the right type: ${error}`
-  );
-
-// TODO: expand explanation
-export const functionRecievedWrongNumberOfArgs = (
-  name: string,
-  argValidatorsLength: number,
-  argsLength: number
-) =>
-  new Error(
-    `${name} takes ${argValidatorsLength} arguments, but ${argsLength} were provided`
-  );
-
-// TODO: expand explanation
-export const functionArgumnetValidationFailure = (
-  argNumber: number,
-  name: string,
-  error: unknown
-) =>
-  new Error(`Argument ${argNumber} of ${name} failed the validation: ${error}`);
-
-// TODO: expand explanation
-export const cannotCalcIdForEmptySetOfComponents = () =>
-  new Error(`Unable to calculate a unique id for an empty set of components
-  
-
-`);
-
-// TODO: expand explanation
-export const encounteredAnnotationWithLevelError = (errors: string) =>
-  new Error(`Encountered Annotations with level "ERROR":\n${errors}`);
-
 export const matchersPathIsNotDirectory = (functionName: string) =>
   new Error(`Path is not a directory
 
-Ensure that you are passing the result of Testing.fullSynth('instance of your stack') in your usage of '${functionName}'.
+Ensure you are passing the result of Testing.fullSynth('stack instance') and not Testing.synth('stack instance') in your usage of '${functionName}'. 
 
-To learn more about testing in CDKTF see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests
-`);
+Testing.fullSynth returns a file path to temporary testing environment. This file path is used in CDKTF tests that ensure your TerraformStack produces a validate Terraform configuration (toBeValidTerraform & toPlanSuccessfully).
+Like so: "Testing.toBeValidateTerraform(Testing.fullSynth('TerraformStack instance'))"
 
-// TODO: expand explanation ???
+Testing.synth returns the JSON representation of your stack. This JSON can then be used in CDKTF assertions that check the composition of your stacks (toHaveResource, toHaveDataSource, ect.)
+Like so: "Testing.toHaveResource(Testing.synth('TerraformStack instance'), S3Bucket)"
+
+To learn more about testing in CDKTF see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests`);
+
 export const matchersFoundErrorsInStack = (
   errorCount: any,
   stackName: string,
   diagnostics: string
 ) =>
-  new Error(`Found ${errorCount} Errors in stack ${stackName}: ${diagnostics}`);
+  new Error(`Found ${errorCount} Errors in stack ${stackName}: ${diagnostics}
+  
+These errors are not failures of your tests, but issues with the underlying TerraformStack being tested. Fix the above issues before running tests again.
+`);
 
 export const jestNotInstantiated = () =>
   new Error(`expect is not defined, jest was not propely instantiated
@@ -335,13 +259,136 @@ export const expectNotGloballyAccessible = () =>
 To learn more about setting up testing see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests#:~:text=Add%20Testing%20to%20Your%20Application
 `);
 
+export const invalidStack = (stackContent: string) =>
+  new Error(`invalid JSON string passed: ${stackContent}
+
+Ensure you are passing the result of Testing.synth('stack instance') and not Testing.fullSynth('stack instance'). 
+
+Testing.synth returns the JSON representation of your stack. This JSON can then be used in CDKTF assertions that check the composition of your stacks (toHaveResource, toHaveDataSource, ect.)
+Like so: "Testing.toHaveResource(Testing.synth('TerraformStack instance'), S3Bucket)"
+
+Testing.fullSynth returns a file path to temporary testing environment. This file path is used in CDKTF tests that ensure your TerraformStack produces a validate Terraform configuration (toBeValidTerraform & toPlanSuccessfully).
+Like so: "Testing.toBeValidateTerraform(Testing.fullSynth('TerraformStack instance'))"
+
+To learn more about testing in CDKTF see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests`);
+
+// Need to validate explanations and/or expand still
+
+export const targetNotResolvableWithOverrides = (target: string) =>
+  new Error(`Invalid usage. Target (${target}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.
+
+Because the target is a resolvable Token any overrides cannot be applied as it has not yet been resolved. 
+
+To learn more about Tokens see here: https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
+`);
+
+export const sourceOrTargetNotAnObject = (
+  source: string,
+  sourceType: string,
+  target: string,
+  targetType: string
+) =>
+  new Error(`An issue was encountered during the synthesization of your Terraform configuration. 
+  
+Both the source element (${source}) and and its containing target element (${target}) must be objects
+
+Type of source: ${sourceType}
+Type of target: ${targetType}
+`);
+
+export const constructDependencyBelowV10 = () =>
+  new Error(`Version mismatch! The constructs depedency appears to be lower than v10 which is required as of cdktf version 0.6.
+Your current constructs version is missing Construct.node which was added in v10.
+Please update your constructs dependency: https://cdk.tf/upgrade-constructs-v10
+`);
+
+export const cloudBackendWorkspaceIsNotDefinedByName = () =>
+  new Error(`The Cloud backend only supports cross-stack references when the workspace is defined by name instead of by tags.
+
+To properly utilize cross-stack references, replace your usage of 'TaggedCloudWorkspaces' to 'NamedCloudWorkspace' like so:
+
+new CloudBackend(stack, {
+  ...
+  workspaces: new NamedCloudWorkspace("my-app"),
+});
+
+To learn more about Remote Backends see: https://developer.hashicorp.com/terraform/cdktf/concepts/remote-backends
+`);
+
+export const valueContainsUnescapedQuotes = (value: string) =>
+  new Error(
+    `'${value}' can not be used as value directly since it has unescaped double quotes in it.
+
+To safely use the value, use Fn.rawString on your string like so:
+
+Fn.rawString('${value}')
+
+This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+
+To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+`
+  );
+
+export const encounteredAnnotationWithLevelError = (errors: string) =>
+  new Error(`Encountered Annotations with level "ERROR":\n${errors}
+  
+Either fix the issues above, or set the environment variable CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS to ignore these annotations
+`);
+
 // The ones below have no added context, or in other words, are the same as they have been
 
+// The next 3 are for functions that provided arg validations to built in terraform functions
+
+// TODO: expand explanation
+export const valueIsInvalidStringOrToken = (value: string) =>
+  new Error(`'${value}' is not a valid string nor a token`);
+
+// TODO: expand explanation
+export const valueIsInvalidNumberOrToken = (value: string) =>
+  new Error(`${value} is not a valid number nor a token`);
+
+// TODO: expand explanation
+export const listElementIsOfWrongType = (
+  value: any[],
+  position: number,
+  error: unknown
+) =>
+  new Error(`Element in list ${value} at position ${position} is not of the right type: ${error}
+
+`);
+
+// TODO: expand explanation?? Doesn't seem to be something that is caused by user error. Maybe Direct people to file a bug report?
+export const functionRecievedWrongNumberOfArgs = (
+  name: string,
+  argValidatorsLength: number,
+  argsLength: number
+) =>
+  new Error(
+    `${name} takes ${argValidatorsLength} arguments, but ${argsLength} were provided`
+  );
+
+// TODO: expand explanation?? Doesn't seem to be something that is caused by user error. Maybe Direct people to file a bug report?
+export const functionArgumnetValidationFailure = (
+  argNumber: number,
+  name: string,
+  error: unknown
+) =>
+  new Error(`Argument ${argNumber} of ${name} failed the validation: ${error}`);
+
+// TODO: expand explanation? Shouldn't happen as the only time it's called is in TerraformStack where this case is handled
+// (in allocateLogicalId of TerraformStack) return components.length > 0 ? makeUniqueId(components) : "";
+export const cannotCalcIdForEmptySetOfComponents = () =>
+  new Error(`Unable to calculate a unique id for an empty set of components
+  
+`);
+
+// TODO: expand explanation
 export const stringValueAddedToReferenceList = (listToken: string[]) =>
   new Error(
     `Cannot add elements to list token, got: ${listToken}. You tried to add a value to a referenced list, instead use Fn.concat([yourReferencedList, ["my", "new", "items"]]).`
   );
 
+// TODO: expand explanation
 export const cannotConcatenateStringsInTokenizedStringArray = (
   listToken: string
 ) =>
@@ -349,68 +396,83 @@ export const cannotConcatenateStringsInTokenizedStringArray = (
     `Cannot concatenate strings in a tokenized string array, got: ${listToken}`
   );
 
+// TODO: expand explanation
 export const numberValueAddedToReferenceList = (listToken: number[]) =>
   new Error(
     `Cannot add elements to list token, got: ${listToken}. You tried to add a value to a referenced list, instead use Fn.concat([yourReferencedList, [42, 43, 44]]).`
   );
 
+// TODO: expand explanation
 export const mapValueAddedToReferenceList = (mapToken: string) =>
   new Error(
     `Cannot add elements to map token, got: ${mapToken}. You tried to add a value to a referenced map, instead use Fn.mergeMaps([yourReferencedMap, { your: 'value' }]).`
   );
 
+// TODO: expand explanation
 export const cannotConcatenateStringsInTokenizedMap = (tokenizedMap: any) =>
   new Error(
     `Cannot concatenate strings in a tokenized map, got: ${tokenizedMap}`
   );
 
+// TODO: is this code actually used anywhere?
 export const doesNotImplementDependableTrait = (instance: IDependable) =>
   new Error(`${instance} does not implement DependableTrait`);
 
+// TODO: expand explanation. Not sure how it can be negative
 export const canOnlyEncodePositiveIntegers = () =>
   new Error(`Can only encode positive integers`);
 
+// TODO: expand explanation. Not sure how it grows
 export const indexTooLargeToEncode = (index: number) =>
   new Error(`Got an index too large to encode: ${index}`);
 
-export const argToIntrinsicMustBePainValue = (value: any) =>
+// TODO: expand explanation
+export const argToIntrinsicMustBePlainValue = (value: any) =>
   new Error(`Argument to Intrinsic must be a plain value object, got ${value}`);
 
+// TODO: expand explanation?? Doesn't seem to be used anywhere
 export const intrinsicNewError = (message: string, createdAt: string) =>
   new Error(`${message}\nToken created:\n    at ${createdAt}\nError thrown:`);
 
+// TODO: expand explanation
 export const unableToResolveCircularReference = (pathName: string) =>
   new Error(`Unable to resolve object tree with circular reference at '${pathName}'.
 This error is thrown if the depth of the object tree is greater than 200 to protect against cyclic references.
 To resolve this inspect the construct creating the cyclic reference (most likely in '${pathName}') and make sure
 it does not create an infinite nesting of constructs.`);
 
+// TODO: expand explanation
 export const cannotResolveFunction = (pathName: string, obj: any) =>
   new Error(`Trying to resolve a non-data object (e.g. a function) at '${pathName}': ${obj}. Only tokens are supported for lazy evaluation.
 If you want to have a lazily computed value, please use the Lazy class, e.g. Lazy.stringValue({ produce: () => "Hello World" })`);
 
+// TODO: expand explanation
 export const encodedListTokenInScalarStringContext = (
   errorExplanation: string
 ) =>
   new Error(`Found an encoded list token string in a scalar string context.
 ${errorExplanation}`);
 
+// TODO: expand explanation
 export const encodedMapTokenInScalarStringContext = (
   errorExplanation: string
 ) =>
   new Error(`Found an encoded map token in a scalar string context.
 ${errorExplanation}`);
 
+// TODO: expand explanation
 export const encodedMapTokenInScalarNumberContext = (
   errorExplanation: string
 ) =>
   new Error(`Found an encoded map token in a scalar number context.
 ${errorExplanation}`);
 
+// TODO: expand explanation
 export const constructsCannotBeResolved = (pathName: string) =>
   new Error(`Trying to resolve() a Construct at '${pathName}'. 
 This often means that there is an unintended cyclic dependency in your construct tree, leading to the resolution being stuck in an infinite loop which will eventually fail.`);
 
+// TODO: expand explanation
 export const mapKeyMustResolveToString = (
   pathName: string,
   key: string,
@@ -422,16 +484,16 @@ export const mapKeyMustResolveToString = (
     )}`
   );
 
+// TODO: expand explanation
 export const unknownNumberTokenFound = () =>
   new Error(`Encoded representation of unknown number Token found`);
 
+// TODO: expand explanation
 export const unrecognizedTokenKey = (key: string) =>
   new Error(`Unrecognized token key: ${key}`);
 
+// TODO: expand explanation
 export const IdIncludesUnresolvedTokens = (unresolvedTokens: string) =>
   new Error(
     `ID components may not include unresolved tokens: ${unresolvedTokens}`
   );
-
-export const invalidStack = (stackContent: string) =>
-  new Error(`invalid JSON string passed: ${stackContent}`);
