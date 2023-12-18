@@ -175,7 +175,7 @@ export class CdktfProject {
     const ac = new AbortController();
     this.abortSignal = ac.signal;
     this.synthOrigin = synthOrigin;
-    this.hcl = hcl;
+    this.hcl = Boolean(process.env.SYNTH_HCL_OUTPUT) || hcl;
 
     this.hardAbort = ac.abort.bind(ac);
     this.ioHandler = new CdktfProjectIOHandler();
