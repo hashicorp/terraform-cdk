@@ -27,6 +27,7 @@ test("string local", async () => {
   const hcl = Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
     "
+
     locals {
         greeting = "Hello, \${var.name}"
     }"
@@ -62,10 +63,12 @@ test("with provider alias", async () => {
 
 
     }
+
     provider "test" {
     access_key = 1
 
     }
+
     provider "test" {
     access_key = 123
     alias = "foo"
@@ -74,9 +77,6 @@ test("with provider alias", async () => {
     resource "test_resource" "test" {
     name = "bar"
     provider = "test.foo"
-
-
-
     }"
   `);
 });
@@ -110,10 +110,12 @@ test("with formatting", async () => {
 
 
     }
+
     provider "test" {
     access_key = 1
 
     }
+
     provider "test" {
     access_key = 123
     alias = "foo"
@@ -122,9 +124,6 @@ test("with formatting", async () => {
     resource "test_resource" "test" {
     name = "bar"
     provider = "test.foo"
-
-
-
     }"
   `);
 });
@@ -161,10 +160,12 @@ test("serialize list interpolation", async () => {
 
 
     }
+
     provider "test" {
 
 
     }
+
     provider "other" {
 
 
@@ -172,21 +173,11 @@ test("serialize list interpolation", async () => {
     resource "test_resource" "test" {
     name = "bar"
     names = "\${other_test_resource.othertest.names}"
-
-
-
     }
     resource "test_resource" "test2" {
     name = "foo"
-
-
-
     }
     resource "other_test_resource" "othertest" {
-
-
-
-
     }"
   `);
 });
@@ -201,6 +192,7 @@ describe("output", () => {
     });
     expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "
+
       output "test-output" {
       value = 1
       }"
@@ -216,6 +208,7 @@ describe("output", () => {
     });
     expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "
+
       output "test-output" {
       value = 1
       }"
@@ -231,6 +224,7 @@ describe("output", () => {
     });
     expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "
+
       output "test-output" {
       value = true
       }"
@@ -246,6 +240,7 @@ describe("output", () => {
     });
     expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "
+
       output "test-output" {
       value = {
       foo = "bar"
@@ -263,6 +258,7 @@ describe("output", () => {
     });
     expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "
+
       output "test-output" {
       value = [
       "foo",
@@ -282,6 +278,7 @@ describe("output", () => {
     });
     expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "
+
       output "test-output" {
       value = 1
       description = "test-description"
@@ -299,6 +296,7 @@ describe("output", () => {
     });
     expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "
+
       output "test-output" {
       value = 1
       sensitive = true
@@ -330,16 +328,15 @@ describe("output", () => {
 
 
       }
+
       provider "test" {
 
 
       }
       resource "test_resource" "weird-long-running-resource" {
       name = "foo"
-
-
-
       }
+
       output "test-output" {
       value = 1
       depends_on = [
@@ -361,9 +358,11 @@ describe("output", () => {
 
     expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "
+
       variable "test-variable" {
 
       }
+
       output "test-output" {
       value = "\${var.test-variable}"
       }"
@@ -395,6 +394,7 @@ test("module with simple provider", async () => {
 
 
     }
+
     provider "test" {
     access_key = "key"
     alias = "provider1"
@@ -565,25 +565,20 @@ test("with complex computed list", async () => {
 
 
     }
+
     provider "test" {
 
 
     }
+
     provider "other" {
 
 
     }
     resource "other_test_resource" "othertest" {
-
-
-
-
     }
     resource "test_resource" "test" {
     name = "\${other_test_resource.othertest.complex_computed_list[0].id}"
-
-
-
     }"
   `);
 });
@@ -642,6 +637,7 @@ it("moves multiple resources", async () => {
 
 
     }
+
     provider "test" {
 
 
@@ -660,8 +656,6 @@ it("moves multiple resources", async () => {
     command = "echo 'hello' > world2.txt"
 
     }
-
-
     }
     resource "test_resource" "construct_nested-construct_simple-2_078CE0AF" {
     name = "foo"
@@ -677,13 +671,13 @@ it("moves multiple resources", async () => {
     command = "echo 'hello' > world2.txt"
 
     }
-
-
     }
+
     moved {
     to = test_resource.construct_nested-construct_simple_2C3755B0
     from = test_resource.simple
     }
+
     moved {
     to = test_resource.construct_nested-construct_simple-2_078CE0AF
     from = test_resource.simple-2
@@ -725,6 +719,7 @@ it("supports local-exec provisioner", () => {
 
 
     }
+
     provider "test" {
 
 
@@ -735,8 +730,6 @@ it("supports local-exec provisioner", () => {
     command = "echo 'hello' > world.txt"
 
     }
-
-
     }
     resource "test_resource" "advanced" {
     name = "foo"
@@ -752,8 +745,6 @@ it("supports local-exec provisioner", () => {
     ]
 
     }
-
-
     }"
   `);
 });
@@ -801,6 +792,7 @@ test("simple provider", () => {
 
 
     }
+
     provider "test" {
     access_key = "key"
     alias = "provider1"
@@ -845,10 +837,12 @@ test("multiple providers", () => {
 
 
     }
+
     provider "test" {
     access_key = "key"
 
     }
+
     provider "differentType" {
     access_key = "key"
 
@@ -872,6 +866,7 @@ test("string type", () => {
   });
   expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "
+
     variable "test-variable" {
     type = string
     }"
@@ -887,6 +882,7 @@ test("number type", () => {
   });
   expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "
+
     variable "test-variable" {
     type = number
     }"
@@ -902,6 +898,7 @@ test("bool type", () => {
   });
   expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "
+
     variable "test-variable" {
     type = bool
     }"
@@ -917,6 +914,7 @@ test("any type", () => {
   });
   expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "
+
     variable "test-variable" {
     type = any
     }"
@@ -932,6 +930,7 @@ test("default value", () => {
   });
   expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "
+
     variable "test-variable" {
     default = "my-val"
     }"
@@ -948,6 +947,7 @@ test("description", () => {
 
   expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "
+
     variable "test-variable" {
     description = "A Test Variable"
     }"
@@ -963,8 +963,44 @@ test("collection type", () => {
   });
   expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "
+
     variable "test-variable" {
     type = list(string)
+    }"
+  `);
+});
+
+test("import block", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestProvider(stack, "provider1", {
+    accessKey: "key",
+  });
+
+  new TestResource(stack, "test", {} as any).importFrom("foo");
+
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "terraform {
+    required_providers {
+      test = {
+    version = "~> 2.0"
+    }
+    }
+
+
+    }
+
+    provider "test" {
+    access_key = "key"
+
+    }
+    resource "test_resource" "test" {
+    }
+
+    import {
+    to = test_resource.test
+    id = "foo"
     }"
   `);
 });
