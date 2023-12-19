@@ -737,6 +737,12 @@ test("pass variables", () => {
   expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
     "
     module "test" {
+    param1 = "name"
+    param2 = 1
+    param3 = [
+    "id1",
+    "id2",
+    ]
     source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }"
   `);
