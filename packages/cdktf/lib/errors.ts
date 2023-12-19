@@ -426,22 +426,26 @@ export const canOnlyEncodePositiveIntegers = () =>
 export const indexTooLargeToEncode = (index: number) =>
   new Error(`Got an index too large to encode: ${index}`);
 
-// TODO: expand explanation
-export const argToIntrinsicMustBePlainValue = (value: any) =>
-  new Error(`Argument to Intrinsic must be a plain value object, got ${value}`);
+export const argToIntrinsicMustBePlainValue = (
+  value: any,
+  creationStack: string[]
+) =>
+  new Error(
+    `You can only use a plain value (not a function) when creating an Intrinsic token. We got the value '${value}' createed at:\n${creationStack.join(
+      "\n"
+    )}. If you want to use a function, please use the Lazy class, e.g. Lazy.anyValue({ produce: () => "Hello World" }).`
+  );
 
 // TODO: expand explanation?? Doesn't seem to be used anywhere
 export const intrinsicNewError = (message: string, createdAt: string) =>
   new Error(`${message}\nToken created:\n    at ${createdAt}\nError thrown:`);
 
-// TODO: expand explanation
 export const unableToResolveCircularReference = (pathName: string) =>
   new Error(`Unable to resolve object tree with circular reference at '${pathName}'.
 This error is thrown if the depth of the object tree is greater than 200 to protect against cyclic references.
 To resolve this inspect the construct creating the cyclic reference (most likely in '${pathName}') and make sure
 it does not create an infinite nesting of constructs.`);
 
-// TODO: expand explanation
 export const cannotResolveFunction = (pathName: string, obj: any) =>
   new Error(`Trying to resolve a non-data object (e.g. a function) at '${pathName}': ${obj}. Only tokens are supported for lazy evaluation.
 If you want to have a lazily computed value, please use the Lazy class, e.g. Lazy.stringValue({ produce: () => "Hello World" })`);

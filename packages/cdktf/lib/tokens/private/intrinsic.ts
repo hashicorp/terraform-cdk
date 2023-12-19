@@ -29,11 +29,11 @@ export class Intrinsic implements IResolvable {
   private readonly value: any;
 
   constructor(value: any) {
+    this.creationStack = captureStackTrace();
     if (isFunction(value)) {
-      throw argToIntrinsicMustBePlainValue(value);
+      throw argToIntrinsicMustBePlainValue(value, this.creationStack);
     }
 
-    this.creationStack = captureStackTrace();
     this.value = value;
   }
 
