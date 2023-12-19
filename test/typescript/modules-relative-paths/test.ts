@@ -24,6 +24,8 @@ describe("modules with relative paths", () => {
       path.join(driver.workingDirectory, "terraform-modules")
     );
 
+    console.log("working directory", driver.workingDirectory);
+
     // generate bindings
     process.chdir(path.join(driver.workingDirectory, "cdktf-project"));
     await driver.get();

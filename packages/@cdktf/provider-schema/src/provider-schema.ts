@@ -11,6 +11,7 @@ import {
   ModuleIndex,
   ModuleSchema,
   ProviderSchema,
+  TerraformModuleConstraint,
   VersionSchema,
   exec,
   withTempDir,
@@ -211,20 +212,35 @@ export async function readProviderSchema(
 }
 
 export async function readModuleSchema(target: ConstructsMakerModuleTarget) {
-  const config: TerraformConfig = {
-    terraform: {},
-  };
-
-  if (!config.module) config.module = {};
-  const source = (target.constraint as any).localSource || target.source;
-  config.module[target.moduleKey] = { source: source };
-  if (target.version) {
-    config.module[target.moduleKey]["version"] = target.version;
-  }
-
   let moduleSchema: Record<string, ModuleSchema> = {};
 
   await withTempDir("fetchSchema", async () => {
+    console.log("readModuleSchema", target);
+
+    const config: TerraformConfig = {
+      terraform: {},
+    };
+
+    if (!config.module) config.module = {};
+    let source: string = target.source;
+
+    const localSource = (target.constraint as TerraformModuleConstraint)
+      .localSourceAbsolutePath;
+    if (localSource) {
+      // create relative path to module in the user project
+      source = path.relative(process.cwd(), localSource);
+      console.log("localSource, relative path", source);
+
+      // one construct für alle modules (nur einmal)
+      // nur ein asset am ende mit allen local modules
+      // asset.addPath feature?
+    }
+
+    config.module[target.moduleKey] = { source: source };
+    if (target.version) {
+      config.module[target.moduleKey]["version"] = target.version;
+    }
+
     const outdir = process.cwd();
     const filePath = path.join(outdir, "main.tf.json");
     await fs.writeFile(filePath, JSON.stringify(config));

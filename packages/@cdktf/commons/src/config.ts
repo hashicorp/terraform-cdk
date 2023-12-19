@@ -58,7 +58,7 @@ export class TerraformModuleConstraint
 {
   public readonly name: string;
   public readonly source: string;
-  public readonly localSource?: string;
+  public readonly localSourceAbsolutePath?: string;
   public readonly fqn: string;
   public readonly version?: string;
   public readonly namespace?: string;
@@ -81,7 +81,8 @@ export class TerraformModuleConstraint
 
     const localMatch = getLocalMatch(this.source);
     if (localMatch) {
-      this.localSource = `file://${path.join(process.cwd(), this.source)}`;
+      this.localSourceAbsolutePath = path.join(process.cwd(), this.source);
+      console.log("localSourceAbsolutePath", this.localSourceAbsolutePath);
     }
   }
 
