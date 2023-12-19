@@ -1,6 +1,12 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver, onWindows, onPosix } from "../../test-helper";
+import {
+  TestDriver,
+  onPosixWithoutHcl,
+  onPosixWithHcl,
+  onWindowsWithoutHcl,
+  onWindowsWithHcl,
+} from "../../test-helper";
 import * as fs from "fs-extra";
 import * as path from "path";
 
@@ -19,7 +25,7 @@ describe("full integration test", () => {
     await driver.get();
   });
 
-  onPosix("build modules posix", async () => {
+  onPosixWithoutHcl("build modules posix", async () => {
     await driver.synth();
     expect(driver.synthesizedStack("hello-modules").toString())
       .toMatchInlineSnapshot(`
@@ -79,7 +85,14 @@ describe("full integration test", () => {
     `);
   });
 
-  onWindows("build modules windows", async () => {
+  onPosixWithHcl("build modules in HCL posix", async () => {
+    await driver.synth();
+    expect(
+      driver.synthesizedStack("hello-modules").toString()
+    ).toMatchInlineSnapshot();
+  });
+
+  onWindowsWithoutHcl("build modules windows", async () => {
     await driver.synth();
     expect(driver.synthesizedStack("hello-modules").toString())
       .toMatchInlineSnapshot(`
@@ -137,5 +150,12 @@ describe("full integration test", () => {
         }
       }"
     `);
+  });
+
+  onWindowsWithHcl("build modules windows", async () => {
+    await driver.synth();
+    expect(
+      driver.synthesizedStack("hello-modules").toString()
+    ).toMatchInlineSnapshot();
   });
 });

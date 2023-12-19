@@ -212,7 +212,7 @@ describe("csharp full integration test synth", () => {
       expect(item.req).toEqual("${tolist(set_block_resource.set_block.set)}");
     });
 
-    it("output references to complex list type (no block)", () => {
+    onlyJson("output references to complex list type (no block)", () => {
       const output = stack.output("list_from_list_type_ref");
 
       expect(output).toEqual(
