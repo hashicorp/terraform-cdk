@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onlyJson } from "../../test-helper";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -14,7 +14,7 @@ describe("iterators integration test", () => {
     console.log(driver.workingDirectory);
   });
 
-  test("properly synthesizes", async () => {
+  onlyJson("properly synthesizes", async () => {
     await driver.synth();
 
     const stack = driver.synthesizedStack("test-iterators");
