@@ -153,7 +153,13 @@ export class NamedCloudWorkspace extends CloudWorkspace {
   }
 
   public toHclTerraform(): any {
-    return this.toTerraform();
+    return {
+      name: {
+        value: this.name,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
   }
 
   public toTerraform(): any {
@@ -173,7 +179,13 @@ export class TaggedCloudWorkspaces extends CloudWorkspace {
   }
 
   public toHclTerraform(): any {
-    return this.toTerraform();
+    return {
+      tags: {
+        value: this.tags,
+        type: "list",
+        storageClassType: "stringList",
+      },
+    };
   }
 
   public toTerraform(): any {
