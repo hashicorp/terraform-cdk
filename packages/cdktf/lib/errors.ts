@@ -472,28 +472,30 @@ export const constructsCannotBeResolved = (pathName: string) =>
   new Error(`Trying to resolve() a Construct at '${pathName}'. 
 This often means that there is an unintended cyclic dependency in your construct tree, leading to the resolution being stuck in an infinite loop which will eventually fail.`);
 
-// TODO: expand explanation
 export const mapKeyMustResolveToString = (
   pathName: string,
   key: string,
   resolvedKey: any
 ) =>
   new Error(
-    `At "${pathName}" the key "${key}" is used in a map so it must resolve to a string, but it resolves to a ${typeof resolvedKey}: ${JSON.stringify(
+    `At "${pathName}" the key "${key}" is used in a map so it must resolve to a string, but it resolves to a ${typeof resolvedKey} with the value ${JSON.stringify(
       resolvedKey
-    )}`
+    )}. This means that the token used as the key is not resolving into string, you must change the Token so that it does.`
   );
 
-// TODO: expand explanation
+const unknownTokenExplanation = `This means that you are trying to access a Token value that does not exist. This can only happen if the Token is e.g. from another CDK (i.e. AWS CDK, CDK8s, etc.) and is not known to the CDKTF Application. You either need to make the other CDK resolve this token before CDKTF tries to resolve the token or work around using this token at all. 
+
+If this error occurs without another CDK (or a value looking like a Token) being involved, please file a bug.`;
+
 export const unknownNumberTokenFound = () =>
-  new Error(`Encoded representation of unknown number Token found`);
+  new Error(
+    `Encoded representation of unknown number Token found. ${unknownTokenExplanation}`
+  );
 
-// TODO: expand explanation
 export const unrecognizedTokenKey = (key: string) =>
-  new Error(`Unrecognized token key: ${key}`);
+  new Error(`Unrecognized Token Key '${key}'. ${unknownTokenExplanation}`);
 
-// TODO: expand explanation
 export const IdIncludesUnresolvedTokens = (unresolvedTokens: string) =>
   new Error(
-    `ID components may not include unresolved tokens: ${unresolvedTokens}`
+    `This construct (or its parent construct) was configured with an ID that contains a Token: ${unresolvedTokens}. This is not allowed as IDs must be known statically during synthesis. The values of tokens are only known during apply, therefore they cannot be used in IDs. Please use a concrete value for your constructs ID instead.`
   );
