@@ -410,8 +410,20 @@ export class TestDriver {
   };
 }
 
-export const onWindows = process.platform === "win32" ? it : it.skip;
-export const onPosix = process.platform !== "win32" ? it : it.skip;
+const isWindows = process.platform === "win32";
+const isPosix = process.platform !== "win32";
+const isHcl =
+  process.env.SYNTH_HCL_OUTPUT === "true" ||
+  process.env.SYNTH_HCL_OUTPUT === "1";
+
+export const onWindows = isWindows ? it : it.skip;
+export const onPosix = isPosix ? it : it.skip;
+
+export const onWindowsWithHcl = isWindows && isHcl ? it : it.skip;
+export const onPosixWithHcl = isPosix && isHcl ? it : it.skip;
+
+export const onWindowsWithoutHcl = isWindows && !isHcl ? it : it.skip;
+export const onPosixWithoutHcl = isPosix && !isHcl ? it : it.skip;
 
 /**
  * replaces all occurences like
