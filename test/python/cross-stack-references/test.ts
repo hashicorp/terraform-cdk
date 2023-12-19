@@ -80,7 +80,7 @@ describe("python cross stack references", () => {
     `);
   });
 
-  onPosixWithHcl("synth generates JSON on POSIX", () => {
+  onPosixWithHcl("synth generates HCL on POSIX", () => {
     expect(driver.manifest()).toMatchInlineSnapshot(`
       "{
         "version": "stubbed",
@@ -201,7 +201,7 @@ describe("python cross stack references", () => {
     `);
   });
 
-  onWindowsWithHcl("synth generates JSON on Windows", () => {
+  onWindowsWithHcl("synth generates HCL on Windows", () => {
     expect(driver.manifest()).toMatchInlineSnapshot(`
       "{
         "version": "stubbed",
