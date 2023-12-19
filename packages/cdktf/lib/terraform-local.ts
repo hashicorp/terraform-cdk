@@ -70,7 +70,7 @@ export class TerraformLocal
         [this.friendlyUniqueId]: {
           value: this._expression,
           isBlock: false,
-          storageClassType: "any",
+          type: "any",
         },
       },
     };

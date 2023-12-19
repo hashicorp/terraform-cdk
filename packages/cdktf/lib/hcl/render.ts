@@ -320,6 +320,10 @@ export function renderLocals(locals: any) {
   const localName = Object.keys(locals)[0];
   const localAttributes = locals[localName];
 
+  if (localAttributes.value === undefined) {
+    return "";
+  }
+
   return `locals {
     ${localName} = ${renderFuzzyJsonExpression(localAttributes.value)}
 }`;
