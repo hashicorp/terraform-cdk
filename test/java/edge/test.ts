@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import * as path from "path";
 import * as fs from "fs-extra";
-import { QueryableStack, TestDriver } from "../../test-helper";
+import { QueryableStack, TestDriver, onlyJson } from "../../test-helper";
 
 describe("java full integration", () => {
   let driver: TestDriver;
@@ -68,7 +68,7 @@ describe("java full integration", () => {
       console.log(driver.workingDirectory);
     });
 
-    it("renders plain values in lists", () => {
+    onlyJson("renders plain values in lists", () => {
       const l = stack.byId("list");
 
       // Normal list
@@ -85,7 +85,7 @@ describe("java full integration", () => {
       expect(l.singlereq.reqstr).toBe("reqstr");
     });
 
-    it("renders plain values in sets", () => {
+    onlyJson("renders plain values in sets", () => {
       const s = stack.byId("set_block");
 
       expect(s.set).toEqual([
@@ -94,7 +94,7 @@ describe("java full integration", () => {
       ]);
     });
 
-    it("references plain values", () => {
+    onlyJson("references plain values", () => {
       expect(stack.byId("plain").str).toEqual(
         "${optional_attribute_resource.test.str}"
       );
@@ -115,30 +115,33 @@ describe("java full integration", () => {
       );
     });
 
-    it("item references a required single item lists required values", () => {
-      const item = stack.byId("from_single_list");
+    onlyJson(
+      "item references a required single item lists required values",
+      () => {
+        const item = stack.byId("from_single_list");
 
-      expect(item.bool).toEqual(
-        "${list_block_resource.list.singlereq[0].reqbool}"
-      );
-      expect(item.str).toEqual(
-        "${list_block_resource.list.singlereq[0].reqstr}"
-      );
-      expect(item.num).toEqual(
-        "${list_block_resource.list.singlereq[0].reqnum}"
-      );
-      expect(item.boolList).toEqual([
-        "${list_block_resource.list.singlereq[0].reqbool}",
-      ]);
-      expect(item.strList).toEqual([
-        "${list_block_resource.list.singlereq[0].reqstr}",
-      ]);
-      expect(item.numList).toEqual([
-        "${list_block_resource.list.singlereq[0].reqnum}",
-      ]);
-    });
+        expect(item.bool).toEqual(
+          "${list_block_resource.list.singlereq[0].reqbool}"
+        );
+        expect(item.str).toEqual(
+          "${list_block_resource.list.singlereq[0].reqstr}"
+        );
+        expect(item.num).toEqual(
+          "${list_block_resource.list.singlereq[0].reqnum}"
+        );
+        expect(item.boolList).toEqual([
+          "${list_block_resource.list.singlereq[0].reqbool}",
+        ]);
+        expect(item.strList).toEqual([
+          "${list_block_resource.list.singlereq[0].reqstr}",
+        ]);
+        expect(item.numList).toEqual([
+          "${list_block_resource.list.singlereq[0].reqnum}",
+        ]);
+      }
+    );
 
-    it("item references required values from multi-item lists", () => {
+    onlyJson("item references required values from multi-item lists", () => {
       const item = stack.byId("from_list");
 
       // Expands map references
@@ -184,7 +187,7 @@ describe("java full integration", () => {
       expect(item.req[0]).toMatchInlineSnapshot();
     });
 
-    it("item references a map", () => {
+    onlyJson("item references a map", () => {
       const item = stack.byId("from_map");
 
       // Expands map references
@@ -200,7 +203,7 @@ describe("java full integration", () => {
       expect(item.numList).toEqual(["${map_resource.map.computedMap.key1}"]);
     });
 
-    it("item references a full map", () => {
+    onlyJson("item references a full map", () => {
       const item = stack.byId("map_reference");
 
       // Expands map references
@@ -208,19 +211,19 @@ describe("java full integration", () => {
       expect(item.optMap).toEqual("${map_resource.map.optMap}");
     });
 
-    it("item references set from multi-item list", () => {
+    onlyJson("item references set from multi-item list", () => {
       const item = stack.byId("set_from_list");
 
       expect(item.set).toEqual("${list_block_resource.list.req}");
     });
 
-    it("item references multi-item list from set", () => {
+    onlyJson("item references multi-item list from set", () => {
       const item = stack.byId("list_from_set");
 
       expect(item.req).toEqual("${tolist(set_block_resource.set_block.set)}");
     });
 
-    it("output references to complex list type (no block)", () => {
+    onlyJson("output references to complex list type (no block)", () => {
       const output = stack.output("list_from_list_type_ref");
 
       expect(output).toEqual(
@@ -228,15 +231,18 @@ describe("java full integration", () => {
       );
     });
 
-    it("item references string attribute of element of complex list type (no block)", () => {
-      const item = stack.byId("list_item_from_list_type_ref");
+    onlyJson(
+      "item references string attribute of element of complex list type (no block)",
+      () => {
+        const item = stack.byId("list_item_from_list_type_ref");
 
-      expect(item.str).toEqual(
-        "${list_block_resource.list.computedListOfObject[5].str}"
-      );
-    });
+        expect(item.str).toEqual(
+          "${list_block_resource.list.computedListOfObject[5].str}"
+        );
+      }
+    );
 
-    it("allows passing null as an attribute", () => {
+    onlyJson("allows passing null as an attribute", () => {
       const item = stack.byId("null");
 
       expect(item.bool).toEqual(null);
@@ -255,13 +261,13 @@ describe("java full integration", () => {
         t = stack.byId("string_list_target");
       });
 
-      it("renders for_each property", () => {
+      onlyJson("renders for_each property", () => {
         expect(t.for_each).toBe(
           "${toset(optional_attribute_resource.target.strList)}"
         );
       });
 
-      it("renders each.value for str attribute", () => {
+      onlyJson("renders each.value for str attribute", () => {
         expect(t.str).toBe("${each.value}");
       });
     });
@@ -271,13 +277,13 @@ describe("java full integration", () => {
         t = stack.byId("complex_list_target");
       });
 
-      it("renders for_each property", () => {
+      onlyJson("renders for_each property", () => {
         expect(t.for_each).toBe("${toset(list_block_resource.list.req)}");
       });
-      it("renders each.value for str attribute", () => {
+      onlyJson("renders each.value for str attribute", () => {
         expect(t.str).toBe("${each.value.reqstr}");
       });
-      it("renders each.value for num attribute", () => {
+      onlyJson("renders each.value for num attribute", () => {
         expect(t.num).toBe("${each.value.reqnum}");
       });
     });
@@ -287,10 +293,10 @@ describe("java full integration", () => {
         t = stack.byId("string_map_target");
       });
 
-      it("renders for_each property", () => {
+      onlyJson("renders for_each property", () => {
         expect(t.for_each).toBe("${map_resource.map.optMap}");
       });
-      it("renders each.value for str attribute", () => {
+      onlyJson("renders each.value for str attribute", () => {
         expect(t.str).toBe("${each.value}");
       });
     });
@@ -300,7 +306,7 @@ describe("java full integration", () => {
         t = stack.byId("list_attribute");
       });
 
-      it("renders a dynamic block", () => {
+      onlyJson("renders a dynamic block", () => {
         expect(t).toHaveProperty("dynamic", {
           req: {
             content: {
