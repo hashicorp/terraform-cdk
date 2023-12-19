@@ -199,11 +199,11 @@ export class TestDriver {
 
   synthesizedStack = (stackName: string) => {
     if (
-      fs.existsSync(path.join(this.stackDirectory(stackName), "manifest.json"))
+      fs.existsSync(path.join(this.stackDirectory(stackName), "metadata.json"))
     ) {
       return new QueryableStack(
         fs.readFileSync(
-          path.join(this.stackDirectory(stackName), "manifest.json"),
+          path.join(this.stackDirectory(stackName), "metadata.json"),
           "utf-8"
         )
       );
