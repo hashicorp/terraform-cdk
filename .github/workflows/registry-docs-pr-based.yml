@@ -71,8 +71,22 @@ on:
 
 name: CDKTF Provider Documentation
 jobs:
+  cdktfDocsCleanupBranches:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.branch }}
+          token: ${{ secrets.GH_PR_TOKEN }}
+      # Delete all branches that start with d-cdktf-docs-
+      - run: |
+          git branch -r | grep -Eo 'd-cdktf-docs-[0-9]+-[0-9]+' | xargs -L1 git push origin --delete
+
   cdktfDocsSetupBranch:
     runs-on: ubuntu-latest
+    needs:
+      - cdktfDocsCleanupBranches
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
