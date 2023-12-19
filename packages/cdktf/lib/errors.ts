@@ -446,31 +446,50 @@ export const cannotResolveFunction = (pathName: string, obj: any) =>
   new Error(`Trying to resolve a non-data object (e.g. a function) at '${pathName}': ${obj}. Only tokens are supported for lazy evaluation.
 If you want to have a lazily computed value, please use the Lazy class, e.g. Lazy.stringValue({ produce: () => "Hello World" })`);
 
+const LIST_ERROR_EXPLANATION = `In CDKTF we represent lists where the value is only known at runtime (versus compile / synth time) as
+Arrays with a single element that is a string token, e.g. ["Token.1"]. This is because at compile time we
+don't know the length of the list, so far CDKTF did not invoke Terraform to communicate with the cloud provider.
+This is done at a later stage on the synthesized static JSON file.
+As we don't know the length of the list not the content we can not differentiate if the list was accessed at the first index,
+the last index, or as part of a loop. To avoid this ambiguity:
+
+- If you want to access a singular item use 'Fn.element(list, 0)' (not 'list[0]')
+- If you want to loop over the list use 'TerraformIterator.fromList(list)' (not 'for (const item of list)' or 'list.forEach(item => ...)')
+
+To learn more about tokens see https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
+To learn more about iterators see https://developer.hashicorp.com/terraform/cdktf/concepts/iterators`;
+
+const MAP_ERROR_EXPLANATION = `In CDKTF we represent maps where the value is only known at runtime (versus compile / synth time) as
+objects with a single key-value pair where the value is a string token, e.g. { "&{TfToken[Token.1]}": "String Map Token Value" }.
+This is because the length of the list isn't know at compile time, as CDKTF has not yet invoked Terraform to communicate with the cloud provider.
+This is done at a later stage on the synthesized static JSON file.
+As we don't know the contents of the map we do not know which key was accessed, or if the map was accessed as part of a loop.
+To avoid this ambiguity:
+
+- If you want to access a singular item use 'Fn.lookup(map, key)' (not 'map[key]')
+- If you want to loop over the map use 'TerraformIterator.fromMap(map)' (not 'for (const [key, value] of map)' or 'Object.entries(map).forEach((key, value) => ...)')
+
+To learn more about tokens see https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
+To learn more about iterators see https://developer.hashicorp.com/terraform/cdktf/concepts/iterators`;
+
 // TODO: expand explanation
-export const encodedListTokenInScalarStringContext = (
-  errorExplanation: string
-) =>
+export const encodedListTokenInScalarStringContext = () =>
   new Error(`Found an encoded list token string in a scalar string context.
-${errorExplanation}`);
+${LIST_ERROR_EXPLANATION}`);
 
 // TODO: expand explanation
-export const encodedMapTokenInScalarStringContext = (
-  errorExplanation: string
-) =>
+export const encodedMapTokenInScalarStringContext = () =>
   new Error(`Found an encoded map token in a scalar string context.
-${errorExplanation}`);
+${MAP_ERROR_EXPLANATION}`);
 
 // TODO: expand explanation
-export const encodedMapTokenInScalarNumberContext = (
-  errorExplanation: string
-) =>
+export const encodedMapTokenInScalarNumberContext = () =>
   new Error(`Found an encoded map token in a scalar number context.
-${errorExplanation}`);
+${MAP_ERROR_EXPLANATION}`);
 
-// TODO: expand explanation
 export const constructsCannotBeResolved = (pathName: string) =>
   new Error(`Trying to resolve() a Construct at '${pathName}'. 
-This often means that there is an unintended cyclic dependency in your construct tree, leading to the resolution being stuck in an infinite loop which will eventually fail.`);
+This often means that there is an unintended cyclic dependency in your construct tree, leading to the resolution being stuck in an infinite loop which will eventually fail. This can happen if the scope passed into this construct is also part of its subtree in some way. To resolve this issue, please refactor your code to avoid this cyclic dependency by changing the scope of this construct.`);
 
 export const mapKeyMustResolveToString = (
   pathName: string,
