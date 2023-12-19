@@ -215,8 +215,6 @@ export async function readModuleSchema(target: ConstructsMakerModuleTarget) {
   let moduleSchema: Record<string, ModuleSchema> = {};
 
   await withTempDir("fetchSchema", async () => {
-    console.log("readModuleSchema", target);
-
     const config: TerraformConfig = {
       terraform: {},
     };
@@ -229,11 +227,6 @@ export async function readModuleSchema(target: ConstructsMakerModuleTarget) {
     if (localSource) {
       // create relative path to module in the user project
       source = path.relative(process.cwd(), localSource);
-      console.log("localSource, relative path", source);
-
-      // one construct für alle modules (nur einmal)
-      // nur ein asset am ende mit allen local modules
-      // asset.addPath feature?
     }
 
     config.module[target.moduleKey] = { source: source };

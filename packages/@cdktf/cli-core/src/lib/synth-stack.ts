@@ -4,9 +4,15 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import * as chalk from "chalk";
 import indentString from "indent-string";
-import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
+import {
+  CONTEXT_ENV,
+  Manifest,
+  StackManifest,
+  TerraformStackMetadata,
+} from "cdktf";
 import { performance } from "perf_hooks";
 import { logger, readConfigSync, sendTelemetry, shell } from "@cdktf/commons";
+import { CdktfConfig } from "./cdktf-config";
 
 const chalkColour = new chalk.Instance();
 
@@ -111,6 +117,17 @@ might fail while synthesizing with an out of memory error.`);
       env.NODE_OPTIONS = `${env.NODE_OPTIONS || ""} ${nodeOptsSetting}`.trim();
     }
 
+    const currentContext = process.env[CONTEXT_ENV]
+      ? JSON.parse(process.env.CDKTF_CONTEXT_JSON)
+      : {};
+    const relativeModules = CdktfConfig.read().terraformModules.filter(
+      (mod) => {
+        return typeof mod === "string"
+          ? mod.startsWith("./") || mod.startsWith("../")
+          : mod.source.startsWith("./") || mod.source.startsWith("../");
+      }
+    );
+
     try {
       await shell(command, [], {
         shell: true,
@@ -118,6 +135,10 @@ might fail while synthesizing with an out of memory error.`);
           ...env,
           CDKTF_OUTDIR: outdir,
           CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS: "true", // we want to display the errors ourselves
+          [CONTEXT_ENV]: JSON.stringify({
+            ...currentContext,
+            cdktfRelativeModules: relativeModules,
+          }),
         },
         cwd: workingDirectory,
         signal: abortSignal,
