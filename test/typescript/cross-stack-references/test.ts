@@ -1,6 +1,12 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver, onPosix, onWindows } from "../../test-helper";
+import {
+  TestDriver,
+  onPosixWithHcl,
+  onPosixWithoutHcl,
+  onWindowsWithHcl,
+  onWindowsWithoutHcl,
+} from "../../test-helper";
 
 describe("cross stack references", () => {
   let driver: TestDriver;
@@ -11,7 +17,7 @@ describe("cross stack references", () => {
     await driver.synth();
   });
 
-  onPosix("synth generates JSON on POSIX", () => {
+  onPosixWithoutHcl("synth generates JSON on POSIX", () => {
     expect(driver.manifest()).toMatchInlineSnapshot(`
       "{
         "version": "stubbed",
@@ -114,7 +120,110 @@ describe("cross stack references", () => {
     `);
   });
 
-  onWindows("synth generates JSON on Windows", () => {
+  onPosixWithHcl("synth generates HCL on POSIX", () => {
+    expect(driver.manifest()).toMatchInlineSnapshot(`
+      "{
+        "version": "stubbed",
+        "stacks": {
+          "origin": {
+            "name": "origin",
+            "constructPath": "origin",
+            "workingDirectory": "stacks/origin",
+            "synthesizedStackPath": "stacks/origin/cdk.tf",
+            "stackMetadataPath": "stacks/origin/metadata.json",
+            "annotations": [],
+            "dependencies": []
+          },
+          "passthrough": {
+            "name": "passthrough",
+            "constructPath": "passthrough",
+            "workingDirectory": "stacks/passthrough",
+            "synthesizedStackPath": "stacks/passthrough/cdk.tf",
+            "stackMetadataPath": "stacks/passthrough/metadata.json",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "sink": {
+            "name": "sink",
+            "constructPath": "sink",
+            "workingDirectory": "stacks/sink",
+            "synthesizedStackPath": "stacks/sink/cdk.tf",
+            "stackMetadataPath": "stacks/sink/metadata.json",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "fns": {
+            "name": "fns",
+            "constructPath": "fns",
+            "workingDirectory": "stacks/fns",
+            "synthesizedStackPath": "stacks/fns/cdk.tf",
+            "stackMetadataPath": "stacks/fns/metadata.json",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "functionOutput": {
+            "name": "functionOutput",
+            "constructPath": "functionOutput",
+            "workingDirectory": "stacks/functionOutput",
+            "synthesizedStackPath": "stacks/functionOutput/cdk.tf",
+            "stackMetadataPath": "stacks/functionOutput/metadata.json",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "pinnedFns": {
+            "name": "pinnedFns",
+            "constructPath": "pinnedFns",
+            "workingDirectory": "stacks/pinnedFns",
+            "synthesizedStackPath": "stacks/pinnedFns/cdk.tf",
+            "stackMetadataPath": "stacks/pinnedFns/metadata.json",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "functionOutputPinned": {
+            "name": "functionOutputPinned",
+            "constructPath": "functionOutputPinned",
+            "workingDirectory": "stacks/functionOutputPinned",
+            "synthesizedStackPath": "stacks/functionOutputPinned/cdk.tf",
+            "stackMetadataPath": "stacks/functionOutputPinned/metadata.json",
+            "annotations": [],
+            "dependencies": [
+              "pinnedFns"
+            ]
+          },
+          "secondOrigin": {
+            "name": "secondOrigin",
+            "constructPath": "secondOrigin",
+            "workingDirectory": "stacks/secondOrigin",
+            "synthesizedStackPath": "stacks/secondOrigin/cdk.tf",
+            "stackMetadataPath": "stacks/secondOrigin/metadata.json",
+            "annotations": [],
+            "dependencies": []
+          },
+          "switchedStack": {
+            "name": "switchedStack",
+            "constructPath": "switchedStack",
+            "workingDirectory": "stacks/switchedStack",
+            "synthesizedStackPath": "stacks/switchedStack/cdk.tf",
+            "stackMetadataPath": "stacks/switchedStack/metadata.json",
+            "annotations": [],
+            "dependencies": []
+          }
+        }
+      }"
+    `);
+  });
+
+  onWindowsWithoutHcl("synth generates JSON on Windows", () => {
     expect(driver.manifest()).toMatchInlineSnapshot(`
       "{
         "version": "stubbed",
@@ -208,6 +317,100 @@ describe("cross stack references", () => {
     `);
   });
 
+  onWindowsWithHcl("synth generates HCL on Windows", () => {
+    expect(driver.manifest()).toMatchInlineSnapshot(`
+      "{
+        "version": "stubbed",
+        "stacks": {
+          "origin": {
+            "name": "origin",
+            "constructPath": "origin",
+            "workingDirectory": "stacks\\\\origin",
+            "synthesizedStackPath": "stacks\\\\origin\\\\cdk.tf",
+            "annotations": [],
+            "dependencies": []
+          },
+          "passthrough": {
+            "name": "passthrough",
+            "constructPath": "passthrough",
+            "workingDirectory": "stacks\\\\passthrough",
+            "synthesizedStackPath": "stacks\\\\passthrough\\\\cdk.tf",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "sink": {
+            "name": "sink",
+            "constructPath": "sink",
+            "workingDirectory": "stacks\\\\sink",
+            "synthesizedStackPath": "stacks\\\\sink\\\\cdk.tf",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "fns": {
+            "name": "fns",
+            "constructPath": "fns",
+            "workingDirectory": "stacks\\\\fns",
+            "synthesizedStackPath": "stacks\\\\fns\\\\cdk.tf",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "functionOutput": {
+            "name": "functionOutput",
+            "constructPath": "functionOutput",
+            "workingDirectory": "stacks\\\\functionOutput",
+            "synthesizedStackPath": "stacks\\\\functionOutput\\\\cdk.tf",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "pinnedFns": {
+            "name": "pinnedFns",
+            "constructPath": "pinnedFns",
+            "workingDirectory": "stacks\\\\pinnedFns",
+            "synthesizedStackPath": "stacks\\\\pinnedFns\\\\cdk.tf",
+            "annotations": [],
+            "dependencies": [
+              "origin"
+            ]
+          },
+          "functionOutputPinned": {
+            "name": "functionOutputPinned",
+            "constructPath": "functionOutputPinned",
+            "workingDirectory": "stacks\\\\functionOutputPinned",
+            "synthesizedStackPath": "stacks\\\\functionOutputPinned\\\\cdk.tf",
+            "annotations": [],
+            "dependencies": [
+              "pinnedFns"
+            ]
+          },
+          "secondOrigin": {
+            "name": "secondOrigin",
+            "constructPath": "secondOrigin",
+            "workingDirectory": "stacks\\\\secondOrigin",
+            "synthesizedStackPath": "stacks\\\\secondOrigin\\\\cdk.tf",
+            "annotations": [],
+            "dependencies": []
+          },
+          "switchedStack": {
+            "name": "switchedStack",
+            "constructPath": "switchedStack",
+            "workingDirectory": "stacks\\\\switchedStack",
+            "synthesizedStackPath": "stacks\\\\switchedStack\\\\cdk.tf",
+            "annotations": [],
+            "dependencies": []
+          }
+        }
+      }"
+    `);
+  });
+
   describe("deployed", () => {
     beforeAll(async () => {
       await driver.deploy(["origin", "passthrough", "sink"]);
@@ -274,12 +477,14 @@ describe("cross stack references", () => {
     });
 
     // Check for Deadly embrace scenario: https://github.com/aws/aws-cdk/pull/12778
-    onPosix("can remove references to deployed stacks on POSIX", async () => {
-      driver.setEnv("SWITCH_STACK", "on");
-      console.log(driver.workingDirectory);
-      await driver.deploy(["secondOrigin", "switchedStack"]);
+    onPosixWithoutHcl(
+      "can remove references to deployed stacks on POSIX",
+      async () => {
+        driver.setEnv("SWITCH_STACK", "on");
+        console.log(driver.workingDirectory);
+        await driver.deploy(["secondOrigin", "switchedStack"]);
 
-      expect(driver.manifest()).toMatchInlineSnapshot(`
+        expect(driver.manifest()).toMatchInlineSnapshot(`
         "{
           "version": "stubbed",
           "stacks": {
@@ -382,9 +587,9 @@ describe("cross stack references", () => {
         }"
       `);
 
-      driver.setEnv("SWITCH_STACK", undefined);
-      await driver.deploy(["secondOrigin", "switchedStack"]);
-      expect(driver.manifest()).toMatchInlineSnapshot(`
+        driver.setEnv("SWITCH_STACK", undefined);
+        await driver.deploy(["secondOrigin", "switchedStack"]);
+        expect(driver.manifest()).toMatchInlineSnapshot(`
         "{
           "version": "stubbed",
           "stacks": {
@@ -484,9 +689,10 @@ describe("cross stack references", () => {
           }
         }"
       `);
-    });
+      }
+    );
 
-    onWindows(
+    onWindowsWithoutHcl(
       "can remove references to deployed stacks on Windows",
       async () => {
         driver.setEnv("SWITCH_STACK", "on");
