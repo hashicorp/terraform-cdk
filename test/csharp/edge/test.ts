@@ -3,7 +3,7 @@
 import * as path from "path";
 import * as fs from "fs-extra";
 const { execSync } = require("child_process");
-import { QueryableStack, TestDriver } from "../../test-helper";
+import { QueryableStack, TestDriver, onlyJson } from "../../test-helper";
 
 describe("csharp full integration test synth", () => {
   let driver: TestDriver;
@@ -289,7 +289,7 @@ describe("csharp full integration test synth", () => {
         t = stack.byId("list_attribute");
       });
 
-      it("renders a dynamic block", () => {
+      onlyJson("renders a dynamic block", () => {
         expect(t).toHaveProperty("dynamic", {
           req: {
             content: {
