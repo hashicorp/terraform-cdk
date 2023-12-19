@@ -30,32 +30,6 @@ import {
   unableToResolveCircularReference,
 } from "../../errors";
 
-const LIST_ERROR_EXPLANATION = `In CDKTF we represent lists where the value is only known at runtime (versus compile / synth time) as
-Arrays with a single element that is a string token, e.g. ["Token.1"]. This is because at compile time we
-don't know the length of the list, so far CDKTF did not invoke Terraform to communicate with the cloud provider.
-This is done at a later stage on the synthesized static JSON file.
-As we don't know the length of the list not the content we can not differentiate if the list was accessed at the first index,
-the last index, or as part of a loop. To avoid this ambiguity:
-
-- If you want to access a singular item use 'Fn.element(list, 0)' (not 'list[0]')
-- If you want to loop over the list use 'TerraformIterator.fromList(list)' (not 'for (const item of list)' or 'list.forEach(item => ...)')
-
-To learn more about tokens see https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
-To learn more about iterators see https://developer.hashicorp.com/terraform/cdktf/concepts/iterators`;
-
-const MAP_ERROR_EXPLANATION = `In CDKTF we represent maps where the value is only known at runtime (versus compile / synth time) as
-objects with a single key-value pair where the value is a string token, e.g. { "&{TfToken[Token.1]}": "String Map Token Value" }.
-This is because the length of the list isn't know at compile time, as CDKTF has not yet invoked Terraform to communicate with the cloud provider.
-This is done at a later stage on the synthesized static JSON file.
-As we don't know the contents of the map we do not know which key was accessed, or if the map was accessed as part of a loop.
-To avoid this ambiguity:
-
-- If you want to access a singular item use 'Fn.lookup(map, key)' (not 'map[key]')
-- If you want to loop over the map use 'TerraformIterator.fromMap(map)' (not 'for (const [key, value] of map)' or 'Object.entries(map).forEach((key, value) => ...)')
-
-To learn more about tokens see https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
-To learn more about iterators see https://developer.hashicorp.com/terraform/cdktf/concepts/iterators`;
-
 // This file should not be exported to consumers, resolving should happen through Construct.resolve()
 
 const tokenMap = TokenMap.instance();
@@ -160,14 +134,14 @@ export function resolve(obj: any, options: IResolveOptions): any {
   if (typeof obj === "string") {
     // If this is a "list element" Token, it should never occur by itself in string context
     if (TokenString.forListToken(obj).test()) {
-      throw encodedListTokenInScalarStringContext(LIST_ERROR_EXPLANATION);
+      throw encodedListTokenInScalarStringContext();
     }
 
     if (
       obj === Token.STRING_MAP_TOKEN_VALUE ||
       obj === Token.ANY_MAP_TOKEN_VALUE
     ) {
-      throw encodedMapTokenInScalarStringContext(MAP_ERROR_EXPLANATION);
+      throw encodedMapTokenInScalarStringContext();
     }
 
     let str: string = obj;
@@ -202,7 +176,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
   //
   if (typeof obj === "number") {
     if (obj === Token.NUMBER_MAP_TOKEN_VALUE) {
-      throw encodedMapTokenInScalarNumberContext(MAP_ERROR_EXPLANATION);
+      throw encodedMapTokenInScalarNumberContext();
     }
 
     return resolveNumberToken(obj, makeContext()[0]);
