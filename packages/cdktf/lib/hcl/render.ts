@@ -38,10 +38,8 @@ function renderString(str: string): string {
 /**
  *
  */
-export function renderList(
-  { value, isBlock, is_block, storageClassType, storage_class_type }: any,
-  name?: string
-): string {
+export function renderList(v: any, name?: string): string {
+  const { isBlock, is_block, value, storage_class_type, storageClassType } = v;
   const block = isBlock || is_block;
   const classType = storageClassType || storage_class_type;
 
@@ -246,12 +244,22 @@ export function renderProvisionerBlock(provisioners: any) {
 export function renderDynamicBlocks(dynamic: any) {
   return Object.entries(dynamic).map(
     ([dynamicName, dynamicAttrs]: [string, any]) => {
-      return `dynamic "${dynamicName}" {
-      for_each = ${renderFuzzyJsonExpression(dynamicAttrs?.for_each)}
-      content {
+      const res = [`dynamic "${dynamicName}" {`];
+      res.push(
+        `for_each = ${renderFuzzyJsonExpression(dynamicAttrs?.for_each)}`
+      );
+      if (dynamicAttrs?.iterator) {
+        res.push(`iterator = ${dynamicAttrs?.iterator}`);
+      }
+      if (dynamicAttrs?.labels) {
+        res.push(`labels = ${renderFuzzyJsonExpression(dynamicAttrs?.labels)}`);
+      }
+      res.push(`content {
   ${renderAttributes(dynamicAttrs.content)}
-  }
-}`;
+  }`);
+      res.push(`}`);
+
+      return res.join("\n");
     }
   );
 }
@@ -512,7 +520,11 @@ export function renderAttributes(attributes: any): string {
       } else if (v === null) {
         return `${name} = null`;
         // eslint-disable-next-line no-prototype-builtins
-      } else if (typeof v === "object" && !v.hasOwnProperty("value")) {
+      } else if (
+        typeof v === "object" &&
+        !v.hasOwnProperty("value") &&
+        !v.hasOwnProperty("dynamic")
+      ) {
         if (metaBlocks.includes(name)) {
           return `${name} { 
 ${renderSimpleAttributes(v)}
@@ -526,6 +538,7 @@ ${renderSimpleAttributes(v)}
       // Referncing both isBlock and is_block, because sometimes we pass through a snake case filter
       // within attributes.
       const {
+        dynamic,
         value,
         type,
         isBlock,
@@ -536,6 +549,11 @@ ${renderSimpleAttributes(v)}
       const block = isBlock || is_block || metaBlocks.includes(name);
       const classType = storageClassType || storage_class_type;
 
+      if (dynamic) {
+        return renderDynamicBlocks({
+          [name]: dynamic.value,
+        });
+      }
       // Short circuit type checking if value is an expression
       if (typeof value === "string" && value.includes("${")) {
         return `${name} = ${renderString(value)}`;
