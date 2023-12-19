@@ -8,6 +8,67 @@ exports[`full integration test folder asset copied 2`] = `"This is b"`;
 
 exports[`full integration test folder asset copied 3`] = `"this is c"`;
 
+exports[`full integration test hcl synth 1`] = `
+"{
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "fixed",
+      "version": "stubbed"
+    },
+    "outputs": {
+      "fixed": {
+        "fixtures-name": "fixtures-name",
+        "local-asset-name": "local-asset-name",
+        "relative-asset-name": "relative-asset-name",
+        "relative-assets-name": "relative-assets-name",
+        "zipped-fixtures-name": "zipped-fixtures-name"
+      }
+    }
+  },
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
+      }
+    }
+  }
+}"
+`;
+
+exports[`full integration test hcl synth 2`] = `
+"terraform {
+  required_providers {
+
+  }
+  backend "local" {
+    path = "terraform.tfstate"
+  }
+
+
+}
+
+output "local-asset-name" {
+  value = "local-asset.txt"
+}
+
+output "fixtures-name" {
+  value = "fixtures"
+}
+
+output "zipped-fixtures-name" {
+  value = "archive.zip"
+}
+
+output "relative-asset-name" {
+  value = "relative-asset.txt"
+}
+
+output "relative-assets-name" {
+  value = "relative"
+}"
+`;
+
 exports[`full integration test relative file asset copied 1`] = `"Hello Asset World"`;
 
 exports[`full integration test relative folder asset copied 1`] = `"This is a"`;

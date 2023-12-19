@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onlyHcl, onlyJson } from "../../test-helper";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -14,9 +14,17 @@ describe("full integration test", () => {
     driver.copyFolders("fixtures", "relative");
   });
 
-  test("synth", async () => {
+  onlyJson("synth", async () => {
     await driver.synth("fixed");
     expect(driver.synthesizedStack("fixed").toString()).toMatchSnapshot();
+  });
+
+  onlyHcl("hcl synth", async () => {
+    await driver.synth("fixed");
+    expect(driver.synthesizedStack("fixed").toString()).toMatchSnapshot();
+    expect(
+      driver.synthesizedStackContentsRaw("fixed").toString()
+    ).toMatchSnapshot();
   });
 
   test("file asset copied", async () => {
