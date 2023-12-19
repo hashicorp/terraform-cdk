@@ -53,6 +53,7 @@ export class TerraformHclModule extends TerraformModule {
     if (!this.variables) {
       return {};
     }
+
     return Object.fromEntries(
       Object.entries(this.variables as any).map(([key, variable]) => {
         return [
