@@ -472,17 +472,14 @@ To avoid this ambiguity:
 To learn more about tokens see https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
 To learn more about iterators see https://developer.hashicorp.com/terraform/cdktf/concepts/iterators`;
 
-// TODO: expand explanation
 export const encodedListTokenInScalarStringContext = () =>
   new Error(`Found an encoded list token string in a scalar string context.
 ${LIST_ERROR_EXPLANATION}`);
 
-// TODO: expand explanation
 export const encodedMapTokenInScalarStringContext = () =>
   new Error(`Found an encoded map token in a scalar string context.
 ${MAP_ERROR_EXPLANATION}`);
 
-// TODO: expand explanation
 export const encodedMapTokenInScalarNumberContext = () =>
   new Error(`Found an encoded map token in a scalar number context.
 ${MAP_ERROR_EXPLANATION}`);
