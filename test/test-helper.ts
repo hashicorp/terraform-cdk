@@ -442,6 +442,8 @@ const isHcl =
 
 export const onWindows = isWindows ? it : it.skip;
 export const onPosix = isPosix ? it : it.skip;
+export const onlyHcl = isHcl ? it : it.skip;
+export const onlyJson = !isHcl ? it : it.skip;
 
 export const onWindowsWithHcl = isWindows && isHcl ? it : it.skip;
 export const onPosixWithHcl = isPosix && isHcl ? it : it.skip;
