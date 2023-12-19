@@ -48,4 +48,21 @@ export class TerraformHclModule extends TerraformModule {
   protected synthesizeAttributes(): { [name: string]: any } {
     return { ...this.variables };
   }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    if (!this.variables) {
+      return {};
+    }
+    return Object.fromEntries(
+      Object.entries(this.variables as any).map(([key, variable]) => {
+        return [
+          key,
+          {
+            value: variable,
+            type: "any",
+          },
+        ];
+      })
+    );
+  }
 }
