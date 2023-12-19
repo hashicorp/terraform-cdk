@@ -7,18 +7,32 @@
  *
  */
 function escapeQuotes(str: string): string {
-  if (!str) {
-    return str;
-  }
-  if (!str.match) {
-    console.trace(str);
-  }
-
   // Don't attempt to escape if we have an expression
   if (str.match(/\$\{/)) {
     return str;
   }
   return str.replace(/(?<!\\)"/g, '\\"');
+}
+
+/**
+ *
+ */
+function renderString(str: string): string {
+  if (!str) {
+    return str;
+  }
+
+  if (typeof str !== "string") {
+    throw new Error(
+      "Unable to process attribute that should have been a string, but isn't"
+    );
+  }
+
+  const lines = str.split(/\r\n|[\n\r]/);
+
+  if (lines.length === 1) return `"${escapeQuotes(str)}"`;
+
+  return `<<EOF\n${lines.map((s) => escapeQuotes(s)).join("\n")}\nEOF`;
 }
 
 /**
@@ -37,7 +51,7 @@ export function renderList(
 
   if (typeof value === "string") {
     // this could be an expression, so we don't need to do anything here
-    return `"${escapeQuotes(value)}"`;
+    return renderString(value);
   }
 
   if (name) {
@@ -81,7 +95,7 @@ ${value.map((v: any) => renderListValue(v, classType)).join(",\n")}
  */
 export function renderListValue(value: any, storageClassType: string): string {
   if (storageClassType === "stringList") {
-    return `"${escapeQuotes(value)}"`;
+    return renderString(value);
   }
   if (storageClassType === "numberList" || storageClassType === "booleanList") {
     return `${value}`;
@@ -110,7 +124,7 @@ ${Object.entries(map)
  */
 export function renderMapValue(value: any): string {
   if (typeof value === "string") {
-    return `"${escapeQuotes(value)}"`;
+    return renderString(value);
   }
   if (typeof value === "number") {
     return `${value}`;
@@ -520,7 +534,7 @@ ${renderSimpleAttributes(v)}
 
       // Short circuit type checking if value is an expression
       if (typeof value === "string" && value.includes("${")) {
-        return `${name} = "${escapeQuotes(value)}"`;
+        return `${name} = ${renderString(value)}`;
       }
 
       if (block && type !== "list" && type !== "set") {
@@ -540,7 +554,7 @@ ${renderAttributes(value)}
 
       if (type === "simple") {
         if (classType === "string") {
-          return `${name} = "${escapeQuotes(value)}"`;
+          return `${name} = ${renderString(value)}`;
         }
         if (classType === "number" || classType === "boolean") {
           return `${name} = ${value}`;
