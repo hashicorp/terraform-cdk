@@ -418,13 +418,15 @@ export const cannotConcatenateStringsInTokenizedMap = (tokenizedMap: any) =>
 export const doesNotImplementDependableTrait = (instance: IDependable) =>
   new Error(`${instance} does not implement DependableTrait`);
 
-// TODO: expand explanation. Not sure how it can be negative
 export const canOnlyEncodePositiveIntegers = () =>
-  new Error(`Can only encode positive integers`);
+  new Error(
+    `Can only encode positive integers into Tokens. This is a bug in CDKTF, please file a bug report.`
+  );
 
-// TODO: expand explanation. Not sure how it grows
 export const indexTooLargeToEncode = (index: number) =>
-  new Error(`Got an index too large to encode: ${index}`);
+  new Error(
+    `Got an index too large to encode into a Token :${index}. This happens if you have an enormous amount of Tokens in a single CDKTF application. Most likely you are creating numeric tokens in an infinite loop, e.g. by calling 'Token.asNumber()' a lot. If you reach the maximum number of allowed Tokens (a limitation imposed by the way we encode Tokens / separate them from real numeric values) you need to work around this issue by splitting up your application into multiple applications.`
+  );
 
 export const argToIntrinsicMustBePlainValue = (
   value: any,
