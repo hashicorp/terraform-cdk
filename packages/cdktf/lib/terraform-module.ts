@@ -7,7 +7,6 @@ import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Token } from "./tokens";
 import { ref, dependable } from "./tfExpression";
-import { TerraformAsset } from "./terraform-asset";
 import { ITerraformIterator } from "./terraform-iterator";
 import { modulesWithSameAlias } from "./errors";
 import { TerraformModuleAsset } from "./terraform-module-asset";

@@ -82,7 +82,6 @@ export class TerraformModuleConstraint
     const localMatch = getLocalMatch(this.source);
     if (localMatch) {
       this.localSourceAbsolutePath = path.join(process.cwd(), this.source);
-      console.log("localSourceAbsolutePath", this.localSourceAbsolutePath);
     }
   }
 
