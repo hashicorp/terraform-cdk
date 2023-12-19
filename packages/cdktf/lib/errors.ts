@@ -396,22 +396,19 @@ export const cannotConcatenateStringsInTokenizedStringArray = (
     `Cannot concatenate strings in a tokenized string array, got: ${listToken}`
   );
 
-// TODO: expand explanation
 export const numberValueAddedToReferenceList = (listToken: number[]) =>
   new Error(
-    `Cannot add elements to list token, got: ${listToken}. You tried to add a value to a referenced list, instead use Fn.concat([yourReferencedList, [42, 43, 44]]).`
+    `Cannot add elements to list token, got: ${listToken}. Tokens are used to represent runtime values (e.g. references to attributes of resource or data sources), they don't contain the values since the values are only available at apply time, whereas the Tokens are present during compile time. You tried to add a value to a tokenized list, this should be done via Terraform function: Fn.concat([yourReferencedList, [42, 43, 44]]).`
   );
 
-// TODO: expand explanation
 export const mapValueAddedToReferenceList = (mapToken: string) =>
   new Error(
-    `Cannot add elements to map token, got: ${mapToken}. You tried to add a value to a referenced map, instead use Fn.mergeMaps([yourReferencedMap, { your: 'value' }]).`
+    `Cannot add elements to map token, got: ${mapToken}. This can happen if you merge multiple maps or if you add a new key value pair to the map token. Tokens are used to represent runtime values (e.g. references to attributes of resource or data sources), they don't contain the values since the values are only available at apply time, whereas the Tokens are present during compile time. Instead of adding the value to the tokenized map you need to use a Terraform Function, e.g. Fn.merge([yourReferencedMap, { your: 'value' }]) that creates a new map Token for a value that represents what you want to express. For example this might get rendered as merge(my_resource.resource_name.one_specific_map_attribute, { your: ' value' })`
   );
 
-// TODO: expand explanation
 export const cannotConcatenateStringsInTokenizedMap = (tokenizedMap: any) =>
   new Error(
-    `Cannot concatenate strings in a tokenized map, got: ${tokenizedMap}`
+    `Cannot concatenate strings in a tokenized map, got: ${tokenizedMap}. We expect the key of a tokenized map to be a string token, e.g. { "&{TfToken[Token.1]}": "String Map Token Value" }. In this case the key in the map consists of more than a string token (e.g. the Token and a static string or multiple Token). This can happen if you mutate the key of the map, which is not allowed. Please don't mutate tokenized Maps as it makes it impossible for CDKTF to translate them to their intended values.`
   );
 
 // TODO: is this code actually used anywhere?
