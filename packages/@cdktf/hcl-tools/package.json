@@ -8,7 +8,10 @@
     "terraform",
     "hcl"
   ],
-  "author": "Mutahhir Hayat <mutahhir.hayat@hashicorp.com>",
+  "author": {
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
+  },
   "homepage": "https://cdk.tf",
   "license": "MPL-2.0",
   "main": "src/index.js",
