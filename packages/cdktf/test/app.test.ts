@@ -89,7 +89,10 @@ test("app synth throws error when provider is missing", () => {
 
   expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
     "Validation failed with the following errors:
-      [MyStack] Found resources without a matching provider construct. Please make sure to add provider constructs [e.g. new RandomProvider(...)] to your stack 'MyStack' for the following providers: test-provider"
+      [MyStack] Found resources without a matching provider construct. Please make sure to add provider constructs [e.g. new RandomProvider(...)] to your stack 'MyStack' for the following providers: test-provider
+      
+    If you wish to ignore these validations, pass 'skipValidation: true' to your App config
+    "
   `);
 });
 

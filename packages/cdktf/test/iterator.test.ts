@@ -456,7 +456,7 @@ test("chained iterators from singular resources", () => {
   expect(() => {
     TerraformIterator.fromResources(source);
   }).toThrowErrorMatchingInlineSnapshot(`
-    "Cannot create iterator from resource without forEach argument.
+    "Cannot create an iterator from resource without a forEach argument.
     The resource passed to the iterator does not have a forEach argument, meaning only a single instance of it will be created.
     If you want to create more instances of this resource pass an iterator to the forEach argument of the resource first.
       "

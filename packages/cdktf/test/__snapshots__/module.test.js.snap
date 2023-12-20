@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`minimal configuration 1`] = `
+"{
+  "module": {
+    "test": {
+      "module_parameter": "myParam",
+      "source": "my-module",
+      "version": "1.0"
+    }
+  }
+}"
+`;
+
+exports[`simple provider 1`] = `
+"{
+  "module": {
+    "test": {
+      "module_parameter": "myParam",
+      "providers": {
+        "test": "test.provider1"
+      },
+      "source": "my-module",
+      "version": "1.0"
+    }
+  },
+  "provider": {
+    "test": [
+      {
+        "access_key": "key",
+        "alias": "provider1"
+      }
+    ]
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
