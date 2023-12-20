@@ -523,7 +523,9 @@ export function renderAttributes(attributes: any): string {
         // eslint-disable-next-line no-prototype-builtins
       } else if (
         typeof v === "object" &&
+        // eslint-disable-next-line no-prototype-builtins
         !v.hasOwnProperty("value") &&
+        // eslint-disable-next-line no-prototype-builtins
         !v.hasOwnProperty("dynamic")
       ) {
         if (metaBlocks.includes(name)) {
