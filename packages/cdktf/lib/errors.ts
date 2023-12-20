@@ -82,7 +82,7 @@ If you need to use the iterator to populate a list attribute, replace the count 
   );
 
 export const iteratorOnResourceWithoutForEach = () =>
-  new Error(`Cannot create iterator from resource without forEach argument.
+  new Error(`Cannot create an iterator from resource without a forEach argument.
 The resource passed to the iterator does not have a forEach argument, meaning only a single instance of it will be created.
 If you want to create more instances of this resource pass an iterator to the forEach argument of the resource first.
   `);
@@ -183,7 +183,7 @@ export const stackContainsDisallowedChar = (
 ) =>
   new Error(`Can not create Terraform stack with id "${stackId}". It contains a glob character: "${invalidChar}"
 
-Glob characters are disallowed in stack names due to their use in deploying/destroy multiple stacks 
+Glob characters are disallowed in stack names due to their use in deploying/destroying multiple stacks 
 
 Such as 'cdktf deploy \`*-production\`' which deploys all stacks with names that end in '-production'
 `);
@@ -246,7 +246,7 @@ These errors are not failures of your tests, but issues with the underlying Terr
 `);
 
 export const jestNotInstantiated = () =>
-  new Error(`expect is not defined, jest was not propely instantiated
+  new Error(`expect is not defined, jest was not properly instantiated
   
 Ensure you have a 'setup.js' file in your project's directory that calls 'cdktf.Testing.setupJest()'
 
@@ -272,8 +272,6 @@ Like so: "Testing.toBeValidateTerraform(Testing.fullSynth('TerraformStack instan
 
 To learn more about testing in CDKTF see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests`);
 
-// Need to validate explanations and/or expand still
-
 export const targetNotResolvableWithOverrides = (target: string) =>
   new Error(`Invalid usage. Target (${target}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.
 
@@ -297,7 +295,7 @@ Type of target: ${targetType}
 `);
 
 export const constructDependencyBelowV10 = () =>
-  new Error(`Version mismatch! The constructs depedency appears to be lower than v10 which is required as of cdktf version 0.6.
+  new Error(`Version mismatch! The constructs dependency appears to be lower than v10 which is required as of cdktf version 0.6.
 Your current constructs version is missing Construct.node which was added in v10.
 Please update your constructs dependency: https://cdk.tf/upgrade-constructs-v10
 `);
@@ -337,12 +335,12 @@ Either fix the issues above, or set the environment variable CDKTF_CONTINUE_SYNT
 
 export const valueIsInvalidStringOrToken = (value: string) =>
   new Error(
-    `'${value}' is not a valid string nor a token, This function only accepts strings or tokens resolving to strings, please changbe your code accordingly.`
+    `'${value}' is not a valid string nor a token, This function only accepts strings or tokens resolving to strings, please change your code accordingly.`
   );
 
 export const valueIsInvalidNumberOrToken = (value: string) =>
   new Error(
-    `${value} is not a valid number nor a token. This function only accepts numbers or tokens resolving to numbers, please changbe your code accordingly.`
+    `${value} is not a valid number nor a token. This function only accepts numbers or tokens resolving to numbers, please change your code accordingly.`
   );
 
 export const listElementIsOfWrongType = (
@@ -354,7 +352,7 @@ export const listElementIsOfWrongType = (
     `Element in list ${value} at position ${position} is not of the right type: ${error}. Please make sure all elements in the list are of the correct type for this function.`
   );
 
-export const functionRecievedWrongNumberOfArgs = (
+export const functionReceivedWrongNumberOfArgs = (
   name: string,
   argValidatorsLength: number,
   argsLength: number
@@ -404,7 +402,6 @@ export const cannotConcatenateStringsInTokenizedMap = (tokenizedMap: any) =>
     `Cannot concatenate strings in a tokenized map, got: ${tokenizedMap}. We expect the key of a tokenized map to be a string token, e.g. { "&{TfToken[Token.1]}": "String Map Token Value" }. In this case the key in the map consists of more than a string token (e.g. the Token and a static string or multiple Token). This can happen if you mutate the key of the map, which is not allowed. Please don't mutate tokenized Maps as it makes it impossible for CDKTF to translate them to their intended values.`
   );
 
-// TODO: is this code actually used anywhere?
 export const doesNotImplementDependableTrait = (instance: IDependable) =>
   new Error(`${instance} does not implement DependableTrait`);
 
@@ -423,12 +420,11 @@ export const argToIntrinsicMustBePlainValue = (
   creationStack: string[]
 ) =>
   new Error(
-    `You can only use a plain value (not a function) when creating an Intrinsic token. We got the value '${value}' createed at:\n${creationStack.join(
+    `You can only use a plain value (not a function) when creating an Intrinsic token. We got the value '${value}' created at:\n${creationStack.join(
       "\n"
     )}. If you want to use a function, please use the Lazy class, e.g. Lazy.anyValue({ produce: () => "Hello World" }).`
   );
 
-// TODO: expand explanation?? Doesn't seem to be used anywhere
 export const intrinsicNewError = (message: string, createdAt: string) =>
   new Error(`${message}\nToken created:\n    at ${createdAt}\nError thrown:`);
 
