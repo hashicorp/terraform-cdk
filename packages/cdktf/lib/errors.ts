@@ -335,65 +335,58 @@ export const encounteredAnnotationWithLevelError = (errors: string) =>
 Either fix the issues above, or set the environment variable CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS to ignore these annotations
 `);
 
-// The ones below have no added context, or in other words, are the same as they have been
-
-// The next 3 are for functions that provided arg validations to built in terraform functions
-
-// TODO: expand explanation
 export const valueIsInvalidStringOrToken = (value: string) =>
-  new Error(`'${value}' is not a valid string nor a token`);
+  new Error(
+    `'${value}' is not a valid string nor a token, This function only accepts strings or tokens resolving to strings, please changbe your code accordingly.`
+  );
 
-// TODO: expand explanation
 export const valueIsInvalidNumberOrToken = (value: string) =>
-  new Error(`${value} is not a valid number nor a token`);
+  new Error(
+    `${value} is not a valid number nor a token. This function only accepts numbers or tokens resolving to numbers, please changbe your code accordingly.`
+  );
 
-// TODO: expand explanation
 export const listElementIsOfWrongType = (
   value: any[],
   position: number,
   error: unknown
 ) =>
-  new Error(`Element in list ${value} at position ${position} is not of the right type: ${error}
+  new Error(
+    `Element in list ${value} at position ${position} is not of the right type: ${error}. Please make sure all elements in the list are of the correct type for this function.`
+  );
 
-`);
-
-// TODO: expand explanation?? Doesn't seem to be something that is caused by user error. Maybe Direct people to file a bug report?
 export const functionRecievedWrongNumberOfArgs = (
   name: string,
   argValidatorsLength: number,
   argsLength: number
 ) =>
   new Error(
-    `${name} takes ${argValidatorsLength} arguments, but ${argsLength} were provided`
+    `${name} takes ${argValidatorsLength} arguments, but ${argsLength} were provided. Please provide the missing arguments to the function.`
   );
 
-// TODO: expand explanation?? Doesn't seem to be something that is caused by user error. Maybe Direct people to file a bug report?
-export const functionArgumnetValidationFailure = (
+export const functionArgumentValidationFailure = (
   argNumber: number,
   name: string,
   error: unknown
 ) =>
-  new Error(`Argument ${argNumber} of ${name} failed the validation: ${error}`);
-
-// TODO: expand explanation? Shouldn't happen as the only time it's called is in TerraformStack where this case is handled
-// (in allocateLogicalId of TerraformStack) return components.length > 0 ? makeUniqueId(components) : "";
-export const cannotCalcIdForEmptySetOfComponents = () =>
-  new Error(`Unable to calculate a unique id for an empty set of components
-  
-`);
-
-// TODO: expand explanation
-export const stringValueAddedToReferenceList = (listToken: string[]) =>
   new Error(
-    `Cannot add elements to list token, got: ${listToken}. You tried to add a value to a referenced list, instead use Fn.concat([yourReferencedList, ["my", "new", "items"]]).`
+    `Argument ${argNumber} of ${name} failed the validation: ${error}. Please change your code to pass a valid value for this argument.`
   );
 
-// TODO: expand explanation
+export const cannotCalcIdForEmptySetOfComponents = () =>
+  new Error(
+    `Unable to calculate a unique id for an empty set of components. This can only happen if you are trying to create a unique id while not passing in any construct node ids. This means your construct likely has no parent, which is not allowed. Please make sure your construct has a parent, e.g. new App(this) or new TerraformStack(this, 'stack')`
+  );
+
+export const stringValueAddedToReferenceList = (listToken: string[]) =>
+  new Error(
+    `Cannot add elements to list token, got: ${listToken}. We expect the elements of a tokenized string array to be a single string token, e.g. ["&{TfToken[Token.1]}"]. In this case the one element in the array consist of more than one value. To add values to a tokenized list use Terraform Functions instead, e.g. Fn.concat([yourReferencedList, ["my", "new", "items"]]).`
+  );
+
 export const cannotConcatenateStringsInTokenizedStringArray = (
   listToken: string
 ) =>
   new Error(
-    `Cannot concatenate strings in a tokenized string array, got: ${listToken}`
+    `Cannot concatenate strings in a tokenized string array, got: ${listToken}. We expect the elements of a tokenized string array to be a single string token, e.g. ["&{TfToken[Token.1]}"]. In this case the one element in the array consist of something different than a single token, likely by mutating the value inside this list. This leads to CDKTF not being able to resolve the token into the appropriate runtime value. Please don't mutate tokenized string arrays.`
   );
 
 export const numberValueAddedToReferenceList = (listToken: number[]) =>
