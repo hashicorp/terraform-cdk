@@ -1,5 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`java full integration synth generates HCL 1`] = `
+"terraform {
+  required_providers {
+    null = {
+      version = "3.1.1"
+      source  = "hashicorp/null"
+    }
+    random = {
+      version = "3.1.3"
+      source  = "hashicorp/random"
+    }
+  }
+  backend "local" {
+    path = "terraform.tfstate"
+  }
+
+
+}
+
+provider "null" {
+}
+resource "null_resource" "NullResource" {
+}
+
+provider "random" {
+}
+resource "random_string" "RandomString" {
+  length = 42
+}"
+`;
+
 exports[`java full integration synth generates JSON 1`] = `
 "{
   "//": {

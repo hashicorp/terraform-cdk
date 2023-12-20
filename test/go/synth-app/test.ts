@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onlyHcl, onlyJson } from "../../test-helper";
 
 describe("Go full integration test synth", () => {
   let driver: TestDriver;
@@ -17,8 +17,15 @@ describe("Go full integration test synth", () => {
     expect(constructs.length).not.toBe(0);
   });
 
-  test("synth generates JSON", async () => {
+  onlyJson("synth generates JSON", async () => {
     await driver.synth();
     expect(driver.synthesizedStack("go-simple").toString()).toMatchSnapshot();
+  });
+
+  onlyHcl("synth generates HCL", async () => {
+    await driver.synth();
+    expect(
+      driver.synthesizedStackContentsRaw("go-simple").toString()
+    ).toMatchSnapshot();
   });
 });
