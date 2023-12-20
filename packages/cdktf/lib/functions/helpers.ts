@@ -6,7 +6,7 @@ import { IResolvable } from "../tokens/resolvable";
 import { TokenString, extractTokenDouble } from "../tokens/private/encoding";
 import {
   functionArgumentValidationFailure,
-  functionRecievedWrongNumberOfArgs,
+  functionReceivedWrongNumberOfArgs,
   listElementIsOfWrongType,
   valueContainsUnescapedQuotes,
   valueIsInvalidNumberOrToken,
@@ -162,7 +162,7 @@ export function terraformFunction(
 ): ExecutableTfFunction {
   return function (...args: any[]) {
     if (args.length !== argValidators.length) {
-      throw functionRecievedWrongNumberOfArgs(
+      throw functionReceivedWrongNumberOfArgs(
         name,
         argValidators.length,
         args.length
