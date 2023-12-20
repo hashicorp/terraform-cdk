@@ -489,6 +489,7 @@ export function renderSimpleAttributes(attributes: any): string {
   if (attributes === undefined) {
     return "";
   }
+
   return Object.entries(attributes)
     .map(
       ([name, value]) =>

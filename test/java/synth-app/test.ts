@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onlyHcl, onlyJson } from "../../test-helper";
 
 describe("java full integration", () => {
   let driver: TestDriver;
@@ -20,8 +20,15 @@ describe("java full integration", () => {
     expect(constructs.length).not.toBe(0);
   });
 
-  test("synth generates JSON", async () => {
+  onlyJson("synth generates JSON", async () => {
     await driver.synth();
     expect(driver.synthesizedStack("java-simple").toString()).toMatchSnapshot();
+  });
+
+  onlyHcl("synth generates HCL", async () => {
+    await driver.synth();
+    expect(
+      driver.synthesizedStackContentsRaw("java-simple").toString()
+    ).toMatchSnapshot();
   });
 });

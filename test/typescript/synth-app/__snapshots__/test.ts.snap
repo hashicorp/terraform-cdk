@@ -20,6 +20,7 @@ exports[`full integration test HCL synth synth generates HCL, not JSON 1`] = `
 
 
 }
+
 provider "aws" {
   region = "eu-central-1"
   ignore_tags {
@@ -27,7 +28,6 @@ provider "aws" {
       "foo"
     ]
   }
-
 }
 resource "aws_sns_topic" "Topic" {
   display_name = "topic"
@@ -35,9 +35,6 @@ resource "aws_sns_topic" "Topic" {
   lifecycle {
     create_before_destroy = true
   }
-
-
-
 }
 resource "aws_instance" "Instance" {
   ami           = "ami-12345678"
@@ -52,9 +49,6 @@ resource "aws_instance" "Instance" {
   metadata_options {
     http_endpoint = "true"
   }
-
-
-
 }
 resource "aws_instance" "Instance2" {
   ami           = "ami-12345678"
@@ -65,19 +59,20 @@ resource "aws_instance" "Instance2" {
   metadata_options {
     http_endpoint = "\${aws_instance.Instance.metadata_options[0].http_endpoint}"
   }
-
-
-
 }
+
 output "sns-topic-arn" {
   value = "\${aws_sns_topic.Topic.arn}"
 }
+
 output "instance-password" {
   value = "\${base64decode(aws_instance.Instance.password_data)}"
 }
+
 output "instance-http-endpoint" {
   value = "\${aws_instance.Instance.metadata_options[0].http_endpoint}"
 }
+
 output "tf-env-var-output" {
   value = "no-value-found"
 }
@@ -120,9 +115,6 @@ resource "aws_wafv2_web_acl" "wafv2" {
     metric_name                = "managed-rule-example"
     sampled_requests_enabled   = true
   }
-
-
-
 }"
 `;
 
