@@ -82,7 +82,7 @@ jobs:
           fetch-depth: 0 # complete checkout
       # Delete all branches that start with d-cdktf-docs-
       - run: |
-          BRANCHES_TO_DELETE=git branch -r | grep -Eo 'd-cdktf-docs-[0-9]+-[0-9]+'
+          BRANCHES_TO_DELETE=$(git branch -r | grep -Eo 'd-cdktf-docs-[0-9]+-[0-9]+')
           for branch in $BRANCHES_TO_DELETE; do
             git push origin --delete $branch
           done
