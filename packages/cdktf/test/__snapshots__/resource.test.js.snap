@@ -1,0 +1,542 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dependent resource 1`] = `
+"{
+  "data": {
+    "test_data_source": {
+      "data_source": {
+        "name": "foo"
+      }
+    }
+  },
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "resource": {
+        "depends_on": [
+          "data.test_data_source.data_source"
+        ],
+        "name": "foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`do not change capitalization of arbritary nested types 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "test": {
+        "name": "bar",
+        "nested_type": {
+          "Tag": "isDowncased"
+        }
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`do not change capitalization of tags 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "test": {
+        "name": "bar",
+        "tags": {
+          "Tag": "isWorking"
+        }
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`includes import block when import is present 1`] = `
+"{
+  "import": [
+    {
+      "id": "testId",
+      "to": "test_resource.test"
+    }
+  ],
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "test": {
+        "name": "foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`includes import block when import is present, provider given 1`] = `
+"{
+  "import": [
+    {
+      "id": "testId",
+      "provider": "test.foo",
+      "to": "test_resource.test"
+    }
+  ],
+  "provider": {
+    "test": [
+      {
+        "alias": "foo"
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "test": {
+        "name": "foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`maintains the same order of provisioner 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "simple": {
+        "name": "foo",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world1.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world2.txt"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`minimal configuration 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "test": {
+        "name": "foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`number[] attributes 1`] = `
+"{
+  "output": {
+    "number-list": {
+      "value": "\${test_resource.resource.number_list_value}"
+    }
+  },
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "resource": {
+        "name": "foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`numeric attributes 1`] = `
+"{
+  "output": {
+    "combined-string-number": {
+      "value": "\${test_resource.resource.string_value} / 23.324 / \${test_resource.resource.numeric_value} / 42"
+    }
+  },
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "resource": {
+        "name": "foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`provider setter 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+        "access_key": "1"
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "test": {
+        "name": "bar",
+        "provider": "test"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`serialize list interpolation 1`] = `
+"{
+  "provider": {
+    "other": [
+      {
+      }
+    ],
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "other_test_resource": {
+      "othertest": {
+      }
+    },
+    "test_resource": {
+      "test": {
+        "name": "bar",
+        "names": "\${other_test_resource.othertest.names}"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "other": {
+        "version": "~> 2.0"
+      },
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`supports file provisioner 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "content": {
+        "name": "foo",
+        "provisioner": [
+          {
+            "file": {
+              "content": "my-content",
+              "destination": "hello.txt"
+            }
+          }
+        ]
+      },
+      "source": {
+        "name": "bar",
+        "provisioner": [
+          {
+            "file": {
+              "destination": "world.txt",
+              "source": "my.txt"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`supports local-exec provisioner 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "advanced": {
+        "name": "foo",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "echo \\"hello $person\\" > greeting.txt",
+              "environment": {
+                "person": "daniel"
+              },
+              "interpreter": [
+                "/bin/bash",
+                "-c"
+              ],
+              "working_dir": "/tmp"
+            }
+          }
+        ]
+      },
+      "simple": {
+        "name": "foo",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world.txt"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`supports resource and attribute references in lifecycle.replaceTriggeredBy 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "other": {
+        "name": "other"
+      },
+      "simple": {
+        "lifecycle": {
+          "replace_triggered_by": [
+            "\${test_resource.other}",
+            "\${test_resource.other.string_value}"
+          ]
+        },
+        "name": "foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`with complex computed list 1`] = `
+"{
+  "provider": {
+    "other": [
+      {
+      }
+    ],
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "other_test_resource": {
+      "othertest": {
+      }
+    },
+    "test_resource": {
+      "test": {
+        "name": "\${other_test_resource.othertest.complex_computed_list[0].id}"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "other": {
+        "version": "~> 2.0"
+      },
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`with provider alias 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+        "access_key": "1"
+      },
+      {
+        "access_key": "123",
+        "alias": "foo"
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "test": {
+        "name": "bar",
+        "provider": "test.foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;

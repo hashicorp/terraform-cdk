@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`throws error on unescaped double quote string inputs " 1`] = `
+"Argument 0 of md5 failed the validation: Error: '"' can not be used as value directly since it has unescaped double quotes in it.
+
+To safely use the value, use Fn.rawString on your string like so:
+
+Fn.rawString('"')
+
+This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+
+To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+. Please change your code to pass a valid value for this argument."
+`;
+
+exports[`throws error on unescaped double quote string inputs \\ \\\\" 1`] = `
+"Argument 0 of md5 failed the validation: Error: '\\ \\\\"' can not be used as value directly since it has unescaped double quotes in it.
+
+To safely use the value, use Fn.rawString on your string like so:
+
+Fn.rawString('\\ \\\\"')
+
+This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+
+To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+. Please change your code to pass a valid value for this argument."
+`;
+
+exports[`throws error on unescaped double quote string inputs \\\\" 1`] = `
+"Argument 0 of md5 failed the validation: Error: '\\\\"' can not be used as value directly since it has unescaped double quotes in it.
+
+To safely use the value, use Fn.rawString on your string like so:
+
+Fn.rawString('\\\\"')
+
+This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+
+To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+. Please change your code to pass a valid value for this argument."
+`;
+
+exports[`throws error on unescaped double quote string inputs \\\\\\\\" 1`] = `
+"Argument 0 of md5 failed the validation: Error: '\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it.
+
+To safely use the value, use Fn.rawString on your string like so:
+
+Fn.rawString('\\\\\\\\"')
+
+This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+
+To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+. Please change your code to pass a valid value for this argument."
+`;
+
+exports[`throws no error on valid escaped double quote string inputs  1`] = `
+"{
+  "output": {
+    "test-output": {
+      "value": "\${md5(\\"\\")}"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\ \\" 1`] = `
+"{
+  "output": {
+    "test-output": {
+      "value": "\${md5(\\"\\\\ \\\\\\"\\")}"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\ \\\\\\" 1`] = `
+"{
+  "output": {
+    "test-output": {
+      "value": "\${md5(\\"\\\\ \\\\\\\\\\\\\\"\\")}"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\" 1`] = `
+"{
+  "output": {
+    "test-output": {
+      "value": "\${md5(\\"\\\\\\"\\")}"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\\\\\" 1`] = `
+"{
+  "output": {
+    "test-output": {
+      "value": "\${md5(\\"\\\\\\\\\\\\\\"\\")}"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\\\abc\\\\def\\\\ 1`] = `
+"{
+  "output": {
+    "test-output": {
+      "value": "\${md5(\\"\\\\\\\\abc\\\\\\\\def\\\\\\\\\\")}"
+    }
+  }
+}"
+`;
+
+exports[`throws no error on valid escaped double quote string inputs \\abc\\def\\ 1`] = `
+"{
+  "output": {
+    "test-output": {
+      "value": "\${md5(\\"\\\\abc\\\\def\\\\\\")}"
+    }
+  }
+}"
+`;

@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`minimal configuration 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+        "access_key": "foo"
+      }
+    ]
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`token resolution 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+        "access_key": "\${var.access-key}"
+      }
+    ]
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  },
+  "variable": {
+    "access-key": {
+      "sensitive": true,
+      "type": "string"
+    }
+  }
+}"
+`;
+
+exports[`with alias 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+        "access_key": "foo"
+      },
+      {
+        "access_key": "bar",
+        "alias": "route53"
+      }
+    ]
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`with generator metadata 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;

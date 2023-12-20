@@ -566,11 +566,19 @@ test("tomap does not destroy incoming ref", () => {
 });
 
 it("errors mentioning function name and argument", () => {
-  expect(() =>
-    Fn.replace("this value is ok", `this one " not`, "this is okay")
-  ).toThrowErrorMatchingInlineSnapshot(
-    `"Argument 1 of replace failed the validation: Error: 'this one " not' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
-  );
+  expect(() => Fn.replace("this value is ok", `this one " not`, "this is okay"))
+    .toThrowErrorMatchingInlineSnapshot(`
+    "Argument 1 of replace failed the validation: Error: 'this one " not' can not be used as value directly since it has unescaped double quotes in it.
+
+    To safely use the value, use Fn.rawString on your string like so:
+
+    Fn.rawString('this one " not')
+
+    This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+
+    To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+    . Please change your code to pass a valid value for this argument."
+  `);
 });
 
 test("Property access using lookup and lookupNested functions", () => {
