@@ -5,7 +5,7 @@ import { call } from "../tfExpression";
 import { IResolvable } from "../tokens/resolvable";
 import { TokenString, extractTokenDouble } from "../tokens/private/encoding";
 import {
-  functionArgumnetValidationFailure,
+  functionArgumentValidationFailure,
   functionRecievedWrongNumberOfArgs,
   listElementIsOfWrongType,
   valueContainsUnescapedQuotes,
@@ -178,7 +178,7 @@ export function terraformFunction(
           if (val.variadic) return [...carry, ...val.value];
           else return [...carry, val.value];
         } catch (error) {
-          throw functionArgumnetValidationFailure(i, name, error);
+          throw functionArgumentValidationFailure(i, name, error);
         }
       }, [])
     );
