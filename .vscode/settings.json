@@ -1,6 +1,2 @@
 {
-    "eslint.validate": [
-        "glimmer-ts",
-        "glimmer-js"
-    ]
 }
