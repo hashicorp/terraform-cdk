@@ -32,17 +32,17 @@
   "dependencies": {
     "@cdktf/commons": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
-    "@types/node": "18.19.2",
-    "codemaker": "^1.92.0",
+    "@types/node": "18.19.4",
+    "codemaker": "^1.93.0",
     "fs-extra": "^8.1.0",
     "glob": "^10.3.10",
-    "jsii-srcmak": "^0.1.985"
+    "jsii-srcmak": "^0.1.999"
   },
   "devDependencies": {
     "@types/deepmerge": "^2.2.0",
     "@types/fs-extra": "^8.1.5",
     "@types/glob": "^7.2.0",
-    "@types/jest": "^29.5.10",
+    "@types/jest": "^29.5.11",
     "@types/reserved-words": "^0.1.4",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.1",
