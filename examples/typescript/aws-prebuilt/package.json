@@ -12,13 +12,13 @@
     "@types/jest": "27.5.2",
     "@types/node": "18.11.19",
     "cdktf-cli": "0.0.0",
-    "jest": "^27.5.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.2"
+    "jest": "27.5.1",
+    "ts-node": "10.9.1",
+    "typescript": "5.0.2"
   },
   "dependencies": {
-    "@cdktf/provider-aws": "^0.0.111",
+    "@cdktf/provider-aws": "0.0.111",
     "cdktf": "0.0.0",
-    "constructs": "^10.0.25"
+    "constructs": "10.1.167"
   }
 }
