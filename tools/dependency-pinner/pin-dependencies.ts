@@ -15,6 +15,7 @@ const ignoredDependencies = [
   "@cdktf/provider-generator",
   "@cdktf/provider-schema",
   "cdktf",
+  "cdktf-cli",
 ];
 
 // Read yarn.lock
