@@ -210,7 +210,7 @@ export function awsProviderAssumeRoleToHclTerraform(struct?: AwsProviderAssumeRo
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export interface AwsProviderEndpoints {
@@ -1990,7 +1990,7 @@ export function awsProviderEndpointsToHclTerraform(struct?: AwsProviderEndpoints
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export interface AwsProviderIgnoreTags {
@@ -2041,7 +2041,7 @@ export function awsProviderIgnoreTagsToHclTerraform(struct?: AwsProviderIgnoreTa
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 
@@ -2585,7 +2585,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "
@@ -2779,7 +2779,7 @@ export function elasticstackProviderElasticsearchToHclTerraform(struct?: Elastic
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 
@@ -2894,7 +2894,7 @@ export class ElasticstackProvider extends cdktf.TerraformProvider {
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "

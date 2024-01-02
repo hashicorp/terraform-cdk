@@ -179,7 +179,7 @@ export function acmCertificateOptionsToHclTerraform(struct?: AcmCertificateOptio
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class AcmCertificateOptionsOutputReference extends cdktf.ComplexObject {
@@ -556,7 +556,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "
