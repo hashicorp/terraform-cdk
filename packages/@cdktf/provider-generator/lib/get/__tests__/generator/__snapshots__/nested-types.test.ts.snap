@@ -205,7 +205,7 @@ export class NestedTypeWithoutAttributesResource extends cdktf.TerraformResource
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "
@@ -287,7 +287,7 @@ export function nestedTypesResourceArchiveRulesFilterToHclTerraform(struct?: Nes
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class NestedTypesResourceArchiveRulesFilterOutputReference extends cdktf.ComplexObject {
@@ -457,7 +457,7 @@ export function nestedTypesResourceArchiveRulesToHclTerraform(struct?: NestedTyp
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class NestedTypesResourceArchiveRulesOutputReference extends cdktf.ComplexObject {
@@ -679,7 +679,7 @@ export class NestedTypesResource extends cdktf.TerraformResource {
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "

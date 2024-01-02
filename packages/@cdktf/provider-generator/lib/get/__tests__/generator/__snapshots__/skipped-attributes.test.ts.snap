@@ -110,7 +110,7 @@ export function quicksightTemplatePermissionsToHclTerraform(struct?: QuicksightT
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class QuicksightTemplatePermissionsOutputReference extends cdktf.ComplexObject {
@@ -253,7 +253,7 @@ export function quicksightTemplateSourceEntitySourceAnalysisDataSetReferencesToH
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class QuicksightTemplateSourceEntitySourceAnalysisDataSetReferencesOutputReference extends cdktf.ComplexObject {
@@ -398,7 +398,7 @@ export function quicksightTemplateSourceEntitySourceAnalysisToHclTerraform(struc
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class QuicksightTemplateSourceEntitySourceAnalysisOutputReference extends cdktf.ComplexObject {
@@ -498,7 +498,7 @@ export function quicksightTemplateSourceEntitySourceTemplateToHclTerraform(struc
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class QuicksightTemplateSourceEntitySourceTemplateOutputReference extends cdktf.ComplexObject {
@@ -594,7 +594,7 @@ export function quicksightTemplateSourceEntityToHclTerraform(struct?: Quicksight
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class QuicksightTemplateSourceEntityOutputReference extends cdktf.ComplexObject {
@@ -722,7 +722,7 @@ export function quicksightTemplateTimeoutsToHclTerraform(struct?: QuicksightTemp
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class QuicksightTemplateTimeoutsOutputReference extends cdktf.ComplexObject {
@@ -1182,7 +1182,7 @@ export class QuicksightTemplate extends cdktf.TerraformResource {
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "

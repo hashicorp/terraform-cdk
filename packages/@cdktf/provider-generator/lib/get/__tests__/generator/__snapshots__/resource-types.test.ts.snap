@@ -160,7 +160,7 @@ export function cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToHclTe
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference extends cdktf.ComplexObject {
@@ -298,7 +298,7 @@ export function cloudfrontDistributionCacheBehaviorForwardedValuesToHclTerraform
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference extends cdktf.ComplexObject {
@@ -464,7 +464,7 @@ export function cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToHc
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
@@ -765,7 +765,7 @@ export function cloudfrontDistributionCacheBehaviorToHclTerraform(struct?: Cloud
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionCacheBehaviorOutputReference extends cdktf.ComplexObject {
@@ -1182,7 +1182,7 @@ export function cloudfrontDistributionCustomErrorResponseToHclTerraform(struct?:
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionCustomErrorResponseOutputReference extends cdktf.ComplexObject {
@@ -1372,7 +1372,7 @@ export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference extends cdktf.ComplexObject {
@@ -1510,7 +1510,7 @@ export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToHclTe
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference extends cdktf.ComplexObject {
@@ -1676,7 +1676,7 @@ export function cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociat
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
@@ -1966,7 +1966,7 @@ export function cloudfrontDistributionDefaultCacheBehaviorToHclTerraform(struct?
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends cdktf.ComplexObject {
@@ -2321,7 +2321,7 @@ export function cloudfrontDistributionLoggingConfigToHclTerraform(struct?: Cloud
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionLoggingConfigOutputReference extends cdktf.ComplexObject {
@@ -2457,7 +2457,7 @@ export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference extends cdktf.ComplexObject {
@@ -2595,7 +2595,7 @@ export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToHclTe
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputReference extends cdktf.ComplexObject {
@@ -2761,7 +2761,7 @@ export function cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociat
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationOutputReference extends cdktf.ComplexObject {
@@ -3062,7 +3062,7 @@ export function cloudfrontDistributionOrderedCacheBehaviorToHclTerraform(struct?
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOrderedCacheBehaviorOutputReference extends cdktf.ComplexObject {
@@ -3457,7 +3457,7 @@ export function cloudfrontDistributionOriginCustomHeaderToHclTerraform(struct?: 
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOriginCustomHeaderOutputReference extends cdktf.ComplexObject {
@@ -3644,7 +3644,7 @@ export function cloudfrontDistributionOriginCustomOriginConfigToHclTerraform(str
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOriginCustomOriginConfigOutputReference extends cdktf.ComplexObject {
@@ -3826,7 +3826,7 @@ export function cloudfrontDistributionOriginS3OriginConfigToHclTerraform(struct?
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOriginS3OriginConfigOutputReference extends cdktf.ComplexObject {
@@ -3968,7 +3968,7 @@ export function cloudfrontDistributionOriginToHclTerraform(struct?: CloudfrontDi
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexObject {
@@ -4188,7 +4188,7 @@ export function cloudfrontDistributionOriginGroupFailoverCriteriaToHclTerraform(
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference extends cdktf.ComplexObject {
@@ -4269,7 +4269,7 @@ export function cloudfrontDistributionOriginGroupMemberToHclTerraform(struct?: C
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOriginGroupMemberOutputReference extends cdktf.ComplexObject {
@@ -4408,7 +4408,7 @@ export function cloudfrontDistributionOriginGroupToHclTerraform(struct?: Cloudfr
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionOriginGroupOutputReference extends cdktf.ComplexObject {
@@ -4570,7 +4570,7 @@ export function cloudfrontDistributionRestrictionsGeoRestrictionToHclTerraform(s
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference extends cdktf.ComplexObject {
@@ -4675,7 +4675,7 @@ export function cloudfrontDistributionRestrictionsToHclTerraform(struct?: Cloudf
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionRestrictionsOutputReference extends cdktf.ComplexObject {
@@ -4800,7 +4800,7 @@ export function cloudfrontDistributionViewerCertificateToHclTerraform(struct?: C
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class CloudfrontDistributionViewerCertificateOutputReference extends cdktf.ComplexObject {
@@ -5544,7 +5544,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "
@@ -5690,7 +5690,7 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "
@@ -5897,7 +5897,7 @@ export function s3BucketCorsRuleToHclTerraform(struct?: S3BucketCorsRule | cdktf
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketCorsRuleOutputReference extends cdktf.ComplexObject {
@@ -6131,7 +6131,7 @@ export function s3BucketGrantToHclTerraform(struct?: S3BucketGrant | cdktf.IReso
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketGrantOutputReference extends cdktf.ComplexObject {
@@ -6329,7 +6329,7 @@ export function s3BucketLifecycleRuleExpirationToHclTerraform(struct?: S3BucketL
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketLifecycleRuleExpirationOutputReference extends cdktf.ComplexObject {
@@ -6457,7 +6457,7 @@ export function s3BucketLifecycleRuleNoncurrentVersionExpirationToHclTerraform(s
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference extends cdktf.ComplexObject {
@@ -6552,7 +6552,7 @@ export function s3BucketLifecycleRuleNoncurrentVersionTransitionToHclTerraform(s
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketLifecycleRuleNoncurrentVersionTransitionOutputReference extends cdktf.ComplexObject {
@@ -6709,7 +6709,7 @@ export function s3BucketLifecycleRuleTransitionToHclTerraform(struct?: S3BucketL
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketLifecycleRuleTransitionOutputReference extends cdktf.ComplexObject {
@@ -6965,7 +6965,7 @@ export function s3BucketLifecycleRuleToHclTerraform(struct?: S3BucketLifecycleRu
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
@@ -7265,7 +7265,7 @@ export function s3BucketLoggingToHclTerraform(struct?: S3BucketLogging | cdktf.I
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketLoggingOutputReference extends cdktf.ComplexObject {
@@ -7422,7 +7422,7 @@ export function s3BucketObjectLockConfigurationRuleDefaultRetentionToHclTerrafor
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference extends cdktf.ComplexObject {
@@ -7549,7 +7549,7 @@ export function s3BucketObjectLockConfigurationRuleToHclTerraform(struct?: S3Buc
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketObjectLockConfigurationRuleOutputReference extends cdktf.ComplexObject {
@@ -7643,7 +7643,7 @@ export function s3BucketObjectLockConfigurationToHclTerraform(struct?: S3BucketO
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketObjectLockConfigurationOutputReference extends cdktf.ComplexObject {
@@ -7746,7 +7746,7 @@ export function s3BucketReplicationConfigurationRulesDestinationAccessControlTra
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference extends cdktf.ComplexObject {
@@ -7873,7 +7873,7 @@ export function s3BucketReplicationConfigurationRulesDestinationToHclTerraform(s
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketReplicationConfigurationRulesDestinationOutputReference extends cdktf.ComplexObject {
@@ -8053,7 +8053,7 @@ export function s3BucketReplicationConfigurationRulesFilterToHclTerraform(struct
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketReplicationConfigurationRulesFilterOutputReference extends cdktf.ComplexObject {
@@ -8159,7 +8159,7 @@ export function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseK
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference extends cdktf.ComplexObject {
@@ -8242,7 +8242,7 @@ export function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaToHc
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputReference extends cdktf.ComplexObject {
@@ -8401,7 +8401,7 @@ export function s3BucketReplicationConfigurationRulesToHclTerraform(struct?: S3B
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.ComplexObject {
@@ -8656,7 +8656,7 @@ export function s3BucketReplicationConfigurationToHclTerraform(struct?: S3Bucket
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketReplicationConfigurationOutputReference extends cdktf.ComplexObject {
@@ -8767,7 +8767,7 @@ export function s3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncr
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference extends cdktf.ComplexObject {
@@ -8872,7 +8872,7 @@ export function s3BucketServerSideEncryptionConfigurationRuleToHclTerraform(stru
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketServerSideEncryptionConfigurationRuleOutputReference extends cdktf.ComplexObject {
@@ -8955,7 +8955,7 @@ export function s3BucketServerSideEncryptionConfigurationToHclTerraform(struct?:
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketServerSideEncryptionConfigurationOutputReference extends cdktf.ComplexObject {
@@ -9047,7 +9047,7 @@ export function s3BucketVersioningToHclTerraform(struct?: S3BucketVersioningOutp
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketVersioningOutputReference extends cdktf.ComplexObject {
@@ -9186,7 +9186,7 @@ export function s3BucketWebsiteToHclTerraform(struct?: S3BucketWebsiteOutputRefe
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class S3BucketWebsiteOutputReference extends cdktf.ComplexObject {
@@ -9935,7 +9935,7 @@ export class S3Bucket extends cdktf.TerraformResource {
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "
@@ -10118,7 +10118,7 @@ export function securityGroupEgressToHclTerraform(struct?: SecurityGroupEgress |
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class SecurityGroupEgressOutputReference extends cdktf.ComplexObject {
@@ -10498,7 +10498,7 @@ export function securityGroupIngressToHclTerraform(struct?: SecurityGroupIngress
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class SecurityGroupIngressOutputReference extends cdktf.ComplexObject {
@@ -10801,7 +10801,7 @@ export function securityGroupTimeoutsToHclTerraform(struct?: SecurityGroupTimeou
   };
 
   // remove undefined attributes
-  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)));
+  return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));
 }
 
 export class SecurityGroupTimeoutsOutputReference extends cdktf.ComplexObject {
@@ -11204,7 +11204,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
     };
 
     // remove undefined attributes
-    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => !!(value?.value)))
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
   }
 }
 "
