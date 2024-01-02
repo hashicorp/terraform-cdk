@@ -9,9 +9,8 @@ ARG DEFAULT_TERRAFORM_VERSION
 ARG AVAILABLE_TERRAFORM_VERSIONS
 
 
-RUN apt-get update -y && apt-get install -y unzip jq build-essential time python3-venv wget
+RUN apt-get update -y && apt-get install -y unzip jq build-essential time python3-venv wget pipenv
 RUN curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
-RUN pip install pipenv
 RUN npm install -g @sentry/cli --unsafe-perm
 # From the official gradle Dockerfile (https://github.com/keeganwitt/docker-gradle/blob/2ba84220e311de7a55f3731509dd772a885b86f8/jdk8/Dockerfile)
 ENV GRADLE_HOME /opt/gradle
