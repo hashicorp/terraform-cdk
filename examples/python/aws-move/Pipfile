@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [requires]
-python_version = "3.11"
+python_version = "3.8"
 
 [packages]
 cdktf = {path = "./../../../dist/python/cdktf-0.0.0-py3-none-any.whl"}

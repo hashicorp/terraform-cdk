@@ -5,6 +5,7 @@ import * as semver from "semver";
 import {
   Errors,
   getGoVersion,
+  getPythonVersion,
   getLanguage,
   getNodeVersion,
   getPackageVersion,
@@ -44,6 +45,11 @@ async function checkGoVersion() {
   throwIfLowerVersion("Go", "1.16.0", out);
 }
 
+async function checkPythonVersion() {
+  const out = await getPythonVersion();
+  throwIfLowerVersion("Python", "3.8.0", out);
+}
+
 async function checkNodeVersion() {
   const out = await getNodeVersion();
   throwIfLowerVersion("Node.js", "18.12.0", out);
@@ -55,6 +61,10 @@ export async function checkEnvironment() {
   switch (getLanguage()) {
     case "go":
       await checkGoVersion();
+      break;
+    case "python":
+      await checkPythonVersion();
+      break;
   }
 }
 
