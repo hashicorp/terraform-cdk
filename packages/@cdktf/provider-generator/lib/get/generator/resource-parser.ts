@@ -129,7 +129,9 @@ class Parser {
   ): ResourceModel {
     let baseName = type;
 
-    const providerNameFromConstraint = constraint?.name as ProviderName;
+    const providerNameFromConstraint = constraint
+      ? (constraint.name as ProviderName)
+      : undefined;
     const providerNameFromFQPN = parseFQPN(fqpn).name;
 
     if (baseName.startsWith(`${providerNameFromFQPN}_`)) {
