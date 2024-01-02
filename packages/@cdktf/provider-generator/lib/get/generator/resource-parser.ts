@@ -7,11 +7,12 @@ import {
   AttributeType,
   Block,
   BlockType,
+  ConstructsMakerTarget,
   isAttributeNestedType,
   isNestedTypeAttribute,
   Schema,
 } from "@cdktf/commons";
-import { ProviderName, FQPN } from "@cdktf/provider-schema";
+import { ProviderName, FQPN, parseFQPN } from "@cdktf/provider-schema";
 import {
   ResourceModel,
   AttributeTypeModel,
@@ -124,12 +125,20 @@ class Parser {
     type: string,
     schema: Schema,
     terraformSchemaType: string,
-    providerName: ProviderName
+    constraint?: ConstructsMakerTarget
   ): ResourceModel {
     let baseName = type;
-    if (baseName.startsWith(`${providerName}_`)) {
-      baseName = baseName.substr(providerName.length + 1);
+
+    const providerNameFromConstraint = constraint?.name as ProviderName;
+    const providerNameFromFQPN = parseFQPN(fqpn).name;
+
+    if (baseName.startsWith(`${providerNameFromFQPN}_`)) {
+      baseName = baseName.substr(providerNameFromFQPN.length + 1);
     }
+
+    const providerName = providerNameFromConstraint
+      ? providerNameFromConstraint
+      : providerNameFromFQPN;
 
     const isProvider = terraformSchemaType === "provider";
     if (isProvider) {
@@ -665,7 +674,7 @@ export class ResourceParser {
     type: string,
     schema: Schema,
     terraformType: string,
-    providerName: ProviderName
+    constraint?: ConstructsMakerTarget
   ): ResourceModel {
     if (this.resources[type]) {
       return this.resources[type];
@@ -677,7 +686,7 @@ export class ResourceParser {
       type,
       schema,
       terraformType,
-      providerName
+      constraint
     );
     this.resources[type] = resource;
     return resource;

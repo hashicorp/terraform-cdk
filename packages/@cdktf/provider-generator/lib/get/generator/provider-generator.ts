@@ -107,7 +107,7 @@ export class TerraformProviderGenerator {
 
   public buildResourceModels(
     fqpn: FQPN,
-    providerName?: ProviderName
+    constraint?: ConstructsMakerTarget
   ): ResourceModel[] {
     const provider = this.schema.provider_schemas?.[fqpn];
     if (!provider) {
@@ -116,13 +116,7 @@ export class TerraformProviderGenerator {
 
     const resources = Object.entries(provider.resource_schemas || {}).map(
       ([type, resource]) =>
-        this.resourceParser.parse(
-          fqpn,
-          type,
-          resource,
-          "resource",
-          providerName ? providerName : parseFQPN(fqpn).name
-        )
+        this.resourceParser.parse(fqpn, type, resource, "resource", constraint)
     );
 
     const dataSources = Object.entries(provider.data_source_schemas || {}).map(
@@ -132,7 +126,7 @@ export class TerraformProviderGenerator {
           `data_${type}`,
           resource,
           "data_source",
-          providerName ? providerName : parseFQPN(fqpn).name
+          constraint
         )
     );
 
@@ -161,7 +155,7 @@ export class TerraformProviderGenerator {
     }
 
     const files: string[] = [];
-    this.buildResourceModels(fqpn, name).forEach((resourceModel) => {
+    this.buildResourceModels(fqpn, constraint).forEach((resourceModel) => {
       if (constraint) {
         resourceModel.providerVersionConstraint = constraint.version;
         resourceModel.terraformProviderSource = constraint.source;
@@ -182,7 +176,7 @@ export class TerraformProviderGenerator {
         `provider`,
         provider.provider,
         "provider",
-        name
+        constraint
       );
       if (constraint) {
         providerResource.providerVersionConstraint = constraint.version;
