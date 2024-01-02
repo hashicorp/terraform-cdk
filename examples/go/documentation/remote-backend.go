@@ -16,7 +16,7 @@ func NewCloudBackendStack(scope constructs.Construct, name string) cdktf.Terrafo
 	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
 		Hostname:     jsii.String("app.terraform.io"),
 		Organization: jsii.String("company"),
-		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("my-app-prod")),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("my-app-prod"), nil),
 	})
 
 	cdktf.NewTerraformOutput(stack, jsii.String("dns-server"), &cdktf.TerraformOutputConfig{
@@ -56,7 +56,7 @@ func SynthLocalBackend() {
 	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
 		Hostname:     jsii.String("app.terraform.io"),
 		Organization: jsii.String("company"),
-		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("my-app-prod")),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("my-app-prod"), nil),
 	})
 
 	// DOCS_BLOCK_END:remote-backend-migrate

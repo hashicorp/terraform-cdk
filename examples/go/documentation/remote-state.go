@@ -18,7 +18,7 @@ func NewProducerStack(scope constructs.Construct, name string) cdktf.TerraformSt
 
 	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
 		Organization: jsii.String("hashicorp"),
-		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("producer")),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("producer"), nil),
 	})
 
 	random.NewRandomProvider(stack, jsii.String("random"), &random.RandomProviderConfig{})
@@ -36,12 +36,12 @@ func NewConsumerStack(scope constructs.Construct, name string) cdktf.TerraformSt
 
 	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
 		Organization: jsii.String("hashicorp"),
-		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("consumer")),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("consumer"), nil),
 	})
 
 	remoteState := cdktf.NewDataTerraformRemoteState(stack, jsii.String("remote-pet"), &cdktf.DataTerraformRemoteStateRemoteConfig{
 		Organization: jsii.String("hashicorp"),
-		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("producer")),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("producer"), nil),
 	})
 
 	cdktf.NewTerraformOutput(stack, jsii.String("random-remote-pet"), &cdktf.TerraformOutputConfig{
