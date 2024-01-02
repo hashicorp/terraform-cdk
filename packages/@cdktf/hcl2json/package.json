@@ -27,17 +27,22 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
-  "keywords": ["cdk", "cdktf", "terraform", "hcl"],
+  "keywords": [
+    "cdk",
+    "cdktf",
+    "terraform",
+    "hcl"
+  ],
   "license": "MPL-2.0",
   "dependencies": {
-    "fs-extra": "^11.1.1"
+    "fs-extra": "11.1.1"
   },
   "devDependencies": {
-    "@types/fs-extra": "^11.0.4",
-    "@types/jest": "^29.5.8",
+    "@types/fs-extra": "11.0.4",
+    "@types/jest": "29.5.8",
     "@types/node": "18.18.10",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.1",
-    "typescript": "^5.0.4"
+    "jest": "29.7.0",
+    "ts-jest": "29.1.1",
+    "typescript": "5.2.2"
   }
 }
