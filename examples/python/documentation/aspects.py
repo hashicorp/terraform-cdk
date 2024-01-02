@@ -1,12 +1,12 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-import jsii
 
 from imports.random.provider import RandomProvider
 from imports.random.pet import Pet
 
 # DOCS_BLOCK_START:define-aspects
+import jsii
 from constructs import Construct, IConstruct
 from cdktf import TerraformStack, Aspects, IAspect
 from imports.aws.instance import Instance
