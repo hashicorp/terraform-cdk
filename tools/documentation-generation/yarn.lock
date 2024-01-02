@@ -2,18 +2,18 @@
 # yarn lockfile v1
 
 
-"@jsii/check-node@1.86.0":
-  version "1.86.0"
-  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.86.0.tgz#3f13844558504f194e88a2a08472b55844dcd8f1"
-  integrity sha512-MbtjcBOSopGmn1wnwJ/YvXY+zebcrWjg/MSkYdMSfC8Kj9PlBC1M4TxOdmUFNxtM2vZs6B6HGyOaObQigDvdpg==
+"@jsii/check-node@1.93.0":
+  version "1.93.0"
+  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.93.0.tgz#3adcc6012654bb69fb8dc508e757b83ea9cd1708"
+  integrity sha512-NLn1Js6wEG2hYjH7gE5Q8s/hPlp3I+KhK/T8ykGdYVod7iODnk/0QVSZsk2iEyuw8NzvvgXUDBWreadUIWSz+g==
   dependencies:
     chalk "^4.1.2"
     semver "^7.5.4"
 
-"@jsii/spec@^1.85.0", "@jsii/spec@^1.86.0":
-  version "1.86.0"
-  resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.86.0.tgz#f8ff41b319fd00f4bcfeead2137375dc947bd882"
-  integrity sha512-4aSVSKbE50LEJbky6bVvl4wmbZJqIJCQt+qFkUQzxbmbpM/K9iDTCD+EXMqHU1lRs33Wcu86MvDxtVCncXiNuQ==
+"@jsii/spec@^1.93.0":
+  version "1.93.0"
+  resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.93.0.tgz#e56c5971efbd349592de86081b3cbfd04fc0bb77"
+  integrity sha512-PIXcTHUsFOoxSE7KMpJ3iJ3iYGSo2x46ZX4bHDDD6C7M3ij+7Z3Ujumg/OsIrESCHKWXGXlgl9EmkNJraeYkRQ==
   dependencies:
     ajv "^8.12.0"
 
@@ -147,8 +147,8 @@ case@^1.6.3:
   version "0.0.0"
   dependencies:
     archiver "5.3.2"
-    json-stable-stringify "^1.0.2"
-    semver "^7.5.4"
+    json-stable-stringify "1.0.2"
+    semver "7.5.4"
 
 chalk@^4, chalk@^4.1.2:
   version "4.1.2"
@@ -263,10 +263,10 @@ get-caller-file@^2.0.5:
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
 
-glob-promise@^6.0.3:
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/glob-promise/-/glob-promise-6.0.3.tgz#e6b3ab02d350b3f4b3e15b57e4485986e41ba2fe"
-  integrity sha512-m+kxywR5j/2Z2V9zvHKfwwL5Gp7gIFEBX+deTB9w2lJB+wSuw9kcS43VfvTAMk8TXL5JCl/cCjsR+tgNVspGyA==
+glob-promise@^6.0.5:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/glob-promise/-/glob-promise-6.0.5.tgz#3d56331b324fd7d097b43ba9e9959e9c7e200e2c"
+  integrity sha512-uUzvxo60yo/vMLXZHCNAlfdM5U5A07jCnUO8xTK44Z0Vc58poGDXhDx8ju1DmPdprOORh+4Lpog64hl+AJ5piA==
   dependencies:
     "@types/glob" "^8.0.0"
 
@@ -331,30 +331,30 @@ isarray@~1.0.0:
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
   integrity sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==
 
-jsii-docgen@^9.1.2:
-  version "9.1.2"
-  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-9.1.2.tgz#40c18908827b233eba29b2c3413665dc47ecea80"
-  integrity sha512-AmHDbyXQTSuhVr2N9HqR4iql3U3Q9jSLmGN5cxfkmQXrd3xqTAlj6EMgE6XIxdVln0R1jMml5aeoa7nUhNp4gw==
+jsii-docgen@^10.3.3:
+  version "10.3.3"
+  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-10.3.3.tgz#69c6e5e9510ea835b6372e03e236f8ebe66574dc"
+  integrity sha512-BG52Tq8+t6w8vTYHszC88L1iJiiNJDyTME5V+ZTVkm2U+EVkMLk3Cm3ynL/ZNj7+0f32sQPqwKGJJOVaasaZMw==
   dependencies:
-    "@jsii/spec" "^1.85.0"
+    "@jsii/spec" "^1.93.0"
     case "^1.6.3"
     fs-extra "^10.1.0"
     glob "^8.1.0"
-    glob-promise "^6.0.3"
-    jsii-reflect "^1.85.0"
+    glob-promise "^6.0.5"
+    jsii-reflect "^1.93.0"
     semver "^7.5.4"
     yargs "^16.2.0"
 
-jsii-reflect@^1.85.0:
-  version "1.86.0"
-  resolved "https://registry.yarnpkg.com/jsii-reflect/-/jsii-reflect-1.86.0.tgz#b1e19605ef1b777f92fb91e9cb9ae579419d1d69"
-  integrity sha512-LlaVKhMHPYN6pEutH83nesWS5VQuEOToy+GtXU8quYilVMQ6rAlo3LgzdBdQd+jSjROKDa/BgAkt4hWdGa5VLQ==
+jsii-reflect@^1.93.0:
+  version "1.93.0"
+  resolved "https://registry.yarnpkg.com/jsii-reflect/-/jsii-reflect-1.93.0.tgz#5b2dcb964a25e5886b3d5d23020485d02630d301"
+  integrity sha512-obf74y7RFXFNfPmgJYMQoRVPeR40czub0MM+rKfyEape5+qqvTU1pyUN384kVzpEzUfFIRsFMWqfxrW4zqwuPQ==
   dependencies:
-    "@jsii/check-node" "1.86.0"
-    "@jsii/spec" "^1.86.0"
+    "@jsii/check-node" "1.93.0"
+    "@jsii/spec" "^1.93.0"
     chalk "^4"
     fs-extra "^10.1.0"
-    oo-ascii-tree "^1.86.0"
+    oo-ascii-tree "^1.93.0"
     yargs "^16.2.0"
 
 json-schema-traverse@^1.0.0:
@@ -362,7 +362,7 @@ json-schema-traverse@^1.0.0:
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz#ae7bcb3656ab77a73ba5c49bf654f38e6b6860e2"
   integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
 
-json-stable-stringify@^1.0.2:
+json-stable-stringify@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/json-stable-stringify/-/json-stable-stringify-1.0.2.tgz#e06f23128e0bbe342dc996ed5a19e28b57b580e0"
   integrity sha512-eunSSaEnxV12z+Z73y/j5N37/In40GK4GmsSy+tEHJMxknvqnA7/djeYtAgW0GsWHUfg+847WJjKaEylk2y09g==
@@ -455,10 +455,10 @@ once@^1.3.0, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-oo-ascii-tree@^1.86.0:
-  version "1.86.0"
-  resolved "https://registry.yarnpkg.com/oo-ascii-tree/-/oo-ascii-tree-1.86.0.tgz#8a3510b4b410f07c4d7a2550a155f1f3c20d2648"
-  integrity sha512-wT93XycBq+vZ9Q1vAIJiNt+1poO4Mj2rHol4cS1YHaQ1dzh3krc8b2XrkxrF68OH9qGyc/pxVH3b9LklaM1zpQ==
+oo-ascii-tree@^1.93.0:
+  version "1.93.0"
+  resolved "https://registry.yarnpkg.com/oo-ascii-tree/-/oo-ascii-tree-1.93.0.tgz#fbe47cd5d188353e6d4cc7cad8520ac790bd3ef4"
+  integrity sha512-zbmrGCL/UsvxV2WlnsSrqdkdxEggxH7eA1HOk+hmimLQu+eLO4Y3VGqwt0VK04Nfe6iG6GnzRL5/XjH0j1v8bQ==
 
 path-is-absolute@^1.0.0:
   version "1.0.1"
@@ -524,7 +524,7 @@ safe-buffer@~5.2.0:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
-semver@^7.5.4:
+semver@7.5.4, semver@^7.5.4:
   version "7.5.4"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.4.tgz#483986ec4ed38e1c6c48c34894a9182dbff68a6e"
   integrity sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==
