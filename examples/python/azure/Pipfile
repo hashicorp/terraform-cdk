@@ -4,6 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [requires]
-python_version = "3.7"
+python_version = "3.11"
 
 [packages]
