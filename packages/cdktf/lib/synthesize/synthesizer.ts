@@ -12,8 +12,6 @@ import { StackAnnotation } from "../manifest";
 import { ValidateTerraformVersion } from "../validations/validate-terraform-version";
 import { encounteredAnnotationWithLevelError } from "../errors";
 
-const hclOutput = process.env.SYNTH_HCL_OUTPUT;
-
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class StackSynthesizer implements IStackSynthesizer {
   /**
@@ -91,17 +89,6 @@ export class StackSynthesizer implements IStackSynthesizer {
       );
     }
 
-    if (hclOutput) {
-      const hcl = this.stack.toHclTerraform();
-      fs.writeFileSync(
-        path.join(session.outdir, stackManifest.synthesizedStackPath),
-        stringify(hcl, { space: 2 })
-      );
-      return;
-    }
-
-    const jsonTfConfig = this.stack.toTerraform();
-
     if (this.hclOutput) {
       const hcl = this.stack.toHclTerraform();
       fs.writeFileSync(
@@ -116,6 +103,8 @@ export class StackSynthesizer implements IStackSynthesizer {
 
       return;
     }
+
+    const jsonTfConfig = this.stack.toTerraform();
 
     fs.writeFileSync(
       path.join(session.outdir, stackManifest.synthesizedStackPath),
