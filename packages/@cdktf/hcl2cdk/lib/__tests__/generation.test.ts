@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import generate from "@babel/generator";
 import { variableTypeToAst } from "../generation";
 import { ProgramScope } from "../types";
+import { astToCode } from "./testHelpers";
 
 describe("variableTypeToAst", () => {
   async function run(type: string) {
-    return generate(
+    return astToCode(
       await variableTypeToAst(
         {
           importables: [],
         } as unknown as ProgramScope,
         type
       )
-    ).code;
+    );
   }
 
   it("should convert a simple type", async () => {

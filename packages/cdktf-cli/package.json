@@ -137,7 +137,6 @@
     "chalk": "4.1.2",
     "chokidar": "3.5.3",
     "cli-spinners": "2.7.0",
-    "codemaker": "1.87.0",
     "cross-fetch": "3.1.5",
     "detect-port": "1.5.1",
     "esbuild": "0.15.15",

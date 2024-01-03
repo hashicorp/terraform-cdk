@@ -89,22 +89,22 @@ export const coerceType = (
           addTokenToImports();
           return template.expression(`Token.asList(%%ast%%)`)({
             ast: ast,
-          });
+          }) as t.Expression;
         case "number":
           addTokenToImports();
           return template.expression(`Token.asNumberList(%%ast%%)`)({
             ast: ast,
-          });
+          }) as t.Expression;
         case "bool":
           addTokenToImports();
           return template.expression(`Token.asAny(%%ast%%)`)({
             ast: ast,
-          });
+          }) as t.Expression;
         default:
           addTokenToImports();
           return template.expression(`Token.asAny(%%ast%%)`)({
             ast: ast,
-          });
+          }) as t.Expression;
       }
     }
 
@@ -114,22 +114,22 @@ export const coerceType = (
           addTokenToImports();
           return template.expression(`Token.asStringMap(%%ast%%)`)({
             ast: ast,
-          });
+          }) as t.Expression;
         case "number":
           addTokenToImports();
           return template.expression(`Token.asNumberMap(%%ast%%)`)({
             ast: ast,
-          });
+          }) as t.Expression;
         case "bool":
           addTokenToImports();
           return template.expression(`Token.asBooleanMap(%%ast%%)`)({
             ast: ast,
-          });
+          }) as t.Expression;
         default:
           addTokenToImports();
           return template.expression(`Token.asAnyMap(%%ast%%)`)({
             ast: ast,
-          });
+          }) as t.Expression;
       }
     }
   }
@@ -142,7 +142,7 @@ export const coerceType = (
       addTokenToImports();
       return template.expression(`Token.asNumber(%%ast%%)`)({
         ast: ast,
-      });
+      }) as t.Expression;
     case "string":
       if (isTerraformVariableOrLocal) {
         return changeValueAccessor(ast as t.MemberExpression, "stringValue");
@@ -150,7 +150,7 @@ export const coerceType = (
       addTokenToImports();
       return template.expression(`Token.asString(%%ast%%)`)({
         ast: ast,
-      });
+      }) as t.Expression;
     case "bool":
       if (isTerraformVariableOrLocal) {
         return changeValueAccessor(ast as t.MemberExpression, "booleanValue");
@@ -158,7 +158,7 @@ export const coerceType = (
       addTokenToImports();
       return template.expression(`Token.asBoolean(%%ast%%)`)({
         ast: ast,
-      });
+      }) as t.Expression;
   }
 
   logger.debug(`Could not coerce from ${from} to ${to} for ${ast}`);

@@ -458,7 +458,9 @@ function convertTemplateExpressionToTs(
       });
 
       expressions.push(
-        template.expression(`Token.asString(%%expr%%)`)({ expr })
+        template.expression(`Token.asString(%%expr%%)`)({
+          expr,
+        }) as t.Expression
       );
       continue;
     } else {
