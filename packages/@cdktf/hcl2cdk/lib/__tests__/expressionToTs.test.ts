@@ -10,7 +10,7 @@ import { ResourceScope } from "../types";
 import { AttributeType } from "@cdktf/commons";
 
 function code(e: t.Expression): string {
-  return generate(e).code;
+  return generate(e as any).code;
 }
 
 const awsProviderSchema = {
