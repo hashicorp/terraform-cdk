@@ -13,7 +13,6 @@ import { ValidateTerraformVersion } from "../validations/validate-terraform-vers
 import { encounteredAnnotationWithLevelError } from "../errors";
 
 const hclOutput = process.env.SYNTH_HCL_OUTPUT;
-import { jsonToHcl } from "../hcl/json-to-hcl";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class StackSynthesizer implements IStackSynthesizer {
