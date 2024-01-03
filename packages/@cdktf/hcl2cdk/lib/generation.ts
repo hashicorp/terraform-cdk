@@ -928,7 +928,7 @@ export function wrapCodeInConstructor(
   code: t.Statement[],
   className: string,
   configTypeName?: string
-) {
+): t.Statement {
   let baseContainerClass: t.Identifier;
   switch (codeContainer) {
     case "constructs.Construct":
@@ -956,7 +956,7 @@ export function wrapCodeInConstructor(
       code,
       base: baseContainerClass,
       className: t.identifier(className),
-    });
+    }) as t.Statement;
   }
   return template.statement(
     `
@@ -968,7 +968,11 @@ export function wrapCodeInConstructor(
   }
 `,
     { syntacticPlaceholders: true, plugins: ["typescript"] }
-  )({ code, base: baseContainerClass, className: t.identifier(className) });
+  )({
+    code,
+    base: baseContainerClass,
+    className: t.identifier(className),
+  }) as t.Statement;
 }
 
 export const providerConstructImports = (importable: ImportableConstruct[]) => {

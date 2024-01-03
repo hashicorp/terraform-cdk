@@ -4,11 +4,11 @@
  */
 
 import * as t from "@babel/types";
-import generate from "@babel/generator";
 import { AttributeType } from "@cdktf/commons";
 import { coerceType } from "../coerceType";
 import { functionsMap } from "../function-bindings/functions";
 import { ProgramScope } from "../types";
+import { astToCode } from "./testHelpers";
 
 type BaseThing = {
   type: string;
@@ -309,7 +309,7 @@ const dummy2: Thing = {
 describe("bindings for Terraform functions", () => {
   it("should convert Terraform AST into TS AST", () => {
     expect(
-      generate(terraformThingToTs(scope, dummy2, "dynamic")).code
+      astToCode(terraformThingToTs(scope, dummy2, "dynamic"))
     ).toMatchInlineSnapshot(
       `"Fn.replace(TodoReference-module-foo-output, "-", TodoReference-var-bar)"`
     );
@@ -317,7 +317,7 @@ describe("bindings for Terraform functions", () => {
 
   it("should convert Terraform AST into TS AST for overriden function name", () => {
     expect(
-      generate(
+      astToCode(
         terraformThingToTs(
           scope,
           {
@@ -344,13 +344,13 @@ describe("bindings for Terraform functions", () => {
           },
           "number"
         )
-      ).code
+      )
     ).toMatchInlineSnapshot(`"Fn.lengthOf(TodoReference-var-list)"`);
   });
 
   it("should convert Terraform AST into TS AST for overriden function with variadic args for optional params", () => {
     expect(
-      generate(
+      astToCode(
         terraformThingToTs(
           scope,
           {
@@ -391,7 +391,7 @@ describe("bindings for Terraform functions", () => {
           },
           "string"
         )
-      ).code
+      )
     ).toMatchInlineSnapshot(
       `"Fn.bcrypt(TodoReference-var-str, TodoReference-var-cost)"`
     );
@@ -399,7 +399,7 @@ describe("bindings for Terraform functions", () => {
 
   it("should convert Terraform AST into TS AST for overriden function with variadic args for optional params that are not passed", () => {
     expect(
-      generate(
+      astToCode(
         terraformThingToTs(
           scope,
           {
@@ -426,13 +426,13 @@ describe("bindings for Terraform functions", () => {
           },
           "string"
         )
-      ).code
+      )
     ).toMatchInlineSnapshot(`"Fn.bcrypt(TodoReference-var-str)"`);
   });
 
   it("should convert Terraform AST into TS AST for function with variadic param", () => {
     expect(
-      generate(
+      astToCode(
         terraformThingToTs(
           scope,
           {
@@ -473,7 +473,7 @@ describe("bindings for Terraform functions", () => {
           },
           "dynamic"
         )
-      ).code
+      )
     ).toMatchInlineSnapshot(
       `"Fn.try([TodoReference-var-strA, TodoReference-var-strB])"`
     );
@@ -481,7 +481,7 @@ describe("bindings for Terraform functions", () => {
 
   it("should convert Terraform AST into TS AST for join function with single list param", () => {
     expect(
-      generate(
+      astToCode(
         terraformThingToTs(
           scope,
           {
@@ -522,7 +522,7 @@ describe("bindings for Terraform functions", () => {
           },
           "string"
         )
-      ).code
+      )
     ).toMatchInlineSnapshot(
       `"Fn.join(TodoReference-var-str, TodoReference-var-list)"`
     );
@@ -530,7 +530,7 @@ describe("bindings for Terraform functions", () => {
 
   it("should convert Terraform AST into TS AST for join function with multiple list params", () => {
     expect(
-      generate(
+      astToCode(
         terraformThingToTs(
           scope,
           {
@@ -585,28 +585,27 @@ describe("bindings for Terraform functions", () => {
           },
           "string"
         )
-      ).code
+      )
     ).toMatchInlineSnapshot(
       `"Fn.join(TodoReference-var-str, Token.asList(Fn.concat([TodoReference-var-listA, TodoReference-var-listB])))"`
     );
   });
 
   it("should throw if not enough parameters were passed", () => {
-    expect(
-      () =>
-        generate(
-          terraformThingToTs(
-            scope,
-            {
-              type: "function",
-              meta: {
-                name: "bcrypt",
-              },
-              children: [],
+    expect(() =>
+      astToCode(
+        terraformThingToTs(
+          scope,
+          {
+            type: "function",
+            meta: {
+              name: "bcrypt",
             },
-            "string"
-          )
-        ).code
+            children: [],
+          },
+          "string"
+        )
+      )
     ).toThrowErrorMatchingInlineSnapshot(
       `"Terraform function call to "bcrypt" is not valid! Parameter at index 0 of type string is not optional but received no value. The following parameters were passed: []"`
     );
