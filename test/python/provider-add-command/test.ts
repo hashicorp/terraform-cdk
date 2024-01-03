@@ -1,8 +1,8 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { TestDriver } from "../../test-helper";
-
-describe("provider add command", () => {
+// Disabled, needs pipenv environment to be setup before cdktf provider commands can run
+describe.skip("provider add command", () => {
   let driver: TestDriver;
 
   describe("pre-built", () => {
