@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: MPL-2.0
 import { TestDriver } from "../../test-helper";
 
-describe("provider upgrade command", () => {
+// Disabled, needs pipenv environment to be setup before cdktf provider commands can run
+describe.skip("provider upgrade command", () => {
   let driver: TestDriver;
 
   describe("pre-built", () => {
