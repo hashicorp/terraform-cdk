@@ -275,6 +275,7 @@ Command output on stdout:
     synthOrigin?: SynthOrigin
   ): Promise<void> {
     const config = readConfigSync();
+
     await sendTelemetry("synth", {
       totalTime: totalTime,
       language: config.language,
