@@ -501,7 +501,7 @@ export function renderSimpleAttributes(attributes: any): string {
  *
  */
 export function renderAttributes(attributes: any): string {
-  if (attributes === undefined) {
+  if (attributes === undefined || attributes === null) {
     return "";
   }
   return Object.entries(attributes)
