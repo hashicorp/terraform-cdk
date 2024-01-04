@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import * as path from "path";
+import stableStringify from "json-stable-stringify";
 import {
   TerraformModuleConstraint,
   TerraformProviderConstraint,
@@ -11,17 +12,12 @@ import {
 } from "@cdktf/commons";
 import { readModuleSchema, readProviderSchema } from "../provider-schema";
 
-expect.addSnapshotSerializer({
-  test: (value) => {
-    if (typeof value !== "object" || value === null) return false;
-
-    return value["format_version"] !== undefined;
-  },
-  print: (value: any) => {
-    value["format_version"] = "STUBBED VERSION";
-    return JSON.stringify(value, null, 2);
-  },
-});
+function stubVersion(value: any) {
+  value["format_version"] = "STUBBED VERSION";
+  return stableStringify(value, {
+    space: 2,
+  });
+}
 
 describe("readSchema", () => {
   it("generates a single provider schema", async () => {
@@ -31,7 +27,7 @@ describe("readSchema", () => {
       Language.TYPESCRIPT
     );
     const result = await readProviderSchema(target);
-    expect(result).toMatchSnapshot();
+    expect(stubVersion(result)).toMatchSnapshot();
   }, 120000);
 
   it("generates a single module schema", async () => {
@@ -40,7 +36,7 @@ describe("readSchema", () => {
     );
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
-    expect(result).toMatchSnapshot();
+    expect(stubVersion(result)).toMatchSnapshot();
   }, 120000);
 
   it("generates a more complex schema", async () => {
@@ -49,7 +45,7 @@ describe("readSchema", () => {
     );
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
-    expect(result).toMatchSnapshot();
+    expect(stubVersion(result)).toMatchSnapshot();
   }, 120000);
 
   it("generates a local module", async () => {
@@ -60,7 +56,7 @@ describe("readSchema", () => {
     });
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
-    expect(result).toMatchSnapshot();
+    expect(stubVersion(result)).toMatchSnapshot();
   }, 120000);
 
   it("generates a local json module", async () => {
@@ -71,6 +67,6 @@ describe("readSchema", () => {
     });
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
-    expect(result).toMatchSnapshot();
+    expect(stubVersion(result)).toMatchSnapshot();
   }, 120000);
 });
