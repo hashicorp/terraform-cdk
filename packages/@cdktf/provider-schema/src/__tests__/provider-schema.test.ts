@@ -12,7 +12,7 @@ import {
 } from "@cdktf/commons";
 import { readModuleSchema, readProviderSchema } from "../provider-schema";
 
-function stubVersion(value: any) {
+function sanitizeJson(value: any) {
   value["format_version"] = "STUBBED VERSION";
   return stableStringify(value, {
     space: 2,
@@ -27,7 +27,7 @@ describe("readSchema", () => {
       Language.TYPESCRIPT
     );
     const result = await readProviderSchema(target);
-    expect(stubVersion(result)).toMatchSnapshot();
+    expect(sanitizeJson(result)).toMatchSnapshot();
   }, 120000);
 
   it("generates a single module schema", async () => {
@@ -36,7 +36,7 @@ describe("readSchema", () => {
     );
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
-    expect(stubVersion(result)).toMatchSnapshot();
+    expect(sanitizeJson(result)).toMatchSnapshot();
   }, 120000);
 
   it("generates a more complex schema", async () => {
@@ -45,7 +45,7 @@ describe("readSchema", () => {
     );
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
-    expect(stubVersion(result)).toMatchSnapshot();
+    expect(sanitizeJson(result)).toMatchSnapshot();
   }, 120000);
 
   it("generates a local module", async () => {
@@ -56,7 +56,7 @@ describe("readSchema", () => {
     });
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
-    expect(stubVersion(result)).toMatchSnapshot();
+    expect(sanitizeJson(result)).toMatchSnapshot();
   }, 120000);
 
   it("generates a local json module", async () => {
@@ -67,6 +67,6 @@ describe("readSchema", () => {
     });
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
-    expect(stubVersion(result)).toMatchSnapshot();
+    expect(sanitizeJson(result)).toMatchSnapshot();
   }, 120000);
 });
