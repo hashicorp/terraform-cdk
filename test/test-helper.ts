@@ -205,11 +205,8 @@ export class TestDriver {
     if (
       fs.existsSync(path.join(this.stackDirectory(stackName), "metadata.json"))
     ) {
-      return new QueryableStack(
-        fs.readFileSync(
-          path.join(this.stackDirectory(stackName), "metadata.json"),
-          "utf-8"
-        )
+      throw new Error(
+        "Stack uses HCL output which is not supported to be queried via a QueriableStack. Use onlyJson to run your test only against JSON output."
       );
     }
 
