@@ -151,7 +151,9 @@ export class ModuleGenerator {
     this.code.line(`return this.inputs;`);
     this.code.closeBlock();
 
-    this.code.openBlock(`protected synthesizeHclAttributes()`);
+    this.code.openBlock(
+      `protected synthesizeHclAttributes(): { [name: string]: any }`
+    );
     this.code.line(`return Object.fromEntries(`);
     this.code.line(`  Object.entries(this.inputs)`);
     this.code.line(`    .filter(([, val]) => val !== undefined)`);
