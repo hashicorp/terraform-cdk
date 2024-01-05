@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onlyJson } from "../../test-helper";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -14,7 +14,7 @@ describe("python full integration test assets", () => {
     driver.copyFolders("fixtures");
   });
 
-  test("synth generates JSON and copies files", async () => {
+  onlyJson("synth generates JSON and copies files", async () => {
     await driver.synth();
     expect(
       driver.synthesizedStack("python-assets").toString()

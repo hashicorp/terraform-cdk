@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onlyJson } from "../../test-helper";
 
 describe("java testing assertions", () => {
   let driver: TestDriver;
@@ -21,11 +21,17 @@ describe("java testing assertions", () => {
     return out;
   }
 
-  test("run java testing suite", async () => {
-    const output = await runTests();
-    // TODO: Currently Gradle doesn't give the number of tests run.
-    // We need to update that with a change to build.gradle
-    expect(output.stdout).toEqual(expect.stringContaining("BUILD SUCCESSFUL"));
-    expect(output.stdout).toEqual(expect.stringContaining("Task :test"));
-  }, 6000000);
+  onlyJson(
+    "run java testing suite",
+    async () => {
+      const output = await runTests();
+      // TODO: Currently Gradle doesn't give the number of tests run.
+      // We need to update that with a change to build.gradle
+      expect(output.stdout).toEqual(
+        expect.stringContaining("BUILD SUCCESSFUL")
+      );
+      expect(output.stdout).toEqual(expect.stringContaining("Task :test"));
+    },
+    6000000
+  );
 });
