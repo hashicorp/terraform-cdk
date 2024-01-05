@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onlyHcl, onlyJson } from "../../test-helper";
 
 describe("python full integration 3rd party", () => {
   let driver: TestDriver;
@@ -11,18 +11,22 @@ describe("python full integration 3rd party", () => {
     await driver.synth();
   });
 
-  test("synth generates JSON", async () => {
+  onlyJson("synth generates JSON", async () => {
     expect(driver.synthesizedStack("references").toString()).toMatchSnapshot();
   });
 
+  onlyHcl("synth generates HCL", async () => {
+    expect(driver.synthesizedStackContentsRaw("references")).toMatchSnapshot();
+  });
+
   describe("references", () => {
-    test("simple references", () => {
+    onlyJson("simple references", () => {
       expect(
         driver.synthesizedStack("references").byId("nginxContainer").image
       ).toContain("nginxImage.repo_digest");
     });
 
-    test("single-item references", () => {
+    onlyJson("single-item references", () => {
       expect(
         driver.synthesizedStack("references").output("containerCapAdd")
       ).toContain("nginxContainer.capabilities[0].add");
@@ -30,13 +34,13 @@ describe("python full integration 3rd party", () => {
   });
 
   describe("mutation", () => {
-    test("direct mutation", () => {
+    onlyJson("direct mutation", () => {
       expect(
         driver.synthesizedStack("references").byId("nginxImage").keep_locally
       ).toBeTruthy();
     });
 
-    test("reference mutation", () => {
+    onlyJson("reference mutation", () => {
       expect(
         driver.synthesizedStack("references").byId("nginxContainer").privileged
       ).toContain("nginxImage.keep_locally");
