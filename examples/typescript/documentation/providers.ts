@@ -3,13 +3,13 @@
 // DOCS_BLOCK_START:providers-import,providers-import-classes
 import { Construct } from "constructs";
 import { TerraformStack, TerraformVariable, Token } from "cdktf";
-import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
-import { Instance } from "@cdktf/provider-aws/lib/instance";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { Instance } from "./.gen/providers/aws/instance";
 // DOCS_BLOCK_END:providers-import,providers-import-classes
 
 // DOCS_BLOCK_START:providers-import-classes
-import { DnsimpleProvider } from "@cdktf/provider-dnsimple/lib/provider";
-import { ZoneRecord } from "@cdktf/provider-dnsimple/lib/zone-record";
+import { DnsimpleProvider } from "./.gen/providers/dnsimple/provider";
+import { ZoneRecord } from "./.gen/providers/dnsimple/zone-record";
 // DOCS_BLOCK_END:providers-import-classes
 
 // DOCS_BLOCK_START:providers-import,providers-import-classes

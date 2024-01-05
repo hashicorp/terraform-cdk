@@ -60,8 +60,8 @@ This TypeScript example project has a `main.ts` file that defines AWS resources.
 ```ts
 import { Construct } from "constructs";
 import { TerraformStack, TerraformVariable, Token } from "cdktf";
-import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
-import { Instance } from "@cdktf/provider-aws/lib/instance";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { Instance } from "./.gen/providers/aws/instance";
 
 export class ProvidersStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -243,10 +243,10 @@ Import and use the generated classes in your application. The following example 
 ```ts
 import { Construct } from "constructs";
 import { TerraformStack, TerraformVariable, Token } from "cdktf";
-import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
-import { Instance } from "@cdktf/provider-aws/lib/instance";
-import { DnsimpleProvider } from "@cdktf/provider-dnsimple/lib/provider";
-import { ZoneRecord } from "@cdktf/provider-dnsimple/lib/zone-record";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { Instance } from "./.gen/providers/aws/instance";
+import { DnsimpleProvider } from "./.gen/providers/dnsimple/provider";
+import { ZoneRecord } from "./.gen/providers/dnsimple/zone-record";
 
 export class ProvidersStack extends TerraformStack {
   constructor(scope: Construct, id: string) {

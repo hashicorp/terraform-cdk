@@ -7,7 +7,6 @@
     "random@~> 3.5",
     "dnsimple/dnsimple@~> 1.3",
     "integrations/github@~> 5.42"
-
   ],
   "terraformModules": [
     "terraform-aws-modules/vpc/aws@~> 5.2",
