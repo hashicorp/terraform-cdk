@@ -1,8 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { TestDriver } from "../../test-helper";
-// Disabled, needs pipenv environment to be setup before cdktf provider commands can run
-describe.skip("provider add command", () => {
+describe("provider add command", () => {
   let driver: TestDriver;
 
   describe("pre-built", () => {
@@ -49,9 +48,14 @@ describe.skip("provider add command", () => {
         await driver.setupPythonProject({
           init: { additionalOptions: "--cdktf-version 0.10.4" },
         });
+        driver.setEnv("PIPENV_VERBOSITY", "-1");
+        driver.removeFile("Pipfile");
+
+        await driver.createAndActivateVirtualEnv();
 
         driver.copyFile("cdktf-pip.json", "cdktf.json");
         driver.copyFiles("requirements.txt");
+        driver.exec("pip", ["install", "-r", "requirements.txt"]);
       });
 
       it("detects correct cdktf version", async () => {

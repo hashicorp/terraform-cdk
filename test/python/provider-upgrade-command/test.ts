@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { TestDriver } from "../../test-helper";
 
-// Disabled, needs pipenv environment to be setup before cdktf provider commands can run
-describe.skip("provider upgrade command", () => {
+describe("provider upgrade command", () => {
   let driver: TestDriver;
 
   describe("pre-built", () => {
@@ -43,9 +42,14 @@ describe.skip("provider upgrade command", () => {
         await driver.setupPythonProject({
           init: { additionalOptions: "--cdktf-version 0.10.4" },
         });
+        driver.setEnv("PIPENV_VERBOSITY", "-1");
+        driver.removeFile("Pipfile");
+
+        await driver.createAndActivateVirtualEnv();
 
         driver.copyFile("cdktf-pip.json", "cdktf.json");
         driver.copyFiles("requirements.txt");
+        driver.exec("pip", ["install", "-r", "requirements.txt"]);
       });
 
       test("updates pre-built provider using pip", async () => {
