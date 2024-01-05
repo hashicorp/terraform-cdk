@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onlyJson } from "../../test-helper";
 
 describe("csharp testing assertions", () => {
   let driver: TestDriver;
@@ -16,7 +16,11 @@ describe("csharp testing assertions", () => {
     await driver.exec("dotnet test");
   }
 
-  test("run csharp testing suite", async () => {
-    await expect(runTests()).resolves.not.toThrow();
-  }, 6000000);
+  onlyJson(
+    "run csharp testing suite",
+    async () => {
+      await expect(runTests()).resolves.not.toThrow();
+    },
+    6000000
+  );
 });

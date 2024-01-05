@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, onlyHcl, onlyJson } from "../../test-helper";
 
 describe("python terraform functions test synth", () => {
   let driver: TestDriver;
@@ -10,10 +10,17 @@ describe("python terraform functions test synth", () => {
     await driver.setupPythonProject();
   });
 
-  test("synth generates JSON", async () => {
+  onlyJson("synth generates JSON", async () => {
     await driver.synth();
     expect(
       driver.synthesizedStack("python-simple").toString()
+    ).toMatchSnapshot();
+  });
+
+  onlyHcl("synth generates HCL", async () => {
+    await driver.synth();
+    expect(
+      driver.synthesizedStackContentsRaw("python-simple")
     ).toMatchSnapshot();
   });
 });
