@@ -538,7 +538,7 @@ ${renderSimpleAttributes(v)}
         return undefined;
       }
 
-      // Referncing both isBlock and is_block, because sometimes we pass through a snake case filter
+      // Referencing both isBlock and is_block, because sometimes we pass through a snake case filter
       // within attributes.
       const {
         dynamic,
