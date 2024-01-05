@@ -87,9 +87,30 @@ describe("full integration test", () => {
 
   onPosixWithHcl("build modules in HCL posix", async () => {
     await driver.synth();
-    expect(
-      driver.synthesizedStack("hello-modules").toString()
-    ).toMatchInlineSnapshot();
+    expect(driver.synthesizedStackContentsRaw("hello-modules").toString())
+      .toMatchInlineSnapshot(`
+      "terraform {
+        required_providers {
+
+        }
+        backend "local" {
+          path = "terraform.tfstate"
+        }
+
+
+      }
+      module "local-module" {
+        source = "./assets/local-module-local-module/1A068C39166AE65C43D174678BD00022"
+      }
+      module "gcloud" {
+        source  = "terraform-google-modules/gcloud/google"
+        version = "2.0.3"
+      }
+      module "iam" {
+        source  = "terraform-aws-modules/iam/aws//modules/iam-account"
+        version = "3.12.0"
+      }"
+    `);
   });
 
   onWindowsWithoutHcl("build modules windows", async () => {
@@ -154,8 +175,29 @@ describe("full integration test", () => {
 
   onWindowsWithHcl("build modules windows", async () => {
     await driver.synth();
-    expect(
-      driver.synthesizedStack("hello-modules").toString()
-    ).toMatchInlineSnapshot();
+    expect(driver.synthesizedStackContentsRaw("hello-modules").toString())
+      .toMatchInlineSnapshot(`
+    "terraform {
+      required_providers {
+
+      }
+      backend "local" {
+        path = "terraform.tfstate"
+      }
+
+
+    }
+    module "local-module" {
+      source = "./assets/local-module-local-module/405986F9ABA62210358043A25250C05C"
+    }
+    module "gcloud" {
+      source  = "terraform-google-modules/gcloud/google"
+      version = "2.0.3"
+    }
+    module "iam" {
+      source  = "terraform-aws-modules/iam/aws//modules/iam-account"
+      version = "3.12.0"
+    }"
+  `);
   });
 });

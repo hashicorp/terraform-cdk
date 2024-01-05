@@ -9,34 +9,6 @@ exports[`full integration test folder asset copied 2`] = `"This is b"`;
 exports[`full integration test folder asset copied 3`] = `"this is c"`;
 
 exports[`full integration test hcl synth 1`] = `
-"{
-  "//": {
-    "metadata": {
-      "backend": "local",
-      "stackName": "fixed",
-      "version": "stubbed"
-    },
-    "outputs": {
-      "fixed": {
-        "fixtures-name": "fixtures-name",
-        "local-asset-name": "local-asset-name",
-        "relative-asset-name": "relative-asset-name",
-        "relative-assets-name": "relative-assets-name",
-        "zipped-fixtures-name": "zipped-fixtures-name"
-      }
-    }
-  },
-  "terraform": {
-    "backend": {
-      "local": {
-        "path": "terraform.tfstate"
-      }
-    }
-  }
-}"
-`;
-
-exports[`full integration test hcl synth 2`] = `
 "terraform {
   required_providers {
 
