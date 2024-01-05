@@ -211,6 +211,10 @@ jobs:
           path: dist
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
+      - name: setup and activate virtual environment
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
       - name: Release
         run: npx -p jsii-release jsii-release-pypi
         env:
