@@ -322,6 +322,29 @@ export class TerraformStack extends Construct {
     let hcl = "";
     if (terraformBlock) {
       hcl = renderTerraform(terraformBlock);
+      // FIXME: this does not work for example for the cloud backend
+      // this fails the Terraform Cloud integration test!
+      // as it will put the following into the metadata (which fails zod validation)
+      // check workspaces, which is not looking right for metadata
+      // (the HCL is correct though for the backend)
+      /*
+      "cloud": {
+      "organization": "cdktf",
+      "token": "redacted",
+      "workspaces": {
+        "isBlock": true,
+        "storageClassType": "stringmap",
+        "type": "map",
+        "value": {
+          "name": {
+            "storageClassType": "string",
+            "type": "simple",
+            "value": "666-06db6edc7a5e56a4c4d7"
+          }
+        }
+      }
+    },
+      */
       deepMerge(tfMeta, { terraform: terraformBlock });
     }
 
