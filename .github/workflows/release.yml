@@ -188,7 +188,7 @@ jobs:
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
       - name: Release
-        run: npx -p jsii-release jsii-release-npm
+        run: npx -p publib publib-npm
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -216,7 +216,7 @@ jobs:
           python3 -m venv .venv
           source .venv/bin/activate
       - name: Release
-        run: npx -p jsii-release jsii-release-pypi
+        run: npx -p publib publib-pypi
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
@@ -241,7 +241,7 @@ jobs:
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
       - name: Release
-        run: npx -p jsii-release jsii-release-maven
+        run: npx -p publib publib-maven
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
@@ -271,7 +271,7 @@ jobs:
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
       - name: Release
-        run: npx -p jsii-release jsii-release-nuget
+        run: npx -p publib publib-nuget
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
@@ -295,7 +295,7 @@ jobs:
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
       - name: Release
-        run: npx -p jsii-release jsii-release-golang
+        run: npx -p publib publib-golang
         env:
           GITHUB_TOKEN: ${{ secrets.TERRAFORM_CDK_GO_REPO_GITHUB_TOKEN }}
           GIT_USER_NAME: "CDK for Terraform Team"
