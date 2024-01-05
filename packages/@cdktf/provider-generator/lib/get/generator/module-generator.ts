@@ -151,6 +151,22 @@ export class ModuleGenerator {
     this.code.line(`return this.inputs;`);
     this.code.closeBlock();
 
+    this.code.openBlock(`protected synthesizeHclAttributes()`);
+    this.code.line(`return Object.fromEntries(`);
+    this.code.line(`  Object.entries(this.inputs)`);
+    this.code.line(`    .filter(([, val]) => val !== undefined)`);
+    this.code.line(`    .map(([key, val]) => {`);
+    this.code.line(`      return [`);
+    this.code.line(`        key,`);
+    this.code.line(`        {`);
+    this.code.line(`          value: val,`);
+    this.code.line(`          type: "any",`);
+    this.code.line(`        },`);
+    this.code.line(`      ];`);
+    this.code.line(`    })`);
+    this.code.line(`);`);
+    this.code.closeBlock();
+
     this.code.closeBlock(); // class
     this.code.closeFile(target.fileName);
   }
