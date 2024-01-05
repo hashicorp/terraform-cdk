@@ -164,6 +164,10 @@ export class TestDriver {
     fse.copySync(path.join(this.rootDir, source), dest);
   };
 
+  removeFile = (source) => {
+    fse.removeSync(path.join(this.rootDir, source));
+  };
+
   addFile = (dest, content) => {
     fse.writeFileSync(dest, content);
   };
@@ -378,6 +382,20 @@ export class TestDriver {
     } finally {
       await templateServer.stop();
     }
+  };
+
+  createAndActivateVirtualEnv = async () => {
+    // Create virtualenv
+    await this.exec("python3 -m venv .venv");
+    // Activate virtualenv
+    await this.exec(". .venv/bin/activate");
+
+    // Manually set environment variables required for virtualenv
+    this.setEnv("VIRTUAL_ENV", path.join(this.workingDirectory, ".venv"));
+    this.setEnv(
+      "PATH",
+      `${path.join(this.workingDirectory, ".venv", "bin")}:${process.env.PATH}`
+    );
   };
 
   readLocalFile = (fileName: string): string => {
