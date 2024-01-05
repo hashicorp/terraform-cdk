@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`csharp full integration test synth synth generates HCL 1`] = `
+"terraform {
+  required_providers {
+    null = {
+      version = "3.1.1"
+      source  = "hashicorp/null"
+    }
+  }
+  backend "local" {
+    path = "terraform.tfstate"
+  }
+}
+provider "null" {
+}
+resource "null_resource" "null" {
+}"
+`;
+
 exports[`csharp full integration test synth synth generates JSON 1`] = `
 "{
   "//": {
