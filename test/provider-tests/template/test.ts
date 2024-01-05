@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { onlyJson, TestDriver } from "../../test-helper";
+import { onlyJson, TestDriver } from "../../../test-helper";
 
 describe("full integration test", () => {
   describe("deploy", () => {
