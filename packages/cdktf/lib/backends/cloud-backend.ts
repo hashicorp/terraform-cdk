@@ -77,7 +77,7 @@ export class CloudBackend extends TerraformBackend {
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({
       ...this.props,
-      workspaces: this.props.workspaces.toHclTerraform(),
+      workspaces: this.props.workspaces.toTerraform(),
     });
   }
 
