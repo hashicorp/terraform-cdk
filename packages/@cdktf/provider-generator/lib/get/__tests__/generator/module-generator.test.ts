@@ -513,7 +513,7 @@ onTf1_6AndNewer(
         protected synthesizeAttributes() {
           return this.inputs;
         }
-        protected synthesizeHclAttributes() {
+        protected synthesizeHclAttributes(): { [name: string]: any } {
           return Object.fromEntries(
             Object.entries(this.inputs)
               .filter(([, val]) => val !== undefined)

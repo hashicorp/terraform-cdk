@@ -100,6 +100,10 @@ describe("full integration test", () => {
 
       }
       module "local-module" {
+        set = [
+          "test",
+          "sets",
+        ]
         source = "./assets/local-module-local-module/1A068C39166AE65C43D174678BD00022"
       }
       module "gcloud" {
@@ -107,8 +111,9 @@ describe("full integration test", () => {
         version = "2.0.3"
       }
       module "iam" {
-        source  = "terraform-aws-modules/iam/aws//modules/iam-account"
-        version = "3.12.0"
+        account_alias = "cdktf"
+        source        = "terraform-aws-modules/iam/aws//modules/iam-account"
+        version       = "3.12.0"
       }"
     `);
   });
@@ -177,27 +182,27 @@ describe("full integration test", () => {
     await driver.synth();
     expect(driver.synthesizedStackContentsRaw("hello-modules").toString())
       .toMatchInlineSnapshot(`
-    "terraform {
-      required_providers {
+          "terraform {
+            required_providers {
 
-      }
-      backend "local" {
-        path = "terraform.tfstate"
-      }
+            }
+            backend "local" {
+              path = "terraform.tfstate"
+            }
 
 
-    }
-    module "local-module" {
-      source = "./assets/local-module-local-module/405986F9ABA62210358043A25250C05C"
-    }
-    module "gcloud" {
-      source  = "terraform-google-modules/gcloud/google"
-      version = "2.0.3"
-    }
-    module "iam" {
-      source  = "terraform-aws-modules/iam/aws//modules/iam-account"
-      version = "3.12.0"
-    }"
-  `);
+          }
+          module "local-module" {
+            source = "./assets/local-module-local-module/405986F9ABA62210358043A25250C05C"
+          }
+          module "gcloud" {
+            source  = "terraform-google-modules/gcloud/google"
+            version = "2.0.3"
+          }
+          module "iam" {
+            source  = "terraform-aws-modules/iam/aws//modules/iam-account"
+            version = "3.12.0"
+          }"
+      `);
   });
 });
