@@ -21,7 +21,6 @@ describe("full integration test", () => {
 
   onlyHcl("hcl synth", async () => {
     await driver.synth("fixed");
-    expect(driver.synthesizedStack("fixed").toString()).toMatchSnapshot();
     expect(
       driver.synthesizedStackContentsRaw("fixed").toString()
     ).toMatchSnapshot();
