@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`python full integration 3rd party synth generates HCL 1`] = `
+"terraform {
+  required_providers {
+    docker = {
+      version = "2.16.0"
+      source  = "kreuzwerker/docker"
+    }
+  }
+  backend "local" {
+    path = "terraform.tfstate"
+  }
+
+
+}
+
+provider "docker" {
+}
+resource "docker_image" "nginxImage" {
+  keep_locally = true
+  name         = "nginx:latest"
+}
+resource "docker_container" "nginxContainer" {
+  image      = "\${docker_image.nginxImage.repo_digest}"
+  name       = "nginx-python-cdktf"
+  privileged = "\${docker_image.nginxImage.keep_locally}"
+  ports {
+    external = 8000
+    internal = 80
+  }
+}
+
+output "containerCapAdd" {
+  value = "\${tolist(docker_container.nginxContainer.capabilities[0].add)}"
+}"
+`;
+
 exports[`python full integration 3rd party synth generates JSON 1`] = `
 "{
   "//": {
@@ -13,62 +49,30 @@ exports[`python full integration 3rd party synth generates JSON 1`] = `
         "containerCapAdd": "containerCapAdd"
       }
     }
-  },
-  "output": {
-    "containerCapAdd": {
-      "value": "\${tolist(docker_container.nginxContainer.capabilities[0].add)}"
-    }
-  },
-  "provider": {
-    "docker": [
-      {}
-    ]
-  },
-  "resource": {
-    "docker_container": {
-      "nginxContainer": {
-        "//": {
-          "metadata": {
-            "path": "references/nginxContainer",
-            "uniqueId": "nginxContainer"
-          }
-        },
-        "image": "\${docker_image.nginxImage.repo_digest}",
-        "name": "nginx-python-cdktf",
-        "ports": [
-          {
-            "external": 8000,
-            "internal": 80
-          }
-        ],
-        "privileged": "\${docker_image.nginxImage.keep_locally}"
+      backend "local" {
+        path = "terraform.tfstate"
       }
-    },
-    "docker_image": {
-      "nginxImage": {
-        "//": {
-          "metadata": {
-            "path": "references/nginxImage",
-            "uniqueId": "nginxImage"
-          }
-        },
-        "keep_locally": true,
-        "name": "nginx:latest"
+
+
+    }
+
+    provider "docker" {
+    }
+    resource "docker_image" "nginxImage" {
+      keep_locally = true
+      name         = "nginx:latest"
+    }
+    resource "docker_container" "nginxContainer" {
+      image      = "\${docker_image.nginxImage.repo_digest}"
+      name       = "nginx-python-cdktf"
+      privileged = "\${docker_image.nginxImage.keep_locally}"
+      ports {
+        external = 8000
+        internal = 80
       }
     }
-  },
-  "terraform": {
-    "backend": {
-      "local": {
-        "path": "terraform.tfstate"
-      }
-    },
-    "required_providers": {
-      "docker": {
-        "source": "kreuzwerker/docker",
-        "version": "2.16.0"
-      }
-    }
-  }
-}"
+
+    output "containerCapAdd" {
+      value = "\${tolist(docker_container.nginxContainer.capabilities[0].add)}"
+    }"
 `;
