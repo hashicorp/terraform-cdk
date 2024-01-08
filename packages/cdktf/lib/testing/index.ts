@@ -27,6 +27,7 @@ export interface TestingAppConfig {
   readonly stubVersion?: boolean;
   readonly enableFutureFlags?: boolean;
   readonly fakeCdktfJsonPath?: boolean;
+  readonly context?: { [key: string]: any };
 }
 
 const DefaultTestingAppConfig: TestingAppConfig = {
@@ -55,6 +56,7 @@ export class Testing {
     const app = new App({
       outdir: appConfig.outdir,
       stackTraces: appConfig.stackTraces,
+      context: options.context,
     });
 
     if (appConfig.stubVersion) {
@@ -78,7 +80,7 @@ export class Testing {
 
   public static fakeCdktfJsonPath(app: App): App {
     app.node.setContext("cdktfJsonPath", `${process.cwd()}/cdktf.json`);
-    app.node.setContext("cdktfRelativeModules", []);
+    app.node.setContext("cdktfRelativeModules", ["./"]);
     return app;
   }
 

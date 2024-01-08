@@ -4,7 +4,10 @@ import { Testing, TerraformStack, TerraformHclModule } from "../lib";
 import { TestModule, TestProvider } from "./helper";
 
 test("minimal configuration", () => {
-  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const app = Testing.app({
+    fakeCdktfJsonPath: true,
+    context: { cdktfStaticModuleAssetHash: "hash" },
+  });
   const stack = new TerraformStack(app, "test");
 
   new TestModule(stack, "test", {
@@ -14,7 +17,10 @@ test("minimal configuration", () => {
 });
 
 test("simple provider", () => {
-  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const app = Testing.app({
+    fakeCdktfJsonPath: true,
+    context: { cdktfStaticModuleAssetHash: "hash" },
+  });
   const stack = new TerraformStack(app, "test");
 
   const provider = new TestProvider(stack, "provider", {
@@ -30,7 +36,10 @@ test("simple provider", () => {
 });
 
 test("depends on", () => {
-  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const app = Testing.app({
+    fakeCdktfJsonPath: true,
+    context: { cdktfStaticModuleAssetHash: "hash" },
+  });
   const stack = new TerraformStack(app, "test");
 
   const module1 = new TerraformHclModule(stack, "test_1", {
