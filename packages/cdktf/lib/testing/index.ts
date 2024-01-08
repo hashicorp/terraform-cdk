@@ -16,7 +16,6 @@ import {
   getToHaveProviderWithProperties,
   toBeValidTerraform,
 } from "./matchers";
-import { jsonToHcl } from "../hcl/json-to-hcl";
 
 export interface IScopeCallback {
   (scope: Construct): void;
@@ -140,15 +139,19 @@ export class Testing {
   /**
    * Returns the Terraform synthesized JSON.
    */
-  public static synthHcl(stack: TerraformStack, runValidations = false) {
+  public static synthHcl(
+    stack: TerraformStack,
+    runValidations = false,
+    returnMetadata = false
+  ) {
     invokeAspects(stack);
     if (runValidations) {
       stack.runAllValidations();
     }
 
-    const tfConfig = stack.toTerraform();
+    const config = stack.toHclTerraform();
 
-    const config = jsonToHcl(tfConfig);
+    if (returnMetadata) return config.metadata;
 
     return config.hcl;
   }

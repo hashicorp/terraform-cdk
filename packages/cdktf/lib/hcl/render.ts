@@ -2,6 +2,7 @@
  * Copyright (c) HashiCorp, Inc.
  * SPDX-License-Identifier: MPL-2.0
  */
+import { Tokenization } from "../tokens/token";
 
 /**
  *
@@ -33,6 +34,53 @@ function renderString(str: string): string {
   if (lines.length === 1) return `"${escapeQuotes(str)}"`;
 
   return `<<EOF\n${lines.map((s) => escapeQuotes(s)).join("\n")}\nEOF`;
+}
+
+export function cleanForMetadata(block: any): any {
+  const res: { [name: string]: any } = {};
+
+  if (typeof block !== "object" && !Array.isArray(block)) {
+    return block;
+  }
+
+  if (Array.isArray(block)) {
+    return block.map((i) => cleanForMetadata(i));
+  }
+
+  const keys = Object.keys(block);
+
+  if (keys.includes("value")) {
+    return cleanForMetadata(block.value);
+  }
+
+  for (const key of keys) {
+    const value = block[key];
+    if (typeof value === "object" && value != null && !Array.isArray(value)) {
+      // if the value is a resolvable we don't want to recurse into it
+      if (Tokenization.isResolvable(value)) {
+        res[key] = {};
+        continue;
+      }
+
+      res[key] = cleanForMetadata(value);
+      continue;
+    } else if (
+      typeof value === "object" &&
+      value != null &&
+      Array.isArray(value)
+    ) {
+      if (Array.isArray(res[key])) {
+        res[key] = [...res[key], ...value];
+      } else {
+        res[key] = value;
+      }
+    } else if (value === undefined) {
+      delete res[key];
+    } else {
+      res[key] = value;
+    }
+  }
+  return res;
 }
 
 /**
@@ -482,7 +530,7 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
   return `${jsonExpression}`;
 }
 
-/**
+/*e
  *
  */
 export function renderSimpleAttributes(attributes: any): string {
