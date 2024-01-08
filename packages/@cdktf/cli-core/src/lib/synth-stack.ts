@@ -120,13 +120,7 @@ might fail while synthesizing with an out of memory error.`);
     const currentContext = process.env[CONTEXT_ENV]
       ? JSON.parse(process.env.CDKTF_CONTEXT_JSON)
       : {};
-    const relativeModules = CdktfConfig.read().terraformModules.filter(
-      (mod) => {
-        return typeof mod === "string"
-          ? mod.startsWith("./") || mod.startsWith("../")
-          : mod.source.startsWith("./") || mod.source.startsWith("../");
-      }
-    );
+    const relativeModules = getRelativeTerraformModules();
 
     try {
       await shell(command, [], {
@@ -263,4 +257,20 @@ Command output on stdout:
   public static async synthErrorTelemetry(synthOrigin?: SynthOrigin) {
     await sendTelemetry("synth", { error: true, synthOrigin });
   }
+}
+
+function getRelativeTerraformModules() {
+  let cfg;
+
+  try {
+    cfg = CdktfConfig.read();
+  } catch {
+    return [];
+  }
+
+  return cfg.terraformModules.filter((mod) => {
+    return typeof mod === "string"
+      ? mod.startsWith("./") || mod.startsWith("../")
+      : mod.source.startsWith("./") || mod.source.startsWith("../");
+  });
 }
