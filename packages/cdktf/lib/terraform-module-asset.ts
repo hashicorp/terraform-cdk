@@ -124,7 +124,8 @@ export function findLowestCommonPath(paths: string[]): string | undefined {
     absolutePathPrefix = path.dirname(absolutePathPrefix);
   }
 
-  return path.relative(process.cwd(), absolutePathPrefix);
+  const relativePath = path.relative(process.cwd(), absolutePathPrefix);
+  return relativePath === "" ? "." : relativePath;
 }
 
 /**
