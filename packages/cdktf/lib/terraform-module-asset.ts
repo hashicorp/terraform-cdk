@@ -34,7 +34,7 @@ export class TerraformModuleAsset extends Construct {
 
     if (!relativeModules) {
       throw new Error(
-        "You are trying to use a local module with a relative path, but the cdktfRelativeModules context is not set. You either need to supply it in the Apps constructor via the context option or invoke the synthesis through the CLI. We need this information so that assets with relative paths are properly handled when used with assets, so you can also set the skipAssetCreationFromLocalModules to true on your relative modules."
+        "You are trying to use a local module with a relative path, but the cdktfRelativeModules context is not set. It is expected to be an array of strings containing the relative paths to. You either need to supply it in the Apps constructor via the context option or invoke the synthesis through the CLI. We need this information so that assets with relative paths are properly handled when used with assets, so you can also set the skipAssetCreationFromLocalModules to true on your relative modules."
       );
     }
 

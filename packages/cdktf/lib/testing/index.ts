@@ -78,6 +78,7 @@ export class Testing {
 
   public static fakeCdktfJsonPath(app: App): App {
     app.node.setContext("cdktfJsonPath", `${process.cwd()}/cdktf.json`);
+    app.node.setContext("cdktfRelativeModules", []);
     return app;
   }
 
