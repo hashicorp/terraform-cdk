@@ -264,7 +264,8 @@ function getRelativeTerraformModules() {
 
   try {
     cfg = CdktfConfig.read();
-  } catch {
+  } catch (e) {
+    logger.trace("Could not read cdktf.json: " + e);
     return [];
   }
 
