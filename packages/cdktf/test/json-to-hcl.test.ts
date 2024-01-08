@@ -948,7 +948,7 @@ test("collection type", () => {
   `);
 });
 
-test.only("metadata output", () => {
+test("metadata output", () => {
   const app = Testing.app();
 
   const stack = new TerraformStack(app, "test");
