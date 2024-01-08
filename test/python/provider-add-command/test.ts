@@ -48,6 +48,7 @@ describe("provider add command", () => {
         await driver.setupPythonProject({
           init: { additionalOptions: "--cdktf-version 0.10.4" },
         });
+        // Supress warning that Pipenv is running within a virtual environment
         driver.setEnv("PIPENV_VERBOSITY", "-1");
         driver.removeFile("Pipfile");
 
