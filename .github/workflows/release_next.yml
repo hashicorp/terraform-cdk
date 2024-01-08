@@ -185,6 +185,7 @@ jobs:
       - name: Release
         run: |
           python3 -m venv .venv
+          echo "include-system-site-packages=true" >> .venv/pyvenv.cfg
           . .venv/bin/activate
           npx -p publib publib-pypi
         env:
