@@ -9,6 +9,7 @@ import * as os from "os";
 import * as fs from "fs";
 import { TerraformStack } from "./terraform-stack";
 import { AssetType, TerraformAsset } from "./terraform-asset";
+import { hashPath } from "./private/fs";
 
 const TERRAFORM_MODULE_ASSET_SYMBOL = Symbol.for("cdktf.TerraformModuleAsset");
 
@@ -31,6 +32,9 @@ export class TerraformModuleAsset extends Construct {
 
     const relativeModules: Array<string | { source: string }> | undefined =
       this.node.tryGetContext("cdktfRelativeModules");
+    const staticModuleAssetHash: string | undefined = this.node.tryGetContext(
+      "cdktfStaticModuleAssetHash"
+    );
 
     if (!relativeModules) {
       throw new Error(
@@ -65,6 +69,7 @@ export class TerraformModuleAsset extends Construct {
     this.asset = new TerraformAsset(this, "asset", {
       path: tmpDir,
       type: AssetType.DIRECTORY,
+      assetHash: staticModuleAssetHash ?? hashPath(relativeAssetPath),
     });
   }
 

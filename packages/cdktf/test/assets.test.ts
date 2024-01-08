@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { App, TerraformHclModule, TerraformStack, Testing } from "../lib";
 import * as path from "path";
+import { TerraformModuleAsset } from "../lib/terraform-module-asset";
 
 describe("createAssetsFromLocalModules", () => {
   test("remote source without skipAssetCreationFromLocalModules", () => {
@@ -74,13 +75,14 @@ describe("createAssetsFromLocalModules", () => {
 
   test("local source without skipAssetCreationFromLocalModules", () => {
     const localSource = "../";
-    const assetRegex =
-      /^.\/assets\/local-module-moduleOptionsNotExists\/[a-zA-z\d]+$/;
 
     const app = Testing.stubVersion(
       new App({
         stackTraces: false,
-        context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
+        context: {
+          cdktfJsonPath: path.resolve(__dirname, "fixtures/app"),
+          cdktfRelativeModules: [localSource],
+        },
       })
     );
     const stack = new TerraformStack(app, "MyStack");
@@ -93,18 +95,23 @@ describe("createAssetsFromLocalModules", () => {
       }
     );
 
-    expect(moduleOptionsNotExists.source).toMatch(assetRegex);
+    const terraformModuleAssetSource =
+      TerraformModuleAsset.of(stack).getAssetPathForModule(localSource);
+
+    expect(moduleOptionsNotExists.source).toEqual(terraformModuleAssetSource);
   });
 
   test("local source with skipAssetCreationFromLocalModules set to false", () => {
     const localSource = "../";
-    const assetRegex =
-      /^.\/assets\/local-module-moduleOptionsTrue\/[a-zA-z\d]+$/;
+    const cdktfJsonPath = path.resolve(__dirname, "fixtures/app");
 
     const app = Testing.stubVersion(
       new App({
         stackTraces: false,
-        context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
+        context: {
+          cdktfJsonPath,
+          cdktfRelativeModules: [localSource],
+        },
       })
     );
     const stack = new TerraformStack(app, "MyStack");
@@ -118,7 +125,10 @@ describe("createAssetsFromLocalModules", () => {
       }
     );
 
-    expect(moduleOptionsTrue.source).toMatch(assetRegex);
+    const terraformModuleAssetSource =
+      TerraformModuleAsset.of(stack).getAssetPathForModule(localSource);
+
+    expect(moduleOptionsTrue.source).toEqual(terraformModuleAssetSource);
   });
 
   test("local source with skipAssetCreationFromLocalModules set to true", () => {
