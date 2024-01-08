@@ -182,12 +182,11 @@ jobs:
           path: dist
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
-      - name: setup and activate virtual environment
+      - name: Release
         run: |
           python3 -m venv .venv
-          source .venv/bin/activate
-      - name: Release
-        run: npx -p publib publib-pypi
+          . .venv/bin/activate
+          npx -p publib publib-pypi
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
