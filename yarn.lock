@@ -2346,6 +2346,13 @@
   dependencies:
     undici-types "~5.26.4"
 
+"@types/node@18.19.5":
+  version "18.19.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.5.tgz#4b23a9ab8ab7dafebb57bcbaf5c3d8d04f9d8cac"
+  integrity sha512-22MG6T02Hos2JWfa1o5jsIByn+bc5iOt1IS4xyg6OG68Bu+wMonVZzdrgCw693++rpLE9RUT/Bx15BeDzO0j+g==
+  dependencies:
+    undici-types "~5.26.4"
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.4"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.4.tgz#56e2cc26c397c038fab0e3a917a12d5c5909e901"
@@ -7961,10 +7968,10 @@ jsesc@^2.5.1:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-2.5.2.tgz#80564d2e483dacf6e8ef209650a67df3f0c283a4"
   integrity sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==
 
-jsii-docgen@10.3.3:
-  version "10.3.3"
-  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-10.3.3.tgz#69c6e5e9510ea835b6372e03e236f8ebe66574dc"
-  integrity sha512-BG52Tq8+t6w8vTYHszC88L1iJiiNJDyTME5V+ZTVkm2U+EVkMLk3Cm3ynL/ZNj7+0f32sQPqwKGJJOVaasaZMw==
+jsii-docgen@10.3.4:
+  version "10.3.4"
+  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-10.3.4.tgz#c90cb3919ce62cc03032b8f14d82809c6279ed3c"
+  integrity sha512-v8bXr5BoNC/yKSX8K9JxoRf4L0U0R0C8eAd046N8hcIdaDT8Fm8feKxIgC7Q8QQJ9IiRm0UGghnl2cIvnzNaPw==
   dependencies:
     "@jsii/spec" "^1.93.0"
     case "^1.6.3"
@@ -8077,6 +8084,25 @@ jsii@5.3.2, jsii@~5.3.0:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.3.2.tgz#3dc65c39dea3fb4e2f77fd7b48be5d3fef585962"
   integrity sha512-wwwp47+6orlMXpny4dlTOP6776cBo2WFDgxZyGjQaV4VWNydsJiTcinuJzCj1XVZicBhpAnkuBMr89+2aT8Dcg==
+  dependencies:
+    "@jsii/check-node" "1.93.0"
+    "@jsii/spec" "^1.93.0"
+    case "^1.6.3"
+    chalk "^4"
+    downlevel-dts "^0.11.0"
+    fast-deep-equal "^3.1.3"
+    log4js "^6.9.1"
+    semver "^7.5.4"
+    semver-intersect "^1.5.0"
+    sort-json "^2.0.1"
+    spdx-license-list "^6.8.0"
+    typescript "~5.3"
+    yargs "^17.7.2"
+
+jsii@5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.3.3.tgz#49e12615543c9e0a6cbd2ed82dae347eb993c10c"
+  integrity sha512-M+kAUKJiLXXJXKYmBB0Q2n1aGoeNHyzMCLAx7402JqXSLxH4JGh6kOf4EH3U3LmQKzv2kxOHMRCg3Ssh82KtrQ==
   dependencies:
     "@jsii/check-node" "1.93.0"
     "@jsii/spec" "^1.93.0"
