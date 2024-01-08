@@ -85,7 +85,7 @@ jobs:
         run: '[ -s ./upgrade.patch ] && git apply ./upgrade.patch || echo "Empty patch. Skipping."'
 
       - name: Remove patch file
-        run: '[ -s ./upgrade.patch ] && rm ./upgrade.patch || echo "Empty patch. Skipping."'
+        run: rm -f ./upgrade.patch
 
       - name: Make Pull Request
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
