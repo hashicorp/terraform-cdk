@@ -36,6 +36,9 @@ function renderString(str: string): string {
   return `<<EOF\n${lines.map((s) => escapeQuotes(s)).join("\n")}\nEOF`;
 }
 
+/**
+ *
+ */
 export function cleanForMetadata(block: any): any {
   const res: { [name: string]: any } = {};
 
@@ -530,7 +533,7 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
   return `${jsonExpression}`;
 }
 
-/*e
+/**
  *
  */
 export function renderSimpleAttributes(attributes: any): string {
