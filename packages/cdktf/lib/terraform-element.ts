@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { ok } from "assert";
 import { Construct } from "constructs";
-import { Token } from ".";
+import { Token } from "./tokens";
 import { TerraformStack } from "./terraform-stack";
 import { ref } from "./tfExpression";
 import { unresolvedTokenInConstructId } from "./errors";
