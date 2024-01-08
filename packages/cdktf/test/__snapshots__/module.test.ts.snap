@@ -4,7 +4,7 @@ exports[`depends on 1`] = `
 "{
   "module": {
     "test_1": {
-      "source": "assets/__cdktf_module_asset_26CE565C/hash/test/fixtures/hcl-module"
+      "source": "./assets/__cdktf_module_asset_26CE565C/hash/test/fixtures/hcl-module"
     },
     "test_2": {
       "depends_on": [
