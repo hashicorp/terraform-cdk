@@ -221,6 +221,7 @@ For local modules, use the object format.
 ```
 
 For performance reasons, we don't automatically generate bindings for submodules. To generate bindings for submodules, specify the module source as `terraform-aws-modules/vpc/aws//submodules/vpc-endpoints`, where after the `//` is the path to the submodule in the modules repository. Refer to [the Terraform source specification](/terraform/language/modules/sources) for more details.
+When you are using local modules that reference other local modules you need to add all referenced modules to the `terraformModules` array.
 
 ### Generate Module Bindings
 
