@@ -100,7 +100,7 @@ export class TerraformModuleAsset extends Construct {
   }
 
   public getAssetPathForModule(source: string): string {
-    return path.join(this.asset.path, this.relativeModulePath(source));
+    return `./${path.join(this.asset.path, this.relativeModulePath(source))}`;
   }
 }
 
