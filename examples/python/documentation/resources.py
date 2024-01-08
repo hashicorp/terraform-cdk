@@ -88,7 +88,7 @@ class EscapeHatch(TerraformStack):
             attribute=[{"name": "id", "type": "S"}]
         )
 
-        table.add_override("provisioner.local-exec.command", [
+        table.add_override("provisioner", [
             {
                 "local-exec": {
                     "command": f"aws dynamodb create-backup --table-name {tableName} --backup-name {tableName}-backup"
