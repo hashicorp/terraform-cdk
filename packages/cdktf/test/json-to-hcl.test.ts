@@ -725,7 +725,10 @@ it("supports local-exec provisioner", () => {
 });
 
 test("pass variables", () => {
-  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const app = Testing.app({
+    fakeCdktfJsonPath: true,
+    context: { cdktfStaticModuleAssetHash: "hash" },
+  });
   const stack = new TerraformStack(app, "test");
 
   new TerraformHclModule(stack, "test", {
@@ -745,13 +748,16 @@ test("pass variables", () => {
     "id1",
     "id2",
     ]
-    source = "./assets/__cdktf_module_asset_26CE565C/D4313920A5F9AC78D92EBCAE765B463D/test/fixtures/hcl-module"
+    source = "./assets/__cdktf_module_asset_26CE565C/hash/test/fixtures/hcl-module"
     }"
   `);
 });
 
 test("simple provider", () => {
-  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const app = Testing.app({
+    fakeCdktfJsonPath: true,
+    context: { cdktfStaticModuleAssetHash: "hash" },
+  });
   const stack = new TerraformStack(app, "test");
 
   const provider = new TestProvider(stack, "provider", {
@@ -779,7 +785,7 @@ test("simple provider", () => {
     alias = "provider1"
     }
     module "test" {
-    source = "./assets/__cdktf_module_asset_26CE565C/D4313920A5F9AC78D92EBCAE765B463D/test/fixtures/hcl-module"
+    source = "./assets/__cdktf_module_asset_26CE565C/hash/test/fixtures/hcl-module"
     providers = {
     test = "test.provider1"
     }
@@ -788,7 +794,10 @@ test("simple provider", () => {
 });
 
 test("multiple providers", () => {
-  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const app = Testing.app({
+    fakeCdktfJsonPath: true,
+    context: { cdktfStaticModuleAssetHash: "hash" },
+  });
   const stack = new TerraformStack(app, "test");
 
   const provider1 = new TestProvider(stack, "provider1", {
@@ -826,7 +835,7 @@ test("multiple providers", () => {
     access_key = "key"
     }
     module "test" {
-    source = "./assets/__cdktf_module_asset_26CE565C/D4313920A5F9AC78D92EBCAE765B463D/test/fixtures/hcl-module"
+    source = "./assets/__cdktf_module_asset_26CE565C/hash/test/fixtures/hcl-module"
     providers = {
     test = "test"
     differentType = "differentType"
