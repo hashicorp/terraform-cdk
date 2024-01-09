@@ -1,5 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`python terraform functions test synth synth generates HCL 1`] = `
+"terraform {
+  required_providers {
+    null = {
+      version = "3.1.1"
+      source  = "hashicorp/null"
+    }
+  }
+  backend "local" {
+    path = "terraform.tfstate"
+  }
+  backend "remote" {
+    organization = "test"
+    workspaces = {
+      name = "test"
+    }
+  }
+
+
+}
+
+provider "null" {
+}
+resource "null_resource" "null-resource" {
+  triggers = {
+    cluster_instance_ids = "foo"
+  }
+}
+
+output "computed" {
+  value = "\${element(merge({ "id" = null_resource.null-resource.id }, { "value" = "123" }), 1)}"
+}"
+`;
+
 exports[`python terraform functions test synth synth generates JSON 1`] = `
 "{
   "//": {
