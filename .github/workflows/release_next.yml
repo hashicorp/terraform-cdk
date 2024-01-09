@@ -187,7 +187,41 @@ jobs:
           python3 -m venv .venv
           echo "include-system-site-packages=true" >> .venv/pyvenv.cfg
           . .venv/bin/activate
-          npx -p publib publib-pypi
+
+          # Copied from https://github.com/cdklabs/publib/blob/main/bin/publib-pypi
+          set -euo pipefail
+          ###
+          #
+          # Publishes all *.whl files to PyPI
+          #
+          # Usage: ./publib-pypi [DIR]
+          #
+          # DIR is where *.whl files are looked up (default is "dist/python")
+          #
+          # TWINE_USERNAME (required)
+          # TWINE_PASSWORD (required)
+          #
+          ###
+
+          cd "${1:-"dist/python"}"
+
+          [ -z "${TWINE_USERNAME:-}" ] && {
+            echo "Missing TWINE_USERNAME"
+            exit 1
+          }
+
+          [ -z "${TWINE_PASSWORD:-}" ] && {
+            echo "Missing TWINE_PASSWORD"
+            exit 1
+          }
+
+          if [ -z "$(ls *.whl)" ]; then
+            echo "cannot find any .whl files in $PWD"
+            exit 1
+          fi
+
+          python3 -m pip install --upgrade twine # Removing --user here is the only change from publib-pypi
+          python3 -m twine upload --verbose --skip-existing *
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
