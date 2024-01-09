@@ -16,7 +16,21 @@ async function fetchMetadata() {
     `${TERRAFORM_BINARY_NAME} metadata functions -json`
   ).toString();
   const out = path.join(__dirname, FUNCTIONS_METADATA_FILE);
-  await fs.writeFile(out, prettier.format(json, { parser: "json" }));
+
+  const fixed = fixProductRelativeLinks(json);
+
+  await fs.writeFile(out, prettier.format(fixed, { parser: "json" }));
+}
+
+/**
+ * There are some relative links in the functions definitions that have the format
+ * /language/xy
+ * whereas the developer portal expects them to be
+ * /terraform/language/xy
+ * Until this is fixed in the terraform codebase, we need to fix this manually here.
+ */
+function fixProductRelativeLinks(content: string): string {
+  return content.replace(/\(\/language\//g, "(/terraform/language/");
 }
 
 fetchMetadata();
