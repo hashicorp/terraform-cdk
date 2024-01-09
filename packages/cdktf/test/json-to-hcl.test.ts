@@ -745,7 +745,7 @@ test("pass variables", () => {
     "id1",
     "id2",
     ]
-    source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
+    source = "./assets/__cdktf_module_asset_26CE565C/D4313920A5F9AC78D92EBCAE765B463D/test/fixtures/hcl-module"
     }"
   `);
 });
@@ -779,7 +779,7 @@ test("simple provider", () => {
     alias = "provider1"
     }
     module "test" {
-    source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
+    source = "./assets/__cdktf_module_asset_26CE565C/D4313920A5F9AC78D92EBCAE765B463D/test/fixtures/hcl-module"
     providers = {
     test = "test.provider1"
     }
@@ -826,7 +826,7 @@ test("multiple providers", () => {
     access_key = "key"
     }
     module "test" {
-    source = "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
+    source = "./assets/__cdktf_module_asset_26CE565C/D4313920A5F9AC78D92EBCAE765B463D/test/fixtures/hcl-module"
     providers = {
     test = "test"
     differentType = "differentType"
