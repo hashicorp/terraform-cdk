@@ -104,7 +104,7 @@ describe("full integration test", () => {
           "test",
           "sets",
         ]
-        source = "./assets/local-module-local-module/1A068C39166AE65C43D174678BD00022"
+        source = "./assets/__cdktf_module_asset_26CE565C/1A068C39166AE65C43D174678BD00022"
       }
       module "gcloud" {
         source  = "terraform-google-modules/gcloud/google"
