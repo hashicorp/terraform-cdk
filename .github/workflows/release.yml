@@ -218,7 +218,6 @@ jobs:
           . .venv/bin/activate
 
           # Copied from https://github.com/cdklabs/publib/blob/main/bin/publib-pypi
-          set -euo pipefail
           ###
           #
           # Publishes all *.whl files to PyPI
