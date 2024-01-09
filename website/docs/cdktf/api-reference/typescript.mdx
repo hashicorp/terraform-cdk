@@ -24590,13 +24590,24 @@ const testingAppConfig: TestingAppConfig = { ... }
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                        | **Type**             | **Description**   |
-| ----------------------------------------------------------------------------------------------- | -------------------- | ----------------- |
-| <code><a href="#cdktf.TestingAppConfig.property.enableFutureFlags">enableFutureFlags</a></code> | <code>boolean</code> | _No description._ |
-| <code><a href="#cdktf.TestingAppConfig.property.fakeCdktfJsonPath">fakeCdktfJsonPath</a></code> | <code>boolean</code> | _No description._ |
-| <code><a href="#cdktf.TestingAppConfig.property.outdir">outdir</a></code>                       | <code>string</code>  | _No description._ |
-| <code><a href="#cdktf.TestingAppConfig.property.stackTraces">stackTraces</a></code>             | <code>boolean</code> | _No description._ |
-| <code><a href="#cdktf.TestingAppConfig.property.stubVersion">stubVersion</a></code>             | <code>boolean</code> | _No description._ |
+| **Name**                                                                                        | **Type**                            | **Description**   |
+| ----------------------------------------------------------------------------------------------- | ----------------------------------- | ----------------- |
+| <code><a href="#cdktf.TestingAppConfig.property.context">context</a></code>                     | <code>{[ key: string ]: any}</code> | _No description._ |
+| <code><a href="#cdktf.TestingAppConfig.property.enableFutureFlags">enableFutureFlags</a></code> | <code>boolean</code>                | _No description._ |
+| <code><a href="#cdktf.TestingAppConfig.property.fakeCdktfJsonPath">fakeCdktfJsonPath</a></code> | <code>boolean</code>                | _No description._ |
+| <code><a href="#cdktf.TestingAppConfig.property.outdir">outdir</a></code>                       | <code>string</code>                 | _No description._ |
+| <code><a href="#cdktf.TestingAppConfig.property.stackTraces">stackTraces</a></code>             | <code>boolean</code>                | _No description._ |
+| <code><a href="#cdktf.TestingAppConfig.property.stubVersion">stubVersion</a></code>             | <code>boolean</code>                | _No description._ |
+
+---
+
+##### `context`<sup>Optional</sup> <a name="context" id="cdktf.TestingAppConfig.property.context"></a>
+
+```typescript
+public readonly context: {[ key: string ]: any};
+```
+
+- _Type:_ {[ key: string ]: any}
 
 ---
 
@@ -27749,7 +27760,7 @@ new Fn();
 | <code><a href="#cdktf.Fn.replace">replace</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/replace replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.                                                                                                                                                               |
 | <code><a href="#cdktf.Fn.reverse">reverse</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/reverse reverse} takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order.                                                                                                                                        |
 | <code><a href="#cdktf.Fn.rsadecrypt">rsadecrypt</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/rsadecrypt rsadecrypt} decrypts an RSA-encrypted ciphertext, returning the corresponding cleartext.                                                                                                                                                                                               |
-| <code><a href="#cdktf.Fn.sensitive">sensitive</a></code>               | {@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/language/values/variables#suppressing-values-in-cli-output).                                            |
+| <code><a href="#cdktf.Fn.sensitive">sensitive</a></code>               | {@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/terraform/language/values/variables#suppressing-values-in-cli-output).                                  |
 | <code><a href="#cdktf.Fn.setintersection">setintersection</a></code>   | The {@link https://developer.hashicorp.com/terraform/language/functions/setintersection setintersection} function takes multiple sets and produces a single set containing only the elements that all of the given sets have in common. In other words, it computes the [intersection](<https://en.wikipedia.org/wiki/Intersection_(set_theory)>) of the sets.        |
 | <code><a href="#cdktf.Fn.setproduct">setproduct</a></code>             | The {@link https://developer.hashicorp.com/terraform/language/functions/setproduct setproduct} function finds all of the possible combinations of elements from all of the given sets by computing the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product).                                                                                          |
 | <code><a href="#cdktf.Fn.setsubtract">setsubtract</a></code>           | The {@link https://developer.hashicorp.com/terraform/language/functions/setsubtract setsubtract} function returns a new set containing the elements from the first set that are not present in the second set. In other words, it computes the [relative complement](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>) of the second set.  |
@@ -29021,7 +29032,7 @@ import { Fn } from 'cdktf'
 Fn.sensitive(value: any)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/language/values/variables#suppressing-values-in-cli-output).
+{@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/terraform/language/values/variables#suppressing-values-in-cli-output).
 
 ###### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.sensitive.parameter.value"></a>
 
@@ -30079,7 +30090,7 @@ new FnGenerated();
 | <code><a href="#cdktf.FnGenerated.replace">replace</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/replace replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.                                                                                                                                                               |
 | <code><a href="#cdktf.FnGenerated.reverse">reverse</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/reverse reverse} takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order.                                                                                                                                        |
 | <code><a href="#cdktf.FnGenerated.rsadecrypt">rsadecrypt</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/rsadecrypt rsadecrypt} decrypts an RSA-encrypted ciphertext, returning the corresponding cleartext.                                                                                                                                                                                               |
-| <code><a href="#cdktf.FnGenerated.sensitive">sensitive</a></code>               | {@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/language/values/variables#suppressing-values-in-cli-output).                                            |
+| <code><a href="#cdktf.FnGenerated.sensitive">sensitive</a></code>               | {@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/terraform/language/values/variables#suppressing-values-in-cli-output).                                  |
 | <code><a href="#cdktf.FnGenerated.setintersection">setintersection</a></code>   | The {@link https://developer.hashicorp.com/terraform/language/functions/setintersection setintersection} function takes multiple sets and produces a single set containing only the elements that all of the given sets have in common. In other words, it computes the [intersection](<https://en.wikipedia.org/wiki/Intersection_(set_theory)>) of the sets.        |
 | <code><a href="#cdktf.FnGenerated.setproduct">setproduct</a></code>             | The {@link https://developer.hashicorp.com/terraform/language/functions/setproduct setproduct} function finds all of the possible combinations of elements from all of the given sets by computing the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product).                                                                                          |
 | <code><a href="#cdktf.FnGenerated.setsubtract">setsubtract</a></code>           | The {@link https://developer.hashicorp.com/terraform/language/functions/setsubtract setsubtract} function returns a new set containing the elements from the first set that are not present in the second set. In other words, it computes the [relative complement](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>) of the second set.  |
@@ -31344,7 +31355,7 @@ import { FnGenerated } from 'cdktf'
 FnGenerated.sensitive(value: any)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/language/values/variables#suppressing-values-in-cli-output).
+{@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/terraform/language/values/variables#suppressing-values-in-cli-output).
 
 ###### `value`<sup>Required</sup> <a name="value" id="cdktf.FnGenerated.sensitive.parameter.value"></a>
 
@@ -33134,18 +33145,18 @@ public readonly fqn: string;
 ```typescript
 import { MapTerraformIterator } from 'cdktf'
 
-new MapTerraformIterator(map: StringMap | NumberMap | BooleanMap | AnyMap | ComplexMap | {[ key: string ]: any} | {[ key: string ]: string} | {[ key: string ]: number})
+new MapTerraformIterator(map: AnyMap | StringMap | NumberMap | BooleanMap | ComplexMap | {[ key: string ]: any} | {[ key: string ]: string} | {[ key: string ]: number})
 ```
 
 | **Name**                                                                             | **Type**                                                                                                                                                                                                                                                                                                                | **Description**   |
 | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.MapTerraformIterator.Initializer.parameter.map">map</a></code> | <code><a href="#cdktf.StringMap">StringMap</a> \| <a href="#cdktf.NumberMap">NumberMap</a> \| <a href="#cdktf.BooleanMap">BooleanMap</a> \| <a href="#cdktf.AnyMap">AnyMap</a> \| <a href="#cdktf.ComplexMap">ComplexMap</a> \| {[ key: string ]: any} \| {[ key: string ]: string} \| {[ key: string ]: number}</code> | _No description._ |
+| <code><a href="#cdktf.MapTerraformIterator.Initializer.parameter.map">map</a></code> | <code><a href="#cdktf.AnyMap">AnyMap</a> \| <a href="#cdktf.StringMap">StringMap</a> \| <a href="#cdktf.NumberMap">NumberMap</a> \| <a href="#cdktf.BooleanMap">BooleanMap</a> \| <a href="#cdktf.ComplexMap">ComplexMap</a> \| {[ key: string ]: any} \| {[ key: string ]: string} \| {[ key: string ]: number}</code> | _No description._ |
 
 ---
 
 ##### `map`<sup>Required</sup> <a name="map" id="cdktf.MapTerraformIterator.Initializer.parameter.map"></a>
 
-- _Type:_ <a href="#cdktf.StringMap">StringMap</a> | <a href="#cdktf.NumberMap">NumberMap</a> | <a href="#cdktf.BooleanMap">BooleanMap</a> | <a href="#cdktf.AnyMap">AnyMap</a> | <a href="#cdktf.ComplexMap">ComplexMap</a> | {[ key: string ]: any} | {[ key: string ]: string} | {[ key: string ]: number}
+- _Type:_ <a href="#cdktf.AnyMap">AnyMap</a> | <a href="#cdktf.StringMap">StringMap</a> | <a href="#cdktf.NumberMap">NumberMap</a> | <a href="#cdktf.BooleanMap">BooleanMap</a> | <a href="#cdktf.ComplexMap">ComplexMap</a> | {[ key: string ]: any} | {[ key: string ]: string} | {[ key: string ]: number}
 
 ---
 
