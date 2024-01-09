@@ -211,45 +211,17 @@ jobs:
           path: dist
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
+      # We use twine directly for publishing instead of publib-pypi
+      # Publib-pypi does the same twine command (https://github.com/cdklabs/publib/blob/main/bin/publib-pypi)
+      # but also tries to install twine which is already globally
+      # available in the docker image we use. It upgrades twine,
+      # introducing risks of breaking changes. (Though not likely, twine is ancient)
+      # We can not keep the install since the update to python 3.11 in the docker image
+      # forbids global installs since the global pip is system managed.
+      # Running this install in a virtualenv would be possible but would require
+      # changes for the publib-pypi script. This is the easiest solution for now.
       - name: Release
-        run: |
-          python3 -m venv .venv
-          echo "include-system-site-packages=true" >> .venv/pyvenv.cfg
-          . .venv/bin/activate
-
-          # Copied from https://github.com/cdklabs/publib/blob/main/bin/publib-pypi
-          ###
-          #
-          # Publishes all *.whl files to PyPI
-          #
-          # Usage: ./publib-pypi [DIR]
-          #
-          # DIR is where *.whl files are looked up (default is "dist/python")
-          #
-          # TWINE_USERNAME (required)
-          # TWINE_PASSWORD (required)
-          #
-          ###
-
-          cd "${1:-"dist/python"}"
-
-          [ -z "${TWINE_USERNAME:-}" ] && {
-            echo "Missing TWINE_USERNAME"
-            exit 1
-          }
-
-          [ -z "${TWINE_PASSWORD:-}" ] && {
-            echo "Missing TWINE_PASSWORD"
-            exit 1
-          }
-
-          if [ -z "$(ls *.whl)" ]; then
-            echo "cannot find any .whl files in $PWD"
-            exit 1
-          fi
-
-          python3 -m pip install --upgrade twine # Removing --user here is the only change from publib-pypi
-          python3 -m twine upload --verbose --skip-existing *
+        run: twine upload --verbose --skip-existing *
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
