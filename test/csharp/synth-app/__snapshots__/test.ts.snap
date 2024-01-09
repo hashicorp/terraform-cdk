@@ -11,7 +11,10 @@ exports[`csharp full integration test synth synth generates HCL 1`] = `
   backend "local" {
     path = "terraform.tfstate"
   }
+
+
 }
+
 provider "null" {
 }
 resource "null_resource" "null" {
