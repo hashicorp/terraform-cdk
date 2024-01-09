@@ -221,7 +221,9 @@ jobs:
       # Running this install in a virtualenv would be possible but would require
       # changes for the publib-pypi script. This is the easiest solution for now.
       - name: Release
-        run: twine upload --verbose --skip-existing *
+        run: |
+          cd dist/python
+          twine upload --verbose --skip-existing *
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
