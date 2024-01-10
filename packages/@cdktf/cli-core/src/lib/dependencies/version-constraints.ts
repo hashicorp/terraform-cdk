@@ -48,15 +48,25 @@ export function versionMatchesConstraint(
       case "~>": {
         // allows rightmost version component to increment
 
+        const parts = parsed.version.split(".");
+        const minorSpecified = parts.length === 2;
+        const majorIsZero = parts[0] === "0";
+
         // ~>2.0 which allows 2.1 and 2.1.1 needs special handling as
         // npm semver handles "~" differently for ~2.0 than for ~2 or ~2.1.0
         // So we need to use "^" (e.g. ^2.0) for this case
         // see: https://github.com/npm/node-semver/issues/11
-        const allowMinorAndPatchOnly = parsed.version.split(".").length === 2;
+        const allowMinorAndPatchOnly = minorSpecified;
 
-        const range = allowMinorAndPatchOnly
+        let range = allowMinorAndPatchOnly
           ? `^${parsed.version}`
           : `~${parsed.version}`;
+
+        // versions below 1.0 are treated a bit differently in NPM than in Terraform
+        // meaning that NPMs ^0.4 doesn't allow 0.55 while TFs ~>0.4 allows 0.55
+        if (majorIsZero && minorSpecified) {
+          range = `>=${parsed.version} <1.0.0`;
+        }
 
         return semver.satisfies(version, range);
       }
