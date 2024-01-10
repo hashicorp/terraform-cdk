@@ -25,24 +25,18 @@ jobs:
             fqn: "hashicorp/external"
           - repo: hashicorp/terraform-provider-http
             fqn: "hashicorp/http"
-            additionalProviderFqns: "hashicorp/random@~>3.5"
           - repo: hashicorp/terraform-provider-local
             fqn: "hashicorp/local"
-            additionalProviderFqns: "hashicorp/aws@~>5.12"
           - repo: hashicorp/terraform-provider-null
             fqn: "hashicorp/null"
-            additionalProviderFqns: "hashicorp/aws@~>5.12"
           - repo: hashicorp/terraform-provider-random
             fqn: "hashicorp/random"
-            additionalProviderFqns: "hashicorp/aws@~>5.12"
           - repo: hashicorp/terraform-provider-tfe
             fqn: "hashicorp/tfe"
           - repo: hashicorp/terraform-provider-time
             fqn: "hashicorp/time"
-            additionalProviderFqns: "hashicorp/aws@~>5.12"
           - repo: hashicorp/terraform-provider-tls
             fqn: "hashicorp/tls"
-            additionalProviderFqns: "hashicorp/aws@~>5.12"
     uses: ./.github/workflows/registry-docs-pr-based.yml
     secrets:
       # This token belongs to the team-tf-cdk github user. The user needs to have write permissions to the repository.
@@ -53,8 +47,7 @@ jobs:
       languages: "typescript,python"
       parallelFileConversions: 1
       maxRunners: 20
-      cdktfRegistryDocsVersion: "1.17.0"
-      additionalProviderFqns: ${{ matrix.provider.additionalProviderFqns }}
+      cdktfRegistryDocsVersion: "1.19.1"
 
   reportFailureToSlack:
     needs: cdktfDocs

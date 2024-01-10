@@ -15,11 +15,6 @@ on:
         description: "Provider FQN to convert, e.g. hashicorp/aws"
         required: true
         type: string
-      additionalProviderFqns:
-        description: "Additional provider FQNs that are required to convert because they are used in examples, e.g. 'hashicorp/azurerm,hashicorp/google'"
-        required: false
-        type: string
-        default: ""
       maxRunners:
         description: "Maximum number of parallel runners to use"
         required: false
@@ -58,7 +53,7 @@ on:
       cdktfRegistryDocsVersion:
         description: "Version of cdktf-registry-docs to use"
         required: false
-        default: "1.18.0"
+        default: "1.19.1"
         type: string
     secrets:
       GH_PR_TOKEN:
@@ -173,8 +168,7 @@ jobs:
       - name: Install cdktf-registry-docs
         run: npm install -g cdktf-registry-docs@${{ inputs.cdktfRegistryDocsVersion }}
 
-      - name: Run conversion without additional providers
-        if: inputs.additionalProviderFqns == ''
+      - name: Run conversion
         run: |
           cdktf-registry-docs convert \
             --files='${{ matrix.files }}' \
@@ -182,20 +176,6 @@ jobs:
             --parallel-file-conversions=${{ inputs.parallelFileConversions }} \
             --parallel-conversions-per-document=${{ inputs.parallelConversionsPerDocument }}\
             --provider-from-registry="${{ inputs.providerFqn }}" \
-            .
-        env:
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-
-      - name: Run conversion with additional providers
-        if: inputs.additionalProviderFqns != ''
-        run: |
-          cdktf-registry-docs convert \
-            --files='${{ matrix.files }}' \
-            --languages='${{inputs.languages}}' \
-            --parallel-file-conversions=${{ inputs.parallelFileConversions }} \
-            --parallel-conversions-per-document=${{ inputs.parallelConversionsPerDocument }}\
-            --provider-from-registry="${{ inputs.providerFqn }}" \
-            --additional-provider-requirements="${{ inputs.additionalProviderFqns }}" \
             .
         env:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
