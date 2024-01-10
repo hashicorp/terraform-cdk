@@ -53,7 +53,7 @@ on:
       cdktfRegistryDocsVersion:
         description: "Version of cdktf-registry-docs to use"
         required: false
-        default: "1.19.1"
+        default: "1.20.0"
         type: string
     secrets:
       GH_PR_TOKEN:
@@ -77,7 +77,7 @@ jobs:
           fetch-depth: 0 # complete checkout
       # Delete all branches that start with d-cdktf-docs-
       - run: |
-          BRANCHES_TO_DELETE=$(git branch -r | grep -Eo 'd-cdktf-docs-[0-9]+-[0-9]+')
+          BRANCHES_TO_DELETE=$(git branch -r | grep -Eo 'd-cdktf-docs-[0-9]+-[0-9]+') || (echo "no branches to clean up" && exit 0)
           for branch in $BRANCHES_TO_DELETE; do
             git push origin --delete $branch
           done
