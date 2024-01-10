@@ -47,7 +47,7 @@ jobs:
       languages: "typescript,python"
       parallelFileConversions: 1
       maxRunners: 20
-      cdktfRegistryDocsVersion: "1.19.1"
+      cdktfRegistryDocsVersion: "1.20.0"
 
   reportFailureToSlack:
     needs: cdktfDocs
