@@ -10,6 +10,10 @@ To resolve [\#3026](https://github.com/hashicorp/terraform-cdk/issues/3026) we i
 
 We have removed deprecated backends artifactory, etcd, etcdv3, manta, and swift. CDK for Terraform v0.14 deprecated these backends initially. Terraform removed these backends in v1.3. For migration paths from these removed backends, refer to [Upgrading to Terraform v1.3](/terraform/language/v1.3.x/upgrade-guides).
 
+### Python 3.7 is no longer supported
+
+We have dropped support for Python 3.7, please update to Python 3.8 or higher.
+
 ### feat
 
 - feat: Synthesis in HCL [\#3365](https://github.com/hashicorp/terraform-cdk/pull/3365)
