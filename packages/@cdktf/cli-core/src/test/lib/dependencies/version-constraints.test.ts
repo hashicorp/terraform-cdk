@@ -138,6 +138,19 @@ describe("version constraints", () => {
         { constraint: "~>4", version: "4.2.5", matches: true },
         { constraint: "~>4", version: "5", matches: false },
 
+        // ~> operator with 0.x
+        { constraint: "~>0.4", version: "0.4", matches: true },
+        { constraint: "~>0.4", version: "0.3", matches: false },
+        { constraint: "~>0.4", version: "0.4.1", matches: true },
+        { constraint: "~>0.4", version: "0.55", matches: true },
+        { constraint: "~>0.4", version: "1.0", matches: false },
+        { constraint: "~>0.4", version: "2.0", matches: false },
+        { constraint: "~>0.0.3", version: "0.0.3", matches: true },
+        { constraint: "~>0.0.3", version: "0.0.2", matches: false },
+        { constraint: "~>0.0.3", version: "0.0.55", matches: true },
+        { constraint: "~>0.0.3", version: "1.0", matches: false },
+        { constraint: "~>0.0.3", version: "2.0", matches: false },
+
         // whitespace is ignored
         { constraint: " = 4.0 ", version: "  4   ", matches: true },
 
