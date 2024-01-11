@@ -126,10 +126,10 @@ namespace Examples
             {
                 ForEach = exampleForEachIterator,
                 AllowOverwrite = true,
-                Name = exampleForEachIterator.GetString("name"),
-                Records = new string[] { exampleForEachIterator.GetString("record") },
+                Name = exampleForEachIterator.GetString("resource_record_name"),
+                Records = new string[] { exampleForEachIterator.GetString("resource_record_record") },
                 Ttl = 60,
-                Type = exampleForEachIterator.GetString("type"),
+                Type = exampleForEachIterator.GetString("resource_record_type"),
                 ZoneId = dataAwsRoute53ZoneExample.ZoneId
             });
 
