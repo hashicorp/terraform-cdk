@@ -68,10 +68,10 @@ public class MainIterator2 extends TerraformStack {
         Route53Record records = new Route53Record(this, "record", Route53RecordConfig.builder()
             .forEach(exampleForEachIterator)
             .allowOverwrite(true)
-            .name(exampleForEachIterator.getString("name"))
-            .records(Arrays.asList(exampleForEachIterator.getString("record")))
+            .name(exampleForEachIterator.getString("resource_record_name"))
+            .records(Arrays.asList(exampleForEachIterator.getString("resource_record_record")))
             .ttl(60)
-            .type(exampleForEachIterator.getString("type"))
+            .type(exampleForEachIterator.getString("resource_record_type"))
             .zoneId(dataAwsRoute53ZoneExample.getZoneId())
             .build());
 

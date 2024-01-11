@@ -131,12 +131,12 @@ class IteratorStackTwo(TerraformStack):
                                 for_each=example_for_each_iterator,
                                 allow_overwrite=True,
                                 name=example_for_each_iterator.get_string(
-                                    "name"),
+                                    "resource_record_name"),
                                 records=[
-                                    example_for_each_iterator.get_string("record")],
+                                    example_for_each_iterator.get_string("resource_record_record")],
                                 ttl=60,
                                 type=example_for_each_iterator.get_string(
-                                    "type"),
+                                    "resource_record_type"),
                                 zone_id=data_aws_route53_zone_example.zone_id,
                                 )
 
