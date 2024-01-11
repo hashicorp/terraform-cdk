@@ -110,10 +110,10 @@ export class HelloTerra extends TerraformStack {
             sampledRequestsEnabled: true,
           },
           statement: {
-            managedRuleGroupStatement: {
+            managed_rule_group_statement: {
               name: "managed-rule-example",
-              vendorName: "AWS",
-              excludedRule: [
+              vendor_name: "AWS",
+              excluded_rule: [
                 {
                   name: "SizeRestrictions_QUERYSTRING",
                 },
