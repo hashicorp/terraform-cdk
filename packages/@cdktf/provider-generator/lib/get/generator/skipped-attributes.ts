@@ -11,6 +11,8 @@ const SKIPPED_ATTRIBUTES: string[] = [
   "aws.quicksight_template.definition",
   "aws.quicksight_dashboard.definition",
   "aws.quicksight_analysis.definition",
+  "aws.wafv2_web_acl.wafv2_web_acl_rule.statement",
+  "aws.wafv2_rule_group.wafv2_rule_group_rule.statement",
 ];
 
 /**
