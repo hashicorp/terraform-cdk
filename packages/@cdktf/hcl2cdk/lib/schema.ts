@@ -54,13 +54,13 @@ export type TerraformConfig = z.infer<typeof terraformConfig>;
 
 export const schema = z
   .object({
-    terraform: z.array(terraformConfig),
+    data: z.record(z.record(resourceConfig)),
     locals: z.array(z.record(z.any())),
-    variable: z.record(variableConfig),
+    module: z.record(moduleConfig),
     output: z.record(outputConfig),
     provider: z.record(providerConfig),
-    module: z.record(moduleConfig),
     resource: z.record(z.record(resourceConfig)),
-    data: z.record(z.record(resourceConfig)),
+    terraform: z.array(terraformConfig),
+    variable: z.record(variableConfig),
   })
   .partial();
