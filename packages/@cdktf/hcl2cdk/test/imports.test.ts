@@ -60,16 +60,17 @@ describe("imports", () => {
   testCase.test(
     "import with config",
     `
-       provider "aws" {
-     region = "us-east-1"
-   }
+    provider "aws" {
+        region = "us-east-1"
+    }
     import {
         to = aws_instance.example
         id = "i-abcd1234"
     }
       
     resource "aws_instance" "example" {
-        name = "hashi"
+        ami           = "some-ami"
+        instance_type = "t3.micro"
     }  
     `,
     [binding.aws],
@@ -82,7 +83,7 @@ describe("imports", () => {
     `
      provider "aws" {
        region = "us-east-1"
-  alias = "us"
+       alias = "us"
      }
       import {
           to = aws_instance.example
@@ -91,7 +92,8 @@ describe("imports", () => {
       }
 
       resource "aws_instance" "example" {
-          name = "hashi"
+        ami           = "some-ami"
+        instance_type = "t3.micro"
       }
       `,
     [binding.aws],
@@ -119,9 +121,9 @@ describe("imports", () => {
     testCase.test(
       "import into expansion (for_each or count)",
       `
-    provider "aws" {
-      region = "us-east-1"
-    }
+        provider "aws" {
+        region = "us-east-1"
+        }
         import {
           to = aws_instance.example[0]
           id = "i-abcd123457"
