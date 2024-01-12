@@ -58,7 +58,8 @@ class MyConvertedCode extends TerraformStack {
       region: "us-east-1",
     });
     const example = new Instance(this, "example", {
-      name: "hashi",
+      ami: "some-ami",
+      instanceType: "t3.micro",
     });
     /*This import was configured with a provider. CDKTF does support this, but the cdktf convert command does not yet. Please add the provider reference manually. See https://developer.hashicorp.com/terraform/cdktf/concepts/resources#importing-resources for more information.*/
     example.importFrom("i-abcd1234");
@@ -83,7 +84,8 @@ class MyConvertedCode extends TerraformStack {
       region: "us-east-1",
     });
     const example = new Instance(this, "example", {
-      name: "hashi",
+      ami: "some-ami",
+      instanceType: "t3.micro",
     });
     example.importFrom("i-abcd1234");
   }
