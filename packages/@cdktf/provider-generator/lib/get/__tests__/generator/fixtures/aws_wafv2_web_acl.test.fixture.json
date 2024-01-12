@@ -1,8 +1,8 @@
 {
   "provider_schemas": {
-    "registry.terraform.io/hashicorp/aws": {
+    "registry.terraform.io/hashicorp/test": {
       "resource_schemas": {
-        "aws_wafv2_web_acl": {
+        "test_wafv2_web_acl": {
           "version": 0,
           "block": {
             "attributes": {
