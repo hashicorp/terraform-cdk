@@ -219,17 +219,13 @@ If you wish to ignore these validations, pass 'skipValidation: true' to your App
 `);
 
 export const matchersPathIsNotDirectory = (functionName: string) =>
-  new Error(`Path is not a directory
+  new Error(`Path is not a directory.
 
-Ensure you are passing the result of Testing.fullSynth('stack instance') and not Testing.synth('stack instance') in your usage of '${functionName}'. 
+Ensure you are passing the result of Testing.fullSynth('stack instance') to '${functionName}', not Testing.synth('stack instance'). 
 
-Testing.fullSynth returns a file path to temporary testing environment. This file path is used in CDKTF tests that ensure your TerraformStack produces a validate Terraform configuration (toBeValidTerraform & toPlanSuccessfully).
-Like so: "Testing.toBeValidateTerraform(Testing.fullSynth('TerraformStack instance'))"
+Testing.fullSynth returns a file path to a temporary testing environment. Testing.synth returns the JSON representation of your stack.
 
-Testing.synth returns the JSON representation of your stack. This JSON can then be used in CDKTF assertions that check the composition of your stacks (toHaveResource, toHaveDataSource, ect.)
-Like so: "Testing.toHaveResource(Testing.synth('TerraformStack instance'), S3Bucket)"
-
-To learn more about testing in CDKTF see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests`);
+To learn more about testing in CDKTF, refer to: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests`);
 
 export const matchersFoundErrorsInStack = (
   errorCount: any,
@@ -238,42 +234,41 @@ export const matchersFoundErrorsInStack = (
 ) =>
   new Error(`Found ${errorCount} Errors in stack ${stackName}: ${diagnostics}
   
-These errors are not failures of your tests, but issues with the underlying TerraformStack being tested. Fix the above issues before running tests again.
+These errors are not test failures, but issues with the underlying TerraformStack being tested. Fix the above issues before running your tests again.
 `);
 
 export const jestNotInstantiated = () =>
-  new Error(`expect is not defined, jest was not properly instantiated
+  new Error(`Jest was not properly instantiated. 
   
-Ensure you have a 'setup.js' file in your project's directory that calls 'cdktf.Testing.setupJest()'
+Ensure you have a 'setup.js' file in your project's directory that calls 'cdktf.Testing.setupJest()'.
 
-To learn more about setting up testing see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests#:~:text=Add%20Testing%20to%20Your%20Application
+To learn more about setting up testing, refer to: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests#:~:text=Add%20Testing%20to%20Your%20Application
 `);
 
 export const expectNotGloballyAccessible = () =>
-  new Error(`setupJest called, but expect is not globally accessible
+  new Error(`The expect function is not globally accessible.
 
-To learn more about setting up testing see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests#:~:text=Add%20Testing%20to%20Your%20Application
+To learn more about setting up testing, refer to: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests#:~:text=Add%20Testing%20to%20Your%20Application
 `);
 
 export const invalidStack = (stackContent: string) =>
-  new Error(`invalid JSON string passed: ${stackContent}
+  new Error(`Invalid JSON string passed: ${stackContent}
 
-Ensure you are passing the result of Testing.synth('stack instance') and not Testing.fullSynth('stack instance'). 
 
-Testing.synth returns the JSON representation of your stack. This JSON can then be used in CDKTF assertions that check the composition of your stacks (toHaveResource, toHaveDataSource, ect.)
-Like so: "Testing.toHaveResource(Testing.synth('TerraformStack instance'), S3Bucket)"
+Ensure you are passing the result of Testing.synth('stack instance') to '${functionName}', not Testing.fullSynth('stack instance'). 
 
-Testing.fullSynth returns a file path to temporary testing environment. This file path is used in CDKTF tests that ensure your TerraformStack produces a validate Terraform configuration (toBeValidTerraform & toPlanSuccessfully).
-Like so: "Testing.toBeValidateTerraform(Testing.fullSynth('TerraformStack instance'))"
 
-To learn more about testing in CDKTF see: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests`);
+Testing.synth returns the JSON representation of your stack. CDKTF can use assertions with this JSON to check the composition of your stacks, like so: "Testing.toHaveResource(Testing.synth('TerraformStack instance'), S3Bucket)"
+
+Testing.fullSynth returns a file path to a temporary testing environment.
+
+To learn more about testing in CDKTF, refer to: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests
+`);
 
 export const targetNotResolvableWithOverrides = (target: string) =>
-  new Error(`Invalid usage. Target (${target}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.
+  new Error(`Target (${target}) cannot be a resolvable token if you specified overrides. Replace the value of the field you are overriding with a static value.
 
-Because the target is a resolvable Token any overrides cannot be applied as it has not yet been resolved. 
-
-To learn more about Tokens see here: https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
+To learn more about Tokens, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
 `);
 
 export const sourceOrTargetNotAnObject = (
@@ -282,61 +277,61 @@ export const sourceOrTargetNotAnObject = (
   target: string,
   targetType: string
 ) =>
-  new Error(`An issue was encountered during the synthesization of your Terraform configuration. 
+  new Error(`An issue occurred during the synthesization of your Terraform configuration. 
   
-Both the source element (${source}) and and its containing target element (${target}) must be objects
+Both the source element (${source}) and its containing target element (${target}) must be objects.
 
 Type of source: ${sourceType}
 Type of target: ${targetType}
 `);
 
 export const constructDependencyBelowV10 = () =>
-  new Error(`Version mismatch! The constructs dependency appears to be lower than v10 which is required as of cdktf version 0.6.
-Your current constructs version is missing Construct.node which was added in v10.
-Please update your constructs dependency: https://cdk.tf/upgrade-constructs-v10
+  new Error(`Version mismatch! CDKTF version 0.6 requires your constructs version to be v10 or above. 
+
+Update your constructs dependency: https://cdk.tf/upgrade-constructs-v10
 `);
 
 export const cloudBackendWorkspaceIsNotDefinedByName = () =>
-  new Error(`The Cloud backend only supports cross-stack references when the workspace is defined by name instead of by tags.
+  new Error(`The Cloud backend only supports cross-stack references if the workspace is defined by name (not by tags).
 
-To properly utilize cross-stack references, replace your usage of 'TaggedCloudWorkspaces' to 'NamedCloudWorkspace' like so:
+To use cross-stack references, replace all mentions of 'TaggedCloudWorkspaces' with 'NamedCloudWorkspace', like so:
 
 new CloudBackend(stack, {
   ...
   workspaces: new NamedCloudWorkspace("my-app"),
 });
 
-To learn more about Remote Backends see: https://developer.hashicorp.com/terraform/cdktf/concepts/remote-backends
+To learn more about Remote Backends, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/remote-backends
 `);
 
 export const valueContainsUnescapedQuotes = (value: string) =>
   new Error(
-    `'${value}' can not be used as value directly since it has unescaped double quotes in it.
+    `You value, '${value}', has unescaped double quotes in it, so it cannot be used as a value.
 
-To safely use the value, use Fn.rawString on your string like so:
+To safely use the value, use Fn.rawString on your string, like so:
 
 Fn.rawString('${value}')
 
-This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+Doing this ensures CDKTF and Terraform interpret your values correctly.
 
-To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+To learn more about built in Terraform functions within CDKTF, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
 `
   );
 
 export const encounteredAnnotationWithLevelError = (errors: string) =>
   new Error(`Encountered Annotations with level "ERROR":\n${errors}
   
-Either fix the issues above, or set the environment variable CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS to ignore these annotations
+Either fix the issues above, or set the environment variable CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS to ignore these annotations.
 `);
 
 export const valueIsInvalidStringOrToken = (value: string) =>
   new Error(
-    `'${value}' is not a valid string nor a token, This function only accepts strings or tokens resolving to strings, please change your code accordingly.`
+    `'${value}' is not a valid string nor a token. This function only accepts strings or tokens resolving to strings. Please change your code accordingly.`
   );
 
 export const valueIsInvalidNumberOrToken = (value: string) =>
   new Error(
-    `${value} is not a valid number nor a token. This function only accepts numbers or tokens resolving to numbers, please change your code accordingly.`
+    `${value} is not a valid number nor a token. This function only accepts numbers or tokens resolving to numbers. Please change your code accordingly.`
   );
 
 export const listElementIsOfWrongType = (
@@ -345,7 +340,8 @@ export const listElementIsOfWrongType = (
   error: unknown
 ) =>
   new Error(
-    `Element in list ${value} at position ${position} is not of the right type: ${error}. Please make sure all elements in the list are of the correct type for this function.`
+    `Element in list ${value} at position ${position} is not the right type: ${error}. 
+    Please ensure all elements in the list are the correct type for this function.`
   );
 
 export const functionReceivedWrongNumberOfArgs = (
@@ -354,7 +350,7 @@ export const functionReceivedWrongNumberOfArgs = (
   argsLength: number
 ) =>
   new Error(
-    `${name} takes ${argValidatorsLength} arguments, but ${argsLength} were provided. Please provide the missing arguments to the function.`
+    `Function ${name} takes ${argValidatorsLength} arguments, but ${argsLength} were provided. Please add the missing arguments to the function.`
   );
 
 export const functionArgumentValidationFailure = (
