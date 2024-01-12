@@ -11,6 +11,27 @@
     "href": "https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf"
   },
   {
+    "title": "Resources",
+    "routes": [
+      {
+        "title": "Basiscs",
+        "path": "resources/basics"
+      }, 
+      {
+          "title": "Importing",
+          "path": "resources/importing"
+      }, 
+      {
+          "title": "Refactoring",
+          "path": "resources/refactoring"
+      },
+      {
+        "title": "Escape Hatches",
+        "path": "resources/escape-hatch"
+    }
+    ]
+  },
+  {
     "title": "Concepts",
     "routes": [
       {
@@ -28,10 +49,6 @@
       {
         "title": "Providers",
         "path": "concepts/providers"
-      },
-      {
-        "title": "Resources",
-        "path": "concepts/resources"
       },
       {
         "title": "Modules",
