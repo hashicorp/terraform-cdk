@@ -50,18 +50,18 @@ class MyStack extends TerraformStack {
             sampledRequestsEnabled: true,
           },
           statement: {
-            managedRuleGroupStatement: {
+            managed_rule_group_statement: {
               name: "managed-rule-example",
-              vendorName: "AWS",
-              excludedRule: [
+              vendor_name: "AWS",
+              excluded_rule: [
                 {
                   name: "SizeRestrictions_QUERYSTRING",
                 },
                 { name: "SQLInjection_QUERYSTRING" },
               ],
-              scopeDownStatement: {
-                geoMatchStatement: {
-                  countryCodes: ["US"],
+              scope_down_statement: {
+                geo_match_statement: {
+                  country_codes: ["US"],
                 },
               },
             },
