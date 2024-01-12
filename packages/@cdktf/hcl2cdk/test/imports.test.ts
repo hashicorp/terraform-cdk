@@ -115,7 +115,7 @@ describe("imports", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.yes
+      Synth.never
     );
 
     testCase.test(
@@ -135,7 +135,7 @@ describe("imports", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.yes
+      Synth.never
     );
   });
 });
