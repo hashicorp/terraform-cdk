@@ -364,7 +364,11 @@ export const functionArgumentValidationFailure = (
 
 export const cannotCalcIdForEmptySetOfComponents = () =>
   new Error(
-    `Unable to calculate a unique id for an empty set of components. This can only happen if you are trying to create a unique id while not passing in any construct node ids. This means your construct likely has no parent, which is not allowed. Please make sure your construct has a parent, e.g. new App(this) or new TerraformStack(this, 'stack')`
+    `Unable to calculate a unique id for an empty set of components.
+    
+    This happens when you attempt to create a unique id, but do not pass in any construct node ids. This means your construct likely has no parent, which is not allowed. 
+    
+    Please make sure your construct has a parent, for example: new App(this) or new TerraformStack(this, 'stack').`
   );
 
 export const stringValueAddedToReferenceList = (listToken: string[]) =>
