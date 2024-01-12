@@ -11,7 +11,6 @@ import {
 } from "cdktf";
 import { provider, snsTopic } from "./.gen/providers/aws";
 import { Instance } from "./.gen/providers/aws/instance";
-import { Wafv2WebAcl } from "./.gen/providers/aws/wafv2-web-acl";
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -84,45 +83,6 @@ export class HelloTerra extends TerraformStack {
           name: "test",
         },
       },
-    });
-
-    new Wafv2WebAcl(this, "wafv2", {
-      defaultAction: {
-        allow: {},
-      },
-      name: "managed-rule-example",
-      scope: "REGIONAL",
-      visibilityConfig: {
-        cloudwatchMetricsEnabled: true,
-        metricName: "managed-rule-example",
-        sampledRequestsEnabled: true,
-      },
-      rule: [
-        {
-          name: "managed-rule-example",
-          priority: 1,
-          overrideAction: {
-            count: {},
-          },
-          visibilityConfig: {
-            cloudwatchMetricsEnabled: true,
-            metricName: "managed-rule-example",
-            sampledRequestsEnabled: true,
-          },
-          statement: {
-            managed_rule_group_statement: {
-              name: "managed-rule-example",
-              vendor_name: "AWS",
-              excluded_rule: [
-                {
-                  name: "SizeRestrictions_QUERYSTRING",
-                },
-                { name: "SQLInjection_QUERYSTRING" },
-              ],
-            },
-          },
-        },
-      ],
     });
   }
 }
