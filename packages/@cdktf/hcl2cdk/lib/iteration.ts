@@ -3,6 +3,7 @@
 import { DirectedGraph } from "graphology";
 import { providers as telemetryAllowedProviders } from "./telemetryAllowList.json";
 import { ProgramScope } from "./types";
+import { Import } from "./schema";
 
 // locals, variables, and outputs are global key value maps
 export function forEachGlobal<T, R>(
@@ -16,13 +17,48 @@ export function forEachGlobal<T, R>(
     value: T,
     graph: DirectedGraph
   ) => Promise<R>
-): Record<string, (graph: DirectedGraph) => Promise<R>> {
+): Record<string, { code: (graph: DirectedGraph) => Promise<R>; value: T }> {
   return Object.entries(record || {}).reduce((carry, [key, item]) => {
     const id = `${prefix}.${key}`;
     return {
       ...carry,
-      [id]: async (graph: DirectedGraph) =>
-        await iterator(scope, key, id, item, graph),
+      [id]: {
+        code: async (graph: DirectedGraph) =>
+          await iterator(scope, key, id, item, graph),
+        value: item,
+      },
+    };
+  }, {});
+}
+
+export function forEachImport<R>(
+  scope: ProgramScope,
+  prefix: string,
+  record: Import[] | undefined,
+  iterator: (
+    scope: ProgramScope,
+    id: string,
+    value: Import,
+    graph: DirectedGraph
+  ) => Promise<R>
+): Record<
+  string,
+  { code: (graph: DirectedGraph) => Promise<R>; value: Import }
+> {
+  return (record || []).reduce((carry, item) => {
+    const target =
+      item.to.startsWith("${") && item.to.endsWith("}")
+        ? item.to.substring(2, item.to.length - 1)
+        : item.to;
+
+    const id = `${prefix}.${target}`;
+    return {
+      ...carry,
+      [id]: {
+        code: async (graph: DirectedGraph) =>
+          await iterator(scope, id, item, graph),
+        value: item,
+      },
     };
   }, {});
 }
@@ -37,7 +73,7 @@ export function forEachProvider<T extends { alias?: string }, R>(
     value: T,
     graph: DirectedGraph
   ) => Promise<R>
-): Record<string, (graph: DirectedGraph) => Promise<R>> {
+): Record<string, { code: (graph: DirectedGraph) => Promise<R>; value: T }> {
   return Object.entries(record || {}).reduce((carry, [key, items]) => {
     return {
       ...carry,
@@ -45,8 +81,11 @@ export function forEachProvider<T extends { alias?: string }, R>(
         const id = item.alias ? `${key}.${item.alias}` : `${key}`;
         return {
           ...innerCarry,
-          [id]: async (graph: DirectedGraph) =>
-            await iterator(scope, key, id, item, graph),
+          [id]: {
+            code: async (graph: DirectedGraph) =>
+              await iterator(scope, key, id, item, graph),
+            value: item,
+          },
         };
       }, {}),
     };
@@ -66,7 +105,7 @@ export function forEachNamespaced<T, R>(
     graph: DirectedGraph
   ) => Promise<R>,
   prefix?: string
-): Record<string, (graph: DirectedGraph) => Promise<R>> {
+): Record<string, { code: (graph: DirectedGraph) => Promise<R>; value: T }> {
   return Object.entries(record || {}).reduce(
     (outerCarry, [type, items]) => ({
       ...outerCarry,
@@ -75,12 +114,18 @@ export function forEachNamespaced<T, R>(
         const id = prefix ? `${prefix}.${type}.${key}` : `${type}.${key}`;
         return {
           ...innerCarry,
-          [id]: async (graph: DirectedGraph) =>
-            await iterator(scope, prefixedType, key, id, item, graph),
+          [id]: {
+            code: async (graph: DirectedGraph) =>
+              await iterator(scope, prefixedType, key, id, item, graph),
+            value: item,
+          },
         };
-      }, {} as Record<string, (graph: DirectedGraph) => Promise<R>>),
+      }, {} as Record<string, { code: (graph: DirectedGraph) => Promise<R>; value: T }>),
     }),
-    {} as Record<string, (graph: DirectedGraph) => Promise<R>>
+    {} as Record<
+      string,
+      { code: (graph: DirectedGraph) => Promise<R>; value: T }
+    >
   );
 }
 

@@ -21,6 +21,7 @@ import {
   Provider,
   Variable,
   Output,
+  Import,
 } from "./schema";
 import { convertTerraformExpressionToTs, expressionAst } from "./expressions";
 import { Reference } from "./types";
@@ -555,6 +556,11 @@ export async function resource(
     );
   }
 
+  const importGraphId = `import.${resource.replace(".", "_")}.${key}`;
+  const importDefinition: Import | undefined = graph.hasNode(importGraphId)
+    ? graph.getNodeAttribute(importGraphId, "value")
+    : undefined;
+
   expressions = expressions.concat(
     await asExpression(
       { ...scope, forEachIteratorName, countIteratorName },
@@ -563,7 +569,8 @@ export async function resource(
       mappedConfig,
       false,
       false,
-      getReference(graph, id) || overrideReference
+      getReference(graph, id) || overrideReference,
+      importDefinition
     )
   );
 
@@ -616,7 +623,8 @@ async function asExpression(
   config: TerraformResourceBlock,
   isModuleImport: boolean,
   isProvider: boolean,
-  reference?: Reference
+  reference?: Reference,
+  imported?: Import
 ) {
   const { providers, ...otherOptions } = config as any;
 
@@ -654,7 +662,7 @@ async function asExpression(
     ? referenceToVariableName(scope, reference)
     : variableName(scope, type, name);
 
-  if (reference || overrideId) {
+  if (reference || overrideId || imported) {
     statements.push(
       t.variableDeclaration("const", [
         t.variableDeclarator(t.identifier(varName), expression),
@@ -666,6 +674,26 @@ async function asExpression(
 
   if (overrideId) {
     statements.push(addOverrideLogicalIdExpression(varName, name));
+  }
+
+  if (imported) {
+    // Adds myVar.importFrom("my-arn")
+    const importExpression = t.expressionStatement(
+      t.callExpression(
+        t.memberExpression(t.identifier(varName), t.identifier("importFrom")),
+        [t.stringLiteral(imported.id)]
+      )
+    );
+
+    if (imported.provider) {
+      t.addComment(
+        importExpression,
+        "leading",
+        `This import was configured with a provider. CDKTF does support this, but the cdktf convert command does not yet. Please add the provider reference manually. See https://developer.hashicorp.com/terraform/cdktf/concepts/resources#importing-resources for more information.`
+      );
+    }
+
+    statements.push(importExpression);
   }
 
   return statements;
@@ -691,6 +719,7 @@ export async function output(
     },
     false,
     false,
+    undefined,
     undefined
   );
 }
@@ -780,7 +809,8 @@ export async function variable(
     { ...props, type: type ? await variableTypeToAst(scope, type) : undefined },
     false,
     false,
-    getReference(graph, id)
+    getReference(graph, id),
+    undefined
   );
 }
 
@@ -824,8 +854,77 @@ export async function modules(
     props,
     true,
     false,
-    getReference(graph, id)
+    getReference(graph, id),
+    undefined
   );
+}
+
+export async function imports(
+  scope: ProgramScope,
+  _id: string,
+  item: Import,
+  graph: DirectedGraph
+) {
+  // Move from ${aws_instance.example} to aws_instance.example
+  const target =
+    item.to.startsWith("${") && item.to.endsWith("}")
+      ? item.to.substring(2, item.to.length - 1)
+      : item.to;
+
+  // Check if the import goes into a module
+  if (target.startsWith("module.")) {
+    return [
+      t.addComment(
+        t.emptyStatement(),
+        "leading",
+        `CDKTF does not support imports into modules yet, please remove the import block importing ${item.id} into ${target} from your configuration`
+      ),
+    ];
+  }
+
+  // We now know that the import goes into a resource, e.g. aws_instance.example
+  const [resourceTypeIdentifier, resourceName] = target.split(".");
+  if (resourceName.includes("[")) {
+    return [
+      t.addComment(
+        t.emptyStatement(),
+        "leading",
+        `CDKTF does not support imports into resources with count or for_each yet, please remove the import block importing ${item.id} into ${target} from your configuration`
+      ),
+    ];
+  }
+
+  // Check if we have a existing resource config with the given name
+  if (graph.hasNode(target)) {
+    // We will handle this case in the resource function
+    // so we can skip over it
+    return [];
+  }
+
+  const [provider, ...resourceTypeNameParts] =
+    resourceTypeIdentifier.split("_");
+
+  const constructId = uniqueId(scope.constructs, camelCase(resourceName));
+  const constructClass = constructAst(
+    scope,
+    `${provider}.${resourceTypeNameParts.join("_")}`,
+    false
+  );
+  return [
+    t.expressionStatement(
+      t.callExpression(
+        t.memberExpression(
+          constructClass,
+          t.identifier("generateConfigForImport")
+        ),
+        [
+          t.thisExpression(),
+          t.stringLiteral(constructId),
+          t.stringLiteral(item.id),
+        ]
+      )
+    ),
+  ];
 }
 
 export async function provider(
@@ -846,7 +945,8 @@ export async function provider(
     props,
     false,
     true,
-    getReference(graph, id)
+    getReference(graph, id),
+    undefined
   );
 }
 
