@@ -32,6 +32,7 @@ import {
   addImportForCodeContainer,
   buildImports,
   generateConfigType,
+  imports,
 } from "./generation";
 import { TerraformResourceBlock, ProgramScope } from "./types";
 import {
@@ -51,6 +52,7 @@ import {
   replacePythonImports,
 } from "./jsii-rosetta-workarounds";
 import { ProviderSchema } from "@cdktf/commons";
+import { forEachImport } from "./iteration";
 
 export const CODE_MARKER = "// define resources here";
 
@@ -127,7 +129,12 @@ export async function convertToTypescript(
   // We need to use a function here because the same node has different representation based on if it's referenced by another one
   const nodeMap: Record<
     string,
-    (g: typeof graph) => Promise<Array<t.Statement | t.VariableDeclaration>>
+    {
+      code: (
+        g: typeof graph
+      ) => Promise<Array<t.Statement | t.VariableDeclaration>>;
+      value: unknown;
+    }
   > = {
     ...forEachProvider(scope, plan.provider, provider),
     ...forEachGlobal(scope, "var", plan.variable, variable),
@@ -142,6 +149,7 @@ export async function convertToTypescript(
     ),
     ...forEachGlobal(scope, "out", plan.output, output),
     ...forEachGlobal(scope, "module", plan.module, modules),
+    ...forEachImport(scope, "import", plan.import, imports),
     ...forEachNamespaced(scope, plan.resource, resource),
     ...forEachNamespaced(scope, plan.data, resource, "data"),
   };
@@ -149,7 +157,7 @@ export async function convertToTypescript(
   // Add all nodes to the dependency graph so we can detect if an edge is added for an unknown link
   Object.entries(nodeMap).forEach(([key, value]) => {
     logger.debug(`Adding node '${key}' to graph`);
-    graph.addNode(key, { code: value });
+    graph.addNode(key, value);
   });
 
   // Finding references becomes easier of the to be referenced ids are already known
@@ -227,7 +235,7 @@ export async function convertToTypescript(
       ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
       ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
       ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
-    }).map((addEdgesToGraph) => addEdgesToGraph(graph))
+    }).map(({ code: addEdgesToGraph }) => addEdgesToGraph(graph))
   );
 
   logger.debug(`Graph: ${JSON.stringify(graph, null, 2)}`);

@@ -38,6 +38,13 @@ const resourceConfig = z.array(z.record(z.any()));
 export type Resource = z.infer<typeof resourceConfig>;
 export type Data = Resource;
 
+const importConfig = z.object({
+  to: z.string(),
+  id: z.string(),
+  provider: z.any().optional(),
+});
+export type Import = z.infer<typeof importConfig>;
+
 const providerSpecification = z.union([
   z.object({ source: z.string(), version: z.string() }).partial(),
   z.string(),
@@ -55,6 +62,7 @@ export type TerraformConfig = z.infer<typeof terraformConfig>;
 export const schema = z
   .object({
     data: z.record(z.record(resourceConfig)),
+    import: z.array(importConfig),
     locals: z.array(z.record(z.any())),
     module: z.record(moduleConfig),
     output: z.record(outputConfig),
