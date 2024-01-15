@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`excludeBackendConfigurations removes backend configuration from stack in hcl 1`] = `
+"terraform {
+required_providers {
+  test = {
+version = "~> 2.0"
+}
+}
+
+
+}
+
+provider "test" {
+}
+resource "test_resource" "Resource1" {
+name = "resource1"
+}"
+`;
+
+exports[`excludeBackendConfigurations removes backend configuration from stack in json 1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "Resource1": {
+        "name": "resource1"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`excludeProviderConfigurations removes provider configuration from stack in hcl 1`] = `
+"terraform {
+required_providers {
+  test = {
+version = "~> 2.0"
+}
+}
+backend "local" {
+path = "/Users/dschmidt/work/hashicorp/terraform-cdk/packages/cdktf/test"
+}
+
+
+}
+resource "test_resource" "Resource1" {
+name = "resource1"
+}"
+`;
+
+exports[`excludeProviderConfigurations removes provider configuration from stack in json 1`] = `
+"{
+  "resource": {
+    "test_resource": {
+      "Resource1": {
+        "name": "resource1"
+      }
+    }
+  },
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/Users/dschmidt/work/hashicorp/terraform-cdk/packages/cdktf/test"
+      }
+    },
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;

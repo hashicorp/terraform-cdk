@@ -70,6 +70,18 @@ function throwIfIdContainsWhitespace(str: string): void {
   }
 }
 
+export interface StackSynthOptions {
+  /**
+   * Whether to exclude provider configuration from the generated HCL
+   */
+  readonly excludeProviderConfigurations?: boolean;
+
+  /**
+   * Whether to exclude backend configuration from the generated HCL
+   */
+  readonly excludeBackendConfigurations?: boolean;
+}
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
@@ -218,7 +230,7 @@ export class TerraformStack extends Construct {
     return backends[0] || new LocalBackend(this, {});
   }
 
-  public toHclTerraform(): { [key: string]: any } {
+  public toHclTerraform(opts: StackSynthOptions = {}): { [key: string]: any } {
     const metadata: TerraformStackMetadata = {
       version: this.cdktfVersion,
       stackName: this.node.id,
@@ -278,7 +290,7 @@ export class TerraformStack extends Construct {
           res = [res, hcl].join("\n");
         }
 
-        if (frag.provider) {
+        if (frag.provider && !opts.excludeProviderConfigurations) {
           deepMerge(tf, frag);
           res = [res, renderProvider(frag.provider)].join("\n\n");
         }
@@ -320,6 +332,10 @@ export class TerraformStack extends Construct {
     deepMerge(tf, this.rawOverrides);
     const terraformBlock = (tf as any)?.terraform;
 
+    if (opts.excludeBackendConfigurations && terraformBlock.backend) {
+      delete terraformBlock.backend;
+    }
+
     let hcl = "";
     if (terraformBlock) {
       hcl = renderTerraform(terraformBlock);
@@ -332,7 +348,7 @@ export class TerraformStack extends Construct {
     };
   }
 
-  public toTerraform(): any {
+  public toTerraform(opts: StackSynthOptions = {}): any {
     const tf = {};
 
     const metadata: TerraformStackMetadata = {
@@ -378,6 +394,20 @@ export class TerraformStack extends Construct {
     }
 
     deepMerge(tf, this.rawOverrides);
+
+    if (
+      opts.excludeBackendConfigurations &&
+      "terraform" in tf &&
+      typeof tf.terraform === "object" &&
+      tf.terraform != null &&
+      "backend" in tf.terraform
+    ) {
+      delete tf.terraform.backend;
+    }
+
+    if (opts.excludeProviderConfigurations && "provider" in tf) {
+      delete tf.provider;
+    }
 
     return resolve(this, tf);
   }

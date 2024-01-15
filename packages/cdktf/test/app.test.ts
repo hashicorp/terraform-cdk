@@ -702,3 +702,61 @@ describe("Cross Stack references", () => {
     );
   });
 });
+
+it.each(["hcl", "json"])(
+  "excludeBackendConfigurations removes backend configuration from stack in %s",
+  (variant) => {
+    const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
+    const app = Testing.stubVersion(
+      new App({
+        stackTraces: false,
+        outdir,
+        excludeBackendConfigurations: true,
+        hclOutput: variant === "hcl",
+      })
+    );
+    const stack = new TerraformStack(app, "MyStack");
+    new LocalBackend(stack, {
+      path: __dirname,
+    });
+    new TestProvider(stack, "provider", {});
+    new TestResource(stack, "Resource1", {
+      name: "resource1",
+    });
+
+    if (variant === "hcl") {
+      expect(Testing.synthHcl(stack)).toMatchSnapshot();
+    } else {
+      expect(Testing.synth(stack)).toMatchSnapshot();
+    }
+  }
+);
+
+it.each(["hcl", "json"])(
+  "excludeProviderConfigurations removes provider configuration from stack in %s",
+  (variant) => {
+    const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
+    const app = Testing.stubVersion(
+      new App({
+        stackTraces: false,
+        outdir,
+        excludeProviderConfigurations: true,
+        hclOutput: variant === "hcl",
+      })
+    );
+    const stack = new TerraformStack(app, "MyStack");
+    new LocalBackend(stack, {
+      path: __dirname,
+    });
+    new TestProvider(stack, "provider", {});
+    new TestResource(stack, "Resource1", {
+      name: "resource1",
+    });
+
+    if (variant === "hcl") {
+      expect(Testing.synthHcl(stack)).toMatchSnapshot();
+    } else {
+      expect(Testing.synth(stack)).toMatchSnapshot();
+    }
+  }
+);
