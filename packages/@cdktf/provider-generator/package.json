@@ -36,11 +36,11 @@
   "dependencies": {
     "@cdktf/commons": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
-    "@types/node": "18.19.5",
-    "codemaker": "1.93.0",
+    "@types/node": "18.19.7",
+    "codemaker": "1.94.0",
     "fs-extra": "8.1.0",
     "glob": "10.3.10",
-    "jsii-srcmak": "0.1.999"
+    "jsii-srcmak": "0.1.1005"
   },
   "devDependencies": {
     "@types/deepmerge": "2.2.0",
