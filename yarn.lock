@@ -2371,6 +2371,13 @@
   dependencies:
     undici-types "~5.26.4"
 
+"@types/node@18.19.7":
+  version "18.19.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.7.tgz#9a5f6ac7ec42a5dff68fe7faf2dd359710de4a12"
+  integrity sha512-IGRJfoNX10N/PfrReRZ1br/7SQ+2vF/tK3KXNwzXz82D32z5dMQEoOlFew18nLSN+vMNcLY4GrKfzwi/yWI8/w==
+  dependencies:
+    undici-types "~5.26.4"
+
 "@types/node@^20.9.4":
   version "20.10.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.10.3.tgz#4900adcc7fc189d5af5bb41da8f543cea6962030"
