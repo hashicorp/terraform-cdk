@@ -1,54 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`throws error on unescaped double quote string inputs " 1`] = `
-"Argument 0 of md5 failed the validation: Error: '"' can not be used as value directly since it has unescaped double quotes in it.
+"Argument 0 of md5 failed the validation: Error: You value, '"', has unescaped double quotes in it, so it cannot be used as a value.
 
-To safely use the value, use Fn.rawString on your string like so:
+To safely use the value, use Fn.rawString on your string, like so:
 
 Fn.rawString('"')
 
-This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+Doing this ensures CDKTF and Terraform interpret your values correctly.
 
-To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+To learn more about built in Terraform functions within CDKTF, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
 . Please change your code to pass a valid value for this argument."
 `;
 
 exports[`throws error on unescaped double quote string inputs \\ \\\\" 1`] = `
-"Argument 0 of md5 failed the validation: Error: '\\ \\\\"' can not be used as value directly since it has unescaped double quotes in it.
+"Argument 0 of md5 failed the validation: Error: You value, '\\ \\\\"', has unescaped double quotes in it, so it cannot be used as a value.
 
-To safely use the value, use Fn.rawString on your string like so:
+To safely use the value, use Fn.rawString on your string, like so:
 
 Fn.rawString('\\ \\\\"')
 
-This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+Doing this ensures CDKTF and Terraform interpret your values correctly.
 
-To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+To learn more about built in Terraform functions within CDKTF, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
 . Please change your code to pass a valid value for this argument."
 `;
 
 exports[`throws error on unescaped double quote string inputs \\\\" 1`] = `
-"Argument 0 of md5 failed the validation: Error: '\\\\"' can not be used as value directly since it has unescaped double quotes in it.
+"Argument 0 of md5 failed the validation: Error: You value, '\\\\"', has unescaped double quotes in it, so it cannot be used as a value.
 
-To safely use the value, use Fn.rawString on your string like so:
+To safely use the value, use Fn.rawString on your string, like so:
 
 Fn.rawString('\\\\"')
 
-This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+Doing this ensures CDKTF and Terraform interpret your values correctly.
 
-To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+To learn more about built in Terraform functions within CDKTF, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
 . Please change your code to pass a valid value for this argument."
 `;
 
 exports[`throws error on unescaped double quote string inputs \\\\\\\\" 1`] = `
-"Argument 0 of md5 failed the validation: Error: '\\\\\\\\"' can not be used as value directly since it has unescaped double quotes in it.
+"Argument 0 of md5 failed the validation: Error: You value, '\\\\\\\\"', has unescaped double quotes in it, so it cannot be used as a value.
 
-To safely use the value, use Fn.rawString on your string like so:
+To safely use the value, use Fn.rawString on your string, like so:
 
 Fn.rawString('\\\\\\\\"')
 
-This is needed as CDKTF or Terraform will otherwise try to interpret these double quotes incorrectly.
+Doing this ensures CDKTF and Terraform interpret your values correctly.
 
-To learn more about built in Terraform functions within CDKTF see: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
+To learn more about built in Terraform functions within CDKTF, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
 . Please change your code to pass a valid value for this argument."
 `;
 

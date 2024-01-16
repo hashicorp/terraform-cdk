@@ -35,7 +35,7 @@ test("validations are executed recursively", () => {
       [MyStack/custom] custom_error_2
       [MyStack/custom/nested] custom_nested_error
       
-    If you wish to ignore these validations, pass 'skipValidation: true' to your App config
+    If you wish to ignore these validations, pass 'skipValidation: true' to your App configuration.
     "
   `);
   expect(validation.validate).toHaveBeenCalledTimes(1);
@@ -83,7 +83,7 @@ describe("ValidateBinaryVersion", () => {
       "Validation failed with the following errors:
         [MyStack/testResource] terraform version 1.2.0 is lower than the required version >=1.3.0 for this construct. 
         
-      If you wish to ignore these validations, pass 'skipValidation: true' to your App config
+      If you wish to ignore these validations, pass 'skipValidation: true' to your App configuration.
       "
     `);
   });
@@ -121,7 +121,7 @@ describe("ValidateBinaryVersion", () => {
       "Validation failed with the following errors:
         [MyStack/testResource] Could not determine version of terraform, exit 1 failed: Error: Command failed: exit 1
         
-      If you wish to ignore these validations, pass 'skipValidation: true' to your App config
+      If you wish to ignore these validations, pass 'skipValidation: true' to your App configuration.
       "
     `);
   });
@@ -141,7 +141,7 @@ describe("ValidateBinaryVersion", () => {
       "Validation failed with the following errors:
         [MyStack/testResource] Could not determine version of terraform (running echo "foo")
         
-      If you wish to ignore these validations, pass 'skipValidation: true' to your App config
+      If you wish to ignore these validations, pass 'skipValidation: true' to your App configuration.
       "
     `);
   });

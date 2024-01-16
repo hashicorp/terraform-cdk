@@ -91,7 +91,7 @@ test("app synth throws error when provider is missing", () => {
     "Validation failed with the following errors:
       [MyStack] Found resources without a matching provider construct. Please make sure to add provider constructs [e.g. new RandomProvider(...)] to your stack 'MyStack' for the following providers: test-provider
       
-    If you wish to ignore these validations, pass 'skipValidation: true' to your App config
+    If you wish to ignore these validations, pass 'skipValidation: true' to your App configuration.
     "
   `);
 });
@@ -106,11 +106,11 @@ test("app synth supports app level validations", () => {
   app.node.addValidation(mockValidation);
 
   expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
-    "App level validation failed with the following errors:
+    "App-level validation failed with the following errors:
       error1
       error2
     Validations allow for dynamic verification of your project.
-    To skip validations, add 'skipValidation: true' to your App config
+    To skip validations, add 'skipValidation: true' to your App config.
         "
   `);
   expect(mockValidation.validate).toHaveBeenCalledTimes(1);
@@ -544,8 +544,8 @@ describe("Cross Stack references", () => {
       name: resource2.stringValue,
     });
 
-    expect(() => app.synth()).toThrowError(
-      /Can not add dependency TestStack to AnotherStack since it would result in a loop/
+    expect(() => app.synth()).toThrow(
+      /Cannot add dependency TestStack to AnotherStack, because it would cause a circular dependency/
     );
   });
 
