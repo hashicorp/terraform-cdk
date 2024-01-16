@@ -1,3 +1,30 @@
+## 0.20.1
+
+**AWS Provider changes (breaking)**
+
+The AWS pre-built provider for Go is currently too large to be installed due to a hard limit in Go. This release adds skipping the `statement` block in the `rule` block of the `aws_wafv2_web_acl` and `aws_wafv2_rule_group` resources. Our [resource docs page](https://developer.hashicorp.com/terraform/cdktf/concepts/resources#special-cases) previously already mentioned that these resources have skipped attributes but they weren't actually skipped. This almost doubled AWS provider bindings in size due to the recursive nature of the `statement` block.  
+If you are using any of these two resources, the `statement` now has to be passed as a plain object instead and its keys have to be snake-cased (e.g. `and_statement` or `regex_match_statement`).
+
+### feat
+
+- feat(hcl2cdk): support import blocks in cdktf convert [\#3415](https://github.com/hashicorp/terraform-cdk/pull/3415)
+
+### fix
+
+- fix(provider-generator): Skip `statement` block for `rule` block in `aws_wafv2_web_acl` and `aws_wafv2_rule_group` resources [\#3414](https://github.com/hashicorp/terraform-cdk/pull/3414)
+- fix(cli): Fix version range matching for 0.x version ranges with the ~> operator [\#3403](https://github.com/hashicorp/terraform-cdk/pull/3403)
+- fix(docs): fix complex iterator example [\#3410](https://github.com/hashicorp/terraform-cdk/pull/3410)
+- fix(docs): product relative links [\#3401](https://github.com/hashicorp/terraform-cdk/pull/3401)
+
+### chore
+
+- chore: Upgrade dependencies for @cdktf/provider-generator [\#3423](https://github.com/hashicorp/terraform-cdk/pull/3423)
+- chore: break loop properly [\#3413](https://github.com/hashicorp/terraform-cdk/pull/3413)
+- chore: abort rebase when retrying pushing doc updates [\#3412](https://github.com/hashicorp/terraform-cdk/pull/3412)
+- chore: update registry docs tool [\#3407](https://github.com/hashicorp/terraform-cdk/pull/3407)
+- chore: update registry docs tool [\#3406](https://github.com/hashicorp/terraform-cdk/pull/3406)
+- chore: update provider docs tool [\#3404](https://github.com/hashicorp/terraform-cdk/pull/3404)
+
 ## 0.20.0
 
 **Breaking changes**
