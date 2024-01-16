@@ -125,6 +125,7 @@ function jestAsymetricMatcherStringifyReplacer(_key: string, value: any) {
 }
 // eslint-disable-next-line jsdoc/require-jsdoc
 function getAssertElementWithProperties(
+  functionName: string,
   // We have the evaluation function configurable so we can make use of the specific testing frameworks capabilities
   // This makes the resulting tests more native to the testing framework
   customPassEvaluation?: (
@@ -149,7 +150,7 @@ function getAssertElementWithProperties(
     try {
       stack = JSON.parse(stackContent) as SynthesizedStack;
     } catch (e) {
-      throw invalidStack(stackContent);
+      throw invalidStack(functionName, stackContent);
     }
 
     const items =
@@ -216,12 +217,10 @@ export function getToHaveDataSourceWithProperties(
     resourceType: TerraformConstructor,
     properties: Record<string, any> = {}
   ): AssertionReturn {
-    return getAssertElementWithProperties(customPassEvaluation)(
-      "data",
-      received,
-      resourceType,
-      properties
-    );
+    return getAssertElementWithProperties(
+      "toHaveDataSourceWithProperties",
+      customPassEvaluation
+    )("data", received, resourceType, properties);
   };
 }
 
@@ -248,12 +247,10 @@ export function getToHaveResourceWithProperties(
     resourceType: TerraformConstructor,
     properties: Record<string, any> = {}
   ): AssertionReturn {
-    return getAssertElementWithProperties(customPassEvaluation)(
-      "resource",
-      received,
-      resourceType,
-      properties
-    );
+    return getAssertElementWithProperties(
+      "toHaveResourceWithProperties",
+      customPassEvaluation
+    )("resource", received, resourceType, properties);
   };
 }
 
@@ -314,12 +311,10 @@ export function getToHaveProviderWithProperties(
     resourceType: TerraformConstructor,
     properties: Record<string, any> = {}
   ): AssertionReturn {
-    return getAssertElementWithProperties(customPassEvaluation)(
-      "provider",
-      received,
-      resourceType,
-      properties
-    );
+    return getAssertElementWithProperties(
+      "toHaveProviderWithProperties",
+      customPassEvaluation
+    )("provider", received, resourceType, properties);
   };
 }
 

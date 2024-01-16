@@ -251,7 +251,7 @@ export const expectNotGloballyAccessible = () =>
 To learn more about setting up testing, refer to: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests#:~:text=Add%20Testing%20to%20Your%20Application
 `);
 
-export const invalidStack = (stackContent: string) =>
+export const invalidStack = (functionName: string, stackContent: string) =>
   new Error(`Invalid JSON string passed: ${stackContent}
 
 
