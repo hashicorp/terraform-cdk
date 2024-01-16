@@ -124,9 +124,9 @@ test("getting Stack for construct which was added to root app returns friendly e
   expect(() => new LocalBackend(app, {})).toThrowErrorMatchingInlineSnapshot(`
     "No stack could be identified for the construct at path 'backend'. You seem to have passed your root App as scope to a construct. Pass a stack (inheriting from TerraformStack) as scope to your construct instead.
 
-    Constructs can only be used as a part of a TerraformStack. While Constructs represent a collection of infrastructure, they must be used within a TerraformStack to be apart of a dedication Terraform configuration.
+    You can only use constructs as part of a TerraformStack. 
 
-    To learn more about Constructs vs. TerraformStacks see here: https://developer.hashicorp.com/terraform/cdktf/concepts/constructs#:~:text=Constructs%20vs.%20Stacks
+    To learn more about Constructs vs. TerraformStacks, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/constructs#:~:text=Constructs%20vs.%20Stacks
     "
   `);
 });

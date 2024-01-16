@@ -91,9 +91,7 @@ test("multiple providers can't have the same module alias", () => {
       providers: [provider1, provider2],
     });
   } catch (e: any) {
-    expect(e.message).toMatch(
-      /Error: Multiple providers have the same alias: "test"/
-    );
+    expect(e.message).toMatch(/Multiple providers have the same alias: "test"/);
   }
 });
 

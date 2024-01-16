@@ -160,11 +160,9 @@ describe("Runtime", () => {
           )
         )
       ).toThrowErrorMatchingInlineSnapshot(`
-        "Invalid usage. Target (\${TfToken[TOKEN.2]}) can not be a resolvable token when overrides are specified. Please replace the value of the field you are overriding with a static value.
+        "Target (\${TfToken[TOKEN.2]}) cannot be a resolvable token if you specified overrides. Replace the value of the field you are overriding with a static value.
 
-        Because the target is a resolvable Token any overrides cannot be applied as it has not yet been resolved. 
-
-        To learn more about Tokens see here: https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
+        To learn more about Tokens, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/tokens
         "
       `);
     });

@@ -456,9 +456,7 @@ test("chained iterators from singular resources", () => {
   expect(() => {
     TerraformIterator.fromResources(source);
   }).toThrowErrorMatchingInlineSnapshot(`
-    "Cannot create an iterator from resource without a forEach argument.
-    The resource passed to the iterator does not have a forEach argument, meaning only a single instance of it will be created.
-    If you want to create more instances of this resource pass an iterator to the forEach argument of the resource first.
+    "Cannot create an iterator from a resource without a forEach argument. If you want to create more instances of this resource, pass an iterator to the forEach argument of the resource first.
       "
   `);
 });
@@ -478,11 +476,10 @@ test("chained iterators used with count", () => {
   expect(() => {
     TerraformIterator.fromDataSources(datasFromCount);
   }).toThrowErrorMatchingInlineSnapshot(`
-    "Cannot create iterator from a resource with a count argument.
-    The resource passed to the iterator has a count argument which determines how many instances of the resource are created.
-    Please re-use the same TerraformCount used in this resource on the resource where you planned to use this iterator instead.
+    "You cannot create an iterator from a resource with a count argument.
+    Instead, reuse this resource's TerraformCount instance in the resource you want to use as an iterator.
 
-    If you need to use the iterator to populate a list attribute, replace the count on the resource with an iterator passed into the forEach argument."
+    If you want to use an iterator to populate a list attribute, replace the count on the resource with an iterator passed into the forEach argument."
   `);
 });
 
