@@ -11,3 +11,4 @@ declare module 'child_process' {
 
 declare module 'tunnel-agent';
 declare module 'deep-equal';
+declare module "archiver";
