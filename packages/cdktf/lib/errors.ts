@@ -507,3 +507,12 @@ export const IdIncludesUnresolvedTokens = (unresolvedTokens: string) =>
   new Error(
     `This construct (or its parent construct) was configured with an ID that contains a Token: ${unresolvedTokens}. This is not allowed as IDs must be known statically during synthesis. The values of tokens are only known during apply, therefore they cannot be used in IDs. Please use a concrete value for your constructs ID instead.`
   );
+
+export const assetCanNotCreateZipArchive = (
+  src: string,
+  dest: string,
+  error: Error
+) =>
+  new Error(
+    `A TerraformAsset trying to zip archive '${src}' into ${dest} failed: ${error}`
+  );
