@@ -80,6 +80,7 @@ type Options = {
   enableCrashReporting?: boolean;
   tfeHostname?: string;
   silent?: boolean;
+  nonInteractive?: boolean;
 };
 
 export async function runInit(argv: Options) {
@@ -93,7 +94,7 @@ export async function runInit(argv: Options) {
     // without a token and set up the project.
 
     const terraformLogin = new TerraformLogin(terraformRemoteHostname);
-    token = await terraformLogin.askToLogin();
+    token = await terraformLogin.askToLogin(argv.nonInteractive ?? false);
   } else {
     if (!argv.silent) {
       console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
@@ -116,8 +117,20 @@ This means that your Terraform state file will be stored locally on disk in a fi
   }
 
   // Gather information about the template and the project
-  const templateInfo = await getTemplate(template);
+  const templateInfo = await getTemplate(
+    template,
+    argv.nonInteractive ?? false
+  );
   telemetryData.template = templateInfo.Name;
+
+  if (!argv.projectName && argv.nonInteractive) {
+    throw Errors.Usage(
+      "You are trying to initialize a project without specifying a project name in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. If this happens using convert, please report it as a bug. Please specify a project name using the --project-name option."
+    );
+  }
+  if (!argv.projectDescription && argv.nonInteractive) {
+    ("You are trying to initialize a project without specifying a project description in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. If this happens using convert, please report it as a bug. Please specify a project name using the --project-description option.");
+  }
 
   const { projectInfo, useTerraformCloud } = await gatherInfo(
     token,
@@ -131,7 +144,9 @@ This means that your Terraform state file will be stored locally on disk in a fi
   let fromTerraformProject = argv.fromTerraformProject || undefined;
   if (!fromTerraformProject) {
     if (templateInfo.Name === "typescript") {
-      fromTerraformProject = await getTerraformProject();
+      fromTerraformProject = await getTerraformProject(
+        argv.nonInteractive ?? false
+      );
     }
   } else if (fromTerraformProject === "no") {
     fromTerraformProject = undefined;
@@ -159,9 +174,10 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const sendCrashReports =
     argv.enableCrashReporting ??
     (ci ? false : await askForCrashReportingConsent());
-  const providers = argv.providers?.length
-    ? argv.providers
-    : await askForProviders();
+  const providers =
+    argv.providers?.length || argv.nonInteractive
+      ? argv.providers
+      : await askForProviders();
 
   let convertResult, importPath;
   if (fromTerraformProject) {
@@ -422,8 +438,10 @@ You can create one here: https://${terraformRemoteHostname}/app/organizations/ne
   };
 }
 
-async function getTerraformProject(): Promise<string | undefined> {
-  if (!isInteractiveTerminal()) {
+async function getTerraformProject(
+  nonInteractive: boolean
+): Promise<string | undefined> {
+  if (!isInteractiveTerminal() || nonInteractive) {
     return Promise.resolve(undefined);
   }
   const shouldUseTerraformProject = await confirm({
@@ -461,8 +479,16 @@ async function getTerraformProject(): Promise<string | undefined> {
  *
  * @param templateName either the name of built-in templates or an url pointing to a zip archive
  */
-async function getTemplate(templateName: string): Promise<Template> {
+async function getTemplate(
+  templateName: string,
+  nonInteractive: boolean
+): Promise<Template> {
   if (templateName == "") {
+    if (nonInteractive) {
+      throw Errors.Usage(
+        "You are trying to initialize a project without specifying a template in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. Please specify a template using the --template option in init or --language in convert."
+      );
+    }
     const templateOptionRemote = "<remote zip file>";
     const options = [...templates, templateOptionRemote];
     // Prompt for template

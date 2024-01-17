@@ -128,7 +128,7 @@ export async function convert({
     logger.setLevel("ERROR");
     await init({
       template: "typescript",
-      providers: provider,
+      providers: provider || [],
       projectName: path.basename(tempDir),
       projectDescription: "Temporary project for conversion",
       local: true,
@@ -137,6 +137,7 @@ export async function convert({
       dist: pkg.version === "0.0.0" ? dist : undefined,
       cdktfVersion: pkg.version,
       silent: true,
+      nonInteractive: true,
     });
     logger.useDefaultLevel();
   }
