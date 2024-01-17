@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { App, Aspects, MigrateIds, TerraformStack, Testing } from "../lib";
 import { TestModule } from "./helper";
 
