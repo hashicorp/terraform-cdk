@@ -5,11 +5,18 @@ import { confirm, password } from "@inquirer/prompts";
 import * as open from "open";
 import * as chalk from "chalk";
 import * as terraformCloudClient from "./terraform-cloud-client";
-import { logger } from "@cdktf/commons";
+import { Errors, logger } from "@cdktf/commons";
 
 const chalkColour = new chalk.Instance();
 const homedir = require("os").homedir();
 const terraformCredentialsFilePath = `${homedir}/.terraform.d/credentials.tfrc.json`;
+
+const nonIteractiveLoginWithNoTokenError = (invalid: boolean) =>
+  Errors.Usage(
+    `You are trying to use terraform init in a non-interactive mode while ${
+      invalid ? "having an invalid token for" : "not being logged in to"
+    }  Terraform Cloud. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. Please run 'cdktf login' to log in.`
+  );
 
 export interface Hostname {
   token: string;
@@ -147,7 +154,7 @@ the following file for use by subsequent Terraform commands:
     }
   }
 
-  public async askToLogin(): Promise<string> {
+  public async askToLogin(nonInteractive: boolean): Promise<string> {
     const hasToken = await this.checkIfTerraformCredentialsExist();
     const token: string | null = hasToken
       ? await this.getTokenFromTerraformCredentialsFile()
@@ -157,6 +164,10 @@ the following file for use by subsequent Terraform commands:
       return token;
     }
 
+    // if we are not interactive, we need to abort
+    if (nonInteractive) {
+      throw nonIteractiveLoginWithNoTokenError(Boolean(token));
+    }
     // we either have no token or not a valid one
     const shouldContinue = await this.askToContinue();
     if (shouldContinue) {
