@@ -1,7 +1,12 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 
-import { TerraformElement, TerraformResource } from ".";
+import {
+  Annotations,
+  TerraformElement,
+  TerraformModule,
+  TerraformResource,
+} from ".";
 import { IAspect } from "./aspect";
 import { IConstruct, Node } from "constructs";
 import * as crypto from "crypto";
@@ -165,6 +170,14 @@ export class MigrateIds implements IAspect {
     if (node instanceof TerraformResource) {
       const oldId = allocateLogicalIdOldVersion(node);
       node.moveFromId(`${node.terraformResourceType}.${oldId}`);
+    }
+    // eslint-disable-next-line no-instanceof/no-instanceof
+    if (node instanceof TerraformModule) {
+      const oldId = allocateLogicalIdOldVersion(node);
+      Annotations.of(node)
+        .addWarning(`Found module with new id ${node.friendlyUniqueId}. Moving this module requires a manual state migration.
+If this module has not been moved yet, run "terraform state mv module.${oldId} module.${node.friendlyUniqueId}" to migrate the existing state to its new id.
+Refer to the following page for more information: https://developer.hashicorp.com/terraform/cdktf/examples-and-guides/refactoring#moving-or-renaming-modules`);
     }
   }
 }
