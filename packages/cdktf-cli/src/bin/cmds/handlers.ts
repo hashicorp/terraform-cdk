@@ -65,6 +65,7 @@ import path from "path";
 import os from "os";
 import { readPackageJson, projectRootPath } from "./helper/utilities";
 import { readSchema } from "@cdktf/provider-schema";
+import { editor, input } from "@inquirer/prompts";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -109,10 +110,18 @@ export async function convert({
     experimentalProviderSchemaCachePath
   );
 
-  const input = await readStreamAsString(
-    process.stdin,
-    "No stdin was passed, please use it like this: cat main.tf | cdktf convert > imported.ts"
-  );
+  let input: string | undefined = undefined;
+  try {
+    input = await readStreamAsString(process.stdin);
+  } catch (e) {
+    logger.debug(`No TTY stream passed to convert, using interactive input`);
+    input = await editor({
+      message:
+        "Enter your Terrafrom code to convert to cdktf (or run the command again and pass it as stdin):",
+      postfix: ".tf",
+      waitForUseInput: true,
+    });
+  }
 
   const needsProject = language !== "typescript";
 
@@ -402,7 +411,7 @@ export async function login(argv: { tfeHostname: string }) {
   const terraformLogin = new TerraformLogin(argv.tfeHostname);
   let token = "";
   try {
-    token = await readStreamAsString(process.stdin, "No stdin was passed");
+    token = await readStreamAsString(process.stdin);
   } catch (e) {
     logger.debug(`No TTY stream passed to login`);
   }
