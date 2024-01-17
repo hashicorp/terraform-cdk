@@ -666,28 +666,30 @@ Options:
   -h, --help                      Show help                                                                                                                    [boolean]
 ```
 
-The debug information depends on the programming language. The following example is from a Java application, where CDKTF collects information about Java and Maven. CDKTF detects the installed `constructs` version through Maven.
+The debug information depends on the programming language. The following example is from a Java application, where CDKTF collects information about Java, Gradle, and Maven. CDKTF detects the installed `constructs` version through Gradle.
 
 ```
 $ cdktf debug
+cdktf debug
 language: java
-cdktf-cli: 0.18.2
-node: v18.18.1
-cdktf: 0.18.2
-constructs: 10.3.0
-jsii: 1.59.0
-terraform: 1.6.5
-arch: arm64
+cdktf-cli: 0.20.1
+node: v18.12.0
+cdktf: 0.20.1
+constructs: 10.1.167
+jsii: null
+terraform: 1.4.0
+arch: x64
 os: darwin 22.6.0
-java: 17.0.1
-maven: Apache Maven 3.8.2 (ea98e05a04480131370aa0c110b8c54cf726c06f)Maven home: /usr/local/Cellar/maven/3.8.2/libexecJava version: 17.0.1, vendor: Homebrew, runtime: /usr/local/Cellar/openjdk/17.0.1_1/libexec/openjdk.jdk/Contents/HomeDefault locale: en_DE, platform encoding: UTF-8OS name: "mac os x", version: "12.3.1", arch: "arm64", family: "mac"
+java:
+maven: Apache Maven 3.9.3 (21122926829f1ead511c958d89bd2f672198ae9f)Maven home: /usr/local/Cellar/maven/3.9.3/libexecJava version: 20.0.1, vendor: Homebrew, runtime: /usr/local/Cellar/openjdk/20.0.1/libexec/openjdk.jdk/Contents/HomeDefault locale: en_DE, platform encoding: UTF-8OS name: "mac os x", version: "13.5.2", arch: "x86_64", family: "mac"
+gradle: ------------------------------------------------------------Gradle 8.2.1------------------------------------------------------------Build time:   2023-07-10 12:12:35 UTCRevision:     a38ec64d3c4612da9083cc506a1ccb212afeecaaKotlin:       1.8.20Groovy:       3.0.17Ant:          Apache Ant(TM) version 1.10.13 compiled on January 4 2023JVM:          20.0.1 (Homebrew 20.0.1)OS:           Mac OS X 13.5.2 x86_64
 providers
-kreuzwerker/docker@~> 2.0 (LOCAL)
+kreuzwerker/docker@~>2.0 (LOCAL)
         terraform provider version: 2.25.0
-@cdktf/provider-ad (PREBUILT)
+com.hashicorp.cdktf-provider-ad (PREBUILT)
         terraform provider version: 0.4.4
-        prebuilt provider version: 6.0.0
-        cdktf version: ^0.18.0
+        prebuilt provider version: 8.0.0
+        cdktf version: ^0.20.0
 ```
 
 ## provider add
