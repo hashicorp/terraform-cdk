@@ -3,14 +3,17 @@
 
 import {
   Annotations,
+  App,
   TerraformElement,
   TerraformModule,
   TerraformResource,
+  TerraformStack,
 } from ".";
 import { IAspect } from "./aspect";
 import { IConstruct, Node } from "constructs";
 import * as crypto from "crypto";
 import { cannotCalcIdForEmptySetOfComponents } from "./errors";
+import * as path from "path";
 
 /**
  * We have to copy this from the old CDKTF version for now, so that we can
@@ -174,9 +177,15 @@ export class MigrateIds implements IAspect {
     // eslint-disable-next-line no-instanceof/no-instanceof
     if (node instanceof TerraformModule) {
       const oldId = allocateLogicalIdOldVersion(node);
+      const appManifest = App.of(node).manifest;
+      const stackManifest = appManifest.forStack(TerraformStack.of(node));
+      const stackOutdir = path.join(
+        appManifest.outdir,
+        stackManifest.workingDirectory
+      );
       Annotations.of(node)
         .addWarning(`Found module with new id ${node.friendlyUniqueId}. Moving this module requires a manual state migration.
-If this module has not been moved yet, run "terraform state mv module.${oldId} module.${node.friendlyUniqueId}" to migrate the existing state to its new id.
+If this module has not been moved yet, run "terraform state mv module.${oldId} module.${node.friendlyUniqueId}" in the output directory "${stackOutdir}" to migrate the existing state to its new id.
 Refer to the following page for more information: https://developer.hashicorp.com/terraform/cdktf/examples-and-guides/refactoring#moving-or-renaming-modules`);
     }
   }
