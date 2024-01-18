@@ -65,7 +65,7 @@ import path from "path";
 import os from "os";
 import { readPackageJson, projectRootPath } from "./helper/utilities";
 import { readSchema } from "@cdktf/provider-schema";
-import { editor, input } from "@inquirer/prompts";
+import { editor } from "@inquirer/prompts";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -115,12 +115,18 @@ export async function convert({
     input = await readStreamAsString(process.stdin);
   } catch (e) {
     logger.debug(`No TTY stream passed to convert, using interactive input`);
-    input = await editor({
-      message:
-        "Enter your Terrafrom code to convert to cdktf (or run the command again and pass it as stdin):",
-      postfix: ".tf",
-      waitForUseInput: true,
-    });
+    try {
+      input = await editor({
+        message:
+          "Enter your Terrafrom code to convert to cdktf (or run the command again and pass it as stdin):",
+        postfix: ".tf",
+        waitForUseInput: true,
+      });
+    } catch (err) {
+      throw Errors.Usage(
+        "No Terraform code to convert was provided. Please provide Terraform code to convert as stdin or run the command again and let the CLI open the editor."
+      );
+    }
   }
 
   const needsProject = language !== "typescript";
@@ -423,7 +429,7 @@ export async function login(argv: { tfeHostname: string }) {
   if (token) {
     await terraformLogin.saveTerraformCredentials(sanitizedToken);
   } else {
-    token = await terraformLogin.askToLogin();
+    token = await terraformLogin.askToLogin(false);
     if (token === "") {
       throw Errors.Usage(`No Terraform Cloud token was provided.`);
     }
