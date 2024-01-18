@@ -219,6 +219,11 @@
       "permanent": false
     },
     {
+      "source": "/adding-modules",
+      "destination": "https://developer.hashicorp.com/terraform/cdktf/concepts/modules#add-module-to-cdktf-json",
+      "permanent": false
+    },
+    {
       "source": "/registry-providers",
       "destination": "https://registry.terraform.io/browse/providers",
       "permanent": false
