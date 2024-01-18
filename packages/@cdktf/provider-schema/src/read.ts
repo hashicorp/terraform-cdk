@@ -13,6 +13,8 @@ import {
   TerraformDependencyConstraint,
   LANGUAGES,
   ConstructsMakerProviderTarget,
+  ConstructsMakerModuleTarget,
+  Errors,
 } from "@cdktf/commons";
 import deepmerge from "deepmerge";
 import { readModuleSchema, readProviderSchema } from "./provider-schema";
@@ -31,6 +33,9 @@ export async function readSchema(
   const targets = constraints.map((constraint) =>
     ConstructsMakerProviderTarget.from(constraint, LANGUAGES[0])
   );
+
+  throwIfTargetsConflict(targets);
+
   const schemas = await Promise.all(
     targets.map((t) =>
       t.isModule
@@ -52,4 +57,22 @@ export async function readSchema(
   });
 
   return deepmerge.all(schemas);
+}
+
+function throwIfTargetsConflict(
+  targets: (ConstructsMakerProviderTarget | ConstructsMakerModuleTarget)[]
+) {
+  const modules = targets.filter(
+    (t) => t.isModule
+  ) as ConstructsMakerModuleTarget[];
+
+  modules.forEach((moduleA) => {
+    modules.forEach((moduleB) => {
+      if (moduleA !== moduleB && moduleA.name === moduleB.name) {
+        throw Errors.Usage(
+          `Found two modules with the same name "${moduleA.name}" which is not supported. Please rename one of the modules in your cdktf.json config. For more information on how to set the name refer to https://cdk.tf/adding-modules`
+        );
+      }
+    });
+  });
 }
