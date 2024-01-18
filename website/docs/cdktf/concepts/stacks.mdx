@@ -338,12 +338,12 @@ class MyMultipleStacks(TerraformStack):
             }
         )
 
-app = App()
-MyMultipleStacks(app, "multiple-stacks-dev", MyMultipleStacksConfig(environment = "dev"))
-MyMultipleStacks(app, "multiple-stacks-staging", MyMultipleStacksConfig(environment = "staging"))
-MyMultipleStacks(app, "multiple-stacks-production-us", MyMultipleStacksConfig(environment = "staging", region = "eu-central-1"))
+multi_stack_app = App()
+MyMultipleStacks(multi_stack_app, "multiple-stacks-dev", MyMultipleStacksConfig(environment = "dev"))
+MyMultipleStacks(multi_stack_app, "multiple-stacks-staging", MyMultipleStacksConfig(environment = "staging"))
+MyMultipleStacks(multi_stack_app, "multiple-stacks-production-us", MyMultipleStacksConfig(environment = "staging", region = "eu-central-1"))
 
-app.synth
+multi_stack_app.synth
 ```
 
 ```csharp
@@ -675,9 +675,9 @@ class BackendStack(TerraformStack):
             docker_image = config.docker_image
         )
 
-app = App()
-origin = VPCStack(app, "origin-stack")
-BackendStack(app, "target-stack",
+cross_stack_app = App()
+origin = VPCStack(cross_stack_app, "origin-stack")
+BackendStack(cross_stack_app, "target-stack",
     BackendStackConfig(
         region = origin.region,
         vpc_id = origin.vpc.vpc_id_output,
@@ -685,7 +685,7 @@ BackendStack(app, "target-stack",
     )
 )
 
-app.synth()
+cross_stack_app.synth()
 ```
 
 ```csharp
@@ -875,7 +875,7 @@ this.allResources = new TerraformLocal(this, "merge_items",
 ```
 
 ```python
-self.allResources =  TerraformLocal(self, "merge_items", Fn.concat(resourceFromStackA.items, resourceFromStackB.items))
+self.allResources =  TerraformLocal(self, "merge_items", Fn.concat([resources_from_stack_a, resources_from_stack_b]))
 ```
 
 ```csharp
