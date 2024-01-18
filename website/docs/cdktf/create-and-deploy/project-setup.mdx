@@ -30,6 +30,8 @@ Use these template names for the available pre-built templates:
 - `java`
 - `go`
 
+Note: Even though the CDKTF Java template sets up the Gradle build system for performance reasons, you can still use Maven to build your project. For more information refer to the Java examples which also include Maven examples: [Java Examples](/terraform/cdktf/examples-and-guides/examples#java).
+
 ### Use a Local Backend
 
 Add the `--local` flag to created a scaffolded project that is pre-configured to use a [local backend](/terraform/language/settings/backends/local). This means that your application stores [Terraform state](/terraform/language/state) on your local machine and all Terraform operations run locally.
