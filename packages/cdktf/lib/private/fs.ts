@@ -1,9 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
+import * as archiver from "archiver";
+import { assetCanNotCreateZipArchive } from "../errors";
+import { execSync } from "child_process";
 
 const HASH_LEN = 32;
 
@@ -47,9 +49,56 @@ export function copySync(src: string, dest: string) {
  * @param {string} dest
  */
 export function archiveSync(src: string, dest: string) {
-  const projectRoot = path.resolve(__dirname, "..", "..");
-  const zipSyncPath = path.resolve(projectRoot, "bin", "zipSync.js");
-  execSync(`node ${zipSyncPath} ${src} ${dest}`);
+  // Run this module as a CLI to get around the synchronous limitation
+  try {
+    execSync(`node ${__filename} ${src} ${dest}`, { encoding: "utf-8" });
+  } catch (err: any) {
+    throw assetCanNotCreateZipArchive(src, dest, err);
+  }
+}
+
+/**
+ *
+ * @param src
+ * @param dest
+ */
+async function runArchive(src: string, dest: string) {
+  return new Promise<void>((resolve, reject) => {
+    const output = fs.createWriteStream(dest);
+
+    const archive = archiver("zip", {
+      zlib: { level: 9 }, // Sets the compression level.
+    });
+    archive.pipe(output);
+
+    archive.on("error", (err: Error) => {
+      reject(err);
+    });
+    archive.on("close", () => {
+      resolve();
+    });
+
+    archive.directory(src, false);
+    archive.finalize();
+  });
+}
+
+// If this file is executed as a CLI we run archive directly
+// It's a bit of a hack due to us being restricted to synchronous functions
+// when there is no sync way to create a zip archive.
+// We get around this by using execSync and invoking this file as the CLI.
+// This only works for one function, but we only have this use-case once.
+if (require.main === module) {
+  const src = process.argv[2];
+  const dest = process.argv[3];
+  runArchive(src, dest)
+    .then(() => {
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
+    });
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc

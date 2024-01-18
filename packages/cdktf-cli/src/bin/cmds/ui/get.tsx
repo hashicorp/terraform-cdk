@@ -9,6 +9,7 @@ import { Text, Box, useApp, Newline } from "ink";
 import Spinner from "ink-spinner";
 import { GetOptions } from "@cdktf/provider-generator";
 import {
+  IsErrorType,
   Language,
   sendTelemetry,
   TerraformDependencyConstraint,
@@ -61,7 +62,11 @@ export const Get = ({
             }),
         });
       } catch (e: any) {
-        console.error(e);
+        // No stack trace for usage errors, as they explain themselves
+        if (!IsErrorType(e, "Usage")) {
+          console.error(e);
+        }
+
         exit(new Error(e));
       }
     };

@@ -184,6 +184,17 @@ new S3Bucket(this, "bucket-moved", {
 new NestedConstruct(this, "nested-construct", {});
 ```
 
+## Moving or renaming modules
+
+To change the id of a module without losing its state use the `terraform state mv` command. This command needs to be run in the output directory of the stack that contains the module. Commonly this is `cdktf.out/stacks/<stack-name>`. The command takes two arguments, the first is the current id of the module, the second is the new id of the module.
+
+```shell-session
+$ cd cdktf.out/stacks/refactoring-example
+$ terraform state mv module.my-module module.my-new-module
+```
+
+For further details on the `terraform state mv` command refer to the [Terraform documentation](/terraform/cli/commands/state/mv).
+
 ## Moving Resources From One Stack To Another
 
 You may want to move a resource from one stack to another, like the following example aws `S3Bucket` resource.

@@ -40,12 +40,11 @@ export const requireHandlers = () => {
 };
 
 export function readStreamAsString(
-  stream: typeof process.stdin,
-  noTTYErrorMessage: string
+  stream: typeof process.stdin
 ): Promise<string> {
   return new Promise((ok, ko) => {
     if (stream.isTTY) {
-      ko(noTTYErrorMessage);
+      ko();
     } else {
       let string = "";
       stream.on("data", (data) => (string += data.toString()));
