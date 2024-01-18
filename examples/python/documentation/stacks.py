@@ -20,15 +20,11 @@ class MySingleStack(TerraformStack):
             instance_type = "t2.micro"
         )
 
-#DOCS_BLOCK_END:single-stack
-
-'''
-#DOCS_BLOCK_START:single-stack
 app = App()
 MySingleStack(app, "a-single-stack")
 app.synth
 #DOCS_BLOCK_END:single-stack
-'''
+
 
 #DOCS_BLOCK_START:multiple-stacks
 from constructs import Construct
@@ -62,18 +58,13 @@ class MyMultipleStacks(TerraformStack):
             }
         )
 
-#DOCS_BLOCK_END:multiple-stacks
+multi_stack_app = App()
+MyMultipleStacks(multi_stack_app, "multiple-stacks-dev", MyMultipleStacksConfig(environment = "dev"))
+MyMultipleStacks(multi_stack_app, "multiple-stacks-staging", MyMultipleStacksConfig(environment = "staging"))
+MyMultipleStacks(multi_stack_app, "multiple-stacks-production-us", MyMultipleStacksConfig(environment = "staging", region = "eu-central-1"))
 
-'''
-#DOCS_BLOCK_START:multiple-stacks
-app = App()
-MyMultipleStacks(app, "multiple-stacks-dev", MyMultipleStacksConfig(environment = "dev"))
-MyMultipleStacks(app, "multiple-stacks-staging", MyMultipleStacksConfig(environment = "staging"))
-MyMultipleStacks(app, "multiple-stacks-production-us", MyMultipleStacksConfig(environment = "staging", region = "eu-central-1"))
-
-app.synth
+multi_stack_app.synth
 #DOCS_BLOCK_END:multiple-stacks
-'''
 
 #DOCS_BLOCK_START:cross-stack-reference
 from constructs import Construct
@@ -117,13 +108,9 @@ class BackendStack(TerraformStack):
             docker_image = config.docker_image 
         )
 
-#DOCS_BLOCK_END:cross-stack-reference
-
-'''
-#DOCS_BLOCK_START:cross-stack-reference
-app = App()
-origin = VPCStack(app, "origin-stack")
-BackendStack(app, "target-stack",
+cross_stack_app = App()
+origin = VPCStack(cross_stack_app, "origin-stack")
+BackendStack(cross_stack_app, "target-stack",
     BackendStackConfig(
         region = origin.region,
         vpc_id = origin.vpc.vpc_id_output,
@@ -131,18 +118,53 @@ BackendStack(app, "target-stack",
     )
 )
 
-app.synth()
+cross_stack_app.synth()
 #DOCS_BLOCK_END:cross-stack-reference
-'''
 
-'''
+from cdktf import TerraformLocal, Fn
+from imports.aws.provider import AwsProvider
+from imports.aws.instance import Instance
+
+class SourceStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws", 
+                    region = "us-east-1"
+                    )
+
+        instance_a = Instance(self, "hello",
+                            ami = "ami-abcde123",
+                            instance_type = "t2.micro"
+                            )
+        instance_b = Instance(self, "hello_2",
+                            ami = "ami-abcde124",
+                            instance_type = "t2.micro"
+                            )
+
+        self.instances = [instance_a, instance_b]
+
+class StackDependenciesStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str, stack_a, stack_b):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws", 
+            region = "us-east-1"
+        )
+
+        resources_from_stack_a = [instance.id for instance in stack_a.instances]
+        resources_from_stack_b = [instance.id for instance in stack_b.instances]
+
 #DOCS_BLOCK_START:stack-dependencies
-self.allResources =  TerraformLocal(self, "merge_items", Fn.concat(resourceFromStackA.items, resourceFromStackB.items))
+        self.allResources =  TerraformLocal(self, "merge_items", Fn.concat([resources_from_stack_a, resources_from_stack_b]))
 #DOCS_BLOCK_END:stack-dependencies
-'''
+    
+stack_dependencies_app = App()
+stack_a = SourceStack(stack_dependencies_app, "stack_a");
+stack_b = SourceStack(stack_dependencies_app, "stack_b");
+stack = StackDependenciesStack(stack_dependencies_app, "temp", stack_a, stack_b)
+stack_dependencies_app.synth()
 
-app = App()
-stack = TerraformStack(app, "temp")
 #DOCS_BLOCK_START:stack-escape-hatches
 stack.add_override("terraform.backend", {
     "local": Token.null_value(), # delete the default local backend
