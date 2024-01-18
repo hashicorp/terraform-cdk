@@ -95,9 +95,3 @@ namespace Examples
     }
     // DOCS_BLOCK_END:cross-stack-reference
 }
-
-/*
-// DOCS_BLOCK_START:stack-dependencies
-this.allResources = new TerraformLocal(this, "merge_items", Fn.concat(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
-// DOCS_BLOCK_END:stack-dependencies
-*/

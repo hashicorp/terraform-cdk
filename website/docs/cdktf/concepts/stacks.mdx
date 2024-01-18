@@ -879,7 +879,8 @@ self.allResources =  TerraformLocal(self, "merge_items", Fn.concat([resources_fr
 ```
 
 ```csharp
-this.allResources = new TerraformLocal(this, "merge_items", Fn.concat(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
+this.allResources = new TerraformLocal(this, "merge_items",
+        Fn.Concat(new object[]{resourcesFromStackA, resourcesFromStackB}));
 ```
 
 ```go
