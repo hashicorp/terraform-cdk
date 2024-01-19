@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`self with  1`] = `
+exports[`self with nested keys 1`] = `
 "{
   "provider": {
     "test": [
