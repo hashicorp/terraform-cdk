@@ -1,0 +1,19 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node main.ts",
+  "terraformProviders": [
+    {
+      "name": "bitbucket",
+      "namespace": "Runelab",
+      "version": "2.1.0",
+      "source": "Runelab/bitbucket"
+    },
+    {
+      "name": "abitbucket",
+      "namespace": "aeirola",
+      "version": "2.0.2",
+      "source": "aeirola/bitbucket"
+    }
+  ],
+  "context": {}
+}

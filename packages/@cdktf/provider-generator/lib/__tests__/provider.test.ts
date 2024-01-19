@@ -84,38 +84,40 @@ describe("Provider", () => {
       const snapshot = directorySnapshot(workdir);
       expect(snapshot).toMatchSnapshot();
     });
-  }, 600_000),
-    it("has generated provider that includes static import functions", async () => {
-      const constraint = new TerraformProviderConstraint(
-        "DataDog/datadog@= 3.12.0"
-      );
-      return await mkdtemp(async (workdir) => {
-        const jsiiPath = path.join(workdir, ".jsii");
-        const maker = new ConstructsMaker({
-          codeMakerOutput: workdir,
-          outputJsii: jsiiPath,
-          targetLanguage: Language.TYPESCRIPT,
-        });
-        await maker.generate([constraint]);
-        const snapshot = directorySnapshot(workdir);
+  }, 600_000);
 
-        const terraformResourceTypesPresent: string[] =
-          resourceTypesPresentInSnapshot(snapshot, "datadog");
-
-        terraformResourceTypesPresent.forEach((resource) => {
-          let terraformResourceType = resource.replace(/-/g, "_");
-          if (!terraformResourceType.includes("datadog")) {
-            terraformResourceType = `datadog_${terraformResourceType}`;
-          }
-          expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
-            `public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {`
-          );
-          expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
-            `return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "${terraformResourceType}", importId: importFromId, provider });`
-          );
-        });
+  it("has generated provider that includes static import functions", async () => {
+    const constraint = new TerraformProviderConstraint(
+      "DataDog/datadog@= 3.12.0"
+    );
+    return await mkdtemp(async (workdir) => {
+      const jsiiPath = path.join(workdir, ".jsii");
+      const maker = new ConstructsMaker({
+        codeMakerOutput: workdir,
+        outputJsii: jsiiPath,
+        targetLanguage: Language.TYPESCRIPT,
       });
-    }, 600_000);
+      await maker.generate([constraint]);
+      const snapshot = directorySnapshot(workdir);
+
+      const terraformResourceTypesPresent: string[] =
+        resourceTypesPresentInSnapshot(snapshot, "datadog");
+
+      terraformResourceTypesPresent.forEach((resource) => {
+        let terraformResourceType = resource.replace(/-/g, "_");
+        if (!terraformResourceType.includes("datadog")) {
+          terraformResourceType = `datadog_${terraformResourceType}`;
+        }
+        expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
+          `public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {`
+        );
+        expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
+          `return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "${terraformResourceType}", importId: importFromId, provider });`
+        );
+      });
+    });
+  }, 600_000);
+
   it("has name in constraint that does not match resolved name in fqpn", async () => {
     const constraint = new TerraformProviderConstraint({
       name: "dockerr",
@@ -143,6 +145,36 @@ describe("Provider", () => {
           snapshot[`providers/dockerr/${resource}/index.ts`]
         ).toBeDefined();
       });
+    });
+  }, 600_000);
+
+  it("generates constructs for two providers with same name", async () => {
+    const constraint = new TerraformProviderConstraint({
+      name: "bitbucket",
+      namespace: "Runelab",
+      version: "2.1.0",
+      source: "Runelab/bitbucket",
+    });
+    const constraint2 = new TerraformProviderConstraint({
+      name: "abitbucket",
+      namespace: "aeirola",
+      version: "2.0.2",
+      source: "aeirola/bitbucket",
+    });
+    return await mkdtemp(async (workdir) => {
+      const jsiiPath = path.join(workdir, ".jsii");
+      const maker = new ConstructsMaker(
+        {
+          codeMakerOutput: workdir,
+          outputJsii: jsiiPath,
+          targetLanguage: Language.TYPESCRIPT,
+        },
+        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+      );
+      await maker.generate([constraint, constraint2]);
+      console.log("workdir", workdir);
+      const snapshot = directorySnapshot(workdir);
+      expect(snapshot).toMatchSnapshot();
     });
   }, 600_000);
 });

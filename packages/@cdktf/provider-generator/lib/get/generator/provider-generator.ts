@@ -26,18 +26,57 @@ const isMatching = (
 ): boolean => {
   if (target.isModule) return false;
 
+  console.log("isMatching", { target, terraformSchemaName });
+
   const elements = terraformSchemaName.split("/");
 
   if (elements.length === 1) {
     return target.source === terraformSchemaName;
   } else {
-    const [hostname, scope, provider] = elements;
+    const [hostname, namespace, provider] = elements;
 
-    if (!hostname || !scope || !provider) {
+    if (!hostname || !namespace || !provider) {
       throw new Error(`can't handle ${terraformSchemaName}`);
     }
 
-    return target.name === provider || target.source === terraformSchemaName;
+    // If target.source is set, try to match it
+    if (target.source) {
+      const targetSource = {
+        // defaults
+        hostname: "registry.terraform.io",
+        namespace: "hashicorp",
+        name: "",
+      };
+      const targetElements = target.source.split("/");
+      switch (targetElements.length) {
+        case 1: // only name set
+          targetSource.name = targetElements[0].toLowerCase();
+          break;
+        case 2: // namespace and name set
+          targetSource.namespace = targetElements[0].toLowerCase();
+          targetSource.name = targetElements[1].toLowerCase();
+          break;
+        case 3: // hostname, namespace and name set
+          targetSource.hostname = targetElements[0].toLowerCase();
+          targetSource.namespace = targetElements[1].toLowerCase();
+          targetSource.name = targetElements[2].toLowerCase();
+          break;
+        default:
+          throw new Error(
+            `can't handle ${target.source}. Expected string with 1, 2 or 3 elements separated by '/'`
+          );
+      }
+
+      return (
+        targetSource.hostname === hostname &&
+        targetSource.namespace === namespace &&
+        targetSource.name === provider
+      );
+    }
+
+    // Else, try to match target.name to the provider name
+
+    return target.name === provider;
   }
 };
 
@@ -181,6 +220,7 @@ export class TerraformProviderGenerator {
       if (constraint) {
         providerResource.providerVersionConstraint = constraint.version;
         providerResource.terraformProviderSource = constraint.source;
+        providerResource.terraformProviderName = constraint.name;
       }
       providerResource.providerVersion = providerVersion;
       files.push(this.emitResource(providerResource));

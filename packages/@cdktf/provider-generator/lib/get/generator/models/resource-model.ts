@@ -37,6 +37,11 @@ export class ResourceModel {
   public providerVersionConstraint?: string;
   public providerVersion?: string;
   public terraformProviderSource?: string;
+  /*
+   * usually same as provider, but can be overridden if user picks a different name
+   * to be able to use two providers with the same name
+   */
+  public terraformProviderName: string;
   public fileName: string;
   public attributes: AttributeModel[];
   public schema: Schema;
@@ -56,6 +61,7 @@ export class ResourceModel {
     this.schema = options.schema;
     this.fqpn = options.fqpn;
     this.provider = parseFQPN(options.fqpn).name;
+    this.terraformProviderName = this.provider;
     this.fileName = options.fileName;
     this._structs = options.structs;
     this.terraformSchemaType = options.terraformSchemaType;
@@ -118,7 +124,7 @@ export class ResourceModel {
 
   public get terraformResourceType(): string {
     return this.isProvider
-      ? this.provider
+      ? this.terraformProviderName
       : this.isDataSource
       ? this.terraformType.replace(/^data_/, "")
       : this.terraformType;
