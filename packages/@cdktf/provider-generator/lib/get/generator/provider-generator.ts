@@ -39,9 +39,6 @@ const isMatching = (
       throw new Error(`can't handle ${terraformSchemaName}`);
     }
 
-    console.log("target.name", target.name);
-    console.log("terraformSchemaName", terraformSchemaName);
-
     // If target.source is set, try to match it
     if (target.source) {
       const targetSource = {
