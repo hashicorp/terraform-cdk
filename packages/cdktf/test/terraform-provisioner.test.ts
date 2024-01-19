@@ -4,7 +4,7 @@ import { Testing, TerraformStack, TerraformSelf } from "../lib";
 import { TestResource } from "./helper";
 import { TestProvider } from "./helper/provider";
 
-test("self with ", () => {
+test("self with nested keys", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "foo", {});
