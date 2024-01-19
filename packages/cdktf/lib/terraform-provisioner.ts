@@ -353,7 +353,10 @@ export interface RemoteExecProvisioner {
  */
 export class TerraformSelf {
   private static getInterpolation(key: string) {
-    return `self.${snakeCase(key)}`;
+    return `self.${key
+      .split(".")
+      .map((s) => snakeCase(s))
+      .join(".")}`;
   }
 
   /**
