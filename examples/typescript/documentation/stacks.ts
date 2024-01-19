@@ -162,6 +162,7 @@ export function stackDependenciesRunner() {
     constructor(scope: Construct, id: string, dependencies: MySourceStack[]) {
       super(scope, id);
 
+      const [sourceStackA, sourceStackB] = dependencies;
       // DOCS_BLOCK_START:stack-dependencies
       this.allResources = new TerraformLocal(this, "merged_items", [
         sourceStackA.instance.id,
