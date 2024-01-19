@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`self with  1`] = `
+"{
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "bar": {
+        "name": "test",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "say 'hello world'",
+              "environment": {
+                "ECR_IMAGE_COMMAND": "delete",
+                "ECR_IMAGE_SOURCE_IMAGE": "\${self.triggers_replace.source_image}",
+                "ECR_IMAGE_TARGET_IMAGE": "\${self.image_name_with_hash}",
+                "ECR_IMAGE_TARGET_REGION": "\${self.triggers_replace.target_region}"
+              },
+              "interpreter": [
+                "bash"
+              ],
+              "when": "destroy"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
