@@ -306,7 +306,7 @@ To learn more about Remote Backends, refer to: https://developer.hashicorp.com/t
 
 export const valueContainsUnescapedQuotes = (value: string) =>
   new Error(
-    `You value, '${value}', has unescaped double quotes in it, so it cannot be used as a value.
+    `Your value, '${value}', has unescaped double quotes in it, so it cannot be used as a value.
 
 To safely use the value, use Fn.rawString on your string, like so:
 
