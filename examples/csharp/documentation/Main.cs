@@ -69,7 +69,10 @@ namespace MyCompany.MyApp
             new Examples.Consumer(app, "cdktf-consumer");
             new Examples.OperatorsStack(app, "operators");
             new Examples.FunctionsOtherStack(app, "functions-other");
-            new Examples.StackDependenciesStack(app, "cross-stack-reference");
+
+            var sourceStackA = new Examples.SourceStack(app, "source-stack-a");
+            var sourceStackB = new Examples.SourceStack(app, "source-stack-b");
+            new Examples.StackDependenciesStack(app, "stack-dependencies", sourceStackA, sourceStackB);
 
             TerraformStack stack = new TerraformStack(app, "stack-escape-hatches");
             // DOCS_BLOCK_START:stack-escape-hatches
