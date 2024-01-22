@@ -516,3 +516,10 @@ export const assetCanNotCreateZipArchive = (
   new Error(
     `A TerraformAsset trying to zip archive '${src}' into ${dest} failed: ${error}`
   );
+
+export const variableTokenCanNotBeUsedWithinBackendConfig = (
+  identifier: string
+) =>
+  new Error(
+    `Cannot use reference within backend block: ${identifier}. Backend configuration in Terraform only supports static values, see https://developer.hashicorp.com/terraform/language/settings/backends/configuration#backend-configuration for more information. In the context of CDKTF this means you may use native language variables or read environment variables, but you cannot use references to attributes of resources or data sources or variables within the backend block.`
+  );

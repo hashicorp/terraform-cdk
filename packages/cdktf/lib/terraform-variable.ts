@@ -8,6 +8,8 @@ import { ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { ITerraformAddressable } from "./terraform-addressable";
 import { TerraformVariableValidationConfig } from "./terraform-conditions";
+import { TerraformBackend } from ".";
+import { variableTokenCanNotBeUsedWithinBackendConfig } from "./errors";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class VariableType {
@@ -153,7 +155,15 @@ export class TerraformVariable
   }
 
   private interpolation(): IResolvable {
-    return ref(`var.${this.friendlyUniqueId}`, this.cdktfStack);
+    const identifier = `var.${this.friendlyUniqueId}`;
+    return ref(identifier, this.cdktfStack, {
+      scopeValidationCallback: (scope) => {
+        console.log("SCope", scope);
+        if (TerraformBackend.isBackend(scope)) {
+          throw variableTokenCanNotBeUsedWithinBackendConfig(identifier);
+        }
+      },
+    });
   }
 
   public synthesizeHclAttributes(): { [key: string]: any } {

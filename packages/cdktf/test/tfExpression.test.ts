@@ -1,7 +1,15 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
-import { TerraformStack, Fn, Token, Testing } from "../lib";
+import {
+  TerraformStack,
+  Fn,
+  Token,
+  Testing,
+  CloudBackend,
+  NamedCloudWorkspace,
+  TerraformBackend,
+} from "../lib";
 import {
   conditional,
   propertyAccess,
@@ -13,6 +21,7 @@ import {
 import { resolve } from "../lib/_tokens";
 import { Op } from "../lib/terraform-operators";
 import { TestResource } from "./helper";
+import { variableTokenCanNotBeUsedWithinBackendConfig } from "../lib/errors";
 
 const appScope = new Construct(undefined as any, "randomScope");
 
@@ -268,5 +277,24 @@ test("nesting can undo the wrapping", () => {
     )
   ).toMatchInlineSnapshot(
     `"\${x(docker_container.foo.bar, "this is the ref: \${y("my ref: \${docker_container.foo.bar}", docker_container.foo.bar)}")}"`
+  );
+});
+
+test("Using a variable in a backend block leads to an error", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "stack");
+  const reference = ref("var.my_var", stack, {
+    scopeValidationCallback: (scope) => {
+      if (TerraformBackend.isBackend(scope)) {
+        throw variableTokenCanNotBeUsedWithinBackendConfig("var.my_var");
+      }
+    },
+  });
+  new CloudBackend(stack, {
+    organization: "my_org",
+    workspaces: new NamedCloudWorkspace(Token.asString(reference)),
+  });
+  expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(
+    `"Cannot use variable \\"my_var\\" in a backend block"`
   );
 });

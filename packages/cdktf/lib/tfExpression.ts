@@ -6,7 +6,7 @@ import { Tokenization, Token } from "./tokens/token";
 import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
 import { ITerraformDependable } from "./terraform-dependable";
-import { Construct } from "constructs";
+import { Construct, IConstruct } from "constructs";
 
 const TERRAFORM_IDENTIFIER_REGEX = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
 
@@ -136,6 +136,15 @@ export function rawString(str: string): IResolvable {
   return new RawString(str);
 }
 
+export interface ReferenceMetadata {
+  /**
+   * Throws if scope is invalid for this reference
+   * @param scope - the scope this reference is used in
+   * @jsii ignore
+   */
+  readonly scopeValidationCallback?: (scope: IConstruct) => void;
+}
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 class Reference extends TFExpression {
   /**
@@ -147,7 +156,8 @@ class Reference extends TFExpression {
   private crossStackIdentifier: Record<string, string> = {};
   constructor(
     private identifier: string,
-    private originStack?: TerraformStack
+    private originStack?: TerraformStack,
+    private metadata?: ReferenceMetadata
   ) {
     super(identifier);
   }
@@ -171,6 +181,11 @@ class Reference extends TFExpression {
 
         this.crossStackIdentifier[stackName] = csr;
       }
+
+      // Scope validation
+      if (this.metadata?.scopeValidationCallback) {
+        this.metadata.scopeValidationCallback(context.scope);
+      }
     }
 
     // If this is a cross stack reference we will resolve to a reference within this stack.
@@ -185,8 +200,12 @@ class Reference extends TFExpression {
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-export function ref(identifier: string, stack?: TerraformStack): IResolvable {
-  return new Reference(identifier, stack);
+export function ref(
+  identifier: string,
+  stack?: TerraformStack,
+  metadata?: ReferenceMetadata
+): IResolvable {
+  return new Reference(identifier, stack, metadata);
 }
 
 /**
