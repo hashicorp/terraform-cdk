@@ -294,7 +294,7 @@ test("Using a variable in a backend block leads to an error", () => {
     organization: "my_org",
     workspaces: new NamedCloudWorkspace(Token.asString(reference)),
   });
-  expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(
+  expect(() => Testing.fullSynth(stack)).toThrowErrorMatchingInlineSnapshot(
     `"Cannot use variable \\"my_var\\" in a backend block"`
   );
 });

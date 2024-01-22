@@ -158,7 +158,7 @@ export class TerraformVariable
     const identifier = `var.${this.friendlyUniqueId}`;
     return ref(identifier, this.cdktfStack, {
       scopeValidationCallback: (scope) => {
-        console.log("SCope", scope);
+        console.log("scope", scope);
         if (TerraformBackend.isBackend(scope)) {
           throw variableTokenCanNotBeUsedWithinBackendConfig(identifier);
         }

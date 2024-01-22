@@ -169,6 +169,17 @@ class Reference extends TFExpression {
     const suppressBraces = context.suppressBraces;
     context.suppressBraces = true;
 
+    // Scope validation
+    console.log(
+      "cb",
+      this.metadata?.scopeValidationCallback,
+      this.metadata?.scopeValidationCallback?.call(null, context.scope),
+      context
+    );
+    if (this.metadata?.scopeValidationCallback) {
+      this.metadata.scopeValidationCallback(context.scope);
+    }
+
     if (context.preparing) {
       // Cross stack reference
       if (this.originStack && this.originStack !== resolutionStack) {
@@ -180,11 +191,6 @@ class Reference extends TFExpression {
         );
 
         this.crossStackIdentifier[stackName] = csr;
-      }
-
-      // Scope validation
-      if (this.metadata?.scopeValidationCallback) {
-        this.metadata.scopeValidationCallback(context.scope);
       }
     }
 
