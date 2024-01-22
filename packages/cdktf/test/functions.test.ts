@@ -568,7 +568,7 @@ test("tomap does not destroy incoming ref", () => {
 it("errors mentioning function name and argument", () => {
   expect(() => Fn.replace("this value is ok", `this one " not`, "this is okay"))
     .toThrowErrorMatchingInlineSnapshot(`
-    "Argument 1 of replace failed the validation: Error: You value, 'this one " not', has unescaped double quotes in it, so it cannot be used as a value.
+    "Argument 1 of replace failed the validation: Error: Your value, 'this one " not', has unescaped double quotes in it, so it cannot be used as a value.
 
     To safely use the value, use Fn.rawString on your string, like so:
 
