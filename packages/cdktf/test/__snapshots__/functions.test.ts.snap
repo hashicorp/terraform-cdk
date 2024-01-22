@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`throws error on unescaped double quote string inputs " 1`] = `
-"Argument 0 of md5 failed the validation: Error: You value, '"', has unescaped double quotes in it, so it cannot be used as a value.
+"Argument 0 of md5 failed the validation: Error: Your value, '"', has unescaped double quotes in it, so it cannot be used as a value.
 
 To safely use the value, use Fn.rawString on your string, like so:
 
@@ -14,7 +14,7 @@ To learn more about built in Terraform functions within CDKTF, refer to: https:/
 `;
 
 exports[`throws error on unescaped double quote string inputs \\ \\\\" 1`] = `
-"Argument 0 of md5 failed the validation: Error: You value, '\\ \\\\"', has unescaped double quotes in it, so it cannot be used as a value.
+"Argument 0 of md5 failed the validation: Error: Your value, '\\ \\\\"', has unescaped double quotes in it, so it cannot be used as a value.
 
 To safely use the value, use Fn.rawString on your string, like so:
 
@@ -27,7 +27,7 @@ To learn more about built in Terraform functions within CDKTF, refer to: https:/
 `;
 
 exports[`throws error on unescaped double quote string inputs \\\\" 1`] = `
-"Argument 0 of md5 failed the validation: Error: You value, '\\\\"', has unescaped double quotes in it, so it cannot be used as a value.
+"Argument 0 of md5 failed the validation: Error: Your value, '\\\\"', has unescaped double quotes in it, so it cannot be used as a value.
 
 To safely use the value, use Fn.rawString on your string, like so:
 
@@ -40,7 +40,7 @@ To learn more about built in Terraform functions within CDKTF, refer to: https:/
 `;
 
 exports[`throws error on unescaped double quote string inputs \\\\\\\\" 1`] = `
-"Argument 0 of md5 failed the validation: Error: You value, '\\\\\\\\"', has unescaped double quotes in it, so it cannot be used as a value.
+"Argument 0 of md5 failed the validation: Error: Your value, '\\\\\\\\"', has unescaped double quotes in it, so it cannot be used as a value.
 
 To safely use the value, use Fn.rawString on your string, like so:
 
