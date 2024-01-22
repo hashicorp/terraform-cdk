@@ -22,23 +22,23 @@ namespace Examples
                 Region = "us-east-1"
             });
 
-            var Instance = new Instance(this, "instance", new InstanceConfig
+            var instance1 = new Instance(this, "instance", new InstanceConfig
             {
                 Ami = "ami-2757f631",
                 InstanceType = "t2.micro",
             });
 
 
-            var Instance2 = new Instance(this, "instance2", new InstanceConfig
+            var instance2 = new Instance(this, "instance2", new InstanceConfig
             {
                 Ami = "ami-2757f631",
                 InstanceType = "t2.micro",
             });
 
-            this.Instances = new List<Instance> { Instance, Instance2 };
+            this.Instances = new List<String> { instance1.Arn, instance2.Arn };
         }
 
-        public List<Instance> Instances { get; }
+        public List<String> Instances { get; }
     }
 
 
@@ -68,8 +68,8 @@ namespace Examples
         {
             App app = new App();
 
-            SourceStack sourceStackA = new SourceStack(app, "source-stack");
-            SourceStack sourceStackB = new SourceStack(app, "source-stack");
+            SourceStack sourceStackA = new SourceStack(app, "source-stack-a");
+            SourceStack sourceStackB = new SourceStack(app, "source-stack-b");
 
             StackDependenciesStack stack = new StackDependenciesStack(app, "stack-dependencies", sourceStackA, sourceStackB);
             
