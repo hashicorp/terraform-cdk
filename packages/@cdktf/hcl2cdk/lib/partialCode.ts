@@ -53,7 +53,8 @@ export function fillWithConfigAccessors(
       const value = mutated[key];
       const isNotDirectlyAccessible = value === undefined;
       const isReplacedByAst =
-        t.isExpression(mutated) || t.isExpression(value as any);
+        (t.isNode(mutated) && t.isExpression(mutated)) ||
+        t.isExpression(value as any);
       const isEmptyArray = Array.isArray(value) && value.length === 0;
 
       // If this was already replaced by an AST node, we don't need to do anything
