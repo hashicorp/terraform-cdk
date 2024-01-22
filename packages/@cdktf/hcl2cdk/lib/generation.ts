@@ -107,7 +107,7 @@ export const valueToTs = async (
       }
 
       // For iterators and dynamic blocks we put the correct TS expression in the config ahead of time
-      if (t.isExpression(item)) {
+      if (t.isNode(item) && t.isExpression(item)) {
         return item;
       }
 
@@ -198,7 +198,7 @@ export const valueToTs = async (
               const shouldBeArray =
                 typeof value === "object" &&
                 !Array.isArray(value) &&
-                !t.isExpression(value) &&
+                !(t.isNode(value) && t.isExpression(value)) &&
                 !isSingleItemBlock &&
                 // Map type attributes must not be wrapped in arrays
                 !isMapAttribute(itemAttributeType) &&
