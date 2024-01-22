@@ -4,6 +4,7 @@ import { Construct } from "constructs";
 import { TerraformRemoteState } from "./terraform-remote-state";
 import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
+import { Annotations } from "./annotations";
 
 const BACKEND_SYMBOL = Symbol.for("cdktf/TerraformBackend");
 
@@ -45,7 +46,7 @@ export abstract class TerraformBackend extends TerraformElement {
     const variables = this.detectVariables(backendConfig);
 
     if (variables.length > 0) {
-      throw new Error(
+      Annotations.of(this).addError(
         [
           "Terraform does not support interpolated values within backends.",
           "Interpolations found in the following configuration backend attributes:",
@@ -53,6 +54,7 @@ export abstract class TerraformBackend extends TerraformElement {
         ].join("\n")
       );
     }
+
     return {
       terraform: {
         backend: {
@@ -113,7 +115,7 @@ export abstract class TerraformBackend extends TerraformElement {
     const variables = this.detectVariables(backendConfig);
 
     if (variables.length > 0) {
-      throw new Error(
+      Annotations.of(this).addError(
         [
           "Terraform does not support interpolated values within backends.",
           "Interpolations found in the following configuration backend attributes:",
