@@ -1,3 +1,34 @@
+## 0.20.2
+
+### feat
+
+- feat(provider-generator): support renaming provider names in order to allow using two providers sharing the same name at the same time [\#3442](https://github.com/hashicorp/terraform-cdk/pull/3442)
+- feat(provider-generator): Ensure we have unique names for modules [\#3439](https://github.com/hashicorp/terraform-cdk/pull/3439)
+- feat(docs): Mention Maven examples in note on project setup page [\#3437](https://github.com/hashicorp/terraform-cdk/pull/3437)
+
+### fix
+
+- fix(docs): Run prettier [\#3445](https://github.com/hashicorp/terraform-cdk/pull/3445)
+- fix(lib): support dot-seperated nested accessors [\#3444](https://github.com/hashicorp/terraform-cdk/pull/3444)
+- fix(docs): Update CLI docs to refer to Gradle instead of Maven [\#3434](https://github.com/hashicorp/terraform-cdk/pull/3434)
+- fix(lib): Print a warning with manual steps to move a module when UpgradeIds aspect encounters modules [\#3432](https://github.com/hashicorp/terraform-cdk/pull/3432)
+- fix(cli): don't prompt for providers during convert [\#3431](https://github.com/hashicorp/terraform-cdk/pull/3431)
+- fix(lib): inline zip creation [\#3428](https://github.com/hashicorp/terraform-cdk/pull/3428)
+
+### chore
+
+- chore: Upgrade dependencies for @cdktf/hcl2cdk [\#3452](https://github.com/hashicorp/terraform-cdk/pull/3452)
+- chore: Upgrade dependencies for @cdktf/hcl2json [\#3451](https://github.com/hashicorp/terraform-cdk/pull/3451)
+- chore: Upgrade dependencies for @cdktf/provider-schema [\#3450](https://github.com/hashicorp/terraform-cdk/pull/3450)
+- chore: Upgrade dependencies for @cdktf/commons [\#3449](https://github.com/hashicorp/terraform-cdk/pull/3449)
+- chore: add CodeTabs component [\#3443](https://github.com/hashicorp/terraform-cdk/pull/3443)
+- chore(docs): update stacks documentation [\#3440](https://github.com/hashicorp/terraform-cdk/pull/3440)
+- chore: upgrade registry docs tool [\#3430](https://github.com/hashicorp/terraform-cdk/pull/3430)
+- chore: Upgrade dependencies for @cdktf/commons [\#3424](https://github.com/hashicorp/terraform-cdk/pull/3424)
+- chore(docs): fix currently-404 link to built-in templates [\#3418](https://github.com/hashicorp/terraform-cdk/pull/3418)
+- chore: Rk/suggestions for error codes [\#3417](https://github.com/hashicorp/terraform-cdk/pull/3417)
+- chore: fix updating script [\#3396](https://github.com/hashicorp/terraform-cdk/pull/3396)
+
 ## 0.20.1
 
 **AWS Provider changes (breaking)**
