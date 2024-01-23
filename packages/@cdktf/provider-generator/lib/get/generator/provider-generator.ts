@@ -26,8 +26,6 @@ const isMatching = (
 ): boolean => {
   if (target.isModule) return false;
 
-  console.log("isMatching", { target, terraformSchemaName });
-
   const elements = terraformSchemaName.split("/");
 
   if (elements.length === 1) {
