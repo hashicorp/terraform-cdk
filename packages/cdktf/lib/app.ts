@@ -15,6 +15,15 @@ export interface AppConfig {
   /**
    * The directory to output Terraform resources.
    *
+   * If you are using the CDKTF CLI, this value is automatically set from one of the following three sources:
+   * - The `-o` / `--output` CLI option
+   * - The `CDKTF_OUTDIR` environment variable
+   * - The `outdir` key in `cdktf.json`
+   *
+   * If you are using the CDKTF CLI and want to set a different value here, you will also need to set the same value via one of the three ways specified above.
+   *
+   * The most common case to set this value is when you are using the CDKTF library directly (e.g. when writing unit tests).
+   *
    * @default - CDKTF_OUTDIR if defined, otherwise "cdktf.out"
    */
   readonly outdir?: string;
