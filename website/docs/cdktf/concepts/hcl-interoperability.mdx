@@ -7,7 +7,8 @@ description: >-
 
 # HCL Interoperability
 
-Terraform requires infrastructure configuration files written in either [HashiCorp Configuration Language (HCL)](/terraform/language/syntax/configuration) or JSON syntax. CDK for Terraform (CDKTF) works by translating configurations defined in an imperative programming language to JSON configuration files for Terraform.
+Terraform requires infrastructure configuration files written in either [HashiCorp Configuration Language (HCL)](/terraform/language/syntax/configuration) or JSON syntax. CDK for Terraform (CDKTF) works by translating configurations defined in an imperative programming language to JSON configuration files for Terraform. 
+Starting from version 0.20, CDKTF can also generate Terraform HCL as output by setting the `--hcl` flag when running `cdktf synth`.
 
 CDKTF may not be the right choice for every team and project within your organization. For example, some teams may already be very familiar with Terraform and have created HCL modules, providers, etc. To provide flexibility, CDKTF applications are interoperable with Terraform projects written in HCL. Specifically:
 
@@ -200,9 +201,10 @@ func NewHclInteropStack(scope constructs.Construct, name string) cdktf.Terraform
 
 </CodeTabs>
 
-To use this as a Terraform module, run `cdktf synth` and copy the resulting `cdktf.out/stacks/random-pet-module/cdktf.json` file out to the module directory in your HCL project.
+To use this as a Terraform module, run `cdktf synth` and copy the resulting `cdktf.out/stacks/random-pet-module/cdk.tf.json` file out to the module directory in your HCL project.
+By default, `cdktf synth` generates Terraform JSON, but starting from version 0.20, CDKTF can also generate Terraform HCL output by passing the `--hcl` flag to `cdktf synth`. 
 
-After you transfer the `cdktf.json` file, you can reference the pet name module as you would any other HCL Terraform module.
+After you transfer the `cdk.tf.json` (or `cdk.tf`) file, you can reference the pet name module as you would any other HCL Terraform module.
 
 ```terraform
 terraform {
@@ -223,6 +225,8 @@ output "name" {
   value = module.pet.name
 }
 ```
+
+
 
 ## HCL to CDKTF
 
