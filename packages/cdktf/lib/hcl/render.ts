@@ -15,6 +15,14 @@ function escapeQuotes(str: string): string {
   return str.replace(/(?<!\\)"/g, '\\"');
 }
 
+function wrapKeyInQuotesIfNeeded(key: string): string {
+  return /^(?:\d|[\-])/.test(key)
+    ? `"${key}"`
+    : /[^A-Za-z0-9_\-]/.test(key)
+    ? `"${key}"`
+    : key;
+}
+
 /**
  *
  */
@@ -163,7 +171,11 @@ export function renderMap(map: any): string {
   }
   return `{
 ${Object.entries(map)
-  .map(([k, v]) => `${k} = ${renderMapValue(v)}`)
+  .map(([k, v]) => {
+    const wrappedKey = wrapKeyInQuotesIfNeeded(k);
+
+    return `${wrappedKey} = ${renderMapValue(v)}`;
+  })
   .join("\n")}
 }`;
 }

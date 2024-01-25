@@ -316,6 +316,43 @@ describe("output", () => {
     `);
   });
 
+  test("map keys with invalid identifier chars", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new TestProvider(stack, "provider", {});
+
+    new TestResource(stack, "weird-long-running-resource", {
+      name: "foo",
+      tags: {
+        "foo:bar": "baz",
+        simple: "true",
+      },
+    });
+
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+      "terraform {
+      required_providers {
+        test = {
+      version = "~> 2.0"
+      }
+      }
+
+
+      }
+
+      provider "test" {
+      }
+      resource "test_resource" "weird-long-running-resource" {
+      name = "foo"
+      tags = {
+      "foo:bar" = "baz"
+      simple = "true"
+      }
+      }"
+    `);
+  });
+
   test("dependent output", async () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");
