@@ -51,7 +51,7 @@ describe("provider list command", () => {
 
       expect(output.prebuilt[0]).toEqual(
         expect.objectContaining({
-          packageName: "com.hashicorp.cdktf-provider-random",
+          packageName: "com.hashicorp:cdktf-provider-random",
           packageVersion: "0.2.55",
           providerName: "random",
           providerVersion: "3.1.3",
