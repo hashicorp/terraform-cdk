@@ -256,6 +256,7 @@ export class TerraformStack extends Construct {
 
     const tf = {};
     const fragments = elements.map((e) => resolve(this, e.toHclTerraform()));
+    const locals: { locals?: any } = {};
 
     const tfMeta = {
       "//": {
@@ -306,7 +307,7 @@ export class TerraformStack extends Construct {
         }
 
         if (frag.locals) {
-          res = [res, renderLocals(frag.locals)].join("\n\n");
+          deepMerge(locals, frag);
         }
 
         if (frag.variable) {
@@ -320,14 +321,27 @@ export class TerraformStack extends Construct {
     deepMerge(tf, this.rawOverrides);
     const terraformBlock = (tf as any)?.terraform;
 
-    let hcl = "";
+    let terraformBlockHcl = "";
     if (terraformBlock) {
-      hcl = renderTerraform(terraformBlock);
+      terraformBlockHcl = renderTerraform(terraformBlock);
       deepMerge(tfMeta, { terraform: cleanForMetadata(terraformBlock) });
     }
 
+    let localsHcl = "";
+    if (locals) {
+      localsHcl = renderLocals(locals.locals);
+
+      if (localsHcl) {
+        // Hacky way to add a newline between the terraform block and the locals block
+        localsHcl = "\n\n" + localsHcl;
+      }
+    }
+
     return {
-      hcl: resolve(this, [hcl, ...hclFragments].join("")),
+      hcl: resolve(
+        this,
+        [terraformBlockHcl, localsHcl, ...hclFragments].join("")
+      ),
       metadata: resolve(this, tfMeta),
     };
   }
