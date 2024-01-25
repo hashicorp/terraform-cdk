@@ -413,7 +413,7 @@ export class DependencyManager {
         /github.com\/(?:cdktf|hashicorp)\/cdktf-provider-(.+)-go\//i,
       [Language.TYPESCRIPT]: /(.+)/i,
       [Language.CSHARP]: /HashiCorp\.Cdktf\.Providers\.(.+)/i,
-      [Language.JAVA]: /com\.hashicorp:cdktf-provider-(.+)/i,
+      [Language.JAVA]: /cdktf-provider-(.+)/i,
       [Language.PYTHON]: /cdktf-cdktf-provider-(.+)/i,
     };
     const regex = regexes[this.targetLanguage];

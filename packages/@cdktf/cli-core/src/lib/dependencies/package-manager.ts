@@ -517,7 +517,7 @@ abstract class JavaPackageManager extends PackageManager {
     logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
 
     const parts = packageName.split(":");
-    if (parts.length !== 2) {
+    if (parts.length !== 3) {
       throw Errors.Internal(
         `Expected package name to be in format "group.artifact", e.g. "com.hashicorp:cdktf-provider-google", got: ${packageName}`
       );
@@ -676,7 +676,7 @@ class GradlePackageManager extends JavaPackageManager {
     const packageNameProvider = packageNameElements.pop();
     const groupName = packageNameElements.join(".");
 
-    const newPackageDependency = `\timplementation '${groupName}:${packageNameProvider}:${packageVersion}'`;
+    const newPackageDependency = `\timplementation '${groupName}.${packageNameProvider}:${packageVersion}'`;
     buildGradleLines.splice(dependencyBlockStart + 1, 0, newPackageDependency);
 
     await fs.writeFile(buildGradlePath, buildGradleLines.join("\n"));
@@ -699,7 +699,7 @@ class GradlePackageManager extends JavaPackageManager {
         return dep.name.includes("cdktf-provider-");
       })
       .map((dep) => ({ name: dep!.name, version: dep!.version }));
-
+    console.log("dependency list: ", dependencyList);
     return dependencyList;
   }
 }
