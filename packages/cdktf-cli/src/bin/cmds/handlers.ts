@@ -380,6 +380,12 @@ export async function init(argv: any) {
       silent: argv.silent,
     });
   }
+
+  if (language === Language.GO) {
+    console.log(
+      "Run 'go mod tidy' after adding imports for any needed modules such as prebuilt providers"
+    );
+  }
 }
 
 export async function list(argv: any) {
@@ -634,6 +640,12 @@ export async function providerAdd(argv: any) {
       silent: argv.silent,
     });
   }
+
+  if (language === Language.GO) {
+    console.log(
+      "After adding this module to your imports, please run 'go mod tidy' to resolve newly added modules"
+    );
+  }
 }
 
 export async function providerUpgrade(argv: any) {
@@ -693,6 +705,12 @@ export async function providerUpgrade(argv: any) {
         (c) => new TerraformProviderConstraint(c)
       ),
     });
+  }
+
+  if (language === Language.GO) {
+    console.log(
+      "Update your imports to reflect this modules upgrade, then please run 'go mod tidy' to resolve newly added modules"
+    );
   }
 }
 

@@ -60,7 +60,7 @@ function terraformCloudConfig(baseName, organizationName, workspaceName, terrafo
 	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
 		Hostname:     jsii.String("${terraformRemoteHostname}"),
 		Organization: jsii.String("${organizationName}"),
-		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("${workspaceName}")),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("${workspaceName}"), nil),
 	})`);
 
   // add import for jsii helper used above
