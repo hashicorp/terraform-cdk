@@ -28,7 +28,9 @@ test("string local", async () => {
 
   const hcl = Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
-    "locals {
+    "
+
+    locals {
         greeting = "Hello, \${var.name}"
     }"
   `);
@@ -43,7 +45,9 @@ test("multiple locals", async () => {
 
   const hcl = Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
-    "locals {
+    "
+
+    locals {
         greeting = "Hello, \${var.name}"
     greeting-2 = "Hello, \${var.name}"
     }"
