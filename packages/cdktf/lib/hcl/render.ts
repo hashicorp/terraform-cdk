@@ -388,6 +388,7 @@ export function renderLocals(locals: any) {
 
   return `locals {
     ${localNames
+      .filter((name) => !!locals[name].value)
       .map((name: string) => {
         const value = renderFuzzyJsonExpression(locals[name].value);
         return `${name} = ${value}`;
