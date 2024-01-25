@@ -15,8 +15,11 @@ function escapeQuotes(str: string): string {
   return str.replace(/(?<!\\)"/g, '\\"');
 }
 
+/**
+ *
+ */
 function wrapIdentifierInQuotesIfNeeded(key: string): string {
-  return /(^\d)|[^A-Za-z0-9_\-]/.test(key) ? `"${key}"` : key;
+  return /(^\d)|[^A-Za-z0-9_-]/.test(key) ? `"${key}"` : key;
 }
 
 /**
