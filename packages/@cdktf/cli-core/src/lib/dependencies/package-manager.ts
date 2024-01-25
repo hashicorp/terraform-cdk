@@ -672,7 +672,11 @@ class GradlePackageManager extends JavaPackageManager {
       buildGradleLines.splice(existingDependency, 1);
     }
 
-    const newPackageDependency = `\timplementation '${packageName}:${packageVersion}'`;
+    const packageNameElements = packageName.split(".");
+    const packageNameProvider = packageNameElements.pop();
+    const groupName = packageNameElements.join(".");
+
+    const newPackageDependency = `\timplementation '${groupName}:${packageNameProvider}:${packageVersion}'`;
     buildGradleLines.splice(dependencyBlockStart + 1, 0, newPackageDependency);
 
     await fs.writeFile(buildGradlePath, buildGradleLines.join("\n"));
