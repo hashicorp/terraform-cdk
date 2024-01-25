@@ -16,11 +16,7 @@ function escapeQuotes(str: string): string {
 }
 
 function wrapIdentifierInQuotesIfNeeded(key: string): string {
-  return /^(?:\d|[\-])/.test(key)
-    ? `"${key}"`
-    : /[^A-Za-z0-9_\-]/.test(key)
-    ? `"${key}"`
-    : key;
+  return /(^\d)|[^A-Za-z0-9_\-]/.test(key) ? `"${key}"` : key;
 }
 
 /**
