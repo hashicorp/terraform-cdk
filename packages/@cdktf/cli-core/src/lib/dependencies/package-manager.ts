@@ -517,7 +517,7 @@ abstract class JavaPackageManager extends PackageManager {
     logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
 
     const parts = packageName.split(":");
-    if (parts.length !== 3) {
+    if (parts.length !== 2) {
       throw Errors.Internal(
         `Expected package name to be in format "group.artifact", e.g. "com.hashicorp:cdktf-provider-google", got: ${packageName}`
       );
