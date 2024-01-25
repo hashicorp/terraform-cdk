@@ -230,4 +230,8 @@ output "name" {
 
 ## HCL to CDKTF
 
-Use the [`cdktf convert`](/terraform/cdktf/cli-reference/commands#convert) command to automatically translate existing HCL into a preferred CDKTF language. The [modules documentation](/terraform/cdktf/concepts/modules) shows how to use existing Terraform modules in CDK for Terraform projects.
+HCL can be used with Terraform CDK in two ways. Converting HCL code directly to a CDKTF language, and using Terraform modules directly within CDKTF projects.
+
+- In order to convert HCL to a CDKTF language, the [`cdktf convert`](/terraform/cdktf/cli-reference/commands#convert) command can be used. It automatically translates HCL into a preferred CDKTF language. This is useful when working with an existing codebase that needs to be converted to CDKTF.
+
+- While CDKTF has the ability to import HCL modules through `cdktf get` when referenced within the `cdktf.json` file, Terraform modules can also be referenced without generating language specific bindings. The [modules documentation](/terraform/cdktf/concepts/modules) shows how to use existing Terraform modules in CDK for Terraform projects.
