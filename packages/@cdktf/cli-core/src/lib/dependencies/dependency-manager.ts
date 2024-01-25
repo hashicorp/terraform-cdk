@@ -392,7 +392,7 @@ export class DependencyManager {
       case Language.CSHARP: // e.g. HashiCorp.Cdktf.Providers.Opentelekomcloud
         return `HashiCorp.Cdktf.Providers.` + toPascalCase(providerName);
       case Language.JAVA: // e.g. com.hashicorp.opentelekomcloud
-        return `com.hashicorp.cdktf-provider-${providerName}`;
+        return `com.hashicorp:cdktf-provider-${providerName}`;
       case Language.PYTHON: // e.g. cdktf-cdktf-provider-opentelekomcloud
         return `cdktf-cdktf-provider-${providerName}`;
       default:
@@ -413,7 +413,7 @@ export class DependencyManager {
         /github.com\/(?:cdktf|hashicorp)\/cdktf-provider-(.+)-go\//i,
       [Language.TYPESCRIPT]: /(.+)/i,
       [Language.CSHARP]: /HashiCorp\.Cdktf\.Providers\.(.+)/i,
-      [Language.JAVA]: /com\.hashicorp\.cdktf-provider-(.+)/i,
+      [Language.JAVA]: /com\.hashicorp:cdktf-provider-(.+)/i,
       [Language.PYTHON]: /cdktf-cdktf-provider-(.+)/i,
     };
     const regex = regexes[this.targetLanguage];
