@@ -516,15 +516,15 @@ abstract class JavaPackageManager extends PackageManager {
   ): Promise<boolean> {
     logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
 
-    const parts = packageName.split(".");
-    if (parts.length !== 3) {
+    const parts = packageName.split(":");
+    if (parts.length !== 2) {
       throw Errors.Internal(
-        `Expected package name to be in format "group.artifact", e.g. "com.hashicorp.cdktf-provider-google", got: ${packageName}`
+        `Expected package name to be in format "group.artifact", e.g. "com.hashicorp:cdktf-provider-google", got: ${packageName}`
       );
     }
 
     const packageIdentifier = parts.pop();
-    const groupId = parts.join(".");
+    const groupId = parts.pop();
 
     const url = `https://search.maven.org/solrsearch/select?q=g:${groupId}+AND+a:${packageIdentifier}+AND+v:${packageVersion}&rows=5&wt=json`;
     logger.debug(
