@@ -54,6 +54,26 @@ test("multiple locals", async () => {
   `);
 });
 
+test("string local with quoted name", async () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformLocal(stack, "greeting", {
+    "hip : ho": "Hello, ${var.name}",
+  });
+
+  const hcl = Testing.synthHcl(stack);
+  expect(hcl).toMatchInlineSnapshot(`
+    "
+
+    locals {
+        greeting = {
+    "hip : ho" = "Hello, \${var.name}"
+    }
+    }"
+  `);
+});
+
 test("with provider alias", async () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
