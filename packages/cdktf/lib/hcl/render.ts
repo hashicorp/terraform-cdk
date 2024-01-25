@@ -376,15 +376,23 @@ ${renderAttributes(outputAttributes)}
  *
  */
 export function renderLocals(locals: any) {
-  const localName = Object.keys(locals)[0];
-  const localAttributes = locals[localName];
+  if (!locals) {
+    return "";
+  }
 
-  if (localAttributes.value === undefined) {
+  const localNames = Object.keys(locals);
+
+  if (localNames.length === 0) {
     return "";
   }
 
   return `locals {
-    ${localName} = ${renderFuzzyJsonExpression(localAttributes.value)}
+    ${localNames
+      .map((name: string) => {
+        const value = renderFuzzyJsonExpression(locals[name].value);
+        return `${name} = ${value}`;
+      })
+      .join("\n")}
 }`;
 }
 

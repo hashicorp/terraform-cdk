@@ -28,10 +28,24 @@ test("string local", async () => {
 
   const hcl = Testing.synthHcl(stack);
   expect(hcl).toMatchInlineSnapshot(`
-    "
-
-    locals {
+    "locals {
         greeting = "Hello, \${var.name}"
+    }"
+  `);
+});
+
+test("multiple locals", async () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformLocal(stack, "greeting", "Hello, ${var.name}");
+  new TerraformLocal(stack, "greeting-2", "Hello, ${var.name}");
+
+  const hcl = Testing.synthHcl(stack);
+  expect(hcl).toMatchInlineSnapshot(`
+    "locals {
+        greeting = "Hello, \${var.name}"
+    greeting-2 = "Hello, \${var.name}"
     }"
   `);
 });
