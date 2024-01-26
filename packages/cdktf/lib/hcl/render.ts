@@ -18,6 +18,13 @@ function escapeQuotes(str: string): string {
 /**
  *
  */
+function wrapIdentifierInQuotesIfNeeded(key: string): string {
+  return /(^\d)|[^A-Za-z0-9_-]/.test(key) ? `"${key}"` : key;
+}
+
+/**
+ *
+ */
 function renderString(str: string): string {
   if (!str) {
     return str;
@@ -163,7 +170,11 @@ export function renderMap(map: any): string {
   }
   return `{
 ${Object.entries(map)
-  .map(([k, v]) => `${k} = ${renderMapValue(v)}`)
+  .map(([k, v]) => {
+    const wrappedKey = wrapIdentifierInQuotesIfNeeded(k);
+
+    return `${wrappedKey} = ${renderMapValue(v)}`;
+  })
   .join("\n")}
 }`;
 }
@@ -482,7 +493,8 @@ function renderFuzzyJsonObject(jsonObject: any): string {
   return [
     "{",
     ...Object.entries(jsonObject).map(([name, value]) => {
-      return `${name} = ${renderFuzzyJsonExpression(value)}`;
+      const wrappedKey = wrapIdentifierInQuotesIfNeeded(name);
+      return `${wrappedKey} = ${renderFuzzyJsonExpression(value)}`;
     }),
     "}",
   ].join("\n");

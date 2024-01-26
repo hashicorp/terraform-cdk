@@ -54,6 +54,26 @@ test("multiple locals", async () => {
   `);
 });
 
+test("string local with quoted name", async () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformLocal(stack, "greeting", {
+    "hip : ho": "Hello, ${var.name}",
+  });
+
+  const hcl = Testing.synthHcl(stack);
+  expect(hcl).toMatchInlineSnapshot(`
+    "
+
+    locals {
+        greeting = {
+    "hip : ho" = "Hello, \${var.name}"
+    }
+    }"
+  `);
+});
+
 test("with provider alias", async () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
@@ -312,6 +332,43 @@ describe("output", () => {
       output "test-output" {
       value = 1
       sensitive = true
+      }"
+    `);
+  });
+
+  test("map keys with invalid identifier chars", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new TestProvider(stack, "provider", {});
+
+    new TestResource(stack, "weird-long-running-resource", {
+      name: "foo",
+      tags: {
+        "foo:bar": "baz",
+        simple: "true",
+      },
+    });
+
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+      "terraform {
+      required_providers {
+        test = {
+      version = "~> 2.0"
+      }
+      }
+
+
+      }
+
+      provider "test" {
+      }
+      resource "test_resource" "weird-long-running-resource" {
+      name = "foo"
+      tags = {
+      "foo:bar" = "baz"
+      simple = "true"
+      }
       }"
     `);
   });
