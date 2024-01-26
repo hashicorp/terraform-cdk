@@ -34,6 +34,8 @@ describe("provider list command", () => {
     test("with json output", async () => {
       const res = await driver.exec("cdktf", ["provider", "list", "--json"]);
 
+      console.log(res);
+
       const output = JSON.parse(res.stdout);
 
       expect(output).toHaveProperty("local");
