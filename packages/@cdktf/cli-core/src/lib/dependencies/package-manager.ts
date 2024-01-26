@@ -668,7 +668,8 @@ class GradlePackageManager extends JavaPackageManager {
     const packageSegments = packageFQN.split(".");
     const packageName = packageSegments.pop();
     const groupName = packageSegments.join(".");
-    const dependencySpecifier = `${groupName}.${packageName}:${packageVersion}`;
+    const dependencySpecifier = `${groupName}:${packageName}`;
+    const dependencyAndVersionSpecifier = `${dependencySpecifier}:${packageVersion}`;
 
     const existingDependency = buildGradleLines.findIndex((line) =>
       line.includes(dependencySpecifier)
@@ -677,7 +678,7 @@ class GradlePackageManager extends JavaPackageManager {
       buildGradleLines.splice(existingDependency, 1);
     }
 
-    const newPackageDependency = `\timplementation '${dependencySpecifier}'`;
+    const newPackageDependency = `\timplementation '${dependencyAndVersionSpecifier}'`;
     buildGradleLines.splice(dependencyBlockStart + 1, 0, newPackageDependency);
 
     await fs.writeFile(buildGradlePath, buildGradleLines.join("\n"));
@@ -699,7 +700,10 @@ class GradlePackageManager extends JavaPackageManager {
         }
         return dep.name.includes("cdktf-provider-");
       })
-      .map((dep) => ({ name: dep!.name, version: dep!.version }));
+      .map((dep) => ({
+        name: `com.hashicorp.${dep!.name}`,
+        version: dep!.version,
+      }));
 
     return dependencyList;
   }
