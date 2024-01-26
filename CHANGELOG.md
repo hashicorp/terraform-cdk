@@ -1,3 +1,20 @@
+## 0.20.3
+
+### feat
+
+- feat(cli): add console logs to better surface correct workflow for creating go projects [\#3466](https://github.com/hashicorp/terraform-cdk/pull/3466)
+- feat(docs): Document how outdir works when passed to App and while using CDKTF CLI [\#3463](https://github.com/hashicorp/terraform-cdk/pull/3463)
+
+### fix
+
+- fix: corrected formating for java provider dependencies [\#3468](https://github.com/hashicorp/terraform-cdk/pull/3468)
+- fix: Map keys not being quoted when they are not valid identifiers [\#3464](https://github.com/hashicorp/terraform-cdk/pull/3464)
+
+### chore
+
+- chore: Improve locals output - Group all locals into one locals block [\#3465](https://github.com/hashicorp/terraform-cdk/pull/3465)
+- chore: Update HCL Interoperability docs to include HCL synthesis [\#3462](https://github.com/hashicorp/terraform-cdk/pull/3462)
+
 ## 0.20.2
 
 ### feat
