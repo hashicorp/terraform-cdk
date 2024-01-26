@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euox pipefail
+set -euo pipefail
 
 scriptdir=$(cd $(dirname $0) && pwd)
 
