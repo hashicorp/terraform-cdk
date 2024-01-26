@@ -648,7 +648,7 @@ class GradlePackageManager extends JavaPackageManager {
   }
 
   public async addPackage(
-    packageName: string,
+    packageFQN: string,
     packageVersion = "latest.release"
   ): Promise<void> {
     const buildGradlePath = path.join(this.workingDirectory, "build.gradle");
@@ -665,18 +665,19 @@ class GradlePackageManager extends JavaPackageManager {
       );
     }
 
+    const packageSegments = packageFQN.split(".");
+    const packageName = packageSegments.pop();
+    const groupName = packageSegments.join(".");
+    const dependencySpecifier = `${groupName}.${packageName}:${packageVersion}`;
+
     const existingDependency = buildGradleLines.findIndex((line) =>
-      line.includes(packageName)
+      line.includes(dependencySpecifier)
     );
     if (existingDependency !== -1) {
       buildGradleLines.splice(existingDependency, 1);
     }
 
-    const packageNameElements = packageName.split(".");
-    const packageNameProvider = packageNameElements.pop();
-    const groupName = packageNameElements.join(".");
-
-    const newPackageDependency = `\timplementation '${groupName}:${packageNameProvider}:${packageVersion}'`;
+    const newPackageDependency = `\timplementation '${dependencySpecifier}'`;
     buildGradleLines.splice(dependencyBlockStart + 1, 0, newPackageDependency);
 
     await fs.writeFile(buildGradlePath, buildGradleLines.join("\n"));
