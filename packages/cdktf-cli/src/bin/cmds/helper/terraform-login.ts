@@ -72,7 +72,7 @@ the following file for use by subsequent Terraform commands:
     try {
       await open.default(this.terraformLoginURL, {
         allowNonzeroExitCode: true,
-        wait: true,
+        wait: false, // Should remain false. Otherwise, it waits for the app (browser) to exit/quit, not just the window.
       });
     } catch (e) {
       logger.debug(
