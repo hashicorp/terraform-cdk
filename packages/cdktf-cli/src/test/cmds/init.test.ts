@@ -57,7 +57,7 @@ describe("init command", () => {
       expect(result.stdout).toContain(
         `opening webpage using your browser.`
       );
-      expect(result.stdout).not.toContain(`Token for app.terraform.io`);
+      expect(result.stdout).toContain(`Token for app.terraform.io`);
     });
   }, 30_000);
 });
