@@ -37,7 +37,7 @@
   ],
   "license": "MPL-2.0",
   "dependencies": {
-    "@sentry/node": "7.94.1",
+    "@sentry/node": "7.98.0",
     "cdktf": "0.0.0",
     "ci-info": "3.9.0",
     "codemaker": "1.94.0",
@@ -52,7 +52,7 @@
   "devDependencies": {
     "@types/follow-redirects": "1.14.4",
     "@types/fs-extra": "11.0.4",
-    "@types/uuid": "9.0.7",
+    "@types/uuid": "9.0.8",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "eslint-config-prettier": "8.10.0",
