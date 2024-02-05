@@ -46,7 +46,7 @@
     "@types/follow-redirects": "1.14.4",
     "@types/fs-extra": "11.0.4",
     "@types/json-stable-stringify": "1.0.36",
-    "@types/uuid": "9.0.7",
+    "@types/uuid": "9.0.8",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "eslint-config-prettier": "8.10.0",
