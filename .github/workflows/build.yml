@@ -34,14 +34,14 @@ jobs:
           echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/go
           echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
-      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+      - uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
         with:
           path: ${{ steps.global-cache-dir-path.outputs.yarn }}
           key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-build
           restore-keys: |
             yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
             yarn-${{ runner.os }}-
-      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+      - uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
         with:
           path: ${{ steps.global-cache-dir-path.outputs.go }}
           key: go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-build
