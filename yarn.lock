@@ -2273,6 +2273,14 @@
     expect "^29.0.0"
     pretty-format "^29.0.0"
 
+"@types/jest@29.5.12":
+  version "29.5.12"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-29.5.12.tgz#7f7dc6eb4cf246d2474ed78744b05d06ce025544"
+  integrity sha512-eDC8bTvT/QhYdxJAulQikueigY5AsdBRH2yDKW3yveW7svY3+DzN84/2NUgkw10RTiJbWqZrTtoGVdYlvFJdLw==
+  dependencies:
+    expect "^29.0.0"
+    pretty-format "^29.0.0"
+
 "@types/json-schema@7.0.11":
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
@@ -2387,6 +2395,13 @@
   dependencies:
     undici-types "~5.26.4"
 
+"@types/node@18.19.14":
+  version "18.19.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.14.tgz#1880ff1b3ac913f3877f711588e5ed227da01886"
+  integrity sha512-EnQ4Us2rmOS64nHDWr0XqAD8DsO6f3XR6lf9UIIrZQpUzPVdN/oPuEzfDWNHSyXLvoGgjuEm/sPwFGSSs35Wtg==
+  dependencies:
+    undici-types "~5.26.4"
+
 "@types/node@18.19.5":
   version "18.19.5"
   resolved "https://registry.npmjs.org/@types/node/-/node-18.19.5.tgz#4b23a9ab8ab7dafebb57bcbaf5c3d8d04f9d8cac"
@@ -2398,13 +2413,6 @@
   version "18.19.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.7.tgz#9a5f6ac7ec42a5dff68fe7faf2dd359710de4a12"
   integrity sha512-IGRJfoNX10N/PfrReRZ1br/7SQ+2vF/tK3KXNwzXz82D32z5dMQEoOlFew18nLSN+vMNcLY4GrKfzwi/yWI8/w==
-  dependencies:
-    undici-types "~5.26.4"
-
-"@types/node@18.19.8":
-  version "18.19.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.8.tgz#c1e42b165e5a526caf1f010747e0522cb2c9c36a"
-  integrity sha512-g1pZtPhsvGVTwmeVoexWZLTQaOvXwoSq//pTL0DHeNzUDrFnir4fgETdhjhIxjVnN+hKOuh98+E1eMLnUXstFg==
   dependencies:
     undici-types "~5.26.4"
 
@@ -2518,11 +2526,6 @@
   version "8.3.4"
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
   integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
-
-"@types/uuid@9.0.7":
-  version "9.0.7"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.7.tgz#b14cebc75455eeeb160d5fe23c2fcc0c64f724d8"
-  integrity sha512-WUtIVRUZ9i5dYXefDEAI7sh9/O7jGvHg7Df/5O/gtH3Yabe5odI3UWopVR1qbPXQtvOxWu3mM4XxlYeZtMWF4g==
 
 "@types/uuid@9.0.8":
   version "9.0.8"
@@ -3943,6 +3946,16 @@ commonmark@^0.30.0:
     minimist ">=1.2.2"
     string.prototype.repeat "^0.2.0"
 
+commonmark@^0.31.0:
+  version "0.31.0"
+  resolved "https://registry.yarnpkg.com/commonmark/-/commonmark-0.31.0.tgz#4ac57c61f0d7f5ef82d79447a972c61226ef5abc"
+  integrity sha512-nuDsQ34gjmgAqjyIz6mbRWBW/XPE9wsBempAMBk2V/AA88ekztjTM46oi07J6c6Y/2Y8TdYCZi9L0pIBt/oMZw==
+  dependencies:
+    entities "~3.0.1"
+    mdurl "~1.0.1"
+    minimist "~1.2.5"
+    string.prototype.repeat "^1.0.0"
+
 compare-func@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/compare-func/-/compare-func-2.0.0.tgz#fb65e75edbddfd2e568554e8b5b05fff7a51fcb3"
@@ -4746,6 +4759,11 @@ entities@~2.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.0.3.tgz#5c487e5742ab93c15abb5da22759b8590ec03b7f"
   integrity sha512-MyoZ0jgnLvB2X3Lg5HqpFmn1kybDiIfEQmKzTb5apr51Rb+T3KdmMiqa70T+bhGnyv7bQ6WMj2QMHpGMmlrUYQ==
 
+entities@~3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-3.0.1.tgz#2b887ca62585e96db3903482d336c1006c3001d4"
+  integrity sha512-WiyBqoomrwMdFG1e0kqvASYfnlb0lp8M5o5Fw2OFq1hNZxxcNk8Ik0Xm7LxzBhuidnZB/UtBqVCgUz3kBOP51Q==
+
 env-paths@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-2.2.1.tgz#420399d416ce1fbe9bc0a07c62fa68d67fd0f8f2"
@@ -4768,7 +4786,7 @@ error-ex@^1.3.1:
   dependencies:
     is-arrayish "^0.2.1"
 
-es-abstract@^1.22.1:
+es-abstract@^1.17.5, es-abstract@^1.22.1:
   version "1.22.3"
   resolved "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.22.3.tgz#48e79f5573198de6dee3589195727f4f74bc4f32"
   integrity sha512-eiiY8HQeYfYH2Con2berK+To6GrK2RxbPawDkGq4UiCQQfZHb6wX9qQqkbpPqaxQFcl8d9QzZqo0tGE0VcrdwA==
@@ -8129,16 +8147,16 @@ jsii-reflect@^1.94.0:
     oo-ascii-tree "^1.94.0"
     yargs "^16.2.0"
 
-jsii-rosetta@5.3.8:
-  version "5.3.8"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.3.8.tgz#32008f7e2379c0ce942f902cc1d8bc60f73eca9b"
-  integrity sha512-Ym/gl48grorJrl/FnGp7jG9uxceCK86dnZxRJVh7Mj8coMnAjEoWQoYyr43WtTdHCnnodpBf3iNSmmZH4tYA9Q==
+jsii-rosetta@5.3.12:
+  version "5.3.12"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.3.12.tgz#c1aa20c0743913ad3698ad53b5f271ae85cef3c9"
+  integrity sha512-MGFFrbEVs4wHLrrPqQI22wFLHe2+/Da3Pa0ojcCPlAD9nlHXNhomm4hPH4WmsFGHm80D4ecoR7aQgk7cTdAlsQ==
   dependencies:
     "@jsii/check-node" "1.94.0"
     "@jsii/spec" "^1.94.0"
     "@xmldom/xmldom" "^0.8.10"
     chalk "^4"
-    commonmark "^0.30.0"
+    commonmark "^0.31.0"
     fast-glob "^3.3.2"
     jsii "~5.3.0"
     semver "^7.5.4"
@@ -9108,7 +9126,7 @@ minimist-options@4.1.0:
     is-plain-obj "^1.1.0"
     kind-of "^6.0.3"
 
-minimist@>=1.2.2, minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6:
+minimist@>=1.2.2, minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6, minimist@~1.2.5:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
@@ -11509,6 +11527,14 @@ string.prototype.repeat@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/string.prototype.repeat/-/string.prototype.repeat-0.2.0.tgz#aba36de08dcee6a5a337d49b2ea1da1b28fc0ecf"
   integrity sha512-1BH+X+1hSthZFW+X+JaUkjkkUPwIlLEMJBLANN3hOob3RhEk5snLWNECDnYbgn/m5c5JV7Ersu1Yubaf+05cIA==
+
+string.prototype.repeat@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/string.prototype.repeat/-/string.prototype.repeat-1.0.0.tgz#e90872ee0308b29435aa26275f6e1b762daee01a"
+  integrity sha512-0u/TldDbKD8bFCQ/4f5+mNRrXwZ8hg2w7ZR8wa16e8z9XpePWl3eGEcUD0OXpEH/VJH/2G3gjUtR3ZOiBe2S/w==
+  dependencies:
+    define-properties "^1.1.3"
+    es-abstract "^1.17.5"
 
 string.prototype.trim@^1.2.8:
   version "1.2.8"
