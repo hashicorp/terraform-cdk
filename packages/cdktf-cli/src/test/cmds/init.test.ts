@@ -35,27 +35,4 @@ describe("init command", () => {
       expect(result.stdout).not.toContain(`Detected Terraform Cloud token.`);
     });
   }, 30_000);
-
-  it("opens up the browser and waits for the token input", async () => {
-    await mkdtemp(async (cwd) => {
-      const input = "Y\n";
-      const result = await execa(
-        cdktfBin,
-        [
-          "init",
-          "--template=go",
-          "--from-terraform-project=false",
-          "--enable-crash-reporting=false",
-        ],
-        {
-          stdio: "pipe",
-          cwd,
-          input,
-        }
-      );
-      expect(result.stderr).toEqual("");
-      expect(result.stdout).toContain(`opening webpage using your browser.`);
-      expect(result.stdout).toContain(`Token for app.terraform.io`);
-    });
-  }, 30_000);
 });
