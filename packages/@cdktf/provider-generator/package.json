@@ -36,20 +36,20 @@
   "dependencies": {
     "@cdktf/commons": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
-    "@types/node": "18.19.7",
+    "@types/node": "18.19.14",
     "codemaker": "1.94.0",
     "fs-extra": "8.1.0",
     "glob": "10.3.10",
-    "jsii-srcmak": "0.1.1005"
+    "jsii-srcmak": "0.1.1026"
   },
   "devDependencies": {
     "@types/deepmerge": "2.2.0",
     "@types/fs-extra": "8.1.5",
     "@types/glob": "7.2.0",
-    "@types/jest": "29.5.11",
+    "@types/jest": "29.5.12",
     "@types/reserved-words": "0.1.4",
     "jest": "29.7.0",
-    "ts-jest": "29.1.1",
+    "ts-jest": "29.1.2",
     "typescript": "5.2.2"
   }
 }
