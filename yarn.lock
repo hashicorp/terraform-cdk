@@ -7733,10 +7733,10 @@ jsii-reflect@^1.94.0:
     oo-ascii-tree "^1.94.0"
     yargs "^16.2.0"
 
-jsii-rosetta@5.3.14:
-  version "5.3.14"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.3.14.tgz#46be427957f0ee9e98e13ca82b3853bb5703dded"
-  integrity sha512-9zt/hJTSPYSC72twd6022LhbRAG9cEQ/1iARkZFhvafztN3wac+SiSBuIy+DYp/rkfxt/Ca2/Ofq14bjORi40g==
+jsii-rosetta@5.3.15:
+  version "5.3.15"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.3.15.tgz#56257131db9de69a7daaaed09369a93bb3d612a7"
+  integrity sha512-RP0jCHdp3M1FbInr1dVB3Q/WKLTupR7KHTNlmWuVURcURK6LKgRrXIwwo/k+fEmB+9WoQs/WUvNpq9bKUrsu8A==
   dependencies:
     "@jsii/check-node" "1.94.0"
     "@jsii/spec" "^1.94.0"
@@ -7745,7 +7745,7 @@ jsii-rosetta@5.3.14:
     commonmark "^0.31.0"
     fast-glob "^3.3.2"
     jsii "~5.3.0"
-    semver "^7.6.0"
+    semver "^7.5.4"
     semver-intersect "^1.5.0"
     stream-json "^1.8.0"
     typescript "~5.3"
