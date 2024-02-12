@@ -113,16 +113,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package:
+        pr:
           [
-            cdktf,
-            cdktf-cli,
-            "@cdktf/hcl2cdk",
-            "@cdktf/hcl2json",
-            "@cdktf/provider-schema",
-            "@cdktf/provider-generator",
-            "@cdktf/commons",
-            "@cdktf/cli-core",
+            { name: "cli", packages: ["cdktf-cli", "@cdktf/cli-core"] },
+            { name: "lib", packages: ["cdktf"] },
+            {
+              name: "util",
+              packages:
+                [
+                  "@cdktf/hcl2cdk",
+                  "@cdktf/hcl2json",
+                  "@cdktf/provider-schema",
+                  "@cdktf/provider-generator",
+                  "@cdktf/commons",
+                ],
+            },
           ]
     steps:
       - name: Check Out
@@ -150,9 +155,9 @@ jobs:
       - name: Run "ncu -u"
         run: |-
           # Upgrade all the packages
-          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
-          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --filter=typescript --target=patch
-          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
+          lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
+          lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --filter=typescript --target=patch
+          lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
       - name: Run "yarn install"
         run: yarn install --prefer-offline
@@ -166,14 +171,18 @@ jobs:
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
         with:
           # Git commit details
-          branch: automation/yarn-upgrade-${{ matrix.package }}
+          branch: automation/yarn-upgrade-${{ matrix.pr.name }}
           commit-message: |-
-            chore: Upgrade dependencies for ${{matrix.package}}
+            chore: Upgrade dependencies for ${{matrix.pr.name}}
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           # Pull Request details
-          title: "chore: Upgrade dependencies for ${{matrix.package}}"
+          title: "chore: Upgrade dependencies for ${{matrix.pr.name}}"
           body: |-
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
+            This PR touches the following packages:
+
+            ${{ join(matrix.pr.packages, '\n -')}}
+
           labels: dependencies,auto-approve
           team-reviewers: cdktf
           token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
