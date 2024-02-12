@@ -113,10 +113,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pr:
-          [
+        pr: [
             { name: "cli", packages: ["cdktf-cli", "@cdktf/cli-core"] },
-            { name: "lib", packages: ["cdktf"] },
+            # A dumb hack to make the resulting expansion expression work since { cdktf }
+            # searches for the literal string, whereas { cdktf, cdktf } searches for either cdktf or cdktf
+            { name: "lib", packages: ["cdktf", "cdktf"] },
             {
               name: "util",
               packages:
