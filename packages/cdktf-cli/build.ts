@@ -52,46 +52,55 @@ const nativeNodeModulesPlugin = {
   },
 };
 
+const config = {
+  entryPoints: ["src/bin/cdktf.ts", "src/bin/cmds/handlers.ts"],
+  outbase: "src",
+  bundle: true,
+  outdir: "./bundle",
+  format: "cjs",
+  target: "node14",
+  minify: enableWatch ? false : true,
+  sourcemap: enableWatch ? false : true,
+  platform: "node",
+  external: [
+    "jsii",
+    "jsii-pacmak",
+    "@cdktf/hcl2json",
+    "@cdktf/hcl-tools",
+    "yargs",
+    "cdktf",
+    "@cdktf/hcl2cdk",
+    "constructs",
+    "yoga-layout-prebuilt",
+    "@cdktf/node-pty-prebuilt-multiarch",
+  ],
+  plugins: [nativeNodeModulesPlugin, {
+    name: 'rebuild-log',
+    setup({ onStart, onEnd }) {
+      let t;
+      onStart(() => {
+        t = Date.now()
+      })
+      onEnd(() => {
+        console.log('build finished in', Date.now() - t, 'ms')
+      })
+    }
+  }],
+  define: {
+    "process.env.SENTRY_DSN": JSON.stringify(process.env.SENTRY_DSN || ""),
+  },
+  tsconfig: "tsconfig.json",
+};
+
 (async () => {
-  await esbuild.build({
-    entryPoints: ["src/bin/cdktf.ts", "src/bin/cmds/handlers.ts"],
-    outbase: "src",
-    bundle: true,
-    outdir: "./bundle",
-    format: "cjs",
-    target: "node14",
-    minify: enableWatch ? false : true,
-    sourcemap: enableWatch ? false : true,
-    watch: enableWatch && {
-      onRebuild(error: Error) {
-        if (error) console.error("Watch build failed: ", error);
-        else console.log("Rebuilt", new Date().toTimeString());
-      },
-    },
-    platform: "node",
-    external: [
-      "jsii",
-      "jsii-pacmak",
-      "@cdktf/hcl2json",
-      "@cdktf/hcl-tools",
-      "yargs",
-      "cdktf",
-      "@cdktf/hcl2cdk",
-      "constructs",
-      "yoga-layout-prebuilt",
-      "@cdktf/node-pty-prebuilt-multiarch",
-    ],
-    plugins: [nativeNodeModulesPlugin],
-    define: {
-      "process.env.SENTRY_DSN": JSON.stringify(process.env.SENTRY_DSN),
-    },
-    tsconfig: "tsconfig.json",
-  });
-
-  if (enableWatch) {
-    console.log("Watching…");
-  }
-
+  console.log("Building…");
+  await esbuild.build(config);
   fs.copySync("src/bin/cdktf", "./bundle/bin/cdktf");
   fs.copySync("../@cdktf/cli-core/templates", "./bundle/templates");
+
+  if (enableWatch) {
+    const ctx = await esbuild.context(config);
+    console.log("Watching…");
+    await ctx.watch();
+  }
 })();
