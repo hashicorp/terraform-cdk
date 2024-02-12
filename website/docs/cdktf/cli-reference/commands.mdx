@@ -98,7 +98,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
       --language                                                                                       [choices: "typescript", "python", "csharp", "java", "go"] [default: "typescript"]
       --provider                                 The conversion needs to know which providers are used in addition to the ones in your cdktf.json file. We search for a cdktf.json below
                                                  your current working directory.                                                                                   [array] [default: []]
@@ -160,7 +160,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
   -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
   -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
       --auto-approve                             Auto approve                                                                                                 [boolean] [default: false]
@@ -246,7 +246,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
   -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
   -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
       --auto-approve                             Auto approve                                                                                                 [boolean] [default: false]
@@ -326,7 +326,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
   -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
   -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
       --refresh-only                             Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply
@@ -381,7 +381,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
   -o, --output                                   Output directory for generated Constructs                                                                    [string] [default: ".gen"]
   -l, --language                                 Output programming language       [string] [required] [choices: "typescript", "python", "java", "csharp", "go"] [default: "typescript"]
       --force                                    Regenerates all generated constructs                                                                         [boolean] [default: false]
@@ -437,7 +437,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
       --template                                 The template to be used to create a new project. Either URL to zip file or one of the built-in templates.                      [string]
       --project-name                             The name of the project.                                                                                                       [string]
       --project-description                      The description of the project.                                                                                                [string]
@@ -495,7 +495,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
       --tfe-hostname                             The Terraform Enterprise hostname to authenticate against. If you use Terraform Cloud you can leave this on the default.
                                                                                                                                                   [string] [default: "app.terraform.io"]
   -h, --help                                     Show help                                                                                                                     [boolean]
@@ -539,7 +539,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
   -a, --app                                      Command to use in order to execute cdktf app                                                           [default: "npx ts-node main.ts"]
   -o, --output                                   Output directory for the synthesized Terraform config                                                            [default: "cdktf.out"]
       --check-code-maker-output                  Should `codeMakerOutput` existence check be performed? By default it will be checked if providers or modules are configured.
@@ -604,7 +604,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
   -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
   -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
       --auto-approve                             Auto approve                                                                                                 [boolean] [default: false]
@@ -660,7 +660,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
   -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
   -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
       --outputs-file                             Path to file where stack outputs will be written as JSON                                                                       [string]
@@ -709,7 +709,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
       --json                                     If set, output will be in JSON format.                                                                       [boolean] [default: false]
   -h, --help                                     Show help                                                                                                                     [boolean]
 ```
@@ -766,7 +766,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
       --force-local                              force local provider installation, even if pre-built provider exists                                                          [boolean]
   -h, --help                                     Show help                                                                                                                     [boolean]
 ```
@@ -822,7 +822,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
   -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
@@ -846,7 +846,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
       --json                                     get providers list as json                                                                                   [boolean] [default: false]
   -h, --help                                     Show help                                                                                                                     [boolean]
 ```
@@ -871,7 +871,7 @@ Options:
                                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
       --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
       --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`.
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
   -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
