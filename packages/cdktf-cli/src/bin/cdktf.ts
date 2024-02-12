@@ -111,6 +111,10 @@ yargs
     required: false,
     desc: "Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL",
   })
+  .option("log-file-directory", {
+    require: false,
+    desc: "The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard out at the level specified in `CDKTF_LOG_LEVEL`.",
+  })
   .option("context-json", {
     required: false,
     hidden: true,
