@@ -74,18 +74,21 @@ const config = {
     "yoga-layout-prebuilt",
     "@cdktf/node-pty-prebuilt-multiarch",
   ],
-  plugins: [nativeNodeModulesPlugin, {
-    name: 'rebuild-log',
-    setup({ onStart, onEnd }) {
-      let t;
-      onStart(() => {
-        t = Date.now()
-      })
-      onEnd(() => {
-        console.log('build finished in', Date.now() - t, 'ms')
-      })
-    }
-  }],
+  plugins: [
+    nativeNodeModulesPlugin,
+    {
+      name: "rebuild-log",
+      setup({ onStart, onEnd }) {
+        let t;
+        onStart(() => {
+          t = Date.now();
+        });
+        onEnd(() => {
+          console.log("build finished in", Date.now() - t, "ms");
+        });
+      },
+    },
+  ],
   define: {
     "process.env.SENTRY_DSN": JSON.stringify(process.env.SENTRY_DSN || ""),
   },
