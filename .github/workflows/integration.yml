@@ -68,13 +68,13 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
       - name: Upload dist
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: ${{ !inputs.skip_setup }}
         with:
           name: dist
           path: dist
       - name: Upload edge-provider bindings
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: ${{ !inputs.skip_setup }}
         with:
           name: edge-provider-bindings
@@ -140,12 +140,12 @@ jobs:
             go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
             go-${{ runner.os }}-
       - name: Download dist
-        uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935 # v4.1.1
+        uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe # v4.1.2
         with:
           name: dist
           path: dist
       - name: Download edge-provider bindings
-        uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935 # v4.1.1
+        uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe # v4.1.2
         with:
           name: edge-provider-bindings
           path: test/edge-provider-bindings
@@ -224,12 +224,12 @@ jobs:
           go-version: 1.18.x
           cache: false # This is disabled because we don't have a go.sum file and setup-go expects it to use caching. Thus, caching is always broken anyways
       - name: Download dist
-        uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935 # v4.1.1
+        uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe # v4.1.2
         with:
           name: dist
           path: dist
       - name: Download edge-provider bindings
-        uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935 # v4.1.1
+        uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe # v4.1.2
         with:
           name: edge-provider-bindings
           path: test/edge-provider-bindings
