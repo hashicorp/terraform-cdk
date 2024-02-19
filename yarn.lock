@@ -7876,6 +7876,25 @@ jsii@~5.3.18:
     typescript "~5.3"
     yargs "^17.7.2"
 
+jsii@~5.3.18:
+  version "5.3.18"
+  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.3.18.tgz#21e963355d7b5ee0a72ae8d27529d598f0ba366f"
+  integrity sha512-1BQT5rMDNiyZp7u5461EQQuEOnPJv0UEFlTHgDZJqqCeh1OquTpB0fYFfpJnsvl4C1aleBYo3f0QMzvV7wLVjw==
+  dependencies:
+    "@jsii/check-node" "1.94.0"
+    "@jsii/spec" "^1.94.0"
+    case "^1.6.3"
+    chalk "^4"
+    downlevel-dts "^0.11.0"
+    fast-deep-equal "^3.1.3"
+    log4js "^6.9.1"
+    semver "^7.6.0"
+    semver-intersect "^1.5.0"
+    sort-json "^2.0.1"
+    spdx-license-list "^6.8.0"
+    typescript "~5.3"
+    yargs "^17.7.2"
+
 json-buffer@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/json-buffer/-/json-buffer-3.0.1.tgz#9338802a30d3b6605fbe0613e094008ca8c05a13"
