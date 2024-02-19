@@ -91,24 +91,27 @@ cdktf convert
 Converts a single file of HCL configuration to CDK for Terraform. Takes the file to be converted on stdin.
 
 Options:
-      --version                   Show version number                                                                                                    [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the
-                                  env CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                   [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                   [string]
-      --language                                                                       [choices: "typescript", "python", "csharp", "java"] [default: "typescript"]
-      --provider                  The conversion needs to know which providers are used in addition to the ones in your cdktf.json file. We search for a
-                                  cdktf.json below your current working directory.                                                           [array] [default: []]
-      --stack                     Wrap the generated code within a stack class                                                          [boolean] [default: false]
-  -h, --help                      Show help                                                                                                              [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+      --language                                                                                       [choices: "typescript", "python", "csharp", "java", "go"] [default: "typescript"]
+      --provider                                 The conversion needs to know which providers are used in addition to the ones in your cdktf.json file. We search for a cdktf.json below
+                                                 your current working directory.                                                                                   [array] [default: []]
+      --stack                                    Wrap the generated code within a stack class                                                                 [boolean] [default: false]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 
 Examples:
-  cat main.tf | cdktf convert  --provider integrations/github                        Takes the HCL content of main.tf and converts it to CDK for Terraform content
-                                                                                     and prints it
-  cat main.tf | cdktf convert --provider hashicorp/aws > imported.ts                 Takes the HCL content of main.tf and converts it to CDK for Terraform content
-                                                                                     in imported.ts
-  cat main.tf | cdktf convert --provider 'hashicorp/aws@ ~>3.62.0'                   Takes the HCL content of main.tf and converts it to CDK for Terraform content
-  'integrations/github@ ~>4.16.0' --language python > imported.py                    in imported.py
-
+  cat main.tf | cdktf convert  --provider integrations/github                                   Takes the HCL content of main.tf and converts it to CDK for Terraform content and prints
+                                                                                                it
+  cat main.tf | cdktf convert --provider hashicorp/aws > imported.ts                            Takes the HCL content of main.tf and converts it to CDK for Terraform content in
+                                                                                                imported.ts
+  cat main.tf | cdktf convert --provider 'hashicorp/aws@ ~>3.62.0' 'integrations/github@        Takes the HCL content of main.tf and converts it to CDK for Terraform content in
+  ~>4.16.0' --language python > imported.py                                                     imported.py
 ```
 
 **Examples**
@@ -147,31 +150,36 @@ cdktf deploy [stacks...]
 Deploy the given stacks
 
 Positionals:
-  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app                                                                                                  [array] [default: []]
+  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app                                                            [array] [default: []]
 
 Options:
-      --version                                 Show version number                                                                                                                                                  [boolean]
-      --disable-plugin-cache-env                Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
-                                                                                                                                                                                                    [boolean] [default: false]
-      --log-level                               Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                 [string]
-  -a, --app                                     Command to use in order to execute cdktf app                                                                                                                        [required]
-  -o, --output                                  Output directory for the synthesized Terraform config                                                                                        [required] [default: "cdktf.out"]
-      --auto-approve                            Auto approve                                                                                                                                        [boolean] [default: false]
-      --outputs-file                            Path to file where stack outputs will be written as JSON                                                                                                              [string]
-      --outputs-file-include-sensitive-outputs  Whether to include sensitive outputs in the output file                                                                                             [boolean] [default: false]
-      --ignore-missing-stack-dependencies       Don't check if all stacks specified in the command have their dependencies included as well                                                         [boolean] [default: false]
-      --parallelism                             Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                                                           [number] [default: -1]
-      --refresh-only                            Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to
-                                                undo any changes made outside of Terraform.                                                                                                         [boolean] [default: false]
-      --terraform-parallelism                   Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend
-                                                                                                                                                                                                        [number] [default: -1]
-      --no-color                                Disables terminal formatting sequences in the output.                                                                                               [boolean] [default: false]
-      --migrate-state                           Pass this flag after switching state backends to approve a state migration for all targeted stacks                                                  [boolean] [default: false]
-      --var                                     Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one variable.                [array] [default: []]
-      --var-file                                Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one
-                                                variables file.                                                                                                                                          [array] [default: []]
-      --skip-synth                              Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date                                          [boolean] [default: false]
-  -h, --help                                    Show help                                                                                                                                                            [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
+      --auto-approve                             Auto approve                                                                                                 [boolean] [default: false]
+      --outputs-file                             Path to file where stack outputs will be written as JSON                                                                       [string]
+      --outputs-file-include-sensitive-outputs   Whether to include sensitive outputs in the output file                                                      [boolean] [default: false]
+      --ignore-missing-stack-dependencies        Don't check if all stacks specified in the command have their dependencies included as well                  [boolean] [default: false]
+      --parallelism                              Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                    [number] [default: -1]
+      --refresh-only                             Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply
+                                                 but does not propose any actions to undo any changes made outside of Terraform.                              [boolean] [default: false]
+      --terraform-parallelism                    Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not
+                                                 supported by remote / cloud backend                                                                              [number] [default: -1]
+      --no-color                                 Disables terminal formatting sequences in the output.                                                        [boolean] [default: false]
+      --migrate-state                            Pass this flag after switching state backends to approve a state migration for all targeted stacks           [boolean] [default: false]
+      --var                                      Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one
+                                                 variable.                                                                                                         [array] [default: []]
+      --var-file                                 Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more
+                                                 than once to include more than one variables file.                                                                [array] [default: []]
+      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date   [boolean] [default: false]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 ~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
@@ -228,27 +236,32 @@ cdktf destroy [stacks..]
 Destroy the given stacks
 
 Positionals:
-  stacks  Destroy stacks matching the given ids. Required when more than one stack is present in the app                                                                                                 [array] [default: []]
+  stacks  Destroy stacks matching the given ids. Required when more than one stack is present in the app                                                           [array] [default: []]
 
 Options:
-      --version                            Show version number                                                                                                                                                       [boolean]
-      --disable-plugin-cache-env           Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
-                                                                                                                                                                                                    [boolean] [default: false]
-      --log-level                          Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                      [string]
-  -a, --app                                Command to use in order to execute cdktf app                                                                                                                             [required]
-  -o, --output                             Output directory for the synthesized Terraform config                                                                                             [required] [default: "cdktf.out"]
-      --auto-approve                       Auto approve                                                                                                                                             [boolean] [default: false]
-      --ignore-missing-stack-dependencies  Don't check if all stacks specified in the command have their dependencies included as well                                                              [boolean] [default: false]
-      --parallelism                        Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                                                                [number] [default: -1]
-      --terraform-parallelism              Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend
-                                                                                                                                                                                                        [number] [default: -1]
-      --var                                Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one variable.                     [array] [default: []]
-      --var-file                           Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables
-                                           file.                                                                                                                                                         [array] [default: []]
-      --no-color                           Disables terminal formatting sequences in the output.                                                                                                    [boolean] [default: false]
-      --migrate-state                      Pass this flag after switching state backends to approve a state migration for all targeted stacks                                                       [boolean] [default: false]
-      --skip-synth                         Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date                                               [boolean] [default: false]
-  -h, --help                               Show help                                                                                                                                                                 [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
+      --auto-approve                             Auto approve                                                                                                 [boolean] [default: false]
+      --ignore-missing-stack-dependencies        Don't check if all stacks specified in the command have their dependencies included as well                  [boolean] [default: false]
+      --parallelism                              Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                    [number] [default: -1]
+      --terraform-parallelism                    Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not
+                                                 supported by remote / cloud backend                                                                              [number] [default: -1]
+      --var                                      Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one
+                                                 variable.                                                                                                         [array] [default: []]
+      --var-file                                 Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more
+                                                 than once to include more than one variables file.                                                                [array] [default: []]
+      --no-color                                 Disables terminal formatting sequences in the output.                                                        [boolean] [default: false]
+      --migrate-state                            Pass this flag after switching state backends to approve a state migration for all targeted stacks           [boolean] [default: false]
+      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date   [boolean] [default: false]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 ~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
@@ -303,26 +316,31 @@ cdktf diff [stack]
 Perform a diff (terraform plan) for the given stack
 
 Positionals:
-  stack  Diff stack which matches the given id only. Required when more than one stack is present in the app                                                                                                          [string]
+  stack  Diff stack which matches the given id only. Required when more than one stack is present in the app                                                                    [string]
 
 Options:
-      --version                   Show version number                                                                                                                                                                [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
-                                                                                                                                                                                                    [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                               [string]
-  -a, --app                       Command to use in order to execute cdktf app                                                                                                                                      [required]
-  -o, --output                    Output directory for the synthesized Terraform config                                                                                                      [required] [default: "cdktf.out"]
-      --refresh-only              Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes
-                                  made outside of Terraform.                                                                                                                                        [boolean] [default: false]
-      --terraform-parallelism     Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend
-                                                                                                                                                                                                        [number] [default: -1]
-      --var                       Set a value for one of the input variables in the stack. Use this option more than once to set more than one variable.                                                 [array] [default: []]
-      --var-file                  Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.
-                                                                                                                                                                                                         [array] [default: []]
-      --no-color                  Disables terminal formatting sequences in the output.                                                                                                             [boolean] [default: false]
-      --migrate-state             Pass this flag after switching state backends to approve a state migration for the targeted stack                                                                 [boolean] [default: false]
-      --skip-synth                Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date                                                        [boolean] [default: false]
-  -h, --help                      Show help                                                                                                                                                                          [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
+      --refresh-only                             Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply
+                                                 but does not propose any actions to undo any changes made outside of Terraform.                              [boolean] [default: false]
+      --terraform-parallelism                    Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not
+                                                 supported by remote / cloud backend                                                                              [number] [default: -1]
+      --var                                      Set a value for one of the input variables in the stack. Use this option more than once to set more than one variable.
+                                                                                                                                                                   [array] [default: []]
+      --var-file                                 Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more
+                                                 than once to include more than one variables file.                                                                [array] [default: []]
+      --no-color                                 Disables terminal formatting sequences in the output.                                                        [boolean] [default: false]
+      --migrate-state                            Pass this flag after switching state backends to approve a state migration for the targeted stack            [boolean] [default: false]
+      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date   [boolean] [default: false]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 ~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/plan#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
@@ -351,21 +369,26 @@ $ cdktf get --help
 **Help Output**
 
 ```
-cdktf get [OPTIONS]
+cdktf get
 
 Generate CDK Constructs for Terraform providers and modules.
 
 Options:
-      --version                   Show version number                                                                                                                                                              [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
-                                                                                                                                                                                                  [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                             [string]
-  -o, --output                    Output directory for generated Constructs                                                                                                                       [string] [default: ".gen"]
-  -l, --language                  Output programming language                                                          [string] [required] [choices: "typescript", "python", "java", "csharp", "go"] [default: "typescript"]
-      --force                     Regenerates all generated constructs                                                                                                                            [boolean] [default: false]
-      --parallelism               Number of concurrently generated provider / module bindings. Only applies for languages that are not Typescript (translated by JSII). Defaults to infinity, denoted by -1
-                                                                                                                                                                                                      [number] [default: -1]
-  -h, --help                      Show help                                                                                                                                                                        [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -o, --output                                   Output directory for generated Constructs                                                                    [string] [default: ".gen"]
+  -l, --language                                 Output programming language       [string] [required] [choices: "typescript", "python", "java", "csharp", "go"] [default: "typescript"]
+      --force                                    Regenerates all generated constructs                                                                         [boolean] [default: false]
+      --parallelism                              Number of concurrently generated provider / module bindings. Only applies for languages that are not Typescript (translated by JSII).
+                                                 Defaults to infinity, denoted by -1                                                                              [number] [default: -1]
+      --show-performance-info                    Shows performance information after generation                                                                                [boolean]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 **Examples**
@@ -402,28 +425,31 @@ $ cdktf init --help
 **Help Output**
 
 ```
-cdktf init [OPTIONS]
+cdktf init
 
 Create a new cdktf project from a template.
 
 Options:
-      --version                   Show version number                                                                                                                               [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
-                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                                  [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                              [string]
-      --template                  The template to be used to create a new project. Either URL to zip file or one of the built-in templates: ["csharp", "go", "java", "python", "python-pip",
-                                  "typescript"]                                                                                                                                      [string]
-      --project-name              The name of the project.                                                                                                                           [string]
-      --project-description       The description of the project.                                                                                                                    [string]
-      --dist                      Install dependencies from a "dist" directory (for development)                                                                                     [string]
-      --local                     Use local state storage for generated Terraform.                                                                                 [boolean] [default: false]
-      --cdktf-version             The cdktf version to use while creating a new project.                                                                          [string] [default: "0.0.0"]
-      --from-terraform-project    Use a terraform project as the basis, CDK constructs will be generated based on the .tf files in the path                                          [string]
-      --enable-crash-reporting    Enable crash reporting for the CLI, refer to https://cdk.tf/crash-reporting for more details                                                      [boolean]
-      --providers                 Providers to add to your project                                                                                                      [array] [default: []]
-      --providers-force-local     Force local installation of provider specified in init                                                                                            [boolean]
-      --tfe-hostname              The hostname of the Terraform Enterprise instance to use for remote state storage                                                                  [string]
-  -h, --help                      Show help                                                                                                                                         [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+      --template                                 The template to be used to create a new project. Either URL to zip file or one of the built-in templates.                      [string]
+      --project-name                             The name of the project.                                                                                                       [string]
+      --project-description                      The description of the project.                                                                                                [string]
+      --dist                                     Install dependencies from a "dist" directory (for development)                                                                 [string]
+      --local                                    Use local state storage for generated Terraform.                                                             [boolean] [default: false]
+      --cdktf-version                            The cdktf version to use while creating a new project.                                                      [string] [default: "0.0.0"]
+      --from-terraform-project                   Use a terraform project as the basis, CDK constructs will be generated based on the .tf files in the path                      [string]
+      --enable-crash-reporting                   Enable crash reporting for the CLI, refer to https://cdk.tf/crash-reporting for more details                                  [boolean]
+      --providers                                Providers to add to your project                                                                                  [array] [default: []]
+      --providers-force-local                    Force local installation of provider specified in init                                                                        [boolean]
+      --tfe-hostname                             The hostname of the Terraform Enterprise instance to use for remote state storage                                              [string]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 **Examples**
@@ -462,12 +488,17 @@ cdktf login
 Retrieves an API token to connect to Terraform Cloud or Terraform Enterprise.
 
 Options:
-      --version                   Show version number                                                                                                                                                    [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
-                                                                                                                                                                                        [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                   [string]
-      --tfe-hostname              The Terraform Enterprise hostname to authenticate against. If you use Terraform Cloud you can leave this on the default.                  [string] [default: "app.terraform.io"]
-  -h, --help                      Show help                                                                                                                                                              [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+      --tfe-hostname                             The Terraform Enterprise hostname to authenticate against. If you use Terraform Cloud you can leave this on the default.
+                                                                                                                                                  [string] [default: "app.terraform.io"]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 
 Examples:
   cdktf login                                    Takes you through the interactive login process
@@ -501,18 +532,20 @@ cdktf synth
 Synthesizes Terraform code for the given app in a directory.
 
 Options:
-      --version                                  Show version number                                                                        [boolean]
-      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert.
-                                                 Supported using the env CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.     [string] [default: false]
-      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured
-                                                 differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.      [boolean] [default: false]
-      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL       [string]
-  -a, --app                                      Command to use in order to execute cdktf app
-  -o, --output                                   Output directory for the synthesized Terraform config                         [default: "cdktf.out"]
-      --check-code-maker-output                  Should `codeMakerOutput` existence check be performed? By default it will be checked if providers or
-                                                 modules are configured.                                                   [boolean] [default: false]
-      --hcl                                      Should the output be in HCL format?                                       [boolean] [default: false]
-  -h, --help                                     Show help                                                                                  [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                           [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                            [default: "cdktf.out"]
+      --check-code-maker-output                  Should `codeMakerOutput` existence check be performed? By default it will be checked if providers or modules are configured.
+                                                                                                                                                              [boolean] [default: false]
+      --hcl                                      Should the output be in HCL format?                                                                          [boolean] [default: false]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 **Examples**
@@ -561,18 +594,24 @@ cdktf watch [stacks..]
 [experimental] Watch for file changes and automatically trigger a deploy
 
 Positionals:
-  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app  [array] [default: []]
+  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app                                                            [array] [default: []]
 
 Options:
-      --version                   Show version number  [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.  [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL  [string]
-  -a, --app                       Command to use in order to execute cdktf app  [required]
-  -o, --output                    Output directory for the synthesized Terraform config  [required] [default: "cdktf.out"]
-      --auto-approve              Auto approve  [boolean] [default: false]
-      --parallelism               Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1  [number] [default: -1]
-      --terraform-parallelism     Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend  [number] [default: -1]
-  -h, --help                      Show help  [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
+      --auto-approve                             Auto approve                                                                                                 [boolean] [default: false]
+      --parallelism                              Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                    [number] [default: -1]
+      --terraform-parallelism                    Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not
+                                                 supported by remote / cloud backend                                                                              [number] [default: -1]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 ~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
@@ -606,24 +645,29 @@ $ cdktf output --help
 **Help Output**
 
 ```
-cdktf output [stack] [OPTIONS]
+cdktf output [stacks..]
 
 Prints the output of stacks
 
 Positionals:
-  stacks  Get outputs of the stacks matching the given ids. Required when more than one stack is present in the app                                                                                      [array] [default: []]
+  stacks  Get outputs of the stacks matching the given ids. Required when more than one stack is present in the app                                                [array] [default: []]
 
 Options:
-      --version                                 Show version number                                                                                                                                                  [boolean]
-      --disable-plugin-cache-env                Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
-                                                                                                                                                                                                    [boolean] [default: false]
-      --log-level                               Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                 [string]
-  -a, --app                                     Command to use in order to execute cdktf app                                                                                                                        [required]
-  -o, --output                                  Output directory for the synthesized Terraform config                                                                                        [required] [default: "cdktf.out"]
-      --outputs-file                            Path to file where stack outputs will be written as JSON                                                                                                              [string]
-      --outputs-file-include-sensitive-outputs  Whether to include sensitive outputs in the output file                                                                                             [boolean] [default: false]
-      --skip-synth                              Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date                                          [boolean] [default: false]
-  -h, --help                                    Show help                                                                                                                                                            [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
+      --outputs-file                             Path to file where stack outputs will be written as JSON                                                                       [string]
+      --outputs-file-include-sensitive-outputs   Whether to include sensitive outputs in the output file                                                      [boolean] [default: false]
+      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date   [boolean] [default: false]
+  -h, --help                                     Show help                                                                                                                     [boolean]
+➜
 ```
 
 ### `--outputs-file`
@@ -658,12 +702,16 @@ cdktf debug
 Get debug information about the current project and environment
 
 Options:
-      --version                   Show version number                                                                                                          [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
-                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                             [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                         [string]
-      --json                      If set, output will be in JSON format.                                                                      [boolean] [default: false]
-  -h, --help                      Show help                                                                                                                    [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+      --json                                     If set, output will be in JSON format.                                                                       [boolean] [default: false]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 The debug information depends on the programming language. The following example is from a Java application, where CDKTF collects information about Java, Gradle, and Maven. CDKTF detects the installed `constructs` version through Gradle.
@@ -708,15 +756,19 @@ cdktf provider add <provider...>
 Add one or more Terraform providers to your project.
 
 Positionals:
-  provider  Name of the provider to add. Can include a version constraint (e.g. aws@~>4.0).            [array] [required] [default: []]
+  provider  Name of the provider to add. Can include a version constraint (e.g. aws@~>4.0).                                                             [array] [required] [default: []]
 
 Options:
-      --version                   Show version number                                                                         [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured
-                                  differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.       [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL        [string]
-      --force-local               force local provider installation, even if pre-built provider exists                        [boolean]
-  -h, --help                      Show help                                                                                                                                                  [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+      --force-local                              force local provider installation, even if pre-built provider exists                                                          [boolean]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 **Examples**
@@ -753,6 +805,25 @@ If your project has the associated [pre-built provider](/terraform/cdktf/concept
 
 ```sh
 $ cdktf provider upgrade --help
+cdktf provider upgrade <provider...>
+
+Upgrade one or more Terraform providers in your project to the newest version compatible with your CDKTF version.
+If your project has the associated pre-built provider already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the specified provider to the cdktf.json
+configuration file and generates local provider bindings.
+
+Positionals:
+  provider  Name of the provider to upgrade. Can include a version constraint (e.g. aws@~>4.0).                                                         [array] [required] [default: []]
+
+Options:
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 ## provider list
@@ -768,12 +839,16 @@ cdktf provider list [flags]
 List installed providers
 
 Options:
-      --version                   Show version number                                                                                  [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently.
-                                  Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.                             [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                 [string]
-      --json                      get providers list as json                                                          [boolean] [default: false]
-  -h, --help                      Show help                                                                                            [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+      --json                                     get providers list as json                                                                                   [boolean] [default: false]
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 **Help Output**
@@ -782,21 +857,22 @@ Options:
 cdktf provider upgrade <provider...>
 
 Upgrade one or more Terraform providers in your project to the newest version compatible with your CDKTF version.
-
-If your project has the associated pre-built provider already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the specified provider to the cdktf.json configuration file and generates local provider bindings.
+If your project has the associated pre-built provider already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the specified provider to the cdktf.json
+configuration file and generates local provider bindings.
 
 Positionals:
-  provider  Name of the provider to upgrade. Can include a version constraint (e.g. aws@~>4.0).
-                                                                     [array] [required] [default: []]
+  provider  Name of the provider to upgrade. Can include a version constraint (e.g. aws@~>4.0).                                                         [array] [required] [default: []]
 
 Options:
-      --version                   Show version number                                       [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the
-                                  plugin cache is configured differently. Supported using the env
-                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.          [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the
-                                  env CDKTF_LOG_LEVEL                                        [string]
-  -h, --help                      Show help                                                 [boolean]
+      --version                                  Show version number                                                                                                           [boolean]
+      --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+      --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
+                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -h, --help                                     Show help                                                                                                                     [boolean]
 ```
 
 **Examples**
