@@ -2,8 +2,8 @@ name: Yarn Upgrade
 
 on:
   schedule:
-    # Every monday at 13:37 UTC
-    - cron: 37 13 * * 1
+    # At 04:04 every Monday
+    - cron: 4 4 * * 1
   workflow_dispatch: {}
 
 # We special-case @types/node because we want to stay on the current major (minimum supported node release)
