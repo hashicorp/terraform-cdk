@@ -29,4 +29,4 @@ jobs:
           ISSUE: ${{ inputs.issue || github.event.issue.number }}
         run: |
           sleep 5
-          gh workflow run update-project-board-issue.yml -R hashicorp/terraform-cdk-team -f issue=$ISSUE -f repository=terraform-cdk
+          gh workflow run update-project-board-issue.yml -R hashicorp/update-project-board -f issue=$ISSUE -f repository=terraform-cdk -f project=125
