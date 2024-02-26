@@ -192,7 +192,7 @@ jobs:
           git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
           git add .
           git commit -m "cdktf: update ${{ matrix.files }}"
-          git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }})
+          git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
 
   cdktfDocsCreatePR:
     needs:
