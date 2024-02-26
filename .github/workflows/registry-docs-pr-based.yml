@@ -189,6 +189,7 @@ jobs:
       - name: Commit changes
         if: steps.changes.outputs.changes_happened
         run: |
+          set -x
           git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
           git add .
           git commit -m "cdktf: update ${{ matrix.files }}"
