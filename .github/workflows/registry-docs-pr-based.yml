@@ -195,8 +195,10 @@ jobs:
           echo "Commiting changes..."
           git commit -m "cdktf: update ${{ matrix.files }}"
           echo "Commit done, starting retry of push..."
-          for i in $(seq 1 10)
+          i=0
+          for {1..10}
           do
+            i=$((i+1))
             # Try-catch the rebasing to avoid issues with concurrent PRs
             {
               echo "Pulling and rebasing... $i/10"
