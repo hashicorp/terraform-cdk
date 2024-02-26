@@ -192,7 +192,9 @@ jobs:
           set -x
           git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
           git add .
+          echo "Commiting changes..."
           git commit -m "cdktf: update ${{ matrix.files }}"
+          echo "Commit done, starting retry of push..."
           for i in $(seq 1 10)
           do
             # Try-catch the rebasing to avoid issues with concurrent PRs
