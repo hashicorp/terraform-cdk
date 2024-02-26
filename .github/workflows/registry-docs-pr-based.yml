@@ -197,14 +197,21 @@ jobs:
           do
             # Try-catch the rebasing to avoid issues with concurrent PRs
             {
+              echo "Pulling and rebasing... $i/10"
               git pull origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} --rebase
+              echo "Pushing... $i/10"
               git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }})
               break
             } || {
+              echo "Aborting rebase... $i/10"
               git rebase --abort
-            } || echo "rebase could not be aborted, maybe no rebase is in progress?"
+            } || {
+              echo "Aborting failed... $i/10"
+            }
+            echo "Waiting until next run... $i/10"
             sleep 15
           done
+          echo "Script ending at run $i/10"
 
   cdktfDocsCreatePR:
     needs:
