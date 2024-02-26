@@ -46,7 +46,7 @@ jobs:
       providerFqn: ${{ matrix.provider.fqn }}
       languages: "typescript,python"
       parallelFileConversions: 1
-      maxRunners: 20
+      maxRunners: 1
       cdktfRegistryDocsVersion: "1.21.0"
 
   reportFailureToSlack:
