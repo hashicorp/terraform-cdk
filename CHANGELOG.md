@@ -1,3 +1,35 @@
+## 0.20.4
+
+### fix
+
+- fix: Make `CDKTF_LOG_FILE_DIRECTORY` a common flag available on all commands [\#3495](https://github.com/hashicorp/terraform-cdk/pull/3495)
+- fix(cli): opening browser using CLI hangs the shell process forever [\#3480](https://github.com/hashicorp/terraform-cdk/pull/3480)
+
+### chore
+
+- chore: Upgrade dependencies for util [\#3518](https://github.com/hashicorp/terraform-cdk/pull/3518)
+- chore: npm-check-updates && yarn upgrade [\#3511](https://github.com/hashicorp/terraform-cdk/pull/3511)
+- chore: Upgrade dependencies for cli [\#3510](https://github.com/hashicorp/terraform-cdk/pull/3510)
+- chore: Upgrade dependencies for lib [\#3509](https://github.com/hashicorp/terraform-cdk/pull/3509)
+- chore: change schedule time to be before our week starts [\#3508](https://github.com/hashicorp/terraform-cdk/pull/3508)
+- chore: Upgrade dependencies for cli [\#3507](https://github.com/hashicorp/terraform-cdk/pull/3507)
+- chore: Upgrade dependencies for util [\#3506](https://github.com/hashicorp/terraform-cdk/pull/3506)
+- chore: Upgrade dependencies for lib [\#3505](https://github.com/hashicorp/terraform-cdk/pull/3505)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3504](https://github.com/hashicorp/terraform-cdk/pull/3504)
+- chore: Upgrade dependencies for lib [\#3498](https://github.com/hashicorp/terraform-cdk/pull/3498)
+- chore: Upgrade dependencies for util [\#3497](https://github.com/hashicorp/terraform-cdk/pull/3497)
+- chore: Upgrade dependencies for cli [\#3496](https://github.com/hashicorp/terraform-cdk/pull/3496)
+- chore: fix yarn upgrade for cdktf [\#3494](https://github.com/hashicorp/terraform-cdk/pull/3494)
+- chore: Upgrade dependencies for cli [\#3493](https://github.com/hashicorp/terraform-cdk/pull/3493)
+- chore: Upgrade dependencies for util [\#3492](https://github.com/hashicorp/terraform-cdk/pull/3492)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3491](https://github.com/hashicorp/terraform-cdk/pull/3491)
+- chore: bundle smaller packages together [\#3481](https://github.com/hashicorp/terraform-cdk/pull/3481)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3479](https://github.com/hashicorp/terraform-cdk/pull/3479)
+- chore: Upgrade dependencies for @cdktf/provider-schema [\#3476](https://github.com/hashicorp/terraform-cdk/pull/3476)
+- chore: Upgrade dependencies for @cdktf/hcl2cdk [\#3475](https://github.com/hashicorp/terraform-cdk/pull/3475)
+- chore: Upgrade dependencies for @cdktf/hcl2json [\#3474](https://github.com/hashicorp/terraform-cdk/pull/3474)
+- chore: Upgrade dependencies for @cdktf/commons [\#3473](https://github.com/hashicorp/terraform-cdk/pull/3473)
+
 ## 0.20.3
 
 ### feat
