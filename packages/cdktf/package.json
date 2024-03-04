@@ -108,8 +108,8 @@
     "@types/jest": "29.5.12",
     "@types/json-stable-stringify": "1.0.36",
     "@types/minimatch": "5.1.2",
-    "@types/node": "18.19.17",
-    "@types/semver": "7.5.7",
+    "@types/node": "18.19.21",
+    "@types/semver": "7.5.8",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "constructs": "10.1.167",
@@ -117,14 +117,14 @@
     "eslint-plugin-jsdoc": "39.9.1",
     "eslint-plugin-no-instanceof": "1.0.1",
     "jest": "29.7.0",
-    "jsii": "5.3.19",
-    "jsii-docgen": "10.3.17",
+    "jsii": "5.3.24",
+    "jsii-docgen": "10.3.19",
     "jsii-pacmak": "1.94.0",
     "ts-jest": "29.1.2",
     "typescript": "5.2.2"
   },
   "dependencies": {
-    "archiver": "6.0.1",
+    "archiver": "6.0.2",
     "json-stable-stringify": "1.1.1",
     "semver": "7.6.0"
   },
