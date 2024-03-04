@@ -373,6 +373,93 @@ describe("output", () => {
     `);
   });
 
+  test("deeply nested map ", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new TestProvider(stack, "provider", {});
+
+    new TestResource(stack, "probably-kubernetes", {
+      name: "foo",
+      anyMap: {
+        spec: {
+          metadata: {
+            name: "foo",
+            labels: {
+              "foo:bar": "baz",
+              simple: "true",
+            },
+          },
+        },
+      },
+    });
+
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+      "terraform {
+      required_providers {
+        test = {
+      version = "~> 2.0"
+      }
+      }
+
+
+      }
+
+      provider "test" {
+      }
+      resource "test_resource" "probably-kubernetes" {
+      name = "foo"
+      any_map = {
+      spec = {
+      metadata = {
+      name = "foo"
+      labels = {
+      "foo:bar" = "baz"
+      simple = "true"
+      }
+      }
+      }
+      }
+      }"
+    `);
+  });
+
+  test("map with undefined / null value", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new TestProvider(stack, "provider", {});
+
+    new TestResource(stack, "sth-fishy", {
+      name: "foo",
+      anyMap: {
+        notDefined: undefined,
+        billionDollarMistake: null,
+      },
+    });
+
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+      "terraform {
+      required_providers {
+        test = {
+      version = "~> 2.0"
+      }
+      }
+
+
+      }
+
+      provider "test" {
+      }
+      resource "test_resource" "sth-fishy" {
+      name = "foo"
+      any_map = {
+      billionDollarMistake = null
+      }
+      }"
+    `);
+  });
+
   test("dependent output", async () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");

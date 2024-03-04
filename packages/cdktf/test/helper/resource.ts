@@ -16,6 +16,7 @@ export interface TestResourceConfig extends TerraformMetaArguments {
   names?: string[];
   tags?: { [key: string]: string };
   nestedType?: { [key: string]: string };
+  anyMap?: { [key: string]: any };
   listBlock?: IResolvable;
   listAttribute?: IResolvable;
 }
@@ -26,6 +27,7 @@ export class TestResource extends TerraformResource {
   public names?: string[];
   public tags?: { [key: string]: string };
   public nestedType?: { [key: string]: string };
+  public anyMap?: { [key: string]: any };
   public listBlock?: IResolvable; // real life bindings also allow an interface here, but we don't use that in our tests using this
   public listAttribute?: IResolvable;
 
@@ -47,6 +49,7 @@ export class TestResource extends TerraformResource {
     this.name = config.name;
     this.names = config.names;
     this.tags = config.tags;
+    this.anyMap = config.anyMap;
     this.nestedType = config.nestedType;
     this.listBlock = config.listBlock;
     this.listAttribute = config.listAttribute;
@@ -58,6 +61,7 @@ export class TestResource extends TerraformResource {
       names: this.names,
       tags: this.tags,
       nested_type: this.nestedType,
+      any_map: this.anyMap,
       list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
       list_attribute: listMapper((a) => a, false)(this.listAttribute), // identity function to skip writing a toTerraform function
     };
@@ -88,9 +92,16 @@ export class TestResource extends TerraformResource {
           storageClassType: "stringMap",
         },
 
+        any_map: {
+          value: this.anyMap,
+          type: "map",
+          storageClassType: "anyMap",
+        },
         list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
         list_attribute: listMapper((a) => a, false)(this.listAttribute), // identity function to skip writing a toTerraform function
-      }).filter(([_, v]) => !!v?.value)
+      }).filter(
+        ([_, value]) => value !== undefined && value.value !== undefined
+      )
     );
   }
 

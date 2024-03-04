@@ -193,6 +193,16 @@ export function renderMapValue(value: any): string {
     return `${value}`;
   }
 
+  if (typeof value === "object") {
+    if (Array.isArray(value)) {
+      return renderListValue(value, "unknownStorageClass");
+    }
+    if (value === null) {
+      return "null";
+    }
+    return renderMap(value);
+  }
+
   return `${value}`;
 }
 
