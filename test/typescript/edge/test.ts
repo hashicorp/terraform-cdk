@@ -1,6 +1,12 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { QueryableStack, TestDriver, onlyJson } from "../../test-helper";
+import {
+  QueryableStack,
+  TestDriver,
+  onlyJson,
+  onlyHcl,
+  isHcl,
+} from "../../test-helper";
 import * as path from "path";
 import * as fs from "fs-extra";
 
@@ -31,7 +37,11 @@ describe("edge provider test", () => {
   describe("ReferenceStack", () => {
     let stack: QueryableStack;
     beforeAll(() => {
-      stack = driver.synthesizedStack("reference");
+      stack = isHcl ? (null as any) : driver.synthesizedStack("reference");
+    });
+
+    onlyHcl("synth generates HCL, not JSON", () => {
+      expect(driver.synthesizedStackContentsRaw("reference")).toMatchSnapshot();
     });
 
     onlyJson("renders plain values in lists", () => {
@@ -226,7 +236,11 @@ describe("edge provider test", () => {
   describe("IteratorStack", () => {
     let stack: QueryableStack;
     beforeAll(() => {
-      stack = driver.synthesizedStack("iterator");
+      stack = isHcl ? (null as any) : driver.synthesizedStack("iterator");
+    });
+
+    onlyHcl("synth generates HCL, not JSON", () => {
+      expect(driver.synthesizedStackContentsRaw("iterator")).toMatchSnapshot();
     });
 
     describe("string list", () => {

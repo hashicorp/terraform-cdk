@@ -433,7 +433,7 @@ export class TestDriver {
 
 const isWindows = process.platform === "win32";
 const isPosix = process.platform !== "win32";
-const isHcl =
+export const isHcl =
   process.env.SYNTH_HCL_OUTPUT === "true" ||
   process.env.SYNTH_HCL_OUTPUT === "1";
 
