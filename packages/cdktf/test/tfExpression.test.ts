@@ -270,3 +270,10 @@ test("nesting can undo the wrapping", () => {
     `"\${x(docker_container.foo.bar, "this is the ref: \${y("my ref: \${docker_container.foo.bar}", docker_container.foo.bar)}")}"`
   );
 });
+
+test("expressions correctly resolve string wrapped objects", () => {
+  const expr = call("keys", [Token.asString({ a: "b" })]);
+  expect(resolveExpression(expr)).toMatchInlineSnapshot(
+    `"\${keys({"a" = "b"})}"`
+  );
+});

@@ -36,7 +36,13 @@ class TFExpression extends Intrinsic implements IResolvable {
     const resolvedArg = context.resolve(arg);
 
     if (typeof arg === "string") {
-      return this.resolveString(arg, resolvedArg);
+      const str = this.resolveString(arg, resolvedArg);
+      // When Token.asString() is used on an object, str will be the object and needs to be resolved differently
+      // This happens for example in MapTerraformIterator#_getForEachExpression and can cause issues like #3540
+      if (typeof str !== "string") {
+        return this.resolveExpressionPart(context, str);
+      }
+      return str;
     }
 
     return this.resolveExpressionPart(context, arg);
