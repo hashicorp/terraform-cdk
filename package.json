@@ -90,7 +90,7 @@
     "standard-version": "^9.5.0"
   },
   "resolutions": {
-		"**/@types/react": "18.2.37"
+    "**/@types/react": "18.2.37"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,css,md}": "prettier --write",
