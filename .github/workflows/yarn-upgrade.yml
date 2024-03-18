@@ -158,7 +158,7 @@ jobs:
           # Upgrade all the packages
           lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
           lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --filter=typescript --target=patch
-          lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
+          lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,jsii,jsii-srcmak,jsii-pacmak,jsii-rosetta,jsii-docgen,codemaker,${{ steps.list-packages.outputs.list }}'  --target=minor
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
       - name: Run "yarn install"
         run: yarn install --prefer-offline
@@ -183,6 +183,68 @@ jobs:
             This PR touches the following packages:
 
             ${{ join(matrix.pr.packages, '\n -')}}
+
+          labels: dependencies,auto-approve
+          team-reviewers: cdktf
+          token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
+          author: team-tf-cdk <github-team-tf-cdk@hashicorp.com>
+
+  upgradeJSII:
+    name: Yarn Upgrade JSII
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terrafor
+    steps:
+      - name: Check Out
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Get yarn cache directory path
+        id: global-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@ab5e6d0c87105b4c9c2047343972218f562e4319 # v4.0.1
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.dir }}
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-upgrade
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
+            yarn-${{ runner.os }}-
+      - name: ensure correct user
+        run: chown -R root /__w/terraform-cdk
+      - name: Install Tools
+        run: |-
+          npm -g install lerna npm-check-updates@^9.0.0
+      - name: List Mono-Repo Packages
+        id: list-packages
+        # These need to be ignored from the `ncu` runs!
+        run: |-
+          echo "list=$(node -p "$(lerna ls --all --json 2>/dev/null).map(item => item.name).join(',')")" >> $GITHUB_OUTPUT
+      - name: Run "ncu -u"
+        run: |-
+          # Upgrade all the packages
+          lerna exec ncu -- --upgrade --filter='jsii,jsii-srcmak,jsii-pacmak,jsii-rosetta,jsii-docgen,codemaker' --target=minor
+      # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
+      - name: Run "yarn install"
+        run: yarn install --prefer-offline
+
+      - name: Set git identity
+        run: |-
+          git config --global user.email "github-team-tf-cdk@hashicorp.com"
+          git config --global user.name "team-tf-cdk"
+
+      - name: Make Pull Request
+        uses: peter-evans/create-pull-request@a4f52f8033a6168103c2538976c07b467e8163bc # v6.0.1
+        with:
+          # Git commit details
+          branch: automation/yarn-upgrade-jsii
+          commit-message: |-
+            chore: Upgrade dependencies for JSII
+            Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
+          # Pull Request details
+          title: "chore: Upgrade dependencies for JSII"
+          body: |-
+            Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
+            This PR updates JSII across all packages.
 
           labels: dependencies,auto-approve
           team-reviewers: cdktf
