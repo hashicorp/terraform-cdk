@@ -1,3 +1,25 @@
+## 0.20.5
+
+### fix
+
+- fix(lib): Correctly render string tokens that contain plain objects [\#3545](https://github.com/hashicorp/terraform-cdk/pull/3545)
+- fix: hcl rendering nested maps [\#3536](https://github.com/hashicorp/terraform-cdk/pull/3536)
+- fix(docs): Italics broken [\#3490](https://github.com/hashicorp/terraform-cdk/pull/3490)
+
+### chore
+
+- chore: fix typo [\#3553](https://github.com/hashicorp/terraform-cdk/pull/3553)
+- chore: add separate workflow for JSII upgrades [\#3552](https://github.com/hashicorp/terraform-cdk/pull/3552)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3549](https://github.com/hashicorp/terraform-cdk/pull/3549)
+- chore: Upgrade dependencies for util [\#3548](https://github.com/hashicorp/terraform-cdk/pull/3548)
+- chore: Upgrade dependencies for util [\#3543](https://github.com/hashicorp/terraform-cdk/pull/3543)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3534](https://github.com/hashicorp/terraform-cdk/pull/3534)
+- chore: Upgrade dependencies for util [\#3533](https://github.com/hashicorp/terraform-cdk/pull/3533)
+- chore: run doc conversions on one runner [\#3522](https://github.com/hashicorp/terraform-cdk/pull/3522)
+- chore: Upgrade dependencies for cli [\#3517](https://github.com/hashicorp/terraform-cdk/pull/3517)
+- chore: Upgrade dependencies for lib [\#3516](https://github.com/hashicorp/terraform-cdk/pull/3516)
+- chore: update-project-board-issue calls different repo [\#3513](https://github.com/hashicorp/terraform-cdk/pull/3513)
+
 ## 0.20.4
 
 ### fix
