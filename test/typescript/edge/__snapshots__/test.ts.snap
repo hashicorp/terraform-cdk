@@ -1,0 +1,288 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`edge provider test IteratorStack synth generates HCL, not JSON 1`] = `
+"terraform {
+  required_providers {
+    edge = {
+      source = "registry.terraform.io/cdktf/edge"
+    }
+  }
+  backend "local" {
+    path = "/private/var/folders/m4/673s3vwn1_g7c72bmvq521g00000gn/T/testQeCsmG/terraform.iterator.tfstate"
+  }
+
+
+}
+
+provider "edge" {
+  reqstr  = "reqstr"
+  reqnum  = 123
+  reqbool = true
+}
+resource "optional_attribute_resource" "target" {
+  strList = [
+    "a",
+    "b",
+    "c"
+  ]
+}
+resource "list_block_resource" "list" {
+  req {
+    reqstr  = "reqstr"
+    reqnum  = 1
+    reqbool = true
+  }
+  req {
+    reqstr  = "reqstr2"
+    reqnum  = 0
+    reqbool = false
+  }
+  singlereq {
+    reqstr  = "reqstr"
+    reqnum  = 1
+    reqbool = false
+  }
+}
+resource "map_resource" "map" {
+  optMap = {
+    key1 = "value1"
+    key2 = "value2"
+  }
+  reqMap = {
+    key1 = true
+  }
+}
+resource "optional_attribute_resource" "string_list_target" {
+  str      = "\${each.value}"
+  for_each = "\${toset(optional_attribute_resource.target.strList)}"
+}
+resource "optional_attribute_resource" "complex_list_target" {
+  str      = "\${each.value.reqstr}"
+  num      = "\${each.value.reqnum}"
+  for_each = "\${toset(list_block_resource.list.req)}"
+}
+resource "optional_attribute_resource" "string_map_target" {
+  str      = "\${each.value}"
+  for_each = "\${map_resource.map.optMap}"
+}
+resource "list_block_resource" "list_attribute" {
+  dynamic "req" {
+    for_each = "\${toset(list_block_resource.list.req)}"
+    iterator = each
+    content {
+      reqbool = "\${each.value.reqbool}"
+      reqstr  = "\${each.value.reqstr}"
+      reqnum  = "\${each.value.reqnum}"
+    }
+  }
+  singlereq {
+    reqstr  = "a"
+    reqnum  = 0
+    reqbool = true
+  }
+}"
+`;
+
+exports[`edge provider test ReferenceStack synth generates HCL, not JSON 1`] = `
+"terraform {
+  required_providers {
+    edge = {
+      source = "registry.terraform.io/cdktf/edge"
+    }
+  }
+  backend "local" {
+    path = "/private/var/folders/m4/673s3vwn1_g7c72bmvq521g00000gn/T/testQeCsmG/terraform.reference.tfstate"
+  }
+
+
+}
+
+provider "edge" {
+  reqstr  = "reqstr"
+  reqnum  = 123
+  reqbool = true
+}
+resource "optional_attribute_resource" "null" {
+  bool = null
+}
+resource "optional_attribute_resource" "test" {
+}
+resource "list_block_resource" "list" {
+  req {
+    reqstr  = "reqstr"
+    reqnum  = 1
+    reqbool = true
+  }
+  req {
+    reqstr  = "reqstr2"
+    reqnum  = 0
+    reqbool = false
+  }
+  singlereq {
+    reqstr  = "reqstr"
+    reqnum  = 1
+    reqbool = false
+  }
+}
+resource "map_resource" "map" {
+  optMap = {
+    key1 = "value1"
+  }
+  reqMap = {
+    key1 = true
+  }
+}
+resource "set_block_resource" "set_block" {
+  set {
+    reqstr  = "reqstr"
+    reqnum  = 1
+    reqbool = true
+  }
+  set {
+    reqstr  = "reqstr2"
+    reqnum  = 0
+    reqbool = false
+  }
+}
+resource "required_attribute_resource" "plain" {
+  str      = "\${optional_attribute_resource.test.str}"
+  num      = "\${optional_attribute_resource.test.num}"
+  bool     = "\${optional_attribute_resource.test.bool}"
+  strList  = "\${optional_attribute_resource.test.strList}"
+  numList  = "\${optional_attribute_resource.test.numList}"
+  boolList = "\${optional_attribute_resource.test.boolList}"
+}
+resource "required_attribute_resource" "from_single_list" {
+  str  = "\${list_block_resource.list.singlereq[0].reqstr}"
+  num  = "\${list_block_resource.list.singlereq[0].reqnum}"
+  bool = "\${list_block_resource.list.singlereq[0].reqbool}"
+  strList = [
+    "\${list_block_resource.list.singlereq[0].reqstr}"
+  ]
+  numList = [
+    $ { list_block_resource.list.singlereq[0].reqnum }
+  ]
+  boolList = [
+    $ { list_block_resource.list.singlereq[0].reqbool }
+  ]
+}
+resource "required_attribute_resource" "from_list" {
+  str  = "\${list_block_resource.list.req[0].reqstr}"
+  num  = "\${element(list_block_resource.list.req, 0).reqnum}"
+  bool = "\${element(list_block_resource.list.req, 0).reqbool}"
+  strList = [
+    "\${list_block_resource.list.req[0].reqstr}"
+  ]
+  numList = [
+    $ { element(list_block_resource.list.req, 0).reqnum }
+  ]
+  boolList = [
+    $ { element(list_block_resource.list.req, 0).reqbool }
+  ]
+}
+resource "list_block_resource" "list_reference" {
+  req = "\${list_block_resource.list.req}"
+  singlereq {
+    optstr       = "\${list_block_resource.list.singlereq[0].optstr}"
+    optnum       = "\${list_block_resource.list.singlereq[0].optnum}"
+    optbool      = "\${list_block_resource.list.singlereq[0].optbool}"
+    reqstr       = "\${list_block_resource.list.singlereq[0].reqstr}"
+    reqnum       = "\${list_block_resource.list.singlereq[0].reqnum}"
+    reqbool      = "\${list_block_resource.list.singlereq[0].reqbool}"
+    computedstr  = "\${list_block_resource.list.singlereq[0].computedstr}"
+    computednum  = "\${list_block_resource.list.singlereq[0].computednum}"
+    computedbool = "\${list_block_resource.list.singlereq[0].computedbool}"
+  }
+}
+resource "list_block_resource" "list_literal" {
+  req {
+    0 = "$"
+    1 = {
+      2  = "l"
+      3  = "i"
+      4  = "s"
+      5  = "t"
+      6  = "_"
+      7  = "b"
+      8  = "l"
+      9  = "o"
+      10 = "c"
+      11 = "k"
+      12 = "_"
+      13 = "r"
+      14 = "e"
+      15 = "s"
+      16 = "o"
+      17 = "u"
+      18 = "r"
+      19 = "c"
+      20 = "e"
+      21 = "."
+      22 = "l"
+      23 = "i"
+      24 = "s"
+      25 = "t"
+      26 = "."
+      27 = "s"
+      28 = "i"
+      29 = "n"
+      30 = "g"
+      31 = "l"
+      32 = "e"
+      33 = "r"
+      34 = "e"
+      35 = "q"
+      36 = [
+        37 = 0
+        38 = "]"
+        39 = "}"
+      }
+      singlereq {
+        optstr       = "\${list_block_resource.list.singlereq[0].optstr}"
+        optnum       = "\${list_block_resource.list.singlereq[0].optnum}"
+        optbool      = "\${list_block_resource.list.singlereq[0].optbool}"
+        reqstr       = "\${list_block_resource.list.singlereq[0].reqstr}"
+        reqnum       = "\${list_block_resource.list.singlereq[0].reqnum}"
+        reqbool      = "\${list_block_resource.list.singlereq[0].reqbool}"
+        computedstr  = "\${list_block_resource.list.singlereq[0].computedstr}"
+        computednum  = "\${list_block_resource.list.singlereq[0].computednum}"
+        computedbool = "\${list_block_resource.list.singlereq[0].computedbool}"
+      }
+    }
+    resource "required_attribute_resource" "from_map" {
+      str  = "\${lookup(map_resource.map.optMap, "key1", "missing")}"
+      num  = "\${map_resource.map.computedMap.key1}"
+      bool = "\${map_resource.map.reqMap.key1}"
+      strList = [
+        "\${lookup(map_resource.map.optMap, "key1", "missing")}"
+      ]
+      numList = [
+        $ { map_resource.map.computedMap.key1 }
+      ]
+      boolList = [
+        $ { map_resource.map.reqMap.key1 }
+      ]
+    }
+    resource "map_resource" "map_reference" {
+      optMap = "\${map_resource.map.optMap}"
+      reqMap = "\${map_resource.map.reqMap}"
+    }
+    resource "set_block_resource" "set_from_list" {
+      set = "\${list_block_resource.list.req}"
+    }
+    resource "list_block_resource" "list_from_set" {
+      req = "\${tolist(set_block_resource.set_block.set)}"
+      singlereq {
+        reqstr  = "reqstr"
+        reqnum  = 1
+        reqbool = true
+      }
+    }
+
+    output "list_from_list_type_ref" {
+      value = "\${list_block_resource.list.computedListOfObject}"
+    }
+    resource "optional_attribute_resource" "list_item_from_list_type_ref" {
+      str = "\${list_block_resource.list.computedListOfObject[5].str}"
+    }"
+`;
