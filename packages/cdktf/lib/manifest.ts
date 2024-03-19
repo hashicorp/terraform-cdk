@@ -85,9 +85,21 @@ export class Manifest implements IManifest {
   }
 
   public writeToFile() {
+    const replacer = (key, value) => {
+      if (key === "stacks") {
+        return Object.keys(value)
+          .sort()
+          .reduce((sorted, key) => {
+            sorted[key] = value[key];
+            return sorted 
+          }, {});
+        }
+      return value;
+    }
+
     fs.writeFileSync(
       path.join(this.outdir, Manifest.fileName),
-      JSON.stringify(this.buildManifest(), undefined, 2)
+      JSON.stringify(this.buildManifest(), replacer, 2)
     );
   }
 }
