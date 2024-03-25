@@ -117,9 +117,9 @@
     "eslint-plugin-jsdoc": "39.9.1",
     "eslint-plugin-no-instanceof": "1.0.1",
     "jest": "29.7.0",
-    "jsii": "5.3.29",
-    "jsii-docgen": "10.3.23",
-    "jsii-pacmak": "1.95.0",
+    "jsii": "5.3.30",
+    "jsii-docgen": "10.3.25",
+    "jsii-pacmak": "1.96.0",
     "ts-jest": "29.1.2",
     "typescript": "5.2.2"
   },
@@ -135,6 +135,6 @@
   ],
   "stability": "experimental",
   "peerDependencies": {
-    "constructs": "^10.0.25"
+    "constructs": "^10.3.0"
   }
 }
