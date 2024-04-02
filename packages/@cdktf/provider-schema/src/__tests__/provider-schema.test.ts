@@ -9,8 +9,13 @@ import {
   ConstructsMakerModuleTarget,
   ConstructsMakerProviderTarget,
   Language,
+  ProviderSchema,
 } from "@cdktf/commons";
-import { readModuleSchema, readProviderSchema } from "../provider-schema";
+import {
+  readModuleSchema,
+  readProviderSchema,
+  sanitizeProviderSchema,
+} from "../provider-schema";
 
 function sanitizeJson(value: any) {
   value["format_version"] = "STUBBED VERSION";
@@ -69,4 +74,95 @@ describe("readSchema", () => {
     const result = await readModuleSchema(target);
     expect(sanitizeJson(result)).toMatchSnapshot();
   }, 120000);
+});
+
+describe("sanitizeProviderSchema", () => {
+  it("sanitizes a provider schema", () => {
+    const schema: ProviderSchema = {
+      format_version: "0.1" as const,
+      provider_versions: {
+        "registry.terraform.io/hashicorp/null": "3.1.0",
+      },
+      provider_schemas: {
+        "registry.terraform.io/hashicorp/null": {
+          provider: {
+            version: 0,
+            block: {
+              attributes: {
+                version: {
+                  type: "string",
+                  required: true,
+                },
+                correct: {
+                  type: ["list", "string"],
+                },
+                incorrect: {
+                  type: ["list", "string", "list", "string"] as any,
+                },
+              },
+              block_types: {
+                triggers: {
+                  nesting_mode: "single",
+                  block: {
+                    attributes: {
+                      correct: {
+                        type: ["list", "string"],
+                      },
+                      incorrect: {
+                        type: ["list", "string", "list", "string"] as any,
+                      },
+                    },
+                    block_types: {},
+                  },
+                },
+              },
+            },
+          },
+          resource_schemas: {
+            null_resource: {
+              version: 0,
+              block: {
+                attributes: {
+                  id: {
+                    type: "string",
+                    computed: true,
+                  },
+                  correct: {
+                    type: ["list", "string"],
+                  },
+                  incorrect: {
+                    type: ["list", "string", "list", "string"] as any,
+                  },
+                },
+                block_types: {
+                  triggers: {
+                    nesting_mode: "single",
+                    block: {
+                      attributes: {
+                        triggers: {
+                          type: "string",
+                          optional: true,
+                        },
+                        correct: {
+                          type: ["list", "string"],
+                        },
+                        incorrect: {
+                          type: ["list", "string", "list", "string"] as any,
+                        },
+                      },
+                      block_types: {},
+                    },
+                  },
+                },
+              },
+            },
+          },
+          data_source_schemas: {},
+        },
+      },
+    };
+
+    const result = sanitizeProviderSchema(schema);
+    expect(result).toMatchSnapshot();
+  });
 });

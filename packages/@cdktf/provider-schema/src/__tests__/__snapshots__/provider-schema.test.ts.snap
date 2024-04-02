@@ -752,3 +752,113 @@ exports[`readSchema generates a single provider schema 1`] = `
   }
 }"
 `;
+
+exports[`sanitizeProviderSchema sanitizes a provider schema 1`] = `
+{
+  "format_version": "0.1",
+  "provider_schemas": {
+    "registry.terraform.io/hashicorp/null": {
+      "data_source_schemas": {},
+      "provider": {
+        "block": {
+          "attributes": {
+            "correct": {
+              "type": [
+                "list",
+                "string",
+              ],
+            },
+            "incorrect": {
+              "type": [
+                "list",
+                "string",
+              ],
+            },
+            "version": {
+              "required": true,
+              "type": "string",
+            },
+          },
+          "block_types": {
+            "triggers": {
+              "block": {
+                "attributes": {
+                  "correct": {
+                    "type": [
+                      "list",
+                      "string",
+                    ],
+                  },
+                  "incorrect": {
+                    "type": [
+                      "list",
+                      "string",
+                    ],
+                  },
+                },
+                "block_types": {},
+              },
+              "nesting_mode": "single",
+            },
+          },
+        },
+        "version": 0,
+      },
+      "resource_schemas": {
+        "null_resource": {
+          "block": {
+            "attributes": {
+              "correct": {
+                "type": [
+                  "list",
+                  "string",
+                ],
+              },
+              "id": {
+                "computed": true,
+                "type": "string",
+              },
+              "incorrect": {
+                "type": [
+                  "list",
+                  "string",
+                ],
+              },
+            },
+            "block_types": {
+              "triggers": {
+                "block": {
+                  "attributes": {
+                    "correct": {
+                      "type": [
+                        "list",
+                        "string",
+                      ],
+                    },
+                    "incorrect": {
+                      "type": [
+                        "list",
+                        "string",
+                      ],
+                    },
+                    "triggers": {
+                      "optional": true,
+                      "type": "string",
+                    },
+                  },
+                  "block_types": {},
+                },
+                "nesting_mode": "single",
+              },
+            },
+          },
+          "version": 0,
+        },
+      },
+    },
+  },
+  "provider_versions": {
+    "registry.terraform.io/hashicorp/null": "3.1.0",
+  },
+}
+`;
