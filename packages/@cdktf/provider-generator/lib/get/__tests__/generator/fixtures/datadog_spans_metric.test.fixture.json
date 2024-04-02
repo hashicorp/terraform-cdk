@@ -1,0 +1,94 @@
+{
+  "format_version": "1.0",
+  "provider_schemas": {
+    "registry.terraform.io/datadog/datadog": {
+      "resource_schemas": {
+        "datadog_spans_metric": {
+          "version": 0,
+          "block": {
+            "attributes": {
+              "id": {
+                "type": "string",
+                "description": "The ID of this resource.",
+                "description_kind": "plain",
+                "computed": true
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the span-based metric. This field can't be updated after creation.",
+                "description_kind": "plain",
+                "required": true
+              }
+            },
+            "block_types": {
+              "compute": {
+                "nesting_mode": "single",
+                "block": {
+                  "attributes": {
+                    "aggregation_type": {
+                      "type": "string",
+                      "description": "The type of aggregation to use. This field can't be updated after creation.",
+                      "description_kind": "plain",
+                      "required": true
+                    },
+                    "include_percentiles": {
+                      "type": "bool",
+                      "description": "Toggle to include or exclude percentile aggregations for distribution metrics. Only present when the `aggregation_type` is `distribution`.",
+                      "description_kind": "plain",
+                      "optional": true
+                    },
+                    "path": {
+                      "type": "string",
+                      "description": "The path to the value the span-based metric will aggregate on (only used if the aggregation type is a \"distribution\"). This field can't be updated after creation.",
+                      "description_kind": "plain",
+                      "optional": true
+                    }
+                  },
+                  "description_kind": "plain"
+                }
+              },
+              "filter": {
+                "nesting_mode": "single",
+                "block": {
+                  "attributes": {
+                    "query": {
+                      "type": "string",
+                      "description": "The search query - following the span search syntax. Defaults to `\"*\"`.",
+                      "description_kind": "plain",
+                      "optional": true,
+                      "computed": true
+                    }
+                  },
+                  "description_kind": "plain"
+                }
+              },
+              "group_by": {
+                "nesting_mode": "set",
+                "block": {
+                  "attributes": {
+                    "path": {
+                      "type": "string",
+                      "description": "The path to the value the span-based metric will be aggregated over.",
+                      "description_kind": "plain",
+                      "required": true
+                    },
+                    "tag_name": {
+                      "type": "string",
+                      "description": "Eventual name of the tag that gets created. By default, the path attribute is used as the tag name.",
+                      "description_kind": "plain",
+                      "optional": true,
+                      "computed": true
+                    }
+                  },
+                  "description_kind": "plain"
+                }
+              }
+            },
+            "description": "Provides a Datadog SpansMetric resource. This can be used to create and manage Datadog spans_metric.",
+            "description_kind": "plain"
+          }
+        }
+      }
+    }
+  }
+}
