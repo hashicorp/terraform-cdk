@@ -89,3 +89,28 @@ test("generate a security group", async () => {
   );
   expect(output).toMatchSnapshot();
 });
+
+test.only("generate a datadog spans metric", async () => {
+  const code = new CodeMaker();
+  const workdir = fs.mkdtempSync(path.join(os.tmpdir(), "sg.test"));
+  const spec = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        __dirname,
+        "fixtures",
+        "datadog_spans_metric.test.fixture.json"
+      ),
+      "utf-8"
+    )
+  );
+
+  new TerraformProviderGenerator(code, spec).generateAll();
+  await code.save(workdir);
+
+  const output = fs.readFileSync(
+    path.join(workdir, "providers/datadog/spans-metric/index.ts"),
+    "utf-8"
+  );
+
+  expect(output).toMatchSnapshot();
+});

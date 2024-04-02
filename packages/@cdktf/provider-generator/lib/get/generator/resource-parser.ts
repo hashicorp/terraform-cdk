@@ -391,6 +391,8 @@ class Parser {
   public renderAttributesForBlock(parentType: Scope, block: Block) {
     const attributes = new Array<AttributeModel>();
 
+    console.log("render attributes for block", parentType.name);
+
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
     )) {
@@ -501,6 +503,8 @@ class Parser {
       );
     }
 
+    console.log(attributes);
+
     return attributes;
 
     function attributeForBlockType(
@@ -513,10 +517,24 @@ class Parser {
       const name = toCamelCase(terraformName);
       let optional: boolean;
       let required: boolean;
+
+      console.log("attribute for block type", terraformName, name);
+
       switch (blockType.nesting_mode) {
         case "single":
           optional = !struct.attributes.some((x) => !x.optional);
           required = !struct.attributes.some((x) => !x.required);
+
+          console.log("optional", optional, "required", required);
+
+          // The bug #3570 lies here, as both optional and required evaluate to false
+          // (this causes the computed block to not be part of assignableAttributes and thus skipped in the generated code)
+          // I think we need to adjust the logic for optional / required here. I don't know if it even makes sense to
+          // set required and optional based on the attributes in the block, but if there's no better way / we need to keep this
+          // I'd propose to extend the current logic: If both optional and required are false, set optional to true IF at least one
+          // attribute in the block has optional = true or required = true, as this would mean that at least something can be set
+          // and the block is not all computed.
+
           return new AttributeModel({
             name,
             terraformName,
