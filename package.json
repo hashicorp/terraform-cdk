@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.20.5",
+  "version": "0.20.6",
   "private": true,
   "scripts": {
     "build-and-package": "lerna run --scope 'cdktf*' --scope @cdktf/* build,package && tools/collect-dist.sh",
@@ -98,10 +98,7 @@
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint",
-      "monorepo"
-    ],
+    "plugins": ["@typescript-eslint", "monorepo"],
     "settings": {
       "react": {
         "version": "detect"
@@ -110,12 +107,6 @@
     "rules": {
       "monorepo/no-relative-import": "error"
     },
-    "ignorePatterns": [
-      "node_modules",
-      "dist",
-      "coverage",
-      "*.d.ts",
-      "*.js"
-    ]
+    "ignorePatterns": ["node_modules", "dist", "coverage", "*.d.ts", "*.js"]
   }
 }
