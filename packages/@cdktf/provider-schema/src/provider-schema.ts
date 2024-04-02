@@ -5,6 +5,9 @@ import * as path from "path";
 
 import { convertFiles } from "@cdktf/hcl2json";
 import {
+  Attribute,
+  AttributeType,
+  Block,
   ConstructsMakerModuleTarget,
   ConstructsMakerProviderTarget,
   Input,
@@ -14,6 +17,7 @@ import {
   TerraformModuleConstraint,
   VersionSchema,
   exec,
+  isNestedTypeAttribute,
   withTempDir,
 } from "@cdktf/commons";
 
@@ -208,7 +212,49 @@ export async function readProviderSchema(
     providerSchema.provider_versions = versionSchema.provider_selections;
   });
 
-  return providerSchema;
+  return sanitizeProviderSchema(providerSchema);
+}
+
+// The providers have some potential bugs that we want to pro-actively
+// fix here so that the rest of the code can assume a consistent schema.
+export function sanitizeProviderSchema(schema: ProviderSchema): ProviderSchema {
+  // Mainly some attributes are "doubled", e.g. ["list", "string", "list", "string"]
+  // instead of ["list", "string"]
+  function attributeDoublingFix(attribute: Attribute): Attribute {
+    if (isNestedTypeAttribute(attribute) || !Array.isArray(attribute.type)) {
+      return attribute;
+    }
+
+    const type =
+      attribute.type.length === 2
+        ? attribute.type
+        : (attribute.type as string[]).slice(0, 2); // The types tell us this can't happen, reality begs to differ
+
+    attribute.type = type as AttributeType;
+    return attribute;
+  }
+
+  // Mutates block with the fix
+  function sanitizeBlock(block: Block) {
+    Object.values(block.attributes || {}).forEach(attributeDoublingFix);
+    Object.values(block.block_types || {}).forEach((blockType) => {
+      sanitizeBlock(blockType.block);
+    });
+  }
+
+  Object.values(schema.provider_schemas || {}).forEach((provider) => {
+    const entities = [
+      provider.provider,
+      ...Object.values(provider.resource_schemas || {}),
+      ...Object.values(provider.data_source_schemas || {}),
+    ];
+
+    entities.forEach((entity) => {
+      sanitizeBlock(entity.block);
+    });
+  });
+
+  return schema;
 }
 
 export async function readModuleSchema(target: ConstructsMakerModuleTarget) {
