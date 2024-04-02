@@ -1,3 +1,26 @@
+## 0.20.6
+
+### fix
+
+- fix(cli): sanitize type arrays [\#3578](https://github.com/hashicorp/terraform-cdk/pull/3578)
+- fix(lib): Correctly render string tokens that contain plain objects [\#3545](https://github.com/hashicorp/terraform-cdk/pull/3545)
+- fix: hcl rendering nested maps [\#3536](https://github.com/hashicorp/terraform-cdk/pull/3536)
+- fix(docs): Italics broken [\#3490](https://github.com/hashicorp/terraform-cdk/pull/3490)
+
+### chore
+
+- chore: fix typo [\#3553](https://github.com/hashicorp/terraform-cdk/pull/3553)
+- chore: add separate workflow for JSII upgrades [\#3552](https://github.com/hashicorp/terraform-cdk/pull/3552)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3549](https://github.com/hashicorp/terraform-cdk/pull/3549)
+- chore: Upgrade dependencies for util [\#3548](https://github.com/hashicorp/terraform-cdk/pull/3548)
+- chore: Upgrade dependencies for util [\#3543](https://github.com/hashicorp/terraform-cdk/pull/3543)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3534](https://github.com/hashicorp/terraform-cdk/pull/3534)
+- chore: Upgrade dependencies for util [\#3533](https://github.com/hashicorp/terraform-cdk/pull/3533)
+- chore: run doc conversions on one runner [\#3522](https://github.com/hashicorp/terraform-cdk/pull/3522)
+- chore: Upgrade dependencies for cli [\#3517](https://github.com/hashicorp/terraform-cdk/pull/3517)
+- chore: Upgrade dependencies for lib [\#3516](https://github.com/hashicorp/terraform-cdk/pull/3516)
+- chore: update-project-board-issue calls different repo [\#3513](https://github.com/hashicorp/terraform-cdk/pull/3513)
+
 ## 0.20.5
 
 ### fix
@@ -104,7 +127,7 @@
 
 **AWS Provider changes (breaking)**
 
-The AWS pre-built provider for Go is currently too large to be installed due to a hard limit in Go. This release adds skipping the `statement` block in the `rule` block of the `aws_wafv2_web_acl` and `aws_wafv2_rule_group` resources. Our [resource docs page](https://developer.hashicorp.com/terraform/cdktf/concepts/resources#special-cases) previously already mentioned that these resources have skipped attributes but they weren't actually skipped. This almost doubled AWS provider bindings in size due to the recursive nature of the `statement` block.  
+The AWS pre-built provider for Go is currently too large to be installed due to a hard limit in Go. This release adds skipping the `statement` block in the `rule` block of the `aws_wafv2_web_acl` and `aws_wafv2_rule_group` resources. Our [resource docs page](https://developer.hashicorp.com/terraform/cdktf/concepts/resources#special-cases) previously already mentioned that these resources have skipped attributes but they weren't actually skipped. This almost doubled AWS provider bindings in size due to the recursive nature of the `statement` block.
 If you are using any of these two resources, the `statement` now has to be passed as a plain object instead and its keys have to be snake-cased (e.g. `and_statement` or `regex_match_statement`).
 
 ### feat
