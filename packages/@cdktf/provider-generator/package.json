@@ -36,10 +36,10 @@
   "dependencies": {
     "@cdktf/commons": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
-    "@types/node": "18.19.26",
+    "@types/node": "18.19.30",
     "codemaker": "1.95.0",
     "fs-extra": "8.1.0",
-    "glob": "10.3.10",
+    "glob": "10.3.12",
     "jsii-srcmak": "0.1.1039"
   },
   "devDependencies": {
