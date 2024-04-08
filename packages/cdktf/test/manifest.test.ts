@@ -53,18 +53,20 @@ test("write manifest", () => {
   expect(fs.readFileSync(path.join(outdir, Manifest.fileName)).toString())
     .toMatchInlineSnapshot(`
     "{
-      "version": "0.0.0",
       "stacks": {
         "this-is-a-stack": {
-          "name": "this-is-a-stack",
+          "annotations": [
+          ],
           "constructPath": "this-is-a-stack",
-          "workingDirectory": "stacks/this-is-a-stack",
-          "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
+          "dependencies": [
+          ],
+          "name": "this-is-a-stack",
           "stackMetadataPath": "stacks/this-is-a-stack/metadata.json",
-          "annotations": [],
-          "dependencies": []
+          "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
+          "workingDirectory": "stacks/this-is-a-stack"
         }
-      }
+      },
+      "version": "0.0.0"
     }"
   `);
 });
@@ -88,14 +90,8 @@ describe("manifest annotations", () => {
     expect(fs.readFileSync(path.join(outdir, Manifest.fileName)).toString())
       .toMatchInlineSnapshot(`
       "{
-        "version": "stubbed",
         "stacks": {
           "this-is-a-stack": {
-            "name": "this-is-a-stack",
-            "constructPath": "this-is-a-stack",
-            "workingDirectory": "stacks/this-is-a-stack",
-            "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
-            "stackMetadataPath": "stacks/this-is-a-stack/metadata.json",
             "annotations": [
               {
                 "constructPath": "this-is-a-stack",
@@ -113,9 +109,16 @@ describe("manifest annotations", () => {
                 "message": "an error"
               }
             ],
-            "dependencies": []
+            "constructPath": "this-is-a-stack",
+            "dependencies": [
+            ],
+            "name": "this-is-a-stack",
+            "stackMetadataPath": "stacks/this-is-a-stack/metadata.json",
+            "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
+            "workingDirectory": "stacks/this-is-a-stack"
           }
-        }
+        },
+        "version": "stubbed"
       }"
     `);
   });

@@ -4,6 +4,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { TerraformStack } from "./terraform-stack";
 import { AnnotationMetadataEntryType } from "./annotations";
+import stringify = require("json-stable-stringify");
 
 export interface StackAnnotation {
   readonly constructPath: string;
@@ -87,7 +88,7 @@ export class Manifest implements IManifest {
   public writeToFile() {
     fs.writeFileSync(
       path.join(this.outdir, Manifest.fileName),
-      JSON.stringify(this.buildManifest(), undefined, 2)
+      stringify(this.buildManifest(), { space: 2 })
     );
   }
 }
