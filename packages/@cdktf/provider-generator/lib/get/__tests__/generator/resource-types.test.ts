@@ -90,7 +90,7 @@ test("generate a security group", async () => {
   expect(output).toMatchSnapshot();
 });
 
-test.only("generate a datadog spans metric", async () => {
+test("generate a datadog spans metric", async () => {
   const code = new CodeMaker();
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), "sg.test"));
   const spec = JSON.parse(

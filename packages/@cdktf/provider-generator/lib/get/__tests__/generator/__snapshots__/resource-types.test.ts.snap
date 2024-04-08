@@ -5567,6 +5567,12 @@ export interface SpansMetricConfig extends cdktf.TerraformMetaArguments {
   */
   readonly name: string;
   /**
+  * compute block
+  *
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/spans_metric#compute SpansMetric#compute}
+  */
+  readonly compute?: SpansMetricCompute;
+  /**
   * filter block
   *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/spans_metric#filter SpansMetric#filter}
@@ -6039,6 +6045,7 @@ export class SpansMetric extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._name = config.name;
+    this._compute.internalValue = config.compute;
     this._filter.internalValue = config.filter;
     this._groupBy.internalValue = config.groupBy;
   }
@@ -6065,10 +6072,20 @@ export class SpansMetric extends cdktf.TerraformResource {
     return this._name;
   }
 
-  // compute - computed: false, optional: false, required: false
+  // compute - computed: false, optional: true, required: false
   private _compute = new SpansMetricComputeOutputReference(this, "compute");
   public get compute() {
     return this._compute;
+  }
+  public putCompute(value: SpansMetricCompute) {
+    this._compute.internalValue = value;
+  }
+  public resetCompute() {
+    this._compute.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computeInput() {
+    return this._compute.internalValue;
   }
 
   // filter - computed: false, optional: true, required: false
@@ -6110,6 +6127,7 @@ export class SpansMetric extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       name: cdktf.stringToTerraform(this._name),
+      compute: spansMetricComputeToTerraform(this._compute.internalValue),
       filter: spansMetricFilterToTerraform(this._filter.internalValue),
       group_by: cdktf.listMapper(spansMetricGroupByToTerraform, true)(this._groupBy.internalValue),
     };
@@ -6122,6 +6140,12 @@ export class SpansMetric extends cdktf.TerraformResource {
         isBlock: false,
         type: "simple",
         storageClassType: "string",
+      },
+      compute: {
+        value: spansMetricComputeToHclTerraform(this._compute.internalValue),
+        isBlock: true,
+        type: "struct",
+        storageClassType: "SpansMetricCompute",
       },
       filter: {
         value: spansMetricFilterToHclTerraform(this._filter.internalValue),
