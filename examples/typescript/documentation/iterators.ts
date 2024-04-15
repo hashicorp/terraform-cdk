@@ -110,7 +110,7 @@ export class IteratorsStack extends TerraformStack {
       forEach: exampleForEachIterator,
       allowOverwrite: true,
       name: exampleForEachIterator.getString("resource_record_name"),
-      records: [exampleForEachIterator.getString("resource_record_record")],
+      records: [exampleForEachIterator.getString("resource_record_value")],
       ttl: 60,
       type: exampleForEachIterator.getString("resource_record_type"),
       zoneId: dataAwsRoute53ZoneExample.zoneId,

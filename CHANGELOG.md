@@ -1,3 +1,17 @@
+## 0.20.7
+
+### fix
+
+- fix(provider-generator): refactor logic to determine if a block is optional or required [\#3580](https://github.com/hashicorp/terraform-cdk/pull/3580)
+
+### chore
+
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3583](https://github.com/hashicorp/terraform-cdk/pull/3583)
+- chore: Upgrade dependencies for cli [\#3588](https://github.com/hashicorp/terraform-cdk/pull/3588)
+- chore: Upgrade dependencies for cli [\#3574](https://github.com/hashicorp/terraform-cdk/pull/3574)
+- chore: Upgrade dependencies for util [\#3573](https://github.com/hashicorp/terraform-cdk/pull/3573)
+- chore: Upgrade dependencies for lib [\#3572](https://github.com/hashicorp/terraform-cdk/pull/3572)
+
 ## 0.20.6
 
 ### fix
