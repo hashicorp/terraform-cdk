@@ -133,7 +133,7 @@ class IteratorStackTwo(TerraformStack):
                                 name=example_for_each_iterator.get_string(
                                     "resource_record_name"),
                                 records=[
-                                    example_for_each_iterator.get_string("resource_record_record")],
+                                    example_for_each_iterator.get_string("resource_record_value")],
                                 ttl=60,
                                 type=example_for_each_iterator.get_string(
                                     "resource_record_type"),

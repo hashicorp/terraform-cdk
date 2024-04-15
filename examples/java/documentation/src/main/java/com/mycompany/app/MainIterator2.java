@@ -54,7 +54,7 @@ public class MainIterator2 extends TerraformStack {
             .domainName("example.com")
             .validationMethod("DNS")
             .build());
-        
+
         DataAwsRoute53Zone dataAwsRoute53ZoneExample = new DataAwsRoute53Zone(this, "dns_zone", DataAwsRoute53ZoneConfig.builder()
             .name("example.com")
             .privateZone(false)
@@ -69,7 +69,7 @@ public class MainIterator2 extends TerraformStack {
             .forEach(exampleForEachIterator)
             .allowOverwrite(true)
             .name(exampleForEachIterator.getString("resource_record_name"))
-            .records(Arrays.asList(exampleForEachIterator.getString("resource_record_record")))
+            .records(Arrays.asList(exampleForEachIterator.getString("resource_record_value")))
             .ttl(60)
             .type(exampleForEachIterator.getString("resource_record_type"))
             .zoneId(dataAwsRoute53ZoneExample.getZoneId())
@@ -117,7 +117,7 @@ public class MainIterator2 extends TerraformStack {
                 .bucket(s3BucketConfigurationIterator.getString("name"))
                 .tags(s3BucketConfigurationIterator.getStringMap("tags"))
                 .build());
-        
+
         TerraformAsset asset = new TerraformAsset(this, "help", TerraformAssetConfig.builder()
                 .path(Paths.get(System.getProperty("user.dir"), "help").toString())
                 .build()
