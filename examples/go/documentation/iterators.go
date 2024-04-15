@@ -122,7 +122,7 @@ func NewIteratorsStack(scope constructs.Construct, name string) cdktf.TerraformS
 		ForEach:        exampleForEachIterator,
 		AllowOverwrite: jsii.Bool(true),
 		Name:           exampleForEachIterator.GetString(jsii.String("resource_record_name")),
-		Records:        jsii.Strings(*exampleForEachIterator.GetString(jsii.String("resource_record_record"))),
+		Records:        jsii.Strings(*exampleForEachIterator.GetString(jsii.String("resource_record_value"))),
 		Ttl:            jsii.Number(60),
 		Type:           exampleForEachIterator.GetString(jsii.String("resource_record_type")),
 		ZoneId:         dataAwsRoute53ZoneExample.ZoneId(),

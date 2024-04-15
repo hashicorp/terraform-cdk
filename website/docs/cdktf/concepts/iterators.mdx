@@ -324,7 +324,7 @@ const records = new Route53Record(this, "record", {
   forEach: exampleForEachIterator,
   allowOverwrite: true,
   name: exampleForEachIterator.getString("resource_record_name"),
-  records: [exampleForEachIterator.getString("resource_record_record")],
+  records: [exampleForEachIterator.getString("resource_record_value")],
   ttl: 60,
   type: exampleForEachIterator.getString("resource_record_type"),
   zoneId: dataAwsRoute53ZoneExample.zoneId,
@@ -359,7 +359,7 @@ new AcmCertificateValidation(this, "validation", {
                                 name=example_for_each_iterator.get_string(
                                     "resource_record_name"),
                                 records=[
-                                    example_for_each_iterator.get_string("resource_record_record")],
+                                    example_for_each_iterator.get_string("resource_record_value")],
                                 ttl=60,
                                 type=example_for_each_iterator.get_string(
                                     "resource_record_type"),
@@ -397,7 +397,7 @@ new AcmCertificateValidation(this, "validation", {
             .forEach(exampleForEachIterator)
             .allowOverwrite(true)
             .name(exampleForEachIterator.getString("resource_record_name"))
-            .records(Arrays.asList(exampleForEachIterator.getString("resource_record_record")))
+            .records(Arrays.asList(exampleForEachIterator.getString("resource_record_value")))
             .ttl(60)
             .type(exampleForEachIterator.getString("resource_record_type"))
             .zoneId(dataAwsRoute53ZoneExample.getZoneId())
@@ -433,7 +433,7 @@ new AcmCertificateValidation(this, "validation", {
                 ForEach = exampleForEachIterator,
                 AllowOverwrite = true,
                 Name = exampleForEachIterator.GetString("resource_record_name"),
-                Records = new string[] { exampleForEachIterator.GetString("resource_record_record") },
+                Records = new string[] { exampleForEachIterator.GetString("resource_record_value") },
                 Ttl = 60,
                 Type = exampleForEachIterator.GetString("resource_record_type"),
                 ZoneId = dataAwsRoute53ZoneExample.ZoneId
@@ -465,7 +465,7 @@ records := route53record.NewRoute53Record(stack, jsii.String("record"), &route53
 	ForEach:        exampleForEachIterator,
 	AllowOverwrite: jsii.Bool(true),
 	Name:           exampleForEachIterator.GetString(jsii.String("resource_record_name")),
-	Records:        jsii.Strings(*exampleForEachIterator.GetString(jsii.String("resource_record_record"))),
+	Records:        jsii.Strings(*exampleForEachIterator.GetString(jsii.String("resource_record_value"))),
 	Ttl:            jsii.Number(60),
 	Type:           exampleForEachIterator.GetString(jsii.String("resource_record_type")),
 	ZoneId:         dataAwsRoute53ZoneExample.ZoneId(),
