@@ -887,7 +887,7 @@ public java.lang.String getFriendlyUniqueId();
 
 ### CloudBackend <a name="CloudBackend" id="cdktf.CloudBackend"></a>
 
-The Cloud Backend synthesizes a {@link https://developer.hashicorp.com/terraform/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which Terraform Cloud workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
+The Cloud Backend synthesizes a {@link https://developer.hashicorp.com/terraform/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which HCP Terraform workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When HCP Terraform uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
 
 #### Initializers <a name="Initializers" id="cdktf.CloudBackend.Initializer"></a>
 
@@ -907,9 +907,9 @@ CloudBackend.Builder.create(Construct scope)
 | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.CloudBackend.Initializer.parameter.scope">scope</a></code>               | <code>software.constructs.Construct</code>                                                                                                    | _No description._                                                                                           |
 | <code><a href="#cdktf.CloudBackend.Initializer.parameter.organization">organization</a></code> | <code>java.lang.String</code>                                                                                                                 | The name of the organization containing the workspace(s) the current configuration should use.              |
-| <code><a href="#cdktf.CloudBackend.Initializer.parameter.workspaces">workspaces</a></code>     | <code><a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a></code> | A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration. |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.workspaces">workspaces</a></code>     | <code><a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a></code> | A nested block that specifies which remote HCP Terraform workspaces to use for the current configuration. |
 | <code><a href="#cdktf.CloudBackend.Initializer.parameter.hostname">hostname</a></code>         | <code>java.lang.String</code>                                                                                                                 | The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.                         |
-| <code><a href="#cdktf.CloudBackend.Initializer.parameter.token">token</a></code>               | <code>java.lang.String</code>                                                                                                                 | The token used to authenticate with Terraform Cloud.                                                        |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.token">token</a></code>               | <code>java.lang.String</code>                                                                                                                 | The token used to authenticate with HCP Terraform.                                                        |
 
 ---
 
@@ -931,7 +931,7 @@ The name of the organization containing the workspace(s) the current configurati
 
 - _Type:_ <a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>
 
-A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.
+A nested block that specifies which remote HCP Terraform workspaces to use for the current configuration.
 
 The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:
 
@@ -950,7 +950,7 @@ The hostname of a Terraform Enterprise installation, if using Terraform Enterpri
 
 - _Type:_ java.lang.String
 
-The token used to authenticate with Terraform Cloud.
+The token used to authenticate with HCP Terraform.
 
 We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.
 
@@ -17742,7 +17742,7 @@ must be set to true (which is the default).
 
 ### CloudBackendConfig <a name="CloudBackendConfig" id="cdktf.CloudBackendConfig"></a>
 
-The Cloud Backend synthesizes a {@link https://developer.hashicorp.com/terraform/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which Terraform Cloud workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
+The Cloud Backend synthesizes a {@link https://developer.hashicorp.com/terraform/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which HCP Terraform workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When HCP Terraform uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
 
 https://developer.hashicorp.com/terraform/cli/cloud/settings#arguments
 
@@ -17765,9 +17765,9 @@ CloudBackendConfig.builder()
 | **Name**                                                                                | **Type**                                                                                                                                      | **Description**                                                                                             |
 | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.CloudBackendConfig.property.organization">organization</a></code> | <code>java.lang.String</code>                                                                                                                 | The name of the organization containing the workspace(s) the current configuration should use.              |
-| <code><a href="#cdktf.CloudBackendConfig.property.workspaces">workspaces</a></code>     | <code><a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a></code> | A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration. |
+| <code><a href="#cdktf.CloudBackendConfig.property.workspaces">workspaces</a></code>     | <code><a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a></code> | A nested block that specifies which remote HCP Terraform workspaces to use for the current configuration. |
 | <code><a href="#cdktf.CloudBackendConfig.property.hostname">hostname</a></code>         | <code>java.lang.String</code>                                                                                                                 | The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.                         |
-| <code><a href="#cdktf.CloudBackendConfig.property.token">token</a></code>               | <code>java.lang.String</code>                                                                                                                 | The token used to authenticate with Terraform Cloud.                                                        |
+| <code><a href="#cdktf.CloudBackendConfig.property.token">token</a></code>               | <code>java.lang.String</code>                                                                                                                 | The token used to authenticate with HCP Terraform.                                                        |
 
 ---
 
@@ -17791,7 +17791,7 @@ public java.lang.Object getWorkspaces();
 
 - _Type:_ <a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>
 
-A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.
+A nested block that specifies which remote HCP Terraform workspaces to use for the current configuration.
 
 The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:
 
@@ -17818,7 +17818,7 @@ public java.lang.String getToken();
 
 - _Type:_ java.lang.String
 
-The token used to authenticate with Terraform Cloud.
+The token used to authenticate with HCP Terraform.
 
 We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.
 
@@ -36221,7 +36221,7 @@ All aspects can visit an IConstruct.
 
 ### NamedCloudWorkspace <a name="NamedCloudWorkspace" id="cdktf.NamedCloudWorkspace"></a>
 
-The name of a single Terraform Cloud workspace.
+The name of a single HCP Terraform workspace.
 
 You will only be able to use the workspace specified in the configuration with this working directory, and cannot manage workspaces from the CLI (e.g. terraform workspace select or terraform workspace new).
 
@@ -38321,7 +38321,7 @@ public java.lang.String getFqn();
 
 ### TaggedCloudWorkspaces <a name="TaggedCloudWorkspaces" id="cdktf.TaggedCloudWorkspaces"></a>
 
-A set of Terraform Cloud workspace tags.
+A set of HCP Terraform workspace tags.
 
 You will be able to use this working directory with any workspaces that have all of the specified tags, and can use the terraform workspace commands to switch between them or create new workspaces. New workspaces will automatically have the specified tags. This option conflicts with name.
 

@@ -840,7 +840,7 @@ Accessing a value from a different stack causes the value to be exported as `Ter
 The value is then accessed through a `TerraformRemoteState` in the target stack.
 Both are automatically added to the respective stacks to make the process seemless.
 
-When you are using Terraform Cloud, each stack must be its own workspace.
+When you are using HCP Terraform, each stack must be its own workspace.
 This means that you need to create a separate workspace for each stack and you need to [set the permissions to allow access between the stacks](/terraform/cloud-docs/workspaces/state#remote-state-access-controls).
 
 ### Stack Dependencies
