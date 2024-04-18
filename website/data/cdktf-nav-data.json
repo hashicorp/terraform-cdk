@@ -108,8 +108,8 @@
         "path": "create-and-deploy/environment-variables"
       },
       {
-        "title": "Terraform Cloud",
-        "path": "create-and-deploy/terraform-cloud"
+        "title": "HCP Terraform",
+        "path": "create-and-deploy/hcp-terraform"
       },
       {
         "title": "Deployment Patterns",
