@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
+/**
  * Redirects in this file are intended to be for documentation content only. The redirects will be applied to developer.hashicorp.com.
  */
 module.exports = [
