@@ -4,9 +4,9 @@ description: >-
   Use HCP Terraform with CDKTF to store Terraform state remotely, manage secrets, apply policies, and more.
 ---
 
-# Connect to HCP Terraform / Enterprise
+# Connect to HCP Terraform / Terraform Enterprise
 
-This page explains how to connect HCP Terraform / Enterprise to your CDK for Terraform (CDKTF) application and the benefits of using these products together.
+This page explains how to connect HCP Terraform / Terraform Enterprise to your CDK for Terraform (CDKTF) application and the benefits of using these products together.
 
 > **Hands On:** Try our [Get Started - HCP Terraform](/terraform/tutorials/cloud-get-started) tutorials.
 
@@ -24,7 +24,7 @@ Terraform uses persisted state data to keep track of the real-world resources it
 
 Other benefits of HCP Terraform and Terraform Enterprise include the ability to run Terraform remotely, [manage variables and secrets](#managing-variables-and-secrets), and enforce [policies for sets of infrastructure](#policy-enforcement).
 
-## Set up CDKTF with HCP Terraform / Enterprise
+## Set up CDKTF with HCP Terraform / Terraform Enterprise
 
 After you sign up for a [HCP Terraform Account](https://app.terraform.io/public/signup/account) / create an account in your Terraform Enterprise instance, you must connect your CDKTF project to one or more [workspaces](/terraform/cloud-docs/workspaces).
 
@@ -133,11 +133,11 @@ Your CDKTF application is connected to the HCP Terraform / Enterprise workspace 
 
 ### VCS-driven Workflow
 
-Check your synthesized code into version control and connect your HCP Terraform / Enterprise workspace to that repository with the VCS-driven workflow. You can configure the workspace to trigger Terraform runs based on merges and commits to the repository. Refer to [Deployment Patterns](/terraform/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-hcp-terraform) for more details about how to use CDKTF with the VCS-driven workflow.
+Check your synthesized code into version control and connect your HCP Terraform / Terraform Enterprise workspace to that repository with the VCS-driven workflow. You can configure the workspace to trigger Terraform runs based on merges and commits to the repository. Refer to [Deployment Patterns](/terraform/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-hcp-terraform) for more details about how to use CDKTF with the VCS-driven workflow.
 
 ## Managing Variables and Secrets
 
-HCP Terraform / Enterprise [variables](/terraform/cloud-docs/workspaces/variables) let you define the variables and secrets that Terraform uses during remote operations. You can set variables specifically for each workspace or you can create variable sets to reuse the same variables across multiple workspaces. For example, you could define a variable set of provider credentials and automatically apply it to all of the workspaces using that provider.
+HCP Terraform / Terraform Enterprise [variables](/terraform/cloud-docs/workspaces/variables) let you define the variables and secrets that Terraform uses during remote operations. You can set variables specifically for each workspace or you can create variable sets to reuse the same variables across multiple workspaces. For example, you could define a variable set of provider credentials and automatically apply it to all of the workspaces using that provider.
 
 To use variables, set your workspace to [Remote Execution Mode](/terraform/cloud-docs/workspaces/settings#execution-mode). Terraform can only access workspace variables when executing remotely on HCP Terraform / Enterprise.
 
@@ -174,7 +174,7 @@ This means that there is no actual value in the variable field when CDKTF synthe
 
 ## Continuous Integration
 
-To run HCP Terraform / Enterprise in a CI workflow, you can either use [HCP Terraform / Enterprise's VCS-driven workflow](/terraform/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-hcp-terraform) or use a [general-purpose CI to trigger the run in HCP Terraform / Enterprise](/terraform/cdktf/create-and-deploy/deployment-patterns#github-actions-ci-and-hcp-terraform).
+To run HCP Terraform / Terraform Enterprise in a CI workflow, you can either use [HCP Terraform / Enterprise's VCS-driven workflow](/terraform/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-hcp-terraform) or use a [general-purpose CI to trigger the run in HCP Terraform / Enterprise](/terraform/cdktf/create-and-deploy/deployment-patterns#github-actions-ci-and-hcp-terraform).
 
 ## Policy Enforcement
 
