@@ -88,7 +88,7 @@ jobs:
         run: rm -f ./upgrade.patch
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e # v6.0.2
+        uses: peter-evans/create-pull-request@c55203cfde3e5c11a452d352b4393e68b85b4533 # v6.0.3
         with:
           # Git commit details
           branch: automation/yarn-upgrade
@@ -169,7 +169,7 @@ jobs:
           git config --global user.name "team-tf-cdk"
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e # v6.0.2
+        uses: peter-evans/create-pull-request@c55203cfde3e5c11a452d352b4393e68b85b4533 # v6.0.3
         with:
           # Git commit details
           branch: automation/yarn-upgrade-${{ matrix.pr.name }}
@@ -233,7 +233,7 @@ jobs:
           git config --global user.name "team-tf-cdk"
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e # v6.0.2
+        uses: peter-evans/create-pull-request@c55203cfde3e5c11a452d352b4393e68b85b4533 # v6.0.3
         with:
           # Git commit details
           branch: automation/yarn-upgrade-jsii
