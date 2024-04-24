@@ -10,7 +10,7 @@ You can configure your Continuous Integration/Continuous Deployment (CI/CD) envi
 
 ## Deployment Methods
 
-You can provision your infrastructure using either CDKTF CLI commands (e.g., `cdktf deploy`) or by synthesizing your application into a Terraform configuration file and using Terraform directly. Both approaches allow you to use Terraform Cloud and integrate with a CI/CD pipeline.
+You can provision your infrastructure using either CDKTF CLI commands (e.g., `cdktf deploy`) or by synthesizing your application into a Terraform configuration file and using Terraform directly. Both approaches allow you to use HCP Terraform and integrate with a CI/CD pipeline.
 
 ### Run CDKTF CLI Commands
 
@@ -22,13 +22,13 @@ We recommend using [CDKTF CLI commands](/terraform/cdktf/cli-reference/commands)
 
 ### Run `cdktf synth` and Use Terraform Directly
 
-We recommend synthesizing your CDKTF application and using Terraform directly when you need to integrate into existing Terraform workflows. Your organization may already use Terraform Cloud or have integrated Terraform into CI pipelines. In these cases, you may want to run `cdktf synth` and set the output folder to a particular directory that you can reference in your existing workflows.
+We recommend synthesizing your CDKTF application and using Terraform directly when you need to integrate into existing Terraform workflows. Your organization may already use HCP Terraform or have integrated Terraform into CI pipelines. In these cases, you may want to run `cdktf synth` and set the output folder to a particular directory that you can reference in your existing workflows.
 
-## Using Terraform Cloud
+## Using HCP Terraform
 
-Terraform Cloud lets you review the current state of your infrastructure and run progress in the Terraform Cloud UI. You can also use Terraform Cloud as the source of secrets.
+HCP Terraform lets you review the current state of your infrastructure and run progress in the HCP Terraform UI. You can also use HCP Terraform as the source of secrets.
 
-Refer to [Set Up CDKTF With Terraform Cloud](/terraform/cdktf/create-and-deploy/terraform-cloud#set-up-cdktf-with-terraform-cloud) for details. Refer to [Example Workflows](#example-workflows) for several examples of connecting your CDKTF application to Terraform Cloud and using Terraform Cloud in a Continuous Integration pipeline.
+Refer to [Set Up CDKTF With HCP Terraform](/terraform/cdktf/create-and-deploy/hcp-terraform#set-up-cdktf-with-hcp-terraform) for details. Refer to [Example Workflows](#example-workflows) for several examples of connecting your CDKTF application to HCP Terraform and using HCP Terraform in a Continuous Integration pipeline.
 
 ## Managing Secrets and Sensitive Data
 
@@ -38,26 +38,26 @@ You should [read secrets with Terraform Variables](/terraform/cdktf/create-and-d
 
 The following examples demonstrate common deployment workflows for your CDKTF application.
 
-### Deploy with Terraform and Terraform Cloud
+### Deploy with Terraform and HCP Terraform
 
-Connect your synthesized CDKTF configuration to a Terraform Cloud workspace with the following steps:
+Connect your synthesized CDKTF configuration to a HCP Terraform workspace with the following steps:
 
 1. Add a pre-commit step in your CDKTF application that runs `cdktf synth`. This creates Terraform configuration files in the `cdktf.out/stacks/<stack-name>` directory.
-2. [Configure the VCS integration](/terraform/cloud-docs/workspaces/settings/vcs) for a Terraform cloud workspace to point to the directory with the synthesized configuration files. To deploy multiple independent stacks, configure one Terraform Cloud workspace to point to the output directory for each stack.
+2. [Configure the VCS integration](/terraform/cloud-docs/workspaces/settings/vcs) for a HCP Terraform workspace to point to the directory with the synthesized configuration files. To deploy multiple independent stacks, configure one HCP Terraform workspace to point to the output directory for each stack.
 
-Refer to [Automatic Run Triggering](/terraform/cloud-docs/workspaces/settings/vcs#automatic-run-triggering) in the Terraform Cloud documentation for details about how to trigger Terraform runs from merges and commits.
+Refer to [Automatic Run Triggering](/terraform/cloud-docs/workspaces/settings/vcs#automatic-run-triggering) in the HCP Terraform documentation for details about how to trigger Terraform runs from merges and commits.
 
 ### Terraform CDK GitHub Action
 
-You can use the [Terraform CDK GitHub Action](https://github.com/marketplace/actions/terraform-cdk-action) if you are using GitHub Actions and you want a default review / deployment workflow. The Terraform CDK GitHub Action runs the CDKTF CLI under the hood, it comments Terraform plans on your pull requests and provides a default review workflow. If you need more customization, refer to [GitHub Actions CI and Terraform Cloud](#github-actions-ci-and-terraform-cloud).
+You can use the [Terraform CDK GitHub Action](https://github.com/marketplace/actions/terraform-cdk-action) if you are using GitHub Actions and you want a default review / deployment workflow. The Terraform CDK GitHub Action runs the CDKTF CLI under the hood, it comments Terraform plans on your pull requests and provides a default review workflow. If you need more customization, refer to [GitHub Actions CI and HCP Terraform](#github-actions-ci-and-hcp-terraform).
 
-### GitHub Actions CI and Terraform Cloud
+### GitHub Actions CI and HCP Terraform
 
-Set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](/terraform/cloud-docs/users-teams-organizations/api-tokens). This allows the CDKTF stacks `CloudBackend` to connect to Terraform Cloud.
+Set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [HCP Terraform API token](/terraform/cloud-docs/users-teams-organizations/api-tokens). This allows the CDKTF stacks `CloudBackend` to connect to HCP Terraform.
 
 You must create a job like this for every stack so that you can pass the stack name into `cdktf diff <stack name>`. None of the stacks can depend on each other because Terraform cannot reason about which stacks must be launched first to respect these dependencies.
 
-The following example shows a GitHub Actions configuration where the CDKTF application is deployed from the `main` branch and uses Terraform Cloud. You could store this file in `.github/workflows/cdktf-deploy.yml`.
+The following example shows a GitHub Actions configuration where the CDKTF application is deployed from the `main` branch and uses HCP Terraform. You could store this file in `.github/workflows/cdktf-deploy.yml`.
 
 ```yaml
 name: CDKTF Deployment

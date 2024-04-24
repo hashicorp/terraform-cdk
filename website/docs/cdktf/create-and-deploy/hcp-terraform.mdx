@@ -1,0 +1,185 @@
+---
+page_title: Connect to HCP Terraform / Terraform Enterprise - CDK for Terraform
+description: >-
+  Use HCP Terraform with CDKTF to store Terraform state remotely, manage secrets, apply policies, and more.
+---
+
+# Connect to HCP Terraform / Terraform Enterprise
+
+This page explains how to connect HCP Terraform / Terraform Enterprise to your CDK for Terraform (CDKTF) application and the benefits of using these products together.
+
+> **Hands On:** Try our [Get Started - HCP Terraform](/terraform/tutorials/cloud-get-started) tutorials.
+
+## What are HCP Terraform and Terraform Enterprise?
+
+CDKTF supports [HCP Terraform](https://cloud.hashicorp.com/products/terraform) and [Terraform Enterprise](/terraform/enterprise).
+
+HCP Terraform is a SaaS application that runs Terraform in a stable, remote environment and securely stores state and secrets. It includes a user interface that helps you better understand your Terraform operations and resources, allows you to define role-based access controls, and offers a private registry for sharing [modules](/terraform/cdktf/concepts/modules) and [providers](/terraform/cdktf/concepts/providers). HCP Terraform also integrates with the Terraform CLI and connects to common version control systems (VCS) like GitHub, GitLab, and Bitbucket. When you connect a HCP Terraform workspace to a VCS repository, new commits and changes can automatically trigger Terraform plans. HCP Terraform also offers an API, allowing you to integrate it into existing workflows.
+
+Terraform Enterprise lets you set up a self-hosted distribution of HCP Terraform and is ideal for organizations with strict security and compliance requirements.
+
+## When to use HCP Terraform or Terraform Enterprise?
+
+Terraform uses persisted state data to keep track of the real-world resources it manages. By default, Terraform writes state to a local file. We recommend integrating with HCP Terraform to store state remotely. This prevents accidental loss of locally stored state and lets multiple people access the state data so they can work together on that collection of infrastructure resources.
+
+Other benefits of HCP Terraform and Terraform Enterprise include the ability to run Terraform remotely, [manage variables and secrets](#managing-variables-and-secrets), and enforce [policies for sets of infrastructure](#policy-enforcement).
+
+## Set up CDKTF with HCP Terraform / Terraform Enterprise
+
+After you sign up for a [HCP Terraform Account](https://app.terraform.io/public/signup/account) / create an account in your Terraform Enterprise instance, you must connect your CDKTF project to one or more [workspaces](/terraform/cloud-docs/workspaces).
+
+Workspaces function like working directories for distinct Terraform configurations and are associated with a Terraform configuration and its state file. They can also contain variables that you can use to manage credentials.
+
+Workspaces can have one of three workflows that determine how HCP Terraform / Enterprise interacts with your CDKTF application: CLI-driven, Version control, or API-driven (a more advanced option).
+
+### CLI-driven Workflow
+
+You can configure the HCP Terraform [CLI-driven workflow](/terraform/cloud-docs/run/cli) for both new and existing CDKTF projects. This workflow lets you run CDKTF CLI commands to deploy your application and run Terraform operations remotely on HCP Terraform / Enterprise.
+
+#### Connect New CDKTF Projects
+
+First use `cdktf login` to log into HCP Terraform or your Terraform Enterprise instance:
+
+<Tabs>
+  <Tab heading="HCP Terraform" group="hcp-terraform">
+
+    This command will take you through an interactive session to log in.
+
+    ```shell-session
+    $ cdktf login
+    ```
+
+    If you already have a HCP Terraform API token, you can pass it into stdin:
+
+    ```shell-session
+    cat my-token.txt | cdktf login
+    ```
+
+  </Tab>
+
+  <Tab heading="Terraform Enterprise" group="tfe">
+
+    This command will take you through an interactive session to log in.
+
+    ```shell-session
+    $ cdktf login --tfe-hostname tfe.my-company.com
+    ```
+
+    If you already have a Terraform Enterprise API token, you can pass it into stdin:
+
+    ```shell-session
+    cat my-token.txt | cdktf login --tfe-hostname tfe.my-company.com
+    ```
+
+  </Tab>
+</Tabs>
+
+1. Run `cdktf init` without passing the `--local` flag. This creates a new template CDKTF project for your chosen programming language. It will be the basis for a new application with the necessary file structure for you to start defining infrastructure. If you're using Terraform Enterprise, you must also pass the `--tfe-hostname` flag with the hostname of your enterprise instance.
+2. Choose a project language and provide a project name and description.
+3. Select a HCP Terraform organization and a name for your workspace. CDKTF will create a [CloudBackend](/terraform/cli/cloud/settings#the-cloud-block) in your project.
+4. You can choose whether to send crash reports to the CDKTF team and select the providers you want to use.
+
+CDKTF creates both a scaffolded project in your chosen language and a new HCP Terraform workspace on first apply. Your project is connected to the workspace and you can begin using CDKTF and HCP Terraform together.
+By default, the workspace is set to Remote execution mode, which means Terraform runs remotely on HCP Terraform / Enterprise. If you want Terraform to run locally, you need to set the workspace to [Local Execution mode](/terraform/cloud-docs/workspaces/settings#execution-mode).
+
+#### Connect Existing CDKTF Projects
+
+For existing projects, do the following:
+
+1. Create a HCP Terraform workspace with the CLI-driven workflow.
+2. Add the `RemoteBackend` to your CDKTF application. The following example connects the application to a HCP Terraform / Enterprise workspace called `my-app-prod`.
+
+   ```typescript
+   import { Construct } from "constructs";
+   import { App, TerraformStack, RemoteBackend } from "cdktf";
+
+   class MyStack extends TerraformStack {
+     constructor(scope: Construct, name: string) {
+       super(scope, name);
+       // Remote Backend - /docs/backends/types/remote.html
+       new RemoteBackend(this, {
+         // Only required for self-hosted Terraform Enterprise instances.
+         // Defaults to "app.terraform.io".
+         hostname: "app.terraform.io",
+         organization: "company",
+
+         workspaces: {
+           name: "my-app-prod",
+         },
+       });
+
+       // define resources here
+     }
+   }
+
+   const app = new App();
+   const myStack = new MyStack(app, "my-stack");
+   // You can also define the backend outside of the stack.
+   // new RemoteBackend(myStack, {
+   //     hostname: "app.terraform.io",
+   //     organization: "company",
+
+   //     workspaces: {
+   //     name: "my-app-prod",
+   //     },
+   // });
+   // You must configure the RemoteBackend before the app.synth() call
+   app.synth();
+   ```
+
+3. Run `cdktf login` / `cdktf login --tfe-hostname=tfe.my-company.com` and log in to HCP Terraform / Enterprise.
+
+Your CDKTF application is connected to the HCP Terraform / Enterprise workspace you specified in the `RemoteBackend`. You must set the workspace to [Remote Execution mode](/terraform/cloud-docs/workspaces/settings#execution-mode) if you want to store state and run Terraform operations remotely.
+
+### VCS-driven Workflow
+
+Check your synthesized code into version control and connect your HCP Terraform / Terraform Enterprise workspace to that repository with the VCS-driven workflow. You can configure the workspace to trigger Terraform runs based on merges and commits to the repository. Refer to [Deployment Patterns](/terraform/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-hcp-terraform) for more details about how to use CDKTF with the VCS-driven workflow.
+
+## Managing Variables and Secrets
+
+HCP Terraform / Terraform Enterprise [variables](/terraform/cloud-docs/workspaces/variables) let you define the variables and secrets that Terraform uses during remote operations. You can set variables specifically for each workspace or you can create variable sets to reuse the same variables across multiple workspaces. For example, you could define a variable set of provider credentials and automatically apply it to all of the workspaces using that provider.
+
+To use variables, set your workspace to [Remote Execution Mode](/terraform/cloud-docs/workspaces/settings#execution-mode). Terraform can only access workspace variables when executing remotely on HCP Terraform / Enterprise.
+
+2. Use the `TerraformVariable` construct to declare variables in your CDKTF application. This creates an undefined [Terraform input variable](/terraform/language/values/variables). The following example demonstrates how to create a `TerraformVariable` called `my-var`.
+
+   ```typescript
+   import { Construct } from "constructs";
+   import { App, TerraformStack, TerraformVariable } from "cdktf";
+
+   class MyStack extends TerraformStack {
+     constructor(scope: Construct, name: string) {
+       super(scope, name);
+       // You can define 'my-var' in HCP Terraform and use the value in your application.
+       const value = new TerraformVariable(this, "my-var", {
+         default: "The default value to use",
+         description: "",
+         nullable: false, // if passing no
+         sensitive: true,
+         type: "string",
+       });
+
+       // define resources here
+     }
+   }
+   ```
+
+3. Add variables that you declared in your CDKTF application to your HCP Terraform / Enterprise workspace. Refer to [Add a Variable](/terraform/cloud-docs/workspaces/variables/managing-variables#add-a-variable) for details. This lets Terraform access the value during operations.
+
+### Variable Return Values
+
+The return value for `TerraformVariable` is an object with various representations of the value as attributes. You can pass this object as a string with `value.stringValue`, as a number with `value.numberValue`, or as a list with `value.listValue`.
+
+This means that there is no actual value in the variable field when CDKTF synthesizes your application. Instead, CDKTF uses a [Token](/terraform/cdktf/concepts/tokens), which represents a value that is unknown until Terraform applies your configuration. You cannot use tokens in dynamic checks during runtime. For example, `if (value.listValue.length > 42) {` always returns `false` because tokenized lists have a static length of one item.
+
+## Continuous Integration
+
+To run HCP Terraform / Terraform Enterprise in a CI workflow, you can either use [HCP Terraform / Enterprise's VCS-driven workflow](/terraform/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-hcp-terraform) or use a [general-purpose CI to trigger the run in HCP Terraform / Enterprise](/terraform/cdktf/create-and-deploy/deployment-patterns#github-actions-ci-and-hcp-terraform).
+
+## Policy Enforcement
+
++-> **Note:** Refer to [HCP Terraform pricing](https://www.hashicorp.com/products/terraform/pricing) for more information about Sentinel policies and run tasks.
+
+You can define [Sentinel policies](/terraform/cloud-docs/policy-enforcement) for one or multiple HCP Terraform workspaces to ensure that your infrastructure follows company-wide security standards and best practices. You can use Sentinel policies with CDKTF if HCP Terraform is configured as a [Remote Backend](/terraform/cdktf/concepts/remote-backends).
+
+You can also use [Run Tasks](/terraform/cloud-docs/workspaces/settings/run-tasks) to directly integrate third-party tools and services at certain stages in the HCP Terraform run lifecycle. HCP Terraform uses the status response from the third-party tool to determine if a run should proceed.

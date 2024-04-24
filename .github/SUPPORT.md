@@ -4,4 +4,4 @@ If you have questions about CDK for Terraform (CDKTF) usage, please feel free to
 
 ## Enterprise/Commercial Support
 
-If you are an existing Terraform Enterprise or Terraform Cloud for Business customer, please submit a HashiCorp support request or email tf-cloud@hashicorp.support
+If you are an existing Terraform Enterprise or HCP Terraform for Business customer, please submit a HashiCorp support request or email tf-cloud@hashicorp.support

@@ -9,9 +9,9 @@ description: >-
 
 Terraform stores [state](/terraform/language/state) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](/terraform/language/settings/backends/remote) to store state remotely.
 
-By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding remote backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, you can still [migrate the state](#migrate-local-state-storage-to-remote) to a remote backend later.
+By default, `cdktf init` will configure a HCP Terraform workspace and a corresponding remote backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, you can still [migrate the state](#migrate-local-state-storage-to-remote) to a remote backend later.
 
-You can configure your CDK for Terraform (CDKTF) remote backend to be [Terraform Cloud](https://cloud.hashicorp.com/products/terraform), another Terraform [supported backend](#supported-backends), or a custom location.
+You can configure your CDK for Terraform (CDKTF) remote backend to be [HCP Terraform](https://cloud.hashicorp.com/products/terraform), another Terraform [supported backend](#supported-backends), or a custom location.
 
 ## When to Use Remote Backends
 
@@ -345,7 +345,7 @@ func main() {
 
 </CodeTabs>
 
-3. Run `cdktf diff <stack name> --migrate-state` to migrate the state into Terraform Cloud / Terraform Enterprise.
+3. Run `cdktf diff <stack name> --migrate-state` to migrate the state into HCP Terraform or Terraform Enterprise.
 
    ```bash
    Initializing Terraform Cloud...
@@ -372,7 +372,7 @@ func main() {
 
 # Supported Backends
 
-In addition to Terraform Cloud, Terraform and CDKTF support the following backends.
+In addition to HCP Terraform, Terraform and CDKTF support the following backends.
 
 - [local](/terraform/language/settings/backends/local)
   ```typescript

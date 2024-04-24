@@ -6,13 +6,13 @@ description: >-
 
 # Upgrading to CDK for Terraform Version 0.15
 
-0.15 is primarily focused around CLI improvements targeted at a better Terraform Cloud integration.
+0.15 is primarily focused around CLI improvements targeted at a better HCP Terraform integration.
 Because of this, there are only smaller breaking changes in this release. The most notable one is a renaming of some interfaces / classes in our core library.
 Some configuration classes were suffixed inconsistently with `Config`, `Props` or `Options` and were renamed to `Config` for consistency. These classes need to be used in C#, Java, and Go, therefore we have a breaking change in these languages.
 
 ## Minimum version of Terraform increased to 1.2
 
-CDKTF is bumping the minimum supported version of Terraform from 1.0 to 1.2 starting from CDKTF version 0.15. This change is necessary as CDKTF 0.15 uses the Terraform CLI for planning and applying changes for Terraform Cloud and Terraform Enterprise instead of [the API](/terraform/cloud-docs/api-docs) used in version 0.14.
+CDKTF is bumping the minimum supported version of Terraform from 1.0 to 1.2 starting from CDKTF version 0.15. This change is necessary as CDKTF 0.15 uses the Terraform CLI for planning and applying changes for HCP Terraform and Terraform Enterprise instead of [the API](/terraform/cloud-docs/api-docs) used in version 0.14.
 
 [Terraform promises compatibility](/terraform/language/v1-compatibility-promises) between all v1.x releases, so there shouldn't be any issues with this change. The only changes between these versions are bug fixes, and new feature additions.
 

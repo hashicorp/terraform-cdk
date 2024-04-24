@@ -19,7 +19,7 @@ Commands:
   cdktf diff [OPTIONS]     Perform a diff (terraform plan) for the given stack
   cdktf get [OPTIONS]      Generate CDK Constructs for Terraform providers and modules.
   cdktf init [OPTIONS]     Create a new cdktf project from a template.
-  cdktf login              Retrieves an API token to connect to Terraform Cloud.
+  cdktf login              Retrieves an API token to connect to HCP Terraform.
   cdktf synth [OPTIONS]    Synthesizes Terraform code for the given app in a directory.
 ```
 
