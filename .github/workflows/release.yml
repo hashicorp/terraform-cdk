@@ -340,35 +340,6 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
 
-  release_homebrew:
-    name: Release to Homebrew
-    runs-on: ubuntu-latest
-    needs:
-      - prepare-release
-      - release_npm
-    if: needs.prepare-release.outputs.release_status == 'unreleased'
-    steps:
-      # extract version number from package.json
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - name: version
-        id: get_version
-        run: |
-          version=$(node -p "require('./package.json').version")
-          echo "version=${version}" >> $GITHUB_OUTPUT
-      # A PR will be sent to github.com/Homebrew/homebrew-core to update this formula:
-      - uses: mislav/bump-homebrew-formula-action@b3327118b2153c82da63fd9cbf58942146ee99f0 # v3.1
-        with:
-          formula-name: cdktf
-          download-url: https://registry.npmjs.org/cdktf-cli/-/cdktf-cli-${{ steps.get_version.outputs.version }}.tgz
-          commit-message: |
-            cdktf ${{ steps.get_version.outputs.version }}
-
-            Refer to https://github.com/hashicorp/terraform-cdk/releases/tag/v${{ steps.get_version.outputs.version }} for more details
-          base-branch: master # Branch in https://github.com/Homebrew/homebrew-core
-          tag-name: v${{ steps.get_version.outputs.version }}
-        env:
-          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_COMMITTER_TOKEN }}
-
   report:
     name: Report status
     runs-on: ubuntu-latest
@@ -381,7 +352,6 @@ jobs:
       - prepare-release
       - release_github
       - release_golang
-      - release_homebrew
       - release_maven
       - release_npm
       - release_nuget
