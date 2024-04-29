@@ -158,7 +158,7 @@ jobs:
           # Upgrade all the packages
           lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
           lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --filter=typescript --target=patch
-          lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,jsii,jsii-srcmak,jsii-pacmak,jsii-rosetta,jsii-docgen,codemaker,${{ steps.list-packages.outputs.list }}'  --target=minor
+          lerna exec --scope='{${{ join(matrix.pr.packages, ',') }}}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,jsii,jsii-pacmak,jsii-rosetta,jsii-docgen,codemaker,${{ steps.list-packages.outputs.list }}'  --target=minor
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
       - name: Run "yarn install"
         run: yarn install --prefer-offline
@@ -222,7 +222,7 @@ jobs:
       - name: Run "ncu -u"
         run: |-
           # Upgrade all the packages
-          lerna exec ncu -- --upgrade --filter='jsii,jsii-srcmak,jsii-pacmak,jsii-rosetta,jsii-docgen,codemaker,constructs' --target=minor
+          lerna exec ncu -- --upgrade --filter='jsii,jsii-pacmak,jsii-rosetta,jsii-docgen,codemaker,constructs' --target=minor
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
       - name: Run "yarn install"
         run: yarn install --prefer-offline
