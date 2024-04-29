@@ -24,7 +24,7 @@ To skip validations, add 'skipValidation: true' to your App config.
 
 export const providerVersionMismatch = () =>
   new Error(
-    `Version mismatch detected: Your provider bindings are built for an older version of CDKTF. 
+    `Version mismatch detected: Your provider bindings are built for an older version of CDKTF.
 Upgrade your pre-built provider or re-run cdktf get with a more recent version (>= 0.10) of the cdktf-cli.
     `
   );
@@ -33,7 +33,7 @@ export const assetOutOfScopeOfCDKTFJson = (id: string, configPath: string) =>
   new Error(
     `TerraformAsset ${id} was created with a relative path '${configPath}', but we cannot find the cdktf.json within your current working directory '${process.cwd()}'
 
-The cdktf.json file is needed to establish the base for the relative path (the '.' in './foo/bar'). 
+The cdktf.json file is needed to establish the base for the relative path (the '.' in './foo/bar').
 
 Place a cdktf.json at the root of your project. Learn more: https://developer.hashicorp.com/terraform/cdktf/create-and-deploy/configuration-file
 Learn more about TerraformAsset: https://developer.hashicorp.com/terraform/cdktf/concepts/assets
@@ -68,7 +68,7 @@ The following expression was used for the dynamic block: .dynamic({
 
 export const unresolvedTokenInConstructId = (id: string) =>
   new Error(
-    `You cannot use a token (e.g., a reference to an attribute) as the id of a construct. Ids of constructs must be known at synthesis time, and token values are only known when Terraform runs. Please use a concrete value for your constructs ID instead. 
+    `You cannot use a token (e.g., a reference to an attribute) as the id of a construct. Ids of constructs must be known at synthesis time, and token values are only known when Terraform runs. Please use a concrete value for your constructs ID instead.
 You passed the following id: "${id}"
 `
   );
@@ -196,7 +196,7 @@ Please remove any whitespace characters in your TerraformStack id, like so: "${s
 export const noStackForConstruct = (constructPath: string, hint: string) =>
   new Error(`No stack could be identified for the construct at path '${constructPath}'${hint}
 
-You can only use constructs as part of a TerraformStack. 
+You can only use constructs as part of a TerraformStack.
 
 To learn more about Constructs vs. TerraformStacks, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/constructs#:~:text=Constructs%20vs.%20Stacks
 `);
@@ -208,20 +208,20 @@ export const stackHasCircularDependency = (
   new Error(`Cannot add dependency ${dependency} to ${thisStack}, because it would cause a circular dependency.
 
 TerraformStack ${dependency} is already dependent on ${thisStack} directly, or dependent on a TerraformStack within ${thisStack}.
-  
+
 To learn more about circular dependency references, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/stacks#:~:text=Cross%2DStack%20References
 `);
 
 export const stackValidationFailure = (errorList: string) =>
   new Error(`Validation failed with the following errors:\n  ${errorList}
-  
+
 If you wish to ignore these validations, pass 'skipValidation: true' to your App configuration.
 `);
 
 export const matchersPathIsNotDirectory = (functionName: string) =>
   new Error(`Path is not a directory.
 
-Ensure you are passing the result of Testing.fullSynth('stack instance') to '${functionName}', not Testing.synth('stack instance'). 
+Ensure you are passing the result of Testing.fullSynth('stack instance') to '${functionName}', not Testing.synth('stack instance').
 
 Testing.fullSynth returns a file path to a temporary testing environment. Testing.synth returns the JSON representation of your stack.
 
@@ -233,13 +233,13 @@ export const matchersFoundErrorsInStack = (
   diagnostics: string
 ) =>
   new Error(`Found ${errorCount} Errors in stack ${stackName}: ${diagnostics}
-  
+
 These errors are not test failures, but issues with the underlying TerraformStack being tested. Fix the above issues before running your tests again.
 `);
 
 export const jestNotInstantiated = () =>
-  new Error(`Jest was not properly instantiated. 
-  
+  new Error(`Jest was not properly instantiated.
+
 Ensure you have a 'setup.js' file in your project's directory that calls 'cdktf.Testing.setupJest()'.
 
 To learn more about setting up testing, refer to: https://developer.hashicorp.com/terraform/cdktf/test/unit-tests#:~:text=Add%20Testing%20to%20Your%20Application
@@ -255,7 +255,7 @@ export const invalidStack = (functionName: string, stackContent: string) =>
   new Error(`Invalid JSON string passed: ${stackContent}
 
 
-Ensure you are passing the result of Testing.synth('stack instance') to '${functionName}', not Testing.fullSynth('stack instance'). 
+Ensure you are passing the result of Testing.synth('stack instance') to '${functionName}', not Testing.fullSynth('stack instance').
 
 
 Testing.synth returns the JSON representation of your stack. CDKTF can use assertions with this JSON to check the composition of your stacks, like so: "Testing.toHaveResource(Testing.synth('TerraformStack instance'), S3Bucket)"
@@ -277,8 +277,8 @@ export const sourceOrTargetNotAnObject = (
   target: string,
   targetType: string
 ) =>
-  new Error(`An issue occurred during the synthesization of your Terraform configuration. 
-  
+  new Error(`An issue occurred during the synthesization of your Terraform configuration.
+
 Both the source element (${source}) and its containing target element (${target}) must be objects.
 
 Type of source: ${sourceType}
@@ -286,7 +286,7 @@ Type of target: ${targetType}
 `);
 
 export const constructDependencyBelowV10 = () =>
-  new Error(`Version mismatch! CDKTF version 0.6 requires your constructs version to be v10 or above. 
+  new Error(`Version mismatch! CDKTF version 0.6 requires your constructs version to be v10 or above.
 
 Update your constructs dependency: https://cdk.tf/upgrade-constructs-v10
 `);
@@ -320,7 +320,7 @@ To learn more about built in Terraform functions within CDKTF, refer to: https:/
 
 export const encounteredAnnotationWithLevelError = (errors: string) =>
   new Error(`Encountered Annotations with level "ERROR":\n${errors}
-  
+
 Either fix the issues above, or set the environment variable CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS to ignore these annotations.
 `);
 
@@ -340,7 +340,7 @@ export const listElementIsOfWrongType = (
   error: unknown
 ) =>
   new Error(
-    `Element in list ${value} at position ${position} is not the right type: ${error}. 
+    `Element in list ${value} at position ${position} is not the right type: ${error}.
     Please ensure all elements in the list are the correct type for this function.`
   );
 
@@ -365,18 +365,18 @@ export const functionArgumentValidationFailure = (
 export const cannotCalcIdForEmptySetOfComponents = () =>
   new Error(
     `Unable to calculate a unique id for an empty set of components.
-    
-    This happens when you attempt to create a unique id, but do not pass in any construct node ids. This means your construct likely has no parent, which is not allowed. 
-    
+
+    This happens when you attempt to create a unique id, but do not pass in any construct node ids. This means your construct likely has no parent, which is not allowed.
+
     Please make sure your construct has a parent. For example: 'new App(this)' or 'new TerraformStack(this, 'stack')'.`
   );
 
 export const stringValueAddedToReferenceList = (listToken: string[]) =>
   new Error(
-    `Cannot add elements to list token, got: ${listToken}. 
-    
-    We expect the elements of a tokenized string array to be a single token string. For example, ["&{TfToken[Token.1]}"]. 
-    
+    `Cannot add elements to list token, got: ${listToken}.
+
+    We expect the elements of a tokenized string array to be a single token string. For example, ["&{TfToken[Token.1]}"].
+
     One element in your array consists of more than a single value. To add values to a tokenized list, use Terraform functions instead. For example: 'Fn.concat([yourReferencedList, ["my", "new", "items"]])'.`
   );
 
@@ -385,27 +385,27 @@ export const cannotConcatenateStringsInTokenizedStringArray = (
 ) =>
   new Error(
     `Cannot concatenate strings in a tokenized string array, got: ${listToken}.
-    
-    We expect the elements of a tokenized string array to be a single token string. For example, ["&{TfToken[Token.1]}"]. One element in your array consists of something other than a single token. 
-    
+
+    We expect the elements of a tokenized string array to be a single token string. For example, ["&{TfToken[Token.1]}"]. One element in your array consists of something other than a single token.
+
     You are likely mutating the value inside your array, which CDKTF cannot resolve into the appropriate runtime value.`
   );
 
 export const numberValueAddedToReferenceList = (listToken: number[]) =>
   new Error(
-    `Cannot add elements to list token, got: ${listToken}. 
-    
-    We use tokens to represent runtime values (e.g., references to attributes of resource or data sources). List tokens don't contain the actual values because those are only available at apply time, whereas tokens are present during compile time. 
-    
+    `Cannot add elements to list token, got: ${listToken}.
+
+    We use tokens to represent runtime values (e.g., references to attributes of resource or data sources). List tokens don't contain the actual values because those are only available at apply time, whereas tokens are present during compile time.
+
     If you want to add a value to a tokenized list, use a Terraform function instead. For example: Fn.concat([yourReferencedList, [42, 43, 44]]).`
   );
 
 export const mapValueAddedToReferenceList = (mapToken: string) =>
   new Error(
     `Cannot add elements to map token, got: ${mapToken}. This can happen if you merge multiple maps, or if you add a new key value pair to the map token.
-    
-    We use tokens to represent runtime values (e.g., references to attributes of resource or data sources). List tokens don't contain the actual values because those are only available at apply time, whereas tokens are present during compile time. 
-    
+
+    We use tokens to represent runtime values (e.g., references to attributes of resource or data sources). List tokens don't contain the actual values because those are only available at apply time, whereas tokens are present during compile time.
+
     Instead of adding the value to the tokenized map, use a Terraform function. For example: Fn.merge([yourReferencedMap, { your: 'value' }]). This creates a new map Token for a value, which could get rendered as:
     merge(my_resource.resource_name.one_specific_map_attribute, { your: ' value' })`
   );
@@ -413,9 +413,9 @@ export const mapValueAddedToReferenceList = (mapToken: string) =>
 export const cannotConcatenateStringsInTokenizedMap = (tokenizedMap: any) =>
   new Error(
     `Cannot concatenate strings in a tokenized map, got: ${tokenizedMap}.
-    
+
     We expect the elements of a tokenized string array to be a single token string. For example, ["&{TfToken[Token.1]}"]. A key in your map consists of more than a string token (e.g., the Token and a static string or multiple Tokens).
-    
+
     This can happen if you mutate the key of the map. Do not mutate tokenized Maps, because it makes it impossible for CDKTF to translate them.`
   );
 
@@ -429,10 +429,10 @@ export const canOnlyEncodePositiveIntegers = () =>
 
 export const indexTooLargeToEncode = (index: number) =>
   new Error(
-    `Received an index too large to encode into a Token :${index}. 
-    
+    `Received an index too large to encode into a Token :${index}.
+
     This happens if you have too many Tokens in a single CDKTF application. This can also occur if you are accidentally creating numeric tokens in an infinite loop. For example, calling 'Token.asNumber()' too many times.
-    
+
     If you reach the maximum number of allowed Tokens (a limitation imposed by the way we encode Tokens and separate them from real numeric values) you can work around this issue by dividing a single application into multiple applications.`
   );
 
@@ -498,10 +498,10 @@ export const encodedMapTokenInScalarNumberContext = () =>
 ${MAP_ERROR_EXPLANATION}`);
 
 export const constructsCannotBeResolved = (pathName: string) =>
-  new Error(`Trying to 'resolve()' a Construct at '${pathName}'. 
+  new Error(`Trying to 'resolve()' a Construct at '${pathName}'.
 
 This often means an unintended cyclic dependency in your construct tree, leading to the resolution stuck in an infinite loop that fails.
-This can happen if the scope passed into this construct is also part of its subtree. 
+This can happen if the scope passed into this construct is also part of its subtree.
 
 To resolve this issue, refactor your code to avoid this cyclic dependency by changing the scope of this construct.`);
 
@@ -516,7 +516,7 @@ export const mapKeyMustResolveToString = (
     )}. To fix this, change the Token to resolve to a string.`
   );
 
-const unknownTokenExplanation = `This means you are trying to access a Token value that does not exist. This can only happen if the Token is from another CDK (i.e., AWS CDK, CDK8s, etc.) and is unknown to this CDKTF Application. You either need to make the other CDK resolve this Token before CDKTF tries to resolve it, or work around using this Token at all. 
+const unknownTokenExplanation = `This means you are trying to access a Token value that does not exist. This can only happen if the Token is from another CDK (i.e., AWS CDK, CDK8s, etc.) and is unknown to this CDKTF Application. You either need to make the other CDK resolve this Token before CDKTF tries to resolve it, or work around using this Token at all.
 
 If this error occurs without another CDK (or a value looking like a Token) involved, please file a bug.`;
 
@@ -541,3 +541,9 @@ export const assetCanNotCreateZipArchive = (
   new Error(
     `A TerraformAsset trying to zip archive '${src}' into ${dest} failed: ${error}`
   );
+
+export const terraformModuleHasChildren = (pathName: string) => {
+  return new Error(
+    `Trying to add children to a TerraformModule at '${pathName}'. TerraformModules cannot have children, if you want to group resources or constructs in general together please use the Constructs class instead. See https://cdk.tf/constructs for more details.`
+  );
+};

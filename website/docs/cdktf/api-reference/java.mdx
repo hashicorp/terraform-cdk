@@ -14403,6 +14403,15 @@ public java.lang.Object getExpression();
 
 - _Implements:_ <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>
 
+TerraformModule can be used to reference a local terraform module or a module from the Terraform Registry.
+
+It should be used if you can not use generated bindings for the module as you would get by adding the module
+to your cdktf.json files "terraformModules" array and running cdktf get.
+
+This class is not creating a Terraform module to be used outside of CDKTF.
+If you want to bundle certain resources together like you would do with a Terraform module,
+you should use Constructs instead, see http://cdk.tf/constructs for more details.
+
 #### Initializers <a name="Initializers" id="cdktf.TerraformModule.Initializer"></a>
 
 ```java
