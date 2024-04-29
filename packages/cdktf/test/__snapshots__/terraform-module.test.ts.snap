@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`only-config, no constructs 1`] = `
+"{
+  "module": {
+    "test": {
+      "source": "./assets/__cdktf_module_asset_26CE565C/hash/test/fixtures/hcl-module"
+    }
+  }
+}"
+`;

@@ -8,7 +8,7 @@ import { ITerraformDependable } from "./terraform-dependable";
 import { Token } from "./tokens";
 import { ref, dependable } from "./tfExpression";
 import { ITerraformIterator } from "./terraform-iterator";
-import { modulesWithSameAlias } from "./errors";
+import { modulesWithSameAlias, terraformModuleHasChildren } from "./errors";
 import { TerraformModuleAsset } from "./terraform-module-asset";
 
 export interface TerraformModuleUserConfig {
@@ -28,7 +28,15 @@ export interface TerraformModuleProvider {
   readonly moduleAlias: string;
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * TerraformModule can be used to reference a local terraform module or a module from the Terraform Registry.
+ * It should be used if you can not use generated bindings for the module as you would get by adding the module
+ * to your cdktf.json files "terraformModules" array and running cdktf get.
+ *
+ * This class is not creating a Terraform module to be used outside of CDKTF.
+ * If you want to bundle certain resources together like you would do with a Terraform module,
+ * you should use Constructs instead, see http://cdk.tf/constructs for more details.
+ */
 export abstract class TerraformModule
   extends TerraformElement
   implements ITerraformDependable
@@ -63,6 +71,15 @@ export abstract class TerraformModule
       );
     }
     this.forEach = options.forEach;
+  }
+
+  // Adds synth-time validations
+  private onSynth(): void {
+    // We don't allow any nested constructs within TerraformModules, it's most likely a mistake
+    // where constructs should be used instead.
+    if (this.node.children.length > 0) {
+      throw terraformModuleHasChildren(this.node.path);
+    }
   }
 
   // jsii can't handle abstract classes?
@@ -101,6 +118,7 @@ export abstract class TerraformModule
   }
 
   public toHclTerraform(): any {
+    this.onSynth();
     const attributes = deepMerge(
       {
         ...this.synthesizeHclAttributes(),
@@ -156,6 +174,7 @@ export abstract class TerraformModule
   }
 
   public toTerraform(): any {
+    this.onSynth();
     const attributes = deepMerge(
       {
         ...this.synthesizeAttributes(),
