@@ -206,7 +206,7 @@ test("tokens as ids", () => {
       name: "foo",
     });
   }).toThrowErrorMatchingInlineSnapshot(`
-    "You cannot use a token (e.g., a reference to an attribute) as the id of a construct. Ids of constructs must be known at synthesis time, and token values are only known when Terraform runs. Please use a concrete value for your constructs ID instead. 
+    "You cannot use a token (e.g., a reference to an attribute) as the id of a construct. Ids of constructs must be known at synthesis time, and token values are only known when Terraform runs. Please use a concrete value for your constructs ID instead.
     You passed the following id: "resource-\${TfToken[TOKEN.8]}"
     "
   `);
