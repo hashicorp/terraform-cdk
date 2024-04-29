@@ -3,8 +3,7 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 import { CodeMaker } from "codemaker";
-import { mkdtemp } from "@cdktf/commons";
-import * as srcmak from "jsii-srcmak";
+import { exec, mkdtemp } from "@cdktf/commons";
 import {
   TerraformDependencyConstraint,
   logger,
@@ -22,9 +21,59 @@ import { ModuleGenerator } from "./generator/module-generator";
 import { glob } from "glob";
 import { readSchema } from "@cdktf/provider-schema";
 
+const pacmakModule = require.resolve("jsii-pacmak/bin/jsii-pacmak");
+const jsiiModule = require.resolve("jsii/bin/jsii");
+
+export interface GenerateJSIIOptions {
+  entrypoint: string;
+  deps: string[];
+  moduleKey: string;
+  exports?: Record<string, ExportDefinition | string>;
+  jsii?: JsiiOutputOptions;
+  python?: PythonOutputOptions;
+  java?: JavaOutputOptions;
+  csharp?: CSharpOutputOptions;
+  golang?: GoLangOutputOptions;
+}
+
+export interface JsiiOutputOptions {
+  path: string;
+}
+
+export interface PythonOutputOptions {
+  outdir: string;
+  moduleName: string;
+}
+
+export interface JavaOutputOptions {
+  outdir: string;
+  package: string;
+}
+
+export interface CSharpOutputOptions {
+  outdir: string;
+  namespace: string;
+}
+
+export interface GoLangOutputOptions {
+  outdir: string;
+  moduleName: string;
+  packageName: string;
+}
+
+/**
+ * See https://nodejs.org/api/packages.html#conditional-exports for more information
+ */
+export interface ExportDefinition {
+  node?: string;
+  import?: string;
+  require?: string;
+  default?: string;
+}
+
 export async function generateJsiiLanguage(
   code: CodeMaker,
-  opts: srcmak.Options,
+  opts: GenerateJSIIOptions,
   outputPath: string,
   disallowedFileGlobs: string[] = []
 ) {
@@ -43,7 +92,139 @@ export async function generateJsiiLanguage(
       filesToDelete.map((file) => fs.remove(path.join(staging, file)))
     );
 
-    await srcmak.srcmak(staging, opts);
+    // Compile with JSII
+    const jsiiArgs = ["--silence-warnings", "reserved-word"];
+    const jsiiEntrypoint = opts.entrypoint;
+    const basepath = path.join(
+      path.dirname(jsiiEntrypoint),
+      path.basename(jsiiEntrypoint, ".ts")
+    );
+
+    const moduleKey = opts.moduleKey.replace(/\./g, "").replace(/\//g, "");
+    const moduleDirs = opts.deps;
+    const targets: Record<string, any> = {};
+    const deps: Record<string, string> = {};
+    for (const dir of moduleDirs) {
+      // read module metadata
+      const metadata = await fs.readJson(path.join(dir, "package.json"));
+      const moduleName: string = metadata.name;
+      const moduleVersion: string = metadata.version;
+
+      const targetdir = path.join(
+        path.join(staging, "node_modules"),
+        moduleName
+      );
+      await fs.mkdirp(path.dirname(targetdir));
+      await fs.copy(dir, targetdir);
+
+      // add to "deps" and "peer deps"
+      if (!moduleName.startsWith("@types/")) {
+        deps[moduleName] = moduleVersion;
+      }
+    }
+    const pkg = {
+      name: moduleKey,
+      version: "0.0.0",
+      author: "generated@generated.com",
+      main: `${basepath}.js`,
+      types: `${basepath}.d.ts`,
+      license: "UNLICENSED",
+      repository: { url: "http://generated", type: "git" },
+      jsii: {
+        outdir: "dist",
+        targets: targets,
+      },
+      dependencies: deps,
+      peerDependencies: deps,
+    };
+
+    if (opts.exports) {
+      (pkg as Record<string, any>).exports = opts.exports;
+    }
+    if (opts.python) {
+      targets.python = {
+        distName: "generated",
+        module: opts.python.moduleName,
+      };
+    }
+
+    if (opts.java) {
+      targets.java = {
+        package: opts.java.package,
+        maven: {
+          groupId: "generated",
+          artifactId: "generated",
+        },
+      };
+    }
+
+    if (opts.csharp) {
+      targets.dotnet = {
+        namespace: opts.csharp.namespace,
+        packageId: opts.csharp.namespace,
+      };
+    }
+
+    if (opts.golang) {
+      targets.go = {
+        moduleName: opts.golang.moduleName,
+        packageName: opts.golang.packageName,
+      };
+    }
+
+    await fs.writeFile(
+      path.join(staging, "package.json"),
+      JSON.stringify(pkg, undefined, 2)
+    );
+
+    const endJsiiTimer = logTimespan("jsii");
+    await exec(jsiiModule, jsiiArgs, {
+      cwd: staging,
+    });
+    endJsiiTimer();
+
+    // extract .jsii if requested
+    if (opts.jsii) {
+      await fs.copy(path.join(staging, ".jsii"), opts.jsii.path);
+    }
+
+    // run pacmak to generate code
+    const endJsiiPacmakTimer = logTimespan("jsii-pacmak");
+    await exec(pacmakModule, ["--code-only"], { cwd: staging });
+    endJsiiPacmakTimer();
+
+    if (opts.python) {
+      const reldir = opts.python.moduleName.replace(/\./g, "/"); // jsii replaces "." with "/"
+      const source = path.resolve(
+        path.join(staging, "dist/python/src", reldir)
+      );
+      const target = path.join(opts.python.outdir, reldir);
+      await fs.move(source, target, { overwrite: true });
+    }
+
+    if (opts.java) {
+      const source = path.resolve(path.join(staging, "dist/java/src/"));
+      const target = path.join(opts.java.outdir, "src/");
+      await fs.mkdirp(target); // make sure target directory exists
+      await fs.copy(source, target, { recursive: true, overwrite: false });
+    }
+
+    if (opts.csharp) {
+      const reldir = opts.csharp.namespace;
+      const source = path.resolve(path.join(staging, "dist/dotnet/", reldir));
+      const target = path.join(opts.csharp.outdir, reldir);
+      await fs.move(source, target, { overwrite: true });
+    }
+
+    if (opts.golang) {
+      const reldir = opts.golang.packageName;
+      const source = path.resolve(path.join(staging, "dist/go/", reldir));
+      const target = path.join(opts.golang.outdir, reldir);
+      await fs.move(source, target, { overwrite: true });
+      // remove go.mod as this would make it a submodule
+      await fs.remove(path.join(target, "go.mod"));
+    }
+
     ["versions.json", "constraints.json"].forEach((file) => {
       try {
         fs.copySync(
@@ -381,7 +562,7 @@ export class ConstructsMaker {
   private async generateJsiiLanguage(target: ConstructsMakerTarget) {
     // these are the module dependencies we compile against
     const deps = ["@types/node", "constructs", "cdktf"];
-    const opts: srcmak.Options = {
+    const opts: GenerateJSIIOptions = {
       entrypoint: target.fileName,
       deps: deps.map((dep) =>
         path.dirname(require.resolve(`${dep}/package.json`))
