@@ -6,9 +6,9 @@
     },
     "dependencies": {
         "cdktf": "file:../../packages/cdktf",
-        "constructs": "10.1.45"
+        "constructs": "10.3.0"
     },
     "devDependencies": {
-        "jsii-docgen": "^10.3.23"
+        "jsii-docgen": "^10.4.4"
     }
 }
