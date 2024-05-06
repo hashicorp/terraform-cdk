@@ -82,7 +82,7 @@ app.synth();`,
         },
         "dependencies": {
           "cdktf": "latest",
-          "constructs": "^10.0.5"
+          "constructs": "^10.3.0"
         },
         "devDependencies": {
           "@types/node": "^14.0.26",
@@ -194,7 +194,7 @@ describe.skip("convertProject", () => {
           }
         }
       }
-      
+
       provider "docker" {
         host = "unix:///var/run/docker.sock"
       }`,
@@ -204,7 +204,7 @@ describe.skip("convertProject", () => {
         `resource "docker_image" "ubuntu" {
             name = "ubuntu:latest"
           }
-          
+
           resource "docker_container" "foo" {
             image = docker_image.ubuntu.latest
             name  = "foo"
@@ -215,7 +215,7 @@ describe.skip("convertProject", () => {
         `module "k3s" {
         source  = "camptocamp/k3s/docker"
         version = "0.11.0"
-        
+
         cluster_endpoint = ""
         cluster_name = "cdktf"
         network_name = ""
