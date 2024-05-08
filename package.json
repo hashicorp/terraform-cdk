@@ -6,6 +6,7 @@
         "build-and-package": "lerna run --scope 'cdktf*' --scope @cdktf/* build,package && tools/collect-dist.sh",
         "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
         "format": "prettier --cache --write .",
+        "prepackage": "yarn copy-license:scoped && yarn copy-license:unscoped",
         "package": "lerna run package && tools/collect-dist.sh",
         "package:python": "lerna run package:python && tools/collect-dist.sh",
         "package:java": "lerna run package:java && tools/collect-dist.sh",
@@ -46,7 +47,10 @@
         "generate-docs:api": "yarn && yarn build && yarn package && cd tools/documentation-generation && git clean -dfx . && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/**",
         "generate-docs:translations": "cd tools/documentation-code-snippets && yarn && yarn update-snippets && cd ../../ && yarn run format",
         "generate-docs": "yarn generate-docs:translations && yarn generate-docs:api",
-        "generate-function-bindings": "cd tools/generate-function-bindings && yarn && yarn fetch-metadata && yarn generate"
+        "generate-function-bindings": "cd tools/generate-function-bindings && yarn && yarn fetch-metadata && yarn generate",
+        "generate-license-notices": "lerna run --scope 'cdktf*' --scope @cdktf/* generate-license-notices",
+        "copy-license:scoped": "lerna exec --scope @cdktf/* cp ../../../LICENSE LICENSE.txt",
+        "copy-license:unscoped": "lerna exec --scope 'cdktf*' cp ../../LICENSE LICENSE.txt"
     },
     "workspaces": {
         "packages": [
