@@ -9,14 +9,15 @@
     },
     "scripts": {
         "build": "tsc",
-        "postbuild": "node ./lib/__tests__/edge-provider-schema/cli.js ./edge-provider-bindings",
+        "postbuild": "yarn generate-license-notices -- --ci && node ./lib/__tests__/edge-provider-schema/cli.js ./edge-provider-bindings",
         "watch": "tsc -w",
         "watch-preserve-output": "tsc -w --preserveWatchOutput",
         "test": "jest",
         "test:ci": "jest --ci",
         "jest-watch": "jest --watch",
         "package": "./package.sh",
-        "dist-clean": "rm -rf dist"
+        "dist-clean": "rm -rf dist",
+        "generate-license-notices": "npx generate-license-file --input package.json --output NOTICES.txt --overwrite"
     },
     "repository": {
         "type": "git",
