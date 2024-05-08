@@ -6,3 +6,4 @@ edge-provider-bindings
 cdktf-provider-generator-*.tgz
 !test/generate-provider-tests.js
 !ambient.d.ts
+LICENSE**

@@ -5,3 +5,4 @@ tsconfig.tsbuildinfo
 cdktf-convert-*
 cdktf-provider*
 !ambient.d.ts
+LICENSE**
