@@ -9,7 +9,7 @@
     "compile-build-config": "tsc build.ts",
     "prebuild": "yarn compile-build-config",
     "build": "tsc --noEmit",
-    "postbuild": "node build.js",
+    "postbuild": "yarn generate-license-notices -- --ci && node build.js",
     "watch": "yarn compile-build-config && node build.js --watch",
     "watch-preserve-output": "yarn watch",
     "lint": "eslint . --ext .ts,.tsx",
@@ -20,7 +20,8 @@
     "test:ci": "yarn lint && jest --ci",
     "jest-watch": "jest --watch",
     "package": "./package.sh",
-    "dist-clean": "rm -rf dist"
+    "dist-clean": "rm -rf dist",
+    "generate-license-notices": "npx generate-license-file --input package.json --output NOTICES.txt --overwrite"
   },
   "repository": {
     "type": "git",
@@ -40,9 +41,9 @@
   "dependencies": {
     "@cdktf/cli-core": "0.0.0",
     "@cdktf/commons": "0.0.0",
+    "@cdktf/hcl-tools": "0.0.0",
     "@cdktf/hcl2cdk": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
-    "@cdktf/hcl-tools": "0.0.0",
     "@inquirer/prompts": "2.3.1",
     "@sentry/node": "7.112.2",
     "cdktf": "0.0.0",
@@ -149,6 +150,7 @@
     "execa": "5.1.1",
     "extract-zip": "2.0.1",
     "fs-extra": "8.1.0",
+    "generate-license-file": "3.4.0",
     "indent-string": "4.0.0",
     "ink": "3.2.0",
     "ink-spinner": "4.0.3",

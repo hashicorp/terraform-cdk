@@ -9,14 +9,15 @@
   },
   "scripts": {
     "build": "tsc",
-    "postbuild": "node ./lib/__tests__/edge-provider-schema/cli.js ./edge-provider-bindings",
+    "postbuild": "yarn generate-license-notices -- --ci && node ./lib/__tests__/edge-provider-schema/cli.js ./edge-provider-bindings",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "test": "jest",
     "test:ci": "jest --ci",
     "jest-watch": "jest --watch",
     "package": "./package.sh",
-    "dist-clean": "rm -rf dist"
+    "dist-clean": "rm -rf dist",
+    "generate-license-notices": "npx generate-license-file --input package.json --output NOTICES.txt --overwrite"
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
     "@types/glob": "7.2.0",
     "@types/jest": "29.5.12",
     "@types/reserved-words": "0.1.4",
+    "generate-license-file": "3.4.0",
     "jest": "29.7.0",
     "ts-jest": "29.1.2",
     "typescript": "5.2.2"

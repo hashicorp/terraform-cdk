@@ -4,6 +4,7 @@
   "description": "Cloud Development Kit for Terraform",
   "scripts": {
     "build": "jsii --silence-warnings reserved-word",
+    "postbuild": "yarn generate-license-notices -- --ci",
     "docs": "node ./scripts/generate-documentation.js",
     "watch": "jsii -w --silence-warnings reserved-word",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
@@ -16,7 +17,8 @@
     "lint": "eslint . --ext .ts",
     "test": "jest --passWithNoTests && yarn lint",
     "test:ci": "jest --ci --passWithNoTests && yarn lint",
-    "dist-clean": "rm -rf dist"
+    "dist-clean": "rm -rf dist",
+    "generate-license-notices": "npx generate-license-file --input package.json --output NOTICES.txt --overwrite"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -116,6 +118,7 @@
     "eslint": "7.32.0",
     "eslint-plugin-jsdoc": "39.9.1",
     "eslint-plugin-no-instanceof": "1.0.1",
+    "generate-license-file": "3.4.0",
     "jest": "29.7.0",
     "jsii": "5.3.29",
     "jsii-docgen": "10.3.23",
