@@ -1,0 +1,52 @@
+comment_summary_in_pr: on-failure
+vulnerability_check: false
+license_check: true
+# Source for the below is https://eng-handbook.hashicorp.services/licensing-and-dependencies/#disallowed-licenses
+deny_licenses:
+  - AGPL-1.0-only
+  - AGPL-1.0-or-later
+  - AGPL-3.0-only
+  - AGPL-3.0-or-later
+  - CC-BY-ND-1.0
+  - CC-BY-ND-2.0
+  - CC-BY-ND-2.0
+  - CC-BY-ND-3.0
+  - CC-BY-ND-3.0-DE
+  - CC-BY-ND-4.0
+  - CC-BY-SA-1.0
+  - CC-BY-SA-2.0
+  - CC-BY-SA-2.0-UK
+  - CC-BY-SA-2.1-JP
+  - CC-BY-SA-2.5
+  - CC-BY-SA-3.0
+  - CC-BY-SA-3.0-AT
+  - CC-BY-SA-3.0-DE
+  - CC-BY-SA-3.0-IGO
+  - CC-BY-SA-4.0
+  - GPL-1.0-only
+  - GPL-1.0-or-later
+  - GPL-2.0-only
+  - GPL-2.0-or-later
+  - GPL-3.0-only
+  - GPL-3.0-or-later
+  - LGPL-2.0-only
+  - LGPL-2.0-or-later
+  - LGPL-2.1-only
+  - LGPL-2.1-or-later
+  - LGPL-3.0-only
+  - LGPL-3.0-or-later
+  - NPL-1.0
+  - NPL-1.1
+  - OSL-1.0
+  - OSL-1.1
+  - OSL-2.0
+  - OSL-2.1
+  - OSL-3.0
+  - QPL-1.0
+  - QPL-1.0-INRIA-2004
+  - Sleepycat
+  # Also disallowed, but could not find license identifiers for:
+  # - BCL
+  # - qmail Terms of Distribution
+  # BUSL is also disallowed by any companies other than HashiCorp
+  # I do not know if adding BUSL here will cause problems, so skipping for now
