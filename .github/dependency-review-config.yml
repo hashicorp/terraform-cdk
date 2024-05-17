@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 comment_summary_in_pr: on-failure
 vulnerability_check: false
 license_check: true
