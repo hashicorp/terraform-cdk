@@ -5,7 +5,7 @@ This is a WebAssembly wrapper for https://github.com/tmccombs/hcl2json
 ## Usage
 
 ```
-yarn install @cdktf/hcl2json
+yarn add @cdktf/hcl2json
 ```
 
 ### Parse HCL strings
