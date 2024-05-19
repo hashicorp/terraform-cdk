@@ -524,6 +524,9 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
   if (typeof jsonExpression === "object") {
     return renderFuzzyJsonObject(jsonExpression);
   }
+  if (typeof jsonExpression === "boolean") {
+    return `${jsonExpression}`;
+  }
 
   if (!jsonExpression) {
     return "";
@@ -642,6 +645,9 @@ ${renderSimpleAttributes(v)}
       // Short circuit type checking if value is an expression
       if (typeof value === "string" && value.includes("${")) {
         return `${name} = ${renderString(value)}`;
+      }
+      if (typeof value === "boolean") {
+        return `${name} = ${value}`;
       }
 
       if (block && type !== "list" && type !== "set") {
