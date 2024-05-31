@@ -37,7 +37,7 @@
     "@cdktf/commons": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
     "@types/node": "18.19.31",
-    "codemaker": "1.95.0",
+    "codemaker": "1.98.0",
     "fs-extra": "8.1.0",
     "glob": "10.3.12"
   },

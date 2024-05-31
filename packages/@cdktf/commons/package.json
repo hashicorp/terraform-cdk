@@ -40,7 +40,7 @@
     "@sentry/node": "7.112.2",
     "cdktf": "0.0.0",
     "ci-info": "3.9.0",
-    "codemaker": "1.95.0",
+    "codemaker": "1.98.0",
     "cross-spawn": "7.0.3",
     "follow-redirects": "1.15.6",
     "fs-extra": "11.2.0",

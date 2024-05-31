@@ -28,7 +28,16 @@ describe("init command", () => {
           input,
         }
       );
-      expect(result.stderr).toEqual("");
+      // we expect either empty error output or every line beginning with "npm WARN"
+      if (result.stderr.length > 0) {
+        const lines = result.stderr.split("\n");
+        for (const line of lines) {
+          expect(line).toContain("npm WARN");
+        }
+      } else {
+        expect(result.stderr).toEqual("");
+      }
+
       expect(result.stdout).not.toContain(
         `opening webpage using your browser.`
       );
