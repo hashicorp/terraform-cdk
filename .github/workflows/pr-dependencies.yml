@@ -1,10 +1,16 @@
-name: Depcheck
+name: Dependency Review
+
 on:
   merge_group:
     types: [checks_requested]
   pull_request:
     branches:
       - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   depcheck:
     runs-on: ubuntu-latest
@@ -26,9 +32,17 @@ jobs:
             "@cdktf/commons",
             # "@cdktf/cli-core",
           ]
-
     steps:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       - name: "Run Depcheck"
         run: |
           npx lerna exec --scope '${{ matrix.package }}' -- npx -y depcheck --ignores="@types/*,jsii,jsii-pacmak,jsii-docgen,yoga-layout-prebuilt,eslint,jest,tsc-files,typescript,esbuild,esbuild-jest,graphology-types"
+
+  license:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+      - name: Check dependency licenses
+        uses: actions/dependency-review-action@0c155c5e8556a497adf53f2c18edabf945ed8e70 # v4.3.2
+        with:
+          config-file: ./.github/dependency-review-config.yml
