@@ -564,6 +564,55 @@ test("module with simple provider", async () => {
   `);
 });
 
+test("module with empty inputs", async () => {
+  const app = Testing.app({ fakeCdktfJsonPath: true });
+  const stack = new TerraformStack(app, "test");
+
+  const provider = new TestProvider(stack, "provider", {
+    accessKey: "key",
+    alias: "provider1",
+  });
+
+  new TestModule(stack, "test", {
+    moduleParameter: "myParam",
+    inputs: {
+      false_boolean: false,
+      true_boolean: true,
+      zero_number: 0,
+      empty_string: "",
+    },
+    providers: [provider],
+  });
+
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "terraform {
+    required_providers {
+      test = {
+    version = "~> 2.0"
+    }
+    }
+
+
+    }
+
+    provider "test" {
+    access_key = "key"
+    alias = "provider1"
+    }
+    module "test" {
+    false_boolean = false
+    zero_number = 0
+    empty_string = ""
+    module_parameter = "myParam"
+    source = "my-module"
+    version = "1.0"
+    providers = {
+    test = "test.provider1"
+    }
+    }"
+  `);
+});
+
 describe("backends", () => {
   test("local", async () => {
     const app = Testing.app();

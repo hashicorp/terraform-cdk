@@ -525,10 +525,6 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
     return renderFuzzyJsonObject(jsonExpression);
   }
 
-  if (!jsonExpression) {
-    return "";
-  }
-
   if (typeof jsonExpression === "string") {
     if (jsonExpression.includes("${")) {
       return `"${jsonExpression}"`;
@@ -598,6 +594,8 @@ export function renderAttributes(attributes: any): string {
       // just try to guess them
       if (typeof v === "string" || typeof v === "number") {
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
+      } else if (typeof v === "boolean") {
+        return `${name} = ${v}`;
       } else if (Array.isArray(v)) {
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
       } else if (v === null) {

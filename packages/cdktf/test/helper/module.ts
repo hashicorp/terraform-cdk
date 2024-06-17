@@ -5,6 +5,7 @@ import { Construct } from "constructs";
 
 export interface TestModuleConfig extends TerraformModuleUserConfig {
   readonly moduleParameter: string;
+  readonly inputs?: { [name: string]: any };
 }
 
 export class TestModule extends TerraformModule {
@@ -16,6 +17,7 @@ export class TestModule extends TerraformModule {
       source: "my-module",
       version: "1.0",
     });
+    this.inputs = options.inputs || {};
     this.moduleParameter = options.moduleParameter;
   }
 
