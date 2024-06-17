@@ -601,6 +601,7 @@ test("module with empty inputs", async () => {
     }
     module "test" {
     false_boolean = false
+    true_boolean = true
     zero_number = 0
     empty_string = ""
     module_parameter = "myParam"
