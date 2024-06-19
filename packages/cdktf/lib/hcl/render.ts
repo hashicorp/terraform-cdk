@@ -26,10 +26,6 @@ function wrapIdentifierInQuotesIfNeeded(key: string): string {
  *
  */
 function renderString(str: string): string {
-  if (!str) {
-    return str;
-  }
-
   if (typeof str !== "string") {
     throw new Error(
       "Unable to process attribute that should have been a string, but isn't"
@@ -39,6 +35,8 @@ function renderString(str: string): string {
   const lines = str.split(/\r\n|[\n\r]/);
 
   if (lines.length === 1) return `"${escapeQuotes(str)}"`;
+
+  if (!str) return `""`;
 
   return `<<EOF\n${lines.map((s) => escapeQuotes(s)).join("\n")}\nEOF`;
 }
@@ -524,12 +522,17 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
   if (typeof jsonExpression === "object") {
     return renderFuzzyJsonObject(jsonExpression);
   }
-
-  if (!jsonExpression) {
-    return "";
+  if (
+    typeof jsonExpression === "boolean" ||
+    typeof jsonExpression === "number"
+  ) {
+    return `${jsonExpression}`;
   }
 
   if (typeof jsonExpression === "string") {
+    if (jsonExpression === "") {
+      return `""`;
+    }
     if (jsonExpression.includes("${")) {
       return `"${jsonExpression}"`;
     }
@@ -559,6 +562,10 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
 
   if (jsonExpression === "null") {
     return jsonExpression;
+  }
+
+  if (!jsonExpression) {
+    return `""`;
   }
 
   return `${jsonExpression}`;
@@ -642,6 +649,9 @@ ${renderSimpleAttributes(v)}
       // Short circuit type checking if value is an expression
       if (typeof value === "string" && value.includes("${")) {
         return `${name} = ${renderString(value)}`;
+      }
+      if (typeof value === "boolean") {
+        return `${name} = ${value}`;
       }
 
       if (block && type !== "list" && type !== "set") {
