@@ -161,7 +161,7 @@ describe("CdktfProject", () => {
       });
 
       return expect(cdktfProject.diff()).rejects.toMatchInlineSnapshot(
-        `[Error: Usage Error: Found more than one stack, please specify a target stack. Run cdktf diff <stack> with one of these stacks: first, second, third, fourth, fifth ]`
+        `[Error: Usage Error: Found more than one stack, please specify a target stack. Run cdktf diff <stack> with one of these stacks: fifth, first, fourth, second, third ]`
       );
     });
   });
