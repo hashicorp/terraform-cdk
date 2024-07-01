@@ -188,11 +188,11 @@
           },
           {
             "title": "Structs",
-            "path": "api-reference/ty/structspescript"
+            "path": "api-reference/typescript/structs"
           },
           {
             "title": "Enums",
-            "path": "api-reference/typescrip/enumst"
+            "path": "api-reference/typescript/enums"
           },
           {
             "title": "Protocols",
@@ -213,7 +213,7 @@
           },
           {
             "title": "Structs",
-            "path": "api-reference/py/structsthon"
+            "path": "api-reference/python/structs"
           },
           {
             "title": "Enums",
@@ -238,7 +238,7 @@
           },
           {
             "title": "Structs",
-            "path": "api-reference/ja/structsva"
+            "path": "api-reference/java/structs"
           },
           {
             "title": "Enums",
@@ -263,7 +263,7 @@
           },
           {
             "title": "Structs",
-            "path": "api-reference/cs/structsharp"
+            "path": "api-reference/csharp/structs"
           },
           {
             "title": "Enums",
