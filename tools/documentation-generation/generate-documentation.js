@@ -7,8 +7,6 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { Documentation, Language } from "jsii-docgen";
-import type { Transformer } from "unified";
-import type { Node } from "unist";
 
 (async function () {
   const remarkParse = (await import("remark-parse")).default;
@@ -55,7 +53,7 @@ import type { Node } from "unist";
    * In a markdown context these get interpretet as an HTML tag, this is why we break them up here
    * <thing> becomes < thing > which is no longer an HTML tag.
    */
-  function replaceAngleBracketsInDocumentation(docs: string) {
+  function replaceAngleBracketsInDocumentation(docs) {
     const lines = docs.split("\n");
     const sanitizedLines = lines.map((doc) => {
       const htmlTags = doc.split("<");
@@ -81,15 +79,12 @@ import type { Node } from "unist";
     return sanitizedLines.join("\n");
   }
 
-  async function filterByTopic(
-    content: string,
-    topic: string
-  ): Promise<string> {
-    function filterByTopic(): Transformer {
-      function isH2(node: Node) {
+  async function filterByTopic(content, topic) {
+    function filterByTopic() {
+      function isH2(node) {
         return node.type === "heading" && "depth" in node && node.depth === 2;
       }
-      function hasContent(node: Node, content: string) {
+      function hasContent(node, content) {
         return (
           "children" in node &&
           Array.isArray(node.children) &&
@@ -98,11 +93,11 @@ import type { Node } from "unist";
           node.children[0].value.startsWith(content)
         );
       }
-      return function (tree: Node) {
+      return function (tree) {
         let takeIn = false;
-        let returnNodes: Node[] = [];
+        let returnNodes = [];
         // This assumes we visit the tree in order
-        visit(tree, function (node: Node): void {
+        visit(tree, function (node) {
           // We already found the topic
           if (takeIn) {
             // We want to stop on the next h2
@@ -119,7 +114,7 @@ import type { Node } from "unist";
           }
         });
 
-        (tree as any).children = returnNodes;
+        tree.children = returnNodes;
       };
     }
 
@@ -132,7 +127,7 @@ import type { Node } from "unist";
     return String(file);
   }
 
-  const compose = (lang: string, topic: string, content: string) => `---
+  const compose = (lang, topic, content) => `---
 page_title: ${lang} Reference for ${topic}
 description: >-
 CDKTF Core API Reference for ${topic} in ${lang}.
@@ -154,17 +149,17 @@ ${replaceAngleBracketsInDocumentation(content)}
 
   Documentation.forProject(path.resolve(sourceFolder), {
     assembliesDir,
-  }).then(async (docs: Documentation) => {
+  }).then(async (docs) => {
     const languages = {
       Typescript: Language.TYPESCRIPT,
       Python: Language.PYTHON,
       Java: Language.JAVA,
       CSharp: Language.CSHARP,
       Go: Language.GO,
-    } as const;
+    };
 
     for (const entry of Object.entries(languages)) {
-      const [lang, key] = entry as [string, Language];
+      const [lang, key] = entry;
       const markdown = await docs.toMarkdown({
         language: key,
         readme: false,

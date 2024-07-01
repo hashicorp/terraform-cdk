@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "docs": "node --loader ts-node/esm ./generate-documentation.ts ../../"
+    "docs": "node ./generate-documentation.js ../../"
   },
   "dependencies": {
     "cdktf": "file:../../packages/cdktf",
@@ -14,7 +14,6 @@
     "remark": "^15.0.1",
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
-    "ts-node": "^10.9.2",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0"
   }
