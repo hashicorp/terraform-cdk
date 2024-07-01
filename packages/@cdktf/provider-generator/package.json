@@ -36,10 +36,10 @@
   "dependencies": {
     "@cdktf/commons": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
-    "@types/node": "18.19.34",
+    "@types/node": "18.19.39",
     "codemaker": "1.98.0",
     "fs-extra": "8.1.0",
-    "glob": "10.4.1"
+    "glob": "10.4.2"
   },
   "devDependencies": {
     "@types/deepmerge": "2.2.0",
@@ -48,7 +48,7 @@
     "@types/jest": "29.5.12",
     "@types/reserved-words": "0.1.4",
     "jest": "29.7.0",
-    "ts-jest": "29.1.4",
+    "ts-jest": "29.1.5",
     "typescript": "5.2.2"
   }
 }
