@@ -1,3 +1,34 @@
+## 0.20.8
+
+### feat
+
+- feat: add validation to TerraformModule [\#3608](https://github.com/hashicorp/terraform-cdk/pull/3608)
+
+### fix
+
+- fix: Empty string, booleans, and zero numbers in hcl rendering [\#3655](https://github.com/hashicorp/terraform-cdk/pull/3655)
+- fix: explicitly listen on ipv4 address for verdaccio due to Github runner image regression [\#3654](https://github.com/hashicorp/terraform-cdk/pull/3654)
+
+### chore
+
+- chore: manifest.json should have stable json [\#3584](https://github.com/hashicorp/terraform-cdk/pull/3584)
+- chore: update JSII [\#3616](https://github.com/hashicorp/terraform-cdk/pull/3616)
+- chore: remove dependency on jsii-srcmak [\#3607](https://github.com/hashicorp/terraform-cdk/pull/3607)
+- chore: Fix a small documentation typo [\#3629](https://github.com/hashicorp/terraform-cdk/pull/3629)
+- chore: Use single-label runner for custom-linux-xl [\#3623](https://github.com/hashicorp/terraform-cdk/pull/3623)
+- chore: fix branch cleanup [\#3644](https://github.com/hashicorp/terraform-cdk/pull/3644)
+- chore: remove Homebrew link and publishing step [\#3605](https://github.com/hashicorp/terraform-cdk/pull/3605)
+- chore: Upgrade dependencies for lib [\#3618](https://github.com/hashicorp/terraform-cdk/pull/3618)
+- chore: Upgrade dependencies for util [\#3599](https://github.com/hashicorp/terraform-cdk/pull/3599)
+- chore: Upgrade dependencies for util [\#3589](https://github.com/hashicorp/terraform-cdk/pull/3589)
+- chore: Upgrade dependencies for util [\#3612](https://github.com/hashicorp/terraform-cdk/pull/3612)
+- chore: Upgrade dependencies for cli [\#3613](https://github.com/hashicorp/terraform-cdk/pull/3613)
+- chore: Upgrade dependencies for cli [\#3598](https://github.com/hashicorp/terraform-cdk/pull/3598)
+- chore: Add links and headers [\#3594](https://github.com/hashicorp/terraform-cdk/pull/3594)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3614](https://github.com/hashicorp/terraform-cdk/pull/3614)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3606](https://github.com/hashicorp/terraform-cdk/pull/3606)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3652](https://github.com/hashicorp/terraform-cdk/pull/3652)
+
 ## 0.20.7
 
 ### fix
