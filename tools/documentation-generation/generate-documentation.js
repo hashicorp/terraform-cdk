@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * Copyright (c) HashiCorp, Inc.
  * SPDX-License-Identifier: MPL-2.0
@@ -129,8 +130,7 @@ import { Documentation, Language } from "jsii-docgen";
 
   const compose = (lang, topic, content) => `---
 page_title: ${lang} Reference for ${topic}
-description: >-
-CDKTF Core API Reference for ${topic} in ${lang}.
+description: CDKTF Core API Reference for ${topic} in ${lang}.
 ---
 
 <!-- This file is generated through yarn generate-docs -->
