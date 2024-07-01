@@ -16,15 +16,37 @@ import type { Node } from "unist";
   const visit = (await import("unist-util-visit")).visit;
   const unified = (await import("unified")).unified;
 
-  const sourceFolder = process.argv[2];
-  if (!sourceFolder) {
-    throw new Error("Please provide a source folder as the first argument");
+  const rootFolder = process.argv[2];
+  if (!rootFolder) {
+    throw new Error(
+      "Please provide the root repository folder as the first argument"
+    );
   }
 
-  const targetFolder = process.argv[3];
-  if (!targetFolder) {
-    throw new Error("Please provide a target folder as the second argument");
+  const sourceFolder = path.resolve(rootFolder, "packages", "cdktf");
+  if (!fs.existsSync(sourceFolder)) {
+    throw new Error(
+      "Expected " +
+        sourceFolder +
+        " to be the source directory of the cdktf package, but it does not exist"
+    );
   }
+
+  const targetFolder = path.resolve(
+    rootFolder,
+    "website",
+    "docs",
+    "cdktf",
+    "api-reference"
+  );
+  if (!fs.existsSync(targetFolder)) {
+    throw new Error(
+      "Expected " +
+        targetFolder +
+        " to be the directory containing the api reference, but it does not exist"
+    );
+  }
+
   /**
    * If the documentation code has generics they are denoted in the hand-written
    * documentation as <>, e.g. Record<string, string>. Some other documentation parts
@@ -124,9 +146,12 @@ ${replaceAngleBracketsInDocumentation(content)}
 `;
 
   const assembliesDir = path.resolve(
-    path.dirname(process.argv[1]),
+    rootFolder,
+    "tools",
+    "documentation-generation",
     "node_modules"
   );
+
   Documentation.forProject(path.resolve(sourceFolder), {
     assembliesDir,
   }).then(async (docs: Documentation) => {
