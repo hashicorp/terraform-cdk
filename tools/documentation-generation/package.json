@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "docs": "node --loader ts-node/esm ./generate-documentation.ts ../../packages/cdktf ../../website/docs/cdktf/api-reference"
+    "docs": "node --loader ts-node/esm ./generate-documentation.ts ../../"
   },
   "dependencies": {
     "cdktf": "file:../../packages/cdktf",
