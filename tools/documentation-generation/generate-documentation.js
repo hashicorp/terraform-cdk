@@ -128,7 +128,11 @@ import { Documentation, Language } from "jsii-docgen";
       .use(remarkStringify)
       .process(content);
 
-    return String(file);
+    const output = String(file.value);
+    return output.replace(
+      `  ${topic} <a name="${topic}" id="${topic}"></a>`,
+      ""
+    );
   }
 
   const compose = (lang, topic, content) => `---
