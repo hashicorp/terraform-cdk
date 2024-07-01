@@ -85,6 +85,7 @@ import { Documentation, Language } from "jsii-docgen";
       function isH2(node) {
         return node.type === "heading" && "depth" in node && node.depth === 2;
       }
+
       function hasContent(node, content) {
         return (
           "children" in node &&
@@ -94,6 +95,7 @@ import { Documentation, Language } from "jsii-docgen";
           node.children[0].value.startsWith(content)
         );
       }
+
       return function (tree) {
         let takeIn = false;
         let returnNodes = [];
@@ -104,8 +106,9 @@ import { Documentation, Language } from "jsii-docgen";
             // We want to stop on the next h2
             if (isH2(node)) {
               takeIn = false;
+            } else {
+              returnNodes.push(node);
             }
-            returnNodes.push(node);
           } else {
             if (isH2(node) && hasContent(node, topic)) {
               // We found the topic we are looking for, start taking in nodes
