@@ -154,6 +154,26 @@ import { Documentation, Language } from "jsii-docgen";
     return String(content);
   }
 
+  async function decreaseHeadings(content) {
+    const file = await unified()
+      .use(remarkParse)
+      .use(decreaseHeadingsPlugin)
+      .use(remarkStringify)
+      .process(content);
+
+    function decreaseHeadingsPlugin() {
+      return function (tree) {
+        visit(tree, function (node) {
+          if (node.type === "heading") {
+            node.depth--;
+          }
+        });
+      };
+    }
+
+    return String(file);
+  }
+
   const compose = (lang, topic, content) => `---
 page_title: ${lang} Reference for ${topic}
 description: CDKTF Core API Reference for ${topic} in ${lang}.
@@ -163,7 +183,7 @@ description: CDKTF Core API Reference for ${topic} in ${lang}.
 
 ${replaceAngleBracketsInDocumentation(
   content.replace(
-    `## ${topic} <a name="${topic}" id="${topic}"></a>`,
+    `# ${topic} <a name="${topic}" id="${topic}"></a>`,
     `# ${lang}: ${topic} <a name="${topic}" id="${topic}"></a>`
   )
 )}
@@ -215,8 +235,10 @@ ${replaceAngleBracketsInDocumentation(
             compose(
               lang,
               topic,
-              await removeLinks(
-                await filterByTopicAndRemoveAnchors(rendered, topic)
+              await decreaseHeadings(
+                await removeLinks(
+                  await filterByTopicAndRemoveAnchors(rendered, topic)
+                )
               )
             ),
             "utf-8"
