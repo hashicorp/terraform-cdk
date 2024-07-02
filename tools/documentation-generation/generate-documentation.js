@@ -236,9 +236,9 @@ ${replaceAngleBracketsInDocumentation(
               lang,
               topic,
               await decreaseHeadings(
-                await removeLinks(
-                  await filterByTopicAndRemoveAnchors(rendered, topic)
-                )
+                // await removeLinks(
+                await filterByTopicAndRemoveAnchors(rendered, topic)
+                // )
               )
             ),
             "utf-8"
