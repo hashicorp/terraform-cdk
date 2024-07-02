@@ -125,10 +125,10 @@ import { Documentation, Language } from "jsii-docgen";
     const file = await unified()
       .use(remarkParse)
       .use(filterByTopic)
-      .use(remarkStringify)
+      .use(remarkStringify, { join: [(left, right, parent, state) => 2] })
       .process(content);
 
-    const output = String(file.value);
+    const output = String(file);
     return output.replace(
       `  ${topic} <a name="${topic}" id="${topic}"></a>`,
       ""

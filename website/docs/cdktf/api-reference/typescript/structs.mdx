@@ -29,19 +29,31 @@ const appConfig: AppConfig = { ... }
 | <code><a href="#cdktf.AppConfig.property.stackTraces">stackTraces</a></code> | <code>boolean</code> | *No description.*No description. |***##### `context`<sup>Optional</sup> <a name="context" id="cdktf.AppConfig.property.context"></a>`context`<sup>Optional</sup> <a name="context" id="cdktf.AppConfig.property.context"></a>```typescript
 public readonly context: {[ key: string ]: any};
 ```* *Type:* {\[ key: string ]: any}
+
+
 * *Default:* no additional context* *Type:* {\[ key: string ]: any}*Type:* {\[ key: string ]: any}*Type:*Type: {[ key: string ]: any}* *Default:* no additional context*Default:* no additional context*Default:*Default: no additional contextAdditional context values for the application.Additional context values for the application.Context set by the CLI or the `context` key in `cdktf.json` has precedence.Context set by the CLI or the `context` key in `cdktf.json` has precedence.Context can be read from any construct using `node.getContext(key)`.Context can be read from any construct using `node.getContext(key)`.***##### `hclOutput`<sup>Optional</sup> <a name="hclOutput" id="cdktf.AppConfig.property.hclOutput"></a>`hclOutput`<sup>Optional</sup> <a name="hclOutput" id="cdktf.AppConfig.property.hclOutput"></a>```typescript
 public readonly hclOutput: boolean;
 ```* *Type:* boolean* *Type:* boolean*Type:* boolean*Type:*Type: boolean***##### `outdir`<sup>Optional</sup> <a name="outdir" id="cdktf.AppConfig.property.outdir"></a>`outdir`<sup>Optional</sup> <a name="outdir" id="cdktf.AppConfig.property.outdir"></a>```typescript
 public readonly outdir: string;
 ```* *Type:* string
+
+
 * *Default:* CDKTF\_OUTDIR if defined, otherwise "cdktf.out"* *Type:* string*Type:* string*Type:*Type: string* *Default:* CDKTF\_OUTDIR if defined, otherwise "cdktf.out"*Default:* CDKTF\_OUTDIR if defined, otherwise "cdktf.out"*Default:*Default: CDKTF_OUTDIR if defined, otherwise "cdktf.out"The directory to output Terraform resources.The directory to output Terraform resources.If you are using the CDKTF CLI, this value is automatically set from one of the following three sources:If you are using the CDKTF CLI, this value is automatically set from one of the following three sources:* The `-o` / `--output` CLI option
+
+
 * The `CDKTF_OUTDIR` environment variable
+
+
 * The `outdir` key in `cdktf.json`* The `-o` / `--output` CLI optionThe `-o` / `--output` CLI optionThe `-o` / `--output` CLI option* The `CDKTF_OUTDIR` environment variableThe `CDKTF_OUTDIR` environment variableThe `CDKTF_OUTDIR` environment variable* The `outdir` key in `cdktf.json`The `outdir` key in `cdktf.json`The `outdir` key in `cdktf.json`If you are using the CDKTF CLI and want to set a different value here, you will also need to set the same value via one of the three ways specified above.If you are using the CDKTF CLI and want to set a different value here, you will also need to set the same value via one of the three ways specified above.The most common case to set this value is when you are using the CDKTF library directly (e.g. when writing unit tests).The most common case to set this value is when you are using the CDKTF library directly (e.g. when writing unit tests).***##### `skipBackendValidation`<sup>Optional</sup> <a name="skipBackendValidation" id="cdktf.AppConfig.property.skipBackendValidation"></a>`skipBackendValidation`<sup>Optional</sup> <a name="skipBackendValidation" id="cdktf.AppConfig.property.skipBackendValidation"></a>```typescript
 public readonly skipBackendValidation: boolean;
 ```* *Type:* boolean
+
+
 * *Default:* false* *Type:* boolean*Type:* boolean*Type:*Type: boolean* *Default:* false*Default:* false*Default:*Default: falseWhether to skip backend validation during synthesis of the app.Whether to skip backend validation during synthesis of the app.***##### `skipValidation`<sup>Optional</sup> <a name="skipValidation" id="cdktf.AppConfig.property.skipValidation"></a>`skipValidation`<sup>Optional</sup> <a name="skipValidation" id="cdktf.AppConfig.property.skipValidation"></a>```typescript
 public readonly skipValidation: boolean;
 ```* *Type:* boolean
+
+
 * *Default:* false* *Type:* boolean*Type:* boolean*Type:*Type: boolean* *Default:* false*Default:* false*Default:*Default: falseWhether to skip all validations during synthesis of the app.Whether to skip all validations during synthesis of the app.***##### `stackTraces`<sup>Optional</sup> <a name="stackTraces" id="cdktf.AppConfig.property.stackTraces"></a>`stackTraces`<sup>Optional</sup> <a name="stackTraces" id="cdktf.AppConfig.property.stackTraces"></a>```typescript
 public readonly stackTraces: boolean;
 ```* *Type:* boolean* *Type:* boolean*Type:* boolean*Type:*Type: boolean***### AzurermBackendConfig <a name="AzurermBackendConfig" id="cdktf.AzurermBackendConfig"></a>AzurermBackendConfig <a name="AzurermBackendConfig" id="cdktf.AzurermBackendConfig"></a>Stores the state as a Blob with the given Key within the Blob Container within the Blob Storage Account.Stores the state as a Blob with the given Key within the Blob Container within the Blob Storage Account.This backend supports state locking and consistency checking
@@ -209,6 +221,8 @@ public readonly workspaces: NamedCloudWorkspace | TaggedCloudWorkspaces;
 ```* *Type:* <a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> | <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>* *Type:* <a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> | <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>*Type:* <a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> | <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>*Type:*Type: <a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> | <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:***##### `hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackendConfig.property.hostname"></a>`hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackendConfig.property.hostname"></a>```typescript
 public readonly hostname: string;
 ```* *Type:* string
+
+
 * *Default:* app.terraform.io* *Type:* string*Type:* string*Type:*Type: string* *Default:* app.terraform.io*Default:* app.terraform.io*Default:*Default: app.terraform.ioThe hostname of a Terraform Enterprise installation, if using Terraform Enterprise.The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.***##### `token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackendConfig.property.token"></a>`token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackendConfig.property.token"></a>```typescript
 public readonly token: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: stringThe token used to authenticate with Terraform Cloud.The token used to authenticate with Terraform Cloud.We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.***### ConsulBackendConfig <a name="ConsulBackendConfig" id="cdktf.ConsulBackendConfig"></a>ConsulBackendConfig <a name="ConsulBackendConfig" id="cdktf.ConsulBackendConfig"></a>Stores the state in the Consul KV store at a given path. This backend supports state locking.Stores the state in the Consul KV store at a given path. This backend supports state locking.Read more about this backend in the Terraform docs:
@@ -834,6 +848,8 @@ public readonly workspace: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: string***##### `path`<sup>Optional</sup> <a name="path" id="cdktf.DataTerraformRemoteStateLocalConfig.property.path"></a>`path`<sup>Optional</sup> <a name="path" id="cdktf.DataTerraformRemoteStateLocalConfig.property.path"></a>```typescript
 public readonly path: string;
 ```* *Type:* string
+
+
 * *Default:* defaults to terraform.${stackId}.tfstate* *Type:* string*Type:* string*Type:*Type: string* *Default:* defaults to terraform.${stackId}.tfstate*Default:* defaults to terraform.${stackId}.tfstate*Default:*Default: defaults to terraform.${stackId}.tfstatePath where the state file is stored.Path where the state file is stored.***##### `workspaceDir`<sup>Optional</sup> <a name="workspaceDir" id="cdktf.DataTerraformRemoteStateLocalConfig.property.workspaceDir"></a>`workspaceDir`<sup>Optional</sup> <a name="workspaceDir" id="cdktf.DataTerraformRemoteStateLocalConfig.property.workspaceDir"></a>```typescript
 public readonly workspaceDir: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: string(Optional) The path to non-default workspaces.(Optional) The path to non-default workspaces.***### DataTerraformRemoteStateOssConfig <a name="DataTerraformRemoteStateOssConfig" id="cdktf.DataTerraformRemoteStateOssConfig"></a>DataTerraformRemoteStateOssConfig <a name="DataTerraformRemoteStateOssConfig" id="cdktf.DataTerraformRemoteStateOssConfig"></a>#### Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateOssConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateOssConfig.Initializer"></a>```typescript
@@ -1195,8 +1211,14 @@ public readonly maxRetries: number;
 ```* *Type:* number* *Type:* number*Type:* number*Type:*Type: number(Optional) The maximum number of times an AWS API request is retried on retryable failure.(Optional) The maximum number of times an AWS API request is retried on retryable failure.Defaults to 5.Defaults to 5.***##### `noProxy`<sup>Optional</sup> <a name="noProxy" id="cdktf.DataTerraformRemoteStateS3Config.property.noProxy"></a>`noProxy`<sup>Optional</sup> <a name="noProxy" id="cdktf.DataTerraformRemoteStateS3Config.property.noProxy"></a>```typescript
 public readonly noProxy: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: string(Optional) Comma-separated list of hosts that should not use HTTP or HTTPS proxies.(Optional) Comma-separated list of hosts that should not use HTTP or HTTPS proxies.Each value can be one of:Each value can be one of:* A domain name
+
+
 * An IP address
+
+
 * A CIDR address
+
+
 * An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
   Can also be set using the NO\_PROXY or no\_proxy environment variables.* A domain nameA domain nameA domain name* An IP addressAn IP addressAn IP address* A CIDR addressA CIDR addressA CIDR address* An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
   Can also be set using the NO\_PROXY or no\_proxy environment variables.An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
@@ -1398,6 +1420,8 @@ const encodingOptions: EncodingOptions = { ... }
 | <code><a href="#cdktf.EncodingOptions.property.displayHint">displayHint</a></code> | <code>string</code> | A hint for the Token's purpose when stringifying it. |***##### `displayHint`<sup>Optional</sup> <a name="displayHint" id="cdktf.EncodingOptions.property.displayHint"></a>`displayHint`<sup>Optional</sup> <a name="displayHint" id="cdktf.EncodingOptions.property.displayHint"></a>```typescript
 public readonly displayHint: string;
 ```* *Type:* string
+
+
 * *Default:* no display hint* *Type:* string*Type:* string*Type:*Type: string* *Default:* no display hint*Default:* no display hint*Default:*Default: no display hintA hint for the Token's purpose when stringifying it.A hint for the Token's purpose when stringifying it.***### FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>The file provisioner copies files or directories from the machine running Terraform to the newly created resource.The file provisioner copies files or directories from the machine running Terraform to the newly created resource.The file provisioner supports both ssh and winrm type connections.The file provisioner supports both ssh and winrm type connections.See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/file file}See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/file file}#### Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>```typescript
 import { FileProvisioner } from 'cdktf'
 
@@ -1579,9 +1603,13 @@ const lazyAnyValueOptions: LazyAnyValueOptions = { ... }
 | <code><a href="#cdktf.LazyAnyValueOptions.property.omitEmptyArray">omitEmptyArray</a></code> | <code>boolean</code> | If the produced value is an array and it is empty, return 'undefined' instead. |***##### `displayHint`<sup>Optional</sup> <a name="displayHint" id="cdktf.LazyAnyValueOptions.property.displayHint"></a>`displayHint`<sup>Optional</sup> <a name="displayHint" id="cdktf.LazyAnyValueOptions.property.displayHint"></a>```typescript
 public readonly displayHint: string;
 ```* *Type:* string
+
+
 * *Default:* No hint* *Type:* string*Type:* string*Type:*Type: string* *Default:* No hint*Default:* No hint*Default:*Default: No hintUse the given name as a display hint.Use the given name as a display hint.***##### `omitEmptyArray`<sup>Optional</sup> <a name="omitEmptyArray" id="cdktf.LazyAnyValueOptions.property.omitEmptyArray"></a>`omitEmptyArray`<sup>Optional</sup> <a name="omitEmptyArray" id="cdktf.LazyAnyValueOptions.property.omitEmptyArray"></a>```typescript
 public readonly omitEmptyArray: boolean;
 ```* *Type:* boolean
+
+
 * *Default:* false* *Type:* boolean*Type:* boolean*Type:*Type: boolean* *Default:* false*Default:* false*Default:*Default: falseIf the produced value is an array and it is empty, return 'undefined' instead.If the produced value is an array and it is empty, return 'undefined' instead.***### LazyListValueOptions <a name="LazyListValueOptions" id="cdktf.LazyListValueOptions"></a>LazyListValueOptions <a name="LazyListValueOptions" id="cdktf.LazyListValueOptions"></a>Options for creating a lazy list token.Options for creating a lazy list token.#### Initializer <a name="Initializer" id="cdktf.LazyListValueOptions.Initializer"></a>Initializer <a name="Initializer" id="cdktf.LazyListValueOptions.Initializer"></a>```typescript
 import { LazyListValueOptions } from 'cdktf'
 
@@ -1595,9 +1623,13 @@ const lazyListValueOptions: LazyListValueOptions = { ... }
 | <code><a href="#cdktf.LazyListValueOptions.property.omitEmpty">omitEmpty</a></code> | <code>boolean</code> | If the produced list is empty, return 'undefined' instead. |***##### `displayHint`<sup>Optional</sup> <a name="displayHint" id="cdktf.LazyListValueOptions.property.displayHint"></a>`displayHint`<sup>Optional</sup> <a name="displayHint" id="cdktf.LazyListValueOptions.property.displayHint"></a>```typescript
 public readonly displayHint: string;
 ```* *Type:* string
+
+
 * *Default:* No hint* *Type:* string*Type:* string*Type:*Type: string* *Default:* No hint*Default:* No hint*Default:*Default: No hintUse the given name as a display hint.Use the given name as a display hint.***##### `omitEmpty`<sup>Optional</sup> <a name="omitEmpty" id="cdktf.LazyListValueOptions.property.omitEmpty"></a>`omitEmpty`<sup>Optional</sup> <a name="omitEmpty" id="cdktf.LazyListValueOptions.property.omitEmpty"></a>```typescript
 public readonly omitEmpty: boolean;
 ```* *Type:* boolean
+
+
 * *Default:* false* *Type:* boolean*Type:* boolean*Type:*Type: boolean* *Default:* false*Default:* false*Default:*Default: falseIf the produced list is empty, return 'undefined' instead.If the produced list is empty, return 'undefined' instead.***### LazyStringValueOptions <a name="LazyStringValueOptions" id="cdktf.LazyStringValueOptions"></a>LazyStringValueOptions <a name="LazyStringValueOptions" id="cdktf.LazyStringValueOptions"></a>Options for creating a lazy string token.Options for creating a lazy string token.#### Initializer <a name="Initializer" id="cdktf.LazyStringValueOptions.Initializer"></a>Initializer <a name="Initializer" id="cdktf.LazyStringValueOptions.Initializer"></a>```typescript
 import { LazyStringValueOptions } from 'cdktf'
 
@@ -1609,6 +1641,8 @@ const lazyStringValueOptions: LazyStringValueOptions = { ... }
 | <code><a href="#cdktf.LazyStringValueOptions.property.displayHint">displayHint</a></code> | <code>string</code> | Use the given name as a display hint. |***##### `displayHint`<sup>Optional</sup> <a name="displayHint" id="cdktf.LazyStringValueOptions.property.displayHint"></a>`displayHint`<sup>Optional</sup> <a name="displayHint" id="cdktf.LazyStringValueOptions.property.displayHint"></a>```typescript
 public readonly displayHint: string;
 ```* *Type:* string
+
+
 * *Default:* No hint* *Type:* string*Type:* string*Type:*Type: string* *Default:* No hint*Default:* No hint*Default:*Default: No hintUse the given name as a display hint.Use the given name as a display hint.***### LocalBackendConfig <a name="LocalBackendConfig" id="cdktf.LocalBackendConfig"></a>LocalBackendConfig <a name="LocalBackendConfig" id="cdktf.LocalBackendConfig"></a>The local backend stores state on the local filesystem, locks that state using system APIs, and performs operations locally.The local backend stores state on the local filesystem, locks that state using system APIs, and performs operations locally.Read more about this backend in the Terraform docs:
 https://developer.hashicorp.com/terraform/language/settings/backends/localRead more about this backend in the Terraform docs:
 https://developer.hashicorp.com/terraform/language/settings/backends/local#### Initializer <a name="Initializer" id="cdktf.LocalBackendConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.LocalBackendConfig.Initializer"></a>```typescript
@@ -1624,6 +1658,8 @@ const localBackendConfig: LocalBackendConfig = { ... }
 | <code><a href="#cdktf.LocalBackendConfig.property.workspaceDir">workspaceDir</a></code> | <code>string</code> | (Optional) The path to non-default workspaces. |***##### `path`<sup>Optional</sup> <a name="path" id="cdktf.LocalBackendConfig.property.path"></a>`path`<sup>Optional</sup> <a name="path" id="cdktf.LocalBackendConfig.property.path"></a>```typescript
 public readonly path: string;
 ```* *Type:* string
+
+
 * *Default:* defaults to terraform.${stackId}.tfstate* *Type:* string*Type:* string*Type:*Type: string* *Default:* defaults to terraform.${stackId}.tfstate*Default:* defaults to terraform.${stackId}.tfstate*Default:*Default: defaults to terraform.${stackId}.tfstatePath where the state file is stored.Path where the state file is stored.***##### `workspaceDir`<sup>Optional</sup> <a name="workspaceDir" id="cdktf.LocalBackendConfig.property.workspaceDir"></a>`workspaceDir`<sup>Optional</sup> <a name="workspaceDir" id="cdktf.LocalBackendConfig.property.workspaceDir"></a>```typescript
 public readonly workspaceDir: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: string(Optional) The path to non-default workspaces.(Optional) The path to non-default workspaces.***### LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>The local-exec provisioner invokes a local executable after a resource is created.The local-exec provisioner invokes a local executable after a resource is created.This invokes a process on the machine running Terraform, not on the resource.This invokes a process on the machine running Terraform, not on the resource.See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec local-exec}See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec local-exec}#### Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>```typescript
@@ -1921,6 +1957,8 @@ public readonly scope: IConstruct;
 ```* *Type:* constructs.IConstruct* *Type:* constructs.IConstruct*Type:* constructs.IConstruct*Type:*Type: constructs.IConstructThe scope from which resolution is performed.The scope from which resolution is performed.***##### `preparing`<sup>Optional</sup> <a name="preparing" id="cdktf.ResolveOptions.property.preparing"></a>`preparing`<sup>Optional</sup> <a name="preparing" id="cdktf.ResolveOptions.property.preparing"></a>```typescript
 public readonly preparing: boolean;
 ```* *Type:* boolean
+
+
 * *Default:* false* *Type:* boolean*Type:* boolean*Type:*Type: boolean* *Default:* false*Default:* false*Default:*Default: falseWhether the resolution is being executed during the prepare phase or not.Whether the resolution is being executed during the prepare phase or not.***### S3BackendAssumeRoleConfig <a name="S3BackendAssumeRoleConfig" id="cdktf.S3BackendAssumeRoleConfig"></a>S3BackendAssumeRoleConfig <a name="S3BackendAssumeRoleConfig" id="cdktf.S3BackendAssumeRoleConfig"></a>#### Initializer <a name="Initializer" id="cdktf.S3BackendAssumeRoleConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.S3BackendAssumeRoleConfig.Initializer"></a>```typescript
 import { S3BackendAssumeRoleConfig } from 'cdktf'
 
@@ -2208,8 +2246,14 @@ public readonly maxRetries: number;
 ```* *Type:* number* *Type:* number*Type:* number*Type:*Type: number(Optional) The maximum number of times an AWS API request is retried on retryable failure.(Optional) The maximum number of times an AWS API request is retried on retryable failure.Defaults to 5.Defaults to 5.***##### `noProxy`<sup>Optional</sup> <a name="noProxy" id="cdktf.S3BackendConfig.property.noProxy"></a>`noProxy`<sup>Optional</sup> <a name="noProxy" id="cdktf.S3BackendConfig.property.noProxy"></a>```typescript
 public readonly noProxy: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: string(Optional) Comma-separated list of hosts that should not use HTTP or HTTPS proxies.(Optional) Comma-separated list of hosts that should not use HTTP or HTTPS proxies.Each value can be one of:Each value can be one of:* A domain name
+
+
 * An IP address
+
+
 * A CIDR address
+
+
 * An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
   Can also be set using the NO\_PROXY or no\_proxy environment variables.* A domain nameA domain nameA domain name* An IP addressAn IP addressAn IP address* A CIDR addressA CIDR addressA CIDR address* An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
   Can also be set using the NO\_PROXY or no\_proxy environment variables.An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
@@ -2399,6 +2443,8 @@ public readonly password: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: stringThe password to use for the connection.The password to use for the connection.***##### `port`<sup>Optional</sup> <a name="port" id="cdktf.SSHProvisionerConnection.property.port"></a>`port`<sup>Optional</sup> <a name="port" id="cdktf.SSHProvisionerConnection.property.port"></a>```typescript
 public readonly port: number;
 ```* *Type:* number
+
+
 * *Default:* 22* *Type:* number*Type:* number*Type:*Type: number* *Default:* 22*Default:* 22*Default:*Default: 22The port to connect to.The port to connect to.***##### `privateKey`<sup>Optional</sup> <a name="privateKey" id="cdktf.SSHProvisionerConnection.property.privateKey"></a>`privateKey`<sup>Optional</sup> <a name="privateKey" id="cdktf.SSHProvisionerConnection.property.privateKey"></a>```typescript
 public readonly privateKey: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: stringThe contents of an SSH key to use for the connection.The contents of an SSH key to use for the connection.These can be loaded from a file on disk using the file function.
@@ -2418,6 +2464,8 @@ public readonly scriptPath: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: stringThe path used to copy scripts meant for remote execution.The path used to copy scripts meant for remote execution.Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}***##### `targetPlatform`<sup>Optional</sup> <a name="targetPlatform" id="cdktf.SSHProvisionerConnection.property.targetPlatform"></a>`targetPlatform`<sup>Optional</sup> <a name="targetPlatform" id="cdktf.SSHProvisionerConnection.property.targetPlatform"></a>```typescript
 public readonly targetPlatform: string;
 ```* *Type:* string
+
+
 * *Default:* unix* *Type:* string*Type:* string*Type:*Type: string* *Default:* unix*Default:* unix*Default:*Default: unixThe target platform to connect to.The target platform to connect to.Valid values are "windows" and "unix".
 If the platform is set to windows, the default script\_path is c:\windows\temp\terraform\_%RAND%.cmd, assuming the SSH default shell is cmd.exe.
 If the SSH default shell is PowerShell, set script\_path to "c:/windows/temp/terraform\_%RAND%.ps1"Valid values are "windows" and "unix".
@@ -2425,9 +2473,13 @@ If the platform is set to windows, the default script_path is c:\windows\temp\te
 If the SSH default shell is PowerShell, set script_path to "c:/windows/temp/terraform_%RAND%.ps1"***##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.SSHProvisionerConnection.property.timeout"></a>`timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.SSHProvisionerConnection.property.timeout"></a>```typescript
 public readonly timeout: string;
 ```* *Type:* string
+
+
 * *Default:* 5m* *Type:* string*Type:* string*Type:*Type: string* *Default:* 5m*Default:* 5m*Default:*Default: 5mThe timeout to wait for the connection to become available.The timeout to wait for the connection to become available.Should be provided as a string (e.g., "30s" or "5m".)Should be provided as a string (e.g., "30s" or "5m".)***##### `user`<sup>Optional</sup> <a name="user" id="cdktf.SSHProvisionerConnection.property.user"></a>`user`<sup>Optional</sup> <a name="user" id="cdktf.SSHProvisionerConnection.property.user"></a>```typescript
 public readonly user: string;
 ```* *Type:* string
+
+
 * *Default:* root* *Type:* string*Type:* string*Type:*Type: string* *Default:* root*Default:* root*Default:*Default: rootThe user to use for the connection.The user to use for the connection.***### StackAnnotation <a name="StackAnnotation" id="cdktf.StackAnnotation"></a>StackAnnotation <a name="StackAnnotation" id="cdktf.StackAnnotation"></a>#### Initializer <a name="Initializer" id="cdktf.StackAnnotation.Initializer"></a>Initializer <a name="Initializer" id="cdktf.StackAnnotation.Initializer"></a>```typescript
 import { StackAnnotation } from 'cdktf'
 
@@ -2823,6 +2875,8 @@ public readonly sensitive: boolean;
 ```* *Type:* boolean* *Type:* boolean*Type:* boolean*Type:*Type: boolean***##### `staticId`<sup>Optional</sup> <a name="staticId" id="cdktf.TerraformOutputConfig.property.staticId"></a>`staticId`<sup>Optional</sup> <a name="staticId" id="cdktf.TerraformOutputConfig.property.staticId"></a>```typescript
 public readonly staticId: boolean;
 ```* *Type:* boolean
+
+
 * *Default:* false* *Type:* boolean*Type:* boolean*Type:*Type: boolean* *Default:* false*Default:* false*Default:*Default: falseIf set to true the synthesized Terraform Output will be named after the `id` passed to the constructor instead of the default (TerraformOutput.friendlyUniqueId).If set to true the synthesized Terraform Output will be named after the `id` passed to the constructor instead of the default (TerraformOutput.friendlyUniqueId).***### TerraformProviderConfig <a name="TerraformProviderConfig" id="cdktf.TerraformProviderConfig"></a>TerraformProviderConfig <a name="TerraformProviderConfig" id="cdktf.TerraformProviderConfig"></a>#### Initializer <a name="Initializer" id="cdktf.TerraformProviderConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.TerraformProviderConfig.Initializer"></a>```typescript
 import { TerraformProviderConfig } from 'cdktf'
 
@@ -3024,11 +3078,23 @@ public readonly sensitive: boolean;
 ```* *Type:* boolean* *Type:* boolean*Type:* boolean*Type:*Type: boolean***##### `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformVariableConfig.property.type"></a>`type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformVariableConfig.property.type"></a>```typescript
 public readonly type: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: stringThe type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.If no type constraint is set then a value of any type is accepted.If no type constraint is set then a value of any type is accepted.While type constraints are optional, we recommend specifying them; they serve as easy reminders for users of the module, and allow Terraform to return a helpful error message if the wrong type is used.While type constraints are optional, we recommend specifying them; they serve as easy reminders for users of the module, and allow Terraform to return a helpful error message if the wrong type is used.Type constraints are created from a mixture of type keywords and type constructors. The supported type keywords are:Type constraints are created from a mixture of type keywords and type constructors. The supported type keywords are:* string
+
+
 * number
+
+
 * bool* stringstringstring* numbernumbernumber* boolboolboolThe type constructors allow you to specify complex types such as collections:The type constructors allow you to specify complex types such as collections:* list(\< TYPE >)
+
+
 * set(\< TYPE >)
+
+
 * map(\< TYPE >)
+
+
 * object({\< ATTR NAME > = \< TYPE >, ... })
+
+
 * tuple(\[\< TYPE >, ...])* list(\< TYPE >)list(\< TYPE >)list(< TYPE >)* set(\< TYPE >)set(\< TYPE >)set(< TYPE >)* map(\< TYPE >)map(\< TYPE >)map(< TYPE >)* object({\< ATTR NAME > = \< TYPE >, ... })object({\< ATTR NAME > = \< TYPE >, ... })object({< ATTR NAME > = < TYPE >, ... })* tuple(\[\< TYPE >, ...])tuple(\[\< TYPE >, ...])tuple([< TYPE >, ...])The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, refer to {@link https://developer.hashicorp.com/terraform/language/expressions/type-constraints Type Constraints}.The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, refer to {@link https://developer.hashicorp.com/terraform/language/expressions/type-constraints Type Constraints}.If both the type and default arguments are specified, the given default value must be convertible to the specified type.If both the type and default arguments are specified, the given default value must be convertible to the specified type.***##### `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariableConfig.property.validation"></a>`validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariableConfig.property.validation"></a>```typescript
 public readonly validation: TerraformVariableValidationConfig[];
 ```* *Type:* <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>\[]* *Type:* <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>\[]*Type:* <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>\[]*Type:*Type: <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>[]Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.***### TerraformVariableValidationConfig <a name="TerraformVariableValidationConfig" id="cdktf.TerraformVariableValidationConfig"></a>TerraformVariableValidationConfig <a name="TerraformVariableValidationConfig" id="cdktf.TerraformVariableValidationConfig"></a>Add one or more validation blocks within the variable block to specify custom conditions.Add one or more validation blocks within the variable block to specify custom conditions.#### Initializer <a name="Initializer" id="cdktf.TerraformVariableValidationConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.TerraformVariableValidationConfig.Initializer"></a>```typescript
@@ -3122,16 +3188,22 @@ public readonly password: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: stringThe password to use for the connection.The password to use for the connection.***##### `port`<sup>Optional</sup> <a name="port" id="cdktf.WinrmProvisionerConnection.property.port"></a>`port`<sup>Optional</sup> <a name="port" id="cdktf.WinrmProvisionerConnection.property.port"></a>```typescript
 public readonly port: number;
 ```* *Type:* number
+
+
 * *Default:* 22* *Type:* number*Type:* number*Type:*Type: number* *Default:* 22*Default:* 22*Default:*Default: 22The port to connect to.The port to connect to.***##### `scriptPath`<sup>Optional</sup> <a name="scriptPath" id="cdktf.WinrmProvisionerConnection.property.scriptPath"></a>`scriptPath`<sup>Optional</sup> <a name="scriptPath" id="cdktf.WinrmProvisionerConnection.property.scriptPath"></a>```typescript
 public readonly scriptPath: string;
 ```* *Type:* string* *Type:* string*Type:* string*Type:*Type: stringThe path used to copy scripts meant for remote execution.The path used to copy scripts meant for remote execution.Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}***##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.WinrmProvisionerConnection.property.timeout"></a>`timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.WinrmProvisionerConnection.property.timeout"></a>```typescript
 public readonly timeout: string;
 ```* *Type:* string
+
+
 * *Default:* 5m* *Type:* string*Type:* string*Type:*Type: string* *Default:* 5m*Default:* 5m*Default:*Default: 5mThe timeout to wait for the connection to become available.The timeout to wait for the connection to become available.Should be provided as a string (e.g., "30s" or "5m".)Should be provided as a string (e.g., "30s" or "5m".)***##### `useNtlm`<sup>Optional</sup> <a name="useNtlm" id="cdktf.WinrmProvisionerConnection.property.useNtlm"></a>`useNtlm`<sup>Optional</sup> <a name="useNtlm" id="cdktf.WinrmProvisionerConnection.property.useNtlm"></a>```typescript
 public readonly useNtlm: boolean;
 ```* *Type:* boolean* *Type:* boolean*Type:* boolean*Type:*Type: booleanSet to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.***##### `user`<sup>Optional</sup> <a name="user" id="cdktf.WinrmProvisionerConnection.property.user"></a>`user`<sup>Optional</sup> <a name="user" id="cdktf.WinrmProvisionerConnection.property.user"></a>```typescript
 public readonly user: string;
 ```* *Type:* string
+
+
 * *Default:* root* *Type:* string*Type:* string*Type:*Type: string* *Default:* root*Default:* root*Default:*Default: rootThe user to use for the connection.The user to use for the connection.***
 
 ````

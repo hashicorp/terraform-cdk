@@ -36,19 +36,31 @@ stack_traces: bool = None
 | <code><a href="#cdktf.AppConfig.property.stackTraces">stack_traces</a></code> | <code>bool</code> | *No description.*No description. |***##### `context`<sup>Optional</sup> <a name="context" id="cdktf.AppConfig.property.context"></a>`context`<sup>Optional</sup> <a name="context" id="cdktf.AppConfig.property.context"></a>```python
 context: typing.Mapping[typing.Any]
 ```* *Type:* typing.Mapping\[typing.Any]
+
+
 * *Default:* no additional context* *Type:* typing.Mapping\[typing.Any]*Type:* typing.Mapping\[typing.Any]*Type:*Type: typing.Mapping[typing.Any]* *Default:* no additional context*Default:* no additional context*Default:*Default: no additional contextAdditional context values for the application.Additional context values for the application.Context set by the CLI or the `context` key in `cdktf.json` has precedence.Context set by the CLI or the `context` key in `cdktf.json` has precedence.Context can be read from any construct using `node.getContext(key)`.Context can be read from any construct using `node.getContext(key)`.***##### `hcl_output`<sup>Optional</sup> <a name="hcl_output" id="cdktf.AppConfig.property.hclOutput"></a>`hcl_output`<sup>Optional</sup> <a name="hcl_output" id="cdktf.AppConfig.property.hclOutput"></a>```python
 hcl_output: bool
 ```* *Type:* bool* *Type:* bool*Type:* bool*Type:*Type: bool***##### `outdir`<sup>Optional</sup> <a name="outdir" id="cdktf.AppConfig.property.outdir"></a>`outdir`<sup>Optional</sup> <a name="outdir" id="cdktf.AppConfig.property.outdir"></a>```python
 outdir: str
 ```* *Type:* str
+
+
 * *Default:* CDKTF\_OUTDIR if defined, otherwise "cdktf.out"* *Type:* str*Type:* str*Type:*Type: str* *Default:* CDKTF\_OUTDIR if defined, otherwise "cdktf.out"*Default:* CDKTF\_OUTDIR if defined, otherwise "cdktf.out"*Default:*Default: CDKTF_OUTDIR if defined, otherwise "cdktf.out"The directory to output Terraform resources.The directory to output Terraform resources.If you are using the CDKTF CLI, this value is automatically set from one of the following three sources:If you are using the CDKTF CLI, this value is automatically set from one of the following three sources:* The `-o` / `--output` CLI option
+
+
 * The `CDKTF_OUTDIR` environment variable
+
+
 * The `outdir` key in `cdktf.json`* The `-o` / `--output` CLI optionThe `-o` / `--output` CLI optionThe `-o` / `--output` CLI option* The `CDKTF_OUTDIR` environment variableThe `CDKTF_OUTDIR` environment variableThe `CDKTF_OUTDIR` environment variable* The `outdir` key in `cdktf.json`The `outdir` key in `cdktf.json`The `outdir` key in `cdktf.json`If you are using the CDKTF CLI and want to set a different value here, you will also need to set the same value via one of the three ways specified above.If you are using the CDKTF CLI and want to set a different value here, you will also need to set the same value via one of the three ways specified above.The most common case to set this value is when you are using the CDKTF library directly (e.g. when writing unit tests).The most common case to set this value is when you are using the CDKTF library directly (e.g. when writing unit tests).***##### `skip_backend_validation`<sup>Optional</sup> <a name="skip_backend_validation" id="cdktf.AppConfig.property.skipBackendValidation"></a>`skip_backend_validation`<sup>Optional</sup> <a name="skip_backend_validation" id="cdktf.AppConfig.property.skipBackendValidation"></a>```python
 skip_backend_validation: bool
 ```* *Type:* bool
+
+
 * *Default:* false* *Type:* bool*Type:* bool*Type:*Type: bool* *Default:* false*Default:* false*Default:*Default: falseWhether to skip backend validation during synthesis of the app.Whether to skip backend validation during synthesis of the app.***##### `skip_validation`<sup>Optional</sup> <a name="skip_validation" id="cdktf.AppConfig.property.skipValidation"></a>`skip_validation`<sup>Optional</sup> <a name="skip_validation" id="cdktf.AppConfig.property.skipValidation"></a>```python
 skip_validation: bool
 ```* *Type:* bool
+
+
 * *Default:* false* *Type:* bool*Type:* bool*Type:*Type: bool* *Default:* false*Default:* false*Default:*Default: falseWhether to skip all validations during synthesis of the app.Whether to skip all validations during synthesis of the app.***##### `stack_traces`<sup>Optional</sup> <a name="stack_traces" id="cdktf.AppConfig.property.stackTraces"></a>`stack_traces`<sup>Optional</sup> <a name="stack_traces" id="cdktf.AppConfig.property.stackTraces"></a>```python
 stack_traces: bool
 ```* *Type:* bool* *Type:* bool*Type:* bool*Type:*Type: bool***### AzurermBackendConfig <a name="AzurermBackendConfig" id="cdktf.AzurermBackendConfig"></a>AzurermBackendConfig <a name="AzurermBackendConfig" id="cdktf.AzurermBackendConfig"></a>Stores the state as a Blob with the given Key within the Blob Container within the Blob Storage Account.Stores the state as a Blob with the given Key within the Blob Container within the Blob Storage Account.This backend supports state locking and consistency checking
@@ -247,6 +259,8 @@ workspaces: typing.Union[NamedCloudWorkspace, TaggedCloudWorkspaces]
 ```* *Type:* typing.Union\[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]* *Type:* typing.Union\[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]*Type:* typing.Union\[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]*Type:*Type: typing.Union[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:***##### `hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackendConfig.property.hostname"></a>`hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackendConfig.property.hostname"></a>```python
 hostname: str
 ```* *Type:* str
+
+
 * *Default:* app.terraform.io* *Type:* str*Type:* str*Type:*Type: str* *Default:* app.terraform.io*Default:* app.terraform.io*Default:*Default: app.terraform.ioThe hostname of a Terraform Enterprise installation, if using Terraform Enterprise.The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.***##### `token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackendConfig.property.token"></a>`token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackendConfig.property.token"></a>```python
 token: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: strThe token used to authenticate with Terraform Cloud.The token used to authenticate with Terraform Cloud.We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.***### ConsulBackendConfig <a name="ConsulBackendConfig" id="cdktf.ConsulBackendConfig"></a>ConsulBackendConfig <a name="ConsulBackendConfig" id="cdktf.ConsulBackendConfig"></a>Stores the state in the Consul KV store at a given path. This backend supports state locking.Stores the state in the Consul KV store at a given path. This backend supports state locking.Read more about this backend in the Terraform docs:
@@ -1009,6 +1023,8 @@ workspace: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: str***##### `path`<sup>Optional</sup> <a name="path" id="cdktf.DataTerraformRemoteStateLocalConfig.property.path"></a>`path`<sup>Optional</sup> <a name="path" id="cdktf.DataTerraformRemoteStateLocalConfig.property.path"></a>```python
 path: str
 ```* *Type:* str
+
+
 * *Default:* defaults to terraform.${stackId}.tfstate* *Type:* str*Type:* str*Type:*Type: str* *Default:* defaults to terraform.${stackId}.tfstate*Default:* defaults to terraform.${stackId}.tfstate*Default:*Default: defaults to terraform.${stackId}.tfstatePath where the state file is stored.Path where the state file is stored.***##### `workspace_dir`<sup>Optional</sup> <a name="workspace_dir" id="cdktf.DataTerraformRemoteStateLocalConfig.property.workspaceDir"></a>`workspace_dir`<sup>Optional</sup> <a name="workspace_dir" id="cdktf.DataTerraformRemoteStateLocalConfig.property.workspaceDir"></a>```python
 workspace_dir: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: str(Optional) The path to non-default workspaces.(Optional) The path to non-default workspaces.***### DataTerraformRemoteStateOssConfig <a name="DataTerraformRemoteStateOssConfig" id="cdktf.DataTerraformRemoteStateOssConfig"></a>DataTerraformRemoteStateOssConfig <a name="DataTerraformRemoteStateOssConfig" id="cdktf.DataTerraformRemoteStateOssConfig"></a>#### Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateOssConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateOssConfig.Initializer"></a>```python
@@ -1462,8 +1478,14 @@ max_retries: typing.Union[int, float]
 ```* *Type:* typing.Union\[int, float]* *Type:* typing.Union\[int, float]*Type:* typing.Union\[int, float]*Type:*Type: typing.Union[int, float]\(Optional) The maximum number of times an AWS API request is retried on retryable failure.(Optional) The maximum number of times an AWS API request is retried on retryable failure.Defaults to 5.Defaults to 5.***##### `no_proxy`<sup>Optional</sup> <a name="no_proxy" id="cdktf.DataTerraformRemoteStateS3Config.property.noProxy"></a>`no_proxy`<sup>Optional</sup> <a name="no_proxy" id="cdktf.DataTerraformRemoteStateS3Config.property.noProxy"></a>```python
 no_proxy: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: str(Optional) Comma-separated list of hosts that should not use HTTP or HTTPS proxies.(Optional) Comma-separated list of hosts that should not use HTTP or HTTPS proxies.Each value can be one of:Each value can be one of:* A domain name
+
+
 * An IP address
+
+
 * A CIDR address
+
+
 * An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
   Can also be set using the NO\_PROXY or no\_proxy environment variables.* A domain nameA domain nameA domain name* An IP addressAn IP addressAn IP address* A CIDR addressA CIDR addressA CIDR address* An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
   Can also be set using the NO\_PROXY or no\_proxy environment variables.An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
@@ -1697,6 +1719,8 @@ cdktf.EncodingOptions(
 | <code><a href="#cdktf.EncodingOptions.property.displayHint">display_hint</a></code> | <code>str</code> | A hint for the Token's purpose when stringifying it. |***##### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.EncodingOptions.property.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.EncodingOptions.property.displayHint"></a>```python
 display_hint: str
 ```* *Type:* str
+
+
 * *Default:* no display hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* no display hint*Default:* no display hint*Default:*Default: no display hintA hint for the Token's purpose when stringifying it.A hint for the Token's purpose when stringifying it.***### FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>The file provisioner copies files or directories from the machine running Terraform to the newly created resource.The file provisioner copies files or directories from the machine running Terraform to the newly created resource.The file provisioner supports both ssh and winrm type connections.The file provisioner supports both ssh and winrm type connections.See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/file file}See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/file file}#### Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>```python
 import cdktf
 
@@ -1913,9 +1937,13 @@ cdktf.LazyAnyValueOptions(
 | <code><a href="#cdktf.LazyAnyValueOptions.property.omitEmptyArray">omit_empty_array</a></code> | <code>bool</code> | If the produced value is an array and it is empty, return 'undefined' instead. |***##### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.LazyAnyValueOptions.property.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.LazyAnyValueOptions.property.displayHint"></a>```python
 display_hint: str
 ```* *Type:* str
+
+
 * *Default:* No hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* No hint*Default:* No hint*Default:*Default: No hintUse the given name as a display hint.Use the given name as a display hint.***##### `omit_empty_array`<sup>Optional</sup> <a name="omit_empty_array" id="cdktf.LazyAnyValueOptions.property.omitEmptyArray"></a>`omit_empty_array`<sup>Optional</sup> <a name="omit_empty_array" id="cdktf.LazyAnyValueOptions.property.omitEmptyArray"></a>```python
 omit_empty_array: bool
 ```* *Type:* bool
+
+
 * *Default:* false* *Type:* bool*Type:* bool*Type:*Type: bool* *Default:* false*Default:* false*Default:*Default: falseIf the produced value is an array and it is empty, return 'undefined' instead.If the produced value is an array and it is empty, return 'undefined' instead.***### LazyListValueOptions <a name="LazyListValueOptions" id="cdktf.LazyListValueOptions"></a>LazyListValueOptions <a name="LazyListValueOptions" id="cdktf.LazyListValueOptions"></a>Options for creating a lazy list token.Options for creating a lazy list token.#### Initializer <a name="Initializer" id="cdktf.LazyListValueOptions.Initializer"></a>Initializer <a name="Initializer" id="cdktf.LazyListValueOptions.Initializer"></a>```python
 import cdktf
 
@@ -1932,9 +1960,13 @@ cdktf.LazyListValueOptions(
 | <code><a href="#cdktf.LazyListValueOptions.property.omitEmpty">omit_empty</a></code> | <code>bool</code> | If the produced list is empty, return 'undefined' instead. |***##### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.LazyListValueOptions.property.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.LazyListValueOptions.property.displayHint"></a>```python
 display_hint: str
 ```* *Type:* str
+
+
 * *Default:* No hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* No hint*Default:* No hint*Default:*Default: No hintUse the given name as a display hint.Use the given name as a display hint.***##### `omit_empty`<sup>Optional</sup> <a name="omit_empty" id="cdktf.LazyListValueOptions.property.omitEmpty"></a>`omit_empty`<sup>Optional</sup> <a name="omit_empty" id="cdktf.LazyListValueOptions.property.omitEmpty"></a>```python
 omit_empty: bool
 ```* *Type:* bool
+
+
 * *Default:* false* *Type:* bool*Type:* bool*Type:*Type: bool* *Default:* false*Default:* false*Default:*Default: falseIf the produced list is empty, return 'undefined' instead.If the produced list is empty, return 'undefined' instead.***### LazyStringValueOptions <a name="LazyStringValueOptions" id="cdktf.LazyStringValueOptions"></a>LazyStringValueOptions <a name="LazyStringValueOptions" id="cdktf.LazyStringValueOptions"></a>Options for creating a lazy string token.Options for creating a lazy string token.#### Initializer <a name="Initializer" id="cdktf.LazyStringValueOptions.Initializer"></a>Initializer <a name="Initializer" id="cdktf.LazyStringValueOptions.Initializer"></a>```python
 import cdktf
 
@@ -1948,6 +1980,8 @@ cdktf.LazyStringValueOptions(
 | <code><a href="#cdktf.LazyStringValueOptions.property.displayHint">display_hint</a></code> | <code>str</code> | Use the given name as a display hint. |***##### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.LazyStringValueOptions.property.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.LazyStringValueOptions.property.displayHint"></a>```python
 display_hint: str
 ```* *Type:* str
+
+
 * *Default:* No hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* No hint*Default:* No hint*Default:*Default: No hintUse the given name as a display hint.Use the given name as a display hint.***### LocalBackendConfig <a name="LocalBackendConfig" id="cdktf.LocalBackendConfig"></a>LocalBackendConfig <a name="LocalBackendConfig" id="cdktf.LocalBackendConfig"></a>The local backend stores state on the local filesystem, locks that state using system APIs, and performs operations locally.The local backend stores state on the local filesystem, locks that state using system APIs, and performs operations locally.Read more about this backend in the Terraform docs:
 https://developer.hashicorp.com/terraform/language/settings/backends/localRead more about this backend in the Terraform docs:
 https://developer.hashicorp.com/terraform/language/settings/backends/local#### Initializer <a name="Initializer" id="cdktf.LocalBackendConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.LocalBackendConfig.Initializer"></a>```python
@@ -1966,6 +2000,8 @@ cdktf.LocalBackendConfig(
 | <code><a href="#cdktf.LocalBackendConfig.property.workspaceDir">workspace_dir</a></code> | <code>str</code> | (Optional) The path to non-default workspaces. |***##### `path`<sup>Optional</sup> <a name="path" id="cdktf.LocalBackendConfig.property.path"></a>`path`<sup>Optional</sup> <a name="path" id="cdktf.LocalBackendConfig.property.path"></a>```python
 path: str
 ```* *Type:* str
+
+
 * *Default:* defaults to terraform.${stackId}.tfstate* *Type:* str*Type:* str*Type:*Type: str* *Default:* defaults to terraform.${stackId}.tfstate*Default:* defaults to terraform.${stackId}.tfstate*Default:*Default: defaults to terraform.${stackId}.tfstatePath where the state file is stored.Path where the state file is stored.***##### `workspace_dir`<sup>Optional</sup> <a name="workspace_dir" id="cdktf.LocalBackendConfig.property.workspaceDir"></a>`workspace_dir`<sup>Optional</sup> <a name="workspace_dir" id="cdktf.LocalBackendConfig.property.workspaceDir"></a>```python
 workspace_dir: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: str(Optional) The path to non-default workspaces.(Optional) The path to non-default workspaces.***### LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>The local-exec provisioner invokes a local executable after a resource is created.The local-exec provisioner invokes a local executable after a resource is created.This invokes a process on the machine running Terraform, not on the resource.This invokes a process on the machine running Terraform, not on the resource.See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec local-exec}See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec local-exec}#### Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>```python
@@ -2324,6 +2360,8 @@ scope: IConstruct
 ```* *Type:* constructs.IConstruct* *Type:* constructs.IConstruct*Type:* constructs.IConstruct*Type:*Type: constructs.IConstructThe scope from which resolution is performed.The scope from which resolution is performed.***##### `preparing`<sup>Optional</sup> <a name="preparing" id="cdktf.ResolveOptions.property.preparing"></a>`preparing`<sup>Optional</sup> <a name="preparing" id="cdktf.ResolveOptions.property.preparing"></a>```python
 preparing: bool
 ```* *Type:* bool
+
+
 * *Default:* false* *Type:* bool*Type:* bool*Type:*Type: bool* *Default:* false*Default:* false*Default:*Default: falseWhether the resolution is being executed during the prepare phase or not.Whether the resolution is being executed during the prepare phase or not.***### S3BackendAssumeRoleConfig <a name="S3BackendAssumeRoleConfig" id="cdktf.S3BackendAssumeRoleConfig"></a>S3BackendAssumeRoleConfig <a name="S3BackendAssumeRoleConfig" id="cdktf.S3BackendAssumeRoleConfig"></a>#### Initializer <a name="Initializer" id="cdktf.S3BackendAssumeRoleConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.S3BackendAssumeRoleConfig.Initializer"></a>```python
 import cdktf
 
@@ -2680,8 +2718,14 @@ max_retries: typing.Union[int, float]
 ```* *Type:* typing.Union\[int, float]* *Type:* typing.Union\[int, float]*Type:* typing.Union\[int, float]*Type:*Type: typing.Union[int, float]\(Optional) The maximum number of times an AWS API request is retried on retryable failure.(Optional) The maximum number of times an AWS API request is retried on retryable failure.Defaults to 5.Defaults to 5.***##### `no_proxy`<sup>Optional</sup> <a name="no_proxy" id="cdktf.S3BackendConfig.property.noProxy"></a>`no_proxy`<sup>Optional</sup> <a name="no_proxy" id="cdktf.S3BackendConfig.property.noProxy"></a>```python
 no_proxy: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: str(Optional) Comma-separated list of hosts that should not use HTTP or HTTPS proxies.(Optional) Comma-separated list of hosts that should not use HTTP or HTTPS proxies.Each value can be one of:Each value can be one of:* A domain name
+
+
 * An IP address
+
+
 * A CIDR address
+
+
 * An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
   Can also be set using the NO\_PROXY or no\_proxy environment variables.* A domain nameA domain nameA domain name* An IP addressAn IP addressAn IP address* A CIDR addressA CIDR addressA CIDR address* An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
   Can also be set using the NO\_PROXY or no\_proxy environment variables.An asterisk (\*), to indicate that no proxying should be performed Domain name and IP address values can also include a port number.
@@ -2903,6 +2947,8 @@ password: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: strThe password to use for the connection.The password to use for the connection.***##### `port`<sup>Optional</sup> <a name="port" id="cdktf.SSHProvisionerConnection.property.port"></a>`port`<sup>Optional</sup> <a name="port" id="cdktf.SSHProvisionerConnection.property.port"></a>```python
 port: typing.Union[int, float]
 ```* *Type:* typing.Union\[int, float]
+
+
 * *Default:* 22* *Type:* typing.Union\[int, float]*Type:* typing.Union\[int, float]*Type:*Type: typing.Union[int, float]* *Default:* 22*Default:* 22*Default:*Default: 22The port to connect to.The port to connect to.***##### `private_key`<sup>Optional</sup> <a name="private_key" id="cdktf.SSHProvisionerConnection.property.privateKey"></a>`private_key`<sup>Optional</sup> <a name="private_key" id="cdktf.SSHProvisionerConnection.property.privateKey"></a>```python
 private_key: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: strThe contents of an SSH key to use for the connection.The contents of an SSH key to use for the connection.These can be loaded from a file on disk using the file function.
@@ -2922,6 +2968,8 @@ script_path: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: strThe path used to copy scripts meant for remote execution.The path used to copy scripts meant for remote execution.Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}***##### `target_platform`<sup>Optional</sup> <a name="target_platform" id="cdktf.SSHProvisionerConnection.property.targetPlatform"></a>`target_platform`<sup>Optional</sup> <a name="target_platform" id="cdktf.SSHProvisionerConnection.property.targetPlatform"></a>```python
 target_platform: str
 ```* *Type:* str
+
+
 * *Default:* unix* *Type:* str*Type:* str*Type:*Type: str* *Default:* unix*Default:* unix*Default:*Default: unixThe target platform to connect to.The target platform to connect to.Valid values are "windows" and "unix".
 If the platform is set to windows, the default script\_path is c:\windows\temp\terraform\_%RAND%.cmd, assuming the SSH default shell is cmd.exe.
 If the SSH default shell is PowerShell, set script\_path to "c:/windows/temp/terraform\_%RAND%.ps1"Valid values are "windows" and "unix".
@@ -2929,9 +2977,13 @@ If the platform is set to windows, the default script_path is c:\windows\temp\te
 If the SSH default shell is PowerShell, set script_path to "c:/windows/temp/terraform_%RAND%.ps1"***##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.SSHProvisionerConnection.property.timeout"></a>`timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.SSHProvisionerConnection.property.timeout"></a>```python
 timeout: str
 ```* *Type:* str
+
+
 * *Default:* 5m* *Type:* str*Type:* str*Type:*Type: str* *Default:* 5m*Default:* 5m*Default:*Default: 5mThe timeout to wait for the connection to become available.The timeout to wait for the connection to become available.Should be provided as a string (e.g., "30s" or "5m".)Should be provided as a string (e.g., "30s" or "5m".)***##### `user`<sup>Optional</sup> <a name="user" id="cdktf.SSHProvisionerConnection.property.user"></a>`user`<sup>Optional</sup> <a name="user" id="cdktf.SSHProvisionerConnection.property.user"></a>```python
 user: str
 ```* *Type:* str
+
+
 * *Default:* root* *Type:* str*Type:* str*Type:*Type: str* *Default:* root*Default:* root*Default:*Default: rootThe user to use for the connection.The user to use for the connection.***### StackAnnotation <a name="StackAnnotation" id="cdktf.StackAnnotation"></a>StackAnnotation <a name="StackAnnotation" id="cdktf.StackAnnotation"></a>#### Initializer <a name="Initializer" id="cdktf.StackAnnotation.Initializer"></a>Initializer <a name="Initializer" id="cdktf.StackAnnotation.Initializer"></a>```python
 import cdktf
 
@@ -3419,6 +3471,8 @@ sensitive: bool
 ```* *Type:* bool* *Type:* bool*Type:* bool*Type:*Type: bool***##### `static_id`<sup>Optional</sup> <a name="static_id" id="cdktf.TerraformOutputConfig.property.staticId"></a>`static_id`<sup>Optional</sup> <a name="static_id" id="cdktf.TerraformOutputConfig.property.staticId"></a>```python
 static_id: bool
 ```* *Type:* bool
+
+
 * *Default:* false* *Type:* bool*Type:* bool*Type:*Type: bool* *Default:* false*Default:* false*Default:*Default: falseIf set to true the synthesized Terraform Output will be named after the `id` passed to the constructor instead of the default (TerraformOutput.friendlyUniqueId).If set to true the synthesized Terraform Output will be named after the `id` passed to the constructor instead of the default (TerraformOutput.friendlyUniqueId).***### TerraformProviderConfig <a name="TerraformProviderConfig" id="cdktf.TerraformProviderConfig"></a>TerraformProviderConfig <a name="TerraformProviderConfig" id="cdktf.TerraformProviderConfig"></a>#### Initializer <a name="Initializer" id="cdktf.TerraformProviderConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.TerraformProviderConfig.Initializer"></a>```python
 import cdktf
 
@@ -3666,11 +3720,23 @@ sensitive: bool
 ```* *Type:* bool* *Type:* bool*Type:* bool*Type:*Type: bool***##### `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformVariableConfig.property.type"></a>`type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformVariableConfig.property.type"></a>```python
 type: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: strThe type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.If no type constraint is set then a value of any type is accepted.If no type constraint is set then a value of any type is accepted.While type constraints are optional, we recommend specifying them; they serve as easy reminders for users of the module, and allow Terraform to return a helpful error message if the wrong type is used.While type constraints are optional, we recommend specifying them; they serve as easy reminders for users of the module, and allow Terraform to return a helpful error message if the wrong type is used.Type constraints are created from a mixture of type keywords and type constructors. The supported type keywords are:Type constraints are created from a mixture of type keywords and type constructors. The supported type keywords are:* string
+
+
 * number
+
+
 * bool* stringstringstring* numbernumbernumber* boolboolboolThe type constructors allow you to specify complex types such as collections:The type constructors allow you to specify complex types such as collections:* list(< TYPE >)
+
+
 * set(< TYPE >)
+
+
 * map(< TYPE >)
+
+
 * object({< ATTR NAME > = < TYPE >, ... })
+
+
 * tuple(\[< TYPE >, ...])* list(< TYPE >)list(< TYPE >)list(< TYPE >)* set(< TYPE >)set(< TYPE >)set(< TYPE >)* map(< TYPE >)map(< TYPE >)map(< TYPE >)* object({< ATTR NAME > = < TYPE >, ... })object({< ATTR NAME > = < TYPE >, ... })object({< ATTR NAME > = < TYPE >, ... })* tuple(\[< TYPE >, ...])tuple(\[< TYPE >, ...])tuple([< TYPE >, ...])The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, refer to {@link https://developer.hashicorp.com/terraform/language/expressions/type-constraints Type Constraints}.The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, refer to {@link https://developer.hashicorp.com/terraform/language/expressions/type-constraints Type Constraints}.If both the type and default arguments are specified, the given default value must be convertible to the specified type.If both the type and default arguments are specified, the given default value must be convertible to the specified type.***##### `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariableConfig.property.validation"></a>`validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariableConfig.property.validation"></a>```python
 validation: typing.List[TerraformVariableValidationConfig]
 ```* *Type:* typing.List\[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]* *Type:* typing.List\[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]*Type:* typing.List\[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]*Type:*Type: typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.***### TerraformVariableValidationConfig <a name="TerraformVariableValidationConfig" id="cdktf.TerraformVariableValidationConfig"></a>TerraformVariableValidationConfig <a name="TerraformVariableValidationConfig" id="cdktf.TerraformVariableValidationConfig"></a>Add one or more validation blocks within the variable block to specify custom conditions.Add one or more validation blocks within the variable block to specify custom conditions.#### Initializer <a name="Initializer" id="cdktf.TerraformVariableValidationConfig.Initializer"></a>Initializer <a name="Initializer" id="cdktf.TerraformVariableValidationConfig.Initializer"></a>```python
@@ -3786,16 +3852,22 @@ password: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: strThe password to use for the connection.The password to use for the connection.***##### `port`<sup>Optional</sup> <a name="port" id="cdktf.WinrmProvisionerConnection.property.port"></a>`port`<sup>Optional</sup> <a name="port" id="cdktf.WinrmProvisionerConnection.property.port"></a>```python
 port: typing.Union[int, float]
 ```* *Type:* typing.Union\[int, float]
+
+
 * *Default:* 22* *Type:* typing.Union\[int, float]*Type:* typing.Union\[int, float]*Type:*Type: typing.Union[int, float]* *Default:* 22*Default:* 22*Default:*Default: 22The port to connect to.The port to connect to.***##### `script_path`<sup>Optional</sup> <a name="script_path" id="cdktf.WinrmProvisionerConnection.property.scriptPath"></a>`script_path`<sup>Optional</sup> <a name="script_path" id="cdktf.WinrmProvisionerConnection.property.scriptPath"></a>```python
 script_path: str
 ```* *Type:* str* *Type:* str*Type:* str*Type:*Type: strThe path used to copy scripts meant for remote execution.The path used to copy scripts meant for remote execution.Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}***##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.WinrmProvisionerConnection.property.timeout"></a>`timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.WinrmProvisionerConnection.property.timeout"></a>```python
 timeout: str
 ```* *Type:* str
+
+
 * *Default:* 5m* *Type:* str*Type:* str*Type:*Type: str* *Default:* 5m*Default:* 5m*Default:*Default: 5mThe timeout to wait for the connection to become available.The timeout to wait for the connection to become available.Should be provided as a string (e.g., "30s" or "5m".)Should be provided as a string (e.g., "30s" or "5m".)***##### `use_ntlm`<sup>Optional</sup> <a name="use_ntlm" id="cdktf.WinrmProvisionerConnection.property.useNtlm"></a>`use_ntlm`<sup>Optional</sup> <a name="use_ntlm" id="cdktf.WinrmProvisionerConnection.property.useNtlm"></a>```python
 use_ntlm: bool
 ```* *Type:* bool* *Type:* bool*Type:* bool*Type:*Type: boolSet to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.***##### `user`<sup>Optional</sup> <a name="user" id="cdktf.WinrmProvisionerConnection.property.user"></a>`user`<sup>Optional</sup> <a name="user" id="cdktf.WinrmProvisionerConnection.property.user"></a>```python
 user: str
 ```* *Type:* str
+
+
 * *Default:* root* *Type:* str*Type:* str*Type:*Type: str* *Default:* root*Default:* root*Default:*Default: rootThe user to use for the connection.The user to use for the connection.***
 
 ````
