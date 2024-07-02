@@ -165,7 +165,7 @@ import { Documentation, Language } from "jsii-docgen";
       return function (tree) {
         visit(tree, function (node) {
           if (node.type === "heading") {
-            node.depth--;
+            node.depth = Math.max(1, node.depth - 1);
           }
         });
       };
