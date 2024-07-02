@@ -3106,7 +3106,11 @@ cdktf.Lazy.any_value(
   omit_empty_array: bool = None
 )
 ```Produces a lazy token from an untyped value.Produces a lazy token from an untyped value.###### `producer`<sup>Required</sup> <a name="producer" id="cdktf.Lazy.anyValue.parameter.producer"></a>`producer`<sup>Required</sup> <a name="producer" id="cdktf.Lazy.anyValue.parameter.producer"></a>* *Type:* <a href="#cdktf.IAnyProducer">IAnyProducer</a>* *Type:* <a href="#cdktf.IAnyProducer">IAnyProducer</a>*Type:* <a href="#cdktf.IAnyProducer">IAnyProducer</a>*Type:*Type: <a href="#cdktf.IAnyProducer">IAnyProducer</a>The lazy producer.The lazy producer.***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Lazy.anyValue.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Lazy.anyValue.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* No hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* No hint*Default:* No hint*Default:*Default: No hintUse the given name as a display hint.Use the given name as a display hint.***###### `omit_empty_array`<sup>Optional</sup> <a name="omit_empty_array" id="cdktf.Lazy.anyValue.parameter.omitEmptyArray"></a>`omit_empty_array`<sup>Optional</sup> <a name="omit_empty_array" id="cdktf.Lazy.anyValue.parameter.omitEmptyArray"></a>* *Type:* bool
+
+
 * *Default:* false* *Type:* bool*Type:* bool*Type:*Type: bool* *Default:* false*Default:* false*Default:*Default: falseIf the produced value is an array and it is empty, return 'undefined' instead.If the produced value is an array and it is empty, return 'undefined' instead.***##### `list_value` <a name="list_value" id="cdktf.Lazy.listValue"></a>`list_value` <a name="list_value" id="cdktf.Lazy.listValue"></a>```python
 import cdktf
 
@@ -3116,7 +3120,11 @@ cdktf.Lazy.list_value(
   omit_empty: bool = None
 )
 ```Returns a list-ified token for a lazy value.Returns a list-ified token for a lazy value.###### `producer`<sup>Required</sup> <a name="producer" id="cdktf.Lazy.listValue.parameter.producer"></a>`producer`<sup>Required</sup> <a name="producer" id="cdktf.Lazy.listValue.parameter.producer"></a>* *Type:* <a href="#cdktf.IListProducer">IListProducer</a>* *Type:* <a href="#cdktf.IListProducer">IListProducer</a>*Type:* <a href="#cdktf.IListProducer">IListProducer</a>*Type:*Type: <a href="#cdktf.IListProducer">IListProducer</a>The producer.The producer.***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Lazy.listValue.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Lazy.listValue.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* No hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* No hint*Default:* No hint*Default:*Default: No hintUse the given name as a display hint.Use the given name as a display hint.***###### `omit_empty`<sup>Optional</sup> <a name="omit_empty" id="cdktf.Lazy.listValue.parameter.omitEmpty"></a>`omit_empty`<sup>Optional</sup> <a name="omit_empty" id="cdktf.Lazy.listValue.parameter.omitEmpty"></a>* *Type:* bool
+
+
 * *Default:* false* *Type:* bool*Type:* bool*Type:*Type: bool* *Default:* false*Default:* false*Default:*Default: falseIf the produced list is empty, return 'undefined' instead.If the produced list is empty, return 'undefined' instead.***##### `number_value` <a name="number_value" id="cdktf.Lazy.numberValue"></a>`number_value` <a name="number_value" id="cdktf.Lazy.numberValue"></a>```python
 import cdktf
 
@@ -3131,6 +3139,8 @@ cdktf.Lazy.string_value(
   display_hint: str = None
 )
 ```Returns a stringified token for a lazy value.Returns a stringified token for a lazy value.###### `producer`<sup>Required</sup> <a name="producer" id="cdktf.Lazy.stringValue.parameter.producer"></a>`producer`<sup>Required</sup> <a name="producer" id="cdktf.Lazy.stringValue.parameter.producer"></a>* *Type:* <a href="#cdktf.IStringProducer">IStringProducer</a>* *Type:* <a href="#cdktf.IStringProducer">IStringProducer</a>*Type:* <a href="#cdktf.IStringProducer">IStringProducer</a>*Type:*Type: <a href="#cdktf.IStringProducer">IStringProducer</a>The producer.The producer.***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Lazy.stringValue.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Lazy.stringValue.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* No hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* No hint*Default:* No hint*Default:*Default: No hintUse the given name as a display hint.Use the given name as a display hint.***### LazyBase <a name="LazyBase" id="cdktf.LazyBase"></a>LazyBase <a name="LazyBase" id="cdktf.LazyBase"></a>* *Implements:* <a href="#cdktf.IResolvable">IResolvable</a>* *Implements:* <a href="#cdktf.IResolvable">IResolvable</a>*Implements:* <a href="#cdktf.IResolvable">IResolvable</a>*Implements:*Implements: <a href="#cdktf.IResolvable">IResolvable</a>#### Initializers <a name="Initializers" id="cdktf.LazyBase.Initializer"></a>Initializers <a name="Initializers" id="cdktf.LazyBase.Initializer"></a>```python
 import cdktf
 
@@ -5125,6 +5135,8 @@ cdktf.Token.as_any_map(
   display_hint: str = None
 )
 ```Return a reversible map representation of this token.Return a reversible map representation of this token.###### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asAnyMap.parameter.value"></a>`value`<sup>Required</sup> <a name="value" id="cdktf.Token.asAnyMap.parameter.value"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.Any***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asAnyMap.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asAnyMap.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* no display hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* no display hint*Default:* no display hint*Default:*Default: no display hintA hint for the Token's purpose when stringifying it.A hint for the Token's purpose when stringifying it.***##### `as_boolean_map` <a name="as_boolean_map" id="cdktf.Token.asBooleanMap"></a>`as_boolean_map` <a name="as_boolean_map" id="cdktf.Token.asBooleanMap"></a>```python
 import cdktf
 
@@ -5133,6 +5145,8 @@ cdktf.Token.as_boolean_map(
   display_hint: str = None
 )
 ```Return a reversible map representation of this token.Return a reversible map representation of this token.###### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asBooleanMap.parameter.value"></a>`value`<sup>Required</sup> <a name="value" id="cdktf.Token.asBooleanMap.parameter.value"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.Any***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asBooleanMap.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asBooleanMap.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* no display hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* no display hint*Default:* no display hint*Default:*Default: no display hintA hint for the Token's purpose when stringifying it.A hint for the Token's purpose when stringifying it.***##### `as_list` <a name="as_list" id="cdktf.Token.asList"></a>`as_list` <a name="as_list" id="cdktf.Token.asList"></a>```python
 import cdktf
 
@@ -5141,6 +5155,8 @@ cdktf.Token.as_list(
   display_hint: str = None
 )
 ```Return a reversible list representation of this token.Return a reversible list representation of this token.###### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asList.parameter.value"></a>`value`<sup>Required</sup> <a name="value" id="cdktf.Token.asList.parameter.value"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.Any***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asList.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asList.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* no display hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* no display hint*Default:* no display hint*Default:*Default: no display hintA hint for the Token's purpose when stringifying it.A hint for the Token's purpose when stringifying it.***##### `as_map` <a name="as_map" id="cdktf.Token.asMap"></a>`as_map` <a name="as_map" id="cdktf.Token.asMap"></a>```python
 import cdktf
 
@@ -5150,6 +5166,8 @@ cdktf.Token.as_map(
   display_hint: str = None
 )
 ```Return a reversible map representation of this token.Return a reversible map representation of this token.###### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asMap.parameter.value"></a>`value`<sup>Required</sup> <a name="value" id="cdktf.Token.asMap.parameter.value"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.Any***###### `map_value`<sup>Required</sup> <a name="map_value" id="cdktf.Token.asMap.parameter.mapValue"></a>`map_value`<sup>Required</sup> <a name="map_value" id="cdktf.Token.asMap.parameter.mapValue"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.Any***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asMap.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asMap.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* no display hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* no display hint*Default:* no display hint*Default:*Default: no display hintA hint for the Token's purpose when stringifying it.A hint for the Token's purpose when stringifying it.***##### `as_number` <a name="as_number" id="cdktf.Token.asNumber"></a>`as_number` <a name="as_number" id="cdktf.Token.asNumber"></a>```python
 import cdktf
 
@@ -5170,6 +5188,8 @@ cdktf.Token.as_number_map(
   display_hint: str = None
 )
 ```Return a reversible map representation of this token.Return a reversible map representation of this token.###### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asNumberMap.parameter.value"></a>`value`<sup>Required</sup> <a name="value" id="cdktf.Token.asNumberMap.parameter.value"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.Any***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asNumberMap.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asNumberMap.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* no display hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* no display hint*Default:* no display hint*Default:*Default: no display hintA hint for the Token's purpose when stringifying it.A hint for the Token's purpose when stringifying it.***##### `as_string` <a name="as_string" id="cdktf.Token.asString"></a>`as_string` <a name="as_string" id="cdktf.Token.asString"></a>```python
 import cdktf
 
@@ -5186,6 +5206,8 @@ complex values with the Tokens restored by calling `resolve()`
 on the string.Strings with quoted Tokens in them can be restored back into
 complex values with the Tokens restored by calling `resolve()`
 on the string.###### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asString.parameter.value"></a>`value`<sup>Required</sup> <a name="value" id="cdktf.Token.asString.parameter.value"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.Any***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asString.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asString.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* no display hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* no display hint*Default:* no display hint*Default:*Default: no display hintA hint for the Token's purpose when stringifying it.A hint for the Token's purpose when stringifying it.***##### `as_string_map` <a name="as_string_map" id="cdktf.Token.asStringMap"></a>`as_string_map` <a name="as_string_map" id="cdktf.Token.asStringMap"></a>```python
 import cdktf
 
@@ -5194,6 +5216,8 @@ cdktf.Token.as_string_map(
   display_hint: str = None
 )
 ```Return a reversible map representation of this token.Return a reversible map representation of this token.###### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asStringMap.parameter.value"></a>`value`<sup>Required</sup> <a name="value" id="cdktf.Token.asStringMap.parameter.value"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.Any***###### `display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asStringMap.parameter.displayHint"></a>`display_hint`<sup>Optional</sup> <a name="display_hint" id="cdktf.Token.asStringMap.parameter.displayHint"></a>* *Type:* str
+
+
 * *Default:* no display hint* *Type:* str*Type:* str*Type:*Type: str* *Default:* no display hint*Default:* no display hint*Default:*Default: no display hintA hint for the Token's purpose when stringifying it.A hint for the Token's purpose when stringifying it.***##### `is_unresolved` <a name="is_unresolved" id="cdktf.Token.isUnresolved"></a>`is_unresolved` <a name="is_unresolved" id="cdktf.Token.isUnresolved"></a>```python
 import cdktf
 
@@ -5201,7 +5225,11 @@ cdktf.Token.is_unresolved(
   obj: typing.Any
 )
 ```Returns true if obj represents an unresolved value.Returns true if obj represents an unresolved value.One of these must be true:One of these must be true:* `obj` is an IResolvable
+
+
 * `obj` is a string containing at least one encoded `IResolvable`
+
+
 * `obj` is either an encoded number or list* `obj` is an IResolvable`obj` is an IResolvable`obj` is an IResolvable* `obj` is a string containing at least one encoded `IResolvable``obj` is a string containing at least one encoded `IResolvable``obj` is a string containing at least one encoded `IResolvable`* `obj` is either an encoded number or list`obj` is either an encoded number or list`obj` is either an encoded number or listThis does NOT recurse into lists or objects to see if they
 containing resolvables.This does NOT recurse into lists or objects to see if they
 containing resolvables.###### `obj`<sup>Required</sup> <a name="obj" id="cdktf.Token.isUnresolved.parameter.obj"></a>`obj`<sup>Required</sup> <a name="obj" id="cdktf.Token.isUnresolved.parameter.obj"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.AnyThe object to test.The object to test.***##### `null_value` <a name="null_value" id="cdktf.Token.nullValue"></a>`null_value` <a name="null_value" id="cdktf.Token.nullValue"></a>```python
@@ -5272,6 +5300,8 @@ cdktf.Tokenization.resolve(
   preparing: bool = None
 )
 ```Resolves an object by evaluating all tokens and removing any undefined or empty objects or arrays.Resolves an object by evaluating all tokens and removing any undefined or empty objects or arrays.Values can only be primitives, arrays or tokens. Other objects (i.e. with methods) will be rejected.Values can only be primitives, arrays or tokens. Other objects (i.e. with methods) will be rejected.###### `obj`<sup>Required</sup> <a name="obj" id="cdktf.Tokenization.resolve.parameter.obj"></a>`obj`<sup>Required</sup> <a name="obj" id="cdktf.Tokenization.resolve.parameter.obj"></a>* *Type:* typing.Any* *Type:* typing.Any*Type:* typing.Any*Type:*Type: typing.AnyThe object to resolve.The object to resolve.***###### `resolver`<sup>Required</sup> <a name="resolver" id="cdktf.Tokenization.resolve.parameter.resolver"></a>`resolver`<sup>Required</sup> <a name="resolver" id="cdktf.Tokenization.resolve.parameter.resolver"></a>* *Type:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>* *Type:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>*Type:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>*Type:*Type: <a href="#cdktf.ITokenResolver">ITokenResolver</a>The resolver to apply to any resolvable tokens found.The resolver to apply to any resolvable tokens found.***###### `scope`<sup>Required</sup> <a name="scope" id="cdktf.Tokenization.resolve.parameter.scope"></a>`scope`<sup>Required</sup> <a name="scope" id="cdktf.Tokenization.resolve.parameter.scope"></a>* *Type:* constructs.IConstruct* *Type:* constructs.IConstruct*Type:* constructs.IConstruct*Type:*Type: constructs.IConstructThe scope from which resolution is performed.The scope from which resolution is performed.***###### `preparing`<sup>Optional</sup> <a name="preparing" id="cdktf.Tokenization.resolve.parameter.preparing"></a>`preparing`<sup>Optional</sup> <a name="preparing" id="cdktf.Tokenization.resolve.parameter.preparing"></a>* *Type:* bool
+
+
 * *Default:* false* *Type:* bool*Type:* bool*Type:*Type: bool* *Default:* false*Default:* false*Default:*Default: falseWhether the resolution is being executed during the prepare phase or not.Whether the resolution is being executed during the prepare phase or not.***##### `reverse` <a name="reverse" id="cdktf.Tokenization.reverse"></a>`reverse` <a name="reverse" id="cdktf.Tokenization.reverse"></a>```python
 import cdktf
 
