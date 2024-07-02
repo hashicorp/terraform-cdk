@@ -141,9 +141,12 @@ description: CDKTF Core API Reference for ${topic} in ${lang}.
 
 <!-- This file is generated through yarn generate-docs -->
 
-# ${topic} Reference for ${lang}
-
-${replaceAngleBracketsInDocumentation(content)}
+${replaceAngleBracketsInDocumentation(
+  content.replace(
+    `## ${topic} <a name="${topic}" id="${topic}"></a>`,
+    `# ${topic} <a name="${topic}" id="${topic}"></a>`
+  )
+)}
 `;
 
   const assembliesDir = path.resolve(
