@@ -144,7 +144,7 @@ description: CDKTF Core API Reference for ${topic} in ${lang}.
 ${replaceAngleBracketsInDocumentation(
   content.replace(
     `## ${topic} <a name="${topic}" id="${topic}"></a>`,
-    `# ${topic} <a name="${topic}" id="${topic}"></a>`
+    `# ${lang}: ${topic} <a name="${topic}" id="${topic}"></a>`
   )
 )}
 `;
