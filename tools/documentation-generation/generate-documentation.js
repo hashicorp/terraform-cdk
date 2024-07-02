@@ -106,7 +106,7 @@ import { Documentation, Language } from "jsii-docgen";
           if (startPosition != undefined) {
             // We want to stop on the next h2
             if (isH2(node) && endPosition == undefined) {
-              endPosition = node.position.end.offset;
+              endPosition = node.position.start.offset - 1;
             }
           } else {
             if (isH2(node) && hasContent(node, topic)) {
