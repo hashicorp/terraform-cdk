@@ -1,0 +1,1013 @@
+---
+page_title: Python Reference for Protocols
+description: CDKTF Core API Reference for Protocols in Python.
+---
+
+<!-- This file is generated through yarn generate-docs -->
+
+# Python: Protocols <a name="Protocols" id="Protocols"></a>
+
+### IAnyProducer <a name="IAnyProducer" id="cdktf.IAnyProducer"></a>
+
+- _Implemented By:_ <a href="#cdktf.IAnyProducer">IAnyProducer</a>
+
+Interface for lazy untyped value producers.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                       | **Description**    |
+| -------------------------------------------------------------- | ------------------ |
+| <code><a href="#cdktf.IAnyProducer.produce">produce</a></code> | Produce the value. |
+
+---
+
+##### `produce` <a name="produce" id="cdktf.IAnyProducer.produce"></a>
+
+```python
+def produce(
+  context: IResolveContext
+) - > typing.Any
+```
+
+Produce the value.
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.IAnyProducer.produce.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IAspect <a name="IAspect" id="cdktf.IAspect"></a>
+
+- _Implemented By:_ <a href="#cdktf.MigrateIds">MigrateIds</a>, <a href="#cdktf.IAspect">IAspect</a>
+
+Represents an Aspect.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                              | **Description**                      |
+| ----------------------------------------------------- | ------------------------------------ |
+| <code><a href="#cdktf.IAspect.visit">visit</a></code> | All aspects can visit an IConstruct. |
+
+---
+
+##### `visit` <a name="visit" id="cdktf.IAspect.visit"></a>
+
+```python
+def visit(
+  node: IConstruct
+) - > None
+```
+
+All aspects can visit an IConstruct.
+
+###### `node`<sup>Required</sup> <a name="node" id="cdktf.IAspect.visit.parameter.node"></a>
+
+- _Type:_ constructs.IConstruct
+
+---
+
+### IFragmentConcatenator <a name="IFragmentConcatenator" id="cdktf.IFragmentConcatenator"></a>
+
+- _Implemented By:_ <a href="#cdktf.StringConcat">StringConcat</a>, <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
+
+Function used to concatenate symbols in the target document language.
+
+Interface so it could potentially be exposed over jsii.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                          | **Description**                                 |
+| ----------------------------------------------------------------- | ----------------------------------------------- |
+| <code><a href="#cdktf.IFragmentConcatenator.join">join</a></code> | Join the fragment on the left and on the right. |
+
+---
+
+##### `join` <a name="join" id="cdktf.IFragmentConcatenator.join"></a>
+
+```python
+def join(
+  left: typing.Any,
+  right: typing.Any
+) - > typing.Any
+```
+
+Join the fragment on the left and on the right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.IFragmentConcatenator.join.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.IFragmentConcatenator.join.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+### IImportableConfig <a name="IImportableConfig" id="cdktf.IImportableConfig"></a>
+
+- _Implemented By:_ <a href="#cdktf.IImportableConfig">IImportableConfig</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                   | **Type**                                                              | **Description**   |
+| ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.IImportableConfig.property.importId">import_id</a></code>                            | <code>str</code>                                                      | _No description._ |
+| <code><a href="#cdktf.IImportableConfig.property.terraformResourceType">terraform_resource_type</a></code> | <code>str</code>                                                      | _No description._ |
+| <code><a href="#cdktf.IImportableConfig.property.provider">provider</a></code>                             | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | _No description._ |
+
+---
+
+##### `import_id`<sup>Required</sup> <a name="import_id" id="cdktf.IImportableConfig.property.importId"></a>
+
+```python
+import_id: str
+```
+
+- _Type:_ str
+
+---
+
+##### `terraform_resource_type`<sup>Required</sup> <a name="terraform_resource_type" id="cdktf.IImportableConfig.property.terraformResourceType"></a>
+
+```python
+terraform_resource_type: str
+```
+
+- _Type:_ str
+
+---
+
+##### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.IImportableConfig.property.provider"></a>
+
+```python
+provider: TerraformProvider
+```
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+### IInterpolatingParent <a name="IInterpolatingParent" id="cdktf.IInterpolatingParent"></a>
+
+- _Implemented By:_ <a href="#cdktf.AnyMapList">AnyMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.ComplexComputedList">ComplexComputedList</a>, <a href="#cdktf.ComplexObject">ComplexObject</a>, <a href="#cdktf.DataResource">DataResource</a>, <a href="#cdktf.MapList">MapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                                     | **Description**   |
+| ------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.IInterpolatingParent.interpolationForAttribute">interpolation_for_attribute</a></code> | _No description._ |
+
+---
+
+##### `interpolation_for_attribute` <a name="interpolation_for_attribute" id="cdktf.IInterpolatingParent.interpolationForAttribute"></a>
+
+```python
+def interpolation_for_attribute(
+  terraform_attribute: str
+) - > IResolvable
+```
+
+###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.IInterpolatingParent.interpolationForAttribute.parameter.terraformAttribute"></a>
+
+- _Type:_ str
+
+---
+
+### IListProducer <a name="IListProducer" id="cdktf.IListProducer"></a>
+
+- _Implemented By:_ <a href="#cdktf.IListProducer">IListProducer</a>
+
+Interface for lazy list producers.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                        | **Description**         |
+| --------------------------------------------------------------- | ----------------------- |
+| <code><a href="#cdktf.IListProducer.produce">produce</a></code> | Produce the list value. |
+
+---
+
+##### `produce` <a name="produce" id="cdktf.IListProducer.produce"></a>
+
+```python
+def produce(
+  context: IResolveContext
+) - > typing.List[str]
+```
+
+Produce the list value.
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.IListProducer.produce.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IManifest <a name="IManifest" id="cdktf.IManifest"></a>
+
+- _Implemented By:_ <a href="#cdktf.Manifest">Manifest</a>, <a href="#cdktf.IManifest">IManifest</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                             | **Type**                                                                      | **Description**   |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.IManifest.property.stacks">stacks</a></code>   | <code>typing.Mapping[<a href="#cdktf.StackManifest">StackManifest</a>]</code> | _No description._ |
+| <code><a href="#cdktf.IManifest.property.version">version</a></code> | <code>str</code>                                                              | _No description._ |
+
+---
+
+##### `stacks`<sup>Required</sup> <a name="stacks" id="cdktf.IManifest.property.stacks"></a>
+
+```python
+stacks: typing.Mapping[StackManifest]
+```
+
+- _Type:_ typing.Mapping[<a href="#cdktf.StackManifest">StackManifest</a>]
+
+---
+
+##### `version`<sup>Required</sup> <a name="version" id="cdktf.IManifest.property.version"></a>
+
+```python
+version: str
+```
+
+- _Type:_ str
+
+---
+
+### INumberProducer <a name="INumberProducer" id="cdktf.INumberProducer"></a>
+
+- _Implemented By:_ <a href="#cdktf.INumberProducer">INumberProducer</a>
+
+Interface for lazy number producers.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                          | **Description**           |
+| ----------------------------------------------------------------- | ------------------------- |
+| <code><a href="#cdktf.INumberProducer.produce">produce</a></code> | Produce the number value. |
+
+---
+
+##### `produce` <a name="produce" id="cdktf.INumberProducer.produce"></a>
+
+```python
+def produce(
+  context: IResolveContext
+) - > typing.Union[int, float]
+```
+
+Produce the number value.
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.INumberProducer.produce.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IPostProcessor <a name="IPostProcessor" id="cdktf.IPostProcessor"></a>
+
+- _Implemented By:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+A Token that can post-process the complete resolved value, after resolve() has recursed over it.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                  | **Description**                                                                      |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.IPostProcessor.postProcess">post_process</a></code> | Process the completely resolved value, after full recursion/resolution has happened. |
+
+---
+
+##### `post_process` <a name="post_process" id="cdktf.IPostProcessor.postProcess"></a>
+
+```python
+def post_process(
+  input: typing.Any,
+  context: IResolveContext
+) - > typing.Any
+```
+
+Process the completely resolved value, after full recursion/resolution has happened.
+
+###### `input`<sup>Required</sup> <a name="input" id="cdktf.IPostProcessor.postProcess.parameter.input"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.IPostProcessor.postProcess.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IRemoteWorkspace <a name="IRemoteWorkspace" id="cdktf.IRemoteWorkspace"></a>
+
+- _Implemented By:_ <a href="#cdktf.NamedRemoteWorkspace">NamedRemoteWorkspace</a>, <a href="#cdktf.PrefixedRemoteWorkspaces">PrefixedRemoteWorkspaces</a>, <a href="#cdktf.IRemoteWorkspace">IRemoteWorkspace</a>
+
+### IResolvable <a name="IResolvable" id="cdktf.IResolvable"></a>
+
+- _Implemented By:_ <a href="#cdktf.AnyListList">AnyListList</a>, <a href="#cdktf.AnyListMap">AnyListMap</a>, <a href="#cdktf.AnyMap">AnyMap</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, <a href="#cdktf.BooleanList">BooleanList</a>, <a href="#cdktf.BooleanListList">BooleanListList</a>, <a href="#cdktf.BooleanListMap">BooleanListMap</a>, <a href="#cdktf.BooleanMap">BooleanMap</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.ComplexComputedList">ComplexComputedList</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.ComplexMap">ComplexMap</a>, <a href="#cdktf.ComplexObject">ComplexObject</a>, <a href="#cdktf.LazyBase">LazyBase</a>, <a href="#cdktf.MapList">MapList</a>, <a href="#cdktf.NumberListList">NumberListList</a>, <a href="#cdktf.NumberListMap">NumberListMap</a>, <a href="#cdktf.NumberMap">NumberMap</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.StringListList">StringListList</a>, <a href="#cdktf.StringListMap">StringListMap</a>, <a href="#cdktf.StringMap">StringMap</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.IResolvable">IResolvable</a>
+
+Interface for values that can be resolvable later.
+
+Tokens are special objects that participate in synthesis.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                         | **Description**                                           |
+| ---------------------------------------------------------------- | --------------------------------------------------------- |
+| <code><a href="#cdktf.IResolvable.resolve">resolve</a></code>    | Produce the Token's value at resolution time.             |
+| <code><a href="#cdktf.IResolvable.toString">to_string</a></code> | Return a string representation of this resolvable object. |
+
+---
+
+##### `resolve` <a name="resolve" id="cdktf.IResolvable.resolve"></a>
+
+```python
+def resolve(
+  context: IResolveContext
+) - > typing.Any
+```
+
+Produce the Token's value at resolution time.
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.IResolvable.resolve.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `to_string` <a name="to_string" id="cdktf.IResolvable.toString"></a>
+
+```python
+def to_string() - > str
+```
+
+Return a string representation of this resolvable object.
+
+Returns a reversible string representation.
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                            | **Type**                      | **Description**                                                                                  |
+| ----------------------------------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.IResolvable.property.creationStack">creation_stack</a></code> | <code>typing.List[str]</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
+
+---
+
+##### `creation_stack`<sup>Required</sup> <a name="creation_stack" id="cdktf.IResolvable.property.creationStack"></a>
+
+```python
+creation_stack: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+The creation stack of this resolvable which will be appended to errors thrown during resolution.
+
+If this returns an empty array the stack will not be attached.
+
+---
+
+### IResolveContext <a name="IResolveContext" id="cdktf.IResolveContext"></a>
+
+- _Implemented By:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+Current resolution context for tokens.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                        | **Description**                                                            |
+| ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.IResolveContext.registerPostProcessor">register_post_processor</a></code> | Use this postprocessor after the entire token structure has been resolved. |
+| <code><a href="#cdktf.IResolveContext.resolve">resolve</a></code>                               | Resolve an inner object.                                                   |
+
+---
+
+##### `register_post_processor` <a name="register_post_processor" id="cdktf.IResolveContext.registerPostProcessor"></a>
+
+```python
+def register_post_processor(
+  post_processor: IPostProcessor
+) - > None
+```
+
+Use this postprocessor after the entire token structure has been resolved.
+
+###### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.IResolveContext.registerPostProcessor.parameter.postProcessor"></a>
+
+- _Type:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+
+##### `resolve` <a name="resolve" id="cdktf.IResolveContext.resolve"></a>
+
+```python
+def resolve(
+  x: typing.Any
+) - > typing.Any
+```
+
+Resolve an inner object.
+
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.IResolveContext.resolve.parameter.x"></a>
+
+- _Type:_ typing.Any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                    | **Type**                           | **Description**                                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code>              | <code>bool</code>                  | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
+| <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code>                      | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">ignore_escapes</a></code>     | <code>bool</code>                  | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
+| <code><a href="#cdktf.IResolveContext.property.iteratorContext">iterator_context</a></code> | <code>str</code>                   | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
+| <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppress_braces</a></code>   | <code>bool</code>                  | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
+| <code><a href="#cdktf.IResolveContext.property.warnEscapes">warn_escapes</a></code>         | <code>bool</code>                  | True when ${} should not be included in the string to be resolved, outputs a warning.                                                                                                                                              |
+
+---
+
+##### `preparing`<sup>Required</sup> <a name="preparing" id="cdktf.IResolveContext.property.preparing"></a>
+
+```python
+preparing: bool
+```
+
+- _Type:_ bool
+
+True when we are still preparing, false if we're rendering the final output.
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="cdktf.IResolveContext.property.scope"></a>
+
+```python
+scope: IConstruct
+```
+
+- _Type:_ constructs.IConstruct
+
+The scope from which resolution has been initiated.
+
+---
+
+##### `ignore_escapes`<sup>Optional</sup> <a name="ignore_escapes" id="cdktf.IResolveContext.property.ignoreEscapes"></a>
+
+```python
+ignore_escapes: bool
+```
+
+- _Type:_ bool
+
+True when ${} should not be parsed, and treated as literals.
+
+---
+
+##### `iterator_context`<sup>Optional</sup> <a name="iterator_context" id="cdktf.IResolveContext.property.iteratorContext"></a>
+
+```python
+iterator_context: str
+```
+
+- _Type:_ str
+
+TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key.
+
+---
+
+##### `suppress_braces`<sup>Optional</sup> <a name="suppress_braces" id="cdktf.IResolveContext.property.suppressBraces"></a>
+
+```python
+suppress_braces: bool
+```
+
+- _Type:_ bool
+
+True when ${} should be ommitted (because already inside them), false otherwise.
+
+---
+
+##### `warn_escapes`<sup>Optional</sup> <a name="warn_escapes" id="cdktf.IResolveContext.property.warnEscapes"></a>
+
+```python
+warn_escapes: bool
+```
+
+- _Type:_ bool
+
+True when ${} should not be included in the string to be resolved, outputs a warning.
+
+Default: false
+
+---
+
+### IResource <a name="IResource" id="cdktf.IResource"></a>
+
+- _Extends:_ constructs.IConstruct
+
+- _Implemented By:_ <a href="#cdktf.Resource">Resource</a>, <a href="#cdktf.IResource">IResource</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                         | **Type**                                                        | **Description**                              |
+| ---------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------- |
+| <code><a href="#cdktf.IResource.property.node">node</a></code>   | <code>constructs.Node</code>                                    | The tree node.                               |
+| <code><a href="#cdktf.IResource.property.stack">stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | The stack in which this resource is defined. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="cdktf.IResource.property.node"></a>
+
+```python
+node: Node
+```
+
+- _Type:_ constructs.Node
+
+The tree node.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="cdktf.IResource.property.stack"></a>
+
+```python
+stack: TerraformStack
+```
+
+- _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+The stack in which this resource is defined.
+
+---
+
+### IResourceConstructor <a name="IResourceConstructor" id="cdktf.IResourceConstructor"></a>
+
+- _Implemented By:_ <a href="#cdktf.IResourceConstructor">IResourceConstructor</a>
+
+### IScopeCallback <a name="IScopeCallback" id="cdktf.IScopeCallback"></a>
+
+- _Implemented By:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
+
+### IStackSynthesizer <a name="IStackSynthesizer" id="cdktf.IStackSynthesizer"></a>
+
+- _Implemented By:_ <a href="#cdktf.IStackSynthesizer">IStackSynthesizer</a>
+
+Encodes information how a certain Stack should be deployed inspired by AWS CDK v2 implementation (synth functionality was removed in constructs v10).
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                  | **Description**                                 |
+| ------------------------------------------------------------------------- | ----------------------------------------------- |
+| <code><a href="#cdktf.IStackSynthesizer.synthesize">synthesize</a></code> | Synthesize the associated stack to the session. |
+
+---
+
+##### `synthesize` <a name="synthesize" id="cdktf.IStackSynthesizer.synthesize"></a>
+
+```python
+def synthesize(
+  session: ISynthesisSession
+) - > None
+```
+
+Synthesize the associated stack to the session.
+
+###### `session`<sup>Required</sup> <a name="session" id="cdktf.IStackSynthesizer.synthesize.parameter.session"></a>
+
+- _Type:_ <a href="#cdktf.ISynthesisSession">ISynthesisSession</a>
+
+---
+
+### IStringProducer <a name="IStringProducer" id="cdktf.IStringProducer"></a>
+
+- _Implemented By:_ <a href="#cdktf.IStringProducer">IStringProducer</a>
+
+Interface for lazy string producers.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                          | **Description**           |
+| ----------------------------------------------------------------- | ------------------------- |
+| <code><a href="#cdktf.IStringProducer.produce">produce</a></code> | Produce the string value. |
+
+---
+
+##### `produce` <a name="produce" id="cdktf.IStringProducer.produce"></a>
+
+```python
+def produce(
+  context: IResolveContext
+) - > str
+```
+
+Produce the string value.
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.IStringProducer.produce.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### ISynthesisSession <a name="ISynthesisSession" id="cdktf.ISynthesisSession"></a>
+
+- _Implemented By:_ <a href="#cdktf.ISynthesisSession">ISynthesisSession</a>
+
+Represents a single session of synthesis.
+
+Passed into `TerraformStack.onSynthesize()` methods.
+originally from aws/constructs lib v3.3.126 (synth functionality was removed in constructs v10)
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                    | **Type**                                            | **Description**                                  |
+| ------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------ |
+| <code><a href="#cdktf.ISynthesisSession.property.manifest">manifest</a></code>              | <code><a href="#cdktf.Manifest">Manifest</a></code> | _No description._                                |
+| <code><a href="#cdktf.ISynthesisSession.property.outdir">outdir</a></code>                  | <code>str</code>                                    | The output directory for this synthesis session. |
+| <code><a href="#cdktf.ISynthesisSession.property.skipValidation">skip_validation</a></code> | <code>bool</code>                                   | _No description._                                |
+
+---
+
+##### `manifest`<sup>Required</sup> <a name="manifest" id="cdktf.ISynthesisSession.property.manifest"></a>
+
+```python
+manifest: Manifest
+```
+
+- _Type:_ <a href="#cdktf.Manifest">Manifest</a>
+
+---
+
+##### `outdir`<sup>Required</sup> <a name="outdir" id="cdktf.ISynthesisSession.property.outdir"></a>
+
+```python
+outdir: str
+```
+
+- _Type:_ str
+
+The output directory for this synthesis session.
+
+---
+
+##### `skip_validation`<sup>Optional</sup> <a name="skip_validation" id="cdktf.ISynthesisSession.property.skipValidation"></a>
+
+```python
+skip_validation: bool
+```
+
+- _Type:_ bool
+
+---
+
+### ITerraformAddressable <a name="ITerraformAddressable" id="cdktf.ITerraformAddressable"></a>
+
+- _Implemented By:_ <a href="#cdktf.AnyListList">AnyListList</a>, <a href="#cdktf.AnyListMap">AnyListMap</a>, <a href="#cdktf.AnyMap">AnyMap</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, <a href="#cdktf.BooleanList">BooleanList</a>, <a href="#cdktf.BooleanListList">BooleanListList</a>, <a href="#cdktf.BooleanListMap">BooleanListMap</a>, <a href="#cdktf.BooleanMap">BooleanMap</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.ComplexComputedList">ComplexComputedList</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.ComplexMap">ComplexMap</a>, <a href="#cdktf.ComplexObject">ComplexObject</a>, <a href="#cdktf.DataResource">DataResource</a>, <a href="#cdktf.DataTerraformRemoteState">DataTerraformRemoteState</a>, <a href="#cdktf.DataTerraformRemoteStateAzurerm">DataTerraformRemoteStateAzurerm</a>, <a href="#cdktf.DataTerraformRemoteStateConsul">DataTerraformRemoteStateConsul</a>, <a href="#cdktf.DataTerraformRemoteStateCos">DataTerraformRemoteStateCos</a>, <a href="#cdktf.DataTerraformRemoteStateGcs">DataTerraformRemoteStateGcs</a>, <a href="#cdktf.DataTerraformRemoteStateHttp">DataTerraformRemoteStateHttp</a>, <a href="#cdktf.DataTerraformRemoteStateLocal">DataTerraformRemoteStateLocal</a>, <a href="#cdktf.DataTerraformRemoteStateOss">DataTerraformRemoteStateOss</a>, <a href="#cdktf.DataTerraformRemoteStatePg">DataTerraformRemoteStatePg</a>, <a href="#cdktf.DataTerraformRemoteStateS3">DataTerraformRemoteStateS3</a>, <a href="#cdktf.DataTerraformRemoteStateSwift">DataTerraformRemoteStateSwift</a>, <a href="#cdktf.MapList">MapList</a>, <a href="#cdktf.NumberListList">NumberListList</a>, <a href="#cdktf.NumberListMap">NumberListMap</a>, <a href="#cdktf.NumberMap">NumberMap</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.StringListList">StringListList</a>, <a href="#cdktf.StringListMap">StringListMap</a>, <a href="#cdktf.StringMap">StringMap</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformHclModule">TerraformHclModule</a>, <a href="#cdktf.TerraformLocal">TerraformLocal</a>, <a href="#cdktf.TerraformModule">TerraformModule</a>, <a href="#cdktf.TerraformRemoteState">TerraformRemoteState</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.TerraformVariable">TerraformVariable</a>, <a href="#cdktf.ITerraformAddressable">ITerraformAddressable</a>, <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                 | **Type**         | **Description**   |
+| ------------------------------------------------------------------------ | ---------------- | ----------------- |
+| <code><a href="#cdktf.ITerraformAddressable.property.fqn">fqn</a></code> | <code>str</code> | _No description._ |
+
+---
+
+##### `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.ITerraformAddressable.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- _Type:_ str
+
+---
+
+### ITerraformDependable <a name="ITerraformDependable" id="cdktf.ITerraformDependable"></a>
+
+- _Extends:_ <a href="#cdktf.ITerraformAddressable">ITerraformAddressable</a>
+
+- _Implemented By:_ <a href="#cdktf.DataResource">DataResource</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformHclModule">TerraformHclModule</a>, <a href="#cdktf.TerraformModule">TerraformModule</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                | **Type**         | **Description**   |
+| ----------------------------------------------------------------------- | ---------------- | ----------------- |
+| <code><a href="#cdktf.ITerraformDependable.property.fqn">fqn</a></code> | <code>str</code> | _No description._ |
+
+---
+
+##### `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.ITerraformDependable.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- _Type:_ str
+
+---
+
+### ITerraformIterator <a name="ITerraformIterator" id="cdktf.ITerraformIterator"></a>
+
+- _Implemented By:_ <a href="#cdktf.DynamicListTerraformIterator">DynamicListTerraformIterator</a>, <a href="#cdktf.ListTerraformIterator">ListTerraformIterator</a>, <a href="#cdktf.MapTerraformIterator">MapTerraformIterator</a>, <a href="#cdktf.ResourceTerraformIterator">ResourceTerraformIterator</a>, <a href="#cdktf.TerraformIterator">TerraformIterator</a>, <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+### ITerraformResource <a name="ITerraformResource" id="cdktf.ITerraformResource"></a>
+
+- _Implemented By:_ <a href="#cdktf.DataResource">DataResource</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                                   | **Description**   |
+| ---------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ITerraformResource.interpolationForAttribute">interpolation_for_attribute</a></code> | _No description._ |
+
+---
+
+##### `interpolation_for_attribute` <a name="interpolation_for_attribute" id="cdktf.ITerraformResource.interpolationForAttribute"></a>
+
+```python
+def interpolation_for_attribute(
+  terraform_attribute: str
+) - > IResolvable
+```
+
+###### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ITerraformResource.interpolationForAttribute.parameter.terraformAttribute"></a>
+
+- _Type:_ str
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                    | **Type**                                                                                                | **Description**   |
+| ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ITerraformResource.property.fqn">fqn</a></code>                                       | <code>str</code>                                                                                        | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.friendlyUniqueId">friendly_unique_id</a></code>           | <code>str</code>                                                                                        | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.terraformResourceType">terraform_resource_type</a></code> | <code>str</code>                                                                                        | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.count">count</a></code>                                   | <code>typing.Union[typing.Union[int, float], <a href="#cdktf.TerraformCount">TerraformCount</a>]</code> | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.dependsOn">depends_on</a></code>                          | <code>typing.List[str]</code>                                                                           | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.forEach">for_each</a></code>                              | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                 | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.lifecycle">lifecycle</a></code>                           | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                 | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.provider">provider</a></code>                             | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                   | _No description._ |
+
+---
+
+##### `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.ITerraformResource.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- _Type:_ str
+
+---
+
+##### `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.ITerraformResource.property.friendlyUniqueId"></a>
+
+```python
+friendly_unique_id: str
+```
+
+- _Type:_ str
+
+---
+
+##### `terraform_resource_type`<sup>Required</sup> <a name="terraform_resource_type" id="cdktf.ITerraformResource.property.terraformResourceType"></a>
+
+```python
+terraform_resource_type: str
+```
+
+- _Type:_ str
+
+---
+
+##### `count`<sup>Optional</sup> <a name="count" id="cdktf.ITerraformResource.property.count"></a>
+
+```python
+count: typing.Union[typing.Union[int, float], TerraformCount]
+```
+
+- _Type:_ typing.Union[typing.Union[int, float], <a href="#cdktf.TerraformCount">TerraformCount</a>]
+
+---
+
+##### `depends_on`<sup>Optional</sup> <a name="depends_on" id="cdktf.ITerraformResource.property.dependsOn"></a>
+
+```python
+depends_on: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+---
+
+##### `for_each`<sup>Optional</sup> <a name="for_each" id="cdktf.ITerraformResource.property.forEach"></a>
+
+```python
+for_each: ITerraformIterator
+```
+
+- _Type:_ <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+##### `lifecycle`<sup>Optional</sup> <a name="lifecycle" id="cdktf.ITerraformResource.property.lifecycle"></a>
+
+```python
+lifecycle: TerraformResourceLifecycle
+```
+
+- _Type:_ <a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a>
+
+---
+
+##### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.ITerraformResource.property.provider"></a>
+
+```python
+provider: TerraformProvider
+```
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+### ITokenMapper <a name="ITokenMapper" id="cdktf.ITokenMapper"></a>
+
+- _Implemented By:_ <a href="#cdktf.ITokenMapper">ITokenMapper</a>
+
+Interface to apply operation to tokens in a string.
+
+Interface so it can be exported via jsii.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                          | **Description**         |
+| ----------------------------------------------------------------- | ----------------------- |
+| <code><a href="#cdktf.ITokenMapper.mapToken">map_token</a></code> | Replace a single token. |
+
+---
+
+##### `map_token` <a name="map_token" id="cdktf.ITokenMapper.mapToken"></a>
+
+```python
+def map_token(
+  t: IResolvable
+) - > typing.Any
+```
+
+Replace a single token.
+
+###### `t`<sup>Required</sup> <a name="t" id="cdktf.ITokenMapper.mapToken.parameter.t"></a>
+
+- _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### ITokenResolver <a name="ITokenResolver" id="cdktf.ITokenResolver"></a>
+
+- _Implemented By:_ <a href="#cdktf.DefaultTokenResolver">DefaultTokenResolver</a>, <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+
+How to resolve tokens.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                               | **Description**                                             |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| <code><a href="#cdktf.ITokenResolver.resolveList">resolve_list</a></code>              | Resolve a tokenized list.                                   |
+| <code><a href="#cdktf.ITokenResolver.resolveMap">resolve_map</a></code>                | Resolve a tokenized map.                                    |
+| <code><a href="#cdktf.ITokenResolver.resolveNumberList">resolve_number_list</a></code> | Resolve a tokenized number list.                            |
+| <code><a href="#cdktf.ITokenResolver.resolveString">resolve_string</a></code>          | Resolve a string with at least one stringified token in it. |
+| <code><a href="#cdktf.ITokenResolver.resolveToken">resolve_token</a></code>            | Resolve a single token.                                     |
+
+---
+
+##### `resolve_list` <a name="resolve_list" id="cdktf.ITokenResolver.resolveList"></a>
+
+```python
+def resolve_list(
+  l: typing.List[str],
+  context: IResolveContext
+) - > typing.Any
+```
+
+Resolve a tokenized list.
+
+###### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveList.parameter.l"></a>
+
+- _Type:_ typing.List[str]
+
+---
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveList.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `resolve_map` <a name="resolve_map" id="cdktf.ITokenResolver.resolveMap"></a>
+
+```python
+def resolve_map(
+  m: typing.Mapping[typing.Any],
+  context: IResolveContext
+) - > typing.Any
+```
+
+Resolve a tokenized map.
+
+###### `m`<sup>Required</sup> <a name="m" id="cdktf.ITokenResolver.resolveMap.parameter.m"></a>
+
+- _Type:_ typing.Mapping[typing.Any]
+
+---
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveMap.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `resolve_number_list` <a name="resolve_number_list" id="cdktf.ITokenResolver.resolveNumberList"></a>
+
+```python
+def resolve_number_list(
+  l: typing.List[typing.Union[int, float]],
+  context: IResolveContext
+) - > typing.Any
+```
+
+Resolve a tokenized number list.
+
+###### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveNumberList.parameter.l"></a>
+
+- _Type:_ typing.List[typing.Union[int, float]]
+
+---
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveNumberList.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `resolve_string` <a name="resolve_string" id="cdktf.ITokenResolver.resolveString"></a>
+
+```python
+def resolve_string(
+  s: TokenizedStringFragments,
+  context: IResolveContext
+) - > typing.Any
+```
+
+Resolve a string with at least one stringified token in it.
+
+(May use concatenation)
+
+###### `s`<sup>Required</sup> <a name="s" id="cdktf.ITokenResolver.resolveString.parameter.s"></a>
+
+- _Type:_ <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
+
+---
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveString.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `resolve_token` <a name="resolve_token" id="cdktf.ITokenResolver.resolveToken"></a>
+
+```python
+def resolve_token(
+  t: IResolvable,
+  context: IResolveContext,
+  post_processor: IPostProcessor
+) - > typing.Any
+```
+
+Resolve a single token.
+
+###### `t`<sup>Required</sup> <a name="t" id="cdktf.ITokenResolver.resolveToken.parameter.t"></a>
+
+- _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveToken.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+###### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
+
+- _Type:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
