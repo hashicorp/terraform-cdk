@@ -80,7 +80,10 @@ import { Documentation, Language } from "jsii-docgen";
     return sanitizedLines.join("\n");
   }
 
-  async function filterByTopic(content, topic) {
+  async function filterByTopicAndRemoveAnchors(content, topic) {
+    let startPosition = undefined;
+    let endPosition = undefined;
+
     function filterByTopic() {
       function isH2(node) {
         return node.type === "heading" && "depth" in node && node.depth === 2;
@@ -97,38 +100,34 @@ import { Documentation, Language } from "jsii-docgen";
       }
 
       return function (tree) {
-        let takeIn = false;
-        let returnNodes = [];
         // This assumes we visit the tree in order
         visit(tree, function (node) {
           // We already found the topic
-          if (takeIn) {
+          if (startPosition != undefined) {
             // We want to stop on the next h2
-            if (isH2(node)) {
-              takeIn = false;
-            } else {
-              returnNodes.push(node);
+            if (isH2(node) && endPosition == undefined) {
+              endPosition = node.position.end.offset;
             }
           } else {
             if (isH2(node) && hasContent(node, topic)) {
               // We found the topic we are looking for, start taking in nodes
               // We don't need the header though
-              takeIn = true;
+              startPosition = node.position.start.offset;
             }
           }
         });
-
-        tree.children = returnNodes;
       };
     }
 
-    const file = await unified()
+    // We don't mutate through the plugin API, it's harder than just doing it manually
+    // in the input string
+    await unified()
       .use(remarkParse)
       .use(filterByTopic)
-      .use(remarkStringify, { join: [(left, right, parent, state) => 2] })
+      .use(remarkStringify) // This is just needed so that the process run works fine
       .process(content);
 
-    const output = String(file);
+    const output = content.substring(startPosition, endPosition);
     return output.replace(
       `  ${topic} <a name="${topic}" id="${topic}"></a>`,
       ""
@@ -190,7 +189,11 @@ ${replaceAngleBracketsInDocumentation(content)}
         topics.map(async (topic) => {
           fs.writeFileSync(
             path.resolve(langFolder, `${topic.toLowerCase()}.mdx`),
-            compose(lang, topic, await filterByTopic(rendered, topic)),
+            compose(
+              lang,
+              topic,
+              await filterByTopicAndRemoveAnchors(rendered, topic)
+            ),
             "utf-8"
           );
         })
