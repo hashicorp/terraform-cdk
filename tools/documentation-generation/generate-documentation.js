@@ -13,6 +13,7 @@ import { Documentation, Language } from "jsii-docgen";
   const remarkParse = (await import("remark-parse")).default;
   const remarkStringify = (await import("remark-stringify")).default;
   const visit = (await import("unist-util-visit")).visit;
+  const remove = (await import("unist-util-remove")).remove;
   const unified = (await import("unified")).unified;
 
   const rootFolder = process.argv[2];
@@ -134,6 +135,25 @@ import { Documentation, Language } from "jsii-docgen";
     );
   }
 
+  async function removeLinks(content) {
+    await unified()
+      .use(remarkParse)
+      .use(function () {
+        return function (tree) {
+          remove(tree, function (node) {
+            return (
+              node.type === "html" &&
+              (node.value.includes("<a") || node.value.includes("</a"))
+            );
+          });
+        };
+      })
+      .use(remarkStringify)
+      .process(content);
+
+    return String(content);
+  }
+
   const compose = (lang, topic, content) => `---
 page_title: ${lang} Reference for ${topic}
 description: CDKTF Core API Reference for ${topic} in ${lang}.
@@ -195,7 +215,9 @@ ${replaceAngleBracketsInDocumentation(
             compose(
               lang,
               topic,
-              await filterByTopicAndRemoveAnchors(rendered, topic)
+              await removeLinks(
+                await filterByTopicAndRemoveAnchors(rendered, topic)
+              )
             ),
             "utf-8"
           );
