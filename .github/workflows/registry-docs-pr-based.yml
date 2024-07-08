@@ -69,7 +69,7 @@ jobs:
   cdktfDocsCleanupBranches:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
@@ -88,7 +88,7 @@ jobs:
     needs:
       - cdktfDocsCleanupBranches
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
@@ -110,7 +110,7 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
@@ -150,7 +150,7 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
@@ -200,7 +200,7 @@ jobs:
       - cdktfDocsConvert
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           repository: ${{ inputs.repository }}
           fetch-depth: 0 # complete checkout
