@@ -173,27 +173,132 @@
     "routes": [
       {
         "title": "Overview",
-        "path": "api-reference/overview"
+        "path": "api-reference"
       },
       {
         "title": "Typescript",
-        "path": "api-reference/typescript"
+        "routes": [
+          {
+            "title": "Classes",
+            "path": "api-reference/typescript/classes"
+          },
+          {
+            "title": "Constructs",
+            "path": "api-reference/typescript/constructs"
+          },
+          {
+            "title": "Enums",
+            "path": "api-reference/typescript/enums"
+          },
+          {
+            "title": "Protocols",
+            "path": "api-reference/typescript/protocols"
+          },
+          {
+            "title": "Structs",
+            "path": "api-reference/typescript/structs"
+          }
+        ]
       },
       {
         "title": "Python",
-        "path": "api-reference/python"
+        "routes": [
+          {
+            "title": "Classes",
+            "path": "api-reference/python/classes"
+          },
+          {
+            "title": "Constructs",
+            "path": "api-reference/python/constructs"
+          },
+          {
+            "title": "Enums",
+            "path": "api-reference/python/enums"
+          },
+          {
+            "title": "Protocols",
+            "path": "api-reference/python/protocols"
+          },
+          {
+            "title": "Structs",
+            "path": "api-reference/python/structs"
+          }
+        ]
       },
       {
         "title": "Java",
-        "path": "api-reference/java"
+        "routes": [
+          {
+            "title": "Classes",
+            "path": "api-reference/java/classes"
+          },
+          {
+            "title": "Constructs",
+            "path": "api-reference/java/constructs"
+          },
+          {
+            "title": "Enums",
+            "path": "api-reference/java/enums"
+          },
+          {
+            "title": "Protocols",
+            "path": "api-reference/java/protocols"
+          },
+          {
+            "title": "Structs",
+            "path": "api-reference/java/structs"
+          }
+        ]
       },
       {
         "title": "C#",
-        "path": "api-reference/csharp"
+        "routes": [
+          {
+            "title": "Classes",
+            "path": "api-reference/csharp/classes"
+          },
+          {
+            "title": "Constructs",
+            "path": "api-reference/csharp/constructs"
+          },
+          {
+            "title": "Enums",
+            "path": "api-reference/csharp/enums"
+          },
+          {
+            "title": "Protocols",
+            "path": "api-reference/csharp/protocols"
+          },
+          {
+            "title": "Structs",
+            "path": "api-reference/csharp/structs"
+          }
+        ]
       },
       {
         "title": "Go",
-        "path": "api-reference/go"
+        "routes": [
+          {
+            "title": "Classes",
+            "path": "api-reference/go/classes"
+          },
+          {
+            "title": "Constructs",
+            "path": "api-reference/go/constructs"
+          },
+          {
+            "title": "Enums",
+            "path": "api-reference/go/enums"
+          },
+          {
+            "title": "Protocols",
+            "path": "api-reference/go/protocols"
+          },
+          {
+            "title": "Structs",
+            "path": "api-reference/go/structs"
+          }
+        ]
       },
       {
         "title": "Providers",
