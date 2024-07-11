@@ -69,7 +69,7 @@ export interface S3BackendConfig {
    * (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.
    * Conflicts with forbidden_account_ids.
    */
-  readonly allowedAccountIds?: string;
+  readonly allowedAccountIds?: string[];
   /**
    * (Optional) File containing custom root and intermediate certificates.
    * Can also be set using the AWS_CA_BUNDLE environment variable.
@@ -91,7 +91,7 @@ export interface S3BackendConfig {
    * (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.
    * Conflicts with allowed_account_ids.
    */
-  readonly forbiddenAccountIds?: string;
+  readonly forbiddenAccountIds?: string[];
   /**
    * (Optional) URL of a proxy to use for HTTP requests when accessing the AWS API.
    * Can also be set using the HTTP_PROXY or http_proxy environment variables.
