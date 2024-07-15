@@ -179,6 +179,10 @@
         "title": "Typescript",
         "routes": [
           {
+            "title": "Overview",
+            "path": "api-reference/typescript"
+          },
+          {
             "title": "Classes",
             "path": "api-reference/typescript/classes"
           },
@@ -203,6 +207,10 @@
       {
         "title": "Python",
         "routes": [
+          {
+            "title": "Overview",
+            "path": "api-reference/python"
+          },
           {
             "title": "Classes",
             "path": "api-reference/python/classes"
@@ -229,6 +237,10 @@
         "title": "Java",
         "routes": [
           {
+            "title": "Overview",
+            "path": "api-reference/java"
+          },
+          {
             "title": "Classes",
             "path": "api-reference/java/classes"
           },
@@ -254,6 +266,10 @@
         "title": "C#",
         "routes": [
           {
+            "title": "Overview",
+            "path": "api-reference/csharp"
+          },
+          {
             "title": "Classes",
             "path": "api-reference/csharp/classes"
           },
@@ -278,6 +294,10 @@
       {
         "title": "Go",
         "routes": [
+          {
+            "title": "Overview",
+            "path": "api-reference/go"
+          },
           {
             "title": "Classes",
             "path": "api-reference/go/classes"
