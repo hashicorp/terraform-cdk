@@ -1,14 +1,19 @@
 {
     "name": "@tools/documentation-generation",
     "version": "0.0.0",
+    "type": "module",
     "scripts": {
-        "docs": "node ./generate-documentation.js"
+        "docs": "node ./generate-documentation.js ../../"
     },
     "dependencies": {
         "cdktf": "file:../../packages/cdktf",
         "constructs": "10.3.0"
     },
     "devDependencies": {
-        "jsii-docgen": "^10.4.18"
+        "jsii-docgen": "^10.4.18",
+        "remark-parse": "^11.0.0",
+        "remark-stringify": "^11.0.0",
+        "unified": "^11.0.5",
+        "unist-util-visit": "^5.0.0"
     }
 }

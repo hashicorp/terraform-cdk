@@ -1,140 +1,140 @@
 {
-  "name": "cdktf",
-  "version": "0.0.0",
-  "description": "Cloud Development Kit for Terraform",
-  "scripts": {
-    "build": "jsii --silence-warnings reserved-word",
-    "docs": "node ./scripts/generate-documentation.js",
-    "watch": "jsii -w --silence-warnings reserved-word",
-    "watch-preserve-output": "tsc -w --preserveWatchOutput",
-    "package": "jsii-pacmak && bash ./go-copyright-header.sh",
-    "package:python": "jsii-pacmak --targets python",
-    "package:java": "jsii-pacmak --targets java",
-    "package:dotnet": "jsii-pacmak --targets dotnet",
-    "package:js": "jsii-pacmak --targets js",
-    "package:go": "jsii-pacmak --targets go",
-    "lint": "eslint . --ext .ts",
-    "test": "jest --passWithNoTests && yarn lint",
-    "test:ci": "jest --ci --passWithNoTests && yarn lint",
-    "dist-clean": "rm -rf dist"
-  },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "keywords": [
-    "cdk",
-    "cdktf",
-    "terraform"
-  ],
-  "jsii": {
-    "outdir": "dist",
-    "versionFormat": "short",
-    "license": "MPL-2.0",
+    "name": "cdktf",
+    "version": "0.0.0",
+    "description": "Cloud Development Kit for Terraform",
+    "scripts": {
+        "build": "jsii --silence-warnings reserved-word",
+        "docs": "node ./scripts/generate-documentation.js",
+        "watch": "jsii -w --silence-warnings reserved-word",
+        "watch-preserve-output": "tsc -w --preserveWatchOutput",
+        "package": "jsii-pacmak && bash ./go-copyright-header.sh",
+        "package:python": "jsii-pacmak --targets python",
+        "package:java": "jsii-pacmak --targets java",
+        "package:dotnet": "jsii-pacmak --targets dotnet",
+        "package:js": "jsii-pacmak --targets js",
+        "package:go": "jsii-pacmak --targets go",
+        "lint": "eslint . --ext .ts",
+        "test": "jest --passWithNoTests && yarn lint",
+        "test:ci": "jest --ci --passWithNoTests && yarn lint",
+        "dist-clean": "rm -rf dist"
+    },
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "keywords": [
+        "cdk",
+        "cdktf",
+        "terraform"
+    ],
+    "jsii": {
+        "outdir": "dist",
+        "versionFormat": "short",
+        "license": "MPL-2.0",
+        "author": {
+            "name": "HashiCorp, Inc.",
+            "organization": true
+        },
+        "targets": {
+            "python": {
+                "distName": "cdktf",
+                "module": "cdktf"
+            },
+            "java": {
+                "package": "com.hashicorp.cdktf",
+                "maven": {
+                    "groupId": "com.hashicorp",
+                    "artifactId": "cdktf"
+                }
+            },
+            "dotnet": {
+                "packageId": "HashiCorp.Cdktf",
+                "namespace": "HashiCorp.Cdktf"
+            },
+            "go": {
+                "moduleName": "github.com/hashicorp/terraform-cdk-go",
+                "packageName": "cdktf"
+            }
+        }
+    },
     "author": {
-      "name": "HashiCorp, Inc.",
-      "organization": true
+        "name": "HashiCorp",
+        "url": "https://hashicorp.com"
     },
-    "targets": {
-      "python": {
-        "distName": "cdktf",
-        "module": "cdktf"
-      },
-      "java": {
-        "package": "com.hashicorp.cdktf",
-        "maven": {
-          "groupId": "com.hashicorp",
-          "artifactId": "cdktf"
-        }
-      },
-      "dotnet": {
-        "packageId": "HashiCorp.Cdktf",
-        "namespace": "HashiCorp.Cdktf"
-      },
-      "go": {
-        "moduleName": "github.com/hashicorp/terraform-cdk-go",
-        "packageName": "cdktf"
-      }
+    "homepage": "https://github.com/hashicorp/terraform-cdk",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hashicorp/terraform-cdk.git",
+        "directory": "packages/cdktf"
+    },
+    "eslintConfig": {
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "@typescript-eslint",
+            "jsdoc",
+            "no-instanceof"
+        ],
+        "extends": [
+            "eslint:recommended",
+            "plugin:@typescript-eslint/eslint-recommended",
+            "plugin:@typescript-eslint/recommended"
+        ],
+        "rules": {
+            "@typescript-eslint/no-explicit-any": 0,
+            "@typescript-eslint/explicit-function-return-type": 0,
+            "@typescript-eslint/no-use-before-define": 0,
+            "@typescript-eslint/no-empty-interface": 0,
+            "@typescript-eslint/explicit-module-boundary-types": 0,
+            "no-sequences": "error",
+            "jsdoc/require-jsdoc": [
+                "error",
+                {
+                    "contexts": [
+                        "ClassDeclaration"
+                    ]
+                }
+            ],
+            "no-instanceof/no-instanceof": "error"
+        },
+        "ignorePatterns": [
+            "node_modules",
+            "dist",
+            "coverage",
+            "test",
+            "*.test*.ts"
+        ]
+    },
+    "license": "MPL-2.0",
+    "devDependencies": {
+        "@types/archiver": "6.0.2",
+        "@types/jest": "29.5.12",
+        "@types/json-stable-stringify": "1.0.36",
+        "@types/minimatch": "5.1.2",
+        "@types/node": "18.19.39",
+        "@types/semver": "7.5.8",
+        "@typescript-eslint/eslint-plugin": "4.33.0",
+        "@typescript-eslint/parser": "4.33.0",
+        "constructs": "10.3.0",
+        "eslint": "7.32.0",
+        "eslint-plugin-jsdoc": "39.9.1",
+        "eslint-plugin-no-instanceof": "1.0.1",
+        "jest": "29.7.0",
+        "jsii": "5.4.26",
+        "jsii-docgen": "10.4.18",
+        "jsii-pacmak": "1.101.0",
+        "ts-jest": "29.2.2",
+        "typescript": "5.2.2"
+    },
+    "dependencies": {
+        "archiver": "6.0.2",
+        "json-stable-stringify": "1.1.1",
+        "semver": "7.6.2"
+    },
+    "bundledDependencies": [
+        "archiver",
+        "json-stable-stringify",
+        "semver"
+    ],
+    "stability": "experimental",
+    "peerDependencies": {
+        "constructs": "^10.3.0"
     }
-  },
-  "author": {
-    "name": "HashiCorp",
-    "url": "https://hashicorp.com"
-  },
-  "homepage": "https://github.com/hashicorp/terraform-cdk",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/hashicorp/terraform-cdk.git",
-    "directory": "packages/cdktf"
-  },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint",
-      "jsdoc",
-      "no-instanceof"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
-    ],
-    "rules": {
-      "@typescript-eslint/no-explicit-any": 0,
-      "@typescript-eslint/explicit-function-return-type": 0,
-      "@typescript-eslint/no-use-before-define": 0,
-      "@typescript-eslint/no-empty-interface": 0,
-      "@typescript-eslint/explicit-module-boundary-types": 0,
-      "no-sequences": "error",
-      "jsdoc/require-jsdoc": [
-        "error",
-        {
-          "contexts": [
-            "ClassDeclaration"
-          ]
-        }
-      ],
-      "no-instanceof/no-instanceof": "error"
-    },
-    "ignorePatterns": [
-      "node_modules",
-      "dist",
-      "coverage",
-      "test",
-      "*.test*.ts"
-    ]
-  },
-  "license": "MPL-2.0",
-  "devDependencies": {
-    "@types/archiver": "6.0.2",
-    "@types/jest": "29.5.12",
-    "@types/json-stable-stringify": "1.0.36",
-    "@types/minimatch": "5.1.2",
-    "@types/node": "18.19.34",
-    "@types/semver": "7.5.8",
-    "@typescript-eslint/eslint-plugin": "4.33.0",
-    "@typescript-eslint/parser": "4.33.0",
-    "constructs": "10.3.0",
-    "eslint": "7.32.0",
-    "eslint-plugin-jsdoc": "39.9.1",
-    "eslint-plugin-no-instanceof": "1.0.1",
-    "jest": "29.7.0",
-    "jsii": "5.4.26",
-    "jsii-docgen": "10.4.18",
-    "jsii-pacmak": "1.101.0",
-    "ts-jest": "29.1.4",
-    "typescript": "5.2.2"
-  },
-  "dependencies": {
-    "archiver": "6.0.2",
-    "json-stable-stringify": "1.1.1",
-    "semver": "7.6.2"
-  },
-  "bundledDependencies": [
-    "archiver",
-    "json-stable-stringify",
-    "semver"
-  ],
-  "stability": "experimental",
-  "peerDependencies": {
-    "constructs": "^10.3.0"
-  }
 }

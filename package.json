@@ -1,112 +1,121 @@
 {
-  "name": "root",
-  "version": "0.20.8",
-  "private": true,
-  "scripts": {
-    "build-and-package": "lerna run --scope 'cdktf*' --scope @cdktf/* build,package && tools/collect-dist.sh",
-    "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
-    "format": "prettier --cache --write .",
-    "package": "lerna run package && tools/collect-dist.sh",
-    "package:python": "lerna run package:python && tools/collect-dist.sh",
-    "package:java": "lerna run package:java && tools/collect-dist.sh",
-    "package:dotnet": "lerna run package:dotnet && tools/collect-dist.sh",
-    "package:js": "lerna run package:js && tools/collect-dist.sh",
-    "package-windows": "lerna run package && tools\\collect-dist.bat",
-    "pretest": "yarn lint:workspace && yarn lint:prettier",
-    "test": "lerna run --scope 'cdktf*' --scope @cdktf/* test",
-    "test:ci": "lerna run --scope 'cdktf*' --scope @cdktf/* test:ci",
-    "test:update": "npx lerna exec --parallel --no-bail --scope 'cdktf*' --scope '@cdktf/*' npx 'jest -u'",
-    "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope 'cdktf*' watch-preserve-output",
-    "lint:workspace": "eslint .",
-    "lint:prettier": "prettier --check .",
-    "lint:examples": "node tools/lint-examples.js",
-    "link-packages": "lerna exec --scope 'cdktf*' --scope @cdktf/* yarn link",
-    "integration": "cd test && yarn edge:install && ./run-against-dist npx jest --runInBand",
-    "integration:update": "cd test && yarn && yarn edge:install && NODE_OPTIONS='--max-old-space-size=7168' ./run-against-dist npx jest -u --runInBand",
-    "integration:single": "cd test && ./run-against-dist npx jest --runInBand",
-    "integration:typescript": "cd test && ./run-against-dist npx jest --runInBand typescript",
-    "integration:python": "cd test && ./run-against-dist npx jest --runInBand python",
-    "integration:csharp": "cd test && ./run-against-dist npx jest --runInBand csharp",
-    "integration:java": "cd test && ./run-against-dist npx jest --runInBand java",
-    "integration:go": "cd test && ./run-against-dist npx jest --runInBand go",
-    "integration:windows": "cd test && run-against-dist.bat \"npx jest --runInBand\"",
-    "integration:windows:typescript": "cd test && run-against-dist.bat \"npx jest --runInBand typescript\"",
-    "integration:windows:python": "cd test && run-against-dist.bat \"npx jest --runInBand python\"",
-    "integration:windows:csharp": "cd test && run-against-dist.bat \"npx jest --runInBand csharp\"",
-    "integration:windows:java": "cd test && run-against-dist.bat \"npx jest --runInBand java\"",
-    "integration:windows:go": "cd test && run-against-dist.bat \"npx jest --runInBand go\"",
-    "release-github": "tools/release-github.sh",
-    "build-docker-jsii": "docker build -t hashicorp/jsii-terraform .",
-    "push-docker-jsii": "docker push hashicorp/jsii-terraform",
-    "dist-clean": "lerna run dist-clean --stream && rm -rf dist",
-    "prepare": "husky install",
-    "prepare-next-release": "standard-version --prerelease pre --release-as minor --skip.changelog=true --skip.commit=true",
-    "prepare-release": "tools/prepare-release.sh",
-    "release": "standard-version",
-    "generate-docs:api": "yarn && yarn build && yarn package && cd tools/documentation-generation && git clean -dfx . && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/*.mdx",
-    "generate-docs:translations": "cd tools/documentation-code-snippets && yarn && yarn update-snippets && cd ../../ && yarn run format",
-    "generate-docs": "yarn generate-docs:translations && yarn generate-docs:api",
-    "generate-function-bindings": "cd tools/generate-function-bindings && yarn && yarn fetch-metadata && yarn generate"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "packages/@cdktf/*",
-      "examples/*",
-      "examples/python/*",
-      "examples/typescript/*",
-      "examples/typescript/backends/*",
-      "examples/java/*",
-      "examples/csharp/*",
-      "examples/go/*",
-      "tools/generate-function-bindings",
-      ".yalc/*",
-      ".yalc/@*/*"
-    ],
-    "nohoist": [
-      "archiver",
-      "**/archiver",
-      "**/archiver/**",
-      "json-stable-stringify",
-      "**/json-stable-stringify",
-      "**/json-stable-stringify/**",
-      "semver",
-      "**/semver",
-      "**/semver/**"
-    ]
-  },
-  "devDependencies": {
-    "@types/prettier": "2.6.0",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "changelog-parser": "^2.8.1",
-    "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-monorepo": "^0.3.2",
-    "husky": ">=6",
-    "lerna": "^6.6.1",
-    "lint-staged": ">=10",
-    "prettier": "^2.8.8",
-    "standard-version": "^9.5.0"
-  },
-  "resolutions": {
-    "**/@types/react": "18.2.37"
-  },
-  "lint-staged": {
-    "**/*.{ts,tsx,js,css,md}": "prettier --write",
-    "examples/**": "yarn lint:examples"
-  },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint", "monorepo"],
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
+    "name": "root",
+    "version": "0.20.8",
+    "private": true,
+    "scripts": {
+        "build-and-package": "lerna run --scope 'cdktf*' --scope @cdktf/* build,package && tools/collect-dist.sh",
+        "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
+        "format": "prettier --cache --write .",
+        "package": "lerna run package && tools/collect-dist.sh",
+        "package:python": "lerna run package:python && tools/collect-dist.sh",
+        "package:java": "lerna run package:java && tools/collect-dist.sh",
+        "package:dotnet": "lerna run package:dotnet && tools/collect-dist.sh",
+        "package:js": "lerna run package:js && tools/collect-dist.sh",
+        "package-windows": "lerna run package && tools\\collect-dist.bat",
+        "pretest": "yarn lint:workspace && yarn lint:prettier",
+        "test": "lerna run --scope 'cdktf*' --scope @cdktf/* test",
+        "test:ci": "lerna run --scope 'cdktf*' --scope @cdktf/* test:ci",
+        "test:update": "npx lerna exec --parallel --no-bail --scope 'cdktf*' --scope '@cdktf/*' npx 'jest -u'",
+        "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope 'cdktf*' watch-preserve-output",
+        "lint:workspace": "eslint .",
+        "lint:prettier": "prettier --check .",
+        "lint:examples": "node tools/lint-examples.js",
+        "link-packages": "lerna exec --scope 'cdktf*' --scope @cdktf/* yarn link",
+        "integration": "cd test && yarn edge:install && ./run-against-dist npx jest --runInBand",
+        "integration:update": "cd test && yarn && yarn edge:install && NODE_OPTIONS='--max-old-space-size=7168' ./run-against-dist npx jest -u --runInBand",
+        "integration:single": "cd test && ./run-against-dist npx jest --runInBand",
+        "integration:typescript": "cd test && ./run-against-dist npx jest --runInBand typescript",
+        "integration:python": "cd test && ./run-against-dist npx jest --runInBand python",
+        "integration:csharp": "cd test && ./run-against-dist npx jest --runInBand csharp",
+        "integration:java": "cd test && ./run-against-dist npx jest --runInBand java",
+        "integration:go": "cd test && ./run-against-dist npx jest --runInBand go",
+        "integration:windows": "cd test && run-against-dist.bat \"npx jest --runInBand\"",
+        "integration:windows:typescript": "cd test && run-against-dist.bat \"npx jest --runInBand typescript\"",
+        "integration:windows:python": "cd test && run-against-dist.bat \"npx jest --runInBand python\"",
+        "integration:windows:csharp": "cd test && run-against-dist.bat \"npx jest --runInBand csharp\"",
+        "integration:windows:java": "cd test && run-against-dist.bat \"npx jest --runInBand java\"",
+        "integration:windows:go": "cd test && run-against-dist.bat \"npx jest --runInBand go\"",
+        "release-github": "tools/release-github.sh",
+        "build-docker-jsii": "docker build -t hashicorp/jsii-terraform .",
+        "push-docker-jsii": "docker push hashicorp/jsii-terraform",
+        "dist-clean": "lerna run dist-clean --stream && rm -rf dist",
+        "prepare": "husky install",
+        "prepare-next-release": "standard-version --prerelease pre --release-as minor --skip.changelog=true --skip.commit=true",
+        "prepare-release": "tools/prepare-release.sh",
+        "release": "standard-version",
+        "generate-docs:api": "yarn && yarn build && yarn package && cd tools/documentation-generation && git clean -dfx . && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/**",
+        "generate-docs:translations": "cd tools/documentation-code-snippets && yarn && yarn update-snippets && cd ../../ && yarn run format",
+        "generate-docs": "yarn generate-docs:translations && yarn generate-docs:api",
+        "generate-function-bindings": "cd tools/generate-function-bindings && yarn && yarn fetch-metadata && yarn generate"
     },
-    "rules": {
-      "monorepo/no-relative-import": "error"
+    "workspaces": {
+        "packages": [
+            "packages/*",
+            "packages/@cdktf/*",
+            "examples/*",
+            "examples/python/*",
+            "examples/typescript/*",
+            "examples/typescript/backends/*",
+            "examples/java/*",
+            "examples/csharp/*",
+            "examples/go/*",
+            "tools/generate-function-bindings",
+            ".yalc/*",
+            ".yalc/@*/*"
+        ],
+        "nohoist": [
+            "archiver",
+            "**/archiver",
+            "**/archiver/**",
+            "json-stable-stringify",
+            "**/json-stable-stringify",
+            "**/json-stable-stringify/**",
+            "semver",
+            "**/semver",
+            "**/semver/**"
+        ]
     },
-    "ignorePatterns": ["node_modules", "dist", "coverage", "*.d.ts", "*.js"]
-  }
+    "devDependencies": {
+        "@types/prettier": "2.6.0",
+        "@typescript-eslint/eslint-plugin": "^4.33.0",
+        "@typescript-eslint/parser": "^4.33.0",
+        "changelog-parser": "^2.8.1",
+        "eslint": "^7.32.0",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-monorepo": "^0.3.2",
+        "husky": ">=6",
+        "lerna": "^6.6.1",
+        "lint-staged": ">=10",
+        "prettier": "^2.8.8",
+        "standard-version": "^9.5.0"
+    },
+    "resolutions": {
+        "**/@types/react": "18.2.37"
+    },
+    "lint-staged": {
+        "**/*.{ts,tsx,js,css,md}": "prettier --write",
+        "examples/**": "yarn lint:examples"
+    },
+    "eslintConfig": {
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "@typescript-eslint",
+            "monorepo"
+        ],
+        "settings": {
+            "react": {
+                "version": "detect"
+            }
+        },
+        "rules": {
+            "monorepo/no-relative-import": "error"
+        },
+        "ignorePatterns": [
+            "node_modules",
+            "dist",
+            "coverage",
+            "*.d.ts",
+            "*.js"
+        ]
+    }
 }

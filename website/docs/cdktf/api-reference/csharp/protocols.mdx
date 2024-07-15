@@ -1,0 +1,967 @@
+---
+page_title: CSharp Reference for Protocols
+description: CDKTF Core API Reference for Protocols in CSharp.
+---
+
+<!-- This file is generated through yarn generate-docs -->
+
+# CSharp: Protocols <a name="Protocols" id="Protocols"></a>
+
+### IAnyProducer <a name="IAnyProducer" id="cdktf.IAnyProducer"></a>
+
+- _Implemented By:_ <a href="#cdktf.IAnyProducer">IAnyProducer</a>
+
+Interface for lazy untyped value producers.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                       | **Description**    |
+| -------------------------------------------------------------- | ------------------ |
+| <code><a href="#cdktf.IAnyProducer.produce">Produce</a></code> | Produce the value. |
+
+---
+
+##### `Produce` <a name="Produce" id="cdktf.IAnyProducer.produce"></a>
+
+```csharp
+private object Produce(IResolveContext Context)
+```
+
+Produce the value.
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.IAnyProducer.produce.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IAspect <a name="IAspect" id="cdktf.IAspect"></a>
+
+- _Implemented By:_ <a href="#cdktf.MigrateIds">MigrateIds</a>, <a href="#cdktf.IAspect">IAspect</a>
+
+Represents an Aspect.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                              | **Description**                      |
+| ----------------------------------------------------- | ------------------------------------ |
+| <code><a href="#cdktf.IAspect.visit">Visit</a></code> | All aspects can visit an IConstruct. |
+
+---
+
+##### `Visit` <a name="Visit" id="cdktf.IAspect.visit"></a>
+
+```csharp
+private void Visit(IConstruct Node)
+```
+
+All aspects can visit an IConstruct.
+
+###### `Node`<sup>Required</sup> <a name="Node" id="cdktf.IAspect.visit.parameter.node"></a>
+
+- _Type:_ Constructs.IConstruct
+
+---
+
+### IFragmentConcatenator <a name="IFragmentConcatenator" id="cdktf.IFragmentConcatenator"></a>
+
+- _Implemented By:_ <a href="#cdktf.StringConcat">StringConcat</a>, <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
+
+Function used to concatenate symbols in the target document language.
+
+Interface so it could potentially be exposed over jsii.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                          | **Description**                                 |
+| ----------------------------------------------------------------- | ----------------------------------------------- |
+| <code><a href="#cdktf.IFragmentConcatenator.join">Join</a></code> | Join the fragment on the left and on the right. |
+
+---
+
+##### `Join` <a name="Join" id="cdktf.IFragmentConcatenator.join"></a>
+
+```csharp
+private object Join(object Left, object Right)
+```
+
+Join the fragment on the left and on the right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.IFragmentConcatenator.join.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.IFragmentConcatenator.join.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+### IImportableConfig <a name="IImportableConfig" id="cdktf.IImportableConfig"></a>
+
+- _Implemented By:_ <a href="#cdktf.IImportableConfig">IImportableConfig</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                 | **Type**                                                              | **Description**   |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.IImportableConfig.property.importId">ImportId</a></code>                           | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.IImportableConfig.property.terraformResourceType">TerraformResourceType</a></code> | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.IImportableConfig.property.provider">Provider</a></code>                           | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | _No description._ |
+
+---
+
+##### `ImportId`<sup>Required</sup> <a name="ImportId" id="cdktf.IImportableConfig.property.importId"></a>
+
+```csharp
+public string ImportId { get; set; }
+```
+
+- _Type:_ string
+
+---
+
+##### `TerraformResourceType`<sup>Required</sup> <a name="TerraformResourceType" id="cdktf.IImportableConfig.property.terraformResourceType"></a>
+
+```csharp
+public string TerraformResourceType { get; set; }
+```
+
+- _Type:_ string
+
+---
+
+##### `Provider`<sup>Optional</sup> <a name="Provider" id="cdktf.IImportableConfig.property.provider"></a>
+
+```csharp
+public TerraformProvider Provider { get; set; }
+```
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+### IInterpolatingParent <a name="IInterpolatingParent" id="cdktf.IInterpolatingParent"></a>
+
+- _Implemented By:_ <a href="#cdktf.AnyMapList">AnyMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.ComplexComputedList">ComplexComputedList</a>, <a href="#cdktf.ComplexObject">ComplexObject</a>, <a href="#cdktf.DataResource">DataResource</a>, <a href="#cdktf.MapList">MapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                                   | **Description**   |
+| ---------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.IInterpolatingParent.interpolationForAttribute">InterpolationForAttribute</a></code> | _No description._ |
+
+---
+
+##### `InterpolationForAttribute` <a name="InterpolationForAttribute" id="cdktf.IInterpolatingParent.interpolationForAttribute"></a>
+
+```csharp
+private IResolvable InterpolationForAttribute(string TerraformAttribute)
+```
+
+###### `TerraformAttribute`<sup>Required</sup> <a name="TerraformAttribute" id="cdktf.IInterpolatingParent.interpolationForAttribute.parameter.terraformAttribute"></a>
+
+- _Type:_ string
+
+---
+
+### IListProducer <a name="IListProducer" id="cdktf.IListProducer"></a>
+
+- _Implemented By:_ <a href="#cdktf.IListProducer">IListProducer</a>
+
+Interface for lazy list producers.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                        | **Description**         |
+| --------------------------------------------------------------- | ----------------------- |
+| <code><a href="#cdktf.IListProducer.produce">Produce</a></code> | Produce the list value. |
+
+---
+
+##### `Produce` <a name="Produce" id="cdktf.IListProducer.produce"></a>
+
+```csharp
+private string[] Produce(IResolveContext Context)
+```
+
+Produce the list value.
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.IListProducer.produce.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IManifest <a name="IManifest" id="cdktf.IManifest"></a>
+
+- _Implemented By:_ <a href="#cdktf.Manifest">Manifest</a>, <a href="#cdktf.IManifest">IManifest</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                             | **Type**                                                                                                       | **Description**   |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.IManifest.property.stacks">Stacks</a></code>   | <code>System.Collections.Generic.IDictionary< string, <a href="#cdktf.StackManifest">StackManifest</a>></code> | _No description._ |
+| <code><a href="#cdktf.IManifest.property.version">Version</a></code> | <code>string</code>                                                                                            | _No description._ |
+
+---
+
+##### `Stacks`<sup>Required</sup> <a name="Stacks" id="cdktf.IManifest.property.stacks"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, StackManifest > Stacks { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, <a href="#cdktf.StackManifest">StackManifest</a>>
+
+---
+
+##### `Version`<sup>Required</sup> <a name="Version" id="cdktf.IManifest.property.version"></a>
+
+```csharp
+public string Version { get; }
+```
+
+- _Type:_ string
+
+---
+
+### INumberProducer <a name="INumberProducer" id="cdktf.INumberProducer"></a>
+
+- _Implemented By:_ <a href="#cdktf.INumberProducer">INumberProducer</a>
+
+Interface for lazy number producers.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                          | **Description**           |
+| ----------------------------------------------------------------- | ------------------------- |
+| <code><a href="#cdktf.INumberProducer.produce">Produce</a></code> | Produce the number value. |
+
+---
+
+##### `Produce` <a name="Produce" id="cdktf.INumberProducer.produce"></a>
+
+```csharp
+private double Produce(IResolveContext Context)
+```
+
+Produce the number value.
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.INumberProducer.produce.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IPostProcessor <a name="IPostProcessor" id="cdktf.IPostProcessor"></a>
+
+- _Implemented By:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+A Token that can post-process the complete resolved value, after resolve() has recursed over it.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                 | **Description**                                                                      |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.IPostProcessor.postProcess">PostProcess</a></code> | Process the completely resolved value, after full recursion/resolution has happened. |
+
+---
+
+##### `PostProcess` <a name="PostProcess" id="cdktf.IPostProcessor.postProcess"></a>
+
+```csharp
+private object PostProcess(object Input, IResolveContext Context)
+```
+
+Process the completely resolved value, after full recursion/resolution has happened.
+
+###### `Input`<sup>Required</sup> <a name="Input" id="cdktf.IPostProcessor.postProcess.parameter.input"></a>
+
+- _Type:_ object
+
+---
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.IPostProcessor.postProcess.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IRemoteWorkspace <a name="IRemoteWorkspace" id="cdktf.IRemoteWorkspace"></a>
+
+- _Implemented By:_ <a href="#cdktf.NamedRemoteWorkspace">NamedRemoteWorkspace</a>, <a href="#cdktf.PrefixedRemoteWorkspaces">PrefixedRemoteWorkspaces</a>, <a href="#cdktf.IRemoteWorkspace">IRemoteWorkspace</a>
+
+### IResolvable <a name="IResolvable" id="cdktf.IResolvable"></a>
+
+- _Implemented By:_ <a href="#cdktf.AnyListList">AnyListList</a>, <a href="#cdktf.AnyListMap">AnyListMap</a>, <a href="#cdktf.AnyMap">AnyMap</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, <a href="#cdktf.BooleanList">BooleanList</a>, <a href="#cdktf.BooleanListList">BooleanListList</a>, <a href="#cdktf.BooleanListMap">BooleanListMap</a>, <a href="#cdktf.BooleanMap">BooleanMap</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.ComplexComputedList">ComplexComputedList</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.ComplexMap">ComplexMap</a>, <a href="#cdktf.ComplexObject">ComplexObject</a>, <a href="#cdktf.LazyBase">LazyBase</a>, <a href="#cdktf.MapList">MapList</a>, <a href="#cdktf.NumberListList">NumberListList</a>, <a href="#cdktf.NumberListMap">NumberListMap</a>, <a href="#cdktf.NumberMap">NumberMap</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.StringListList">StringListList</a>, <a href="#cdktf.StringListMap">StringListMap</a>, <a href="#cdktf.StringMap">StringMap</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.IResolvable">IResolvable</a>
+
+Interface for values that can be resolvable later.
+
+Tokens are special objects that participate in synthesis.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                        | **Description**                                           |
+| --------------------------------------------------------------- | --------------------------------------------------------- |
+| <code><a href="#cdktf.IResolvable.resolve">Resolve</a></code>   | Produce the Token's value at resolution time.             |
+| <code><a href="#cdktf.IResolvable.toString">ToString</a></code> | Return a string representation of this resolvable object. |
+
+---
+
+##### `Resolve` <a name="Resolve" id="cdktf.IResolvable.resolve"></a>
+
+```csharp
+private object Resolve(IResolveContext Context)
+```
+
+Produce the Token's value at resolution time.
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.IResolvable.resolve.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `ToString` <a name="ToString" id="cdktf.IResolvable.toString"></a>
+
+```csharp
+private string ToString()
+```
+
+Return a string representation of this resolvable object.
+
+Returns a reversible string representation.
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                           | **Type**              | **Description**                                                                                  |
+| ---------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.IResolvable.property.creationStack">CreationStack</a></code> | <code>string[]</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
+
+---
+
+##### `CreationStack`<sup>Required</sup> <a name="CreationStack" id="cdktf.IResolvable.property.creationStack"></a>
+
+```csharp
+public string[] CreationStack { get; }
+```
+
+- _Type:_ string[]
+
+The creation stack of this resolvable which will be appended to errors thrown during resolution.
+
+If this returns an empty array the stack will not be attached.
+
+---
+
+### IResolveContext <a name="IResolveContext" id="cdktf.IResolveContext"></a>
+
+- _Implemented By:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+Current resolution context for tokens.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                      | **Description**                                                            |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.IResolveContext.registerPostProcessor">RegisterPostProcessor</a></code> | Use this postprocessor after the entire token structure has been resolved. |
+| <code><a href="#cdktf.IResolveContext.resolve">Resolve</a></code>                             | Resolve an inner object.                                                   |
+
+---
+
+##### `RegisterPostProcessor` <a name="RegisterPostProcessor" id="cdktf.IResolveContext.registerPostProcessor"></a>
+
+```csharp
+private void RegisterPostProcessor(IPostProcessor PostProcessor)
+```
+
+Use this postprocessor after the entire token structure has been resolved.
+
+###### `PostProcessor`<sup>Required</sup> <a name="PostProcessor" id="cdktf.IResolveContext.registerPostProcessor.parameter.postProcessor"></a>
+
+- _Type:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+
+##### `Resolve` <a name="Resolve" id="cdktf.IResolveContext.resolve"></a>
+
+```csharp
+private object Resolve(object X)
+```
+
+Resolve an inner object.
+
+###### `X`<sup>Required</sup> <a name="X" id="cdktf.IResolveContext.resolve.parameter.x"></a>
+
+- _Type:_ object
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                   | **Type**                           | **Description**                                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------ | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.IResolveContext.property.preparing">Preparing</a></code>             | <code>bool</code>                  | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
+| <code><a href="#cdktf.IResolveContext.property.scope">Scope</a></code>                     | <code>Constructs.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">IgnoreEscapes</a></code>     | <code>bool</code>                  | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
+| <code><a href="#cdktf.IResolveContext.property.iteratorContext">IteratorContext</a></code> | <code>string</code>                | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
+| <code><a href="#cdktf.IResolveContext.property.suppressBraces">SuppressBraces</a></code>   | <code>bool</code>                  | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
+| <code><a href="#cdktf.IResolveContext.property.warnEscapes">WarnEscapes</a></code>         | <code>bool</code>                  | True when ${} should not be included in the string to be resolved, outputs a warning.                                                                                                                                              |
+
+---
+
+##### `Preparing`<sup>Required</sup> <a name="Preparing" id="cdktf.IResolveContext.property.preparing"></a>
+
+```csharp
+public bool Preparing { get; }
+```
+
+- _Type:_ bool
+
+True when we are still preparing, false if we're rendering the final output.
+
+---
+
+##### `Scope`<sup>Required</sup> <a name="Scope" id="cdktf.IResolveContext.property.scope"></a>
+
+```csharp
+public IConstruct Scope { get; }
+```
+
+- _Type:_ Constructs.IConstruct
+
+The scope from which resolution has been initiated.
+
+---
+
+##### `IgnoreEscapes`<sup>Optional</sup> <a name="IgnoreEscapes" id="cdktf.IResolveContext.property.ignoreEscapes"></a>
+
+```csharp
+public bool IgnoreEscapes { get; set; }
+```
+
+- _Type:_ bool
+
+True when ${} should not be parsed, and treated as literals.
+
+---
+
+##### `IteratorContext`<sup>Optional</sup> <a name="IteratorContext" id="cdktf.IResolveContext.property.iteratorContext"></a>
+
+```csharp
+public string IteratorContext { get; set; }
+```
+
+- _Type:_ string
+
+TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key.
+
+---
+
+##### `SuppressBraces`<sup>Optional</sup> <a name="SuppressBraces" id="cdktf.IResolveContext.property.suppressBraces"></a>
+
+```csharp
+public bool SuppressBraces { get; set; }
+```
+
+- _Type:_ bool
+
+True when ${} should be ommitted (because already inside them), false otherwise.
+
+---
+
+##### `WarnEscapes`<sup>Optional</sup> <a name="WarnEscapes" id="cdktf.IResolveContext.property.warnEscapes"></a>
+
+```csharp
+public bool WarnEscapes { get; set; }
+```
+
+- _Type:_ bool
+
+True when ${} should not be included in the string to be resolved, outputs a warning.
+
+Default: false
+
+---
+
+### IResource <a name="IResource" id="cdktf.IResource"></a>
+
+- _Extends:_ Constructs.IConstruct
+
+- _Implemented By:_ <a href="#cdktf.Resource">Resource</a>, <a href="#cdktf.IResource">IResource</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                         | **Type**                                                        | **Description**                              |
+| ---------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------- |
+| <code><a href="#cdktf.IResource.property.node">Node</a></code>   | <code>Constructs.Node</code>                                    | The tree node.                               |
+| <code><a href="#cdktf.IResource.property.stack">Stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | The stack in which this resource is defined. |
+
+---
+
+##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.IResource.property.node"></a>
+
+```csharp
+public Node Node { get; }
+```
+
+- _Type:_ Constructs.Node
+
+The tree node.
+
+---
+
+##### `Stack`<sup>Required</sup> <a name="Stack" id="cdktf.IResource.property.stack"></a>
+
+```csharp
+public TerraformStack Stack { get; }
+```
+
+- _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+The stack in which this resource is defined.
+
+---
+
+### IResourceConstructor <a name="IResourceConstructor" id="cdktf.IResourceConstructor"></a>
+
+- _Implemented By:_ <a href="#cdktf.IResourceConstructor">IResourceConstructor</a>
+
+### IScopeCallback <a name="IScopeCallback" id="cdktf.IScopeCallback"></a>
+
+- _Implemented By:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
+
+### IStackSynthesizer <a name="IStackSynthesizer" id="cdktf.IStackSynthesizer"></a>
+
+- _Implemented By:_ <a href="#cdktf.IStackSynthesizer">IStackSynthesizer</a>
+
+Encodes information how a certain Stack should be deployed inspired by AWS CDK v2 implementation (synth functionality was removed in constructs v10).
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                  | **Description**                                 |
+| ------------------------------------------------------------------------- | ----------------------------------------------- |
+| <code><a href="#cdktf.IStackSynthesizer.synthesize">Synthesize</a></code> | Synthesize the associated stack to the session. |
+
+---
+
+##### `Synthesize` <a name="Synthesize" id="cdktf.IStackSynthesizer.synthesize"></a>
+
+```csharp
+private void Synthesize(ISynthesisSession Session)
+```
+
+Synthesize the associated stack to the session.
+
+###### `Session`<sup>Required</sup> <a name="Session" id="cdktf.IStackSynthesizer.synthesize.parameter.session"></a>
+
+- _Type:_ <a href="#cdktf.ISynthesisSession">ISynthesisSession</a>
+
+---
+
+### IStringProducer <a name="IStringProducer" id="cdktf.IStringProducer"></a>
+
+- _Implemented By:_ <a href="#cdktf.IStringProducer">IStringProducer</a>
+
+Interface for lazy string producers.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                          | **Description**           |
+| ----------------------------------------------------------------- | ------------------------- |
+| <code><a href="#cdktf.IStringProducer.produce">Produce</a></code> | Produce the string value. |
+
+---
+
+##### `Produce` <a name="Produce" id="cdktf.IStringProducer.produce"></a>
+
+```csharp
+private string Produce(IResolveContext Context)
+```
+
+Produce the string value.
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.IStringProducer.produce.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### ISynthesisSession <a name="ISynthesisSession" id="cdktf.ISynthesisSession"></a>
+
+- _Implemented By:_ <a href="#cdktf.ISynthesisSession">ISynthesisSession</a>
+
+Represents a single session of synthesis.
+
+Passed into `TerraformStack.onSynthesize()` methods.
+originally from aws/constructs lib v3.3.126 (synth functionality was removed in constructs v10)
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                   | **Type**                                            | **Description**                                  |
+| ------------------------------------------------------------------------------------------ | --------------------------------------------------- | ------------------------------------------------ |
+| <code><a href="#cdktf.ISynthesisSession.property.manifest">Manifest</a></code>             | <code><a href="#cdktf.Manifest">Manifest</a></code> | _No description._                                |
+| <code><a href="#cdktf.ISynthesisSession.property.outdir">Outdir</a></code>                 | <code>string</code>                                 | The output directory for this synthesis session. |
+| <code><a href="#cdktf.ISynthesisSession.property.skipValidation">SkipValidation</a></code> | <code>bool</code>                                   | _No description._                                |
+
+---
+
+##### `Manifest`<sup>Required</sup> <a name="Manifest" id="cdktf.ISynthesisSession.property.manifest"></a>
+
+```csharp
+public Manifest Manifest { get; }
+```
+
+- _Type:_ <a href="#cdktf.Manifest">Manifest</a>
+
+---
+
+##### `Outdir`<sup>Required</sup> <a name="Outdir" id="cdktf.ISynthesisSession.property.outdir"></a>
+
+```csharp
+public string Outdir { get; }
+```
+
+- _Type:_ string
+
+The output directory for this synthesis session.
+
+---
+
+##### `SkipValidation`<sup>Optional</sup> <a name="SkipValidation" id="cdktf.ISynthesisSession.property.skipValidation"></a>
+
+```csharp
+public bool SkipValidation { get; }
+```
+
+- _Type:_ bool
+
+---
+
+### ITerraformAddressable <a name="ITerraformAddressable" id="cdktf.ITerraformAddressable"></a>
+
+- _Implemented By:_ <a href="#cdktf.AnyListList">AnyListList</a>, <a href="#cdktf.AnyListMap">AnyListMap</a>, <a href="#cdktf.AnyMap">AnyMap</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, <a href="#cdktf.BooleanList">BooleanList</a>, <a href="#cdktf.BooleanListList">BooleanListList</a>, <a href="#cdktf.BooleanListMap">BooleanListMap</a>, <a href="#cdktf.BooleanMap">BooleanMap</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.ComplexComputedList">ComplexComputedList</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.ComplexMap">ComplexMap</a>, <a href="#cdktf.ComplexObject">ComplexObject</a>, <a href="#cdktf.DataResource">DataResource</a>, <a href="#cdktf.DataTerraformRemoteState">DataTerraformRemoteState</a>, <a href="#cdktf.DataTerraformRemoteStateAzurerm">DataTerraformRemoteStateAzurerm</a>, <a href="#cdktf.DataTerraformRemoteStateConsul">DataTerraformRemoteStateConsul</a>, <a href="#cdktf.DataTerraformRemoteStateCos">DataTerraformRemoteStateCos</a>, <a href="#cdktf.DataTerraformRemoteStateGcs">DataTerraformRemoteStateGcs</a>, <a href="#cdktf.DataTerraformRemoteStateHttp">DataTerraformRemoteStateHttp</a>, <a href="#cdktf.DataTerraformRemoteStateLocal">DataTerraformRemoteStateLocal</a>, <a href="#cdktf.DataTerraformRemoteStateOss">DataTerraformRemoteStateOss</a>, <a href="#cdktf.DataTerraformRemoteStatePg">DataTerraformRemoteStatePg</a>, <a href="#cdktf.DataTerraformRemoteStateS3">DataTerraformRemoteStateS3</a>, <a href="#cdktf.DataTerraformRemoteStateSwift">DataTerraformRemoteStateSwift</a>, <a href="#cdktf.MapList">MapList</a>, <a href="#cdktf.NumberListList">NumberListList</a>, <a href="#cdktf.NumberListMap">NumberListMap</a>, <a href="#cdktf.NumberMap">NumberMap</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.StringListList">StringListList</a>, <a href="#cdktf.StringListMap">StringListMap</a>, <a href="#cdktf.StringMap">StringMap</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformHclModule">TerraformHclModule</a>, <a href="#cdktf.TerraformLocal">TerraformLocal</a>, <a href="#cdktf.TerraformModule">TerraformModule</a>, <a href="#cdktf.TerraformRemoteState">TerraformRemoteState</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.TerraformVariable">TerraformVariable</a>, <a href="#cdktf.ITerraformAddressable">ITerraformAddressable</a>, <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                 | **Type**            | **Description**   |
+| ------------------------------------------------------------------------ | ------------------- | ----------------- |
+| <code><a href="#cdktf.ITerraformAddressable.property.fqn">Fqn</a></code> | <code>string</code> | _No description._ |
+
+---
+
+##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.ITerraformAddressable.property.fqn"></a>
+
+```csharp
+public string Fqn { get; }
+```
+
+- _Type:_ string
+
+---
+
+### ITerraformDependable <a name="ITerraformDependable" id="cdktf.ITerraformDependable"></a>
+
+- _Extends:_ <a href="#cdktf.ITerraformAddressable">ITerraformAddressable</a>
+
+- _Implemented By:_ <a href="#cdktf.DataResource">DataResource</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformHclModule">TerraformHclModule</a>, <a href="#cdktf.TerraformModule">TerraformModule</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                | **Type**            | **Description**   |
+| ----------------------------------------------------------------------- | ------------------- | ----------------- |
+| <code><a href="#cdktf.ITerraformDependable.property.fqn">Fqn</a></code> | <code>string</code> | _No description._ |
+
+---
+
+##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.ITerraformDependable.property.fqn"></a>
+
+```csharp
+public string Fqn { get; }
+```
+
+- _Type:_ string
+
+---
+
+### ITerraformIterator <a name="ITerraformIterator" id="cdktf.ITerraformIterator"></a>
+
+- _Implemented By:_ <a href="#cdktf.DynamicListTerraformIterator">DynamicListTerraformIterator</a>, <a href="#cdktf.ListTerraformIterator">ListTerraformIterator</a>, <a href="#cdktf.MapTerraformIterator">MapTerraformIterator</a>, <a href="#cdktf.ResourceTerraformIterator">ResourceTerraformIterator</a>, <a href="#cdktf.TerraformIterator">TerraformIterator</a>, <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+### ITerraformResource <a name="ITerraformResource" id="cdktf.ITerraformResource"></a>
+
+- _Implemented By:_ <a href="#cdktf.DataResource">DataResource</a>, <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                                 | **Description**   |
+| -------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ITerraformResource.interpolationForAttribute">InterpolationForAttribute</a></code> | _No description._ |
+
+---
+
+##### `InterpolationForAttribute` <a name="InterpolationForAttribute" id="cdktf.ITerraformResource.interpolationForAttribute"></a>
+
+```csharp
+private IResolvable InterpolationForAttribute(string TerraformAttribute)
+```
+
+###### `TerraformAttribute`<sup>Required</sup> <a name="TerraformAttribute" id="cdktf.ITerraformResource.interpolationForAttribute.parameter.terraformAttribute"></a>
+
+- _Type:_ string
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                  | **Type**                                                                                | **Description**   |
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ITerraformResource.property.fqn">Fqn</a></code>                                     | <code>string</code>                                                                     | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.friendlyUniqueId">FriendlyUniqueId</a></code>           | <code>string</code>                                                                     | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.terraformResourceType">TerraformResourceType</a></code> | <code>string</code>                                                                     | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.count">Count</a></code>                                 | <code>object</code>                                                                     | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.dependsOn">DependsOn</a></code>                         | <code>string[]</code>                                                                   | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.forEach">ForEach</a></code>                             | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                 | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.lifecycle">Lifecycle</a></code>                         | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code> | _No description._ |
+| <code><a href="#cdktf.ITerraformResource.property.provider">Provider</a></code>                           | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                   | _No description._ |
+
+---
+
+##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.ITerraformResource.property.fqn"></a>
+
+```csharp
+public string Fqn { get; }
+```
+
+- _Type:_ string
+
+---
+
+##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.ITerraformResource.property.friendlyUniqueId"></a>
+
+```csharp
+public string FriendlyUniqueId { get; }
+```
+
+- _Type:_ string
+
+---
+
+##### `TerraformResourceType`<sup>Required</sup> <a name="TerraformResourceType" id="cdktf.ITerraformResource.property.terraformResourceType"></a>
+
+```csharp
+public string TerraformResourceType { get; }
+```
+
+- _Type:_ string
+
+---
+
+##### `Count`<sup>Optional</sup> <a name="Count" id="cdktf.ITerraformResource.property.count"></a>
+
+```csharp
+public object Count { get; set; }
+```
+
+- _Type:_ object
+
+---
+
+##### `DependsOn`<sup>Optional</sup> <a name="DependsOn" id="cdktf.ITerraformResource.property.dependsOn"></a>
+
+```csharp
+public string[] DependsOn { get; set; }
+```
+
+- _Type:_ string[]
+
+---
+
+##### `ForEach`<sup>Optional</sup> <a name="ForEach" id="cdktf.ITerraformResource.property.forEach"></a>
+
+```csharp
+public ITerraformIterator ForEach { get; set; }
+```
+
+- _Type:_ <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+##### `Lifecycle`<sup>Optional</sup> <a name="Lifecycle" id="cdktf.ITerraformResource.property.lifecycle"></a>
+
+```csharp
+public TerraformResourceLifecycle Lifecycle { get; set; }
+```
+
+- _Type:_ <a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a>
+
+---
+
+##### `Provider`<sup>Optional</sup> <a name="Provider" id="cdktf.ITerraformResource.property.provider"></a>
+
+```csharp
+public TerraformProvider Provider { get; set; }
+```
+
+- _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+### ITokenMapper <a name="ITokenMapper" id="cdktf.ITokenMapper"></a>
+
+- _Implemented By:_ <a href="#cdktf.ITokenMapper">ITokenMapper</a>
+
+Interface to apply operation to tokens in a string.
+
+Interface so it can be exported via jsii.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                         | **Description**         |
+| ---------------------------------------------------------------- | ----------------------- |
+| <code><a href="#cdktf.ITokenMapper.mapToken">MapToken</a></code> | Replace a single token. |
+
+---
+
+##### `MapToken` <a name="MapToken" id="cdktf.ITokenMapper.mapToken"></a>
+
+```csharp
+private object MapToken(IResolvable T)
+```
+
+Replace a single token.
+
+###### `T`<sup>Required</sup> <a name="T" id="cdktf.ITokenMapper.mapToken.parameter.t"></a>
+
+- _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### ITokenResolver <a name="ITokenResolver" id="cdktf.ITokenResolver"></a>
+
+- _Implemented By:_ <a href="#cdktf.DefaultTokenResolver">DefaultTokenResolver</a>, <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+
+How to resolve tokens.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                             | **Description**                                             |
+| ------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| <code><a href="#cdktf.ITokenResolver.resolveList">ResolveList</a></code>             | Resolve a tokenized list.                                   |
+| <code><a href="#cdktf.ITokenResolver.resolveMap">ResolveMap</a></code>               | Resolve a tokenized map.                                    |
+| <code><a href="#cdktf.ITokenResolver.resolveNumberList">ResolveNumberList</a></code> | Resolve a tokenized number list.                            |
+| <code><a href="#cdktf.ITokenResolver.resolveString">ResolveString</a></code>         | Resolve a string with at least one stringified token in it. |
+| <code><a href="#cdktf.ITokenResolver.resolveToken">ResolveToken</a></code>           | Resolve a single token.                                     |
+
+---
+
+##### `ResolveList` <a name="ResolveList" id="cdktf.ITokenResolver.resolveList"></a>
+
+```csharp
+private object ResolveList(string[] L, IResolveContext Context)
+```
+
+Resolve a tokenized list.
+
+###### `L`<sup>Required</sup> <a name="L" id="cdktf.ITokenResolver.resolveList.parameter.l"></a>
+
+- _Type:_ string[]
+
+---
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.ITokenResolver.resolveList.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `ResolveMap` <a name="ResolveMap" id="cdktf.ITokenResolver.resolveMap"></a>
+
+```csharp
+private object ResolveMap(System.Collections.Generic.IDictionary< string, object > M, IResolveContext Context)
+```
+
+Resolve a tokenized map.
+
+###### `M`<sup>Required</sup> <a name="M" id="cdktf.ITokenResolver.resolveMap.parameter.m"></a>
+
+- _Type:_ System.Collections.Generic.IDictionary< string, object >
+
+---
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.ITokenResolver.resolveMap.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `ResolveNumberList` <a name="ResolveNumberList" id="cdktf.ITokenResolver.resolveNumberList"></a>
+
+```csharp
+private object ResolveNumberList(double[] L, IResolveContext Context)
+```
+
+Resolve a tokenized number list.
+
+###### `L`<sup>Required</sup> <a name="L" id="cdktf.ITokenResolver.resolveNumberList.parameter.l"></a>
+
+- _Type:_ double[]
+
+---
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.ITokenResolver.resolveNumberList.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `ResolveString` <a name="ResolveString" id="cdktf.ITokenResolver.resolveString"></a>
+
+```csharp
+private object ResolveString(TokenizedStringFragments S, IResolveContext Context)
+```
+
+Resolve a string with at least one stringified token in it.
+
+(May use concatenation)
+
+###### `S`<sup>Required</sup> <a name="S" id="cdktf.ITokenResolver.resolveString.parameter.s"></a>
+
+- _Type:_ <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
+
+---
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.ITokenResolver.resolveString.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+##### `ResolveToken` <a name="ResolveToken" id="cdktf.ITokenResolver.resolveToken"></a>
+
+```csharp
+private object ResolveToken(IResolvable T, IResolveContext Context, IPostProcessor PostProcessor)
+```
+
+Resolve a single token.
+
+###### `T`<sup>Required</sup> <a name="T" id="cdktf.ITokenResolver.resolveToken.parameter.t"></a>
+
+- _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.ITokenResolver.resolveToken.parameter.context"></a>
+
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+###### `PostProcessor`<sup>Required</sup> <a name="PostProcessor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
+
+- _Type:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
