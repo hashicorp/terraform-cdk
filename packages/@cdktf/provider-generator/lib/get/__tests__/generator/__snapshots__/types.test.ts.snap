@@ -2377,6 +2377,7 @@ export * as functionResource from './function-resource';
 export * as staticResource from './static-resource';
 export * as providerResource from './provider-resource';
 export * as licenseResource from './license-resource';
+export * as versionResource from './version-resource';
 
 "
 `;
@@ -2389,6 +2390,7 @@ Object.defineProperty(exports, 'functionResource', { get: function () { return r
 Object.defineProperty(exports, 'staticResource', { get: function () { return require('./static-resource'); } });
 Object.defineProperty(exports, 'providerResource', { get: function () { return require('./provider-resource'); } });
 Object.defineProperty(exports, 'licenseResource', { get: function () { return require('./license-resource'); } });
+Object.defineProperty(exports, 'versionResource', { get: function () { return require('./version-resource'); } });
 
 "
 `;
@@ -2907,6 +2909,121 @@ export class StringResource extends cdktf.TerraformResource {
   public constructor(scope: Construct, id: string, config: StringResourceConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'test_string',
+      terraformGeneratorMetadata: {
+        providerName: 'test'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
+    });
+    this._dummy = config.dummy;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // dummy - computed: false, optional: true, required: false
+  private _dummy?: string; 
+  public get dummy() {
+    return this.getStringAttribute('dummy');
+  }
+  public set dummy(value: string) {
+    this._dummy = value;
+  }
+  public resetDummy() {
+    this._dummy = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dummyInput() {
+    return this._dummy;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      dummy: cdktf.stringToTerraform(this._dummy),
+    };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+      dummy: {
+        value: cdktf.stringToHclTerraform(this._dummy),
+        isBlock: false,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+
+    // remove undefined attributes
+    return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))
+  }
+}
+"
+`;
+
+exports[`incompatible resource names: version-resource 1`] = `
+"// https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/version
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface VersionResourceConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/version#dummy VersionResource#dummy}
+  */
+  readonly dummy?: string;
+}
+
+/**
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/version test_version}
+*/
+export class VersionResource extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = "test_version";
+
+  // ==============
+  // STATIC Methods
+  // ==============
+  /**
+  * Generates CDKTF code for importing a VersionResource resource upon running "cdktf plan <stack-name>"
+  * @param scope The scope in which to define this construct
+  * @param importToId The construct id used in the generated config for the VersionResource to import
+  * @param importFromId The id of the existing VersionResource that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/version#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the VersionResource to import is found
+  */
+  public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "test_version", importId: importFromId, provider });
+      }
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/version test_version} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options VersionResourceConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: VersionResourceConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'test_version',
       terraformGeneratorMetadata: {
         providerName: 'test'
       },
