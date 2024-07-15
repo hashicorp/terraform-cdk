@@ -3349,7 +3349,7 @@ new DataTerraformRemoteStateS3Config {
     string Key,
     string AccessKey = null,
     string Acl = null,
-    string AllowedAccountIds = null,
+    string[] AllowedAccountIds = null,
     S3BackendAssumeRoleConfig AssumeRole = null,
     string AssumeRolePolicy = null,
     string[] AssumeRolePolicyArns = null,
@@ -3365,7 +3365,7 @@ new DataTerraformRemoteStateS3Config {
     string Endpoint = null,
     S3BackendEndpointConfig Endpoints = null,
     string ExternalId = null,
-    string ForbiddenAccountIds = null,
+    string[] ForbiddenAccountIds = null,
     bool ForcePathStyle = null,
     string HttpProxy = null,
     string HttpsProxy = null,
@@ -3408,7 +3408,7 @@ new DataTerraformRemoteStateS3Config {
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.key">Key</a></code>                                                       | <code>string</code>                                                                                                 | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.accessKey">AccessKey</a></code>                                           | <code>string</code>                                                                                                 | (Optional) AWS access key.                                                                                                                                                                                                                                     |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.acl">Acl</a></code>                                                       | <code>string</code>                                                                                                 | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.allowedAccountIds">AllowedAccountIds</a></code>                           | <code>string</code>                                                                                                 | (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.allowedAccountIds">AllowedAccountIds</a></code>                           | <code>string[]</code>                                                                                               | (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                             |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRole">AssumeRole</a></code>                                         | <code><a href="#cdktf.S3BackendAssumeRoleConfig">S3BackendAssumeRoleConfig</a></code>                               | Assuming an IAM Role can be configured in two ways.                                                                                                                                                                                                            |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicy">AssumeRolePolicy</a></code>                             | <code>string</code>                                                                                                 | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicyArns">AssumeRolePolicyArns</a></code>                     | <code>string[]</code>                                                                                               | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
@@ -3424,7 +3424,7 @@ new DataTerraformRemoteStateS3Config {
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoint">Endpoint</a></code>                                             | <code>string</code>                                                                                                 | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoints">Endpoints</a></code>                                           | <code><a href="#cdktf.S3BackendEndpointConfig">S3BackendEndpointConfig</a></code>                                   | (Optional) The endpoint configuration block.                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.externalId">ExternalId</a></code>                                         | <code>string</code>                                                                                                 | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forbiddenAccountIds">ForbiddenAccountIds</a></code>                       | <code>string</code>                                                                                                 | (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                           |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forbiddenAccountIds">ForbiddenAccountIds</a></code>                       | <code>string[]</code>                                                                                               | (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                           |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">ForcePathStyle</a></code>                                 | <code>bool</code>                                                                                                   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.httpProxy">HttpProxy</a></code>                                           | <code>string</code>                                                                                                 | (Optional) URL of a proxy to use for HTTP requests when accessing the AWS API.                                                                                                                                                                                 |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.httpsProxy">HttpsProxy</a></code>                                         | <code>string</code>                                                                                                 | (Optional) URL of a proxy to use for HTTPS requests when accessing the AWS API.                                                                                                                                                                                |
@@ -3536,10 +3536,10 @@ public string Acl { get; set; }
 ##### `AllowedAccountIds`<sup>Optional</sup> <a name="AllowedAccountIds" id="cdktf.DataTerraformRemoteStateS3Config.property.allowedAccountIds"></a>
 
 ```csharp
-public string AllowedAccountIds { get; set; }
+public string[] AllowedAccountIds { get; set; }
 ```
 
-- _Type:_ string
+- _Type:_ string[]
 
 (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.
 
@@ -3761,10 +3761,10 @@ public string ExternalId { get; set; }
 ##### `ForbiddenAccountIds`<sup>Optional</sup> <a name="ForbiddenAccountIds" id="cdktf.DataTerraformRemoteStateS3Config.property.forbiddenAccountIds"></a>
 
 ```csharp
-public string ForbiddenAccountIds { get; set; }
+public string[] ForbiddenAccountIds { get; set; }
 ```
 
-- _Type:_ string
+- _Type:_ string[]
 
 (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.
 
@@ -6633,7 +6633,7 @@ new S3BackendConfig {
     string Key,
     string AccessKey = null,
     string Acl = null,
-    string AllowedAccountIds = null,
+    string[] AllowedAccountIds = null,
     S3BackendAssumeRoleConfig AssumeRole = null,
     string AssumeRolePolicy = null,
     string[] AssumeRolePolicyArns = null,
@@ -6649,7 +6649,7 @@ new S3BackendConfig {
     string Endpoint = null,
     S3BackendEndpointConfig Endpoints = null,
     string ExternalId = null,
-    string ForbiddenAccountIds = null,
+    string[] ForbiddenAccountIds = null,
     bool ForcePathStyle = null,
     string HttpProxy = null,
     string HttpsProxy = null,
@@ -6690,7 +6690,7 @@ new S3BackendConfig {
 | <code><a href="#cdktf.S3BackendConfig.property.key">Key</a></code>                                                       | <code>string</code>                                                                                                 | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.S3BackendConfig.property.accessKey">AccessKey</a></code>                                           | <code>string</code>                                                                                                 | (Optional) AWS access key.                                                                                                                                                                                                                                     |
 | <code><a href="#cdktf.S3BackendConfig.property.acl">Acl</a></code>                                                       | <code>string</code>                                                                                                 | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3BackendConfig.property.allowedAccountIds">AllowedAccountIds</a></code>                           | <code>string</code>                                                                                                 | (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                             |
+| <code><a href="#cdktf.S3BackendConfig.property.allowedAccountIds">AllowedAccountIds</a></code>                           | <code>string[]</code>                                                                                               | (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                             |
 | <code><a href="#cdktf.S3BackendConfig.property.assumeRole">AssumeRole</a></code>                                         | <code><a href="#cdktf.S3BackendAssumeRoleConfig">S3BackendAssumeRoleConfig</a></code>                               | Assuming an IAM Role can be configured in two ways.                                                                                                                                                                                                            |
 | <code><a href="#cdktf.S3BackendConfig.property.assumeRolePolicy">AssumeRolePolicy</a></code>                             | <code>string</code>                                                                                                 | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
 | <code><a href="#cdktf.S3BackendConfig.property.assumeRolePolicyArns">AssumeRolePolicyArns</a></code>                     | <code>string[]</code>                                                                                               | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
@@ -6706,7 +6706,7 @@ new S3BackendConfig {
 | <code><a href="#cdktf.S3BackendConfig.property.endpoint">Endpoint</a></code>                                             | <code>string</code>                                                                                                 | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.S3BackendConfig.property.endpoints">Endpoints</a></code>                                           | <code><a href="#cdktf.S3BackendEndpointConfig">S3BackendEndpointConfig</a></code>                                   | (Optional) The endpoint configuration block.                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.S3BackendConfig.property.externalId">ExternalId</a></code>                                         | <code>string</code>                                                                                                 | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.S3BackendConfig.property.forbiddenAccountIds">ForbiddenAccountIds</a></code>                       | <code>string</code>                                                                                                 | (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                           |
+| <code><a href="#cdktf.S3BackendConfig.property.forbiddenAccountIds">ForbiddenAccountIds</a></code>                       | <code>string[]</code>                                                                                               | (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                           |
 | <code><a href="#cdktf.S3BackendConfig.property.forcePathStyle">ForcePathStyle</a></code>                                 | <code>bool</code>                                                                                                   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.S3BackendConfig.property.httpProxy">HttpProxy</a></code>                                           | <code>string</code>                                                                                                 | (Optional) URL of a proxy to use for HTTP requests when accessing the AWS API.                                                                                                                                                                                 |
 | <code><a href="#cdktf.S3BackendConfig.property.httpsProxy">HttpsProxy</a></code>                                         | <code>string</code>                                                                                                 | (Optional) URL of a proxy to use for HTTPS requests when accessing the AWS API.                                                                                                                                                                                |
@@ -6798,10 +6798,10 @@ public string Acl { get; set; }
 ##### `AllowedAccountIds`<sup>Optional</sup> <a name="AllowedAccountIds" id="cdktf.S3BackendConfig.property.allowedAccountIds"></a>
 
 ```csharp
-public string AllowedAccountIds { get; set; }
+public string[] AllowedAccountIds { get; set; }
 ```
 
-- _Type:_ string
+- _Type:_ string[]
 
 (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.
 
@@ -7023,10 +7023,10 @@ public string ExternalId { get; set; }
 ##### `ForbiddenAccountIds`<sup>Optional</sup> <a name="ForbiddenAccountIds" id="cdktf.S3BackendConfig.property.forbiddenAccountIds"></a>
 
 ```csharp
-public string ForbiddenAccountIds { get; set; }
+public string[] ForbiddenAccountIds { get; set; }
 ```
 
-- _Type:_ string
+- _Type:_ string[]
 
 (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.
 
