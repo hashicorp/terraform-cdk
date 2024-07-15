@@ -3354,7 +3354,7 @@ DataTerraformRemoteStateS3Config.builder()
     .key(java.lang.String)
 //  .accessKey(java.lang.String)
 //  .acl(java.lang.String)
-//  .allowedAccountIds(java.lang.String)
+//  .allowedAccountIds(java.util.List< java.lang.String >)
 //  .assumeRole(S3BackendAssumeRoleConfig)
 //  .assumeRolePolicy(java.lang.String)
 //  .assumeRolePolicyArns(java.util.List< java.lang.String >)
@@ -3370,7 +3370,7 @@ DataTerraformRemoteStateS3Config.builder()
 //  .endpoint(java.lang.String)
 //  .endpoints(S3BackendEndpointConfig)
 //  .externalId(java.lang.String)
-//  .forbiddenAccountIds(java.lang.String)
+//  .forbiddenAccountIds(java.util.List< java.lang.String >)
 //  .forcePathStyle(java.lang.Boolean)
 //  .httpProxy(java.lang.String)
 //  .httpsProxy(java.lang.String)
@@ -3413,7 +3413,7 @@ DataTerraformRemoteStateS3Config.builder()
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.key">key</a></code>                                                       | <code>java.lang.String</code>                                                                                       | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.accessKey">accessKey</a></code>                                           | <code>java.lang.String</code>                                                                                       | (Optional) AWS access key.                                                                                                                                                                                                                                     |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.acl">acl</a></code>                                                       | <code>java.lang.String</code>                                                                                       | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.allowedAccountIds">allowedAccountIds</a></code>                           | <code>java.lang.String</code>                                                                                       | (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.allowedAccountIds">allowedAccountIds</a></code>                           | <code>java.util.List< java.lang.String ></code>                                                                     | (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                             |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRole">assumeRole</a></code>                                         | <code><a href="#cdktf.S3BackendAssumeRoleConfig">S3BackendAssumeRoleConfig</a></code>                               | Assuming an IAM Role can be configured in two ways.                                                                                                                                                                                                            |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicy">assumeRolePolicy</a></code>                             | <code>java.lang.String</code>                                                                                       | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicyArns">assumeRolePolicyArns</a></code>                     | <code>java.util.List< java.lang.String ></code>                                                                     | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
@@ -3429,7 +3429,7 @@ DataTerraformRemoteStateS3Config.builder()
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoint">endpoint</a></code>                                             | <code>java.lang.String</code>                                                                                       | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoints">endpoints</a></code>                                           | <code><a href="#cdktf.S3BackendEndpointConfig">S3BackendEndpointConfig</a></code>                                   | (Optional) The endpoint configuration block.                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.externalId">externalId</a></code>                                         | <code>java.lang.String</code>                                                                                       | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forbiddenAccountIds">forbiddenAccountIds</a></code>                       | <code>java.lang.String</code>                                                                                       | (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                           |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forbiddenAccountIds">forbiddenAccountIds</a></code>                       | <code>java.util.List< java.lang.String ></code>                                                                     | (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                           |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">forcePathStyle</a></code>                                 | <code>java.lang.Boolean</code>                                                                                      | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.httpProxy">httpProxy</a></code>                                           | <code>java.lang.String</code>                                                                                       | (Optional) URL of a proxy to use for HTTP requests when accessing the AWS API.                                                                                                                                                                                 |
 | <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.httpsProxy">httpsProxy</a></code>                                         | <code>java.lang.String</code>                                                                                       | (Optional) URL of a proxy to use for HTTPS requests when accessing the AWS API.                                                                                                                                                                                |
@@ -3541,10 +3541,10 @@ public java.lang.String getAcl();
 ##### `allowedAccountIds`<sup>Optional</sup> <a name="allowedAccountIds" id="cdktf.DataTerraformRemoteStateS3Config.property.allowedAccountIds"></a>
 
 ```java
-public java.lang.String getAllowedAccountIds();
+public java.util.List< java.lang.String > getAllowedAccountIds();
 ```
 
-- _Type:_ java.lang.String
+- _Type:_ java.util.List< java.lang.String >
 
 (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.
 
@@ -3766,10 +3766,10 @@ public java.lang.String getExternalId();
 ##### `forbiddenAccountIds`<sup>Optional</sup> <a name="forbiddenAccountIds" id="cdktf.DataTerraformRemoteStateS3Config.property.forbiddenAccountIds"></a>
 
 ```java
-public java.lang.String getForbiddenAccountIds();
+public java.util.List< java.lang.String > getForbiddenAccountIds();
 ```
 
-- _Type:_ java.lang.String
+- _Type:_ java.util.List< java.lang.String >
 
 (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.
 
@@ -6640,7 +6640,7 @@ S3BackendConfig.builder()
     .key(java.lang.String)
 //  .accessKey(java.lang.String)
 //  .acl(java.lang.String)
-//  .allowedAccountIds(java.lang.String)
+//  .allowedAccountIds(java.util.List< java.lang.String >)
 //  .assumeRole(S3BackendAssumeRoleConfig)
 //  .assumeRolePolicy(java.lang.String)
 //  .assumeRolePolicyArns(java.util.List< java.lang.String >)
@@ -6656,7 +6656,7 @@ S3BackendConfig.builder()
 //  .endpoint(java.lang.String)
 //  .endpoints(S3BackendEndpointConfig)
 //  .externalId(java.lang.String)
-//  .forbiddenAccountIds(java.lang.String)
+//  .forbiddenAccountIds(java.util.List< java.lang.String >)
 //  .forcePathStyle(java.lang.Boolean)
 //  .httpProxy(java.lang.String)
 //  .httpsProxy(java.lang.String)
@@ -6697,7 +6697,7 @@ S3BackendConfig.builder()
 | <code><a href="#cdktf.S3BackendConfig.property.key">key</a></code>                                                       | <code>java.lang.String</code>                                                                                       | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.S3BackendConfig.property.accessKey">accessKey</a></code>                                           | <code>java.lang.String</code>                                                                                       | (Optional) AWS access key.                                                                                                                                                                                                                                     |
 | <code><a href="#cdktf.S3BackendConfig.property.acl">acl</a></code>                                                       | <code>java.lang.String</code>                                                                                       | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3BackendConfig.property.allowedAccountIds">allowedAccountIds</a></code>                           | <code>java.lang.String</code>                                                                                       | (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                             |
+| <code><a href="#cdktf.S3BackendConfig.property.allowedAccountIds">allowedAccountIds</a></code>                           | <code>java.util.List< java.lang.String ></code>                                                                     | (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                             |
 | <code><a href="#cdktf.S3BackendConfig.property.assumeRole">assumeRole</a></code>                                         | <code><a href="#cdktf.S3BackendAssumeRoleConfig">S3BackendAssumeRoleConfig</a></code>                               | Assuming an IAM Role can be configured in two ways.                                                                                                                                                                                                            |
 | <code><a href="#cdktf.S3BackendConfig.property.assumeRolePolicy">assumeRolePolicy</a></code>                             | <code>java.lang.String</code>                                                                                       | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
 | <code><a href="#cdktf.S3BackendConfig.property.assumeRolePolicyArns">assumeRolePolicyArns</a></code>                     | <code>java.util.List< java.lang.String ></code>                                                                     | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
@@ -6713,7 +6713,7 @@ S3BackendConfig.builder()
 | <code><a href="#cdktf.S3BackendConfig.property.endpoint">endpoint</a></code>                                             | <code>java.lang.String</code>                                                                                       | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
 | <code><a href="#cdktf.S3BackendConfig.property.endpoints">endpoints</a></code>                                           | <code><a href="#cdktf.S3BackendEndpointConfig">S3BackendEndpointConfig</a></code>                                   | (Optional) The endpoint configuration block.                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.S3BackendConfig.property.externalId">externalId</a></code>                                         | <code>java.lang.String</code>                                                                                       | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.S3BackendConfig.property.forbiddenAccountIds">forbiddenAccountIds</a></code>                       | <code>java.lang.String</code>                                                                                       | (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                           |
+| <code><a href="#cdktf.S3BackendConfig.property.forbiddenAccountIds">forbiddenAccountIds</a></code>                       | <code>java.util.List< java.lang.String ></code>                                                                     | (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.                                                                                                                                                           |
 | <code><a href="#cdktf.S3BackendConfig.property.forcePathStyle">forcePathStyle</a></code>                                 | <code>java.lang.Boolean</code>                                                                                      | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
 | <code><a href="#cdktf.S3BackendConfig.property.httpProxy">httpProxy</a></code>                                           | <code>java.lang.String</code>                                                                                       | (Optional) URL of a proxy to use for HTTP requests when accessing the AWS API.                                                                                                                                                                                 |
 | <code><a href="#cdktf.S3BackendConfig.property.httpsProxy">httpsProxy</a></code>                                         | <code>java.lang.String</code>                                                                                       | (Optional) URL of a proxy to use for HTTPS requests when accessing the AWS API.                                                                                                                                                                                |
@@ -6805,10 +6805,10 @@ public java.lang.String getAcl();
 ##### `allowedAccountIds`<sup>Optional</sup> <a name="allowedAccountIds" id="cdktf.S3BackendConfig.property.allowedAccountIds"></a>
 
 ```java
-public java.lang.String getAllowedAccountIds();
+public java.util.List< java.lang.String > getAllowedAccountIds();
 ```
 
-- _Type:_ java.lang.String
+- _Type:_ java.util.List< java.lang.String >
 
 (Optional) List of allowed AWS account IDs to prevent potential destruction of a live environment.
 
@@ -7030,10 +7030,10 @@ public java.lang.String getExternalId();
 ##### `forbiddenAccountIds`<sup>Optional</sup> <a name="forbiddenAccountIds" id="cdktf.S3BackendConfig.property.forbiddenAccountIds"></a>
 
 ```java
-public java.lang.String getForbiddenAccountIds();
+public java.util.List< java.lang.String > getForbiddenAccountIds();
 ```
 
-- _Type:_ java.lang.String
+- _Type:_ java.util.List< java.lang.String >
 
 (Optional) List of forbidden AWS account IDs to prevent potential destruction of a live environment.
 
