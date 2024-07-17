@@ -442,6 +442,7 @@ test("incompatible resource names", async () => {
       "provider-resource",
       "static-resource",
       "string-resource",
+      "version-resource",
     ]
   `);
 
