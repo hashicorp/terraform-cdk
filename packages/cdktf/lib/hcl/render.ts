@@ -26,6 +26,10 @@ function wrapIdentifierInQuotesIfNeeded(key: string): string {
  *
  */
 function renderString(str: string): string {
+  if (str === "") {
+    return `""`;
+  }
+
   if (!str) {
     return str;
   }
@@ -526,6 +530,10 @@ function renderFuzzyJsonExpression(jsonExpression: any): string {
   }
 
   if (typeof jsonExpression === "string") {
+    if (jsonExpression === "") {
+      return `""`;
+    }
+
     if (jsonExpression.includes("${")) {
       return `"${jsonExpression}"`;
     }
@@ -609,7 +617,7 @@ export function renderAttributes(attributes: any): string {
         !v.hasOwnProperty("dynamic")
       ) {
         if (metaBlocks.includes(name)) {
-          return `${name} { 
+          return `${name} {
 ${renderSimpleAttributes(v)}
 }`;
         }
@@ -643,8 +651,8 @@ ${renderSimpleAttributes(v)}
       }
 
       if (block && type !== "list" && type !== "set") {
-        return `${name} { 
-${renderAttributes(value)} 
+        return `${name} {
+${renderAttributes(value)}
 }`;
       }
       if (type === "list" || type === "set") {

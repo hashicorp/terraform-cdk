@@ -1,0 +1,5 @@
+[tools]
+node = '18'
+python = '3.11'
+go = '1.18'
+java = "prefix:corretto-20"
