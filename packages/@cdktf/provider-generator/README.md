@@ -5,7 +5,7 @@
 ## Usage
 
 ```sh
-yarn install @cdktf/provider-generator
+yarn add @cdktf/provider-generator
 ```
 
 ### Generate bindings
