@@ -8,6 +8,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { Documentation, Language } from "jsii-docgen";
+import { getAnchors, replaceAnchorsWithLinks } from "./anchors";
 
 (async function () {
   const remarkParse = (await import("remark-parse")).default;
@@ -188,19 +189,44 @@ ${replaceAngleBracketsInDocumentation(
         recursive: true,
       });
 
+      const contents = {};
       await Promise.all(
         topics.map(async (topic) => {
-          fs.writeFileSync(
-            path.resolve(langFolder, `${topic.toLowerCase()}.mdx`),
-            compose(
-              lang,
-              topic,
-              await filterByTopicAndRemoveAnchors(rendered, topic)
-            ),
-            "utf-8"
+          contents[topic.toLowerCase()] = compose(
+            lang,
+            topic,
+            await filterByTopicAndRemoveAnchors(rendered, topic)
           );
         })
       );
+
+      // anchor -> relative url
+      const anchorMap = {};
+      Object.entries(topic, contents).forEach((topic, content) => {
+        const anchors = getAnchors(content);
+        anchors.forEach((anchor) => {
+          anchorMap[
+            anchor
+          ] = `/terraform/cdktf/api-reference/${lang.toLowerCase()}/${topic}`;
+        });
+      });
+
+      // replace anchors with relative urls
+      const contentsWithAbsoluteLinks = Object.entries(contents).reduce(
+        (carry, [topic, content]) => ({
+          ...carry,
+          [topic]: replaceAnchorsWithLinks(content, anchorMap),
+        }),
+        {}
+      );
+
+      Object.entries(contentsWithAbsoluteLinks).forEach(([topic, content]) => {
+        fs.writeFileSync(
+          path.resolve(langFolder, `${topic}.mdx`),
+          content,
+          "utf-8"
+        );
+      });
     }
   });
 })();

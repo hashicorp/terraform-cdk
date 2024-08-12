@@ -3,11 +3,13 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "docs": "node ./generate-documentation.js ../../"
+        "docs": "node ./generate-documentation.js ../../",
+        "test": "jest"
     },
     "dependencies": {
         "cdktf": "file:../../packages/cdktf",
-        "constructs": "10.3.0"
+        "constructs": "10.3.0",
+        "jest": "^29.7.0"
     },
     "devDependencies": {
         "jsii-docgen": "^10.4.19",
