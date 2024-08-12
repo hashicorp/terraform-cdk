@@ -129,6 +129,22 @@ jobs:
                   "@cdktf/commons",
                 ],
             },
+            # Sometimes we are very lucky and all packages can be updated in one go
+            # We should take the chance and spare us some rebases
+            {
+              name: "all",
+              packages:
+                [
+                  "cdktf-cli",
+                  "@cdktf/cli-core",
+                  "cdktf",
+                  "@cdktf/hcl2cdk",
+                  "@cdktf/hcl2json",
+                  "@cdktf/provider-schema",
+                  "@cdktf/provider-generator",
+                  "@cdktf/commons",
+                ],
+            },
           ]
     steps:
       - name: Check Out
