@@ -37,11 +37,10 @@ class TaggedS3Bucket extends S3Bucket {
   constructor(scope: Construct, name: string, config: S3BucketConfig) {
     super(scope, name, config);
 
-    this.tagsInput = {
-      ...this.tagsInput,
+    Object.assign(this.tagsInput, {
       owner: "my-team",
       purpose: "storage",
-    };
+    });
   }
 }
 
