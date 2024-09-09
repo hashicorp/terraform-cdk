@@ -28,7 +28,6 @@ import {
 } from "./models";
 import { detectAttributeLoops } from "./loop-detection";
 import { shouldSkipAttribute } from "./skipped-attributes";
-import { Errors } from "@cdktf/commons";
 
 // Can't be used in expressions like "export * as <keyword> from ... "
 // filtered from all keywords from: https://github.com/microsoft/TypeScript/blob/503604c884bd0557c851b11b699ef98cdb65b93b/src/compiler/types.ts#L114-L197
@@ -396,28 +395,27 @@ class Parser {
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
     )) {
+      let type: AttributeTypeModel;
       if (shouldSkipAttribute(parentType.fullName(terraformAttributeName))) {
-        throw Errors.Internal(
-          `Skipping attribute ${parentType.fullName(
-            terraformAttributeName
-          )} is not implemented since it's an attribute and not a block type`
+        type = new SimpleAttributeTypeModel("any");
+      } else {
+        type = this.renderAttributeType(
+          [
+            parentType,
+            new Scope({
+              name: terraformAttributeName,
+              parent: parentType,
+              isProvider: parentType.isProvider,
+              isComputed: !!att.computed,
+              isOptional: !!att.optional,
+              isRequired: !!att.required,
+              isNestedType: isNestedTypeAttribute(att),
+            }),
+          ],
+          att.type || att.nested_type
         );
       }
-      const type = this.renderAttributeType(
-        [
-          parentType,
-          new Scope({
-            name: terraformAttributeName,
-            parent: parentType,
-            isProvider: parentType.isProvider,
-            isComputed: !!att.computed,
-            isOptional: !!att.optional,
-            isRequired: !!att.required,
-            isNestedType: isNestedTypeAttribute(att),
-          }),
-        ],
-        att.type || att.nested_type
-      );
+
       const name = toCamelCase(terraformAttributeName);
 
       attributes.push(
