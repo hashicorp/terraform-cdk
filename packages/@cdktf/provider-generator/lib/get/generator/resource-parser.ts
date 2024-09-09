@@ -396,8 +396,10 @@ class Parser {
       block.attributes || {}
     )) {
       let type: AttributeTypeModel;
+      let forcePlainGetterType = false;
       if (shouldSkipAttribute(parentType.fullName(terraformAttributeName))) {
-        type = new SimpleAttributeTypeModel("any");
+        type = new SkippedAttributeTypeModel();
+        forcePlainGetterType = true;
       } else {
         type = this.renderAttributeType(
           [
@@ -430,6 +432,7 @@ class Parser {
           type,
           provider: parentType.isProvider,
           required: !!att.required,
+          forcePlainGetterType,
         })
       );
     }

@@ -211,7 +211,7 @@ export class DataAwsQuicksightAnalysis extends cdktf.TerraformDataSource {
 
   // definition - computed: true, optional: false, required: false
   public get definition() {
-    return this.getAnyAttribute('definition');
+    return this.interpolationForAttribute('definition');
   }
 
   // id - computed: true, optional: true, required: false
