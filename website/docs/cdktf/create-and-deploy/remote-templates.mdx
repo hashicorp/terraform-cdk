@@ -83,3 +83,9 @@ The following example initializes a new CDKTF project with a remote template.
 ```
 $ cdktf init --template https://github.com/<user or organization>/<repo>/archive/refs/tags/v0.0.1.zip
 ```
+
+To use a local template, you can use the `file://` protocol followed by the path to your template directory:
+
+```
+$ cdktf init --template file://../path/to/your/template.zip
+```

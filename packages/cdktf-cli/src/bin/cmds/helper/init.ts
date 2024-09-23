@@ -542,19 +542,23 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
     );
 
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf."));
-    const tmpZipFile = path.join(tmpDir, remoteFileName);
     const zipExtractDir = path.join(tmpDir, "extracted");
 
-    logger.trace(
-      `Downloading "${remoteFileName}" to temporary directory "${tmpDir}"`
-    );
-    console.log(
-      chalkColour`Downloading "{whiteBright ${remoteFileName}}" to temporary directory`
-    );
-    await downloadFile(url.href, tmpZipFile);
-
-    console.log("Extracting zip file");
-    await extract(tmpZipFile, { dir: zipExtractDir });
+    if (url.protocol === "file:") {
+      console.log("Extracting zip file");
+      await extract(path.join(url.hostname, url.pathname), { dir: zipExtractDir });
+    } else {
+      const tmpZipFile = path.join(tmpDir, remoteFileName);
+      logger.trace(
+        `Downloading "${remoteFileName}" to temporary directory "${tmpDir}"`
+      );
+      console.log(
+        chalkColour`Downloading "{whiteBright ${remoteFileName}}" to temporary directory`
+      );
+      await downloadFile(url.href, tmpZipFile);
+      console.log("Extracting zip file");
+      await extract(tmpZipFile, { dir: zipExtractDir });
+    }
 
     // walk directory to find cdktf.json as the extracted directory contains a root directory with unknown name
     // this also allows nesting the template itself into a sub directory and having a root directory with an unrelated README
