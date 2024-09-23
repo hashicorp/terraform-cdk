@@ -78,12 +78,14 @@ jobs:
         with:
           name: dist
           path: dist
+          include-hidden-files: true
       - name: Upload edge-provider bindings
         uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: ${{ !inputs.skip_setup }}
         with:
           name: edge-provider-bindings
           path: packages/@cdktf/provider-generator/edge-provider-bindings
+          include-hidden-files: true
       - name: publish tag
         run: git push --follow-tags
 

@@ -67,6 +67,7 @@ jobs:
         with:
           name: upgrade.patch
           path: ./upgrade.patch
+          include-hidden-files: true
 
   prRoot:
     name: Create Pull Request Root
