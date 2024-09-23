@@ -314,3 +314,10 @@ func RemoteStateDataSourceStack(scope constructs.Construct, name string) cdktf.T
 ```
 
 </CodeTabs>
+
+### Large Data Source Configurations
+
+A few individual Terraform Data Sources have very deeply nested schemas with a lot of attributes. This blows up the config classes and slows down the code generation for languages besides Typescript. To work around this we sometimes limit the depth of the config classes and use `any` on deeper level, some attributes we directly expose as `any` on the top level config class.
+
+- `aws` Provider:
+  - `data.aws_quicksight_analysis.definition` is set to `any`

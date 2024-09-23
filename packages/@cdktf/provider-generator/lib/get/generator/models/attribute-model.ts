@@ -32,6 +32,7 @@ export interface AttributeModelOptions {
   getAttCall?: string;
   provider: boolean;
   required: boolean;
+  forcePlainGetterType?: boolean; // used for skipping attribute type attributes that use the SkippedAttributeTypeModel which returns an interpolation and has no stored type
 }
 
 export function escapeAttributeName(name: string) {
@@ -67,6 +68,7 @@ export class AttributeModel {
   private _description?: string;
   public provider: boolean;
   public required: boolean;
+  public forcePlainGetterType?: boolean;
 
   constructor(options: AttributeModelOptions) {
     this.storageName = options.storageName;
@@ -79,6 +81,7 @@ export class AttributeModel {
     this._description = options.description;
     this.provider = options.provider;
     this.required = options.required;
+    this.forcePlainGetterType = options.forcePlainGetterType;
   }
 
   public get typeDefinition() {
@@ -104,6 +107,10 @@ export class AttributeModel {
 
   public get getterType(): GetterType {
     let getterType: GetterType = { _type: "plain" };
+
+    if (this.forcePlainGetterType) {
+      return getterType;
+    }
 
     if (this.isProvider) {
       return getterType;
