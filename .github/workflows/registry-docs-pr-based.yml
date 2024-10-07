@@ -212,6 +212,7 @@ jobs:
           repository: ${{ inputs.repository }}
           ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}-${{ matrix.files.index }}
           token: ${{ secrets.GH_PR_TOKEN }}
+
       - name: Merge this branch into docs branch
         run: |
           TARGET_BRANCH="d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}"
@@ -221,6 +222,10 @@ jobs:
           git pull origin $TARGET_BRANCH --rebase
           git merge --no-ff d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}-${{ matrix.files.index }}
           git push origin $TARGET_BRANCH
+
+      - name: Remove branch
+        run: |
+          git push origin --delete d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}-${{ matrix.files.index }}
 
   cdktfDocsCreatePR:
     needs:
