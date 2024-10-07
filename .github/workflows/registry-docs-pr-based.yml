@@ -131,7 +131,9 @@ jobs:
       - id: set-matrix
         run: |
           matrix=$(cdktf-registry-docs ci-matrix --max-runners=${{ inputs.maxRunners }} --files='${{ inputs.files }}' .)
-          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+          // transforms '["a.md,b.md", "c.md,d.md"]' to '[{index: "0", value: "a.md,b.md"}, {index: "1", value: "c.md,d.md"}]'
+          matrixWithIndex=$(echo $matrix | jq -r 'to_entries | map({index: "\(.key)", value: .value})')
+          echo "matrix=$matrixWithIndex" >> $GITHUB_OUTPUT
         env:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
 
@@ -172,7 +174,7 @@ jobs:
       - name: Run conversion
         run: |
           cdktf-registry-docs convert \
-            --files='${{ matrix.files }}' \
+            --files='${{ matrix.files.value }}' \
             --languages='${{inputs.languages}}' \
             --parallel-file-conversions=${{ inputs.parallelFileConversions }} \
             --parallel-conversions-per-document=${{ inputs.parallelConversionsPerDocument }}\
@@ -190,14 +192,39 @@ jobs:
       - name: Commit changes
         if: steps.changes.outputs.changes_happened
         run: |
-          git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+          git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}-${{ matrix.files.index }}
           git add .
           git commit -m "cdktf: update ${{ matrix.files }}"
-          git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+          git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}-${{ matrix.files.index }}
+
+  cdktfDocsMergeBranches:
+    needs:
+      - cdktfDocsConvert
+      - cdktfDocsMatrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        files: ${{fromJSON(needs.cdktfDocsMatrix.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          repository: ${{ inputs.repository }}
+          ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}-${{ matrix.files.index }}
+          token: ${{ secrets.GH_PR_TOKEN }}
+      - name: Merge this branch into docs branch
+        run: |
+          TARGET_BRANCH="d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}"
+
+          git fetch origin
+          git checkout $TARGET_BRANCH
+          git pull origin $TARGET_BRANCH --rebase
+          git merge --no-ff d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}-${{ matrix.files.index }}
+          git push origin $TARGET_BRANCH
 
   cdktfDocsCreatePR:
     needs:
-      - cdktfDocsConvert
+      - cdktfDocsMergeBranches
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
