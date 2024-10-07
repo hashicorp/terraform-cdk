@@ -130,7 +130,7 @@ jobs:
 
       - id: set-matrix
         run: |
-          matrix=$(cdktf-registry-docs ci-matrix --max-runners=${{ inputs.maxRunners }} --files='${{ inputs.files }}' .)
+          matrix=$(npx cdktf-registry-docs ci-matrix --max-runners=${{ inputs.maxRunners }} --files='${{ inputs.files }}' .)
           // transforms '["a.md,b.md", "c.md,d.md"]' to '[{index: "0", value: "a.md,b.md"}, {index: "1", value: "c.md,d.md"}]'
           matrixWithIndex=$(echo $matrix | jq -r 'to_entries | map({index: "\(.key)", value: .value})')
           echo "matrix=$matrixWithIndex" >> $GITHUB_OUTPUT
