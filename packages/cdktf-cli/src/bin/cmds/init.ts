@@ -16,7 +16,7 @@ class Command extends BaseCommand {
       .showHelpOnFail(true)
       .option("template", {
         type: "string",
-        desc: `The template to be used to create a new project. Either URL to zip file or one of the built-in templates.`,
+        desc: `The template to be used to create a new project. Either URL to zip file, one of the built-in templates, or a local directory.`,
       })
       .option("project-name", {
         type: "string",
