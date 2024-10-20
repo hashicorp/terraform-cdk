@@ -4,6 +4,8 @@
 
 set -euo pipefail
 
+GOROOT="${GOROOT:-$(go env GOROOT)}"
+
 if [[ -z "${GOROOT-}" ]]; then
   echo "GOROOT environment variable needs to be set!"
   exit 1
