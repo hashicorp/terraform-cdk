@@ -24,7 +24,7 @@ jobs:
       examples: ${{ steps.set-examples.outputs.examples }}
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
       - id: set-examples
         run: |
           tfDefault=$(cat .terraform.versions.json | jq -r '.default')
@@ -45,7 +45,7 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
       - name: "Add Git safe.directory" # Go 1.18+ started embedding repo info in the build and e.g. building @cdktf/hcl2json fails without this
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: ensure correct user
@@ -59,20 +59,20 @@ jobs:
           echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/go
           echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
-      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4.1.1
         with:
           path: ${{ steps.global-cache-dir-path.outputs.yarn }}
           key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-examples
           restore-keys: |
             yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
             yarn-${{ runner.os }}-
-      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4.1.1
         with:
           path: ${{ steps.global-cache-dir-path.outputs.terraform }}
           key: terraform-${{ runner.os }}-${{ matrix.terraform }}-examples
           restore-keys: |
             terraform-${{ runner.os }}-${{ matrix.terraform }}
-      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      - uses: actions/cache@3624ceb22c1c5a301c8db4169662070a689d9ea8 # v4.1.1
         with:
           path: ${{ steps.global-cache-dir-path.outputs.go }}
           key: go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-examples
