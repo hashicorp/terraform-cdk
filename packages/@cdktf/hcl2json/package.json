@@ -39,10 +39,10 @@
   },
   "devDependencies": {
     "@types/fs-extra": "11.0.4",
-    "@types/jest": "29.5.12",
-    "@types/node": "18.19.44",
+    "@types/jest": "29.5.13",
+    "@types/node": "18.19.57",
     "jest": "29.7.0",
-    "ts-jest": "29.2.4",
+    "ts-jest": "29.2.5",
     "typescript": "5.2.2"
   }
 }
