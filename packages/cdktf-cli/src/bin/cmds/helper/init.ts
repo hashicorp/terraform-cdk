@@ -519,15 +519,22 @@ async function getTemplate(
     }
   }
 
-  // treat as remote url
-  if (!templates.includes(templateName)) {
-    return fetchRemoteTemplate(templateName);
-  } else {
+  if (templates.includes(templateName)) {
     return {
       Name: templateName,
       Path: path.join(templatesDir, templateName),
     };
   }
+  if (
+    templateName.startsWith("http://") ||
+    templateName.startsWith("https://")
+  ) {
+    return fetchRemoteTemplate(templateName);
+  }
+  return {
+    Name: path.basename(templateName),
+    Path: templateName,
+  };
 }
 
 async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
