@@ -9,7 +9,7 @@ import { logger } from "./logging";
 import { exec } from "./util";
 
 export function isGradleProject(workingDirectory: string): boolean {
-  const buildGradlePath = path.join(workingDirectory, "build.gradle");
+  const buildGradlePath = path.join(workingDirectory, "build.gradle" || "build.gradle.kts");
 
   try {
     fs.accessSync(buildGradlePath, fs.constants.R_OK | fs.constants.W_OK);
@@ -151,7 +151,7 @@ export async function getGradlePackageVersion(packageName: string) {
 }
 
 export async function getGradlePackageVersionFromBuild(packageName: string) {
-  const buildGradlePath = path.join(process.cwd(), "build.gradle");
+  const buildGradlePath = path.join(process.cwd(), "build.gradle" || "build.gradle.kts");
   const buildGradleContents = await fs.readFile(buildGradlePath, "utf-8");
   const buildLines = buildGradleContents.split(/\r\n|\r|\n/);
 
