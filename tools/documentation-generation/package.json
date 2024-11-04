@@ -7,10 +7,10 @@
     },
     "dependencies": {
         "cdktf": "file:../../packages/cdktf",
-        "constructs": "10.3.0"
+        "constructs": "10.4.2"
     },
     "devDependencies": {
-        "jsii-docgen": "^10.4.20",
+        "jsii-docgen": "^10.5.5",
         "remark-parse": "^11.0.0",
         "remark-stringify": "^11.0.0",
         "unified": "^11.0.5",
