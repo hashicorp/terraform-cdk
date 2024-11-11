@@ -1,3 +1,19 @@
+## 0.20.10
+
+### fix
+
+- fix(provider-generator): Skip attributes for oracle/oci provider that use the unsupported mapmapmap type [\#3749](https://github.com/hashicorp/terraform-cdk/pull/3749)
+- fix: use 'go env GOROOT' when GOROOT env is missing [\#3745](https://github.com/hashicorp/terraform-cdk/pull/3745)
+- fix: run lint in Docker image to use same Node version as in other CI jobs [\#3742](https://github.com/hashicorp/terraform-cdk/pull/3742)
+
+### chore
+
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3757](https://github.com/hashicorp/terraform-cdk/pull/3757)
+- chore: Upgrade dependencies for all [\#3756](https://github.com/hashicorp/terraform-cdk/pull/3756)
+- chore: update version of docs conversion tool [\#3750](https://github.com/hashicorp/terraform-cdk/pull/3750)
+- chore: increase time the docs conversion might take [\#3748](https://github.com/hashicorp/terraform-cdk/pull/3748)
+- chore: Upgrade dependencies for all [\#3709](https://github.com/hashicorp/terraform-cdk/pull/3709)
+
 ## 0.20.9
 
 ### feat
