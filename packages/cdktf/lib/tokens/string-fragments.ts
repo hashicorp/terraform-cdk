@@ -87,7 +87,7 @@ export class TokenizedStringFragments {
   }
 
   public concat(other: TokenizedStringFragments): void {
-    this.fragments.concat(other.fragments);
+    this.fragments.push(...other.fragments);
   }
 
   /**
