@@ -1,11 +1,11 @@
 ---
-page_title: HCL Interoperability - CDK for Terraform
+title: HCL interoperability
 description: >-
-  Use configurations written in HCL and configurations written in CDK for
-  Terraform together to define and provision infrastructure.
+  Use Terraform configuration written in HCL with CDK for Terraform applications
+  to define and provision infrastructure.
 ---
 
-# HCL Interoperability
+# HCL interoperability
 
 Terraform requires infrastructure configuration files written in either [HashiCorp Configuration Language (HCL)](/terraform/language/syntax/configuration) or JSON syntax. CDK for Terraform (CDKTF) works by translating configurations defined in an imperative programming language to JSON configuration files for Terraform.
 Starting from version 0.20, CDKTF can also generate Terraform HCL as output by setting the `--hcl` flag when running `cdktf synth`.
