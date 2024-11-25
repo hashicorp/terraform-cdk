@@ -37,11 +37,11 @@
   ],
   "license": "MPL-2.0",
   "dependencies": {
-    "@sentry/node": "7.119.2",
+    "@sentry/node": "7.120.0",
     "cdktf": "0.0.0",
     "ci-info": "3.9.0",
     "codemaker": "1.102.0",
-    "cross-spawn": "7.0.3",
+    "cross-spawn": "7.0.6",
     "follow-redirects": "1.15.9",
     "fs-extra": "11.2.0",
     "is-valid-domain": "0.1.6",
