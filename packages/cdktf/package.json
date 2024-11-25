@@ -108,7 +108,7 @@
         "@types/jest": "29.5.14",
         "@types/json-stable-stringify": "1.1.0",
         "@types/minimatch": "5.1.2",
-        "@types/node": "18.19.64",
+        "@types/node": "18.19.65",
         "@types/semver": "7.5.8",
         "@typescript-eslint/eslint-plugin": "4.33.0",
         "@typescript-eslint/parser": "4.33.0",

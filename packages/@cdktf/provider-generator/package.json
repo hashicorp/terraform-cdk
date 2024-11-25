@@ -36,7 +36,7 @@
     "dependencies": {
         "@cdktf/commons": "0.0.0",
         "@cdktf/provider-schema": "0.0.0",
-        "@types/node": "18.19.64",
+        "@types/node": "18.19.65",
         "codemaker": "1.102.0",
         "fs-extra": "8.1.0",
         "glob": "10.4.5"
