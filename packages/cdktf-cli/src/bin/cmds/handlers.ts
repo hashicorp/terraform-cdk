@@ -424,24 +424,22 @@ export async function login(argv: { tfeHostname: string }) {
   let token = "";
   try {
     token = await readStreamAsString(process.stdin);
+    token = token.replace(/\n/g, "");
   } catch (e) {
     logger.debug(`No TTY stream passed to login`);
   }
 
-  const sanitizedToken = token.replace(/\n/g, "");
-
   // If we get a token through stdin, we don't need to ask for credentials, we just validate and set it
   // This is useful for programmatically authenticating, e.g. a CI server
-  if (token) {
-    await terraformLogin.saveTerraformCredentials(sanitizedToken);
-  } else {
+  if (!token) {
     token = await terraformLogin.askToLogin(false);
     if (token === "") {
       throw Errors.Usage(`No Terraform Cloud token was provided.`);
     }
   }
 
-  await showUserDetails(sanitizedToken || token);
+  await terraformLogin.saveTerraformCredentials(token);
+  await showUserDetails(token);
 }
 
 export async function synth(argv: any) {
