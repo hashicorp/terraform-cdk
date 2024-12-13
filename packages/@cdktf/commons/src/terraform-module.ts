@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import isValidDomain from "is-valid-domain";
+import { isFQDN } from "validator";
 
 // Logic from https://github.com/hashicorp/terraform/blob/e09b831f6ee35d37b11b8dcccd3a6d6f6db5e5ff/internal/addrs/module_source.go#L198
 export function isRegistryModule(source: string) {
@@ -15,7 +15,7 @@ export function isRegistryModule(source: string) {
     return false;
   }
 
-  if (parts.length === 4 && !isValidDomain(parts[0])) {
+  if (parts.length === 4 && !isFQDN(parts[0])) {
     return false;
   }
 
