@@ -1,8 +1,8 @@
 module github.com/hashicorp/terraform-cdk/hcl2json
 
-go 1.22.0
+go 1.22
 
-toolchain go1.22.3
+toolchain go1.22
 
 require (
 	github.com/hashicorp/hcl/v2 v2.23.0
