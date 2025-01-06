@@ -133,7 +133,7 @@ export class Testing {
     }
     const cleaned = removeMetadata(tfConfig);
 
-    return stringify(cleaned, { space: 2 });
+    return stringify(cleaned, { space: 2 }) as string;
   }
 
   /**

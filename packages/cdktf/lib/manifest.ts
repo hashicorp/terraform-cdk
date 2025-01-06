@@ -88,7 +88,7 @@ export class Manifest implements IManifest {
   public writeToFile() {
     fs.writeFileSync(
       path.join(this.outdir, Manifest.fileName),
-      stringify(this.buildManifest(), { space: 2 })
+      stringify(this.buildManifest(), { space: 2 }) as string
     );
   }
 }

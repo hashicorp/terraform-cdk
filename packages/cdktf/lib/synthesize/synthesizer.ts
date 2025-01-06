@@ -98,7 +98,7 @@ export class StackSynthesizer implements IStackSynthesizer {
 
       fs.writeFileSync(
         path.join(session.outdir, stackManifest.stackMetadataPath!),
-        stringify(hcl.metadata, { space: 2 })
+        stringify(hcl.metadata, { space: 2 }) as string
       );
 
       return;
@@ -108,7 +108,7 @@ export class StackSynthesizer implements IStackSynthesizer {
 
     fs.writeFileSync(
       path.join(session.outdir, stackManifest.synthesizedStackPath),
-      stringify(jsonTfConfig, { space: 2 })
+      stringify(jsonTfConfig, { space: 2 }) as string
     );
   }
 }
