@@ -12,7 +12,7 @@
 # Education likes to get notifications if changes happen to docs.
 # We need to include the CDKTF team as well to ensure Education
 # members are not the only ones notified.
-website/docs/ @hashicorp/cdktf @hashicorp/team-docs-packer-and-terraform
+website/ @hashicorp/cdktf @hashicorp/team-docs-packer-and-terraform @hashicorp/web-presence
 
 # No codeowners for these files, as they are generated.
 # This way, Education does not get notified if only these files changed.
