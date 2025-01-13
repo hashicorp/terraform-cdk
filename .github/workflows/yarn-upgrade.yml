@@ -28,7 +28,7 @@ jobs:
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+      - uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
           key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-upgrade
@@ -63,7 +63,7 @@ jobs:
           git add .
           git diff --patch --staged > ./upgrade.patch
       - name: Upload Patch
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
         with:
           name: upgrade.patch
           path: ./upgrade.patch
@@ -88,7 +88,7 @@ jobs:
         run: rm -f ./upgrade.patch
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7.0.5
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
         with:
           # Git commit details
           branch: automation/yarn-upgrade
@@ -152,7 +152,7 @@ jobs:
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+      - uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
           key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-upgrade
@@ -185,7 +185,7 @@ jobs:
           git config --global user.name "team-tf-cdk"
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7.0.5
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
         with:
           # Git commit details
           branch: automation/yarn-upgrade-${{ matrix.pr.name }}
@@ -218,7 +218,7 @@ jobs:
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+      - uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
           key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-upgrade
@@ -249,7 +249,7 @@ jobs:
           git config --global user.name "team-tf-cdk"
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7.0.5
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
         with:
           # Git commit details
           branch: automation/yarn-upgrade-jsii
