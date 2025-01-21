@@ -1,3 +1,17 @@
+## 0.20.11
+
+### fix
+
+- fix: punycode deprecation warning [\#3792](https://github.com/hashicorp/terraform-cdk/pull/3792)
+
+### chore
+
+- chore: Add web presence ability to approve PRs to website files [\#3788](https://github.com/hashicorp/terraform-cdk/pull/3788)
+- chore: release 0.20.11 [\#3786](https://github.com/hashicorp/terraform-cdk/pull/3786)
+- chore: Upgrade dependencies for all [\#3780](https://github.com/hashicorp/terraform-cdk/pull/3780)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3770](https://github.com/hashicorp/terraform-cdk/pull/3770)
+- chore: Upgrade dependencies for all [\#3768](https://github.com/hashicorp/terraform-cdk/pull/3768)
+
 ## 0.20.10
 
 ### fix
