@@ -9,10 +9,18 @@
 # pull request.
 *       @hashicorp/cdktf
 
-# Education likes to get notifications if changes happen to docs.
-# We need to include the CDKTF team as well to ensure Education
-# members are not the only ones notified.
-website/ @hashicorp/cdktf @hashicorp/team-docs-packer-and-terraform @hashicorp/web-presence
+# Engineering and web presence get notified of, and can approve changes to web tooling, but not content.
+
+/website/           @hashicorp/web-presence @hashicorp/cdktf
+/website/data/
+/website/public/
+/website/content/
+
+# Education and engineering get notified of, and can approve changes to web content.
+
+/website/data/      @hashicorp/team-docs-packer-and-terraform @hashicorp/cdktf
+/website/public/    @hashicorp/team-docs-packer-and-terraform @hashicorp/cdktf
+/website/content/   @hashicorp/team-docs-packer-and-terraform @hashicorp/cdktf
 
 # No codeowners for these files, as they are generated.
 # This way, Education does not get notified if only these files changed.
