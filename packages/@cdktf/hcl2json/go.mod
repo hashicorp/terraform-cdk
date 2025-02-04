@@ -2,8 +2,6 @@ module github.com/hashicorp/terraform-cdk/hcl2json
 
 go 1.23
 
-toolchain go1.23.4 // This is because of tmccombs/hcl2json
-
 require (
 	github.com/hashicorp/hcl/v2 v2.23.0
 	github.com/tmccombs/hcl2json v0.6.5
