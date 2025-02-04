@@ -124,7 +124,7 @@
         "typescript": "5.2.2"
     },
     "dependencies": {
-        "archiver": "6.0.2",
+        "archiver": "7.0.1",
         "json-stable-stringify": "1.2.1",
         "semver": "7.6.3"
     },
