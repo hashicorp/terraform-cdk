@@ -1,6 +1,6 @@
 module github.com/hashicorp/terraform-cdk/hcl2json
 
-go 1.22.0
+go 1.23
 
 toolchain go1.23.4 // This is because of tmccombs/hcl2json
 
