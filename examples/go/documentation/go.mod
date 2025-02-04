@@ -1,6 +1,6 @@
 module github.com/hashicorp/terraform-cdk/examples/go/documentation
 
-go 1.22
+go 1.18
 
 require (
 	github.com/aws/constructs-go/constructs/v10 v10.1.167
