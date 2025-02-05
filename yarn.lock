@@ -1324,6 +1324,14 @@
     chalk "^4.1.2"
     semver "^7.6.3"
 
+"@jsii/check-node@1.106.0":
+  version "1.106.0"
+  resolved "https://registry.npmjs.org/@jsii/check-node/-/check-node-1.106.0.tgz#5deb20b0bbe0a506c4bd9edf60b17b0a93f83834"
+  integrity sha512-/T/TUsbHdEbZRFR4Rem9+UXVvgMYncEkrIeC52oIHJ8BDSgqlDsIARio/Eu5DOftF4avSLV/sshR6n19mpK1oA==
+  dependencies:
+    chalk "^4.1.2"
+    semver "^7.6.3"
+
 "@jsii/check-node@1.98.0":
   version "1.98.0"
   resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.98.0.tgz#140860478009834aa35dc8479a26db1a221439d5"
@@ -1336,6 +1344,13 @@
   version "1.102.0"
   resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.102.0.tgz#3f9cfcd44e4358ba7259730452e89b2111918524"
   integrity sha512-/VcmoEyp7HR0xoFz47/fiyZjAv+0gHG4ZwTbgB+umbB88bTbLZadnqBL7T9OIKQbK4w8HNOaRnHwjNBIYIPxWQ==
+  dependencies:
+    ajv "^8.17.1"
+
+"@jsii/spec@^1.106.0":
+  version "1.106.0"
+  resolved "https://registry.npmjs.org/@jsii/spec/-/spec-1.106.0.tgz#f40010ec8cde14b7a003dd5b6a46480d9d7e222f"
+  integrity sha512-pAIvqEGf0YLmtzFtUKWNEGkCmXMHENy7k+rzCD147wnM4jHhvEL1mEvxi99aA2VcmvLYaAYNOs/XozT+s+kLqQ==
   dependencies:
     ajv "^8.17.1"
 
@@ -2546,6 +2561,11 @@
   version "0.8.10"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.10.tgz#a1337ca426aa61cef9fe15b5b28e340a72f6fa99"
   integrity sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==
+
+"@xmldom/xmldom@^0.9.6":
+  version "0.9.7"
+  resolved "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.9.7.tgz#f21bebdcde4af682a810062b14585c89bb7fab07"
+  integrity sha512-syvR8iIJjpTZ/stv7l89UAViwGFh6lbheeOaqSxkYx9YNmIVvPTRH+CT/fpykFtUx5N+8eSMDRvggF9J8GEPzQ==
 
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
@@ -3883,6 +3903,15 @@ commonmark@^0.31.1:
     entities "~3.0.1"
     mdurl "~1.0.1"
     minimist "~1.2.5"
+
+commonmark@^0.31.2:
+  version "0.31.2"
+  resolved "https://registry.npmjs.org/commonmark/-/commonmark-0.31.2.tgz#9d8d5439c82c9a235154d858a53e1a7965d573a5"
+  integrity sha512-2fRLTyb9r/2835k5cwcAwOj0DEc44FARnMp5veGsJ+mEAZdi52sNopLu07ZyElQUz058H43whzlERDIaaSw4rg==
+  dependencies:
+    entities "~3.0.1"
+    mdurl "~1.0.1"
+    minimist "~1.2.8"
 
 compare-func@^2.0.0:
   version "2.0.0"
@@ -8395,13 +8424,32 @@ jsii-rosetta@5.4.30:
     workerpool "^6.5.1"
     yargs "^17.7.2"
 
-jsii@5.4.31:
-  version "5.4.31"
-  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.4.31.tgz#afe7ff63182421965cab53f055904b559e47e842"
-  integrity sha512-qxiV/NMucgvHHupZJ36QACejcgZ3qY1FzjVHMOBmDHm+dISZ39p7dH7Hiq2ErMEwCDzdvQgR1OwCsUnrBH6oVQ==
+jsii-rosetta@5.4.50:
+  version "5.4.50"
+  resolved "https://registry.npmjs.org/jsii-rosetta/-/jsii-rosetta-5.4.50.tgz#f8ba2f2bb2e20bb6e7bacf6ca3c8013c5d12d9c3"
+  integrity sha512-cNNCs4f9b4QNPf0lDYOyql8UCrmw3irb+TY8+6H2+0QcmvhFVAZAaUP5cAw5/6hMGQj10aWKm/PjOnDD1dIt7w==
   dependencies:
-    "@jsii/check-node" "1.102.0"
-    "@jsii/spec" "^1.102.0"
+    "@jsii/check-node" "1.106.0"
+    "@jsii/spec" "^1.106.0"
+    "@xmldom/xmldom" "^0.9.6"
+    chalk "^4"
+    commonmark "^0.31.2"
+    fast-glob "^3.3.2"
+    jsii "~5.4.0"
+    semver "^7.6.3"
+    semver-intersect "^1.5.0"
+    stream-json "^1.9.1"
+    typescript "~5.4"
+    workerpool "^6.5.1"
+    yargs "^17.7.2"
+
+jsii@5.4.50:
+  version "5.4.50"
+  resolved "https://registry.npmjs.org/jsii/-/jsii-5.4.50.tgz#8ff2826eae732813dd6e0148fc2d565d693c82b3"
+  integrity sha512-VEpOjtFykmlEa8+IwxXRZiA1KQueywyiYF8OI/HzCxXR4Asxwd084d4+N1pgDm1eQKQNK5mpj/KjL+VEXsyu8g==
+  dependencies:
+    "@jsii/check-node" "1.106.0"
+    "@jsii/spec" "^1.106.0"
     case "^1.6.3"
     chalk "^4"
     downlevel-dts "^0.11.0"
@@ -9214,7 +9262,7 @@ minimist-options@4.1.0:
     is-plain-obj "^1.1.0"
     kind-of "^6.0.3"
 
-minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6, minimist@~1.2.5:
+minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6, minimist@~1.2.5, minimist@~1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
@@ -11703,6 +11751,13 @@ stream-json@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/stream-json/-/stream-json-1.8.0.tgz#53f486b2e3b4496c506131f8d7260ba42def151c"
   integrity sha512-HZfXngYHUAr1exT4fxlbc1IOce1RYxp2ldeaf97LYCOPSoOqY/1Psp7iGvpb+6JIOgkra9zDYnPX01hGAHzEPw==
+  dependencies:
+    stream-chain "^2.2.5"
+
+stream-json@^1.9.1:
+  version "1.9.1"
+  resolved "https://registry.npmjs.org/stream-json/-/stream-json-1.9.1.tgz#e3fec03e984a503718946c170db7d74556c2a187"
+  integrity sha512-uWkjJ+2Nt/LO9Z/JyKZbMusL8Dkh97uUBTv3AJQ74y07lVahLY4eEFsPsE97pxYBwr8nnjMAIch5eqI0gPShyw==
   dependencies:
     stream-chain "^2.2.5"
 
