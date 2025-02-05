@@ -121,7 +121,7 @@
         "jsii-docgen": "10.4.20",
         "jsii-pacmak": "1.102.0",
         "ts-jest": "29.2.5",
-        "typescript": "5.2.2"
+        "typescript": "5.4.5"
     },
     "dependencies": {
         "archiver": "7.0.1",
