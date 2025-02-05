@@ -43,6 +43,6 @@
     "@types/node": "18.19.71",
     "jest": "29.7.0",
     "ts-jest": "29.2.5",
-    "typescript": "5.2.2"
+    "typescript": "5.4.5"
   }
 }
