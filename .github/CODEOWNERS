@@ -21,6 +21,8 @@
 /website/data/      @hashicorp/team-docs-packer-and-terraform @hashicorp/cdktf
 /website/public/    @hashicorp/team-docs-packer-and-terraform @hashicorp/cdktf
 /website/content/   @hashicorp/team-docs-packer-and-terraform @hashicorp/cdktf
+/website/docs/      @hashicorp/team-docs-packer-and-terraform @hashicorp/cdktf
+/website/README.md  @hashicorp/team-docs-packer-and-terraform @hashicorp/cdktf
 
 # No codeowners for these files, as they are generated.
 # This way, Education does not get notified if only these files changed.
