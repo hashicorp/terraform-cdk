@@ -77,8 +77,8 @@
     },
     "devDependencies": {
         "@types/prettier": "2.6.0",
-        "@typescript-eslint/eslint-plugin": "^4.33.0",
-        "@typescript-eslint/parser": "^4.33.0",
+        "@typescript-eslint/eslint-plugin": "^8.23.0",
+        "@typescript-eslint/parser": "^8.23.0",
         "changelog-parser": "^2.8.1",
         "eslint": "^7.32.0",
         "eslint-plugin-import": "^2.29.1",
@@ -117,5 +117,6 @@
             "*.d.ts",
             "*.js"
         ]
-    }
+    },
+    "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
