@@ -1,11 +1,19 @@
 module github.com/hashicorp/terraform-cdk/hcl2json
 
-go 1.16
+go 1.23
 
 require (
-	github.com/hashicorp/hcl/v2 v2.17.0
-	github.com/tmccombs/hcl2json v0.5.0
-	github.com/zclconf/go-cty v1.13.2
+	github.com/hashicorp/hcl/v2 v2.23.0
+	github.com/tmccombs/hcl2json v0.6.5
+	github.com/zclconf/go-cty v1.15.1
 )
 
-replace github.com/tmccombs/hcl2json v0.5.0 => github.com/cdktf/hcl2json v0.0.0-20230802082848-0832c8890775
+require (
+	github.com/agext/levenshtein v1.2.3 // indirect
+	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
+	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
+	golang.org/x/mod v0.22.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/tools v0.28.0 // indirect
+)

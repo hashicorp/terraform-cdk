@@ -1,20 +1,20 @@
 {
-    "language": "go",
-    "app": "go run .",
-    "codeMakerOutput": "generated",
-    "terraformProviders": [
-        "hashicorp/aws@~> 3.70.0",
-        "hashicorp/kubernetes@~> 2.0",
-        "hashicorp/random@~> 3.4",
-        "dnsimple/dnsimple@~> 1.0",
-        "integrations/github@~> 5.16"
-    ],
-    "terraformModules": [
-        "terraform-aws-modules/vpc/aws@~> 5.2",
-        "terraform-aws-modules/eks/aws@~> 19.0",
-        {
-            "name": "my-local-module",
-            "source": "./tf-modules/my-local-module"
-        }
-    ]
+  "language": "go",
+  "app": "go run .",
+  "codeMakerOutput": "generated",
+  "terraformProviders": [
+    "hashicorp/aws@~> 3.70.0",
+    "hashicorp/kubernetes@~> 2.0",
+    "hashicorp/random@~> 3.4",
+    "dnsimple/dnsimple@~> 1.0",
+    "integrations/github@~> 5.16"
+  ],
+  "terraformModules": [
+    "terraform-aws-modules/vpc/aws@~> 5.2",
+    "terraform-aws-modules/eks/aws@~> 19.0",
+    {
+      "name": "my-local-module",
+      "source": "./tf-modules/my-local-module"
+    }
+  ]
 }
