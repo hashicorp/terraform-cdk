@@ -63,7 +63,7 @@ jobs:
           git add .
           git diff --patch --staged > ./upgrade.patch
       - name: Upload Patch
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: upgrade.patch
           path: ./upgrade.patch
@@ -88,7 +88,7 @@ jobs:
         run: rm -f ./upgrade.patch
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7.0.5
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
         with:
           # Git commit details
           branch: automation/yarn-upgrade
@@ -185,7 +185,7 @@ jobs:
           git config --global user.name "team-tf-cdk"
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7.0.5
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
         with:
           # Git commit details
           branch: automation/yarn-upgrade-${{ matrix.pr.name }}
@@ -249,7 +249,7 @@ jobs:
           git config --global user.name "team-tf-cdk"
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7.0.5
+        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
         with:
           # Git commit details
           branch: automation/yarn-upgrade-jsii
