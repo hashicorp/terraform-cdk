@@ -149,6 +149,7 @@
     "@types/node-fetch": "2.6.12",
     "@types/parse-gitignore": "1.0.2",
     "@types/react": "18.3.18",
+    "@types/scheduler": "^0.23.0",
     "@types/semver": "7.5.8",
     "@types/stream-buffers": "3.0.7",
     "@types/uuid": "8.3.4",
