@@ -89,9 +89,6 @@
         "prettier": "^2.8.8",
         "standard-version": "^9.5.0"
     },
-    "resolutions": {
-        "**/@types/react": "18.2.37"
-    },
     "lint-staged": {
         "**/*.{ts,tsx,js,css,md}": "prettier --write",
         "examples/**": "yarn lint:examples"
@@ -117,5 +114,6 @@
             "*.d.ts",
             "*.js"
         ]
-    }
+    },
+    "packageManager": "yarn@4.6.0"
 }
