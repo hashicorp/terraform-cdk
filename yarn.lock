@@ -506,7 +506,7 @@ __metadata:
     ink-use-stdout-dimensions: "npm:1.0.5"
     jest: "npm:29.7.0"
     jsii: "npm:5.7.3"
-    jsii-pacmak: "npm:1.102.0"
+    jsii-pacmak: "npm:1.106.0"
     jsii-rosetta: "npm:5.7.3"
     lodash.isequal: "npm:4.5.0"
     log4js: "npm:6.9.1"
@@ -5462,7 +5462,7 @@ __metadata:
     ink-use-stdout-dimensions: "npm:1.0.5"
     jest: "npm:29.7.0"
     jsii: "npm:5.7.3"
-    jsii-pacmak: "npm:1.102.0"
+    jsii-pacmak: "npm:1.106.0"
     jsii-rosetta: "npm:5.7.3"
     lodash.isequal: "npm:4.5.0"
     log4js: "npm:6.9.1"
@@ -5514,7 +5514,7 @@ __metadata:
     jest: "npm:29.7.0"
     jsii: "npm:5.7.3"
     jsii-docgen: "npm:10.4.20"
-    jsii-pacmak: "npm:1.102.0"
+    jsii-pacmak: "npm:1.106.0"
     json-stable-stringify: "npm:1.2.1"
     semver: "npm:7.6.3"
     ts-jest: "npm:29.2.5"
@@ -5873,7 +5873,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"codemaker@npm:^1.102.0":
+"codemaker@npm:^1.106.0":
   version: 1.106.0
   resolution: "codemaker@npm:1.106.0"
   dependencies:
@@ -11340,31 +11340,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsii-pacmak@npm:1.102.0":
-  version: 1.102.0
-  resolution: "jsii-pacmak@npm:1.102.0"
+"jsii-pacmak@npm:1.106.0":
+  version: 1.106.0
+  resolution: "jsii-pacmak@npm:1.106.0"
   dependencies:
-    "@jsii/check-node": "npm:1.102.0"
-    "@jsii/spec": "npm:^1.102.0"
+    "@jsii/check-node": "npm:1.106.0"
+    "@jsii/spec": "npm:^1.106.0"
     clone: "npm:^2.1.2"
-    codemaker: "npm:^1.102.0"
-    commonmark: "npm:^0.31.1"
+    codemaker: "npm:^1.106.0"
+    commonmark: "npm:^0.31.2"
     escape-string-regexp: "npm:^4.0.0"
     fs-extra: "npm:^10.1.0"
-    jsii-reflect: "npm:^1.102.0"
+    jsii-reflect: "npm:^1.106.0"
     semver: "npm:^7.6.3"
     spdx-license-list: "npm:^6.9.0"
     xmlbuilder: "npm:^15.1.1"
     yargs: "npm:^16.2.0"
   peerDependencies:
-    jsii-rosetta: ^1.102.0 || ~5.2.0 || ~5.3.0 || ~5.4.0
+    jsii-rosetta: ">=5.4.0"
   bin:
     jsii-pacmak: bin/jsii-pacmak
-  checksum: 10c0/7d150a7afc9d8c55dba6b94271674b9d73f52a5bff36c5e6ae6c1501681b62d50c3314ed2cec79219deede1e676bff550548de700529bddbcc42a7f4913409da
+  checksum: 10c0/9fda170057fba7e47bbc9d4e41a390e7cf54a8dbdd7e2dfeb1d140c77c13cf70ecf9c9de71a72e78d0af82029ecd1f8fa606feab92a631adaab5bae3c65bd356
   languageName: node
   linkType: hard
 
-"jsii-reflect@npm:^1.102.0":
+"jsii-reflect@npm:^1.102.0, jsii-reflect@npm:^1.106.0":
   version: 1.106.0
   resolution: "jsii-reflect@npm:1.106.0"
   dependencies:
