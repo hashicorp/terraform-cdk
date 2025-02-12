@@ -54,7 +54,7 @@ jobs:
       - name: Get cache directory paths
         id: global-cache-dir-path
         run: |
-          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "yarn=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/terraform
           echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/go
