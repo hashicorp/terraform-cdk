@@ -42,7 +42,7 @@ jobs:
       - name: Get cache directory paths
         id: global-cache-dir-path
         run: |
-          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "yarn=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/go
           echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
       - uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4.2.0
@@ -107,7 +107,7 @@ jobs:
       - name: Get cache directory paths
         id: global-cache-dir-path
         run: |
-          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "yarn=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/terraform
           echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
       # Only restoring yarn caches as the dependencies are not indiviual to each matrix job
@@ -168,7 +168,7 @@ jobs:
         id: global-cache-dir-path
         shell: bash
         run: |
-          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "yarn=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/terraform
           echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
       # Only restoring yarn caches to save available cache storage size
