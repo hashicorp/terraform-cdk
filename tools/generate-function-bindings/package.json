@@ -1,7 +1,7 @@
 {
   "name": "generate-function-bindings",
   "version": "0.0.0",
-  "private": "true",
+  "private": true,
   "description": "Tool to generate CDK for Terraform function bindings",
   "scripts": {
     "build": "tsc",
