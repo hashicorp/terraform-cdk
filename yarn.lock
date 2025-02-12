@@ -471,7 +471,6 @@ __metadata:
     "@types/node-fetch": "npm:2.6.12"
     "@types/parse-gitignore": "npm:1.0.2"
     "@types/react": "npm:18.3.18"
-    "@types/scheduler": "npm:^0.23.0"
     "@types/semver": "npm:7.5.8"
     "@types/stream-buffers": "npm:3.0.7"
     "@types/uuid": "npm:8.3.4"
@@ -3932,7 +3931,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/scheduler@npm:*, @types/scheduler@npm:^0.23.0":
+"@types/scheduler@npm:*":
   version: 0.23.0
   resolution: "@types/scheduler@npm:0.23.0"
   checksum: 10c0/5cf7f2ba3732b74877559eb20b19f95fcd0a20c17dcb20e75a7ca7c7369cd455aeb2d406b3ff5a38168a9750da3bad78dd20d96d11118468b78f4959b8e56090
