@@ -92,6 +92,9 @@
     "resolutions": {
         "@types/react": "18.2.37"
     },
+    "overrides": {
+        "@types/scheduler": "< 0.23.0"
+    },
     "lint-staged": {
         "**/*.{ts,tsx,js,css,md}": "prettier --write",
         "examples/**": "yarn lint:examples"

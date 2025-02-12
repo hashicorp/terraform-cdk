@@ -47,17 +47,10 @@
     "plugins": [
       "@typescript-eslint"
     ],
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
     "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended",
-      "plugin:react-hooks/recommended",
       "prettier"
     ],
     "rules": {
@@ -66,7 +59,6 @@
       "@typescript-eslint/no-use-before-define": 0,
       "@typescript-eslint/explicit-module-boundary-types": 0,
       "@typescript-eslint/no-var-requires": 0,
-      "react/no-unescaped-entities": 0,
       "no-sequences": "error",
       "no-irregular-whitespace": [
         "error",
