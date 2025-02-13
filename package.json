@@ -90,7 +90,8 @@
         "standard-version": "^9.5.0"
     },
     "resolutions": {
-        "@types/react": "18.2.37"
+        "@types/react": "18.2.39",
+        "@types/scheduler": "^0.16.0"
     },
     "overrides": {
         "@types/scheduler": "< 0.23.0"
