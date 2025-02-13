@@ -64,7 +64,7 @@ jobs:
       - name: installing dependencies and build
         if: ${{ !inputs.skip_setup }}
         run: |
-          yarn install --frozen-lockfile --prefer-offline
+          yarn install --immutable
           tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
           yarn package

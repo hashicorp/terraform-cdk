@@ -57,7 +57,7 @@ jobs:
             go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-
             go-${{ runner.os }}-
       - name: install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --immutable
       - name: set version
         if: ${{ !inputs.skip_setup }}
         run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
@@ -83,7 +83,7 @@ jobs:
           path: packages/@cdktf/provider-generator/edge-provider-bindings
       - name: installing test dependencies
         run: |
-          cd test && yarn install --frozen-lockfile --prefer-offline
+          cd test && yarn install --immutable
       - id: build-test-matrix
         run: |
           ./tools/build-test-matrix.sh
