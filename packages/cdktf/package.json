@@ -94,6 +94,7 @@
             ],
             "no-instanceof/no-instanceof": "error"
         },
+        "files": ["**/*.ts", "**/*.tsx"],
         "ignorePatterns": [
             "node_modules",
             "dist",
