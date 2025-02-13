@@ -83,7 +83,7 @@ jobs:
             go-${{ runner.os }}-
       - name: installing dependencies
         run: |
-          yarn install --frozen-lockfile --prefer-offline
+          yarn install --immutable
       - name: lint
         run: yarn lint:examples
       - name: align version (Python only)

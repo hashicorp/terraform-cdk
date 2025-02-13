@@ -32,8 +32,10 @@ jobs:
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
+      - name: Enable Yarn 2
+        run: corepack enable
       - name: installing dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Configure git user
         run: |
           git config user.name github-team-tf-cdk
@@ -61,7 +63,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: create bundle
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
           yarn build
           yarn package
         env:

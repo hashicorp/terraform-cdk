@@ -65,7 +65,7 @@ jobs:
 
       - name: installing dependencies
         run: |
-          yarn install --frozen-lockfile --prefer-offline
+          yarn install --immutable
       - name: compile
         run: |
           tools/align-version.sh
