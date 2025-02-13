@@ -112,7 +112,6 @@
     ]
   },
   "devDependencies": {
-    "@cdktf/cli-core": "0.0.0",
     "@cdktf/provider-generator": "0.0.0",
     "@skorfmann/ink-confirm-input": "3.0.0",
     "@skorfmann/terraform-cloud": "1.15.0",
