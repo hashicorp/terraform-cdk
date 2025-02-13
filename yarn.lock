@@ -8341,6 +8341,7 @@ __metadata:
     cdktf: "npm:0.0.0"
     log4js: "npm:^6.7.0"
     ts-node: "npm:^10.9.1"
+    typescript: "npm:5.4.5"
   languageName: unknown
   linkType: soft
 
