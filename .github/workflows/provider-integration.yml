@@ -38,6 +38,8 @@ jobs:
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
+      - name: Enable Yarn 2
+        run: corepack enable
       # Setup caches for yarn, and go
       - name: Get cache directory paths
         id: global-cache-dir-path
