@@ -110,6 +110,7 @@
         "rules": {
             "monorepo/no-relative-import": "error"
         },
+        "files": ["**/*.ts", "**/*.tsx"],
         "ignorePatterns": [
             "node_modules",
             "dist",
