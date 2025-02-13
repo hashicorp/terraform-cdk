@@ -13,7 +13,7 @@
         "package:dotnet": "jsii-pacmak --targets dotnet",
         "package:js": "jsii-pacmak --targets js",
         "package:go": "jsii-pacmak --targets go",
-        "lint": "eslint . --ext .ts",
+        "lint": "eslint .",
         "test": "jest --passWithNoTests && yarn lint",
         "test:ci": "jest --ci --passWithNoTests && yarn lint",
         "dist-clean": "rm -rf dist"
@@ -94,7 +94,7 @@
             ],
             "no-instanceof/no-instanceof": "error"
         },
-        "files": ["**/*.ts", "**/*.tsx"],
+        "files": ["**/*.ts"],
         "ignorePatterns": [
             "node_modules",
             "dist",
