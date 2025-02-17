@@ -64,7 +64,7 @@
     "xml-js": "1.6.11",
     "yargs": "17.7.2",
     "yoga-layout-prebuilt": "1.10.0",
-    "zod": "3.24.1"
+    "zod": "3.24.2"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -126,7 +126,7 @@
     "@types/json-schema": "7.0.15",
     "@types/lodash.isequal": "4.5.8",
     "@types/nock": "11.1.0",
-    "@types/node": "18.19.71",
+    "@types/node": "18.19.76",
     "@types/parse-gitignore": "1.0.2",
     "@types/pidusage": "2.0.5",
     "@types/react": "18.3.18",
@@ -141,7 +141,7 @@
     "cli-spinners": "2.9.2",
     "cross-fetch": "3.2.0",
     "detect-port": "1.6.1",
-    "esbuild": "0.24.2",
+    "esbuild": "0.25.0",
     "esbuild-jest": "0.5.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.10.0",
@@ -163,7 +163,7 @@
     "parse-gitignore": "1.0.1",
     "pkg-up": "3.1.0",
     "react": "18.3.1",
-    "semver": "7.6.3",
+    "semver": "7.7.1",
     "sscaff": "1.2.274",
     "stream-buffers": "3.0.3",
     "strip-ansi": "6.0.1",
