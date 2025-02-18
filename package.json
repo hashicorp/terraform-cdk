@@ -3,8 +3,8 @@
     "version": "0.20.11",
     "private": true,
     "scripts": {
-        "build-and-package": "lerna run --scope 'cdktf*' --scope @cdktf/* build,package && tools/collect-dist.sh",
-        "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
+        "build-and-package": "lerna run --scope 'cdktf*' --scope '@cdktf/*' build,package && tools/collect-dist.sh",
+        "build": "lerna run --scope 'cdktf*' --scope '@cdktf/*' build",
         "format": "prettier --cache --write .",
         "package": "lerna run package && tools/collect-dist.sh",
         "package:python": "lerna run package:python && tools/collect-dist.sh",
@@ -77,20 +77,24 @@
     },
     "devDependencies": {
         "@types/prettier": "2.6.0",
-        "@typescript-eslint/eslint-plugin": "^4.33.0",
-        "@typescript-eslint/parser": "^4.33.0",
+        "@typescript-eslint/eslint-plugin": "^8.24.0",
+        "@typescript-eslint/parser": "^8.23.0",
         "changelog-parser": "^2.8.1",
-        "eslint": "^7.32.0",
-        "eslint-plugin-import": "^2.29.1",
+        "eslint": "^9.20.0",
+        "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-monorepo": "^0.3.2",
         "husky": ">=6",
-        "lerna": "^6.6.1",
+        "lerna": "^8.1.9",
         "lint-staged": ">=10",
         "prettier": "^2.8.8",
         "standard-version": "^9.5.0"
     },
     "resolutions": {
-        "**/@types/react": "18.2.37"
+        "@types/react": "18.2.39",
+        "@types/scheduler": "^0.16.0"
+    },
+    "overrides": {
+        "@types/scheduler": "< 0.23.0"
     },
     "lint-staged": {
         "**/*.{ts,tsx,js,css,md}": "prettier --write",
@@ -110,6 +114,7 @@
         "rules": {
             "monorepo/no-relative-import": "error"
         },
+        "files": ["**/*.ts", "**/*.tsx"],
         "ignorePatterns": [
             "node_modules",
             "dist",
@@ -117,5 +122,6 @@
             "*.d.ts",
             "*.js"
         ]
-    }
+    },
+    "packageManager": "yarn@4.6.0"
 }

@@ -42,8 +42,8 @@
     "@cdktf/provider-generator": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
     "camelcase": "6.3.0",
-    "codemaker": "1.102.0",
     "cdktf": "0.0.0",
+    "codemaker": "1.102.0",
     "deep-equal": "2.2.3",
     "glob": "10.4.5",
     "graphology": "0.25.4",
@@ -63,6 +63,6 @@
     "fs-extra": "11.3.0",
     "jest": "29.7.0",
     "ts-jest": "29.2.5",
-    "typescript": "5.0.4"
+    "typescript": "5.4.5"
   }
 }

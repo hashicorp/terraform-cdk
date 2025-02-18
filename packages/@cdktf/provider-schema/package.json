@@ -9,8 +9,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "lint": "eslint . ",
+    "lint:fix": "eslint . --fix",
     "pretest": "yarn build",
     "pretest:ci": "yarn build",
     "test": "yarn lint && jest",
@@ -47,16 +47,16 @@
     "@types/fs-extra": "11.0.4",
     "@types/json-stable-stringify": "1.1.0",
     "@types/uuid": "9.0.8",
-    "@typescript-eslint/eslint-plugin": "4.33.0",
-    "@typescript-eslint/parser": "4.33.0",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
     "eslint-config-prettier": "8.10.0",
-    "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-react": "7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "jest": "29.7.0",
     "json-stable-stringify": "1.2.1",
     "lint-staged": "13.3.0",
     "ts-jest": "29.2.5",
-    "typescript": "5.1.6"
+    "typescript": "5.4.5"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -91,6 +91,7 @@
         }
       ]
     },
+    "files": ["**/*.ts", "**/*.tsx"],
     "ignorePatterns": [
       "node_modules",
       "dist",

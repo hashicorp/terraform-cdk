@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
+    "baseUrl": "./",
     "declaration": true,
+    "declarationMap": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
     "inlineSources": true,
@@ -16,11 +18,11 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "jsx": "react",
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "skipLibCheck": true,
     "stripInternal": true,
     "target": "ES2018",
     "incremental": false,
@@ -30,11 +32,12 @@
     "ambient.d.ts"
   ],
   "include": [
-    "src/**/*.ts"
+    "scripts/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "../../node_modules/**",
+    "../../packages/cdktf/**",
     "**/*.d.ts",
     "**/*.test.tsx"
   ],
