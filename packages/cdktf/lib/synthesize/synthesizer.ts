@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import * as path from "path";
 import * as fs from "fs";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import stringify = require("json-stable-stringify");
 import { TerraformStack } from "../terraform-stack";
 import { IStackSynthesizer, ISynthesisSession } from "./types";

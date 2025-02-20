@@ -41,7 +41,6 @@ import {
   stackValidationFailure,
 } from "./errors";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 type StackIdentifier = string;
 type OutputIdMap =
   | { [constructId: string]: string }

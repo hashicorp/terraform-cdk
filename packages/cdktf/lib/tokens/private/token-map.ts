@@ -227,7 +227,6 @@ export class TokenMap {
 /**
  * Get a cached value for an object, storing it on the object in a symbol
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 function cachedValue<A extends object, B>(x: A, sym: symbol, prod: () => B) {
   let cached = (x as any)[sym as any];
   if (cached === undefined) {

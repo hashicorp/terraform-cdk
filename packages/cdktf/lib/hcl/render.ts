@@ -608,7 +608,6 @@ export function renderAttributes(attributes: any): string {
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
       } else if (v === null) {
         return `${name} = null`;
-        // eslint-disable-next-line no-prototype-builtins
       } else if (
         typeof v === "object" &&
         // eslint-disable-next-line no-prototype-builtins

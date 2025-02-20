@@ -4,6 +4,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { TerraformStack } from "./terraform-stack";
 import { AnnotationMetadataEntryType } from "./annotations";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import stringify = require("json-stable-stringify");
 
 export interface StackAnnotation {

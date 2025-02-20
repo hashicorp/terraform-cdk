@@ -21,7 +21,6 @@ interface GoBridge {
   getExpressionAst: (filename: string, hcl: string) => Promise<string>;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 const jsRoot: Record<string, Function> = {};
 
 function sleep() {
