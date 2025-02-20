@@ -549,14 +549,13 @@ __metadata:
     "@types/fs-extra": "npm:11.0.4"
     "@types/uuid": "npm:9.0.8"
     "@types/validator": "npm:13.12.2"
+    "@typescript-eslint/parser": "npm:^8.24.1"
     cdktf: "npm:0.0.0"
     ci-info: "npm:3.9.0"
     codemaker: "npm:1.102.0"
     cross-spawn: "npm:7.0.6"
-    eslint-config-prettier: "npm:^10.0.1"
     eslint-plugin-prettier: "npm:^5.2.3"
     eslint-plugin-react: "npm:7.37.4"
-    eslint-plugin-react-hooks: "npm:^5.1.0"
     follow-redirects: "npm:1.15.9"
     fs-extra: "npm:11.3.0"
     jest: "npm:29.7.0"
@@ -697,11 +696,10 @@ __metadata:
     "@types/fs-extra": "npm:11.0.4"
     "@types/json-stable-stringify": "npm:1.1.0"
     "@types/uuid": "npm:9.0.8"
+    "@typescript-eslint/parser": "npm:^8.24.1"
     deepmerge: "npm:4.3.1"
-    eslint-config-prettier: "npm:^10.0.1"
     eslint-plugin-prettier: "npm:^5.2.3"
     eslint-plugin-react: "npm:7.37.4"
-    eslint-plugin-react-hooks: "npm:^5.1.0"
     fs-extra: "npm:11.3.0"
     jest: "npm:29.7.0"
     json-stable-stringify: "npm:1.2.1"
@@ -4082,7 +4080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:8.24.1":
+"@typescript-eslint/parser@npm:8.24.1, @typescript-eslint/parser@npm:^8.24.1":
   version: 8.24.1
   resolution: "@typescript-eslint/parser@npm:8.24.1"
   dependencies:
