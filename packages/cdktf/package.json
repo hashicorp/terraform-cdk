@@ -65,46 +65,10 @@
         "url": "https://github.com/hashicorp/terraform-cdk.git",
         "directory": "packages/cdktf"
     },
-    "eslintConfig": {
-        "parser": "@typescript-eslint/parser",
-        "plugins": [
-            "@typescript-eslint",
-            "jsdoc",
-            "no-instanceof"
-        ],
-        "extends": [
-            "eslint:recommended",
-            "plugin:@typescript-eslint/eslint-recommended",
-            "plugin:@typescript-eslint/recommended"
-        ],
-        "rules": {
-            "@typescript-eslint/no-explicit-any": 0,
-            "@typescript-eslint/explicit-function-return-type": 0,
-            "@typescript-eslint/no-use-before-define": 0,
-            "@typescript-eslint/no-empty-interface": 0,
-            "@typescript-eslint/explicit-module-boundary-types": 0,
-            "no-sequences": "error",
-            "jsdoc/require-jsdoc": [
-                "error",
-                {
-                    "contexts": [
-                        "ClassDeclaration"
-                    ]
-                }
-            ],
-            "no-instanceof/no-instanceof": "error"
-        },
-        "files": ["**/*.ts"],
-        "ignorePatterns": [
-            "node_modules",
-            "dist",
-            "coverage",
-            "test",
-            "*.test*.ts"
-        ]
-    },
     "license": "MPL-2.0",
     "devDependencies": {
+        "@eslint/eslintrc": "^3.2.0",
+        "@eslint/js": "^9.20.0",
         "@types/archiver": "6.0.3",
         "@types/jest": "29.5.14",
         "@types/json-stable-stringify": "1.1.0",

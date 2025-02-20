@@ -2,6 +2,7 @@
  * Copyright (c) HashiCorp, Inc.
  * SPDX-License-Identifier: MPL-2.0
  */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 
 import { Expression } from "./tfExpression";
 

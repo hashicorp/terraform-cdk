@@ -129,7 +129,9 @@ This means that your Terraform state file will be stored locally on disk in a fi
     );
   }
   if (!argv.projectDescription && argv.nonInteractive) {
-    ("You are trying to initialize a project without specifying a project description in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. If this happens using convert, please report it as a bug. Please specify a project name using the --project-description option.");
+    throw Errors.Usage(
+      "You are trying to initialize a project without specifying a project description in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. If this happens using convert, please report it as a bug. Please specify a project name using the --project-description option."
+    );
   }
 
   const { projectInfo, useTerraformCloud } = await gatherInfo(

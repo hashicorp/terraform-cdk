@@ -1,5 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
+
+/* eslint-disable @typescript-eslint/no-require-imports */
 import fs = require("fs");
 import path = require("path");
 import os = require("os");
