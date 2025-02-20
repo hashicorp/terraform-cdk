@@ -17,7 +17,7 @@ const nativeNodeModulesPlugin = {
       (args: { path: string; resolveDir: string }) => ({
         path: require.resolve(args.path, { paths: [args.resolveDir] }),
         namespace: "node-file",
-      })
+      }),
     );
 
     // Files in the "node-file" virtual namespace call "require()" on the
@@ -30,7 +30,7 @@ const nativeNodeModulesPlugin = {
         try { module.exports = require(path) }
         catch {}
       `,
-      })
+      }),
     );
 
     // If a ".node" file is imported within a module in the "node-file" namespace, put
@@ -41,7 +41,7 @@ const nativeNodeModulesPlugin = {
       (args: { path: any }) => ({
         path: args.path,
         namespace: "file",
-      })
+      }),
     );
 
     // Tell esbuild's default loading behavior to use the "file" loader for

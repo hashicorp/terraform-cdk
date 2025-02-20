@@ -60,7 +60,7 @@ export class DockerProvider extends TerraformProvider {
   public constructor(
     scope: Construct,
     id: string,
-    public config: Record<string, any>
+    public config: Record<string, any>,
   ) {
     super(scope, id, {
       terraformResourceType: DockerProvider.tfResourceType,

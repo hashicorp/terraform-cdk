@@ -63,7 +63,7 @@ import { getReferencesInExpression } from "@cdktf/hcl2json";
 (async () => {
   const variables = await getReferencesInExpression(
     "main.tf",
-    "This is a ${var.input} embedded"
+    "This is a ${var.input} embedded",
   );
   console.log(variables);
 })();

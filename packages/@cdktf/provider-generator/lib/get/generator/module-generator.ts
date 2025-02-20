@@ -8,7 +8,7 @@ import { ConstructsMakerModuleTarget } from "@cdktf/commons";
 export class ModuleGenerator {
   constructor(
     private readonly code: CodeMaker,
-    private readonly targets: ConstructsMakerModuleTarget[]
+    private readonly targets: ConstructsMakerModuleTarget[],
   ) {
     this.code.indentation = 2;
 
@@ -30,7 +30,7 @@ export class ModuleGenerator {
     this.code.line(`// ${target.source}`);
 
     this.code.line(
-      `import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';`
+      `import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';`,
     );
     this.code.line(`import { Construct } from 'constructs';`);
 
@@ -38,7 +38,7 @@ export class ModuleGenerator {
     const configType = `${baseName}Config`;
 
     this.code.openBlock(
-      `export interface ${configType} extends TerraformModuleUserConfig`
+      `export interface ${configType} extends TerraformModuleUserConfig`,
     );
     for (const input of spec.inputs) {
       const optional = input.required && input.default === undefined ? "" : "?";
@@ -52,15 +52,15 @@ export class ModuleGenerator {
       }
       if (input.type.includes("map(")) {
         comment.line(
-          `The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}`
+          `The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}`,
         );
       }
       comment.end();
 
       this.code.line(
         `readonly ${AttributeModel.escapeName(
-          toCamelCase(input.name)
-        )}${optional}: ${parseType(input.type)};`
+          toCamelCase(input.name),
+        )}${optional}: ${parseType(input.type)};`,
       );
     }
     this.code.closeBlock();
@@ -83,7 +83,7 @@ export class ModuleGenerator {
     if (target.source.includes("//")) {
       registryPath = target.source.replace(
         "//modules",
-        `/${target.version || "latest"}/submodules`
+        `/${target.version || "latest"}/submodules`,
       );
       // terraform-aws-modules/vpc/aws//modules/vpc-endpoints
       // ->
@@ -99,7 +99,7 @@ export class ModuleGenerator {
     comment.line(
       isNonRegistryModule
         ? `Source at ${target.source}`
-        : `Docs at Terraform Registry: {@link https://registry.terraform.io/modules/${registryPath} ${target.source}}`
+        : `Docs at Terraform Registry: {@link https://registry.terraform.io/modules/${registryPath} ${target.source}}`,
     );
     comment.end();
     this.code.openBlock(`export class ${baseName} extends TerraformModule`);
@@ -109,7 +109,7 @@ export class ModuleGenerator {
     const allOptional = spec.inputs.find((x) => x.required) ? "" : " = {}";
 
     this.code.open(
-      `public constructor(scope: Construct, id: string, config: ${configType}${allOptional}) {`
+      `public constructor(scope: Construct, id: string, config: ${configType}${allOptional}) {`,
     );
     this.code.open(`super(scope, id, {`);
     this.code.line("...config,");
@@ -152,7 +152,7 @@ export class ModuleGenerator {
     this.code.closeBlock();
 
     this.code.openBlock(
-      `protected synthesizeHclAttributes(): { [name: string]: any }`
+      `protected synthesizeHclAttributes(): { [name: string]: any }`,
     );
     this.code.line(`return Object.fromEntries(`);
     this.code.line(`  Object.entries(this.inputs)`);

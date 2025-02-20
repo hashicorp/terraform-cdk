@@ -271,7 +271,7 @@ class S3Bucket extends Construct {
       !config.tags["reason-why-this-is-public"]
     ) {
       Annotations.of(this).addWarning(
-        `This S3Bucket is open to the public and no reason why is stated in the tags, please add a "reason-why-this-is-public" tag`
+        `This S3Bucket is open to the public and no reason why is stated in the tags, please add a "reason-why-this-is-public" tag`,
       );
     }
   }

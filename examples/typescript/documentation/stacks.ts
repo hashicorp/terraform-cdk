@@ -93,7 +93,11 @@ export function crossStackReferencesRunner() {
   // DOCS_BLOCK_START:cross-stack-reference
   class VPCStack extends TerraformStack {
     public vpc: Vpc;
-    constructor(scope: Construct, id: string, public region = "us-east-1") {
+    constructor(
+      scope: Construct,
+      id: string,
+      public region = "us-east-1",
+    ) {
       super(scope, id);
 
       new AwsProvider(this, "aws", {
@@ -180,12 +184,12 @@ export function stackDependenciesRunner() {
   const sourceStackA = new MySourceStack(
     dependencyApp,
     "source-stack-a",
-    "ami-2757f631"
+    "ami-2757f631",
   );
   const sourceStackB = new MySourceStack(
     dependencyApp,
     "source-stack-b",
-    "ami-2757f632"
+    "ami-2757f632",
   );
 
   new MyDependencyStack(dependencyApp, "dependency-stack", [

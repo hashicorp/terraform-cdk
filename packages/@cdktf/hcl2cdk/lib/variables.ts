@@ -12,7 +12,7 @@ import reservedWords from "reserved-words";
 
 export function referenceToVariableName(
   scope: ProgramScope,
-  ref: Reference
+  ref: Reference,
 ): string {
   const parts = ref.referencee.id.split(".");
   const resource = parts[0] === "data" ? `${parts[0]}.${parts[1]}` : parts[0];
@@ -50,7 +50,7 @@ function getUniqueName(scope: ProgramScope, provider: string, type: string) {
   const fullProviderName = getFullProviderName(scope.providerSchema, provider);
   if (fullProviderName && scope.providerGenerator[fullProviderName]) {
     return scope.providerGenerator[fullProviderName]?.getClassNameForResource(
-      type
+      type,
     );
   } else {
     // If we can not find the class name for a resource the caller needs to find a sensible default
@@ -63,7 +63,7 @@ function getResourceNamespace(
   provider: string,
   resource: string,
   isDataSource: boolean,
-  type: string
+  type: string,
 ) {
   // happens e.g. for references to cdktf.TerraformStack (and similar) in generated code
   if (provider === "cdktf") {
@@ -83,14 +83,14 @@ function getResourceNamespace(
   if (fullProviderName && scope.providerGenerator[fullProviderName]) {
     return camelCase(
       scope.providerGenerator[fullProviderName]?.getNamespaceNameForResource(
-        type.replace(/\./g, "_")
-      )
+        type.replace(/\./g, "_"),
+      ),
     );
   }
 
   if (isDataSource) {
     return camelCase(
-      sanitizeClassOrNamespaceName(`data_${provider}_${resource}`)
+      sanitizeClassOrNamespaceName(`data_${provider}_${resource}`),
     );
   }
 
@@ -100,7 +100,7 @@ function getResourceNamespace(
 export function constructAst(
   scope: ProgramScope,
   type: string,
-  isModuleImport: boolean
+  isModuleImport: boolean,
 ) {
   if (isModuleImport) {
     return t.memberExpression(t.identifier(type), t.identifier(type));
@@ -134,12 +134,12 @@ export function constructAst(
         provider,
         resource,
         true,
-        type
+        type,
       );
       const resourceName =
         getUniqueName(scope, provider, parts.join("_")) ||
         pascalCase(
-          sanitizeClassOrNamespaceName(`data_${provider}_${resource}`)
+          sanitizeClassOrNamespaceName(`data_${provider}_${resource}`),
         );
 
       scope.importables.push({
@@ -161,7 +161,7 @@ export function constructAst(
       provider,
       resource,
       false,
-      type
+      type,
     );
     const resourceName =
       getUniqueName(scope, provider, parts.join("_")) ||
@@ -186,7 +186,7 @@ export function constructAst(
 export function variableName(
   scope: ProgramScope,
   resource: string,
-  name: string
+  name: string,
 ): string {
   const consistentResourceName = resource.replace(/\./g, "_");
   // name collision, we need to prefix the name

@@ -14,7 +14,7 @@ function buildNpmResponse(
   version = "0.0.0",
   name = "test",
   cdktfVersion = "^0.12.2",
-  hasRepository = true
+  hasRepository = true,
 ): any {
   return {
     versions: {
@@ -65,7 +65,7 @@ describe("prebuilt-providers", () => {
         .reply(200, buildNpmResponse("2.3.0", "test1"));
 
       await expect(
-        getPrebuiltProviderRepositoryName("@cdktf/provider-test1")
+        getPrebuiltProviderRepositoryName("@cdktf/provider-test1"),
       ).resolves.toEqual("github.com/cdktf/cdktf-provider-test1");
     });
   });
@@ -77,7 +77,7 @@ describe("prebuilt-providers", () => {
         .replyWithError({ code: "ETIMEDOUT" });
 
       await expect(
-        getAllPrebuiltProviderVersions("@cdktf/test")
+        getAllPrebuiltProviderVersions("@cdktf/test"),
       ).rejects.toThrowError("Connection error");
     });
 
@@ -87,7 +87,7 @@ describe("prebuilt-providers", () => {
         .reply(502, "Gateway error");
 
       await expect(
-        getAllPrebuiltProviderVersions("@cdktf/test")
+        getAllPrebuiltProviderVersions("@cdktf/test"),
       ).rejects.toThrowError(/Unexpected error/);
     });
 
@@ -97,7 +97,7 @@ describe("prebuilt-providers", () => {
         .reply(404, "Not found");
 
       await expect(
-        getAllPrebuiltProviderVersions("@cdktf/test")
+        getAllPrebuiltProviderVersions("@cdktf/test"),
       ).rejects.toThrowError(/not found/i);
     });
 
@@ -107,13 +107,13 @@ describe("prebuilt-providers", () => {
         .reply(200, buildNpmResponse("2.3.0"));
 
       await expect(
-        getAllPrebuiltProviderVersions("@cdktf/test")
+        getAllPrebuiltProviderVersions("@cdktf/test"),
       ).resolves.toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             packageVersion: "2.3.0",
           }),
-        ])
+        ]),
       );
     });
 
@@ -123,13 +123,13 @@ describe("prebuilt-providers", () => {
         .reply(200, buildNpmResponse("2.4.2", "cachey"));
 
       await expect(
-        getAllPrebuiltProviderVersions("@cdktf/cachey")
+        getAllPrebuiltProviderVersions("@cdktf/cachey"),
       ).resolves.toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             packageVersion: "2.4.2",
           }),
-        ])
+        ]),
       );
 
       // Since we're expecting the cache to respond, the actual URL can fail
@@ -138,13 +138,13 @@ describe("prebuilt-providers", () => {
         .reply(500);
 
       await expect(
-        getAllPrebuiltProviderVersions("@cdktf/cachey")
+        getAllPrebuiltProviderVersions("@cdktf/cachey"),
       ).resolves.toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             packageVersion: "2.4.2",
           }),
-        ])
+        ]),
       );
 
       // ensure we never made the request
@@ -160,7 +160,7 @@ describe("prebuilt-providers", () => {
         .replyWithError({ code: "ETIMEDOUT" });
 
       await expect(
-        getNpmPackageName(ProviderConstraint.fromConfigEntry("test"))
+        getNpmPackageName(ProviderConstraint.fromConfigEntry("test")),
       ).rejects.toThrowError("Connection error");
     });
 
@@ -179,7 +179,7 @@ describe("prebuilt-providers", () => {
         });
 
       await expect(
-        getNpmPackageName(ProviderConstraint.fromConfigEntry("test"))
+        getNpmPackageName(ProviderConstraint.fromConfigEntry("test")),
       ).resolves.toEqual("@cdktf/provider-test");
     });
 
@@ -191,7 +191,7 @@ describe("prebuilt-providers", () => {
         });
 
       await expect(
-        getNpmPackageName(ProviderConstraint.fromConfigEntry("test"))
+        getNpmPackageName(ProviderConstraint.fromConfigEntry("test")),
       ).resolves.toEqual("@cdktf/provider-test");
     });
   });
@@ -205,8 +205,8 @@ describe("prebuilt-providers", () => {
       await expect(
         getPrebuiltProviderVersions(
           ProviderConstraint.fromConfigEntry("test"),
-          "0.12.2"
-        )
+          "0.12.2",
+        ),
       ).rejects.toThrowError("Connection error");
     });
 
@@ -224,8 +224,8 @@ describe("prebuilt-providers", () => {
       await expect(
         getPrebuiltProviderVersions(
           ProviderConstraint.fromConfigEntry("test"),
-          "0.12.2"
-        )
+          "0.12.2",
+        ),
       ).rejects.toThrowError("Connection error");
     });
 
@@ -242,8 +242,8 @@ describe("prebuilt-providers", () => {
       await expect(
         getPrebuiltProviderVersions(
           ProviderConstraint.fromConfigEntry("test"),
-          "0.12.2"
-        )
+          "0.12.2",
+        ),
       ).resolves.toEqual(["2.3.0"]);
     });
   });

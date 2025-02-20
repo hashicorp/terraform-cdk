@@ -26,7 +26,7 @@ describe("init command", () => {
           stdio: "pipe",
           cwd,
           input,
-        }
+        },
       );
       // we expect either empty error output or every line beginning with "npm WARN"
       if (result.stderr.length > 0) {
@@ -39,7 +39,7 @@ describe("init command", () => {
       }
 
       expect(result.stdout).not.toContain(
-        `opening webpage using your browser.`
+        `opening webpage using your browser.`,
       );
       expect(result.stdout).not.toContain(`Detected Terraform Cloud token.`);
     });

@@ -14,7 +14,7 @@ describe("backends", () => {
           `,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -33,7 +33,7 @@ describe("backends", () => {
           `,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -52,7 +52,7 @@ describe("backends", () => {
           `,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -70,6 +70,6 @@ describe("backends", () => {
       `,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 });

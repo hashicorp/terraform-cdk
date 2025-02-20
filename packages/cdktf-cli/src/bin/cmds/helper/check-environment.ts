@@ -17,7 +17,7 @@ import {
 function throwIfLowerVersion(
   language: string,
   minVersion: string,
-  stdout: string | undefined
+  stdout: string | undefined,
 ) {
   if (!stdout) {
     throw Errors.Usage(`${language} version could not be determined`);
@@ -26,7 +26,7 @@ function throwIfLowerVersion(
   const version = semver.coerce(stdout);
   if (!version || !semver.valid(version)) {
     console.error(
-      Errors.Internal(`Unable to parse ${language} version "${stdout}"`)
+      Errors.Internal(`Unable to parse ${language} version "${stdout}"`),
     );
     return;
   }
@@ -34,8 +34,8 @@ function throwIfLowerVersion(
   if (semver.lt(version, minVersion)) {
     console.error(
       Errors.Usage(
-        `${language} version "${version}" is not supported. Please upgrade to at least ${minVersion}`
-      )
+        `${language} version "${version}" is not supported. Please upgrade to at least ${minVersion}`,
+      ),
     );
   }
 }
@@ -98,48 +98,48 @@ export async function verifySimilarLibraryVersion() {
 
   if (cliVersion === "0.0.0" || cliVersion.includes("-dev")) {
     logger.debug(
-      `Running a development version of cdktf, skipping version check`
+      `Running a development version of cdktf, skipping version check`,
     );
     return;
   }
 
   if (cliVersion.includes(".dev") || cliVersion.includes("-pre.")) {
     logger.debug(
-      `Running a pre-release version of cdktf-cli, skipping version compatibility check`
+      `Running a pre-release version of cdktf-cli, skipping version compatibility check`,
     );
     return;
   }
 
   if (libVersion.includes(".dev") || libVersion.includes("-pre.")) {
     logger.debug(
-      `Running a pre-release version of cdktf, skipping version compatibility check`
+      `Running a pre-release version of cdktf, skipping version compatibility check`,
     );
     return;
   }
 
   if (!semver.valid(libVersion)) {
     logger.info(
-      "Could not determine library version, skipping version compatibility check"
+      "Could not determine library version, skipping version compatibility check",
     );
     return;
   }
 
   if (!semver.valid(cliVersion)) {
     logger.info(
-      "Could not determine CLI version, skipping version compatibility check"
+      "Could not determine CLI version, skipping version compatibility check",
     );
     return;
   }
 
   if (semver.major(libVersion) !== semver.major(cliVersion)) {
     throw Errors.Usage(
-      `The major version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same major version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`
+      `The major version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same major version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`,
     );
   }
 
   if (semver.minor(libVersion) !== semver.minor(cliVersion)) {
     throw Errors.Usage(
-      `The minor version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same minor version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`
+      `The minor version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same minor version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`,
     );
   }
 }

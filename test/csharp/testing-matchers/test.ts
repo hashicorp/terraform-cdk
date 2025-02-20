@@ -21,6 +21,6 @@ describe("csharp testing assertions", () => {
     async () => {
       await expect(runTests()).resolves.not.toThrow();
     },
-    6000000
+    6000000,
   );
 });

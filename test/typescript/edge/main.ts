@@ -28,7 +28,7 @@ export class ReferenceStack extends TerraformStack {
     const res = new edge.optionalAttributeResource.OptionalAttributeResource(
       this,
       "test",
-      {}
+      {},
     );
     const list = new edge.listBlockResource.ListBlockResource(this, "list", {
       req: [
@@ -59,7 +59,7 @@ export class ReferenceStack extends TerraformStack {
         strList: res.strList,
         numList: res.numList,
         boolList: res.boolList,
-      }
+      },
     );
 
     // required values FROM required single item lists
@@ -73,7 +73,7 @@ export class ReferenceStack extends TerraformStack {
         strList: [list.singlereq.reqstr],
         numList: [list.singlereq.reqnum],
         boolList: [list.singlereq.reqbool],
-      }
+      },
     );
 
     // required values FROM required multi item lists
@@ -87,7 +87,7 @@ export class ReferenceStack extends TerraformStack {
         strList: [list.req.get(0).reqstr],
         numList: [Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)],
         boolList: [Fn.lookup(Fn.element(list.req, 0), "reqbool", false)],
-      }
+      },
     );
 
     // passing a reference to a complete list
@@ -113,7 +113,7 @@ export class ReferenceStack extends TerraformStack {
         strList: [Fn.lookup(map.optMap, "key1", "missing")],
         numList: [Fn.lookup(map.computedMap, "key1", 0)],
         boolList: [Fn.lookup(map.reqMap, "key1", false)],
-      }
+      },
     );
 
     // passing a reference to a complete map
@@ -145,7 +145,7 @@ export class ReferenceStack extends TerraformStack {
       "list_item_from_list_type_ref",
       {
         str: list.computedListOfObject.get(5).str,
-      }
+      },
     );
   }
 }
@@ -184,7 +184,7 @@ export class ProviderStack extends TerraformStack {
         strList: [providerOpt.reqstr!],
         numList: [providerOpt.reqnum!],
         boolList: [providerOpt.reqbool!],
-      }
+      },
     );
 
     new edge.optionalAttributeResource.OptionalAttributeResource(
@@ -194,7 +194,7 @@ export class ProviderStack extends TerraformStack {
         bool: providerOpt.optbool,
         str: providerOpt.optstr,
         num: providerOpt.optnum,
-      }
+      },
     );
 
     new edge.optionalAttributeResource.OptionalAttributeResource(
@@ -204,7 +204,7 @@ export class ProviderStack extends TerraformStack {
         bool: providerOpt.computedbool,
         str: providerOpt.computedstr,
         num: providerOpt.computednum,
-      }
+      },
     );
 
     new edge.requiredAttributeResource.RequiredAttributeResource(
@@ -217,7 +217,7 @@ export class ProviderStack extends TerraformStack {
         strList: [providerFull.reqstr!],
         numList: [providerFull.reqnum!],
         boolList: [providerFull.reqbool!],
-      }
+      },
     );
 
     new edge.optionalAttributeResource.OptionalAttributeResource(
@@ -227,7 +227,7 @@ export class ProviderStack extends TerraformStack {
         bool: providerFull.optbool,
         str: providerFull.optstr,
         num: providerFull.optnum,
-      }
+      },
     );
 
     new edge.optionalAttributeResource.OptionalAttributeResource(
@@ -237,7 +237,7 @@ export class ProviderStack extends TerraformStack {
         bool: providerFull.computedbool,
         str: providerFull.computedstr,
         num: providerFull.computednum,
-      }
+      },
     );
   }
 }
@@ -257,7 +257,7 @@ export class IteratorStack extends TerraformStack {
         "target",
         {
           strList: ["a", "b", "c"],
-        }
+        },
       );
 
     const complexList = new edge.listBlockResource.ListBlockResource(
@@ -269,7 +269,7 @@ export class IteratorStack extends TerraformStack {
           { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
         ],
         singlereq: { reqbool: false, reqnum: 1, reqstr: "reqstr" },
-      }
+      },
     );
     const map = new edge.mapResource.MapResource(this, "map", {
       optMap: { key1: "value1", key2: "value2" },
@@ -287,7 +287,7 @@ export class IteratorStack extends TerraformStack {
       {
         forEach: stringListIterator,
         str: stringListIterator.value,
-      }
+      },
     );
 
     // iterating over a list of complex objects
@@ -298,7 +298,7 @@ export class IteratorStack extends TerraformStack {
         forEach: complexListIterator,
         str: complexListIterator.getString("reqstr"),
         num: complexListIterator.getNumber("reqnum"),
-      }
+      },
     );
 
     // iterating over entries of a map of strings
@@ -308,7 +308,7 @@ export class IteratorStack extends TerraformStack {
       {
         forEach: stringMapIterator,
         str: stringMapIterator.value,
-      }
+      },
     );
 
     // passing an iterator to a block property

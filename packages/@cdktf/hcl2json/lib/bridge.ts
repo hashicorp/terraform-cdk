@@ -21,6 +21,7 @@ interface GoBridge {
   getExpressionAst: (filename: string, hcl: string) => Promise<string>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 const jsRoot: Record<string, Function> = {};
 
 function sleep() {
@@ -57,7 +58,7 @@ function goBridge(getBytes: Promise<Buffer>) {
 
         if (!(key in jsRoot)) {
           throw new Error(
-            `There is nothing defined with the name "${key.toString()}"`
+            `There is nothing defined with the name "${key.toString()}"`,
           );
         }
 
@@ -67,6 +68,7 @@ function goBridge(getBytes: Promise<Buffer>) {
 
         return new Promise((resolve, reject) => {
           const cb = (err: string, ...msg: string[]) =>
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             err ? reject(new Error(err)) : resolve(...msg);
 
@@ -91,14 +93,14 @@ const wasm = goBridge(loadWasm());
 
 export async function parse(
   filename: string,
-  contents: string
+  contents: string,
 ): Promise<Record<string, any>> {
   const res = await wasm.parse(filename, contents);
   return JSON.parse(res);
 }
 
 export async function convertFiles(
-  workingDirectory: string
+  workingDirectory: string,
 ): Promise<Record<string, any>> {
   let tfFileContents = "";
   const tfJSONFileContents: Record<string, any>[] = [];
@@ -122,7 +124,7 @@ export async function convertFiles(
 
   return deepMerge(
     await parse("hcl2json.tf", tfFileContents),
-    ...tfJSONFileContents
+    ...tfJSONFileContents,
   );
 }
 
@@ -134,7 +136,7 @@ export async function convertFiles(
  */
 export async function getReferencesInExpression(
   filename: string,
-  expression: string
+  expression: string,
 ): Promise<Reference[]> {
   // We have to do this twice because of the problem with HEREDOCS
   // Our current hcl2json implementation removes HEREDOCS and replaces them
@@ -184,7 +186,7 @@ export async function getReferencesInExpression(
  */
 export async function getExpressionAst(
   filename: string,
-  expression: string
+  expression: string,
 ): Promise<ExpressionType | null> {
   const res = await wasm.getExpressionAst(filename, expression);
   const ast = JSON.parse(res) as ExpressionType;

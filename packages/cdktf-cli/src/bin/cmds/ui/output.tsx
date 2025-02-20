@@ -35,7 +35,7 @@ export const Output = ({
       });
       onOutputsRetrieved(outputs);
       return outputs;
-    }
+    },
   );
 
   const bottomBar =

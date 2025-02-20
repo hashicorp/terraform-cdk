@@ -31,7 +31,7 @@ export class VersionCheckTTL {
       fs.accessSync(path.dirname(this.file), fs.constants.W_OK);
     } catch {
       throw new Error(
-        `Directory (${path.dirname(this.file)}) is not writable.`
+        `Directory (${path.dirname(this.file)}) is not writable.`,
       );
     }
     this.ttlSecs = ttlSecs || ONE_DAY_IN_SECONDS;
@@ -68,7 +68,7 @@ export class VersionCheckTTL {
 // Don't use directly, use displayVersionMessage() instead.
 export async function latestVersionIfHigher(
   currentVersion: string,
-  cacheFile: VersionCheckTTL
+  cacheFile: VersionCheckTTL,
 ): Promise<string | null> {
   if (!(await cacheFile.hasExpired())) {
     return null;
@@ -77,7 +77,7 @@ export async function latestVersionIfHigher(
   const { stdout, stderr } = await exec("npm view cdktf-cli version");
   if (stderr && stderr.trim().length > 0) {
     console.error(
-      `The 'npm view' command generated an error stream with content [${stderr.trim()}]`
+      `The 'npm view' command generated an error stream with content [${stderr.trim()}]`,
     );
   }
   const latestVersion = stdout.trim();
@@ -103,11 +103,11 @@ export async function displayVersionMessage(): Promise<void> {
     const versionCheckCache = new VersionCheckTTL();
     const laterVersion = await latestVersionIfHigher(
       `${DISPLAY_VERSION}`,
-      versionCheckCache
+      versionCheckCache,
     );
     if (laterVersion) {
       console.log(
-        `Newer version of Terraform CDK is available [${laterVersion}] - Upgrade recommended`
+        `Newer version of Terraform CDK is available [${laterVersion}] - Upgrade recommended`,
       );
     }
   } catch (err: any) {
@@ -120,7 +120,7 @@ export function homeDir() {
     ? path.resolve(process.env.CDKTF_HOME)
     : path.join(
         (os.userInfo().homedir ?? os.homedir()).trim() || "/",
-        ".cdktf"
+        ".cdktf",
       );
 }
 

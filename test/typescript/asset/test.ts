@@ -22,7 +22,7 @@ describe("full integration test", () => {
   onlyHcl("hcl synth", async () => {
     await driver.synth("fixed");
     expect(
-      driver.synthesizedStackContentsRaw("fixed").toString()
+      driver.synthesizedStackContentsRaw("fixed").toString(),
     ).toMatchSnapshot();
   });
 
@@ -32,10 +32,10 @@ describe("full integration test", () => {
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("fixed"),
-          "assets/local-asset/hash/local-asset.txt"
+          "assets/local-asset/hash/local-asset.txt",
         ),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     ).toMatchSnapshot();
   });
 
@@ -45,28 +45,28 @@ describe("full integration test", () => {
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("fixed"),
-          "assets/fixtures/hash/a.txt"
+          "assets/fixtures/hash/a.txt",
         ),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     ).toMatchSnapshot();
     expect(
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("fixed"),
-          "assets/fixtures/hash/b.txt"
+          "assets/fixtures/hash/b.txt",
         ),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     ).toMatchSnapshot();
     expect(
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("fixed"),
-          "assets/fixtures/hash/foo/bar/c.txt"
+          "assets/fixtures/hash/foo/bar/c.txt",
         ),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     ).toMatchSnapshot();
   });
 
@@ -76,8 +76,8 @@ describe("full integration test", () => {
     const stat = fs.statSync(
       path.resolve(
         driver.stackDirectory("fixed"),
-        "assets/zipped-fixtures/hash/archive.zip"
-      )
+        "assets/zipped-fixtures/hash/archive.zip",
+      ),
     );
     expect(stat.isFile()).toBe(true);
   });
@@ -88,10 +88,10 @@ describe("full integration test", () => {
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("fixed"),
-          "assets/relative-asset/hash/relative-asset.txt"
+          "assets/relative-asset/hash/relative-asset.txt",
         ),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     ).toMatchSnapshot();
   });
 
@@ -101,34 +101,34 @@ describe("full integration test", () => {
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("fixed"),
-          "assets/relative/hash/a.txt"
+          "assets/relative/hash/a.txt",
         ),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     ).toMatchSnapshot();
     expect(
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("fixed"),
-          "assets/relative/hash/b.txt"
+          "assets/relative/hash/b.txt",
         ),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     ).toMatchSnapshot();
     expect(
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("fixed"),
-          "assets/relative/hash/bar/c.txt"
+          "assets/relative/hash/bar/c.txt",
         ),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     ).toMatchSnapshot();
   });
 
   test("without asset changes there should be no redeployment", async () => {
     expect(await driver.diff("normal")).toContain(
-      "1 to add, 0 to change, 0 to destroy"
+      "1 to add, 0 to change, 0 to destroy",
     );
     await driver.deploy(["normal"]);
     expect(await driver.diff("normal")).toContain("No changes");

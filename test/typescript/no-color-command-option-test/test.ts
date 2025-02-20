@@ -18,7 +18,7 @@ describe("no-color option for cdktf deploy, diff, destroy", () => {
       {
         env: driver.env,
         cwd: driver.workingDirectory,
-      }
+      },
     );
     // These tests are sometimes flaky, therefore we log the result here to ensure we can debug it properly
     console.log(result.stdout);
@@ -40,7 +40,7 @@ describe("no-color option for cdktf deploy, diff, destroy", () => {
       {
         env: driver.env,
         cwd: driver.workingDirectory,
-      }
+      },
     );
     // These tests are sometimes flaky, therefore we log the result here to ensure we can debug it properly
     console.log(result.stdout);

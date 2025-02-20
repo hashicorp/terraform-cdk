@@ -27,11 +27,11 @@ export type Schema = {
 
 export async function readSchema(
   constraints: TerraformDependencyConstraint[],
-  cacheDir?: string
+  cacheDir?: string,
 ): Promise<Schema> {
   const cachedReadProviderSchema = cachedAccess(readProviderSchema, cacheDir);
   const targets = constraints.map((constraint) =>
-    ConstructsMakerProviderTarget.from(constraint, LANGUAGES[0])
+    ConstructsMakerProviderTarget.from(constraint, LANGUAGES[0]),
   );
 
   throwIfTargetsConflict(targets);
@@ -40,12 +40,12 @@ export async function readSchema(
     targets.map((t) =>
       t.isModule
         ? readModuleSchema(t as any).then(
-            (s) => ({ moduleSchema: s } as Schema)
+            (s) => ({ moduleSchema: s }) as Schema,
           )
         : cachedReadProviderSchema(t as any).then(
-            (s) => ({ providerSchema: s } as Schema)
-          )
-    )
+            (s) => ({ providerSchema: s }) as Schema,
+          ),
+    ),
   );
 
   // ensure we have a schema for each target type
@@ -60,17 +60,17 @@ export async function readSchema(
 }
 
 function throwIfTargetsConflict(
-  targets: (ConstructsMakerProviderTarget | ConstructsMakerModuleTarget)[]
+  targets: (ConstructsMakerProviderTarget | ConstructsMakerModuleTarget)[],
 ) {
   const modules = targets.filter(
-    (t) => t.isModule
+    (t) => t.isModule,
   ) as ConstructsMakerModuleTarget[];
 
   modules.forEach((moduleA) => {
     modules.forEach((moduleB) => {
       if (moduleA !== moduleB && moduleA.name === moduleB.name) {
         throw Errors.Usage(
-          `Found two modules with the same name "${moduleA.name}" which is not supported. Please rename one of the modules in your cdktf.json config. For more information on how to set the name refer to https://cdk.tf/adding-modules`
+          `Found two modules with the same name "${moduleA.name}" which is not supported. Please rename one of the modules in your cdktf.json config. For more information on how to set the name refer to https://cdk.tf/adding-modules`,
         );
       }
     });

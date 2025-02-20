@@ -18,6 +18,6 @@ describe("go testing assertions", () => {
       console.log(res.stdout);
       expect(res.stdout).toContain("PASS");
     },
-    6000000
+    6000000,
   );
 });

@@ -20,7 +20,7 @@ describe("resources", () => {
     Synth.yes,
     {
       resources: ["aws_vpc"],
-    }
+    },
   );
 
   testCase.test(
@@ -138,7 +138,7 @@ describe("resources", () => {
     Synth.yes,
     {
       resources: ["aws_cloudfront_distribution"],
-    }
+    },
   );
 
   testCase.test(
@@ -155,7 +155,7 @@ describe("resources", () => {
     Synth.yes,
     {
       dataSources: ["aws_subnet"],
-    }
+    },
   );
 
   testCase.test(
@@ -205,7 +205,7 @@ describe("resources", () => {
     Synth.yes,
     {
       resources: ["aws_security_group"],
-    }
+    },
   );
 
   testCase.test(
@@ -236,7 +236,7 @@ describe("resources", () => {
     Synth.yes,
     {
       resources: ["google_compute_autoscaler"],
-    }
+    },
   );
 
   testCase.test(
@@ -261,7 +261,7 @@ describe("resources", () => {
     Synth.yes,
     {
       resources: ["kubernetes_secret"],
-    }
+    },
   );
 
   testCase.test(
@@ -286,7 +286,7 @@ describe("resources", () => {
     Synth.yes,
     {
       resources: ["kubernetes_secret"],
-    }
+    },
   );
 
   testCase.test(
@@ -304,7 +304,7 @@ describe("resources", () => {
     `,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -348,7 +348,7 @@ describe("resources", () => {
     Synth.yes,
     {
       resources: ["aws_guardduty_filter"],
-    }
+    },
   );
 
   testCase.test(
@@ -383,7 +383,7 @@ describe("resources", () => {
     Synth.never,
     {
       resources: ["aws_instance"],
-    }
+    },
   );
 
   /**
@@ -422,7 +422,7 @@ describe("resources", () => {
     Synth.yes,
     {
       resources: ["scaleway_object", "scaleway_object_bucket"],
-    }
+    },
   );
 
   testCase.test(
@@ -447,7 +447,7 @@ describe("resources", () => {
         `,
     [],
     Snapshot.yes,
-    Synth.never
+    Synth.never,
   );
 
   testCase.test(
@@ -475,7 +475,7 @@ describe("resources", () => {
     {
       resources: ["aws_ebs_volume"],
       dataSources: ["aws_availability_zones"],
-    }
+    },
   );
 
   testCase.test(
@@ -527,7 +527,7 @@ describe("resources", () => {
     Synth.no_missing_type_coercion,
     {
       resources: ["aws_ecs_task_definition"],
-    }
+    },
   );
 
   testCase.test(
@@ -546,6 +546,6 @@ describe("resources", () => {
     Synth.yes,
     {
       resources: ["terraform_data"],
-    }
+    },
   );
 });

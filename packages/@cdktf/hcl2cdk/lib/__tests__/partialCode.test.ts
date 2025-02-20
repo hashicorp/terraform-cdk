@@ -94,7 +94,7 @@ const getScope = () =>
 
     // This should be mutated
     topLevelConfig: {},
-  } as ProgramScope);
+  }) as ProgramScope;
 
 describe("fillWithConfigAccessors", () => {
   it("adds a missing required attributes", () => {
@@ -111,7 +111,7 @@ describe("fillWithConfigAccessors", () => {
         },
         d: [{ e: "e" }],
       },
-      "aws.image"
+      "aws.image",
     );
     expect(scope.topLevelConfig.b).toEqual("aws.image.b");
     expect(result).toMatchInlineSnapshot(`
@@ -157,7 +157,7 @@ describe("fillWithConfigAccessors", () => {
         },
         d: [{ e: "e" }],
       },
-      "aws.image"
+      "aws.image",
     );
     expect(scope.topLevelConfig).toEqual({});
     expect(result).toMatchInlineSnapshot(`
@@ -186,7 +186,7 @@ describe("fillWithConfigAccessors", () => {
         c: {},
         d: [{ e: "e" }],
       },
-      "aws.image"
+      "aws.image",
     );
     expect(scope.topLevelConfig).toEqual({
       d: "aws.image.c.d",
@@ -228,7 +228,7 @@ describe("fillWithConfigAccessors", () => {
         b: "b",
         d: [{ e: "e" }],
       },
-      "aws.image"
+      "aws.image",
     );
     expect(scope.topLevelConfig).toEqual({
       c: "aws.image.c",
@@ -269,7 +269,7 @@ describe("fillWithConfigAccessors", () => {
         c: { d: "d" },
         d: [{}],
       },
-      "aws.image"
+      "aws.image",
     );
     expect(scope.topLevelConfig).toEqual({
       e: "aws.image.d.[].e",
@@ -311,7 +311,7 @@ describe("fillWithConfigAccessors", () => {
         b: "b",
         c: { d: "d" },
       },
-      "aws.image"
+      "aws.image",
     );
     expect(scope.topLevelConfig).toEqual({
       d: "aws.image.d",
@@ -349,7 +349,7 @@ describe("fillWithConfigAccessors", () => {
         b: "b",
         c: {},
       },
-      "aws.image"
+      "aws.image",
     );
     expect(scope.topLevelConfig).toEqual({
       d: "aws.image.c.d",
@@ -401,7 +401,7 @@ describe("fillWithConfigAccessors", () => {
         c: { d: "d" },
         d: [],
       },
-      "aws.image"
+      "aws.image",
     );
     expect(scope.topLevelConfig).toEqual({
       d: "aws.image.d",

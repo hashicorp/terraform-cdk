@@ -100,7 +100,7 @@ export class TokenMap {
   public registerMap<V>(
     token: IResolvable,
     mapValue: V,
-    displayHint?: string
+    displayHint?: string,
   ): { [key: string]: V } {
     return cachedValue(token, MAP_SYMBOL, () => {
       const key = this.registerStringKey(token, displayHint);
@@ -210,7 +210,7 @@ export class TokenMap {
     const counter = this.tokenCounter++;
     const representation = (displayHint || `TOKEN`).replace(
       new RegExp(`[^${VALID_KEY_CHARS}]`, "g"),
-      "."
+      ".",
     );
     const key = `${representation}.${counter}`;
     this.stringTokenMap.set(key, token);

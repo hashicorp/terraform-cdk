@@ -74,7 +74,7 @@ export class ConsumerStack extends TerraformStack {
       numericValue?: number;
       stringValue?: string;
       listValue?: string[];
-    }
+    },
   ) {
     super(scope, id);
 
@@ -108,19 +108,19 @@ export class ConsumerStack extends TerraformStack {
       this.numericValue = new TerraformLocal(
         this,
         "local_numeric_value",
-        inputs.numericValue
+        inputs.numericValue,
       ).expression;
 
       this.stringValue = new TerraformLocal(
         this,
         "local_string_value",
-        inputs.stringValue
+        inputs.stringValue,
       ).expression;
 
       this.listValue = new TerraformLocal(
         this,
         "local_list_value",
-        inputs.listValue
+        inputs.listValue,
       ).expression;
     }
   }

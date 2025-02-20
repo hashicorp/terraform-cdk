@@ -13,7 +13,7 @@ import { variableName } from "./variables";
 
 export function referenceToVariableName(
   scope: ProgramScope,
-  ref: Reference
+  ref: Reference,
 ): string {
   const parts = ref.referencee.id.split(".");
   const resource = parts[0] === "data" ? `${parts[0]}.${parts[1]}` : parts[0];
@@ -50,16 +50,16 @@ export function containsReference(expression: tex.ExpressionType) {
 export async function extractReferencesFromExpression(
   input: string,
   nodeIds: readonly string[],
-  scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
+  scopedIds: readonly string[] = [], // dynamics introduce new scoped variables that are not the globally accessible ids
 ): Promise<Reference[]> {
   logger.debug(`extractReferencesFromExpression(${input})`);
   const possibleVariableSpots = await getReferencesInExpression(
     "main.tf",
-    input
+    input,
   );
 
   logger.debug(
-    `found possible variable spots: ${JSON.stringify(possibleVariableSpots)}`
+    `found possible variable spots: ${JSON.stringify(possibleVariableSpots)}`,
   );
 
   return possibleVariableSpots.reduce((carry, spot) => {
@@ -85,7 +85,7 @@ export async function extractReferencesFromExpression(
     const referenceParts = value.split(".");
 
     logger.debug(
-      `Searching for node id '${value}' in ${JSON.stringify(nodeIds)}`
+      `Searching for node id '${value}' in ${JSON.stringify(nodeIds)}`,
     );
     const corespondingNodeId = [...nodeIds, ...scopedIds].find((id) => {
       const parts = id.split(".");
@@ -105,9 +105,9 @@ export async function extractReferencesFromExpression(
       // We include the log below to help debugging
       logger.error(
         `Found a reference that is unknown: ${input} has reference "${value}".The id was not found in ${JSON.stringify(
-          nodeIds
+          nodeIds,
         )} with temporary values ${JSON.stringify(scopedIds)}.
-${leaveCommentText}`
+${leaveCommentText}`,
       );
       return carry;
     }
@@ -160,7 +160,7 @@ ${leaveCommentText}`
 
 export async function findUsedReferences(
   nodeIds: string[],
-  item: TerraformResourceBlock
+  item: TerraformResourceBlock,
 ): Promise<Reference[]> {
   logger.debug(`findUsedReferences(${nodeIds}, ${item})`);
   if (typeof item === "string") {
@@ -187,8 +187,8 @@ export async function findUsedReferences(
   return (
     await Promise.all(
       Object.values(item as Record<string, any>).map((i) =>
-        findUsedReferences(nodeIds, i)
-      )
+        findUsedReferences(nodeIds, i),
+      ),
     )
   ).flat();
 }

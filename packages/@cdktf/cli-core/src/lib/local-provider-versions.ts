@@ -40,7 +40,7 @@ export class LocalProviderVersions {
     } catch (e: any) {
       throw Errors.External(
         "versions.json file is malformed. The root must be a JSON object.",
-        e
+        e,
       );
     }
 
@@ -53,7 +53,7 @@ export class LocalProviderVersions {
             .toLowerCase(),
           versions,
         ];
-      })
+      }),
     );
   }
 
@@ -68,7 +68,7 @@ export class LocalProviderVersions {
   }
 
   public async versionForProvider(
-    providerName: string
+    providerName: string,
   ): Promise<string | null> {
     const versions = await this.versionsForAllProviders();
 

@@ -10,7 +10,7 @@ import * as path from "path";
 
 export async function withTempDir(
   dirname: string,
-  closure: () => Promise<void>
+  closure: () => Promise<void>,
 ) {
   const prevdir = process.cwd();
   const parent = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf."));
@@ -30,7 +30,7 @@ export const exec = async (
   args: string[],
   options: SpawnOptions,
   stdout?: (chunk: Buffer) => any,
-  stderr?: (chunk: string | Uint8Array) => any
+  stderr?: (chunk: string | Uint8Array) => any,
 ): Promise<string> => {
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);

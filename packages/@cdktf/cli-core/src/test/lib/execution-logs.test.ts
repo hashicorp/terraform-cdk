@@ -7,7 +7,7 @@ describe("enhanceLogs", () => {
     expect(
       createEnhanceLogMessage({
         content: "MalformedJSON",
-      } as SynthesizedStack)("MyMessage")
+      } as SynthesizedStack)("MyMessage"),
     ).toBe("MyMessage");
   });
 
@@ -30,7 +30,7 @@ describe("enhanceLogs", () => {
             },
           },
         }),
-      } as SynthesizedStack)(msg)
+      } as SynthesizedStack)(msg),
     ).toBe(msg);
   });
 
@@ -52,10 +52,10 @@ describe("enhanceLogs", () => {
           },
         }),
       } as SynthesizedStack)(
-        "This is a message where some_thing.different is used"
-      )
+        "This is a message where some_thing.different is used",
+      ),
     ).toMatchInlineSnapshot(
-      `"This is a message where some_thing.different (ThisConstruct) is used"`
+      `"This is a message where some_thing.different (ThisConstruct) is used"`,
     );
   });
   it("properly matches to the resource when names overlap", () => {
@@ -109,8 +109,8 @@ describe("enhanceLogs", () => {
           },
         }),
       } as SynthesizedStack)(
-        "This is a message where null_resource.null_resource is used \n This is a message where null_resource.null_resource2 is used"
-      )
+        "This is a message where null_resource.null_resource is used \n This is a message where null_resource.null_resource2 is used",
+      ),
     ).toMatchInlineSnapshot(`
     "This is a message where null_resource.null_resource (null_resource) is used 
      This is a message where null_resource.null_resource2 (null_resource2) is used"

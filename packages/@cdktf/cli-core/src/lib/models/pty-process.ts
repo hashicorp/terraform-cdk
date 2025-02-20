@@ -35,7 +35,7 @@ export interface PtyProcess {
  */
 export function spawnPty(
   config: PtySpawnConfig,
-  onData: (data: string) => void
+  onData: (data: string) => void,
 ): PtyProcess {
   const { args, options } = config;
   const file =
@@ -46,7 +46,7 @@ export function spawnPty(
   logger.trace(
     `Spawning pty with file=${file}, args=${
       Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-    }, options=${JSON.stringify(options)}`
+    }, options=${JSON.stringify(options)}`,
   );
 
   const p = pty.spawn(file, args, options);
@@ -56,7 +56,7 @@ export function spawnPty(
       logger.trace(
         `Sending response to pty (file=${file}, args=${
           Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-        }): ${response}`
+        }): ${response}`,
       );
       p.write(response);
     },
@@ -64,7 +64,7 @@ export function spawnPty(
       logger.trace(
         `Sending response (with newline) to pty (file=${file}, args=${
           Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-        }): ${response}`
+        }): ${response}`,
       );
       p.write(`${response}${os.EOL}`);
     },
@@ -72,7 +72,7 @@ export function spawnPty(
       logger.trace(
         `Aborting pty (file=${file}, args=${
           Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-        })`
+        })`,
       );
       p.write("\x03"); // CTRL + C, pty.kill() does not work on windows
     },
@@ -86,7 +86,7 @@ export function spawnPty(
         logger.debug(
           `Pty (file=${file}, args=${
             Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-          }) exited with code ${exitCode}`
+          }) exited with code ${exitCode}`,
         );
       }
       resolve(exitCode);
@@ -101,7 +101,7 @@ export function spawnPty(
 function findExecutable(
   command: string,
   cwd: string,
-  options: { env?: { [key: string]: string } }
+  options: { env?: { [key: string]: string } },
 ): string {
   // If we have an absolute path then we take it.
   if (path.isAbsolute(command)) {

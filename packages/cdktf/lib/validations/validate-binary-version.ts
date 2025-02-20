@@ -13,7 +13,7 @@ export class ValidateBinaryVersion implements IValidation {
     protected binary: string,
     protected versionConstraint: string,
     protected versionCommand: string,
-    protected hint?: string
+    protected hint?: string,
   ) {}
 
   public validate() {

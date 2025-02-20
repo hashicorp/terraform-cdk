@@ -59,7 +59,7 @@ class LocalDockerDeployment extends Construct {
   getSecrets(secrets: string[]) {
     return secrets.map(
       (secret) =>
-        new TerraformVariable(this, secret, { sensitive: true }).stringValue
+        new TerraformVariable(this, secret, { sensitive: true }).stringValue,
     );
   }
 }
@@ -71,7 +71,7 @@ class ProductionDockerDeployment extends LocalDockerDeployment {
   getSecrets(secrets: string[]) {
     return secrets.map(
       (secret) =>
-        new DataVaultGenericSecret(this, secret, { path: secret }).data
+        new DataVaultGenericSecret(this, secret, { path: secret }).data,
     );
   }
 }
@@ -95,7 +95,7 @@ class MyVpc extends Construct {
     function createSecuredVpc(
       scope: Construct,
       name: string,
-      options: Options
+      options: Options,
     ): MyVpc {
       return new MyVpc(scope, name, {
         ...mySecureDefaultOptions,

@@ -21,19 +21,19 @@ declare global {
       toHaveResource(resourceConstructor: TerraformConstructor): R;
       toHaveResourceWithProperties(
         resourceConstructor: TerraformConstructor,
-        properties: Record<string, any>
+        properties: Record<string, any>,
       ): R;
 
       toHaveDataSource(dataSourceConstructor: TerraformConstructor): R;
       toHaveDataSourceWithProperties(
         dataSourceConstructor: TerraformConstructor,
-        properties: Record<string, any>
+        properties: Record<string, any>,
       ): R;
 
       toHaveProvider(providerConstructor: TerraformConstructor): R;
       toHaveProviderWithProperties(
         providerConstructor: TerraformConstructor,
-        properties: Record<string, any>
+        properties: Record<string, any>,
       ): R;
 
       toBeValidTerraform(): R;
@@ -44,7 +44,7 @@ declare global {
 
 type JestExpect = {
   extend: (
-    matchers: Record<string, (...args: any[]) => MatcherReturnJest>
+    matchers: Record<string, (...args: any[]) => MatcherReturnJest>,
   ) => void;
 };
 
@@ -53,7 +53,7 @@ type JestExpect = {
 // As we want to support more than one testing framework we can not use them everywhere
 function jestPassEvaluation(
   items: any[],
-  assertedProperties: Record<string, any>
+  assertedProperties: Record<string, any>,
 ): boolean {
   if (Object.entries(assertedProperties).length === 0) {
     return items.length > 0;
@@ -79,79 +79,79 @@ export function setupJest() {
   expect.extend({
     toHaveResource(
       received: string,
-      resourceConstructor: TerraformConstructor
+      resourceConstructor: TerraformConstructor,
     ) {
       return returnMatcherToJest(
         getToHaveResourceWithProperties(jestPassEvaluation)(
           received,
           resourceConstructor,
-          {}
-        )
+          {},
+        ),
       );
     },
     toHaveResourceWithProperties(
       received: string,
       resourceConstructor: TerraformConstructor,
-      properties: Record<string, any>
+      properties: Record<string, any>,
     ) {
       return returnMatcherToJest(
         getToHaveResourceWithProperties(jestPassEvaluation)(
           received,
           resourceConstructor,
-          properties
-        )
+          properties,
+        ),
       );
     },
 
     toHaveDataSource(
       received: string,
-      dataSourceConstructor: TerraformConstructor
+      dataSourceConstructor: TerraformConstructor,
     ) {
       return returnMatcherToJest(
         getToHaveDataSourceWithProperties(jestPassEvaluation)(
           received,
           dataSourceConstructor,
-          {}
-        )
+          {},
+        ),
       );
     },
     toHaveDataSourceWithProperties(
       received: string,
       dataSourceConstructor: TerraformConstructor,
-      properties: Record<string, any>
+      properties: Record<string, any>,
     ) {
       return returnMatcherToJest(
         getToHaveDataSourceWithProperties(jestPassEvaluation)(
           received,
           dataSourceConstructor,
-          properties
-        )
+          properties,
+        ),
       );
     },
 
     toHaveProvider(
       received: string,
-      providerConstructor: TerraformConstructor
+      providerConstructor: TerraformConstructor,
     ) {
       return returnMatcherToJest(
         getToHaveProviderWithProperties(jestPassEvaluation)(
           received,
           providerConstructor,
-          {}
-        )
+          {},
+        ),
       );
     },
     toHaveProviderWithProperties(
       received: string,
       providerConstructor: TerraformConstructor,
-      properties: Record<string, any>
+      properties: Record<string, any>,
     ) {
       return returnMatcherToJest(
         getToHaveProviderWithProperties(jestPassEvaluation)(
           received,
           providerConstructor,
-          properties
-        )
+          properties,
+        ),
       );
     },
 

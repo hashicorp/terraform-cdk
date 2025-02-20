@@ -33,7 +33,7 @@ export class NamespacedProviders extends TerraformStack {
     const userId = new Aws.dataAwsCallerIdentity.DataAwsCallerIdentity(
       this,
       "callerIdentity",
-      {}
+      {},
     );
 
     const role = new Aws.iamRole.IamRole(this, "role", {
@@ -46,7 +46,7 @@ export class NamespacedProviders extends TerraformStack {
         policyArn:
           "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
         role: role.name,
-      }
+      },
     );
     new Aws.lambdaFunction.LambdaFunction(this, "lambdaFn", {
       handler: "index.handler",
@@ -185,7 +185,7 @@ export class Mutation extends TerraformStack {
             },
           },
         },
-      }
+      },
     );
 
     // direct primitive mutation

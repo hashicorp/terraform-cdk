@@ -28,7 +28,7 @@ describe("java full integration", () => {
   onlyHcl("synth generates HCL", async () => {
     await driver.synth();
     expect(
-      driver.synthesizedStackContentsRaw("java-simple").toString()
+      driver.synthesizedStackContentsRaw("java-simple").toString(),
     ).toMatchSnapshot();
   });
 });

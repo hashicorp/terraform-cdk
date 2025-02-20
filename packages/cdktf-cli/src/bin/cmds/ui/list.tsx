@@ -19,7 +19,7 @@ export const List = ({
 }: ListConfig): React.ReactElement => {
   const { status, logEntries, returnValue } = useCdktfProject(
     { outDir, synthCommand },
-    (project) => project.synth()
+    (project) => project.synth(),
   );
 
   return (

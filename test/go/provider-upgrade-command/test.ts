@@ -23,14 +23,14 @@ describe("provider upgrade command", () => {
       ]);
 
       expect(driver.readLocalFile("go.mod")).toContain(
-        "github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.2"
+        "github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.2",
       );
       await driver.exec("cdktf", ["provider", "upgrade", "random@=3.4.3"]);
       expect(driver.readLocalFile("go.mod")).not.toContain(
-        "github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.0"
+        "github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.0",
       );
       expect(driver.readLocalFile("go.mod")).toContain(
-        "github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11"
+        "github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11",
       );
     }, 180_000);
   });

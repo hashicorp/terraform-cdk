@@ -14,17 +14,17 @@ test("generate a cloudfront distribution resource", async () => {
       path.join(
         __dirname,
         "fixtures",
-        "aws_cloudfront_distribution.test.fixture.json"
+        "aws_cloudfront_distribution.test.fixture.json",
       ),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/aws/cloudfront-distribution/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot("cloudfront");
 });
@@ -35,15 +35,15 @@ test("generate a s3 bucket resource", async () => {
   const spec = JSON.parse(
     fs.readFileSync(
       path.join(__dirname, "fixtures", "aws_s3_bucket.test.fixture.json"),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/aws/s3-bucket/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot();
 });
@@ -56,17 +56,17 @@ test("generate a fms admin account with an empty options interface", async () =>
       path.join(
         __dirname,
         "fixtures",
-        "aws_fms_admin_account.test.fixture.json"
+        "aws_fms_admin_account.test.fixture.json",
       ),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/aws/fms-admin-account/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot();
 });
@@ -77,15 +77,15 @@ test("generate a security group", async () => {
   const spec = JSON.parse(
     fs.readFileSync(
       path.join(__dirname, "fixtures", "aws_security_group.test.fixture.json"),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/aws/security-group/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot();
 });
@@ -98,10 +98,10 @@ test("generate a datadog spans metric", async () => {
       path.join(
         __dirname,
         "fixtures",
-        "datadog_spans_metric.test.fixture.json"
+        "datadog_spans_metric.test.fixture.json",
       ),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
 
   new TerraformProviderGenerator(code, spec).generateAll();
@@ -109,7 +109,7 @@ test("generate a datadog spans metric", async () => {
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/datadog/spans-metric/index.ts"),
-    "utf-8"
+    "utf-8",
   );
 
   expect(output).toMatchSnapshot();

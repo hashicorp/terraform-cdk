@@ -34,7 +34,7 @@ export const DeploySummary = ({
       created: 0,
       updated: 0,
       destroyed: 0,
-    } as any
+    } as any,
   );
 
   return (
@@ -108,7 +108,7 @@ export const Deploy = ({
         onOutputsRetrieved(project.outputsByConstructId);
       }
       setOutputs(project.outputsByConstructId);
-    }
+    },
   );
 
   const bottomBar =

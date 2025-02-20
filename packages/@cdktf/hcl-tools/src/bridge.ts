@@ -10,6 +10,7 @@ interface GoBridge {
   format: (hcl: string) => Promise<string>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 const jsRoot: Record<string, Function> = {};
 
 function sleep() {
@@ -46,7 +47,7 @@ function goBridge(getBytes: Promise<Buffer>) {
 
         if (!(key in jsRoot)) {
           throw new Error(
-            `There is nothing defined with the name "${key.toString()}"`
+            `There is nothing defined with the name "${key.toString()}"`,
           );
         }
 
@@ -56,6 +57,7 @@ function goBridge(getBytes: Promise<Buffer>) {
 
         return new Promise((resolve, reject) => {
           const cb = (err: string, ...msg: string[]) =>
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             err ? reject(new Error(err)) : resolve(...msg);
 

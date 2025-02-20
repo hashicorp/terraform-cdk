@@ -13,14 +13,14 @@ describe("python terraform functions test synth", () => {
   onlyJson("synth generates JSON", async () => {
     await driver.synth();
     expect(
-      driver.synthesizedStack("python-simple").toString()
+      driver.synthesizedStack("python-simple").toString(),
     ).toMatchSnapshot();
   });
 
   onlyHcl("synth generates HCL", async () => {
     await driver.synth();
     expect(
-      driver.synthesizedStackContentsRaw("python-simple")
+      driver.synthesizedStackContentsRaw("python-simple"),
     ).toMatchSnapshot();
   });
 });

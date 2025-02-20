@@ -13,7 +13,7 @@ export class CdktfConfigManager {
     return this.config.terraformProviders.some(
       (provider) =>
         ProviderConstraint.fromConfigEntry(provider).source ===
-        constraint.source
+        constraint.source,
     );
   }
 
@@ -22,12 +22,12 @@ export class CdktfConfigManager {
     const currentProviders = this.config.terraformProviders.filter(
       (provider) =>
         ProviderConstraint.fromConfigEntry(provider).source !==
-        constraint.source
+        constraint.source,
     );
 
     const simplifiedSource = constraint.source.replace(
       "registry.terraform.io/",
-      ""
+      "",
     );
 
     const provider =

@@ -9,8 +9,8 @@ export function deepMerge(target: any, ...sources: any[]) {
     if (typeof source !== "object" || typeof target !== "object") {
       throw new Error(
         `Invalid usage. Both source (${JSON.stringify(
-          source
-        )}) and target (${JSON.stringify(target)}) must be objects`
+          source,
+        )}) and target (${JSON.stringify(target)}) must be objects`,
       );
     }
 

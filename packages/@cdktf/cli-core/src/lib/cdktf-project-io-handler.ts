@@ -30,7 +30,7 @@ export class CdktfProjectIOHandler {
       (event) =>
         event.type === "projectUpdate"
           ? !isWaitingForUserInputUpdate(event.value) // we want to filter out the waiting for approval events
-          : true // we want all other types
+          : true, // we want all other types
     );
   }
 
@@ -42,7 +42,7 @@ export class CdktfProjectIOHandler {
           event.type === "projectUpdate" &&
           isWaitingForUserInputUpdate(event.value) &&
           (event.value as MultiStackUpdate).stackName === stackName
-        )
+        ),
     );
 
     if (

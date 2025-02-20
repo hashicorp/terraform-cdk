@@ -39,7 +39,7 @@ export interface AttributeNestedType {
 }
 
 export function isAttributeNestedType(
-  type: AttributeType | AttributeNestedType
+  type: AttributeType | AttributeNestedType,
 ): type is AttributeNestedType {
   return (
     typeof type === "object" &&
@@ -73,7 +73,7 @@ interface TypedAttribute extends BaseAttribute {
 export type Attribute = NestedTypeAttribute | TypedAttribute;
 
 export function isNestedTypeAttribute(
-  att: Attribute
+  att: Attribute,
 ): att is NestedTypeAttribute {
   return (
     typeof att.nested_type !== "undefined" &&

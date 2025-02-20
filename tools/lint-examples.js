@@ -18,7 +18,7 @@ const CDKTF_CONFIG_FILE = "cdktf.json"; // used to detect directories with a CDK
 function getChildDirs(rootDir) {
   const all = fs.readdirSync(rootDir);
   return all.filter((file) =>
-    fs.statSync(path.resolve(rootDir, file)).isDirectory()
+    fs.statSync(path.resolve(rootDir, file)).isDirectory(),
   );
 }
 
@@ -38,8 +38,8 @@ function collectCdktfOrExampleProjectDirs(root) {
     const childDirs = getChildDirs(root);
     projectDirs.push(
       ...childDirs.flatMap((childDir) =>
-        collectCdktfOrExampleProjectDirs(path.resolve(root, childDir))
-      )
+        collectCdktfOrExampleProjectDirs(path.resolve(root, childDir)),
+      ),
     );
   }
 
@@ -50,7 +50,7 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 
 // e.g. ['examples/typescript/docker', 'examples/typescript/google']
 const exampleProjects = collectCdktfOrExampleProjectDirs(
-  path.resolve(REPO_ROOT, "examples")
+  path.resolve(REPO_ROOT, "examples"),
 ).map((p) => p.replace(REPO_ROOT + "/", ""));
 
 // e.g. [{ name: '@examples/typescript-google-cloud-run', location: '/Users/ansgar/projects/hashicorp/terraform-cdk/examples/typescript/google-cloudrun'}]
@@ -69,7 +69,7 @@ exampleProjects.forEach((example) => {
   if (!hasPackageJson) {
     failedCheck = true;
     console.error(
-      `Error: Found example in directory '${example}' but there is no package.json.`
+      `Error: Found example in directory '${example}' but there is no package.json.`,
     );
     return;
   }
@@ -78,7 +78,7 @@ exampleProjects.forEach((example) => {
   if (packageJson.name !== expectedPackageName) {
     failedCheck = true;
     console.error(
-      `Error: Found example in directory '${example}' but the name in the package.json is not "${expectedPackageName}" (it is "${packageJson.name}")`
+      `Error: Found example in directory '${example}' but the name in the package.json is not "${expectedPackageName}" (it is "${packageJson.name}")`,
     );
     return;
   }
@@ -87,7 +87,7 @@ exampleProjects.forEach((example) => {
 
   if (!lernaEntry) {
     console.error(
-      `Error: Found example in directory '${example}' with a package.json and the right name but "npx lerna list --all" does not seem to recognize that packge.`
+      `Error: Found example in directory '${example}' with a package.json and the right name but "npx lerna list --all" does not seem to recognize that packge.`,
     );
     failedCheck = true;
     return;
@@ -106,7 +106,7 @@ exampleProjects.forEach((example) => {
   if (configJson.projectId) {
     failedCheck = true;
     console.error(
-      `Error: Found example in directory '${example}' but it had a projectId defined in cdktf.json with the value "${configJson.projectId}". Please remove that key.`
+      `Error: Found example in directory '${example}' but it had a projectId defined in cdktf.json with the value "${configJson.projectId}". Please remove that key.`,
     );
     return;
   }
@@ -114,7 +114,7 @@ exampleProjects.forEach((example) => {
   if (configJson.userId) {
     failedCheck = true;
     console.error(
-      `Error: Found example in directory '${example}' but it had a userId defined in cdktf.json with the value "${configJson.userId}". Please remove that key.`
+      `Error: Found example in directory '${example}' but it had a userId defined in cdktf.json with the value "${configJson.userId}". Please remove that key.`,
     );
     return;
   }
@@ -126,7 +126,7 @@ exampleProjects.forEach((example) => {
   ) {
     failedCheck = true;
     console.error(
-      `Error: Found example in directory '${example}' but it had a sendCrashReports defined in cdktf.json with the truthy value "${configJson.sendCrashReports}". Please remove that key or set it to false or "false".`
+      `Error: Found example in directory '${example}' but it had a sendCrashReports defined in cdktf.json with the truthy value "${configJson.sendCrashReports}". Please remove that key or set it to false or "false".`,
     );
     return;
   }
@@ -134,7 +134,7 @@ exampleProjects.forEach((example) => {
 
 if (failedCheck) {
   console.log(
-    "Linting the examples failed. One or more examples failed the validation rules. See stderr for more information about them."
+    "Linting the examples failed. One or more examples failed the validation rules. See stderr for more information about them.",
   );
   process.exit(1);
 } else {

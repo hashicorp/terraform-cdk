@@ -68,7 +68,7 @@ export interface TerraformResourceLifecycle {
  *  - converts all replaceTriggeredBy items that are ITerraformDependables to strings
  */
 export function lifecycleToTerraform(
-  lifecycle?: TerraformResourceLifecycle
+  lifecycle?: TerraformResourceLifecycle,
 ): TerraformResourceLifecycle | undefined {
   if (!lifecycle) {
     return undefined;
@@ -160,7 +160,7 @@ export class TerraformResource
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     if (Array.isArray(config.dependsOn)) {
       this.dependsOn = config.dependsOn.map((dependency) =>
-        dependable(dependency)
+        dependable(dependency),
       );
     }
     this.count = config.count;
@@ -199,25 +199,25 @@ export class TerraformResource
 
   public getNumberListAttribute(terraformAttribute: string) {
     return Token.asNumberList(
-      this.interpolationForAttribute(terraformAttribute)
+      this.interpolationForAttribute(terraformAttribute),
     );
   }
 
   public getStringMapAttribute(terraformAttribute: string) {
     return Token.asStringMap(
-      this.interpolationForAttribute(terraformAttribute)
+      this.interpolationForAttribute(terraformAttribute),
     );
   }
 
   public getNumberMapAttribute(terraformAttribute: string) {
     return Token.asNumberMap(
-      this.interpolationForAttribute(terraformAttribute)
+      this.interpolationForAttribute(terraformAttribute),
     );
   }
 
   public getBooleanMapAttribute(terraformAttribute: string) {
     return Token.asBooleanMap(
-      this.interpolationForAttribute(terraformAttribute)
+      this.interpolationForAttribute(terraformAttribute),
     );
   }
 
@@ -228,7 +228,7 @@ export class TerraformResource
   public get terraformMetaArguments(): { [name: string]: any } {
     assert(
       !this.forEach || typeof this.count === "undefined",
-      `forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the resource at path: ${this.node.path}`
+      `forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the resource at path: ${this.node.path}`,
     );
 
     return {
@@ -263,7 +263,7 @@ export class TerraformResource
           [type]: keysToSnakeCase(props),
         })),
       },
-      this.rawOverrides
+      this.rawOverrides,
     );
 
     attributes["//"] = {
@@ -314,7 +314,7 @@ export class TerraformResource
           },
         })),
       },
-      this.rawOverrides
+      this.rawOverrides,
     );
 
     attributes["//"] = {
@@ -401,7 +401,7 @@ export class TerraformResource
       `${this.terraformResourceType}.${this.friendlyUniqueId}${
         this.forEach ? ".*" : ""
       }.${terraformAttribute}`,
-      this.cdktfStack
+      this.cdktfStack,
     );
   }
 
@@ -410,8 +410,8 @@ export class TerraformResource
     this.node.addValidation(
       new ValidateTerraformVersion(
         ">=1.5",
-        `Import blocks are only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-      )
+        `Import blocks are only supported for Terraform >=1.5. Please upgrade your Terraform version.`,
+      ),
     );
   }
 
@@ -422,12 +422,12 @@ export class TerraformResource
   private _addResourceTarget(moveTarget: string) {
     return TerraformStack.of(this).moveTargets.addResourceTarget(
       this,
-      moveTarget
+      moveTarget,
     );
   }
 
   private _buildMovedBlockByTarget(
-    movedTarget: TerraformResourceMoveByTarget
+    movedTarget: TerraformResourceMoveByTarget,
   ): { to: string; from: string } {
     const { moveTarget, index } = movedTarget;
     const resourceToMoveTo = this._getResourceTarget(moveTarget);
@@ -435,7 +435,7 @@ export class TerraformResource
       throw movedToResourceOfDifferentType(
         moveTarget,
         this.terraformResourceType,
-        resourceToMoveTo.terraformResourceType
+        resourceToMoveTo.terraformResourceType,
       );
     }
     const to = index
@@ -452,11 +452,11 @@ export class TerraformResource
       throw resourceGivenTwoMoveOperationsByTargetAndId(
         this.node.id,
         this._movedByTarget.moveTarget,
-        { to: this._movedById.to, from: this._movedById.from }
+        { to: this._movedById.to, from: this._movedById.from },
       );
     } else if (this._movedByTarget) {
       const movedBlockByTarget = this._buildMovedBlockByTarget(
-        this._movedByTarget
+        this._movedByTarget,
       );
       return { to: movedBlockByTarget.to, from: movedBlockByTarget.from };
     } else if (this._movedById) {
@@ -476,7 +476,7 @@ export class TerraformResource
       throw resourceGivenTwoMoveOperationsByTarget(
         this.friendlyUniqueId,
         this._movedByTarget.moveTarget,
-        moveTarget
+        moveTarget,
       );
     }
     this._movedByTarget = { moveTarget, index };
@@ -503,7 +503,7 @@ export class TerraformResource
         {
           to: id,
           from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
-        }
+        },
       );
     }
 
@@ -526,7 +526,7 @@ export class TerraformResource
         {
           to: id,
           from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
-        }
+        },
       );
     }
     this._movedById = {

@@ -65,7 +65,7 @@ export async function getParsedHcl(hcl: string) {
   } catch (err) {
     logger.error(`Failed to parse HCL: ${err}`);
     throw new Error(
-      `Error: Could not parse HCL, this means either that the HCL passed is invalid or that you found a bug. If the HCL seems valid, please file a bug under https://cdk.tf/bugs/new/convert`
+      `Error: Could not parse HCL, this means either that the HCL passed is invalid or that you found a bug. If the HCL seems valid, please file a bug under https://cdk.tf/bugs/new/convert`,
     );
   }
 
@@ -91,7 +91,7 @@ export async function parseProviderRequirements(hcl: string) {
 export async function convertToTypescript(
   hcl: string,
   providerSchema: ProviderSchema,
-  codeContainer: string
+  codeContainer: string,
 ) {
   logger.debug("Converting to typescript");
   const plan = await getParsedHcl(hcl);
@@ -101,11 +101,11 @@ export async function convertToTypescript(
   const scope: ProgramScope = {
     providerSchema,
     providerGenerator: Object.keys(
-      providerSchema.provider_schemas || {}
+      providerSchema.provider_schemas || {},
     ).reduce((carry, fqpn) => {
       const providerGenerator = new TerraformProviderGenerator(
         new CodeMaker(),
-        providerSchema
+        providerSchema,
       );
       providerGenerator.buildResourceModels(fqpn as FQPN); // can't use that type on the keys yet, since we are not on TS >=4.4 yet :sadcat:
       return { ...carry, [fqpn]: providerGenerator };
@@ -120,7 +120,7 @@ export async function convertToTypescript(
 
   const graph = new DirectedGraph<{
     code: (
-      g: DirectedGraph<any>
+      g: DirectedGraph<any>,
     ) => Promise<Array<t.Statement | t.VariableDeclaration>>;
   }>();
 
@@ -131,7 +131,7 @@ export async function convertToTypescript(
     string,
     {
       code: (
-        g: typeof graph
+        g: typeof graph,
       ) => Promise<Array<t.Statement | t.VariableDeclaration>>;
       value: unknown;
     }
@@ -145,7 +145,7 @@ export async function convertToTypescript(
       Array.isArray(plan.locals)
         ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
         : {},
-      local
+      local,
     ),
     ...forEachGlobal(scope, "out", plan.output, output),
     ...forEachGlobal(scope, "module", plan.module, modules),
@@ -174,7 +174,7 @@ export async function convertToTypescript(
             `The dependency graph is expected to link from ${
               ref.referencee.id
             } to ${id} but ${id} does not exist. 
-            These nodes exist: ${graph.nodes().join("\n")}`
+            These nodes exist: ${graph.nodes().join("\n")}`,
           );
         }
 
@@ -196,7 +196,7 @@ export async function convertToTypescript(
     _scope: ProgramScope,
     _key: string,
     id: string,
-    value: TerraformResourceBlock
+    value: TerraformResourceBlock,
   ) {
     await addEdges(id, value);
   }
@@ -204,7 +204,7 @@ export async function convertToTypescript(
     _scope: ProgramScope,
     _key: string,
     id: string,
-    value: TerraformResourceBlock
+    value: TerraformResourceBlock,
   ) {
     await addEdges(id, value);
   }
@@ -213,7 +213,7 @@ export async function convertToTypescript(
     _type: string,
     _key: string,
     id: string,
-    value: TerraformResourceBlock
+    value: TerraformResourceBlock,
   ) {
     await addEdges(id, value);
   }
@@ -229,13 +229,13 @@ export async function convertToTypescript(
         Array.isArray(plan.locals)
           ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
           : {},
-        addGlobalEdges
+        addGlobalEdges,
       ),
       ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
       ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
       ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
       ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
-    }).map(({ code: addEdgesToGraph }) => addEdgesToGraph(graph))
+    }).map(({ code: addEdgesToGraph }) => addEdgesToGraph(graph)),
   );
 
   logger.debug(`Graph: ${JSON.stringify(graph, null, 2)}`);
@@ -279,7 +279,7 @@ export async function convertToTypescript(
     }
 
     logger.debug(
-      `${nodesToVisit.length} unvisited nodes: ${nodesToVisit.join(", ")}`
+      `${nodesToVisit.length} unvisited nodes: ${nodesToVisit.join(", ")}`,
     );
   } while (nodesToVisit.length > 0 && nodesVisitedThisIteration != 0);
 
@@ -289,19 +289,19 @@ export async function convertToTypescript(
         nodesToVisit.length
       } terraform elements that could not be visited. 
       This is likely due to a cycle in the dependency graph. 
-      These nodes are: ${nodesToVisit.join(", ")}`
+      These nodes are: ${nodesToVisit.join(", ")}`,
     );
   }
 
   logger.debug(
-    `${nodesToVisit.length} unvisited nodes: ${nodesToVisit.join(", ")}`
+    `${nodesToVisit.length} unvisited nodes: ${nodesToVisit.join(", ")}`,
   );
 
   const backendExpressions = (
     await Promise.all(
       plan.terraform?.map((terraform) =>
-        backendToExpression(scope, terraform.backend)
-      ) || [Promise.resolve([])]
+        backendToExpression(scope, terraform.backend),
+      ) || [Promise.resolve([])],
     )
   ).reduce((carry, item) => [...carry, ...item], []);
 
@@ -309,8 +309,8 @@ export async function convertToTypescript(
     `Using these backend expressions: ${JSON.stringify(
       backendExpressions,
       null,
-      2
-    )}`
+      2,
+    )}`,
   );
 
   // We collect all module sources
@@ -324,16 +324,16 @@ export async function convertToTypescript(
               ...arr,
               version ? `${source}@${version}` : source,
             ],
-            [] as string[]
+            [] as string[],
           ),
         ],
-        [] as string[]
-      ) || []
+        [] as string[],
+      ) || [],
     ),
   ];
 
   logger.debug(
-    `Found these modules: ${JSON.stringify(moduleRequirements, null, 2)}`
+    `Found these modules: ${JSON.stringify(moduleRequirements, null, 2)}`,
   );
 
   if (Object.keys(plan.variable || {}).length > 0 && expressions.length > 0) {
@@ -341,7 +341,7 @@ export async function convertToTypescript(
       expressions[0],
       "leading",
       `Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
-You can read more about this at https://cdk.tf/variables`
+You can read more about this at https://cdk.tf/variables`,
     );
   }
 
@@ -350,8 +350,8 @@ You can read more about this at https://cdk.tf/variables`
     `Found these provider requirements: ${JSON.stringify(
       providerRequirements,
       null,
-      2
-    )}`
+      2,
+    )}`,
   );
 
   // We add a comment if there are providers with missing schema information
@@ -359,13 +359,13 @@ You can read more about this at https://cdk.tf/variables`
     (providerName) =>
       providerName !== "terraform" &&
       !Object.keys(providerSchema.provider_schemas || {}).some((schemaName) =>
-        schemaName.endsWith(providerName)
-      )
+        schemaName.endsWith(providerName),
+      ),
   );
   logger.debug(
     `${
       providersLackingSchema.length
-    } providers lack schema information: ${providersLackingSchema.join(", ")}`
+    } providers lack schema information: ${providersLackingSchema.join(", ")}`,
   );
 
   if (providersLackingSchema.length > 0) {
@@ -373,9 +373,9 @@ You can read more about this at https://cdk.tf/variables`
       expressions[0],
       "leading",
       `The following providers are missing schema information and might need manual adjustments to synthesize correctly: ${providersLackingSchema.join(
-        ", "
+        ", ",
       )}.
-For a more precise conversion please use the --provider flag in convert.`
+For a more precise conversion please use the --provider flag in convert.`,
     );
   }
 
@@ -415,13 +415,13 @@ For a more precise conversion please use the --provider flag in convert.`
         codeContainer,
         code,
         "MyConvertedCode",
-        configTypeName
+        configTypeName,
       ),
     ]),
     imports: await gen([...constructImports, ...moduleImports(plan.module)]),
     code: await gen(code),
     providers: Object.entries(providerRequirements).map(([source, version]) =>
-      version === "*" ? source : `${source}@${version}`
+      version === "*" ? source : `${source}@${version}`,
     ),
     modules: moduleRequirements,
     // We track some usage data to make it easier to understand what is used
@@ -461,7 +461,7 @@ function translatorForLanguage(language: keyof typeof translators) {
     const { translation, diagnostics } = rosetta.translateTypeScript(
       file,
       visitor(),
-      throwOnTranslationError ? { includeCompilerDiagnostics: true } : {}
+      throwOnTranslationError ? { includeCompilerDiagnostics: true } : {},
     );
 
     if (
@@ -472,7 +472,7 @@ function translatorForLanguage(language: keyof typeof translators) {
       throw new Error(
         `Could not translate TS to ${language}: ${diagnostics
           .map((diag) => diag.formattedMessage)
-          .join("\n")}`
+          .join("\n")}`,
       );
     }
 
@@ -507,7 +507,7 @@ export async function convert(
     providerSchema,
     throwOnTranslationError = false,
     codeContainer = "cdktf.TerraformStack",
-  }: ConvertOptions
+  }: ConvertOptions,
 ) {
   const fileName = "terraform.tf";
   const translater =
@@ -525,7 +525,7 @@ export async function convert(
     ...tsCode,
     all: translater(
       { fileName, contents: tsCode.all },
-      throwOnTranslationError
+      throwOnTranslationError,
     ),
     imports: translater({ fileName, contents: tsCode.imports }, false),
     code: translater({ fileName, contents: tsCode.code }, false),
@@ -548,7 +548,7 @@ type CdktfJson = Record<string, unknown> & {
 };
 export async function convertProject(
   combinedHcl: string,
-  { language, providerSchema }: ConvertOptions
+  { language, providerSchema }: ConvertOptions,
 ) {
   if (language !== "typescript") {
     throw new Error("Unsupported language used: " + language);

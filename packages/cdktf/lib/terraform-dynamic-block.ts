@@ -27,7 +27,7 @@ export class TerraformDynamicBlock implements IResolvable {
   }
 
   public static fromDynamicExpression(
-    expr: TerraformDynamicExpression
+    expr: TerraformDynamicExpression,
   ): TerraformDynamicBlock {
     return new TerraformDynamicBlock({
       forEach: expr.iterator,

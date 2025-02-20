@@ -100,8 +100,8 @@ export class TestResource extends TerraformResource {
         list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
         list_attribute: listMapper((a) => a, false)(this.listAttribute), // identity function to skip writing a toTerraform function
       }).filter(
-        ([_, value]) => value !== undefined && value.value !== undefined
-      )
+        ([_, value]) => value !== undefined && value.value !== undefined,
+      ),
     );
   }
 
@@ -137,7 +137,7 @@ export class TestOutputReference extends ComplexObject {
    */
   public constructor(
     terraformResource: ITerraformResource,
-    terraformAttribute: string
+    terraformAttribute: string,
   ) {
     super(terraformResource, terraformAttribute, false, 0);
   }
@@ -194,7 +194,7 @@ class TestComplexList extends ComplexList {
       this.terraformResource,
       this.terraformAttribute,
       this.wrapsSet,
-      index
+      index,
     );
   }
 }

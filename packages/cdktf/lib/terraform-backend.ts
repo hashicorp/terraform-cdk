@@ -9,7 +9,11 @@ const BACKEND_SYMBOL = Symbol.for("cdktf/TerraformBackend");
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class TerraformBackend extends TerraformElement {
-  constructor(scope: Construct, id: string, protected readonly name: string) {
+  constructor(
+    scope: Construct,
+    id: string,
+    protected readonly name: string,
+  ) {
     super(scope, id);
     Object.defineProperty(this, BACKEND_SYMBOL, { value: true });
   }
@@ -33,7 +37,7 @@ export abstract class TerraformBackend extends TerraformElement {
   public abstract getRemoteStateDataSource(
     scope: Construct,
     name: string,
-    fromStack: string
+    fromStack: string,
   ): TerraformRemoteState;
 
   public toHclTerraform(): any {
@@ -42,7 +46,7 @@ export abstract class TerraformBackend extends TerraformElement {
         backend: {
           [this.name]: deepMerge(
             this.synthesizeHclAttributes(),
-            this.rawOverrides
+            this.rawOverrides,
           ),
         },
       },
@@ -58,7 +62,7 @@ export abstract class TerraformBackend extends TerraformElement {
         backend: {
           [this.name]: deepMerge(
             this.synthesizeAttributes(),
-            this.rawOverrides
+            this.rawOverrides,
           ),
         },
       },

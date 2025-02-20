@@ -6,7 +6,7 @@ import { IResolvable, Lazy, Token } from "./tokens";
 import { captureStackTrace } from "./tokens/private/stack-trace";
 
 const DYNAMIC_EXPRESSION_SYMBOL = Symbol.for(
-  "cdktf/TerraformDynamicExpression"
+  "cdktf/TerraformDynamicExpression",
 );
 
 /**
@@ -49,7 +49,7 @@ export class TerraformDynamicExpression implements IResolvable {
         // context.resolve is required for the iteratorContext to be correctly passed
         // to Lazy values within this.content
         return context.resolve(
-          forExpression(this.iterator._getForEachExpression(), this.content)
+          forExpression(this.iterator._getForEachExpression(), this.content),
         );
       },
     });
@@ -69,7 +69,7 @@ export class TerraformDynamicExpression implements IResolvable {
   }
 
   public static isTerraformDynamicExpression(
-    x: any
+    x: any,
   ): x is TerraformDynamicExpression {
     return (
       x !== null && typeof x === "object" && DYNAMIC_EXPRESSION_SYMBOL in x

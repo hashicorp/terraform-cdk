@@ -90,7 +90,7 @@ export class TerraformStack extends Construct {
       this,
       process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS !== undefined,
       process.env.SYNTH_HCL_OUTPUT === "true" ||
-        process.env.SYNTH_HCL_OUTPUT === "1"
+        process.env.SYNTH_HCL_OUTPUT === "1",
     );
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
     this.node.addValidation(new ValidateProviderPresence(this));
@@ -128,7 +128,7 @@ export class TerraformStack extends Construct {
   }
 
   private findAll<T extends IConstruct>(
-    predicate: (node: unknown) => node is T
+    predicate: (node: unknown) => node is T,
   ): T[] {
     const items: T[] = [];
 
@@ -152,7 +152,7 @@ export class TerraformStack extends Construct {
     this.ensureBackendExists();
     // A preparing resolve run might add new resources to the stack, e.g. for cross stack references.
     terraformElements(this).forEach((e) =>
-      resolve(this, e.toTerraform(), true)
+      resolve(this, e.toTerraform(), true),
     );
   }
 
@@ -247,7 +247,7 @@ export class TerraformStack extends Construct {
             return { [part]: item.friendlyUniqueId };
           }
           return { [part]: innerCarry };
-        }, {})
+        }, {}),
       );
 
       return carry;
@@ -339,7 +339,7 @@ export class TerraformStack extends Construct {
     return {
       hcl: resolve(
         this,
-        [terraformBlockHcl, localsHcl, ...hclFragments].join("")
+        [terraformBlockHcl, localsHcl, ...hclFragments].join(""),
       ),
       metadata: resolve(this, tfMeta),
     };
@@ -377,7 +377,7 @@ export class TerraformStack extends Construct {
             return { [part]: item.friendlyUniqueId };
           }
           return { [part]: innerCarry };
-        }, {})
+        }, {}),
       );
 
       return carry;
@@ -406,7 +406,7 @@ export class TerraformStack extends Construct {
       {
         value: ref(identifier, this),
         sensitive: true,
-      }
+      },
     );
 
     this.crossStackOutputs[identifier] = output;
@@ -423,7 +423,7 @@ export class TerraformStack extends Construct {
     const remoteState = originBackend.getRemoteStateDataSource(
       this,
       `cross-stack-reference-input-${originPath}`,
-      originPath
+      originPath,
     );
 
     this.crossStackDataSources[originPath] = remoteState;
@@ -457,7 +457,7 @@ export class TerraformStack extends Construct {
     const errors: { message: string; source: IConstruct }[] = this.node
       .findAll()
       .map((node) =>
-        node.node.validate().map((error) => ({ message: error, source: node }))
+        node.node.validate().map((error) => ({ message: error, source: node })),
       )
       .reduce((prev, curr) => [...prev, ...curr], []);
     if (errors.length > 0) {
@@ -481,7 +481,7 @@ export class TerraformStack extends Construct {
 // eslint-disable-next-line jsdoc/require-jsdoc
 function terraformElements(
   node: IConstruct,
-  into: TerraformElement[] = []
+  into: TerraformElement[] = [],
 ): TerraformElement[] {
   if (TerraformElement.isTerraformElement(node)) {
     into.push(node);

@@ -12,7 +12,10 @@ import {
  * @deprecated CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
  */
 export class SwiftBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: SwiftBackendConfig) {
+  constructor(
+    scope: Construct,
+    private readonly props: SwiftBackendConfig,
+  ) {
     super(scope, "backend", "swift");
   }
 
@@ -27,7 +30,7 @@ export class SwiftBackend extends TerraformBackend {
   public getRemoteStateDataSource(
     scope: Construct,
     name: string,
-    _fromStack: string
+    _fromStack: string,
   ): TerraformRemoteState {
     return new DataTerraformRemoteStateSwift(scope, name, this.props);
   }
@@ -40,7 +43,7 @@ export class DataTerraformRemoteStateSwift extends TerraformRemoteState {
   constructor(
     scope: Construct,
     id: string,
-    config: DataTerraformRemoteStateSwiftConfig
+    config: DataTerraformRemoteStateSwiftConfig,
   ) {
     super(scope, id, "swift", config);
   }

@@ -26,19 +26,19 @@ describe("iterators integration test", () => {
     });
     expect(stack.byId("inline")).toHaveProperty(
       "dynamic.source.for_each",
-      "${toset(var.files)}"
+      "${toset(var.files)}",
     );
     expect(stack.byId("inline")).toHaveProperty(
       "dynamic.source.iterator",
-      "each"
+      "each",
     );
 
     expect(stack.output("test-list-type")).toEqual(
-      '${[ for key, val in toset(var.pets): {"name" = val.name, "age" = val.age}]}'
+      '${[ for key, val in toset(var.pets): {"name" = val.name, "age" = val.age}]}',
     );
     expect(stack.output("test-nested-list-type")).toHaveProperty(
       "nested.in.an.object",
-      '${[ for key, val in toset(var.pets): {"name" = val.name, "age" = val.age}]}'
+      '${[ for key, val in toset(var.pets): {"name" = val.name, "age" = val.age}]}',
     );
 
     // tests that .dynamic() can also be passed to nested blocks
@@ -50,20 +50,20 @@ describe("iterators integration test", () => {
           rack: "${each.value.rack}",
           zone: "${each.value.zone}",
         },
-      }
+      },
     );
     expect(stack2.byId("mysqlvolume")).toHaveProperty(
       "topology_request.required.dynamic.topology.for_each",
-      "${toset(var.topologySegments)}"
+      "${toset(var.topologySegments)}",
     );
     expect(stack2.byId("mysqlvolume")).toHaveProperty(
       "topology_request.required.dynamic.topology.iterator",
-      "each"
+      "each",
     );
 
     expect(stack2.byId("record")).toHaveProperty(
       "for_each",
-      "${{ for key, val in tolist(aws_acm_certificate.cert.domain_validation_options): val.domain_name => val }}"
+      "${{ for key, val in tolist(aws_acm_certificate.cert.domain_validation_options): val.domain_name => val }}",
     );
     expect(stack2.byId("record")).toHaveProperty("name", "${each.value.name}");
   });
@@ -76,7 +76,7 @@ describe("iterators integration test", () => {
   test("apply produces the correct result for outputs", async () => {
     const deployOutputsPath = path.resolve(
       driver.workingDirectory,
-      "deploy.outputs.json"
+      "deploy.outputs.json",
     );
     await driver.deploy(["test-iterators"], deployOutputsPath);
     const deployOutput = JSON.parse(fs.readFileSync(deployOutputsPath, "utf8"));
@@ -90,7 +90,7 @@ describe("iterators integration test", () => {
       [
         { name: "Oscar", age: 3 },
         { name: "Fred", age: 6 },
-      ]
+      ],
     );
   });
 });

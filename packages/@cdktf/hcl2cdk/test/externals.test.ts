@@ -30,6 +30,6 @@ describe("externals", () => {
     Synth.yes,
     {
       dataSources: ["external"],
-    }
+    },
   );
 });

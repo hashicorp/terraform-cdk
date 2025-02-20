@@ -10,7 +10,10 @@ import {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class CosBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: CosBackendConfig) {
+  constructor(
+    scope: Construct,
+    private readonly props: CosBackendConfig,
+  ) {
     super(scope, "backend", "cos");
   }
 
@@ -25,7 +28,7 @@ export class CosBackend extends TerraformBackend {
   public getRemoteStateDataSource(
     scope: Construct,
     name: string,
-    _fromStack: string
+    _fromStack: string,
   ): TerraformRemoteState {
     return new DataTerraformRemoteStateCos(scope, name, {
       ...this.props,
@@ -39,7 +42,7 @@ export class DataTerraformRemoteStateCos extends TerraformRemoteState {
   constructor(
     scope: Construct,
     id: string,
-    config: DataTerraformRemoteStateCosConfig
+    config: DataTerraformRemoteStateCosConfig,
   ) {
     super(scope, id, "cos", config);
   }

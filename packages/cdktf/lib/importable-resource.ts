@@ -21,14 +21,14 @@ export class ImportableResource extends TerraformElement {
   constructor(
     scope: Construct,
     name: string,
-    private readonly config: IImportableConfig
+    private readonly config: IImportableConfig,
   ) {
     super(scope, name, config.terraformResourceType);
     this.node.addValidation(
       new ValidateTerraformVersion(
         ">=1.5",
-        `Import blocks are only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-      )
+        `Import blocks are only supported for Terraform >=1.5. Please upgrade your Terraform version.`,
+      ),
     );
   }
 
