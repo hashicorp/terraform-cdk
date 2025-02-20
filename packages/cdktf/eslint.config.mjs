@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import jsdoc from "eslint-plugin-jsdoc";
 import noInstanceof from "eslint-plugin-no-instanceof";
