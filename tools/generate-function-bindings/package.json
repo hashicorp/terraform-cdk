@@ -40,48 +40,10 @@
     "@babel/template": "^7.18.10",
     "@babel/types": "^7.20.2",
     "@cdktf/provider-generator": "0.0.0",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.20.0",
     "ts-node": "^10.9.1",
     "typescript": "5.4.5"
-  },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended",
-      "plugin:react-hooks/recommended",
-      "prettier"
-    ],
-    "rules": {
-      "@typescript-eslint/no-explicit-any": 0,
-      "@typescript-eslint/explicit-function-return-type": 0,
-      "@typescript-eslint/no-use-before-define": 0,
-      "@typescript-eslint/explicit-module-boundary-types": 0,
-      "@typescript-eslint/no-var-requires": 0,
-      "react/no-unescaped-entities": 0,
-      "no-sequences": "error",
-      "no-irregular-whitespace": [
-        "error",
-        {
-          "skipTemplates": true
-        }
-      ]
-    },
-    "files": ["**/*.ts", "**/*.tsx"],
-    "ignorePatterns": [
-      "node_modules",
-      "dist",
-      "coverage"
-    ]
   },
   "lint-staged": {
     "src/**/*.ts": "tsc-files ambient.d.ts --noEmit"

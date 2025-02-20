@@ -22,6 +22,7 @@ import { ref, dependable } from "./tfExpression";
 import { IInterpolatingParent } from "./terraform-addressable";
 import { ITerraformIterator } from "./terraform-iterator";
 import { TerraformCount } from "./terraform-count";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import assert = require("assert");
 
 const TERRAFORM_DATA_SOURCE_SYMBOL = Symbol.for("cdktf/TerraformDataSource");

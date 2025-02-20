@@ -169,4 +169,4 @@ yargs
 
     await Sentry.close(4000);
     process.exit(1);
-  }).argv;
+  });

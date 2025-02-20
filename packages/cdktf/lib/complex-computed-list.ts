@@ -40,7 +40,6 @@ abstract class ComplexResolvable implements IResolvable, ITerraformAddressable {
     return this._fqn;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   resolve(_context: IResolveContext): any {
     return this.fqn;
   }

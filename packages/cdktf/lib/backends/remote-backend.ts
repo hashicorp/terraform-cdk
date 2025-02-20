@@ -57,6 +57,7 @@ export interface RemoteBackendConfig {
   readonly workspaces: IRemoteWorkspace;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IRemoteWorkspace {}
 
 // eslint-disable-next-line jsdoc/require-jsdoc

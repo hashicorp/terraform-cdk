@@ -5,7 +5,7 @@
 /**
  * Captures a complete stack trace at the point of invocation.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export function captureStackTrace(below?: Function): string[] {
   below = below || captureStackTrace; // hide myself if nothing else
   const object = { stack: "" };
