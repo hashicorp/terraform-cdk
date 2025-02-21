@@ -173,7 +173,7 @@ export async function convertToTypescript(
           throw new Error(
             `The dependency graph is expected to link from ${
               ref.referencee.id
-            } to ${id} but ${id} does not exist. 
+            } to ${id} but ${id} does not exist.
             These nodes exist: ${graph.nodes().join("\n")}`,
           );
         }
@@ -287,8 +287,8 @@ export async function convertToTypescript(
     throw new Error(
       `There are ${
         nodesToVisit.length
-      } terraform elements that could not be visited. 
-      This is likely due to a cycle in the dependency graph. 
+      } terraform elements that could not be visited.
+      This is likely due to a cycle in the dependency graph.
       These nodes are: ${nodesToVisit.join(", ")}`,
     );
   }

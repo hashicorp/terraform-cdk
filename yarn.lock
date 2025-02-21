@@ -597,6 +597,7 @@ __metadata:
     "@types/glob": "npm:8.1.0"
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:18.19.71"
+    "@types/prettier": "npm:2.7.3"
     "@types/reserved-words": "npm:0.1.4"
     camelcase: "npm:6.3.0"
     cdktf: "npm:0.0.0"
@@ -3889,7 +3890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2.1.5":
+"@types/prettier@npm:2.7.3, @types/prettier@npm:^2.1.5":
   version: 2.7.3
   resolution: "@types/prettier@npm:2.7.3"
   checksum: 10c0/0960b5c1115bb25e979009d0b44c42cf3d792accf24085e4bfce15aef5794ea042e04e70c2139a2c3387f781f18c89b5706f000ddb089e9a4a2ccb7536a2c5f0
