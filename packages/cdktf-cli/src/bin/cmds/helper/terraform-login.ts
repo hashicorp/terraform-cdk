@@ -15,7 +15,7 @@ const nonIteractiveLoginWithNoTokenError = (invalid: boolean) =>
   Errors.Usage(
     `You are trying to use terraform init in a non-interactive mode while ${
       invalid ? "having an invalid token for" : "not being logged in to"
-    }  Terraform Cloud. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. Please run 'cdktf login' to log in.`
+    }  Terraform Cloud. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. Please run 'cdktf login' to log in.`,
   );
 
 export interface Hostname {
@@ -77,7 +77,7 @@ the following file for use by subsequent Terraform commands:
     } catch (e) {
       logger.debug(
         `Ignored error while trying to open ${this.terraformLoginURL}`,
-        e
+        e,
       );
     }
   }
@@ -101,7 +101,7 @@ the following file for use by subsequent Terraform commands:
         },
       },
       undefined,
-      2
+      2,
     );
     fs.writeFileSync(terraformCredentialsFilePath, credentialsFileJSON);
   }
@@ -129,14 +129,14 @@ the following file for use by subsequent Terraform commands:
   public async getTerraformCredentialsFile(): Promise<TerraformCredentialsFile> {
     try {
       const credentialsFile = JSON.parse(
-        fs.readFileSync(terraformCredentialsFilePath).toString()
+        fs.readFileSync(terraformCredentialsFilePath).toString(),
       );
       const terraformCredentials: TerraformCredentialsFile = credentialsFile;
 
       return terraformCredentials;
     } catch (e) {
       logger.debug(
-        `Could not find terraform credentials file at ${terraformCredentialsFilePath}`
+        `Could not find terraform credentials file at ${terraformCredentialsFilePath}`,
       );
       return { credentials: {} };
     }

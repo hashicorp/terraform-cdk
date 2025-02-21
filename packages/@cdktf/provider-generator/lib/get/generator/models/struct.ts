@@ -9,7 +9,7 @@ export class Struct {
     public readonly isClass = false,
     public readonly isAnonymous = false,
     public isSingleItem = false,
-    public readonly nestingMode: string = ""
+    public readonly nestingMode: string = "",
   ) {}
 
   public get assignableAttributes(): AttributeModel[] {
@@ -23,7 +23,7 @@ export class Struct {
   public get allOptional(): boolean {
     return (
       this.attributes.filter(
-        (attribute) => !attribute.optional && !attribute.computed
+        (attribute) => !attribute.optional && !attribute.computed,
       ).length == 0
     );
   }

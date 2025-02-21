@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import * as path from "path";
 import * as fs from "fs";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import stringify = require("json-stable-stringify");
 import { TerraformStack } from "../terraform-stack";
 import { IStackSynthesizer, ISynthesisSession } from "./types";
@@ -23,7 +24,7 @@ export class StackSynthesizer implements IStackSynthesizer {
   constructor(
     protected stack: TerraformStack,
     private continueOnErrorAnnotations = false,
-    private hclOutput = false
+    private hclOutput = false,
   ) {}
 
   synthesize(session: ISynthesisSession) {
@@ -33,8 +34,8 @@ export class StackSynthesizer implements IStackSynthesizer {
       this.stack.node.addValidation(
         new ValidateTerraformVersion(
           ">=1.5",
-          `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-        )
+          `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`,
+        ),
       );
     }
 
@@ -47,7 +48,7 @@ export class StackSynthesizer implements IStackSynthesizer {
 
     const workingDirectory = path.join(
       session.outdir,
-      stackManifest.workingDirectory
+      stackManifest.workingDirectory,
     );
     if (!fs.existsSync(workingDirectory)) fs.mkdirSync(workingDirectory);
 
@@ -69,7 +70,7 @@ export class StackSynthesizer implements IStackSynthesizer {
           level: metadata.type as AnnotationMetadataEntryType,
           message: metadata.data,
           stacktrace: metadata.trace,
-        }))
+        })),
       )
       .reduce((list, metadatas) => [...list, ...metadatas], []); // Array.flat()
 
@@ -85,7 +86,7 @@ export class StackSynthesizer implements IStackSynthesizer {
         annotations
           .filter(isErrorAnnotation)
           .map((a) => `[${a.constructPath}] ${a.message}`)
-          .join("\n")
+          .join("\n"),
       );
     }
 
@@ -93,12 +94,12 @@ export class StackSynthesizer implements IStackSynthesizer {
       const hcl = this.stack.toHclTerraform();
       fs.writeFileSync(
         path.join(session.outdir, stackManifest.synthesizedStackPath),
-        hcl.hcl
+        hcl.hcl,
       );
 
       fs.writeFileSync(
         path.join(session.outdir, stackManifest.stackMetadataPath!),
-        stringify(hcl.metadata, { space: 2 }) as string
+        stringify(hcl.metadata, { space: 2 }) as string,
       );
 
       return;
@@ -108,7 +109,7 @@ export class StackSynthesizer implements IStackSynthesizer {
 
     fs.writeFileSync(
       path.join(session.outdir, stackManifest.synthesizedStackPath),
-      stringify(jsonTfConfig, { space: 2 }) as string
+      stringify(jsonTfConfig, { space: 2 }) as string,
     );
   }
 }
@@ -146,7 +147,7 @@ export function invokeAspects(root: IConstruct) {
       // the `nestedAspectWarning` flag is used to prevent the warning from being emitted for every child
       if (!nestedAspectWarning && nodeAspectsCount !== aspects.all.length) {
         Annotations.of(construct).addWarning(
-          "We detected an Aspect was added via another Aspect, and will not be applied"
+          "We detected an Aspect was added via another Aspect, and will not be applied",
         );
         nestedAspectWarning = true;
       }
@@ -196,7 +197,7 @@ export interface ICustomSynthesis {
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function addCustomSynthesis(
   construct: IConstruct,
-  synthesis: ICustomSynthesis
+  synthesis: ICustomSynthesis,
 ): void {
   Object.defineProperty(construct, CUSTOM_SYNTHESIS_SYM, {
     value: synthesis,
@@ -206,7 +207,7 @@ export function addCustomSynthesis(
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 function getCustomSynthesis(
-  construct: IConstruct
+  construct: IConstruct,
 ): ICustomSynthesis | undefined {
   return (construct as any)[CUSTOM_SYNTHESIS_SYM];
 }

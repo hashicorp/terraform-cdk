@@ -52,7 +52,7 @@ export async function get({
   const constructsMaker = new ConstructsMaker(
     constructsOptions,
     providerSchemaCachePath,
-    reportTelemetry
+    reportTelemetry,
   );
 
   if (cleanDirectory) {
@@ -63,7 +63,7 @@ export async function get({
     if (constructsOptions.targetLanguage === Language.TYPESCRIPT) {
       // Remove all modules
       await fs.remove(
-        path.resolve(constructsOptions.codeMakerOutput, "modules")
+        path.resolve(constructsOptions.codeMakerOutput, "modules"),
       );
     }
   }

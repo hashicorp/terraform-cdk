@@ -32,7 +32,7 @@ test("dynamic expressions are properly rendered for resources for complex lists"
 
   const it = TerraformIterator.fromComplexList(
     ref("var.list") as any,
-    "non_computed_key"
+    "non_computed_key",
   );
 
   new TestResource(stack, "test", {

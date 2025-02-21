@@ -206,7 +206,7 @@ describe("Unit testing using snapshots", () => {
       Testing.synthScope((stack) => {
         const app = new MyApplicationsAbstraction(scope, "my-app", {});
         app.addEndpoint("127.0.0.1"); // This could be a method your class exposes
-      })
+      }),
     ).toMatchInlineSnapshot(); // There is also .toMatchSnapshot() to write the snapshot to a file
   });
 });

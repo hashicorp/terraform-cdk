@@ -19,7 +19,7 @@ test("only-config, no constructs", () => {
     constructor(
       scope: TerraformStack,
       name: string,
-      opts: { source: string; foo: boolean }
+      opts: { source: string; foo: boolean },
     ) {
       super(scope, name, {
         source: opts.source,
@@ -46,7 +46,7 @@ test("should throw error with constructs", () => {
     constructor(
       scope: TerraformStack,
       name: string,
-      opts: { source: string; foo: boolean }
+      opts: { source: string; foo: boolean },
     ) {
       super(scope, name, {
         source: opts.source,
@@ -64,6 +64,6 @@ test("should throw error with constructs", () => {
   });
 
   expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(
-    `"Trying to add children to a TerraformModule at 'test/test'. TerraformModules cannot have children, if you want to group resources or constructs in general together please use the Constructs class instead. See https://cdk.tf/constructs for more details."`
+    `"Trying to add children to a TerraformModule at 'test/test'. TerraformModules cannot have children, if you want to group resources or constructs in general together please use the Constructs class instead. See https://cdk.tf/constructs for more details."`,
   );
 });

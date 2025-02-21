@@ -16,7 +16,7 @@ export abstract class ConstructsMakerTarget {
 
   constructor(
     public readonly constraint: TerraformDependencyConstraint,
-    public readonly targetLanguage: Language
+    public readonly targetLanguage: Language,
   ) {
     if (this.constraint instanceof TerraformModuleConstraint) {
       this.fileName = `${this.typesPath(this.constraint.fileName)}.ts`;
@@ -27,7 +27,7 @@ export abstract class ConstructsMakerTarget {
 
   public static from(
     constraint: TerraformDependencyConstraint,
-    targetLanguage: Language
+    targetLanguage: Language,
   ) {
     if (constraint instanceof TerraformModuleConstraint) {
       return new ConstructsMakerModuleTarget(constraint, targetLanguage);

@@ -10,7 +10,7 @@ import { camelCase } from "./utils";
 
 function getConfigFieldName(
   topLevelConfig: Record<string, unknown>,
-  name: string
+  name: string,
 ) {
   const sanitizedName = camelCase(name);
   return deduplicateName(Object.keys(topLevelConfig), sanitizedName);
@@ -29,7 +29,7 @@ function deduplicateName(existingNames: string[], name: string) {
 export function fillWithConfigAccessors(
   scope: ResourceScope,
   config: TerraformResourceBlock,
-  path: string
+  path: string,
 ): any {
   if (Array.isArray(config)) {
     return config.map((c) => fillWithConfigAccessors(scope, c, `${path}.[]`));
@@ -41,7 +41,7 @@ export function fillWithConfigAccessors(
         ...acc,
         [key]: fillWithConfigAccessors(scope, value, `${path}.${key}`),
       }),
-      {} as Record<string, TerraformResourceBlock>
+      {} as Record<string, TerraformResourceBlock>,
     );
 
     // Get type of this part of the config
@@ -67,7 +67,7 @@ export function fillWithConfigAccessors(
         const fieldName = getConfigFieldName(scope.topLevelConfig, key);
         mutated[key] = t.memberExpression(
           t.identifier("config"),
-          t.identifier(fieldName)
+          t.identifier(fieldName),
         );
         scope.topLevelConfig[fieldName] = `${path}.${key}`;
       }
@@ -81,7 +81,7 @@ export function fillWithConfigAccessors(
 
 type Key = string;
 export function getRequiredAttributes(
-  attributeType: ReturnType<typeof getTypeAtPath>
+  attributeType: ReturnType<typeof getTypeAtPath>,
 ): Key[] {
   if (!attributeType) {
     return [];
@@ -97,15 +97,15 @@ export function getRequiredAttributes(
   }
 
   const requiredAttributes = Object.entries(
-    attributeType.block.attributes || {}
+    attributeType.block.attributes || {},
   ).reduce(
     (acc, [key, value]) => (value.required ? [...acc, key] : acc),
-    [] as string[]
+    [] as string[],
   );
 
   // Logic taken from (and should be shared with) provider generator resource parser: attributeForBlockType
   const requiredBlockTypes = Object.entries(
-    attributeType.block.block_types || {}
+    attributeType.block.block_types || {},
   ).reduce((acc, [key, value]) => {
     if (
       value.nesting_mode === "single" &&

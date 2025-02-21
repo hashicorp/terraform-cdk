@@ -24,7 +24,7 @@ export abstract class TerraformRemoteState
     scope: Construct,
     id: string,
     private readonly backend: string,
-    private readonly config: DataTerraformRemoteStateConfig
+    private readonly config: DataTerraformRemoteStateConfig,
   ) {
     super(scope, id, "data.terraform_remote_state");
   }
@@ -52,7 +52,7 @@ export abstract class TerraformRemoteState
   private interpolationForAttribute(terraformAttribute: string): IResolvable {
     return ref(
       `data.terraform_remote_state.${this.friendlyUniqueId}.outputs.${terraformAttribute}`,
-      this.cdktfStack
+      this.cdktfStack,
     );
   }
 
@@ -77,7 +77,7 @@ export abstract class TerraformRemoteState
               defaults: this.config.defaults,
               config: this.extractConfig(),
             },
-            this.rawOverrides
+            this.rawOverrides,
           ),
         },
       },
@@ -98,7 +98,7 @@ export abstract class TerraformRemoteState
               defaults: this.config.defaults,
               config: this.extractConfig(),
             },
-            this.rawOverrides
+            this.rawOverrides,
           ),
         },
       },

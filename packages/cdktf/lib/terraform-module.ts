@@ -57,7 +57,7 @@ export abstract class TerraformModule
       if (options.source.startsWith("./") || options.source.startsWith("../")) {
         // Create an asset or reuse existing "singleton asset" for the local module for better TFC support
         this.source = TerraformModuleAsset.of(scope).getAssetPathForModule(
-          options.source
+          options.source,
         );
       }
     }
@@ -67,7 +67,7 @@ export abstract class TerraformModule
     this.validateIfProvidersHaveUniqueKeys();
     if (Array.isArray(options.dependsOn)) {
       this.dependsOn = options.dependsOn.map((dependency) =>
-        dependable(dependency)
+        dependable(dependency),
       );
     }
     this.forEach = options.forEach;
@@ -97,7 +97,7 @@ export abstract class TerraformModule
       `module.${this.friendlyUniqueId}${
         this.forEach ? ".*" : ""
       }.${moduleOutput}`,
-      this.cdktfStack
+      this.cdktfStack,
     );
   }
 
@@ -161,7 +161,7 @@ export abstract class TerraformModule
 
         for_each: this.forEach?._getForEachExpression(),
       },
-      this.rawOverrides
+      this.rawOverrides,
     );
 
     attributes["//"] = this.constructNodeMetadata;
@@ -194,7 +194,7 @@ export abstract class TerraformModule
         depends_on: this.dependsOn,
         for_each: this.forEach?._getForEachExpression(),
       },
-      this.rawOverrides
+      this.rawOverrides,
     );
 
     attributes["//"] = this.constructNodeMetadata;

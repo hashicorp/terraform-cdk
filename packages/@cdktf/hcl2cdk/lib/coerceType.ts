@@ -11,7 +11,7 @@ import { toSnakeCase } from "codemaker";
 
 function changeValueAccessor(
   ast: t.MemberExpression,
-  newAccessor: string
+  newAccessor: string,
 ): t.MemberExpression {
   const propertyIdentifier: t.Identifier = {
     ...(ast.property as t.Identifier),
@@ -51,7 +51,7 @@ export const coerceType = (
   scope: ProgramScope,
   ast: t.Expression,
   from: AttributeType,
-  to: AttributeType | undefined
+  to: AttributeType | undefined,
 ): t.Expression => {
   if (to === undefined) {
     return ast;
@@ -69,7 +69,7 @@ export const coerceType = (
     Object.values(scope.variables).some(
       (knownVars) =>
         knownVars.variableName === (ast.object as t.Identifier).name &&
-        ["var", "local"].includes(knownVars.resource)
+        ["var", "local"].includes(knownVars.resource),
     );
 
   const addTokenToImports = () =>
@@ -167,7 +167,7 @@ export const coerceType = (
 
 export function findExpressionType(
   scope: ProgramScope,
-  ast: t.Expression
+  ast: t.Expression,
 ): AttributeType {
   const isReferenceWithoutTemplateString =
     ast.type === "MemberExpression" && ast.object.type === "Identifier";
@@ -192,14 +192,14 @@ export function findExpressionType(
     const destructuredAst = destructureAst(ast);
     if (!destructuredAst) {
       logger.debug(
-        `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`
+        `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`,
       );
       return "dynamic";
     }
 
     const [astVariableName, ...attributes] = destructuredAst;
     const variable = Object.values(scope.variables).find(
-      (x) => x.variableName === astVariableName
+      (x) => x.variableName === astVariableName,
     );
 
     if (!variable) {
@@ -207,8 +207,8 @@ export function findExpressionType(
         `Could not find variable ${astVariableName} given scope: ${JSON.stringify(
           scope.variables,
           null,
-          2
-        )}`
+          2,
+        )}`,
       );
       // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
       return "dynamic";
@@ -221,7 +221,7 @@ export function findExpressionType(
     const { resource: resourceType } = variable;
     const [provider, ...resourceNameFragments] = resourceType.split("_");
     const tfResourcePath = `${provider}.${resourceNameFragments.join(
-      "_"
+      "_",
     )}.${attributes.map((x) => toSnakeCase(x)).join(".")}`;
     const type = getTypeAtPath(scope.providerSchema, tfResourcePath);
 
@@ -245,7 +245,7 @@ function destructureAst(ast: t.Expression): string[] | undefined {
   switch (ast.type) {
     case "Identifier":
       return [ast.name];
-    case "MemberExpression":
+    case "MemberExpression": {
       const object = destructureAst(ast.object);
       const property = destructureAst(ast.property as t.Expression);
       if (object && property) {
@@ -253,6 +253,7 @@ function destructureAst(ast: t.Expression): string[] | undefined {
       } else {
         return undefined;
       }
+    }
     default:
       return undefined;
   }

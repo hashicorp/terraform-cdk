@@ -35,7 +35,7 @@ export function referenceToAst(scope: ProgramScope, ref: Reference) {
   const [resource, , ...selector] = ref.referencee.full.split(".");
 
   const variableReference = t.identifier(
-    camelCase(referenceToVariableName(scope, ref))
+    camelCase(referenceToVariableName(scope, ref)),
   );
 
   if (resource === "data") {
@@ -49,10 +49,10 @@ export function referenceToAst(scope: ProgramScope, ref: Reference) {
         t.identifier(
           index === 0 && resource === "module"
             ? camelCase(member + "Output")
-            : camelCase(member)
-        )
+            : camelCase(member),
+        ),
       ),
-    variableReference as t.Expression
+    variableReference as t.Expression,
   );
 
   if (ref.useFqn) {
@@ -69,13 +69,13 @@ describe("expressions", () => {
   describe("#extractReferencesFromExpression", () => {
     it("finds no references in literals", () => {
       return expect(
-        extractReferencesFromExpression("nothingtobeseen", nodeIds)
+        extractReferencesFromExpression("nothingtobeseen", nodeIds),
       ).resolves.toEqual([]);
     });
 
     it("finds no references in literals with functions", () => {
       return expect(
-        extractReferencesFromExpression("${foo(nothingtobeseen)}", nodeIds)
+        extractReferencesFromExpression("${foo(nothingtobeseen)}", nodeIds),
       ).resolves.toEqual([]);
     });
 
@@ -83,14 +83,14 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${foo(nothingtobeseen - 2) + 3}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([]);
     });
 
     it("finds plain var reference", () => {
       return expect(
-        extractReferencesFromExpression("${var.input}", nodeIds)
+        extractReferencesFromExpression("${var.input}", nodeIds),
       ).resolves.toEqual([
         {
           referencee: { id: "var.input", full: "var.input" },
@@ -104,7 +104,10 @@ describe("expressions", () => {
 
     it("finds plain module reference", () => {
       return expect(
-        extractReferencesFromExpression("${module.vpc.public_subnets}", nodeIds)
+        extractReferencesFromExpression(
+          "${module.vpc.public_subnets}",
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -123,8 +126,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${data.aws_s3_bucket.examplebucket.arn}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -141,7 +144,7 @@ describe("expressions", () => {
 
     it("finds plain local reference", () => {
       return expect(
-        extractReferencesFromExpression("${local.service_name}", nodeIds)
+        extractReferencesFromExpression("${local.service_name}", nodeIds),
       ).resolves.toEqual([
         {
           referencee: {
@@ -160,8 +163,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.id}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -180,8 +183,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.count + aws_s3_bucket.otherbucket.count }",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -210,8 +213,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.*.id}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -230,8 +233,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.network_interface.0.access_config.0.assigned_nat_ip}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -250,8 +253,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${toset(aws_s3_bucket.examplebucket.*)}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -270,8 +273,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${aws_kms_key.key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -300,8 +303,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${element(aws_s3_bucket.examplebucket, 0).id}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -320,8 +323,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${element(aws_s3_bucket.examplebucket.*.id, 0)}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -340,8 +343,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${{ for name, user in var.users : user.role => name...}}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: { id: "var.users", full: "var.users" },
@@ -357,8 +360,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket[0].id}",
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -383,8 +386,8 @@ describe("expressions", () => {
             # The "Learn" single page application. This is not configured in all environments.
             var.input,
           ])}`,
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -413,8 +416,8 @@ describe("expressions", () => {
       return expect(
         extractReferencesFromExpression(
           `\${var.input == "test" ? "azure-ad-int" : "azure-ad-\${var.input}"}`,
-          nodeIds
-        )
+          nodeIds,
+        ),
       ).resolves.toEqual([
         {
           referencee: {
@@ -465,10 +468,10 @@ describe("expressions", () => {
                   id: "aws_kms_key.key",
                   full: "aws_kms_key.key.deletion_window_in_days",
                 },
-              })
+              }),
             ),
-          ]) as any
-        ).code
+          ]) as any,
+        ).code,
       ).toMatchInlineSnapshot(`"key.deletionWindowInDays;"`);
     });
   });
@@ -492,36 +495,36 @@ describe("expressions", () => {
             dynamicVariableToAst(
               scope,
               ast!.children[0] as tex.ScopeTraversalExpression,
-              "myIterator"
-            )
+              "myIterator",
+            ),
           ),
-        ]) as any
+        ]) as any,
       ).code;
     }
 
     it("should convert iterator key accessor", async () => {
       expect(await run('"${each.key}"')).toMatchInlineSnapshot(
-        `"myIterator.key;"`
+        `"myIterator.key;"`,
       );
     });
 
     it("should convert iterator value accessor", async () => {
       expect(await run('"${each.value}"')).toMatchInlineSnapshot(
-        `"myIterator.value;"`
+        `"myIterator.value;"`,
       );
     });
 
     it("should convert iterator value deep accessor", async () => {
       expect(await run('"${each.value.list.map.name}"')).toMatchInlineSnapshot(
-        `"Fn.lookupNested(myIterator.value, ["list", "map", "name"]);"`
+        `"Fn.lookupNested(myIterator.value, ["list", "map", "name"]);"`,
       );
     });
 
     it("should convert iterator value with map access", async () => {
       expect(
-        await run('"${each.value[0]["map"]["name"]}"')
+        await run('"${each.value[0]["map"]["name"]}"'),
       ).toMatchInlineSnapshot(
-        `"Fn.lookupNested(myIterator.value, ["[0]", "[\\"map\\"]", "[\\"name\\"]"]);"`
+        `"Fn.lookupNested(myIterator.value, ["[0]", "[\\"map\\"]", "[\\"name\\"]"]);"`,
       );
     });
   });

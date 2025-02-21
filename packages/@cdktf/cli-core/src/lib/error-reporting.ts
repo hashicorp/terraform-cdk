@@ -13,11 +13,11 @@ import * as fs from "fs-extra";
 import ciInfo from "ci-info";
 
 export function shouldReportCrash(
-  projectPath = process.cwd()
+  projectPath = process.cwd(),
 ): boolean | undefined {
   try {
     const cdktfJson = JSON.parse(
-      fs.readFileSync(path.resolve(projectPath, "cdktf.json"), "utf8")
+      fs.readFileSync(path.resolve(projectPath, "cdktf.json"), "utf8"),
     );
 
     return typeof cdktfJson.sendCrashReports === "boolean"
@@ -25,7 +25,7 @@ export function shouldReportCrash(
       : cdktfJson.sendCrashReports === "true";
   } catch (e) {
     logger.debug(
-      `Error determining if crash reporting should be enabled, defaulting to false: ${e}`
+      `Error determining if crash reporting should be enabled, defaulting to false: ${e}`,
     );
     return false;
   }
@@ -33,15 +33,15 @@ export function shouldReportCrash(
 
 export function persistReportCrashReportDecision(
   decision: boolean,
-  projectPath = process.cwd()
+  projectPath = process.cwd(),
 ) {
   const cdktfJson = JSON.parse(
-    fs.readFileSync(path.resolve(projectPath, "cdktf.json"), "utf8")
+    fs.readFileSync(path.resolve(projectPath, "cdktf.json"), "utf8"),
   );
   cdktfJson.sendCrashReports = decision;
   fs.writeFileSync(
     path.resolve(projectPath, "cdktf.json"),
-    JSON.stringify(cdktfJson, null, 2)
+    JSON.stringify(cdktfJson, null, 2),
   );
 }
 
@@ -54,7 +54,7 @@ function isPromise(p: any): p is Promise<any> {
 }
 
 export async function initializErrorReporting(
-  runConsentPrompt?: () => Promise<boolean>
+  runConsentPrompt?: () => Promise<boolean>,
 ) {
   let shouldReport = shouldReportCrash();
   const ci: string | false = ciInfo.isCI ? ciInfo.name || "unknown" : false;
@@ -101,7 +101,7 @@ export async function initializErrorReporting(
       let error: Error | string | null | undefined | unknown;
       if (isPromise(originalException)) {
         (originalException as unknown as Promise<Error>).catch(
-          (e) => (error = e)
+          (e) => (error = e),
         );
         await Promise.allSettled([originalException]);
       } else {

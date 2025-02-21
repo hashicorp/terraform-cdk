@@ -22,7 +22,7 @@ describe("TerraformModuleAsset", () => {
         expected: string | undefined;
       }) => {
         expect(findLowestCommonPath(paths)).toEqual(expected);
-      }
+      },
     );
   });
 });

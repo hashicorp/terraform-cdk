@@ -63,7 +63,7 @@ export class TerraformHclModule extends TerraformModule {
             type: "any",
           },
         ];
-      })
+      }),
     );
   }
 }

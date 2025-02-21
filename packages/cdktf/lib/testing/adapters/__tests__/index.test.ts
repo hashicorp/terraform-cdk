@@ -16,7 +16,7 @@ describe("#synthScope", () => {
         new TestResource(stack, "test-resource", {
           name: "bar",
         });
-      })
+      }),
     ).toMatchInlineSnapshot(`
       "{
         "data": {
@@ -55,7 +55,7 @@ describe("#synthScope", () => {
         new TestResource(stack, "resource", {
           name: res.resource.stringValue,
         });
-      })
+      }),
     ).toMatchInlineSnapshot(`
       "{
         "resource": {

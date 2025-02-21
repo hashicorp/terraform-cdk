@@ -27,7 +27,7 @@ export class Fn extends FnGenerated {
   static conditional(
     condition: Expression,
     trueValue: Expression,
-    falseValue: Expression
+    falseValue: Expression,
   ): any {
     return conditional(condition, trueValue, falseValue);
   }

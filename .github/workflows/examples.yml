@@ -50,11 +50,13 @@ jobs:
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
+      - name: Enable Yarn 2
+        run: corepack enable
       # Setup caches for yarn, terraform, and go
       - name: Get cache directory paths
         id: global-cache-dir-path
         run: |
-          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "yarn=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/terraform
           echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/go
@@ -81,7 +83,7 @@ jobs:
             go-${{ runner.os }}-
       - name: installing dependencies
         run: |
-          yarn install --frozen-lockfile --prefer-offline
+          yarn install --immutable
       - name: lint
         run: yarn lint:examples
       - name: align version (Python only)

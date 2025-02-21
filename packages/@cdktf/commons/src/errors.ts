@@ -26,7 +26,7 @@ function reportPrefixedError(type: ErrorType, command: string) {
   return (
     message: string,
     originalError: Error = new Error(),
-    context?: Record<string, any>
+    context?: Record<string, any>,
   ) => {
     report(command, { ...context, message, type });
     const err: any = new Error(`${type} Error: ${message}`);

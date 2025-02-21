@@ -36,7 +36,7 @@ export const Get = ({
   providerSchemaCachePath,
 }: GetConfig): React.ReactElement => {
   const [currentStatus, setCurrentStatus] = React.useState<Status>(
-    Status.STARTING
+    Status.STARTING,
   );
   const { exit } = useApp();
 
@@ -81,8 +81,8 @@ export const Get = ({
     if (currentStatus === Status.ERROR) {
       exit(
         new Error(
-          `ERROR: synthesis failed, app expected to create "${codeMakerOutput}"`
-        )
+          `ERROR: synthesis failed, app expected to create "${codeMakerOutput}"`,
+        ),
       );
     }
   }, [currentStatus]);

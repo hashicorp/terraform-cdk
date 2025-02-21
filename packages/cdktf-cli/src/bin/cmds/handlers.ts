@@ -104,10 +104,10 @@ export async function convert({
     providerRequirements.map((spec) =>
       ConstructsMakerProviderTarget.from(
         new TerraformProviderConstraint(spec),
-        LANGUAGES[0]
-      )
+        LANGUAGES[0],
+      ),
     ),
-    experimentalProviderSchemaCachePath
+    experimentalProviderSchemaCachePath,
   );
 
   let input: string | undefined = undefined;
@@ -124,7 +124,7 @@ export async function convert({
       });
     } catch (err) {
       throw Errors.Usage(
-        "No Terraform code to convert was provided. Please provide Terraform code to convert as stdin or run the command again and let the CLI open the editor."
+        "No Terraform code to convert was provided. Please provide Terraform code to convert as stdin or run the command again and let the CLI open the editor.",
       );
     }
   }
@@ -225,7 +225,7 @@ export async function deploy(argv: any) {
       noColor,
       migrateState,
       skipSynth,
-    })
+    }),
   );
 }
 
@@ -262,7 +262,7 @@ export async function destroy(argv: any) {
       noColor,
       migrateState,
       skipSynth,
-    })
+    }),
   );
 }
 
@@ -294,7 +294,7 @@ export async function diff(argv: any) {
       noColor,
       migrateState,
       skipSynth,
-    })
+    }),
   );
 }
 
@@ -329,7 +329,7 @@ export async function get(argv: {
 
     if (constraints.length === 0) {
       logger.warn(
-        `WARNING: No providers or modules found in "cdktf.json" config file, therefore cdktf get does nothing.`
+        `WARNING: No providers or modules found in "cdktf.json" config file, therefore cdktf get does nothing.`,
       );
       return;
     }
@@ -343,7 +343,7 @@ export async function get(argv: {
         force,
         silent: argv.silent,
         providerSchemaCachePath: argv.experimentalProviderSchemaCachePath,
-      })
+      }),
     );
   } finally {
     if (!argv.silent) {
@@ -359,7 +359,7 @@ export async function init(argv: any) {
 
   if (["", ".", process.cwd()].includes(argv.fromTerraformProject)) {
     throw Errors.Usage(
-      "--from-terraform-project requires a path to an existing Terraform project to be set, e.g. --from-terraform-project=../my-tf-codebase This folder can not be the same as the current working directory since cdktf init will initialize the new project in that folder."
+      "--from-terraform-project requires a path to an existing Terraform project to be set, e.g. --from-terraform-project=../my-tf-codebase This folder can not be the same as the current working directory since cdktf init will initialize the new project in that folder.",
     );
   }
 
@@ -370,7 +370,7 @@ export async function init(argv: any) {
   if (needsGet) {
     if (!argv.silent) {
       console.log(
-        "Local providers have been updated. Running cdktf get to update..."
+        "Local providers have been updated. Running cdktf get to update...",
       );
     }
     await get({
@@ -383,7 +383,7 @@ export async function init(argv: any) {
 
   if (language === Language.GO) {
     console.log(
-      "Run 'go mod tidy' after adding imports for any needed modules such as prebuilt providers"
+      "Run 'go mod tidy' after adding imports for any needed modules such as prebuilt providers",
     );
   }
 }
@@ -407,12 +407,12 @@ export async function login(argv: { tfeHostname: string }) {
     // Get user details if token is set
     const userAccount = await terraformCloudClient.getAccountDetails(
       argv.tfeHostname,
-      authToken
+      authToken,
     );
     if (userAccount) {
       const username = userAccount.data.attributes.username;
       console.log(
-        chalkColour`\n{greenBright cdktf has successfully configured Terraform Cloud credentials!}`
+        chalkColour`\n{greenBright cdktf has successfully configured Terraform Cloud credentials!}`,
       );
       console.log(chalkColour`\nWelcome {bold ${username}}!`);
     } else {
@@ -464,7 +464,7 @@ export async function synth(argv: any) {
       !(await fs.pathExists(config.codeMakerOutput))
     ) {
       console.error(
-        `ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`
+        `ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`,
       );
       process.exit(1);
     }
@@ -474,7 +474,7 @@ export async function synth(argv: any) {
         outDir,
         synthCommand: command,
         hcl,
-      })
+      }),
     );
   } finally {
     printPerformanceInfo();
@@ -494,7 +494,7 @@ export async function watch(argv: any) {
 
   if (!autoApprove) {
     console.error(
-      chalkColour`{redBright ERROR: The watch command always automatically deploys and approves changes. To make this behaviour explicit the --auto-approve flag must be set}`
+      chalkColour`{redBright ERROR: The watch command always automatically deploys and approves changes. To make this behaviour explicit the --auto-approve flag must be set}`,
     );
     process.exit(1);
   }
@@ -507,7 +507,7 @@ export async function watch(argv: any) {
       autoApprove,
       terraformParallelism,
       parallelism,
-    })
+    }),
   );
 }
 
@@ -539,7 +539,7 @@ export async function output(argv: any) {
       onOutputsRetrieved,
       outputsPath,
       skipSynth,
-    })
+    }),
   );
 }
 
@@ -550,13 +550,13 @@ export async function debug(argv: any) {
   const cdktfVersion = await getPackageVersion(language, "cdktf");
   if (!cdktfVersion)
     throw Errors.External(
-      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed.",
     );
 
   const manager = new DependencyManager(
     language,
     cdktfVersion,
-    config.projectDirectory
+    config.projectDirectory,
   );
   const allProviders = await manager.allProviders();
   const debugOutput = await collectDebugInformation();
@@ -583,8 +583,8 @@ export async function debug(argv: any) {
           },
         },
         null,
-        2
-      )
+        2,
+      ),
     );
   } else {
     console.log(chalkColour`{bold {greenBright cdktf debug}}`);
@@ -598,7 +598,7 @@ export async function debug(argv: any) {
     for (const provider of allProviders.local) {
       console.log(
         `${provider.providerName}@${provider.providerConstraint} (LOCAL)
-        terraform provider version: ${provider.providerVersion}`
+        terraform provider version: ${provider.providerVersion}`,
       );
     }
     for (const provider of allProviders.prebuilt) {
@@ -606,7 +606,7 @@ export async function debug(argv: any) {
         `${provider.packageName} (PREBUILT)
         terraform provider version: ${provider.providerVersion} 
         prebuilt provider version: ${provider.packageVersion}
-        cdktf version: ${provider.cdktfVersion}`
+        cdktf version: ${provider.cdktfVersion}`,
       );
     }
   }
@@ -619,7 +619,7 @@ export async function providerAdd(argv: any) {
 
   if (!cdktfVersion)
     throw Errors.External(
-      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed.",
     );
   const needsGet = await providerAddLib({
     providers: argv.provider,
@@ -631,7 +631,7 @@ export async function providerAdd(argv: any) {
 
   if (needsGet) {
     console.log(
-      "Local providers have been updated. Running cdktf get to update..."
+      "Local providers have been updated. Running cdktf get to update...",
     );
     await get({
       language: language,
@@ -643,7 +643,7 @@ export async function providerAdd(argv: any) {
 
   if (language === Language.GO) {
     console.log(
-      "After adding this module to your imports, please run 'go mod tidy' to resolve newly added modules"
+      "After adding this module to your imports, please run 'go mod tidy' to resolve newly added modules",
     );
   }
 }
@@ -656,13 +656,13 @@ export async function providerUpgrade(argv: any) {
 
   if (!cdktfVersion)
     throw Errors.External(
-      "Could not determine CDKTF version. Please make sure you are in a directory containing a CDKTF project and have all dependencies installed."
+      "Could not determine CDKTF version. Please make sure you are in a directory containing a CDKTF project and have all dependencies installed.",
     );
 
   const manager = new DependencyManager(
     language,
     cdktfVersion,
-    config.projectDirectory
+    config.projectDirectory,
   );
 
   const constraintsToUpdate: ProviderConstraint[] = [];
@@ -680,7 +680,7 @@ export async function providerUpgrade(argv: any) {
     console.log(
       `${constraintsToUpdate.length} local provider${
         singular ? " has" : "s have"
-      } been updated. Running cdktf get to update...`
+      } been updated. Running cdktf get to update...`,
     );
 
     const config = readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
@@ -702,14 +702,14 @@ export async function providerUpgrade(argv: any) {
       constraints,
       cleanDirectory: false,
       constraintsToGenerate: constraintsToUpdate.map(
-        (c) => new TerraformProviderConstraint(c)
+        (c) => new TerraformProviderConstraint(c),
       ),
     });
   }
 
   if (language === Language.GO) {
     console.log(
-      "Update your imports to reflect this modules upgrade, then please run 'go mod tidy' to resolve newly added modules"
+      "Update your imports to reflect this modules upgrade, then please run 'go mod tidy' to resolve newly added modules",
     );
   }
 }
@@ -720,13 +720,13 @@ export async function providerList(argv: any) {
   const cdktfVersion = await getPackageVersion(language, "cdktf");
   if (!cdktfVersion)
     throw Errors.External(
-      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed.",
     );
 
   const manager = new DependencyManager(
     language,
     cdktfVersion,
-    config.projectDirectory
+    config.projectDirectory,
   );
   const allProviders = await manager.allProviders();
   if (argv.json) {

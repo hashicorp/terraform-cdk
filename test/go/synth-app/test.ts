@@ -25,7 +25,7 @@ describe("Go full integration test synth", () => {
   onlyHcl("synth generates HCL", async () => {
     await driver.synth();
     expect(
-      driver.synthesizedStackContentsRaw("go-simple").toString()
+      driver.synthesizedStackContentsRaw("go-simple").toString(),
     ).toMatchSnapshot();
   });
 });

@@ -34,11 +34,11 @@ test("able to use fqn on an element", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.first-resource",
-    expectedFirst
+    expectedFirst,
   );
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expectedSecond
+    expectedSecond,
   );
 });
 
@@ -71,7 +71,7 @@ test("able to append to resource", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -93,7 +93,7 @@ test("works when escape is mid-way", () => {
       firstResourceName: `simple-test-${Fn.lookup(
         otherResource.fqn,
         "name",
-        ""
+        "",
       )}-$\{${firstResource.fqn}.name}`,
     },
   });
@@ -112,7 +112,7 @@ test("works when escape is mid-way", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -134,7 +134,7 @@ test("after escape, reverts to normal", () => {
       firstResourceName: `simple-test-$\{${firstResource.fqn}.name}-${Fn.lookup(
         otherResource.fqn,
         "name",
-        ""
+        "",
       )}`,
     },
   });
@@ -153,7 +153,7 @@ test("after escape, reverts to normal", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -192,7 +192,7 @@ test("can have multiple escapes", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -225,7 +225,7 @@ test("can have literals within escapes", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -258,7 +258,7 @@ test("can extract tokens within escapes", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -297,7 +297,7 @@ test("works with functions", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -333,7 +333,7 @@ test("doesn't throw error when escapes are nested with functions", () => {
       firstResourceName: Fn.lookup(
         otherResource.fqn,
         "name",
-        `$\{${firstResource.fqn}.name}`
+        `$\{${firstResource.fqn}.name}`,
       ),
     },
   });
@@ -354,7 +354,7 @@ test("doesn't throw error when escapes are nested with functions", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -386,7 +386,7 @@ test("does not throw error when tokens are nested with functions", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -405,7 +405,7 @@ test("allows functions within functions", () => {
       firstResourceName: Fn.lookup(
         otherResource.fqn,
         "name",
-        Fn.upper(Fn.lookup(otherResource.fqn, "name", ""))
+        Fn.upper(Fn.lookup(otherResource.fqn, "name", "")),
       ),
     },
   });
@@ -422,7 +422,7 @@ test("allows functions within functions", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });
 
@@ -453,6 +453,6 @@ test("allows operators within functions", () => {
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",
-    expected
+    expected,
   );
 });

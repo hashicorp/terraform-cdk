@@ -74,7 +74,7 @@ export class ConsumerStack extends TerraformStack {
   constructor(
     scope: Construct,
     id: string,
-    password: random.password.Password
+    password: random.password.Password,
   ) {
     super(scope, id);
 

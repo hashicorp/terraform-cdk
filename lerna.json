@@ -1,17 +1,5 @@
 {
-  "packages": [
-    "packages/*",
-    "packages/@cdktf/*",
-    "examples/*",
-    "examples/typescript/*",
-    "examples/python/*",
-    "examples/typescript/backends/*",
-    "examples/java/*",
-    "examples/csharp/*",
-    "examples/go/*",
-    "test/*",
-    "tools/*"
-  ],
   "npmClient": "yarn",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }

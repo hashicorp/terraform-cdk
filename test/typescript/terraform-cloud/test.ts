@@ -84,7 +84,7 @@ describe("full integration test", () => {
     ]);
 
     expect(readFileSync("before-migration.json")).toEqual(
-      readFileSync("after-migration.json")
+      readFileSync("after-migration.json"),
     );
 
     await client.Workspaces.deleteByName(orgName, workspaceName);
@@ -114,8 +114,8 @@ describe("full integration test", () => {
       await client.Workspaces.deleteByName(orgName, workspaceName);
 
       expect(driver.readLocalFile("consumer-file.txt")).toEqual(
-        outputs["source-stack"].password_output
+        outputs["source-stack"].password_output,
       );
-    }
+    },
   );
 });

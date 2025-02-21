@@ -21,9 +21,11 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Enable Yarn 2
+        run: corepack enable
       - name: installing dependencies
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
       - name: run prettier
         run: |
           yarn lint:prettier
@@ -34,9 +36,11 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Enable Yarn 2
+        run: corepack enable
       - name: installing dependencies
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
       - name: run workspace linting
         run: |
           yarn lint:workspace

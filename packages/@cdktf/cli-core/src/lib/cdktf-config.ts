@@ -12,7 +12,7 @@ import { logger } from "@cdktf/commons";
 
 function findFileAboveCwd(
   file: string,
-  rootPath = process.cwd()
+  rootPath = process.cwd(),
 ): string | null {
   const fullPath = path.resolve(rootPath, file);
   if (fs.existsSync(fullPath)) {
@@ -36,7 +36,7 @@ export class CdktfConfig {
     const cdktfConfig = require(this.cdktfConfigPath);
     if (typeof cdktfConfig !== "object" || cdktfConfig === null) {
       throw Errors.External(
-        "cdktf.json is malformed. The root must be a JSON object."
+        "cdktf.json is malformed. The root must be a JSON object.",
       ); // TODO: define a schema and validate against it
     }
     return cdktfConfig;
@@ -55,13 +55,13 @@ export class CdktfConfig {
   public get language(): Language {
     const rawLanguage = this.getProperty("language");
     const language = Object.values(Language).find(
-      (value) => value === rawLanguage
+      (value) => value === rawLanguage,
     );
     if (!language)
       throw Errors.Usage(
         `${rawLanguage} is not a valid language. It must be one of ${Object.values(
-          Language
-        )}`
+          Language,
+        )}`,
       );
 
     return language;
@@ -84,7 +84,7 @@ export class CdktfConfig {
   }
 
   public writeTerraformProviders(
-    providers: (TerraformDependencyConstraint | string)[]
+    providers: (TerraformDependencyConstraint | string)[],
   ) {
     const cdktfConfig = this.readCdktfConfig();
     cdktfConfig.terraformProviders = providers;
@@ -99,7 +99,7 @@ export class CdktfConfig {
     const cdktfConfigPath = findFileAboveCwd("cdktf.json", path);
     if (!cdktfConfigPath) {
       throw Errors.External(
-        "Could not find cdktf.json. Make sure there is a cdktf.json file in the current directory or one of its parents."
+        "Could not find cdktf.json. Make sure there is a cdktf.json file in the current directory or one of its parents.",
       );
     }
     logger.trace(`cdktf.json found at ${cdktfConfigPath}`);

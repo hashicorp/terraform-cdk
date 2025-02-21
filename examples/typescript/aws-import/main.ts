@@ -51,6 +51,6 @@ const app = new App();
 new StackWithImport(app, "ts-import");
 new StackWithImportAndConfigurationGeneration(
   app,
-  "ts-import-with-configuration"
+  "ts-import-with-configuration",
 );
 app.synth();

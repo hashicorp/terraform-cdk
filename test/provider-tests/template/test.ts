@@ -14,7 +14,7 @@ describe("full integration test", () => {
         const stack = driver.synthesizedStack("using-all-providers");
         expect(stack.byId("test")).toBeTruthy();
       },
-      600_000
+      600_000,
     );
   });
 });

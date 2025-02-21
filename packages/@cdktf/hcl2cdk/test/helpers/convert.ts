@@ -119,7 +119,7 @@ const providerBindingCache: Record<
 > = {};
 
 async function generateBindings(
-  binding: ProviderDefinition
+  binding: ProviderDefinition,
 ): Promise<AbsolutePath> {
   const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-provider-"));
   await fs.writeFile(
@@ -131,7 +131,7 @@ async function generateBindings(
         binding.type === ProviderType.provider ? [binding.fqn] : [],
       terraformModules:
         binding.type === ProviderType.module ? [binding.fqn] : [],
-    })
+    }),
   );
   await execa(cdktfBin, ["get"], { cwd: tempDir });
 
@@ -140,7 +140,7 @@ async function generateBindings(
 
 async function copyBindingsForProvider(
   binding: ProviderDefinition,
-  targetDirectory: AbsolutePath
+  targetDirectory: AbsolutePath,
 ) {
   const absoluteBindingPathPromise = providerBindingCache[binding.fqn]
     ? providerBindingCache[binding.fqn]
@@ -157,9 +157,10 @@ async function copyBindingsForProvider(
 
 // Prepare for tests / warm up cache
 const prepareBaseProject = (language: string) =>
+  // eslint-disable-next-line no-async-promise-executor
   new Promise<string>(async (resolve) => {
     const projectDir = await fs.mkdtemp(
-      path.join(os.tmpdir(), "cdktf-convert-base-")
+      path.join(os.tmpdir(), "cdktf-convert-base-"),
     );
     await execa(
       cdktfBin,
@@ -174,7 +175,7 @@ const prepareBaseProject = (language: string) =>
       ],
       {
         cwd: projectDir,
-      }
+      },
     );
 
     resolve(projectDir);
@@ -185,7 +186,7 @@ const requiredLanguages = includeSynthTests
   : ["typescript"];
 const baseProjectPromisePerLanguage = requiredLanguages.reduce(
   (acc, language) => ({ ...acc, [language]: prepareBaseProject(language) }),
-  {} as Record<string, Promise<string>>
+  {} as Record<string, Promise<string>>,
 );
 
 const fileEndings: Record<string, string> = {
@@ -198,7 +199,7 @@ const getFileContent: Record<
   string,
   (
     code: { all: string; code: string; imports: string },
-    stackName: string
+    stackName: string,
   ) => string
 > = {
   typescript: ({ all }, stackName) => `
@@ -242,7 +243,7 @@ const preSynth: Record<
   (
     stackName: string,
     projectDir: string,
-    providers: ProviderDefinition[]
+    providers: ProviderDefinition[],
   ) => Promise<void> | undefined
 > = {
   csharp: async (stackName, projectDir, providers) => {
@@ -254,11 +255,11 @@ const preSynth: Record<
       <OutputType>Exe</OutputType>
       <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
-  
+
     <ItemGroup>
       <PackageReference Include="HashiCorp.Cdktf" Version="0.0.0" />
     </ItemGroup>
-  
+
     <ItemGroup>
     ${providers
       .map((provider) => {
@@ -269,9 +270,9 @@ const preSynth: Record<
       })
       .join("\n")}
     </ItemGroup>
-  
+
   </Project>`,
-      "utf8"
+      "utf8",
     );
 
     await fs.writeFile(
@@ -284,7 +285,7 @@ const preSynth: Record<
         </packageSources>
       </configuration>
 `,
-      "utf8"
+      "utf8",
     );
   },
 };
@@ -293,7 +294,7 @@ async function synthForLanguage(
   language: string,
   name: string,
   code: { all: string; code: string; imports: string },
-  providers: ProviderDefinition[] = []
+  providers: ProviderDefinition[] = [],
 ) {
   const stackName = name.replace(/\s/g, "-");
   const projectDirPromise = getProjectDirectory(language, providers);
@@ -303,7 +304,7 @@ async function synthForLanguage(
   // __dirname should be replaceed by the bootstrapped directory
   const pathToThisProjectsFile = path.join(
     projectDir,
-    stackName + fileEndings[language]
+    stackName + fileEndings[language],
   );
   const fileContent = getFileContent[language](code, stackName);
 
@@ -323,11 +324,11 @@ async function synthForLanguage(
       "-o",
       `./${stackName}-output`,
     ],
-    { cwd: projectDir, all: true, shell: true }
+    { cwd: projectDir, all: true, shell: true },
   );
 
   expect(all!).toEqual(
-    expect.stringContaining(`Generated Terraform code for the stacks`)
+    expect.stringContaining(`Generated Terraform code for the stacks`),
   );
 }
 
@@ -335,24 +336,24 @@ async function synthForLanguage(
 
 async function getProjectDirectory(
   language: string,
-  providers: ProviderDefinition[]
+  providers: ProviderDefinition[],
 ) {
   const baseProjectPromise = baseProjectPromisePerLanguage[language];
   if (!baseProjectPromise) {
     throw new Error(
-      `Unsupported language used to synthesize code: ${language}`
+      `Unsupported language used to synthesize code: ${language}`,
     );
   }
 
   const baseDir = await baseProjectPromise;
   const projectDir = await fs.mkdtemp(
-    path.join(os.tmpdir(), "cdktf-convert-test-")
+    path.join(os.tmpdir(), "cdktf-convert-test-"),
   );
 
   await Promise.all([
     fs.copy(baseDir, projectDir),
     ...providers.map((provider) =>
-      copyBindingsForProvider(provider, projectDir)
+      copyBindingsForProvider(provider, projectDir),
     ),
   ]);
 
@@ -372,8 +373,8 @@ async function getProjectDirectory(
             .map((binding) => binding.fqn),
         },
         null,
-        2
-      )
+        2,
+      ),
     );
     await execa(cdktfBin, ["get", "--force"], { cwd: projectDir });
   }
@@ -387,18 +388,18 @@ async function getProviderSchema(providers: ProviderDefinition[]) {
       ProviderType.provider === provider.type
         ? new TerraformProviderConstraint(provider.fqn)
         : new TerraformModuleConstraint(provider.fqn),
-    LANGUAGES[0]
+    LANGUAGES[0],
   );
 
   return await readSchema(
     constraints,
-    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
   );
 }
 
 function filterSchema(
   providerSchema: any,
-  schemaFilter: SchemaFilter | undefined
+  schemaFilter: SchemaFilter | undefined,
 ) {
   if (!schemaFilter) return providerSchema;
 
@@ -413,16 +414,16 @@ function filterSchema(
   if (resources && resources.length > 0) {
     filteredResourceSchemas = Object.fromEntries(
       Object.entries(actualSchema.resource_schemas).filter(([resourceName]) =>
-        resources?.includes(resourceName)
-      )
+        resources?.includes(resourceName),
+      ),
     );
   }
 
   if (dataSources && dataSources.length > 0) {
     filteredDataSourceSchemas = Object.fromEntries(
       Object.entries(actualSchema.data_source_schemas).filter(
-        ([dataSourceName]) => dataSources?.includes(dataSourceName)
-      )
+        ([dataSourceName]) => dataSources?.includes(dataSourceName),
+      ),
     );
   }
 
@@ -445,7 +446,7 @@ const createTestCase =
     providers: ProviderDefinition[],
     shouldSnapshot: Snapshot,
     shouldSynth: Synth,
-    schemaFilter?: SchemaFilter
+    schemaFilter?: SchemaFilter,
   ) => {
     if (opts.skip) {
       describe.skip(name, () => {});
@@ -472,20 +473,20 @@ const createTestCase =
         it.each(
           shouldSnapshot === Snapshot.yes_all_languages
             ? ["typescript", "python", "csharp", "java", "go"]
-            : ["typescript"]
+            : ["typescript"],
         )(
           "%s",
           async (language) => {
             const projectDir = await getProjectDirectory(
               // We need the typescript project directory to start the convert so JSII has the right types
               "typescript",
-              providers
+              providers,
             );
             process.chdir(projectDir); // JSII rosetta needs to be run in the project directory with bindings included
             const convertResult = await runConvert(language);
             expect(convertResult.all).toMatchSnapshot();
           },
-          500_000
+          500_000,
         );
       });
 
@@ -497,19 +498,19 @@ const createTestCase =
           it.each(
             shouldSynth === Synth.yes_all_languages
               ? ["typescript", "python", "csharp"]
-              : ["typescript"]
+              : ["typescript"],
           )(
             "%s",
             async (language) => {
               const projectDir = await getProjectDirectory(
                 "typescript",
-                providers
+                providers,
               );
               process.chdir(projectDir); // JSII rosetta needs to be run in the project directory with bindings included
               const convertResult = await runConvert(language);
               await synthForLanguage(language, name, convertResult, providers);
             },
-            500_000
+            500_000,
           );
         });
       } else {

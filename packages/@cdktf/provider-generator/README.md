@@ -18,7 +18,7 @@ const constructsMaker = new ConstructsMaker(
     sendTelemetry("get", {
       language: payload.targetLanguage,
       ...payload.trackingPayload,
-    })
+    }),
 );
 await constructsMaker.generate();
 ```

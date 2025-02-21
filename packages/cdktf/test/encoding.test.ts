@@ -26,7 +26,7 @@ test("extract one token", () => {
 test("extract literals and token", () => {
   const tokenString = TokenString.forString(
     "foo-${TfToken[TOKEN.0]}-bar",
-    false
+    false,
   );
   const resolvable = new TestResolvable();
 
@@ -34,7 +34,7 @@ test("extract literals and token", () => {
 
   expect(splitTokens.tokens[0]).toEqual(resolvable);
   expect(splitTokens.literals).toEqual(
-    expect.arrayContaining(["foo-", "-bar"])
+    expect.arrayContaining(["foo-", "-bar"]),
   );
 });
 
@@ -57,17 +57,17 @@ test("extract multiple escapes without tokens", () => {
 
   expect(splitTokens.tokens).toHaveLength(0);
   expect(splitTokens.escapes).toEqual(
-    expect.arrayContaining(["${", "${", "}", "}"])
+    expect.arrayContaining(["${", "${", "}", "}"]),
   );
   expect(splitTokens.literals).toEqual(
-    expect.arrayContaining(['"test-', "10", '"'])
+    expect.arrayContaining(['"test-', "10", '"']),
   );
 });
 
 test("extract escape sequences", () => {
   const tokenString = TokenString.forString(
     "${foo-${TfToken[TOKEN.0]}-bar}",
-    true
+    true,
   );
   const resolvable = new TestResolvable();
 
@@ -75,7 +75,7 @@ test("extract escape sequences", () => {
 
   expect(splitTokens.tokens[0]).toEqual(resolvable);
   expect(splitTokens.literals).toEqual(
-    expect.arrayContaining(["foo-", "-bar"])
+    expect.arrayContaining(["foo-", "-bar"]),
   );
 });
 

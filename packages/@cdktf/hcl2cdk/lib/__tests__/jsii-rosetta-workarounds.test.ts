@@ -25,7 +25,7 @@ class MyConvertedCode(constructs.Construct):
         )`;
 
       expect(replacePythonImports(code)).toEqual(
-        expect.stringContaining("import imports.scaleway as scaleway")
+        expect.stringContaining("import imports.scaleway as scaleway"),
       );
     });
 
@@ -33,12 +33,12 @@ class MyConvertedCode(constructs.Construct):
       const code = `from ...gen.providers.aws.lib.rdsCluster import RdsCluster`;
 
       expect(replacePythonImports(code)).toEqual(
-        "from imports.aws.rdsCluster import RdsCluster"
+        "from imports.aws.rdsCluster import RdsCluster",
       );
 
       const withoutLibCode = `from ...gen.providers.azurerm.resource_group import ResourceGroup`;
       expect(replacePythonImports(withoutLibCode)).toEqual(
-        "from imports.azurerm.resource_group import ResourceGroup"
+        "from imports.azurerm.resource_group import ResourceGroup",
       );
     });
 
@@ -46,7 +46,7 @@ class MyConvertedCode(constructs.Construct):
       const code = `import ...gen.providers.aws.lib.rdsCluster as RdsCluster`;
 
       expect(replacePythonImports(code)).toEqual(
-        "import imports.aws.rdsCluster as RdsCluster"
+        "import imports.aws.rdsCluster as RdsCluster",
       );
     });
 
@@ -54,7 +54,7 @@ class MyConvertedCode(constructs.Construct):
       const code = `import ...gen.modules.hello_module as HelloModule`;
 
       expect(replacePythonImports(code)).toEqual(
-        "import imports.hello_module as HelloModule"
+        "import imports.hello_module as HelloModule",
       );
     });
   });
@@ -82,7 +82,7 @@ class MyConvertedCode(constructs.Construct):
       const code = `import gen.providers.scaleway.objectResource.*;`;
 
       expect(replaceJavaImports(code)).toEqual(
-        "import imports.scaleway.objectResource.*;"
+        "import imports.scaleway.objectResource.*;",
       );
     });
 
@@ -90,13 +90,13 @@ class MyConvertedCode(constructs.Construct):
       const code = `import gen.providers.aws.lib.s3Bucket.S3Bucket;`;
 
       expect(replaceJavaImports(code)).toEqual(
-        "import imports.aws.s3Bucket.S3Bucket;"
+        "import imports.aws.s3Bucket.S3Bucket;",
       );
 
       const withoutLibImport = `import gen.providers.aws.s3Bucket.S3Bucket;`;
 
       expect(replaceJavaImports(withoutLibImport)).toEqual(
-        "import imports.aws.s3Bucket.S3Bucket;"
+        "import imports.aws.s3Bucket.S3Bucket;",
       );
     });
 
@@ -104,13 +104,13 @@ class MyConvertedCode(constructs.Construct):
       const code = `import gen.modules.hello.module.*;`;
 
       expect(replaceJavaImports(code)).toEqual(
-        "import imports.hello.module.*;"
+        "import imports.hello.module.*;",
       );
 
       const anotherCode = `import gen.modules.helloModule.*;`;
 
       expect(replaceJavaImports(anotherCode)).toEqual(
-        "import imports.helloModule.*;"
+        "import imports.helloModule.*;",
       );
     });
   });
@@ -120,7 +120,7 @@ class MyConvertedCode(constructs.Construct):
       const code = `import "github.com/aws-samples/dummy/gen/providers/scaleway/objectBucket"`;
 
       expect(replaceGoImports(code)).toEqual(
-        `import "cdk.tf/go/stack/generated/scaleway/objectBucket"`
+        `import "cdk.tf/go/stack/generated/scaleway/objectBucket"`,
       );
     });
 
@@ -128,7 +128,7 @@ class MyConvertedCode(constructs.Construct):
       const code = `import "github.com/aws-samples/dummy/gen/providers/aws/lib/dbInstance"`;
 
       expect(replaceGoImports(code)).toEqual(
-        `import "cdk.tf/go/stack/generated/aws/dbInstance"`
+        `import "cdk.tf/go/stack/generated/aws/dbInstance"`,
       );
     });
 
@@ -137,7 +137,7 @@ class MyConvertedCode(constructs.Construct):
 
       expect(replaceGoImports(code)).toEqual(
         // "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/terraform-aws-modules/aws/vpc"
-        `import helloModule "cdk.tf/go/stack/generated/hello_module"`
+        `import helloModule "cdk.tf/go/stack/generated/hello_module"`,
       );
     });
   });

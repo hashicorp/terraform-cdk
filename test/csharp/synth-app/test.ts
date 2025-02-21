@@ -21,14 +21,14 @@ describe("csharp full integration test synth", () => {
   onlyJson("synth generates JSON", async () => {
     await driver.synth();
     expect(
-      driver.synthesizedStack("csharp-simple").toString()
+      driver.synthesizedStack("csharp-simple").toString(),
     ).toMatchSnapshot();
   });
 
   onlyHcl("synth generates HCL", async () => {
     await driver.synth();
     expect(
-      driver.synthesizedStackContentsRaw("csharp-simple").toString()
+      driver.synthesizedStackContentsRaw("csharp-simple").toString(),
     ).toMatchSnapshot();
   });
 });

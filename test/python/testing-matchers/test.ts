@@ -18,6 +18,6 @@ describe("python testing assertions", () => {
       const res = await driver.exec("pipenv run pytest -q test_assertions.py");
       expect(res.stdout).toContain("11 passed");
     },
-    6000000
+    6000000,
   );
 });

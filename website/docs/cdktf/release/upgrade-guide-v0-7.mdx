@@ -145,7 +145,7 @@ const deploy = new Deployment(this, "nginx", {
 });
 deploy.addOverride(
   "metadata.0.namespace",
-  `\${${development.fqn}.metadata.0.name}`
+  `\${${development.fqn}.metadata.0.name}`,
 );
 
 // After

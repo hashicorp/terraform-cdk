@@ -1,6 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { TestDriver } from "../../test-helper";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const fs = require("fs").promises;
 
 describe("remote templates", () => {
@@ -21,7 +22,7 @@ describe("remote templates", () => {
         "setup.js",
         "tsconfig.json",
         "__tests__",
-      ])
+      ]),
     );
   });
 
@@ -33,7 +34,7 @@ describe("remote templates", () => {
       fail("Expected init to throw an error");
     } catch (e) {
       expect(e.stderr).toContain(
-        "Could not download template: the supplied url is invalid"
+        "Could not download template: the supplied url is invalid",
       );
     }
   });

@@ -300,25 +300,25 @@ describe("python cross stack references", () => {
 
     it("references primitive values", () => {
       expect(driver.readLocalFile("originNum")).toBe(
-        driver.readLocalFile("passthroughNum")
+        driver.readLocalFile("passthroughNum"),
       );
       expect(driver.readLocalFile("originStr")).toBe(
-        driver.readLocalFile("passthroughStr")
+        driver.readLocalFile("passthroughStr"),
       );
     });
 
     it("references can be passed through stacks", () => {
       expect(driver.readLocalFile("originNum")).toBe(
-        driver.readLocalFile("sinkNum")
+        driver.readLocalFile("sinkNum"),
       );
       expect(driver.readLocalFile("originStr")).toBe(
-        driver.readLocalFile("sinkStr")
+        driver.readLocalFile("sinkStr"),
       );
     });
 
     it("references complex values", () => {
       expect(driver.readLocalFile("originList")).toBe(
-        driver.readLocalFile("passthroughList")
+        driver.readLocalFile("passthroughList"),
       );
     });
 

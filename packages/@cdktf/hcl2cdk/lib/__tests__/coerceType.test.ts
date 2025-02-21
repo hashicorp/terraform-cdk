@@ -32,8 +32,8 @@ describe("coerceType", () => {
   ])("should change nothing for %p ", ({ code, type, targetType }) => {
     expect(
       generateCode(
-        coerceType(scope, expressionify(code), type as any, targetType as any)
-      )
+        coerceType(scope, expressionify(code), type as any, targetType as any),
+      ),
     ).toEqual(code);
   });
 
@@ -112,10 +112,15 @@ describe("coerceType", () => {
     ({ code, type, targetType, expectedCode }) => {
       expect(
         generateCode(
-          coerceType(scope, expressionify(code), type as any, targetType as any)
-        )
+          coerceType(
+            scope,
+            expressionify(code),
+            type as any,
+            targetType as any,
+          ),
+        ),
       ).toEqual(expectedCode);
-    }
+    },
   );
 
   it.each([
@@ -148,10 +153,15 @@ describe("coerceType", () => {
     ({ code, type, targetType, expectedCode }) => {
       expect(
         generateCode(
-          coerceType(scope, expressionify(code), type as any, targetType as any)
-        )
+          coerceType(
+            scope,
+            expressionify(code),
+            type as any,
+            targetType as any,
+          ),
+        ),
       ).toEqual(expectedCode);
-    }
+    },
   );
 
   it.each([
@@ -184,9 +194,14 @@ describe("coerceType", () => {
     ({ code, type, targetType, expectedCode }) => {
       expect(
         generateCode(
-          coerceType(scope, expressionify(code), type as any, targetType as any)
-        )
+          coerceType(
+            scope,
+            expressionify(code),
+            type as any,
+            targetType as any,
+          ),
+        ),
       ).toEqual(expectedCode);
-    }
+    },
   );
 });

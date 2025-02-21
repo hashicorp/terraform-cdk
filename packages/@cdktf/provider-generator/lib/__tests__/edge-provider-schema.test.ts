@@ -16,7 +16,7 @@ describe("Edge Provider Schema", () => {
           return;
         }
         expect(
-          fs.readFileSync(path.join(dir, "providers", "edge", file), "utf8")
+          fs.readFileSync(path.join(dir, "providers", "edge", file), "utf8"),
         ).toMatchSnapshot(file);
       });
     });

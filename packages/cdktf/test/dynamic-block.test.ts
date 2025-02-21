@@ -107,11 +107,11 @@ test("chained iterators used in dynamic blocks", () => {
   const synth = JSON.parse(Testing.synth(stack));
   expect(synth).toHaveProperty(
     "resource.test_resource.chained.dynamic.list_block.for_each",
-    "${test_resource.test}"
+    "${test_resource.test}",
   );
   expect(synth).toHaveProperty(
     "resource.test_resource.chained.dynamic.list_block.content",
-    { name: "${each.value.string_value}" }
+    { name: "${each.value.string_value}" },
   );
 });
 
@@ -122,7 +122,7 @@ test("dynamic blocks are properly rendered for resources for complex lists", () 
 
   const it = TerraformIterator.fromComplexList(
     ref("var.list") as any,
-    "non_computed_key"
+    "non_computed_key",
   );
 
   new TestResource(stack, "test", {

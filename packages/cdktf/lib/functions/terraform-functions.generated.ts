@@ -100,8 +100,8 @@ export class FnGenerated {
     return asString(
       terraformFunction("bcrypt", [stringValue, variadic(numericValue)])(
         str,
-        cost
-      )
+        cost,
+      ),
     );
   }
   /**
@@ -134,8 +134,8 @@ export class FnGenerated {
     return asList(
       terraformFunction("chunklist", [listOf(anyValue), numericValue])(
         list,
-        size
-      )
+        size,
+      ),
     );
   }
   /**
@@ -147,8 +147,8 @@ export class FnGenerated {
     return asString(
       terraformFunction("cidrhost", [stringValue, numericValue])(
         prefix,
-        hostnum
-      )
+        hostnum,
+      ),
     );
   }
   /**
@@ -170,7 +170,7 @@ export class FnGenerated {
         stringValue,
         numericValue,
         numericValue,
-      ])(prefix, newbits, netnum)
+      ])(prefix, newbits, netnum),
     );
   }
   /**
@@ -182,8 +182,8 @@ export class FnGenerated {
     return asList(
       terraformFunction("cidrsubnets", [stringValue, variadic(numericValue)])(
         prefix,
-        newbits
-      )
+        newbits,
+      ),
     );
   }
   /**
@@ -221,7 +221,7 @@ export class FnGenerated {
    */
   static contains(list: any, value: any) {
     return asAny(
-      terraformFunction("contains", [anyValue, anyValue])(list, value)
+      terraformFunction("contains", [anyValue, anyValue])(list, value),
     );
   }
   /**
@@ -252,7 +252,7 @@ export class FnGenerated {
    */
   static element(list: any, index: number) {
     return asAny(
-      terraformFunction("element", [anyValue, numericValue])(list, index)
+      terraformFunction("element", [anyValue, numericValue])(list, index),
     );
   }
   /**
@@ -262,7 +262,7 @@ export class FnGenerated {
    */
   static endswith(str: string, suffix: string) {
     return asBoolean(
-      terraformFunction("endswith", [stringValue, stringValue])(str, suffix)
+      terraformFunction("endswith", [stringValue, stringValue])(str, suffix),
     );
   }
   /**
@@ -314,7 +314,7 @@ export class FnGenerated {
    */
   static fileset(path: string, pattern: string) {
     return asList(
-      terraformFunction("fileset", [stringValue, stringValue])(path, pattern)
+      terraformFunction("fileset", [stringValue, stringValue])(path, pattern),
     );
   }
   /**
@@ -361,8 +361,8 @@ export class FnGenerated {
     return asAny(
       terraformFunction("format", [stringValue, variadic(anyValue)])(
         format,
-        args
-      )
+        args,
+      ),
     );
   }
   /**
@@ -372,7 +372,7 @@ export class FnGenerated {
    */
   static formatdate(format: string, time: string) {
     return asString(
-      terraformFunction("formatdate", [stringValue, stringValue])(format, time)
+      terraformFunction("formatdate", [stringValue, stringValue])(format, time),
     );
   }
   /**
@@ -384,8 +384,8 @@ export class FnGenerated {
     return asAny(
       terraformFunction("formatlist", [stringValue, variadic(anyValue)])(
         format,
-        args
-      )
+        args,
+      ),
     );
   }
   /**
@@ -395,7 +395,7 @@ export class FnGenerated {
    */
   static indent(spaces: number, str: string) {
     return asString(
-      terraformFunction("indent", [numericValue, stringValue])(spaces, str)
+      terraformFunction("indent", [numericValue, stringValue])(spaces, str),
     );
   }
   /**
@@ -416,8 +416,8 @@ export class FnGenerated {
     return asString(
       terraformFunction("join", [stringValue, variadic(listOf(anyValue))])(
         separator,
-        lists
-      )
+        lists,
+      ),
     );
   }
   /**
@@ -455,7 +455,7 @@ export class FnGenerated {
    */
   static log(num: number, base: number) {
     return asNumber(
-      terraformFunction("log", [numericValue, numericValue])(num, base)
+      terraformFunction("log", [numericValue, numericValue])(num, base),
     );
   }
   /**
@@ -470,8 +470,8 @@ export class FnGenerated {
       terraformFunction("lookup", [anyValue, stringValue, variadic(anyValue)])(
         inputMap,
         key,
-        defaultValue
-      )
+        defaultValue,
+      ),
     );
   }
   /**
@@ -493,7 +493,7 @@ export class FnGenerated {
         listOf(anyValue),
         listOf(anyValue),
         listOf(anyValue),
-      ])(values, keys, searchset)
+      ])(values, keys, searchset),
     );
   }
   /**
@@ -502,7 +502,7 @@ export class FnGenerated {
    */
   static max(numbers: number[]) {
     return asNumber(
-      terraformFunction("max", [variadic(numericValue)])(numbers)
+      terraformFunction("max", [variadic(numericValue)])(numbers),
     );
   }
   /**
@@ -525,7 +525,7 @@ export class FnGenerated {
    */
   static min(numbers: number[]) {
     return asNumber(
-      terraformFunction("min", [variadic(numericValue)])(numbers)
+      terraformFunction("min", [variadic(numericValue)])(numbers),
     );
   }
   /**
@@ -549,7 +549,7 @@ export class FnGenerated {
    */
   static parseint(number: any, base: number) {
     return asAny(
-      terraformFunction("parseint", [anyValue, numericValue])(number, base)
+      terraformFunction("parseint", [anyValue, numericValue])(number, base),
     );
   }
   /**
@@ -572,7 +572,7 @@ export class FnGenerated {
    */
   static pow(num: number, power: number) {
     return asNumber(
-      terraformFunction("pow", [numericValue, numericValue])(num, power)
+      terraformFunction("pow", [numericValue, numericValue])(num, power),
     );
   }
   /**
@@ -590,7 +590,7 @@ export class FnGenerated {
    */
   static regex(pattern: string, str: string) {
     return asAny(
-      terraformFunction("regex", [stringValue, stringValue])(pattern, str)
+      terraformFunction("regex", [stringValue, stringValue])(pattern, str),
     );
   }
   /**
@@ -600,7 +600,7 @@ export class FnGenerated {
    */
   static regexall(pattern: string, str: string) {
     return asList(
-      terraformFunction("regexall", [stringValue, stringValue])(pattern, str)
+      terraformFunction("regexall", [stringValue, stringValue])(pattern, str),
     );
   }
   /**
@@ -614,8 +614,8 @@ export class FnGenerated {
       terraformFunction("replace", [stringValue, stringValue, stringValue])(
         str,
         substr,
-        replace
-      )
+        replace,
+      ),
     );
   }
   /**
@@ -634,8 +634,8 @@ export class FnGenerated {
     return asString(
       terraformFunction("rsadecrypt", [stringValue, stringValue])(
         ciphertext,
-        privatekey
-      )
+        privatekey,
+      ),
     );
   }
   /**
@@ -655,7 +655,7 @@ export class FnGenerated {
       terraformFunction("setintersection", [
         listOf(anyValue),
         variadic(listOf(anyValue)),
-      ])(first_set, other_sets)
+      ])(first_set, other_sets),
     );
   }
   /**
@@ -674,8 +674,8 @@ export class FnGenerated {
     return asList(
       terraformFunction("setsubtract", [listOf(anyValue), listOf(anyValue)])(
         a,
-        b
-      )
+        b,
+      ),
     );
   }
   /**
@@ -688,7 +688,7 @@ export class FnGenerated {
       terraformFunction("setunion", [
         listOf(anyValue),
         variadic(listOf(anyValue)),
-      ])(first_set, other_sets)
+      ])(first_set, other_sets),
     );
   }
   /**
@@ -730,8 +730,8 @@ export class FnGenerated {
       terraformFunction("slice", [anyValue, numericValue, numericValue])(
         list,
         start_index,
-        end_index
-      )
+        end_index,
+      ),
     );
   }
   /**
@@ -748,7 +748,7 @@ export class FnGenerated {
    */
   static split(separator: string, str: string) {
     return asList(
-      terraformFunction("split", [stringValue, stringValue])(separator, str)
+      terraformFunction("split", [stringValue, stringValue])(separator, str),
     );
   }
   /**
@@ -758,7 +758,7 @@ export class FnGenerated {
    */
   static startswith(str: string, prefix: string) {
     return asBoolean(
-      terraformFunction("startswith", [stringValue, stringValue])(str, prefix)
+      terraformFunction("startswith", [stringValue, stringValue])(str, prefix),
     );
   }
   /**
@@ -768,7 +768,7 @@ export class FnGenerated {
    */
   static strcontains(str: string, substr: string) {
     return asBoolean(
-      terraformFunction("strcontains", [stringValue, stringValue])(str, substr)
+      terraformFunction("strcontains", [stringValue, stringValue])(str, substr),
     );
   }
   /**
@@ -789,8 +789,8 @@ export class FnGenerated {
       terraformFunction("substr", [stringValue, numericValue, numericValue])(
         str,
         offset,
-        length
-      )
+        length,
+      ),
     );
   }
   /**
@@ -807,7 +807,7 @@ export class FnGenerated {
    */
   static templatefile(path: string, vars: any) {
     return asAny(
-      terraformFunction("templatefile", [stringValue, anyValue])(path, vars)
+      terraformFunction("templatefile", [stringValue, anyValue])(path, vars),
     );
   }
   /**
@@ -819,8 +819,8 @@ export class FnGenerated {
     return asString(
       terraformFunction("textdecodebase64", [stringValue, stringValue])(
         source,
-        encoding
-      )
+        encoding,
+      ),
     );
   }
   /**
@@ -832,8 +832,8 @@ export class FnGenerated {
     return asString(
       terraformFunction("textencodebase64", [stringValue, stringValue])(
         str,
-        encoding
-      )
+        encoding,
+      ),
     );
   }
   /**
@@ -845,8 +845,8 @@ export class FnGenerated {
     return asString(
       terraformFunction("timeadd", [stringValue, stringValue])(
         timestamp,
-        duration
-      )
+        duration,
+      ),
     );
   }
   /**
@@ -858,8 +858,8 @@ export class FnGenerated {
     return asNumber(
       terraformFunction("timecmp", [stringValue, stringValue])(
         timestamp_a,
-        timestamp_b
-      )
+        timestamp_b,
+      ),
     );
   }
   /**
@@ -931,7 +931,7 @@ export class FnGenerated {
    */
   static trim(str: string, cutset: string) {
     return asString(
-      terraformFunction("trim", [stringValue, stringValue])(str, cutset)
+      terraformFunction("trim", [stringValue, stringValue])(str, cutset),
     );
   }
   /**
@@ -941,7 +941,7 @@ export class FnGenerated {
    */
   static trimprefix(str: string, prefix: string) {
     return asString(
-      terraformFunction("trimprefix", [stringValue, stringValue])(str, prefix)
+      terraformFunction("trimprefix", [stringValue, stringValue])(str, prefix),
     );
   }
   /**
@@ -958,7 +958,7 @@ export class FnGenerated {
    */
   static trimsuffix(str: string, suffix: string) {
     return asString(
-      terraformFunction("trimsuffix", [stringValue, stringValue])(str, suffix)
+      terraformFunction("trimsuffix", [stringValue, stringValue])(str, suffix),
     );
   }
   /**
@@ -995,7 +995,7 @@ export class FnGenerated {
    */
   static uuidv5(namespace: string, name: string) {
     return asString(
-      terraformFunction("uuidv5", [stringValue, stringValue])(namespace, name)
+      terraformFunction("uuidv5", [stringValue, stringValue])(namespace, name),
     );
   }
   /**
@@ -1026,7 +1026,7 @@ export class FnGenerated {
    */
   static zipmap(keys: string[], values: any) {
     return asAny(
-      terraformFunction("zipmap", [listOf(anyValue), anyValue])(keys, values)
+      terraformFunction("zipmap", [listOf(anyValue), anyValue])(keys, values),
     );
   }
 }

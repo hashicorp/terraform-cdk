@@ -63,7 +63,7 @@ export class DataResource extends TerraformResource {
     scope: Construct,
     importToId: string,
     importFromId: string,
-    provider?: TerraformProvider
+    provider?: TerraformProvider,
   ) {
     return new ImportableResource(scope, importToId, {
       terraformResourceType: "terraform_data",
@@ -104,8 +104,8 @@ export class DataResource extends TerraformResource {
     this.node.addValidation(
       new ValidateTerraformVersion(
         ">=1.4",
-        `The built-in Terraform data resource is only supported for Terraform >=1.4. Please upgrade your Terraform version.`
-      )
+        `The built-in Terraform data resource is only supported for Terraform >=1.4. Please upgrade your Terraform version.`,
+      ),
     );
   }
 

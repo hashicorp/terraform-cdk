@@ -153,7 +153,7 @@ class Reference extends TFExpression {
   private crossStackIdentifier: Record<string, string> = {};
   constructor(
     private identifier: string,
-    private originStack?: TerraformStack
+    private originStack?: TerraformStack,
   ) {
     super(identifier);
   }
@@ -172,7 +172,7 @@ class Reference extends TFExpression {
         const csr = app.crossStackReference(
           this.originStack,
           resolutionStack,
-          this.identifier
+          this.identifier,
         );
 
         this.crossStackIdentifier[stackName] = csr;
@@ -205,7 +205,10 @@ export function insideTfExpression(arg: any) {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 class PropertyAccess extends TFExpression {
-  constructor(private target: Expression, private args: Expression[]) {
+  constructor(
+    private target: Expression,
+    private args: Expression[],
+  ) {
     super({ target, args });
   }
 
@@ -254,7 +257,7 @@ class ConditionalExpression extends TFExpression {
   constructor(
     private condition: Expression,
     private trueValue: Expression,
-    private falseValue: Expression
+    private falseValue: Expression,
   ) {
     super({ condition, trueValue, falseValue });
   }
@@ -279,7 +282,7 @@ class ConditionalExpression extends TFExpression {
 export function conditional(
   condition: Expression,
   trueValue: Expression,
-  falseValue: Expression
+  falseValue: Expression,
 ) {
   return new ConditionalExpression(condition, trueValue, falseValue);
 }
@@ -309,7 +312,7 @@ export class OperatorExpression extends TFExpression {
   constructor(
     private operator: Operator,
     private left: Expression,
-    private right?: Expression // optional for ! and - operator
+    private right?: Expression, // optional for ! and - operator
   ) {
     super({ operator, leftValue: left, rightValue: right });
   }
@@ -348,7 +351,10 @@ export class OperatorExpression extends TFExpression {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 class FunctionCall extends TFExpression {
-  constructor(private name: string, private args: Expression[]) {
+  constructor(
+    private name: string,
+    private args: Expression[],
+  ) {
     super({ name, args });
   }
 
@@ -388,7 +394,7 @@ class ForExpression extends TFExpression {
   constructor(
     private input: Expression,
     private valueExpression: Expression,
-    private keyExpression?: Expression
+    private keyExpression?: Expression,
   ) {
     super({ input, valueExpression, keyExpression });
   }
@@ -434,12 +440,12 @@ class ForExpression extends TFExpression {
 export function forExpression(
   input: Expression,
   valueExpression: Expression,
-  keyExpression?: Expression
+  keyExpression?: Expression,
 ) {
   return new ForExpression(
     input,
     valueExpression,
-    keyExpression
+    keyExpression,
   ) as IResolvable;
 }
 

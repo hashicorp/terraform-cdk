@@ -47,7 +47,7 @@ export const terraformJsonSchema = z
         })
         .nonstrict(),
       required_providers: z.record(
-        z.object({ source: z.string(), version: z.string() }).nonstrict()
+        z.object({ source: z.string(), version: z.string() }).nonstrict(),
       ),
       required_version: z.string(),
     }),

@@ -223,37 +223,37 @@ export function isForExpression(ast: ExpressionType): ast is ForExpression {
 }
 
 export function isTemplateWrapExpression(
-  ast: ExpressionType
+  ast: ExpressionType,
 ): ast is TemplateWrapExpression {
   return ast.type === "templateWrap";
 }
 
 export function isTemplateExpression(
-  ast: ExpressionType
+  ast: ExpressionType,
 ): ast is TemplateExpression {
   return ast.type === "template";
 }
 
 export function isFunctionCallExpression(
-  ast: ExpressionType
+  ast: ExpressionType,
 ): ast is FunctionCallExpression {
   return ast.type === "function";
 }
 
 export function isScopeTraversalExpression(
-  ast: ExpressionType
+  ast: ExpressionType,
 ): ast is ScopeTraversalExpression {
   return ast.type === "scopeTraversal";
 }
 
 export function isRelativeTraversalExpression(
-  ast: ExpressionType
+  ast: ExpressionType,
 ): ast is RelativeTraversalExpression {
   return ast.type === "relativeTraversal";
 }
 
 export function isLiteralValueExpression(
-  ast: ExpressionType
+  ast: ExpressionType,
 ): ast is LiteralValueExpression {
   return ast.type === "literalValue";
 }
@@ -267,19 +267,19 @@ export function isSplatExpression(ast: ExpressionType): ast is SplatExpression {
 }
 
 export function isConditionalExpression(
-  ast: ExpressionType
+  ast: ExpressionType,
 ): ast is ConditionalExpression {
   return ast.type === "conditional";
 }
 
 export function isUnaryOpExpression(
-  ast: ExpressionType
+  ast: ExpressionType,
 ): ast is UnaryOpExpression {
   return ast.type === "unaryOp";
 }
 
 export function isBinaryOpExpression(
-  ast: ExpressionType
+  ast: ExpressionType,
 ): ast is BinaryOpExpression {
   return ast.type === "binaryOp";
 }
@@ -289,19 +289,19 @@ export function isTupleExpression(ast: ExpressionType): ast is TupleExpression {
 }
 
 export function isObjectExpression(
-  part: ExpressionType
+  part: ExpressionType,
 ): part is ObjectExpression {
   return part.type === "object";
 }
 
 export function isNameTraversalPart(
-  part: TerraformTraversalPart
+  part: TerraformTraversalPart,
 ): part is TerraformNameTraversalPart {
   return part.type === "nameTraversal";
 }
 
 export function isIndexTraversalPart(
-  part: TerraformTraversalPart
+  part: TerraformTraversalPart,
 ): part is TerraformIndexTraversalPart {
   return part.type === "indexTraversal";
 }

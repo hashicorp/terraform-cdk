@@ -11,7 +11,7 @@ export const noAppFound = (constructPath: string) =>
     `No app could be identified for the construct at path '${constructPath}' (likely a TerraformStack).
 The scope of CDKTF's TerraformStack class is a single App instance created by 'const app = new App()'. The App is your project's root, holding project configuration and validations.
 Learn more about the App: https://developer.hashicorp.com/terraform/cdktf/concepts/cdktf-architecture#app-class:~:text=and%20Resource.-,App%20Class,-Each%20CDKTF%20project
-    `
+    `,
   );
 
 export const appValidationFailure = (errorList: string) =>
@@ -19,14 +19,14 @@ export const appValidationFailure = (errorList: string) =>
     `App-level validation failed with the following errors:\n  ${errorList}
 Validations allow for dynamic verification of your project.
 To skip validations, add 'skipValidation: true' to your App config.
-    `
+    `,
   );
 
 export const providerVersionMismatch = () =>
   new Error(
     `Version mismatch detected: Your provider bindings are built for an older version of CDKTF.
 Upgrade your pre-built provider or re-run cdktf get with a more recent version (>= 0.10) of the cdktf-cli.
-    `
+    `,
   );
 
 export const assetOutOfScopeOfCDKTFJson = (id: string, configPath: string) =>
@@ -37,14 +37,14 @@ The cdktf.json file is needed to establish the base for the relative path (the '
 
 Place a cdktf.json at the root of your project. Learn more: https://developer.hashicorp.com/terraform/cdktf/create-and-deploy/configuration-file
 Learn more about TerraformAsset: https://developer.hashicorp.com/terraform/cdktf/concepts/assets
-`
+`,
   );
 
 export const assetExpectsDirectory = (id: string, configPath: string) =>
   new Error(
     `TerraformAsset ${id} expects path to point to a directory. Instead, this file was passed: '${configPath}'. Please correct the path to point to a directory.
 Learn more about TerraformAsset: https://developer.hashicorp.com/terraform/cdktf/concepts/assets
-    `
+    `,
   );
 
 export const assetTypeNotImplemented = () =>
@@ -63,14 +63,14 @@ You can create a TerraformDynamicBlock by calling '.dynamic' on a TerraformItera
 The following expression was used for the dynamic block: .dynamic({
   ${_foreachExpression}
 })
-`
+`,
   );
 
 export const unresolvedTokenInConstructId = (id: string) =>
   new Error(
     `You cannot use a token (e.g., a reference to an attribute) as the id of a construct. Ids of constructs must be known at synthesis time, and token values are only known when Terraform runs. Please use a concrete value for your constructs ID instead.
 You passed the following id: "${id}"
-`
+`,
   );
 
 export const iteratorOnResourceWithCount = () =>
@@ -78,7 +78,7 @@ export const iteratorOnResourceWithCount = () =>
     `You cannot create an iterator from a resource with a count argument.
 Instead, reuse this resource's TerraformCount instance in the resource you want to use as an iterator.
 
-If you want to use an iterator to populate a list attribute, replace the count on the resource with an iterator passed into the forEach argument.`
+If you want to use an iterator to populate a list attribute, replace the count on the resource with an iterator passed into the forEach argument.`,
   );
 
 export const iteratorOnResourceWithoutForEach = () =>
@@ -92,7 +92,7 @@ Each provider must have a unique alias when passing multiple providers of the sa
 
 export const moveTargetAlreadySet = (
   target: string,
-  friendlyUniqueId: string | undefined
+  friendlyUniqueId: string | undefined,
 ) =>
   new Error(`Target "${target}" has already been used for the construct ${friendlyUniqueId}.
 Target must be a string that is unique across all resources in the same stack.`);
@@ -109,7 +109,7 @@ ${entries}
 export const movedToResourceOfDifferentType = (
   moveTarget: string,
   originalResourceType: string,
-  destinationResourceType: string
+  destinationResourceType: string,
 ) =>
   new Error(`We do not support moving resources to a different type.
 
@@ -125,7 +125,7 @@ https://developer.hashicorp.com/terraform/cli/commands/state/rm
 export const resourceGivenTwoMoveOperationsByTargetAndId = (
   id: string,
   existingTarget: string,
-  newMove: { to: string; from: string }
+  newMove: { to: string; from: string },
 ) =>
   new Error(`
 The resource ${id} has been given two different move operations.
@@ -144,7 +144,7 @@ Learn more about moving resources: https://developer.hashicorp.com/terraform/cdk
 export const resourceGivenTwoMoveOperationsById = (
   id: string,
   existingMove: { to: string; from: string },
-  newMove: { to: string; from: string }
+  newMove: { to: string; from: string },
 ) =>
   new Error(`
 The resource ${id} has been given two different move operations.
@@ -166,7 +166,7 @@ Learn more about moving resources: https://developer.hashicorp.com/terraform/cdk
 export const resourceGivenTwoMoveOperationsByTarget = (
   resourceId: string,
   existingMoveTarget: string,
-  newMoveTarget: string
+  newMoveTarget: string,
 ) =>
   new Error(`The resource ${resourceId} has been given two different moveTargets: "${newMoveTarget}" and "${existingMoveTarget}"
 
@@ -177,7 +177,7 @@ Learn more about moving resources: https://developer.hashicorp.com/terraform/cdk
 
 export const stackContainsDisallowedChar = (
   stackId: string,
-  invalidChar: string
+  invalidChar: string,
 ) =>
   new Error(`Cannot create Terraform stack with id "${stackId}". It contains an invalid glob character: "${invalidChar}".
 
@@ -189,7 +189,7 @@ export const stackIdContainsWhitespace = (stackId: string) =>
 
 Please remove any whitespace characters in your TerraformStack id, like so: "${stackId.replace(
     /\s/g,
-    ""
+    "",
   )}"
 `);
 
@@ -203,7 +203,7 @@ To learn more about Constructs vs. TerraformStacks, refer to: https://developer.
 
 export const stackHasCircularDependency = (
   thisStack: TerraformStack,
-  dependency: TerraformStack
+  dependency: TerraformStack,
 ) =>
   new Error(`Cannot add dependency ${dependency} to ${thisStack}, because it would cause a circular dependency.
 
@@ -230,7 +230,7 @@ To learn more about testing in CDKTF, refer to: https://developer.hashicorp.com/
 export const matchersFoundErrorsInStack = (
   errorCount: any,
   stackName: string,
-  diagnostics: string
+  diagnostics: string,
 ) =>
   new Error(`Found ${errorCount} Errors in stack ${stackName}: ${diagnostics}
 
@@ -275,7 +275,7 @@ export const sourceOrTargetNotAnObject = (
   source: string,
   sourceType: string,
   target: string,
-  targetType: string
+  targetType: string,
 ) =>
   new Error(`An issue occurred during the synthesization of your Terraform configuration.
 
@@ -315,7 +315,7 @@ Fn.rawString('${value}')
 Doing this ensures CDKTF and Terraform interpret your values correctly.
 
 To learn more about built in Terraform functions within CDKTF, refer to: https://developer.hashicorp.com/terraform/cdktf/concepts/functions
-`
+`,
   );
 
 export const encounteredAnnotationWithLevelError = (errors: string) =>
@@ -326,40 +326,40 @@ Either fix the issues above, or set the environment variable CDKTF_CONTINUE_SYNT
 
 export const valueIsInvalidStringOrToken = (value: string) =>
   new Error(
-    `'${value}' is not a valid string nor a token. This function only accepts strings or tokens resolving to strings. Please change your code accordingly.`
+    `'${value}' is not a valid string nor a token. This function only accepts strings or tokens resolving to strings. Please change your code accordingly.`,
   );
 
 export const valueIsInvalidNumberOrToken = (value: string) =>
   new Error(
-    `${value} is not a valid number nor a token. This function only accepts numbers or tokens resolving to numbers. Please change your code accordingly.`
+    `${value} is not a valid number nor a token. This function only accepts numbers or tokens resolving to numbers. Please change your code accordingly.`,
   );
 
 export const listElementIsOfWrongType = (
   value: any[],
   position: number,
-  error: unknown
+  error: unknown,
 ) =>
   new Error(
     `Element in list ${value} at position ${position} is not the right type: ${error}.
-    Please ensure all elements in the list are the correct type for this function.`
+    Please ensure all elements in the list are the correct type for this function.`,
   );
 
 export const functionReceivedWrongNumberOfArgs = (
   name: string,
   argValidatorsLength: number,
-  argsLength: number
+  argsLength: number,
 ) =>
   new Error(
-    `Function ${name} takes ${argValidatorsLength} arguments, but ${argsLength} were provided. Please add the missing arguments to the function.`
+    `Function ${name} takes ${argValidatorsLength} arguments, but ${argsLength} were provided. Please add the missing arguments to the function.`,
   );
 
 export const functionArgumentValidationFailure = (
   argNumber: number,
   name: string,
-  error: unknown
+  error: unknown,
 ) =>
   new Error(
-    `Argument ${argNumber} of ${name} failed the validation: ${error}. Please change your code to pass a valid value for this argument.`
+    `Argument ${argNumber} of ${name} failed the validation: ${error}. Please change your code to pass a valid value for this argument.`,
   );
 
 export const cannotCalcIdForEmptySetOfComponents = () =>
@@ -368,7 +368,7 @@ export const cannotCalcIdForEmptySetOfComponents = () =>
 
     This happens when you attempt to create a unique id, but do not pass in any construct node ids. This means your construct likely has no parent, which is not allowed.
 
-    Please make sure your construct has a parent. For example: 'new App(this)' or 'new TerraformStack(this, 'stack')'.`
+    Please make sure your construct has a parent. For example: 'new App(this)' or 'new TerraformStack(this, 'stack')'.`,
   );
 
 export const stringValueAddedToReferenceList = (listToken: string[]) =>
@@ -377,18 +377,18 @@ export const stringValueAddedToReferenceList = (listToken: string[]) =>
 
     We expect the elements of a tokenized string array to be a single token string. For example, ["&{TfToken[Token.1]}"].
 
-    One element in your array consists of more than a single value. To add values to a tokenized list, use Terraform functions instead. For example: 'Fn.concat([yourReferencedList, ["my", "new", "items"]])'.`
+    One element in your array consists of more than a single value. To add values to a tokenized list, use Terraform functions instead. For example: 'Fn.concat([yourReferencedList, ["my", "new", "items"]])'.`,
   );
 
 export const cannotConcatenateStringsInTokenizedStringArray = (
-  listToken: string
+  listToken: string,
 ) =>
   new Error(
     `Cannot concatenate strings in a tokenized string array, got: ${listToken}.
 
     We expect the elements of a tokenized string array to be a single token string. For example, ["&{TfToken[Token.1]}"]. One element in your array consists of something other than a single token.
 
-    You are likely mutating the value inside your array, which CDKTF cannot resolve into the appropriate runtime value.`
+    You are likely mutating the value inside your array, which CDKTF cannot resolve into the appropriate runtime value.`,
   );
 
 export const numberValueAddedToReferenceList = (listToken: number[]) =>
@@ -397,7 +397,7 @@ export const numberValueAddedToReferenceList = (listToken: number[]) =>
 
     We use tokens to represent runtime values (e.g., references to attributes of resource or data sources). List tokens don't contain the actual values because those are only available at apply time, whereas tokens are present during compile time.
 
-    If you want to add a value to a tokenized list, use a Terraform function instead. For example: Fn.concat([yourReferencedList, [42, 43, 44]]).`
+    If you want to add a value to a tokenized list, use a Terraform function instead. For example: Fn.concat([yourReferencedList, [42, 43, 44]]).`,
   );
 
 export const mapValueAddedToReferenceList = (mapToken: string) =>
@@ -407,7 +407,7 @@ export const mapValueAddedToReferenceList = (mapToken: string) =>
     We use tokens to represent runtime values (e.g., references to attributes of resource or data sources). List tokens don't contain the actual values because those are only available at apply time, whereas tokens are present during compile time.
 
     Instead of adding the value to the tokenized map, use a Terraform function. For example: Fn.merge([yourReferencedMap, { your: 'value' }]). This creates a new map Token for a value, which could get rendered as:
-    merge(my_resource.resource_name.one_specific_map_attribute, { your: ' value' })`
+    merge(my_resource.resource_name.one_specific_map_attribute, { your: ' value' })`,
   );
 
 export const cannotConcatenateStringsInTokenizedMap = (tokenizedMap: any) =>
@@ -416,7 +416,7 @@ export const cannotConcatenateStringsInTokenizedMap = (tokenizedMap: any) =>
 
     We expect the elements of a tokenized string array to be a single token string. For example, ["&{TfToken[Token.1]}"]. A key in your map consists of more than a string token (e.g., the Token and a static string or multiple Tokens).
 
-    This can happen if you mutate the key of the map. Do not mutate tokenized Maps, because it makes it impossible for CDKTF to translate them.`
+    This can happen if you mutate the key of the map. Do not mutate tokenized Maps, because it makes it impossible for CDKTF to translate them.`,
   );
 
 export const doesNotImplementDependableTrait = (instance: IDependable) =>
@@ -424,7 +424,7 @@ export const doesNotImplementDependableTrait = (instance: IDependable) =>
 
 export const canOnlyEncodePositiveIntegers = () =>
   new Error(
-    `Can only encode positive integers into Tokens. This is a bug in CDKTF, please file a bug report.`
+    `Can only encode positive integers into Tokens. This is a bug in CDKTF, please file a bug report.`,
   );
 
 export const indexTooLargeToEncode = (index: number) =>
@@ -433,17 +433,17 @@ export const indexTooLargeToEncode = (index: number) =>
 
     This happens if you have too many Tokens in a single CDKTF application. This can also occur if you are accidentally creating numeric tokens in an infinite loop. For example, calling 'Token.asNumber()' too many times.
 
-    If you reach the maximum number of allowed Tokens (a limitation imposed by the way we encode Tokens and separate them from real numeric values) you can work around this issue by dividing a single application into multiple applications.`
+    If you reach the maximum number of allowed Tokens (a limitation imposed by the way we encode Tokens and separate them from real numeric values) you can work around this issue by dividing a single application into multiple applications.`,
   );
 
 export const argToIntrinsicMustBePlainValue = (
   value: any,
-  creationStack: string[]
+  creationStack: string[],
 ) =>
   new Error(
     `You can only use a plain value (not a function) while creating an Intrinsic token. We received the value '${value}' created at:\n${creationStack.join(
-      "\n"
-    )}. If you want to use a function, please use the Lazy class. For example:  Lazy.anyValue({ produce: () => "Hello World" }).`
+      "\n",
+    )}. If you want to use a function, please use the Lazy class. For example:  Lazy.anyValue({ produce: () => "Hello World" }).`,
   );
 
 export const intrinsicNewError = (message: string, createdAt: string) =>
@@ -508,12 +508,12 @@ To resolve this issue, refactor your code to avoid this cyclic dependency by cha
 export const mapKeyMustResolveToString = (
   pathName: string,
   key: string,
-  resolvedKey: any
+  resolvedKey: any,
 ) =>
   new Error(
     `At "${pathName}" a map uses the key "${key}", meaning that key must resolve to a string. However, it resolves to a ${typeof resolvedKey} with the value ${JSON.stringify(
-      resolvedKey
-    )}. To fix this, change the Token to resolve to a string.`
+      resolvedKey,
+    )}. To fix this, change the Token to resolve to a string.`,
   );
 
 const unknownTokenExplanation = `This means you are trying to access a Token value that does not exist. This can only happen if the Token is from another CDK (i.e., AWS CDK, CDK8s, etc.) and is unknown to this CDKTF Application. You either need to make the other CDK resolve this Token before CDKTF tries to resolve it, or work around using this Token at all.
@@ -522,7 +522,7 @@ If this error occurs without another CDK (or a value looking like a Token) invol
 
 export const unknownNumberTokenFound = () =>
   new Error(
-    `Encoded representation of unknown number Token found. ${unknownTokenExplanation}`
+    `Encoded representation of unknown number Token found. ${unknownTokenExplanation}`,
   );
 
 export const unrecognizedTokenKey = (key: string) =>
@@ -530,20 +530,20 @@ export const unrecognizedTokenKey = (key: string) =>
 
 export const IdIncludesUnresolvedTokens = (unresolvedTokens: string) =>
   new Error(
-    `This construct (or its parent construct) is configured with an ID that contains a Token: ${unresolvedTokens}. This is not allowed because IDs must be known statically during synthesis. Token values are only known during the apply stage, therefore they cannot be used in IDs. Please use a concrete value for your constructs ID instead.`
+    `This construct (or its parent construct) is configured with an ID that contains a Token: ${unresolvedTokens}. This is not allowed because IDs must be known statically during synthesis. Token values are only known during the apply stage, therefore they cannot be used in IDs. Please use a concrete value for your constructs ID instead.`,
   );
 
 export const assetCanNotCreateZipArchive = (
   src: string,
   dest: string,
-  error: Error
+  error: Error,
 ) =>
   new Error(
-    `A TerraformAsset trying to zip archive '${src}' into ${dest} failed: ${error}`
+    `A TerraformAsset trying to zip archive '${src}' into ${dest} failed: ${error}`,
   );
 
 export const terraformModuleHasChildren = (pathName: string) => {
   return new Error(
-    `Trying to add children to a TerraformModule at '${pathName}'. TerraformModules cannot have children, if you want to group resources or constructs in general together please use the Constructs class instead. See https://cdk.tf/constructs for more details.`
+    `Trying to add children to a TerraformModule at '${pathName}'. TerraformModules cannot have children, if you want to group resources or constructs in general together please use the Constructs class instead. See https://cdk.tf/constructs for more details.`,
   );
 };

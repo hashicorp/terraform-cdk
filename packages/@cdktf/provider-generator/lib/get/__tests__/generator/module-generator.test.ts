@@ -11,7 +11,7 @@ import { execSync } from "child_process";
 const onTf1_6AndNewer = (
   name: string,
   fn: () => Promise<void>,
-  timeout?: number
+  timeout?: number,
 ) => {
   const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
   const output = execSync(`${terraformBinaryName} version -json`);
@@ -27,7 +27,7 @@ const onTf1_6AndNewer = (
     test.skip(
       `${name} (requires Terraform >= 1.6.0; but is ${tfVersion})`,
       fn,
-      timeout
+      timeout,
     );
   } else {
     test(name, fn, timeout);
@@ -36,10 +36,10 @@ const onTf1_6AndNewer = (
 
 test("generate some modules", async () => {
   const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "module-generator.test")
+    path.join(os.tmpdir(), "module-generator.test"),
   );
   const constraint = new TerraformModuleConstraint(
-    "terraform-aws-modules/eks/aws@7.0.1"
+    "terraform-aws-modules/eks/aws@7.0.1",
   );
 
   const maker = new ConstructsMaker(
@@ -47,13 +47,13 @@ test("generate some modules", async () => {
       codeMakerOutput: workdir,
       targetLanguage: Language.TYPESCRIPT,
     },
-    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
   );
   await maker.generate([constraint]);
 
   const output = fs.readFileSync(
     path.join(workdir, "modules/terraform-aws-modules/aws/eks.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot();
 }, 120000);
@@ -75,7 +75,7 @@ test("generate multiple aws modules", async () => {
   jest.setTimeout(120000);
 
   const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "module-generator-aws.test")
+    path.join(os.tmpdir(), "module-generator-aws.test"),
   );
   const constraints = [
     new TerraformModuleConstraint("terraform-aws-modules/vpc/aws@2.78.0"),
@@ -87,19 +87,19 @@ test("generate multiple aws modules", async () => {
       codeMakerOutput: workdir,
       targetLanguage: Language.TYPESCRIPT,
     },
-    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
   );
   await maker.generate(constraints);
 
   const vpcOutput = fs.readFileSync(
     path.join(workdir, "modules/terraform-aws-modules/aws/vpc.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(vpcOutput).toMatchSnapshot();
 
   const rdsOutput = fs.readFileSync(
     path.join(workdir, "modules/terraform-aws-modules/aws/rds-aurora.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(rdsOutput).toMatchSnapshot();
 }, 120000);
@@ -108,10 +108,10 @@ test("generate nested module", async () => {
   jest.setTimeout(120000);
 
   const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "module-generator-nested.test")
+    path.join(os.tmpdir(), "module-generator-nested.test"),
   );
   const constraint = new TerraformModuleConstraint(
-    "terraform-aws-modules/vpc/aws//modules/vpc-endpoints@3.19.0"
+    "terraform-aws-modules/vpc/aws//modules/vpc-endpoints@3.19.0",
   );
 
   const maker = new ConstructsMaker(
@@ -119,16 +119,16 @@ test("generate nested module", async () => {
       codeMakerOutput: workdir,
       targetLanguage: Language.TYPESCRIPT,
     },
-    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
   );
   await maker.generate([constraint]);
 
   const output = fs.readFileSync(
     path.join(
       workdir,
-      "modules/terraform-aws-modules/aws/vpc/modules/vpc-endpoints.ts"
+      "modules/terraform-aws-modules/aws/vpc/modules/vpc-endpoints.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot();
 });
@@ -140,7 +140,7 @@ expectModuleToMatchSnapshot("getX variables", "generator", [
 expectModuleToMatchSnapshot(
   "handle */* in module variable default string",
   "generator",
-  ["module-with-star-default.test.fixture.tf"]
+  ["module-with-star-default.test.fixture.tf"],
 );
 
 onTf1_6AndNewer(
@@ -149,10 +149,10 @@ onTf1_6AndNewer(
     jest.setTimeout(120000);
 
     const workdir = fs.mkdtempSync(
-      path.join(os.tmpdir(), "module-generator.test-no-init")
+      path.join(os.tmpdir(), "module-generator.test-no-init"),
     );
     const constraint = new TerraformModuleConstraint(
-      "milliHQ/next-js/aws@1.0.0-canary.5"
+      "milliHQ/next-js/aws@1.0.0-canary.5",
     );
 
     const maker = new ConstructsMaker(
@@ -160,13 +160,13 @@ onTf1_6AndNewer(
         codeMakerOutput: workdir,
         targetLanguage: Language.TYPESCRIPT,
       },
-      process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+      process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
     );
     await maker.generate([constraint]);
 
     const output = fs.readFileSync(
       path.join(workdir, "modules/milliHQ/aws/next-js.ts"),
-      "utf-8"
+      "utf-8",
     );
 
     // yes, this is a lot of code, but this test is skipped for some Terraform versions
@@ -532,5 +532,5 @@ onTf1_6AndNewer(
       "
     `);
   },
-  120000
+  120000,
 );

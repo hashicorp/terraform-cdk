@@ -44,7 +44,7 @@ export const numberToHclTerraform: Mapper = identity;
  */
 export function listMapper(
   elementMapper: Mapper,
-  isBlockType?: boolean
+  isBlockType?: boolean,
 ): Mapper {
   return (x: any) => {
     if (!canInspect(x)) {
@@ -79,7 +79,7 @@ export function listMapper(
  */
 export function listMapperHcl(
   elementMapper: Mapper,
-  isBlockType?: boolean
+  isBlockType?: boolean,
 ): Mapper {
   return (x: any) => {
     if (!canInspect(x)) {

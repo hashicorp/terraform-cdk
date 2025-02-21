@@ -37,19 +37,19 @@ export function printAnnotations(stacks: SynthesizedStack[]) {
         }
       }
       console.log(
-        color(`${level} [${annotation.constructPath}]: ${annotation.message}`)
+        color(`${level} [${annotation.constructPath}]: ${annotation.message}`),
       );
       if (
         annotation.level === AnnotationMetadataEntryType.ERROR &&
         annotation.stacktrace
       )
         console.log(chalkColour.gray(annotation.stacktrace.join("\n")));
-    })
+    }),
   );
 
   if (encounteredAnnotationError) {
     throw new Error(
-      "While synthesizing one or more error annotations have been encountered. Please check the log output above."
+      "While synthesizing one or more error annotations have been encountered. Please check the log output above.",
     );
   }
 }

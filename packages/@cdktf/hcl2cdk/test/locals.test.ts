@@ -21,7 +21,7 @@ describe("locals", () => {
     `,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -42,6 +42,6 @@ describe("locals", () => {
     }`,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 });

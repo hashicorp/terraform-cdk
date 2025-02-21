@@ -100,7 +100,7 @@ export class TokenMap {
   public registerMap<V>(
     token: IResolvable,
     mapValue: V,
-    displayHint?: string
+    displayHint?: string,
   ): { [key: string]: V } {
     return cachedValue(token, MAP_SYMBOL, () => {
       const key = this.registerStringKey(token, displayHint);
@@ -210,7 +210,7 @@ export class TokenMap {
     const counter = this.tokenCounter++;
     const representation = (displayHint || `TOKEN`).replace(
       new RegExp(`[^${VALID_KEY_CHARS}]`, "g"),
-      "."
+      ".",
     );
     const key = `${representation}.${counter}`;
     this.stringTokenMap.set(key, token);
@@ -227,7 +227,6 @@ export class TokenMap {
 /**
  * Get a cached value for an object, storing it on the object in a symbol
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 function cachedValue<A extends object, B>(x: A, sym: symbol, prod: () => B) {
   let cached = (x as any)[sym as any];
   if (cached === undefined) {

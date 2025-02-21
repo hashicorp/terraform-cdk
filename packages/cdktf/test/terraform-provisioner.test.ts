@@ -17,13 +17,13 @@ test("self with nested keys", () => {
         environment: {
           ECR_IMAGE_COMMAND: "delete",
           ECR_IMAGE_SOURCE_IMAGE: TerraformSelf.getString(
-            "triggers_replace.sourceImage"
+            "triggers_replace.sourceImage",
           ),
           ECR_IMAGE_TARGET_IMAGE: TerraformSelf.getString(
-            "image_name_with_hash"
+            "image_name_with_hash",
           ),
           ECR_IMAGE_TARGET_REGION: TerraformSelf.getString(
-            "triggers_replace.target_region"
+            "triggers_replace.target_region",
           ),
         },
         interpreter: ["bash"],

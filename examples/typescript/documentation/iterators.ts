@@ -103,7 +103,7 @@ export class IteratorsStack extends TerraformStack {
 
     const exampleForEachIterator = TerraformIterator.fromComplexList(
       cert.domainValidationOptions,
-      "domain_name"
+      "domain_name",
     );
 
     const records = new Route53Record(this, "record", {
@@ -121,7 +121,7 @@ export class IteratorsStack extends TerraformStack {
     new AcmCertificateValidation(this, "validation", {
       certificateArn: cert.arn,
       validationRecordFqdns: Token.asList(
-        recordsIterator.pluckProperty("fqdn")
+        recordsIterator.pluckProperty("fqdn"),
       ),
     });
     // DOCS_BLOCK_END:iterators-complex-lists
@@ -174,17 +174,17 @@ export class IteratorsStack extends TerraformStack {
     new TerraformLocal(
       this,
       "list-of-names",
-      mapIterator.pluckProperty("name")
+      mapIterator.pluckProperty("name"),
     );
     new TerraformLocal(
       this,
       "list-of-names-of-included",
-      mapIterator.forExpressionForList("val.name if val.included")
+      mapIterator.forExpressionForList("val.name if val.included"),
     );
     new TerraformLocal(
       this,
       "map-with-names-as-key-and-tags-as-value-of-included",
-      mapIterator.forExpressionForMap("val.name", "val.tags if val.included")
+      mapIterator.forExpressionForMap("val.name", "val.tags if val.included"),
     );
     // DOCS_BLOCK_END:iterators-for-expression
 

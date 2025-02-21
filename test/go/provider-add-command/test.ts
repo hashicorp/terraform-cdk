@@ -33,7 +33,7 @@ describe("provider add command", () => {
         `);
 
         expect(res.stdout).toContain(
-          `Local providers have been updated. Running cdktf get to update...`
+          `Local providers have been updated. Running cdktf get to update...`,
         );
 
         // This file currently is only created for TypeScript targets
@@ -46,7 +46,7 @@ describe("provider add command", () => {
         //   genVersionsFile["registry.terraform.io/hashicorp/local"]
         // ).toEqual("2.2.3");
       },
-      240_000
+      240_000,
     );
 
     onWindows(
@@ -67,17 +67,17 @@ describe("provider add command", () => {
               `);
 
         expect(res.stdout).toContain(
-          `Local providers have been updated. Running cdktf get to update...`
+          `Local providers have been updated. Running cdktf get to update...`,
         );
 
         const genVersionsFile = JSON.parse(
-          driver.readLocalFile("generated/versions.json")
+          driver.readLocalFile("generated/versions.json"),
         );
         expect(
-          genVersionsFile["registry.terraform.io/hashicorp/local"]
+          genVersionsFile["registry.terraform.io/hashicorp/local"],
         ).toEqual("2.2.3");
       },
-      120_000
+      120_000,
     );
   });
 
@@ -109,7 +109,7 @@ describe("provider add command", () => {
       // no snapshot, as the output also contains logs from Go upgrading JSII dependencies which might
       // change in the future and would break this test
       expect(sanitizeTimestamps(res.stdout)).toContain(
-        `[<TIMESTAMP>] [INFO] default - Checking whether pre-built provider exists for the following constraints:`
+        `[<TIMESTAMP>] [INFO] default - Checking whether pre-built provider exists for the following constraints:`,
       );
 
       expect(sanitizeTimestamps(res.stdout)).toContain(`provider: random
@@ -118,27 +118,27 @@ describe("provider add command", () => {
   cdktf   : 0.13.0`);
 
       expect(sanitizeTimestamps(res.stdout)).toContain(
-        `[<TIMESTAMP>] [INFO] default - Found pre-built provider.`
+        `[<TIMESTAMP>] [INFO] default - Found pre-built provider.`,
       );
 
       expect(sanitizeTimestamps(res.stdout)).toContain(
-        `Adding package github.com/cdktf/cdktf-provider-random-go/random @ 3.0.11`
+        `Adding package github.com/cdktf/cdktf-provider-random-go/random @ 3.0.11`,
       );
 
       expect(sanitizeTimestamps(res.stdout)).toContain(
-        "added github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11"
+        "added github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11",
       );
       expect(sanitizeTimestamps(res.stdout)).toContain("Package installed.");
 
       // go also prints to stderr, weird but 🤷
       expect(res.stderr).toContain(
-        "added github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11"
+        "added github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11",
       );
 
       const goMod = driver.readLocalFile("go.mod");
 
       expect(goMod).toContain(
-        "github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11"
+        "github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11",
       );
     }, 180_000);
   });

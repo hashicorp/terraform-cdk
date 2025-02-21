@@ -30,7 +30,7 @@ describe("references", () => {
     Synth.yes,
     {
       resources: ["aws_s3_bucket", "aws_s3_bucket_object", "aws_kms_key"],
-    }
+    },
   );
 
   testCase.test(
@@ -53,7 +53,7 @@ describe("references", () => {
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
-    }
+    },
   );
 
   testCase.test(
@@ -76,7 +76,7 @@ describe("references", () => {
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
-    }
+    },
   );
 
   testCase.test(
@@ -104,7 +104,7 @@ describe("references", () => {
     Synth.yes,
     {
       resources: ["aws_s3_bucket", "aws_s3_bucket_object"],
-    }
+    },
   );
 
   testCase.test(
@@ -130,7 +130,7 @@ describe("references", () => {
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
-    }
+    },
   );
 
   testCase.test(
@@ -161,7 +161,7 @@ describe("references", () => {
     Synth.no_cant_resolve_construct,
     {
       resources: ["aws_s3_bucket", "aws_s3_bucket_object", "aws_kms_key"],
-    }
+    },
   );
 
   testCase.test(
@@ -179,7 +179,7 @@ describe("references", () => {
     [binding.auth0],
     Snapshot.yes,
     Synth.yes,
-    { resources: [] }
+    { resources: [] },
   );
 
   testCase.test(
@@ -195,7 +195,7 @@ describe("references", () => {
     Synth.yes,
     {
       dataSources: ["local_file"],
-    }
+    },
   );
 
   testCase.test(
@@ -226,7 +226,7 @@ describe("references", () => {
     [binding.auth0],
     Snapshot.yes,
     Synth.yes,
-    { resources: [] }
+    { resources: [] },
   );
 
   testCase.test(
@@ -254,7 +254,7 @@ describe("references", () => {
     [binding.aws],
     Snapshot.yes,
     Synth.yes,
-    { resources: ["aws_eip"] }
+    { resources: ["aws_eip"] },
   );
 
   testCase.test(
@@ -282,6 +282,6 @@ describe("references", () => {
     [],
     Snapshot.yes,
     Synth.yes,
-    { resources: ["aws_eip"] }
+    { resources: ["aws_eip"] },
   );
 });

@@ -172,7 +172,7 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
   constructor(
     public readonly elementType: AttributeTypeModel,
     public readonly isSingleItem: boolean,
-    private readonly isBlock: boolean
+    private readonly isBlock: boolean,
   ) {
     if (this.struct) {
       this.struct.isSingleItem = this.isSingleItem || false;
@@ -199,7 +199,7 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
         return `new ${this.storedClassType}(this, "${name}", false)`;
       } else {
         return `new cdktf.${uppercaseFirst(
-          this.storedClassType
+          this.storedClassType,
         )}(this, "${name}", false)`;
       }
     }
@@ -269,7 +269,7 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
   constructor(
     public readonly elementType: AttributeTypeModel,
     public readonly isSingleItem: boolean,
-    private readonly isBlock: boolean
+    private readonly isBlock: boolean,
   ) {
     if (this.struct) {
       this.struct.isSingleItem = this.isSingleItem || false;
@@ -296,7 +296,7 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
         return `new ${this.storedClassType}(this, "${name}", true)`;
       } else {
         return `new cdktf.${uppercaseFirst(
-          this.storedClassType
+          this.storedClassType,
         )}(this, "${name}", true)`;
       }
     }
@@ -387,7 +387,7 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
       return `new ${this.storedClassType}(this, "${name}")`;
     } else {
       return `new cdktf.${uppercaseFirst(
-        this.storedClassType
+        this.storedClassType,
       )}(this, "${name}")`;
     }
   }
@@ -415,7 +415,7 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
     }
 
     return `this.get${uppercaseFirst(
-      this.storedClassType
+      this.storedClassType,
     )}Attribute('${name}')`;
   }
 

@@ -118,10 +118,10 @@ type Buffered<T, V> = {
 };
 
 export function isWaitingForUserInputUpdate(
-  update: ProjectUpdate | StackUpdate
+  update: ProjectUpdate | StackUpdate,
 ) {
   return ["waiting for approval", "waiting for sentinel override"].includes(
-    update.type
+    update.type,
   );
 }
 
@@ -191,12 +191,12 @@ export class CdktfProject {
 
   private handleUserUpdate<
     T extends MultiStackUpdate,
-    V extends StackUserInputUpdate
+    V extends StackUserInputUpdate,
   >(
     update: StackUserInputUpdate,
     operations: Record<string, (update: V) => void>,
     originalCallback: (updateToSend: ProjectUpdate) => void,
-    eventType: T["type"]
+    eventType: T["type"],
   ) {
     const callbacks = (update: V) =>
       Object.fromEntries(
@@ -215,11 +215,11 @@ export class CdktfProject {
               // in buffered updates which will never unblock
               setTimeout(
                 () => this.ioHandler.resumeAfterUserInput(update.stackName),
-                0
+                0,
               );
             },
           ];
-        })
+        }),
       );
 
     // always send to buffer, as resumeAfterUserInput() always expects a matching event
@@ -250,7 +250,7 @@ export class CdktfProject {
         | StackApprovalUpdate
         | ExternalStackApprovalUpdate
         | StackSentinelOverrideUpdate
-        | ExternalStackSentinelOverrideUpdate
+        | ExternalStackSentinelOverrideUpdate,
     ) => {
       if (update.type === "external stack approval reply") {
         if (!update.approved) {
@@ -286,7 +286,7 @@ export class CdktfProject {
               },
             },
             cb,
-            "waiting for approval"
+            "waiting for approval",
           );
         } else if (update.type === "waiting for stack sentinel override") {
           this.handleUserUpdate<
@@ -304,7 +304,7 @@ export class CdktfProject {
               },
             },
             cb,
-            "waiting for sentinel override"
+            "waiting for sentinel override",
           );
         }
 
@@ -325,7 +325,7 @@ export class CdktfProject {
 
   public getStackExecutor(
     stack: SynthesizedStack,
-    opts: AutoApproveOptions = {}
+    opts: AutoApproveOptions = {},
   ) {
     const enhanceLogMessage = createEnhanceLogMessage(stack);
     const onLog = this.ioHandler.bufferWhileAwaitingUserInput(this.onLog);
@@ -351,7 +351,7 @@ export class CdktfProject {
         ...acc,
         ...stack.outputsByConstructId,
       }),
-      {} as NestedTerraformOutputs
+      {} as NestedTerraformOutputs,
     );
   }
 
@@ -368,7 +368,7 @@ export class CdktfProject {
       false,
       noColor,
       this.synthOrigin,
-      this.hcl
+      this.hcl,
     );
 
     printAnnotations(stacks);
@@ -398,7 +398,7 @@ export class CdktfProject {
       ? await this.readSynthesizedStacks()
       : await this.synth(opts.noColor);
     const stack = this.getStackExecutor(
-      getSingleStack(stacks, opts?.stackName, "diff")
+      getSingleStack(stacks, opts?.stackName, "diff"),
     );
     await stack.initalizeTerraform(opts.noColor);
 
@@ -407,13 +407,13 @@ export class CdktfProject {
     } catch (e: any) {
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`,
-        e
+        e,
       );
     }
     if (stack.error) {
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`,
-        new Error(stack.error)
+        new Error(stack.error),
       );
     }
 
@@ -422,13 +422,13 @@ export class CdktfProject {
         stackMetadata: stacks.map((stack) =>
           JSON.parse(stack.content)["//"]
             ? JSON.parse(stack.content)["//"].metadata
-            : {}
+            : {},
         ),
         errors: stack.error,
         requiredProviders: stacks.map((stack: any) =>
           JSON.parse(stack.content)["terraform"]
             ? JSON.parse(stack.content)["terraform"].required_providers
-            : {}
+            : {},
         ),
       });
     } catch (e) {
@@ -439,7 +439,7 @@ export class CdktfProject {
   private async execute(
     method: "deploy" | "destroy",
     next: () => Promise<CdktfStack | undefined>,
-    opts: MutationOptions
+    opts: MutationOptions,
   ) {
     // We only support refresh only on deploy, a bit of a leaky abstraction here
     if (opts.refreshOnly && method !== "deploy") {
@@ -473,12 +473,12 @@ export class CdktfProject {
         // wait for all other currently running stacks to complete before propagating that error
         logger.debug("Encountered an error while awaiting stack to finish", e);
         const openStacks = this.stacksToRun.filter(
-          (ex) => ex.currentWorkPromise
+          (ex) => ex.currentWorkPromise,
         );
         logger.debug("Waiting for still running stacks to finish:", openStacks);
         await Promise.allSettled(openStacks.map((ex) => ex.currentWorkPromise));
         logger.debug(
-          "Done waiting for still running stacks. All pending work finished"
+          "Done waiting for still running stacks. All pending work finished",
         );
         throw e;
       }
@@ -487,7 +487,7 @@ export class CdktfProject {
     // We wait for all work to finish even if one of the promises threw an error.
     await ensureAllSettledBeforeThrowing(
       Promise.all(allExecutions),
-      allExecutions
+      allExecutions,
     );
   }
 
@@ -502,31 +502,31 @@ export class CdktfProject {
 
     this.stopAllStacksThatCanNotRunWithout = (stackName: string) => {
       findAllNestedDependantStacks(this.stacksToRun, stackName).forEach(
-        (stack) => stack.stop()
+        (stack) => stack.stop(),
       );
     };
 
     this.stacksToRun = stacksToRun.map((stack) =>
-      this.getStackExecutor(stack, opts)
+      this.getStackExecutor(stack, opts),
     );
 
     const next = opts.ignoreMissingStackDependencies
       ? () =>
           Promise.resolve(
-            this.stacksToRun.filter((stack) => stack.isPending)[0]
+            this.stacksToRun.filter((stack) => stack.isPending)[0],
           )
       : () => getStackWithNoUnmetDependencies(this.stacksToRun);
 
     await this.execute("deploy", next, opts);
 
     const unprocessedStacks = this.stacksToRun.filter(
-      (executor) => executor.isPending
+      (executor) => executor.isPending,
     );
     if (unprocessedStacks.length > 0) {
       throw Errors.External(
         `Some stacks failed to deploy: ${unprocessedStacks
           .map((s) => s.stack.name)
-          .join(", ")}. Please check the logs for more information.`
+          .join(", ")}. Please check the logs for more information.`,
       );
     }
 
@@ -535,13 +535,13 @@ export class CdktfProject {
         stackMetadata: stacksToRun.map((stack) =>
           JSON.parse(stack.content)["//"]
             ? JSON.parse(stack.content)["//"].metadata
-            : {}
+            : {},
         ),
         failedStacks: unprocessedStacks.map((stack) => stack.error),
         requiredProviders: stacksToRun.map((stack: any) =>
           JSON.parse(stack.content)["terraform"]
             ? JSON.parse(stack.content)["terraform"].required_providers
-            : {}
+            : {},
         ),
       });
     } catch (e) {
@@ -561,11 +561,11 @@ export class CdktfProject {
 
     this.stopAllStacksThatCanNotRunWithout = (stackName: string) => {
       const stackExecutor = this.stacksToRun.find(
-        (s) => s.stack.name === stackName
+        (s) => s.stack.name === stackName,
       );
       if (!stackExecutor) {
         throw Errors.Internal(
-          `Could not find stack "${stackName}" that was stopped`
+          `Could not find stack "${stackName}" that was stopped`,
         );
       }
 
@@ -573,11 +573,11 @@ export class CdktfProject {
         this.stopAllStacksThatCanNotRunWithout(dependant);
 
         const dependantStack = this.stacksToRun.find(
-          (s) => s.stack.name === dependant
+          (s) => s.stack.name === dependant,
         );
         if (!dependantStack) {
           throw Errors.Internal(
-            `Could not find stack "${dependant}" that was stopped`
+            `Could not find stack "${dependant}" that was stopped`,
           );
         }
 
@@ -585,25 +585,27 @@ export class CdktfProject {
       });
     };
     this.stacksToRun = stacksToRun.map((stack) =>
-      this.getStackExecutor(stack, opts)
+      this.getStackExecutor(stack, opts),
     );
     const next = opts.ignoreMissingStackDependencies
       ? () =>
           Promise.resolve(
-            this.stacksToRun.filter((stack) => stack.currentState !== "done")[0]
+            this.stacksToRun.filter(
+              (stack) => stack.currentState !== "done",
+            )[0],
           )
       : () => getStackWithNoUnmetDependants(this.stacksToRun);
 
     await this.execute("destroy", next, opts);
 
     const unprocessedStacks = this.stacksToRun.filter(
-      (executor) => executor.isPending
+      (executor) => executor.isPending,
     );
     if (unprocessedStacks.length > 0) {
       throw Errors.External(
         `Some stacks failed to destroy: ${unprocessedStacks
           .map((s) => s.stack.name)
-          .join(", ")}. Please check the logs for more information.`
+          .join(", ")}. Please check the logs for more information.`,
       );
     }
 
@@ -612,13 +614,13 @@ export class CdktfProject {
         stackMetadata: stacksToRun.map((stack) =>
           JSON.parse(stack.content)["//"]
             ? JSON.parse(stack.content)["//"].metadata
-            : {}
+            : {},
         ),
         failedStacks: unprocessedStacks.map((stack) => stack.error),
         requiredProviders: stacksToRun.map((stack: any) =>
           JSON.parse(stack.content)["terraform"]
             ? JSON.parse(stack.content)["terraform"].required_providers
-            : {}
+            : {},
         ),
       });
     } catch (e) {
@@ -642,7 +644,7 @@ export class CdktfProject {
     const stacksToRun = getMultipleStacks(
       stacks,
       opts.stackNames || [],
-      "deploy"
+      "deploy",
     );
 
     if (stacksToRun.length === 0) {
@@ -652,7 +654,7 @@ export class CdktfProject {
     this.stacksToRun = stacksToRun.map((stack) =>
       // Options are empty, because MultipleStackOptions doesn't have any relevant
       // options for `getStackExecutor`, hence defaults are fine
-      this.getStackExecutor(stack, {})
+      this.getStackExecutor(stack, {}),
     );
 
     await this.initializeStacksToRunInSerial();
@@ -662,18 +664,18 @@ export class CdktfProject {
         return {
           [s.stack.name]: output,
         };
-      })
+      }),
     );
 
     return outputs.reduce(
       (acc, curr) => ({ ...acc, ...curr }),
-      {}
+      {},
     ) as NestedTerraformOutputs;
   }
 
   // Serially run terraform init to prohibit text file busy errors for the cache files
   private async initializeStacksToRunInSerial(
-    noColor?: boolean
+    noColor?: boolean,
   ): Promise<void> {
     for (const stack of this.stacksToRun) {
       await stack.initalizeTerraform(noColor);

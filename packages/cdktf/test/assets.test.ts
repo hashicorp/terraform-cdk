@@ -12,7 +12,7 @@ describe("createAssetsFromLocalModules", () => {
       new App({
         stackTraces: false,
         context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
-      })
+      }),
     );
     const stack = new TerraformStack(app, "MyStack");
 
@@ -21,7 +21,7 @@ describe("createAssetsFromLocalModules", () => {
       "moduleOptionsNotExists",
       {
         source: remoteSource,
-      }
+      },
     );
 
     expect(moduleOptionsNotExists.source).toEqual(remoteSource);
@@ -34,7 +34,7 @@ describe("createAssetsFromLocalModules", () => {
       new App({
         stackTraces: false,
         context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
-      })
+      }),
     );
     const stack = new TerraformStack(app, "MyStack");
 
@@ -44,7 +44,7 @@ describe("createAssetsFromLocalModules", () => {
       {
         source: remoteSource,
         skipAssetCreationFromLocalModules: true,
-      }
+      },
     );
 
     expect(moduleOptionsTrue.source).toEqual(remoteSource);
@@ -57,7 +57,7 @@ describe("createAssetsFromLocalModules", () => {
       new App({
         stackTraces: false,
         context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
-      })
+      }),
     );
     const stack = new TerraformStack(app, "MyStack");
 
@@ -67,7 +67,7 @@ describe("createAssetsFromLocalModules", () => {
       {
         source: remoteSource,
         skipAssetCreationFromLocalModules: false,
-      }
+      },
     );
 
     expect(moduleOptionsFalse.source).toEqual(remoteSource);
@@ -83,7 +83,7 @@ describe("createAssetsFromLocalModules", () => {
           cdktfJsonPath: path.resolve(__dirname, "fixtures/app"),
           cdktfRelativeModules: [localSource],
         },
-      })
+      }),
     );
     const stack = new TerraformStack(app, "MyStack");
 
@@ -92,7 +92,7 @@ describe("createAssetsFromLocalModules", () => {
       "moduleOptionsNotExists",
       {
         source: localSource,
-      }
+      },
     );
 
     const terraformModuleAssetSource =
@@ -112,7 +112,7 @@ describe("createAssetsFromLocalModules", () => {
           cdktfJsonPath,
           cdktfRelativeModules: [localSource],
         },
-      })
+      }),
     );
     const stack = new TerraformStack(app, "MyStack");
 
@@ -122,7 +122,7 @@ describe("createAssetsFromLocalModules", () => {
       {
         source: localSource,
         skipAssetCreationFromLocalModules: false,
-      }
+      },
     );
 
     const terraformModuleAssetSource =
@@ -138,7 +138,7 @@ describe("createAssetsFromLocalModules", () => {
       new App({
         stackTraces: false,
         context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
-      })
+      }),
     );
     const stack = new TerraformStack(app, "MyStack");
 
@@ -148,7 +148,7 @@ describe("createAssetsFromLocalModules", () => {
       {
         source: localSource,
         skipAssetCreationFromLocalModules: true,
-      }
+      },
     );
 
     expect(moduleOptionsFalse.source).toEqual(localSource);

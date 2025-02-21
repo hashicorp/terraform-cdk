@@ -8,9 +8,9 @@ export const terraformBinaryName =
 export const terraformVersion = exec(
   terraformBinaryName,
   ["version", "-json"],
-  {}
+  {},
 )
   .then((versionString) => JSON.parse(versionString).terraform_version)
   .catch((err) =>
-    Errors.Usage(`Unknown: Error loading terraform version ${err}`, err)
+    Errors.Usage(`Unknown: Error loading terraform version ${err}`, err),
   );

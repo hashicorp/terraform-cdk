@@ -15,7 +15,7 @@ describe("convert command", () => {
     await mkdtemp(async (cwd) => {
       await fs.writeFile(
         path.resolve(cwd, "cdktf.json"),
-        JSON.stringify({ terraformProviders: [] })
+        JSON.stringify({ terraformProviders: [] }),
       );
       const result = await execa(cdktfBin, ["convert"], {
         stdio: "pipe",
@@ -24,10 +24,10 @@ describe("convert command", () => {
       });
       expect(result.stderr).toEqual("");
       expect(result.stdout).toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`,
       );
       expect(result.stdout).toContain(
-        `import { Resource } from "./.gen/providers/null/resource";`
+        `import { Resource } from "./.gen/providers/null/resource";`,
       );
       expect(result.stdout).toContain(`new Resource(this, "dummy", {});`);
     });
@@ -36,7 +36,7 @@ describe("convert command", () => {
     await mkdtemp(async (cwd) => {
       await fs.writeFile(
         path.resolve(cwd, "cdktf.json"),
-        JSON.stringify({ terraformProviders: ["hashicorp/null@~> 2.0"] })
+        JSON.stringify({ terraformProviders: ["hashicorp/null@~> 2.0"] }),
       );
       const result = await execa(cdktfBin, ["convert"], {
         stdio: "pipe",
@@ -45,10 +45,10 @@ describe("convert command", () => {
       });
       expect(result.stderr).toEqual("");
       expect(result.stdout).not.toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`,
       );
       expect(result.stdout).toContain(
-        `import { Resource } from "./.gen/providers/null/resource";`
+        `import { Resource } from "./.gen/providers/null/resource";`,
       );
       expect(result.stdout).toContain(`new Resource(this, "dummy", {});`);
     });
@@ -62,10 +62,10 @@ describe("convert command", () => {
       });
       expect(result.stderr).toEqual("");
       expect(result.stdout).toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`,
       );
       expect(result.stdout).toContain(
-        `import { Resource } from "./.gen/providers/null/resource";`
+        `import { Resource } from "./.gen/providers/null/resource";`,
       );
       expect(result.stdout).toContain(`new Resource(this, "dummy", {});`);
     });
@@ -121,14 +121,14 @@ describe("convert command", () => {
               }
             }
           }`,
-        }
+        },
       );
       expect(result.stderr).toEqual("");
       expect(result.stdout).not.toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`,
       );
       expect(result.stdout).toContain(
-        `import { Deployment } from "./.gen/providers/kubernetes/deployment";`
+        `import { Deployment } from "./.gen/providers/kubernetes/deployment";`,
       );
       expect(result.stdout).toContain(`new Deployment(this, "myapp", {`);
       expect(result.stdout).toContain(`template: {`);
@@ -185,14 +185,14 @@ describe("convert command", () => {
               }
             }
           }`,
-        }
+        },
       );
       expect(result.stderr).toEqual("");
       expect(result.stdout).not.toContain(
-        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
+        `The following providers are missing schema information and might need manual adjustments to synthesize correctly`,
       );
       expect(result.stdout).toContain(
-        `import { Deployment } from "./.gen/providers/kubernetes/deployment";`
+        `import { Deployment } from "./.gen/providers/kubernetes/deployment";`,
       );
       expect(result.stdout).toContain(`new Deployment(this, "myapp", {`);
       expect(result.stdout).toContain(`template: {`);

@@ -22,7 +22,7 @@ function homeDir() {
     ? path.resolve(process.env.CDKTF_HOME)
     : path.join(
         (os.userInfo().homedir ?? os.homedir()).trim() || "/",
-        ".cdktf"
+        ".cdktf",
       );
 }
 
@@ -66,7 +66,7 @@ async function post(url: string, data: string) {
         res.on("end", () => {
           return ok();
         });
-      }
+      },
     );
 
     req.setTimeout(1000, () => ko(new Error("request timeout")));
@@ -78,7 +78,7 @@ async function post(url: string, data: string) {
 
 export async function sendTelemetry(
   command: string,
-  payload: Record<string, any>
+  payload: Record<string, any>,
 ) {
   const reportParams: ReportParams = {
     command,
@@ -100,7 +100,7 @@ function getId(
   filePath: string,
   key: string,
   forceCreation = false,
-  explanatoryComment?: string
+  explanatoryComment?: string,
 ): string {
   const _uuid = uuidv4(); // create a new UUID in case we don't find one
 
@@ -127,7 +127,7 @@ function getId(
     // we found no id, we add it to the file for future use
     fs.writeFileSync(
       filePath,
-      JSON.stringify({ ...jsonFile, [key]: _uuid }, null, 2)
+      JSON.stringify({ ...jsonFile, [key]: _uuid }, null, 2),
     );
     return _uuid;
   }
@@ -146,7 +146,7 @@ export function getUserId(): string {
 This signature is random, it is not based on any personally identifiable information.
 To create a new signature, you can simply delete this file at any time.
 See https://cdk.tf/telemetry for more
-information on how to disable it.`
+information on how to disable it.`,
   );
 }
 
@@ -187,7 +187,7 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
 
   if (postData.length > MAX_REQUEST_BODY_SIZE) {
     logger.warn(
-      `Skipped sending telemetry as the request body size was ${postData.length} bytes. The limit is ${MAX_REQUEST_BODY_SIZE} bytes`
+      `Skipped sending telemetry as the request body size was ${postData.length} bytes. The limit is ${MAX_REQUEST_BODY_SIZE} bytes`,
     );
     return;
   }

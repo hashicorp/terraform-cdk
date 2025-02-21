@@ -10,8 +10,8 @@ describe("sanitizeVarFiles", () => {
     const cwd = path.join(__dirname, "fixtures");
     expect(
       sanitizeVarFiles(["foo.tfvars"], cwd).map((p) =>
-        p.replace(cwd, "<rootDir>")
-      )
+        p.replace(cwd, "<rootDir>"),
+      ),
     ).toMatchInlineSnapshot(`
       [
         "<rootDir>/terraform.tfvars",

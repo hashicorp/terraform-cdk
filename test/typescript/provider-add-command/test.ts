@@ -32,7 +32,7 @@ describe("provider add command", () => {
         "random@=3.1.3", // this is not the latest version, but theres v0.2.55 of the pre-built provider resulting in exactly this package
       ]);
       expect(res.stdout).toContain(
-        `Checking whether pre-built provider exists for the following constraints:`
+        `Checking whether pre-built provider exists for the following constraints:`,
       );
       expect(res.stdout).toContain(`provider: random`);
       expect(res.stdout).toContain(`version : =3.1.3`);
@@ -40,15 +40,15 @@ describe("provider add command", () => {
       expect(res.stdout).toContain(`cdktf   : 0.10.4`);
       expect(res.stdout).toContain(`Found pre-built provider.`);
       expect(res.stdout).toContain(
-        `Adding package @cdktf/provider-random @ 0.2.55`
+        `Adding package @cdktf/provider-random @ 0.2.55`,
       );
       expect(res.stdout).toContain(
-        `Installing package @cdktf/provider-random @ 0.2.55 using npm.`
+        `Installing package @cdktf/provider-random @ 0.2.55 using npm.`,
       );
       expect(res.stdout).toContain(`Package installed.`);
 
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random")
+        packageJsonWithDependency("@cdktf/provider-random"),
       );
     }, 120_000);
   });
@@ -77,18 +77,18 @@ describe("provider add command", () => {
         `);
 
         expect(res.stdout).toContain(
-          `Local providers have been updated. Running cdktf get to update...`
+          `Local providers have been updated. Running cdktf get to update...`,
         );
 
         const genVersionsFile = JSON.parse(
-          driver.readLocalFile(".gen/versions.json")
+          driver.readLocalFile(".gen/versions.json"),
         );
 
         expect(
-          genVersionsFile["registry.terraform.io/hashicorp/local"]
+          genVersionsFile["registry.terraform.io/hashicorp/local"],
         ).toEqual("2.2.3");
       },
-      240_000
+      240_000,
     );
 
     onWindows(
@@ -108,18 +108,18 @@ describe("provider add command", () => {
               `);
 
         expect(res.stdout).toContain(
-          `Local providers have been updated. Running cdktf get to update...`
+          `Local providers have been updated. Running cdktf get to update...`,
         );
 
         const genVersionsFile = JSON.parse(
-          driver.readLocalFile(".gen/versions.json")
+          driver.readLocalFile(".gen/versions.json"),
         );
 
         expect(
-          genVersionsFile["registry.terraform.io/hashicorp/local"]
+          genVersionsFile["registry.terraform.io/hashicorp/local"],
         ).toEqual("2.2.3");
       },
-      120_000
+      120_000,
     );
   });
 });

@@ -29,7 +29,7 @@ describe("modules", () => {
         }`,
     [binding.awsVpc],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -48,7 +48,7 @@ describe("modules", () => {
         }`,
     [binding.awsVpc],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -78,7 +78,7 @@ describe("modules", () => {
           }`,
     [binding.awsVpc],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -90,7 +90,7 @@ describe("modules", () => {
     `,
     [],
     Snapshot.yes,
-    Synth.never
+    Synth.never,
   );
 
   testCase.test(
@@ -103,7 +103,7 @@ describe("modules", () => {
     `,
     [],
     Snapshot.yes,
-    Synth.never
+    Synth.never,
   );
 
   testCase.test(
@@ -138,6 +138,6 @@ describe("modules", () => {
       `,
     [],
     Snapshot.yes,
-    Synth.never
+    Synth.never,
   );
 });

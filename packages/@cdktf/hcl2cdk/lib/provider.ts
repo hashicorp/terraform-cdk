@@ -8,10 +8,10 @@ export { BlockType, Attribute };
 
 export function getFullProviderName(
   schema: ProviderSchema,
-  providerName: string
+  providerName: string,
 ) {
   return Object.keys(schema.provider_schemas || {}).find((name) =>
-    name.endsWith(providerName)
+    name.endsWith(providerName),
   );
 }
 
@@ -25,10 +25,10 @@ export function getProviderRequirements(plan: Plan) {
     .map((type) => type.split("_")[0]);
 
   const providerRequirements = Array.from(
-    new Set([...explicitProviders, ...implicitProviders])
+    new Set([...explicitProviders, ...implicitProviders]),
   ).reduce(
     (carry, req) => ({ ...carry, [req]: "*" }),
-    {} as Record<string, string>
+    {} as Record<string, string>,
   );
 
   plan.terraform?.forEach(({ required_providers }) =>
@@ -52,8 +52,8 @@ export function getProviderRequirements(plan: Plan) {
           delete providerRequirements[parts.pop() || ""];
         }
         providerRequirements[name] = version || "*";
-      })
-    )
+      }),
+    ),
   );
 
   return providerRequirements;

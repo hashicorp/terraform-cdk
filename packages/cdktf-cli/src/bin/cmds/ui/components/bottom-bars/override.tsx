@@ -30,7 +30,7 @@ export function OverrideBottomBar({ stackName, onOverride, onReject }: Props) {
     (key) => ({
       ...options[key],
       value: key,
-    })
+    }),
   );
   const [highlighted, setHighlighted] = React.useState(selectOptions[0].value);
   const handleHighlight = (item: { value: string }) => {

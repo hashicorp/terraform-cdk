@@ -34,11 +34,11 @@ describe("full integration test", () => {
   it("deploy and output write the same outputs file", async () => {
     const deployOutputsPath = path.resolve(
       driver.workingDirectory,
-      "deploy.outputs.json"
+      "deploy.outputs.json",
     );
     const outputOutputsPath = path.resolve(
       driver.workingDirectory,
-      "output.outputs.json"
+      "output.outputs.json",
     );
 
     await driver.deploy(undefined, deployOutputsPath);

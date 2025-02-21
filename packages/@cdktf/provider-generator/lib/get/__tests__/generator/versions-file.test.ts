@@ -41,7 +41,7 @@ describe("versions.json file generation", () => {
     "generates a file for the %s language",
     async (language) => {
       const workdir = fs.mkdtempSync(
-        path.join(os.tmpdir(), "versions-file.test")
+        path.join(os.tmpdir(), "versions-file.test"),
       );
 
       const options: GetOptions = {
@@ -53,20 +53,20 @@ describe("versions.json file generation", () => {
       process.env.NODE_OPTIONS = "--max-old-space-size=16384";
       const constructMaker = new ConstructsMaker(
         options,
-        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
       );
 
       await constructMaker.generate(constraints);
 
       const output = fs.readFileSync(
         path.join(workdir, "versions.json"),
-        "utf-8"
+        "utf-8",
       );
       expect(Object.keys(JSON.parse(output))).toEqual(
         expect.arrayContaining(
-          constraints.map((c) => `registry.terraform.io/${c.fqn}`)
-        )
+          constraints.map((c) => `registry.terraform.io/${c.fqn}`),
+        ),
       );
-    }
+    },
   );
 });
