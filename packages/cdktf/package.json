@@ -108,7 +108,7 @@
         "@types/jest": "29.5.14",
         "@types/json-stable-stringify": "1.1.0",
         "@types/minimatch": "5.1.2",
-        "@types/node": "18.19.74",
+        "@types/node": "18.19.76",
         "@types/semver": "7.5.8",
         "@typescript-eslint/eslint-plugin": "4.33.0",
         "@typescript-eslint/parser": "4.33.0",
@@ -120,13 +120,13 @@
         "jsii": "5.4.31",
         "jsii-docgen": "10.4.20",
         "jsii-pacmak": "1.102.0",
-        "ts-jest": "29.2.5",
+        "ts-jest": "29.2.6",
         "typescript": "5.2.2"
     },
     "dependencies": {
         "archiver": "7.0.1",
         "json-stable-stringify": "1.2.1",
-        "semver": "7.6.3"
+        "semver": "7.7.1"
     },
     "bundledDependencies": [
         "archiver",
