@@ -13,7 +13,7 @@
         "package:js": "lerna run package:js && tools/collect-dist.sh",
         "package-windows": "lerna run package && tools\\collect-dist.bat",
         "pretest": "yarn lint:workspace && yarn lint:prettier",
-        "test": "lerna run --scope 'cdktf*' --scope @cdktf/* test",
+        "test": "yarn pretest && lerna run --scope 'cdktf*' --scope @cdktf/* test",
         "test:ci": "lerna run --scope 'cdktf*' --scope @cdktf/* test:ci",
         "test:update": "npx lerna exec --parallel --no-bail --scope 'cdktf*' --scope '@cdktf/*' npx 'jest -u'",
         "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope 'cdktf*' watch-preserve-output",

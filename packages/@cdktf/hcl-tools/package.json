@@ -17,7 +17,7 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
-    "build": "tsc && ./build-go.sh",
+    "build": "yarn prebuild && tsc && ./build-go.sh",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "test": "jest",

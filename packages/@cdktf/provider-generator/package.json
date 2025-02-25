@@ -8,7 +8,7 @@
         "access": "public"
     },
     "scripts": {
-        "build": "tsc",
+        "build": "tsc && yarn postbuild",
         "postbuild": "node ./lib/__tests__/edge-provider-schema/cli.js ./edge-provider-bindings",
         "watch": "tsc -w",
         "watch-preserve-output": "tsc -w --preserveWatchOutput",
