@@ -23,4 +23,4 @@ if (!globalThis.crypto) {
 	};
 }
 
-require("./wasm_exec");
+require("./wasm_exec.js");
