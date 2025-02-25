@@ -8504,8 +8504,10 @@ __metadata:
     "@cdktf/provider-generator": "npm:0.0.0"
     "@eslint/eslintrc": "npm:^3.2.0"
     "@eslint/js": "npm:^9.20.0"
+    "@types/prettier": "npm:2.7.3"
     cdktf: "npm:0.0.0"
     log4js: "npm:^6.7.0"
+    prettier: "npm:2.8.8"
     ts-node: "npm:^10.9.1"
     typescript: "npm:5.4.5"
   languageName: unknown
