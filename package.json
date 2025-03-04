@@ -77,14 +77,17 @@
     },
     "devDependencies": {
         "@types/prettier": "2.6.0",
+        "archiver": "link:./does-not-exist",
         "changelog-parser": "^2.8.1",
         "eslint": "^9.20.0",
         "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-monorepo": "^0.3.2",
         "husky": ">=6",
+        "json-stable-stringify": "link:./does-not-exist",
         "lerna": "^8.1.9",
         "lint-staged": ">=10",
         "prettier": "^3.5.1",
+        "semver": "link:./does-not-exist",
         "standard-version": "^9.5.0"
     },
     "resolutions": {

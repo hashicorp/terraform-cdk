@@ -4638,6 +4638,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"archiver@link:./does-not-exist::locator=root%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "archiver@link:./does-not-exist::locator=root%40workspace%3A."
+  languageName: node
+  linkType: soft
+
 "archiver@npm:7.0.1":
   version: 7.0.1
   resolution: "archiver@npm:7.0.1"
@@ -11642,6 +11648,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"json-stable-stringify@link:./does-not-exist::locator=root%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "json-stable-stringify@link:./does-not-exist::locator=root%40workspace%3A."
+  languageName: node
+  linkType: soft
+
 "json-stable-stringify@npm:1.2.1":
   version: 1.2.1
   resolution: "json-stable-stringify@npm:1.2.1"
@@ -14780,14 +14792,17 @@ __metadata:
   resolution: "root@workspace:."
   dependencies:
     "@types/prettier": "npm:2.6.0"
+    archiver: "link:./does-not-exist"
     changelog-parser: "npm:^2.8.1"
     eslint: "npm:^9.20.0"
     eslint-plugin-import: "npm:^2.31.0"
     eslint-plugin-monorepo: "npm:^0.3.2"
     husky: "npm:>=6"
+    json-stable-stringify: "link:./does-not-exist"
     lerna: "npm:^8.1.9"
     lint-staged: "npm:>=10"
     prettier: "npm:^3.5.1"
+    semver: "link:./does-not-exist"
     standard-version: "npm:^9.5.0"
   languageName: unknown
   linkType: soft
@@ -14957,6 +14972,12 @@ __metadata:
   checksum: 10c0/7cc8840207a19280bb831f104032e45ba676869e39c89675dd179df83cdfdb64516f7927f657dbb0e65a463c5918b1edad8f9fe613c1123a2d39b181e6d28ed8
   languageName: node
   linkType: hard
+
+"semver@link:./does-not-exist::locator=root%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "semver@link:./does-not-exist::locator=root%40workspace%3A."
+  languageName: node
+  linkType: soft
 
 "semver@npm:2 || 3 || 4 || 5, semver@npm:^5.5.0, semver@npm:^5.6.0":
   version: 5.7.2
