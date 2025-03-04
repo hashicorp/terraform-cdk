@@ -170,29 +170,34 @@ func NewCloudBackendStack(scope constructs.Construct, name string) cdktf.Terrafo
 
 </CodeTabs>
 
-When you call `cdktf synth`, CDKTF generates a JSON file called `remote.tf.json` in the `cdktf.out` stack sub-directory containing the synthesized CDKTF code. For example, CDKTF creates the output for a stack called `hello-terraform` in `cdktf.out/stacks/hello-terraform`.
+When you call `cdktf synth`, CDKTF stores the backend metadata like the organization name and workspace name in the `cdk.tf.json` file within the `cdktf.out` stack sub-directory containing the synthesized CDKTF code. For example, CDKTF creates the output for a stack called `hello-terraform` in `cdktf.out/stacks/hello-terraform`.
 
 The following example shows the stack output directory.
 
 ```bash
 tree .
 .
-├── cdk.tf.json
-└── remote.tf.json
+└── cdk.tf.json
 ```
 
-The following example shows the generated `remote.tf.json` file.
+The following example shows a relevant snippet of the generated `cdk.tf.json` file.
 
 ```json
 {
+  "//": {
+    "metadata": {
+      "backend": "cloud",
+      "cloud": "tfc",
+      "stackName": "hello-terraform",
+      "version": "0.20.11"
+    }
+  },
   "terraform": {
-    "backend": {
-      "remote": {
-        "hostname": "app.terraform.io",
-        "organization": "company",
-        "workspaces": {
-          "name": "my-app-prod"
-        }
+    "cloud": {
+      "hostname": "app.terraform.io",
+      "organization": "company",
+      "workspaces": {
+        "name": "hello-terraform"
       }
     }
   }
