@@ -9,3 +9,6 @@ test
 # Exclude jsii outdir
 dist
 coverage
+
+# Exclude scripts folder
+scripts

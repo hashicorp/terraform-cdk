@@ -16,7 +16,9 @@
         "lint": "eslint .",
         "test": "jest --passWithNoTests && yarn lint",
         "test:ci": "jest --ci --passWithNoTests && yarn lint",
-        "dist-clean": "rm -rf dist"
+        "dist-clean": "rm -rf dist",
+        "build:scripts": "tsc ./scripts/link-bundled-dependencies.ts",
+        "prepack": "yarn build:scripts && node ./scripts/link-bundled-dependencies.js"
     },
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
