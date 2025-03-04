@@ -90,13 +90,11 @@ jobs:
         if: startsWith(matrix.target, '@examples/python') # lint:examples ensures this prefix
         run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
       - name: compile
-        run: yarn build
+        run: yarn build-and-package
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
-      - name: create bundle
-        run: yarn package
       - name: examples integration tests
         run: test/run-against-dist node tools/build-example.js ${TEST_TARGET}
         env:
