@@ -69,8 +69,7 @@ jobs:
       - name: compile
         run: |
           tools/align-version.sh
-          yarn build
-          yarn package
+          yarn build-and-package
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}

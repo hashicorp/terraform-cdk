@@ -64,8 +64,7 @@ jobs:
       - name: build and package
         if: ${{ !inputs.skip_setup }}
         run: |
-          yarn build
-          yarn package
+          yarn build-and-package
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}

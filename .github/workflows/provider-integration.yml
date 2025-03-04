@@ -66,8 +66,7 @@ jobs:
         run: |
           yarn install --immutable
           tools/align-version.sh "-dev.$GITHUB_RUN_ID"
-          yarn build
-          yarn package
+          yarn build-and-package
         env:
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
       - name: install test dependencies to warm up cache for matrix jobs to use

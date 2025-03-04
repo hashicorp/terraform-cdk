@@ -64,8 +64,7 @@ jobs:
       - name: create bundle
         run: |
           yarn install --immutable
-          yarn build
-          yarn package
+          yarn build-and-package
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Add sourcemap and commit info to sentry
