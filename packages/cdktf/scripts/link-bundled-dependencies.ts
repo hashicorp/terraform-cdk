@@ -50,6 +50,9 @@ function copyDir(src: string, dest: string) {
   });
 }
 
+/**
+ * Check if folder exists and isn't empty
+ */
 function isValidModule(path: string): boolean {
   if (!fs.existsSync(path)) return false;
 
