@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 // Imported from: https://github.com/aws/language-servers/blob/main/script/link_bundled_dependencies.ts
 import * as fs from "fs";
 import * as path from "path";
