@@ -54,8 +54,7 @@ jobs:
         run: yarn install
       - name: build and package
         run: |
-          yarn build
-          yarn package
+          yarn build-and-package
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
