@@ -3765,6 +3765,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/json-stable-stringify@link:./does-not-exist::locator=root%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@types/json-stable-stringify@link:./does-not-exist::locator=root%40workspace%3A."
+  languageName: node
+  linkType: soft
+
 "@types/json-stable-stringify@npm:1.1.0":
   version: 1.1.0
   resolution: "@types/json-stable-stringify@npm:1.1.0"
@@ -3989,6 +3995,12 @@ __metadata:
   checksum: 10c0/f86de504945b8fc41b1f391f847444d542e2e4067cf7e5d9bfeb5d2d2393d3203b1161bc0ef3b1e104d828dabfb60baf06e8d2c27e27ff7e8258e6e618d8c4ec
   languageName: node
   linkType: hard
+
+"@types/semver@link:./does-not-exist::locator=root%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@types/semver@link:./does-not-exist::locator=root%40workspace%3A."
+  languageName: node
+  linkType: soft
 
 "@types/semver@npm:7.5.8":
   version: 7.5.8
@@ -14791,7 +14803,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root@workspace:."
   dependencies:
+    "@types/json-stable-stringify": "link:./does-not-exist"
     "@types/prettier": "npm:2.6.0"
+    "@types/semver": "link:./does-not-exist"
     archiver: "link:./does-not-exist"
     changelog-parser: "npm:^2.8.1"
     eslint: "npm:^9.20.0"

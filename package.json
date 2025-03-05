@@ -76,7 +76,9 @@
         ]
     },
     "devDependencies": {
+        "@types/json-stable-stringify": "link:./does-not-exist",
         "@types/prettier": "2.6.0",
+        "@types/semver": "link:./does-not-exist",
         "archiver": "link:./does-not-exist",
         "changelog-parser": "^2.8.1",
         "eslint": "^9.20.0",
