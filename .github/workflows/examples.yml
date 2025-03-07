@@ -84,6 +84,8 @@ jobs:
       - name: installing dependencies
         run: |
           yarn install --immutable
+        env:
+          YARN_ENABLE_HARDENED_MODE: 0
       - name: lint
         run: yarn lint:examples
       - name: align version (Python only)
