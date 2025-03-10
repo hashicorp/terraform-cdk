@@ -84,7 +84,7 @@
         "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-monorepo": "^0.3.2",
         "husky": ">=6",
-        "lerna": "^6.6.1",
+        "lerna": "8.1.9",
         "lint-staged": ">=10",
         "prettier": "^2.8.8",
         "standard-version": "^9.5.0"
