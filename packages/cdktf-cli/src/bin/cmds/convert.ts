@@ -25,15 +25,15 @@ class Command extends BaseCommand {
     args
       .example(
         "cat main.tf | cdktf convert  --provider integrations/github",
-        "Takes the HCL content of main.tf and converts it to CDK for Terraform content and prints it"
+        "Takes the HCL content of main.tf and converts it to CDK for Terraform content and prints it",
       )
       .example(
         "cat main.tf | cdktf convert --provider hashicorp/aws > imported.ts",
-        "Takes the HCL content of main.tf and converts it to CDK for Terraform content in imported.ts"
+        "Takes the HCL content of main.tf and converts it to CDK for Terraform content in imported.ts",
       )
       .example(
         "cat main.tf | cdktf convert --provider 'hashicorp/aws@ ~>3.62.0' 'integrations/github@ ~>4.16.0' --language python > imported.py",
-        "Takes the HCL content of main.tf and converts it to CDK for Terraform content in imported.py"
+        "Takes the HCL content of main.tf and converts it to CDK for Terraform content in imported.py",
       )
       .option("language", {
         choices: ["typescript", "python", "csharp", "java", "go"],

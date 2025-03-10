@@ -20,7 +20,7 @@ const CDKTF_CLI = path.resolve(
   "..",
   "..",
   "packages",
-  "cdktf-cli"
+  "cdktf-cli",
 );
 
 const createFiles = (cwd: string, files: [string, string][]) => {
@@ -176,9 +176,9 @@ describe.skip("convertProject", () => {
       providerRequirements.map((spec) =>
         ConstructsMakerProviderTarget.from(
           new TerraformProviderConstraint(spec),
-          LANGUAGES[0]
-        )
-      )
+          LANGUAGES[0],
+        ),
+      ),
     );
     cachedProviderSchema = providerSchema;
   });
@@ -232,16 +232,16 @@ describe.skip("convertProject", () => {
       {
         language: "typescript",
         providerSchema: cachedProviderSchema,
-      }
+      },
     );
 
     fs.writeFileSync(path.resolve(targetPath, "main.ts"), code(mainTs), "utf8");
     fs.writeFileSync(
       path.resolve(targetPath, "cdktf.json"),
       JSON.stringify(
-        cdktfJson(require(path.resolve(targetPath, "cdktf.json")))
+        cdktfJson(require(path.resolve(targetPath, "cdktf.json"))),
       ),
-      "utf8"
+      "utf8",
     );
 
     const currentPlan = getCdkPlan(targetPath);

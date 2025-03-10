@@ -5,7 +5,7 @@ import { AttributeModel } from "./models/attribute-model";
 type AttributeIdentifier = [string, Set<string>];
 const equalAttributeIdentifiers = (
   x: AttributeIdentifier,
-  y: AttributeIdentifier
+  y: AttributeIdentifier,
 ) =>
   x[0] === y[0] &&
   x[1].size === y[1].size &&
@@ -25,7 +25,7 @@ function getAttributeIdentifier(model: AttributeModel): AttributeIdentifier {
   return [
     model.terraformName,
     new Set(
-      model.type.struct!.attributes.map((a) => `${a.name}:${typeStructure(a)}`)
+      model.type.struct!.attributes.map((a) => `${a.name}:${typeStructure(a)}`),
     ),
   ];
 }
@@ -44,7 +44,7 @@ export function detectAttributeLoops(attributes: AttributeModel[]): {
   function depthFirstSearch(
     attribute: AttributeModel,
     path: string[] = [],
-    knownStructs: { [attributePath: string]: AttributeIdentifier } = {}
+    knownStructs: { [attributePath: string]: AttributeIdentifier } = {},
   ) {
     const name = attribute.terraformName;
     const struct = attribute.type.struct;
@@ -55,7 +55,7 @@ export function detectAttributeLoops(attributes: AttributeModel[]): {
     const structIdentifier = getAttributeIdentifier(attribute);
     // Detect if we visited this already
     const visited = Object.entries(knownStructs).find(([, attrIdentifier]) =>
-      equalAttributeIdentifiers(structIdentifier, attrIdentifier)
+      equalAttributeIdentifiers(structIdentifier, attrIdentifier),
     );
 
     if (visited) {
@@ -70,7 +70,7 @@ export function detectAttributeLoops(attributes: AttributeModel[]): {
           ...knownStructs,
           // We haven't visited this yet, add it to the list of known structs
           [[...path, name].join(".")]: structIdentifier,
-        })
+        }),
       );
     }
   }

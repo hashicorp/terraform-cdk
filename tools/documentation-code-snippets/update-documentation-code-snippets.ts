@@ -35,10 +35,10 @@ const CODE_BLOCK_SOURCE_PREFIX = "DOCS_BLOCK_"; // used to indicate that those w
 const CODE_BLOCK_SOURCE_START = `${CODE_BLOCK_SOURCE_PREFIX}START`;
 const CODE_BLOCK_SOURCE_END = `${CODE_BLOCK_SOURCE_PREFIX}END`;
 const CODE_BLOCK_START_REGEX = new RegExp(
-  `${CODE_BLOCK_SOURCE_START}:(?<snippetIds>[^ ]*)*\s*`
+  `${CODE_BLOCK_SOURCE_START}:(?<snippetIds>[^ ]*)*\s*`,
 );
 const CODE_BLOCK_END_REGEX = new RegExp(
-  `${CODE_BLOCK_SOURCE_END}:(?<snippetIds>[^ ]*)*\s*`
+  `${CODE_BLOCK_SOURCE_END}:(?<snippetIds>[^ ]*)*\s*`,
 );
 
 // returns an async iterator that re-reads the file for every new match.
@@ -46,7 +46,7 @@ const CODE_BLOCK_END_REGEX = new RegExp(
 // query for the next target block config (the comment string indicating what to replace) while automatically keeping track where we already were
 // (as the file length could change, well only after our lastIndex, but still the "tail" of the file can change and mix up things)
 async function* allCodeBlockTargetsInFile(
-  filename: string
+  filename: string,
 ): AsyncIterable<CodeBlockTarget> {
   let lastIndex = 0;
 
@@ -71,7 +71,7 @@ async function* allCodeBlockTargetsInFile(
 }
 
 async function findCodeBlockTargetsInFile(
-  filename: string
+  filename: string,
 ): Promise<CodeBlockTarget[]> {
   const blocks: CodeBlockTarget[] = [];
   for await (const i of allCodeBlockTargetsInFile(filename)) blocks.push(i);
@@ -99,17 +99,19 @@ function getAllUniqueTargetDocsFileNames(targets: CodeBlockTarget[]): string[] {
 
 function getSnippedIdsReferencedInSourcePath(
   targets: CodeBlockTarget[],
-  sourcePath: string
+  sourcePath: string,
 ) {
   return Array.from(
     new Set(
-      targets.filter((t) => t.sourcePath === sourcePath).map((t) => t.snippetId)
-    )
+      targets
+        .filter((t) => t.sourcePath === sourcePath)
+        .map((t) => t.snippetId),
+    ),
   );
 }
 
 async function fileContainsCodeBlockSources(
-  filename: string
+  filename: string,
 ): Promise<boolean> {
   try {
     const content = (await fs.readFile(filename)).toString();
@@ -121,13 +123,13 @@ async function fileContainsCodeBlockSources(
         return true;
       }
       throw new Error(
-        `file ${filename} seems to contain a code block source (starting with "${CODE_BLOCK_SOURCE_PREFIX}") but does not contain at least one start and one end comment`
+        `file ${filename} seems to contain a code block source (starting with "${CODE_BLOCK_SOURCE_PREFIX}") but does not contain at least one start and one end comment`,
       );
     }
     return false;
   } catch (e) {
     console.warn(
-      `Warning: Could not read file "${filename}". Maybe it was recently deleted and Git does not know about this yet. Skipping that file`
+      `Warning: Could not read file "${filename}". Maybe it was recently deleted and Git does not know about this yet. Skipping that file`,
     );
     return false;
   }
@@ -141,7 +143,7 @@ type Snippet = {
 
 async function collectSnippetsFromFile(
   filename: string,
-  sourcePath: string
+  sourcePath: string,
 ): Promise<Snippet[]> {
   const content = (await fs.readFile(filename)).toString();
   const lines = content.split("\n");
@@ -165,7 +167,7 @@ async function collectSnippetsFromFile(
             throw new Error(
               `Encountered ${CODE_BLOCK_SOURCE_START} in line ${
                 index + 1
-              } of ${filename} containing snippet id "${id}" which most recently already had a START marker. Did you forget to close the previous one?\nFull line:\n${line}`
+              } of ${filename} containing snippet id "${id}" which most recently already had a START marker. Did you forget to close the previous one?\nFull line:\n${line}`,
             );
           }
         } else {
@@ -186,14 +188,14 @@ async function collectSnippetsFromFile(
             throw new Error(
               `Encountered ${CODE_BLOCK_SOURCE_START} in line ${
                 index + 1
-              } of ${filename} containing snippet id "${id}" which most recently already had an END marker. Did you forget to open the snippet again?\nFull line:\n${line}`
+              } of ${filename} containing snippet id "${id}" which most recently already had an END marker. Did you forget to open the snippet again?\nFull line:\n${line}`,
             );
           }
         } else {
           throw new Error(
             `Encountered ${CODE_BLOCK_SOURCE_START} in line ${
               index + 1
-            } of ${filename} containing snippet id "${id}" which did not had a START marker yet. Did you forget to start the snippet capture for this id?\nFull line:\n${line}`
+            } of ${filename} containing snippet id "${id}" which did not had a START marker yet. Did you forget to start the snippet capture for this id?\nFull line:\n${line}`,
           );
         }
       }
@@ -210,7 +212,7 @@ async function collectSnippetsFromFile(
   for (const [id, snippet] of Object.entries(snippetsMap)) {
     if (snippet.active)
       throw new Error(
-        `The snippet with the id ${id} is not closed properly. Missing an END marker for it in file ${filename}`
+        `The snippet with the id ${id} is not closed properly. Missing an END marker for it in file ${filename}`,
       );
   }
 
@@ -224,7 +226,7 @@ async function collectSnippetsFromFile(
       }, Number.MAX_VALUE);
 
       const whitespaceTrimmedLines = snippet.lines.map((line) =>
-        line.substring(whiteSpacesToRemove)
+        line.substring(whiteSpacesToRemove),
       );
 
       function numberOfPrefixedTabs(input: string) {
@@ -254,7 +256,7 @@ async function collectSnippetsFromFile(
           .join("\n"),
         sourcePath,
       };
-    }
+    },
   );
 
   return snippets;
@@ -262,7 +264,7 @@ async function collectSnippetsFromFile(
 
 async function main() {
   console.log(
-    `Looking for #NEXT_CODE_BLOCK_SOURCE comments in all *.mdx files in: ${DOCS_DIRECTORY}\n`
+    `Looking for #NEXT_CODE_BLOCK_SOURCE comments in all *.mdx files in: ${DOCS_DIRECTORY}\n`,
   );
 
   const codeBlockTargets = await getAllCodeBlockTargets();
@@ -272,7 +274,7 @@ async function main() {
       sourcePath,
       snippetIds: getSnippedIdsReferencedInSourcePath(
         codeBlockTargets,
-        sourcePath
+        sourcePath,
       ),
     }));
 
@@ -280,7 +282,7 @@ async function main() {
     `The code block targets found are expecting snippets in the following directories:
 ${requestedSnippets
   .map((s) => `${s.sourcePath} (ids: ${s.snippetIds.join(",")})`)
-  .join("\n")}\n`
+  .join("\n")}\n`,
   );
 
   console.log("Trying to collect the aforementioned snippets..");
@@ -317,7 +319,7 @@ ${requestedSnippets
       sourceFilesWithCodeBlock.length
     } source files with code blocks:\n${sourceFilesWithCodeBlock
       .map((sf) => sf.filename)
-      .join("\n")}\n`
+      .join("\n")}\n`,
   );
 
   console.log("Parsing the content of files with source for code blocks..");
@@ -326,18 +328,18 @@ ${requestedSnippets
   for (const file of sourceFilesWithCodeBlock) {
     const newSnippets = await collectSnippetsFromFile(
       file.filename,
-      file.sourcePath
+      file.sourcePath,
     );
 
     // validate if new snippets that come in don't overwrite an existing snippet
     const alreadyExists = newSnippets.find((n) =>
       snippets.find(
-        (s) => n.snippetId === s.snippetId && n.sourcePath === s.sourcePath
-      )
+        (s) => n.snippetId === s.snippetId && n.sourcePath === s.sourcePath,
+      ),
     );
     if (alreadyExists) {
       throw new Error(
-        `The snippet id "${alreadyExists.snippetId}" appears in multiple files in sourcePath ${alreadyExists.sourcePath}. Snippets can only be defined in a single of those files at the moment.`
+        `The snippet id "${alreadyExists.snippetId}" appears in multiple files in sourcePath ${alreadyExists.sourcePath}. Snippets can only be defined in a single of those files at the moment.`,
       );
     }
 
@@ -351,11 +353,11 @@ ${requestedSnippets
     for (const id of req.snippetIds) {
       if (
         !snippets.find(
-          (snip) => snip.snippetId === id && snip.sourcePath === req.sourcePath
+          (snip) => snip.snippetId === id && snip.sourcePath === req.sourcePath,
         )
       ) {
         throw new Error(
-          `Snippet with id "${id}" was expected to exist in ${req.sourcePath} but hasn't been found.`
+          `Snippet with id "${id}" was expected to exist in ${req.sourcePath} but hasn't been found.`,
         );
       }
     }
@@ -363,17 +365,17 @@ ${requestedSnippets
 
   const getSnippet = (id: string, sourcePath: string): Snippet => {
     const snippet = snippets.find(
-      (s) => s.snippetId === id && s.sourcePath === sourcePath
+      (s) => s.snippetId === id && s.sourcePath === sourcePath,
     );
     if (!snippet)
       throw new Error(
-        `Unexpected error: Could not find snippet with id ${id} and sourcePath ${sourcePath}, although it should be there.`
+        `Unexpected error: Could not find snippet with id ${id} and sourcePath ${sourcePath}, although it should be there.`,
       );
     return snippet;
   };
 
   console.log(
-    "Updating all code block targets with data collected for the snippets.."
+    "Updating all code block targets with data collected for the snippets..",
   );
   // Update all code block targets with the data collected for the snippets
 
@@ -394,7 +396,7 @@ ${requestedSnippets
       const res = codeSnippetRegex.exec(content);
       if (!res) {
         throw new Error(
-          `Expected to find code block after index ${target.replaceAfterCharIndex} in file ${target.docsFileName} but could not find a code block for language ${target.language}`
+          `Expected to find code block after index ${target.replaceAfterCharIndex} in file ${target.docsFileName} but could not find a code block for language ${target.language}`,
         );
       }
       const start = res.index;
@@ -405,14 +407,14 @@ ${requestedSnippets
 
       if (oldCode === newCode) {
         console.log(
-          `Snippet with id ${target.snippetId} for language ${target.language} did not change`
+          `Snippet with id ${target.snippetId} for language ${target.language} did not change`,
         );
       } else {
         const newContent =
           content.substring(0, start) + newCode + content.substring(end);
         await fs.writeFile(target.docsFileName, newContent);
         console.log(
-          `Snippet with id ${target.snippetId} for language ${target.language} has been updated`
+          `Snippet with id ${target.snippetId} for language ${target.language} has been updated`,
         );
       }
     }

@@ -11,7 +11,7 @@ describe("provider", () => {
     `provider "docker" {}`,
     [binding.docker],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
   testCase.test(
     "null provider",
@@ -20,7 +20,7 @@ describe("provider", () => {
   `,
     [binding.null],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -41,7 +41,7 @@ describe("provider", () => {
     [binding.aws],
     Snapshot.yes,
     Synth.yes,
-    {}
+    {},
   );
 
   testCase.test(
@@ -74,7 +74,7 @@ describe("provider", () => {
     Synth.never,
     {
       resources: ["aws_instance"],
-    }
+    },
   );
 
   testCase.test(
@@ -101,6 +101,6 @@ describe("provider", () => {
     [binding.auth0],
     Snapshot.yes,
     Synth.yes,
-    {}
+    {},
   );
 });

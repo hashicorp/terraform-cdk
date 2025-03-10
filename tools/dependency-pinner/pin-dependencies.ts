@@ -31,12 +31,12 @@ const packageJsons = glob.sync(
   "{packages/*/package.json,packages/@cdktf/*/package.json,examples/*/*/package.json}",
   {
     cwd: PROJECT_ROOT,
-  }
+  },
 );
 
 packageJsons.forEach((packageJsonPath) => {
   const pkg = JSON.parse(
-    fs.readFileSync(path.join(PROJECT_ROOT, packageJsonPath), "utf8")
+    fs.readFileSync(path.join(PROJECT_ROOT, packageJsonPath), "utf8"),
   );
 
   Object.entries(pkg.dependencies || {}).forEach(([dep, version]) => {
@@ -66,6 +66,6 @@ packageJsons.forEach((packageJsonPath) => {
   fs.writeFileSync(
     path.join(PROJECT_ROOT, packageJsonPath),
     JSON.stringify(pkg, null, 2),
-    "utf8"
+    "utf8",
   );
 });

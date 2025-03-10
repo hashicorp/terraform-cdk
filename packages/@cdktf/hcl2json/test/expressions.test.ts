@@ -68,8 +68,8 @@ describe("getReferencesInExpression", () => {
 
     return expect(
       references.map((ref) =>
-        input.substring(ref.startPosition, ref.endPosition)
-      )
+        input.substring(ref.startPosition, ref.endPosition),
+      ),
     ).toMatchInlineSnapshot(`
               [
                 "var.settings",
@@ -82,7 +82,7 @@ describe("getReferencesInExpression", () => {
 
   test("fails on malformed expressions", () => {
     return expect(
-      getReferencesInExpression("main.tf", '"${module.foo.output"')
+      getReferencesInExpression("main.tf", '"${module.foo.output"'),
     ).rejects.toMatchSnapshot();
   });
 });
@@ -138,13 +138,13 @@ describe("getExpressionAst", () => {
     ["list expressions", `"\${ [var.tags.app, var.tags.env] }"`],
   ])("%s", async (_, input) => {
     return expect(
-      getExpressionAst("main.tf", input)
+      getExpressionAst("main.tf", input),
     ).resolves.toMatchSnapshot();
   });
 
   test("fails on malformed expressions", async () => {
     return expect(
-      getExpressionAst("main.tf", '"${module.foo.output"')
+      getExpressionAst("main.tf", '"${module.foo.output"'),
     ).rejects.toMatchSnapshot();
   });
 });

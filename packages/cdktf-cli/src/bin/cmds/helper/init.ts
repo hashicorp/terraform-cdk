@@ -56,7 +56,7 @@ export function checkForEmptyDirectory(dir: string) {
       .length > 0
   ) {
     console.error(
-      chalkColour`{redBright ERROR: Cannot initialize a project in a non-empty directory}`
+      chalkColour`{redBright ERROR: Cannot initialize a project in a non-empty directory}`,
     );
     process.exit(1);
   }
@@ -112,25 +112,25 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const tfVersion = await getTerraformVersion();
   if (tfVersion && semver.lt(tfVersion, "1.1.0") && isRemote) {
     throw Errors.Usage(
-      `Terraform version ${tfVersion} is not supported for remote configuration. We use the CloudBackend to configure the connection to Terraform Cloud, which is only supported in Terraform 1.1 and higher. Please upgrade to version 1.1.0 or higher or use the local mode by passing --local (afterwards you can use the RemoteBackend to work with Terraform Cloud without upgrading your Terraform version.`
+      `Terraform version ${tfVersion} is not supported for remote configuration. We use the CloudBackend to configure the connection to Terraform Cloud, which is only supported in Terraform 1.1 and higher. Please upgrade to version 1.1.0 or higher or use the local mode by passing --local (afterwards you can use the RemoteBackend to work with Terraform Cloud without upgrading your Terraform version.`,
     );
   }
 
   // Gather information about the template and the project
   const templateInfo = await getTemplate(
     template,
-    argv.nonInteractive ?? false
+    argv.nonInteractive ?? false,
   );
   telemetryData.template = templateInfo.Name;
 
   if (!argv.projectName && argv.nonInteractive) {
     throw Errors.Usage(
-      "You are trying to initialize a project without specifying a project name in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. If this happens using convert, please report it as a bug. Please specify a project name using the --project-name option."
+      "You are trying to initialize a project without specifying a project name in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. If this happens using convert, please report it as a bug. Please specify a project name using the --project-name option.",
     );
   }
   if (!argv.projectDescription && argv.nonInteractive) {
     throw Errors.Usage(
-      "You are trying to initialize a project without specifying a project description in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. If this happens using convert, please report it as a bug. Please specify a project name using the --project-description option."
+      "You are trying to initialize a project without specifying a project description in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. If this happens using convert, please report it as a bug. Please specify a project name using the --project-description option.",
     );
   }
 
@@ -138,7 +138,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     token,
     terraformRemoteHostname,
     argv.projectName,
-    argv.projectDescription
+    argv.projectDescription,
   );
   const projectId = uuid();
   telemetryData.projectId = projectId;
@@ -147,7 +147,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
   if (!fromTerraformProject) {
     if (templateInfo.Name === "typescript") {
       fromTerraformProject = await getTerraformProject(
-        argv.nonInteractive ?? false
+        argv.nonInteractive ?? false,
       );
     }
   } else if (fromTerraformProject === "no") {
@@ -167,7 +167,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     if (isRemote) {
       telemetryData.isRemote = Boolean(token);
       console.log(
-        chalkColour`\n{whiteBright Setting up a Cloud Backend for your project.}`
+        chalkColour`\n{whiteBright Setting up a Cloud Backend for your project.}`,
       );
     }
   }
@@ -185,7 +185,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
   if (fromTerraformProject) {
     if (templateInfo.Name !== "typescript") {
       console.error(
-        `The --from-terraform-project flag is only supported with the typescript template. The command will continue and ignore the flag.`
+        `The --from-terraform-project flag is only supported with the typescript template. The command will continue and ignore the flag.`,
       );
     }
 
@@ -193,18 +193,17 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     const combinedTfFile = getTerraformConfigFromDir(importPath);
 
-    const providerRequirements = await parseProviderRequirements(
-      combinedTfFile
-    );
+    const providerRequirements =
+      await parseProviderRequirements(combinedTfFile);
 
     // Get all the provider schemas
     const { providerSchema } = await readSchema(
       Object.entries(providerRequirements).map(([name, version]) =>
         ConstructsMakerProviderTarget.from(
           new TerraformProviderConstraint(`${name}@${version}`),
-          LANGUAGES[0]
-        )
-      )
+          LANGUAGES[0],
+        ),
+      ),
     );
 
     try {
@@ -237,21 +236,21 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     const mainTs = fs.readFileSync(
       path.resolve(destination, "main.ts"),
-      "utf8"
+      "utf8",
     );
     fs.writeFileSync(
       path.resolve(destination, "main.ts"),
       code(mainTs),
-      "utf8"
+      "utf8",
     );
 
     const renderedCdktfJson = cdktfJson(
-      require(path.resolve(destination, "cdktf.json"))
+      require(path.resolve(destination, "cdktf.json")),
     );
     fs.writeFileSync(
       path.resolve(destination, "cdktf.json"),
       JSON.stringify(renderedCdktfJson, null, 2),
-      "utf8"
+      "utf8",
     );
 
     const { terraformModules, terraformProviders } = renderedCdktfJson;
@@ -302,7 +301,7 @@ async function askForProviders(): Promise<string[] | undefined> {
   const prebuiltProviders = await getAllPrebuiltProviders();
   const options = Object.keys(prebuiltProviders);
   console.log(
-    chalkColour`{yellow Note: You can always add providers using 'cdktf provider add' later on}`
+    chalkColour`{yellow Note: You can always add providers using 'cdktf provider add' later on}`,
   );
 
   const selection = await checkbox({
@@ -318,14 +317,14 @@ async function askForProviders(): Promise<string[] | undefined> {
 function copyLocalModules(
   modules: any[],
   sourcePath: string,
-  destination: string
+  destination: string,
 ) {
   modules
     .filter((m) => isLocalModule(m))
     .map((m) =>
       fs.copySync(path.resolve(sourcePath, m), path.resolve(destination, m), {
         recursive: true,
-      })
+      }),
     );
 }
 
@@ -333,7 +332,7 @@ async function gatherInfo(
   token: string,
   terraformRemoteHostname: string,
   projectName?: string,
-  projectDescription?: string
+  projectDescription?: string,
 ): Promise<GatheredInfo> {
   const currentDirectory = path.basename(process.cwd());
   const projectDescriptionDefault =
@@ -383,17 +382,17 @@ async function gatherInfo(
   if (isRemote) {
     console.log(chalkColour`\nDetected {blueBright Terraform Cloud} token.`);
     console.log(
-      chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`
+      chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`,
     );
     const organizationIds = await terraformCloudClient.getOrganizationIds(
       terraformRemoteHostname,
-      token
+      token,
     );
 
     if (organizationIds.length == 0) {
       throw Errors.Usage(
         `You must be part of an organization in Terraform Cloud in order to use it as a RemoteBackend or CloudBackend.
-You can create one here: https://${terraformRemoteHostname}/app/organizations/new`
+You can create one here: https://${terraformRemoteHostname}/app/organizations/new`,
       );
     }
 
@@ -404,7 +403,7 @@ You can create one here: https://${terraformRemoteHostname}/app/organizations/ne
     });
 
     console.log(
-      chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`
+      chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`,
     );
 
     let workspaceName;
@@ -419,14 +418,14 @@ You can create one here: https://${terraformRemoteHostname}/app/organizations/ne
           terraformRemoteHostname,
           organizationSelect,
           tryWorkspaceName,
-          token
+          token,
         );
       if (!isWorkspaceNameTaken) {
         workspaceName = tryWorkspaceName;
         break;
       }
       console.log(
-        chalkColour`{redBright Error:} A workspace with the name {blueBright ${tryWorkspaceName}} already exists in the organization {blueBright ${organizationSelect}}. Please choose a different name.`
+        chalkColour`{redBright Error:} A workspace with the name {blueBright ${tryWorkspaceName}} already exists in the organization {blueBright ${organizationSelect}}. Please choose a different name.`,
       );
     }
 
@@ -441,7 +440,7 @@ You can create one here: https://${terraformRemoteHostname}/app/organizations/ne
 }
 
 async function getTerraformProject(
-  nonInteractive: boolean
+  nonInteractive: boolean,
 ): Promise<string | undefined> {
   if (!isInteractiveTerminal() || nonInteractive) {
     return Promise.resolve(undefined);
@@ -470,7 +469,7 @@ async function getTerraformProject(
 
   if (!fs.existsSync(terraformProject)) {
     throw Errors.Usage(
-      `Could not find folder '${terraformProject}' to initialize from.`
+      `Could not find folder '${terraformProject}' to initialize from.`,
     );
   }
 
@@ -483,12 +482,12 @@ async function getTerraformProject(
  */
 async function getTemplate(
   templateName: string,
-  nonInteractive: boolean
+  nonInteractive: boolean,
 ): Promise<Template> {
   if (templateName == "") {
     if (nonInteractive) {
       throw Errors.Usage(
-        "You are trying to initialize a project without specifying a template in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. Please specify a template using the --template option in init or --language in convert."
+        "You are trying to initialize a project without specifying a template in non-interactive mode. This can also happen when running cdktf convert against a project not using Typescript, since we need to create a temporary cdktf project for an accurate translation. Please specify a template using the --template option in init or --language in convert.",
       );
     }
     const templateOptionRemote = "<remote zip file>";
@@ -516,7 +515,7 @@ async function getTemplate(
     } else {
       templateName = selection;
       console.log(
-        chalkColour`\n{whiteBright Initializing a project using the {greenBright ${templateName}} template.}`
+        chalkColour`\n{whiteBright Initializing a project using the {greenBright ${templateName}} template.}`,
       );
     }
   }
@@ -534,13 +533,13 @@ async function getTemplate(
 
 async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
   console.log(
-    chalkColour`Fetching remote template from: {whiteBright ${templateUrl}}`
+    chalkColour`Fetching remote template from: {whiteBright ${templateUrl}}`,
   );
   try {
     const url = new URL(templateUrl);
     const remoteFileName = path.basename(url.pathname) || "template.zip";
     logger.trace(
-      `Detected remote file name to be "${remoteFileName}" out of template URL "${templateUrl}"`
+      `Detected remote file name to be "${remoteFileName}" out of template URL "${templateUrl}"`,
     );
 
     const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf."));
@@ -548,10 +547,10 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
     const zipExtractDir = path.join(tmpDir, "extracted");
 
     logger.trace(
-      `Downloading "${remoteFileName}" to temporary directory "${tmpDir}"`
+      `Downloading "${remoteFileName}" to temporary directory "${tmpDir}"`,
     );
     console.log(
-      chalkColour`Downloading "{whiteBright ${remoteFileName}}" to temporary directory`
+      chalkColour`Downloading "{whiteBright ${remoteFileName}}" to temporary directory`,
     );
     await downloadFile(url.href, tmpZipFile);
 
@@ -561,7 +560,7 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
     // walk directory to find cdktf.json as the extracted directory contains a root directory with unknown name
     // this also allows nesting the template itself into a sub directory and having a root directory with an unrelated README
     console.log(
-      chalkColour`Looking for directory containing {whiteBright cdktf.json}`
+      chalkColour`Looking for directory containing {whiteBright cdktf.json}`,
     );
     const templatePath = await findCdkTfJsonDirectory(zipExtractDir);
 
@@ -569,7 +568,7 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
       throw Errors.Usage(
         chalkColour`Could not find a {whiteBright cdktf.json} in the extracted directory`,
         new Error(),
-        {}
+        {},
       );
     }
 
@@ -584,16 +583,16 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === "ERR_INVALID_URL") {
       console.error(
-        chalkColour`Could not download template: {redBright the supplied url is invalid}`
+        chalkColour`Could not download template: {redBright the supplied url is invalid}`,
       );
       console.error(
-        chalkColour`Please supply a valid url (including the protocol) or use one of the built-in templates.`
+        chalkColour`Please supply a valid url (including the protocol) or use one of the built-in templates.`,
       );
       process.exit(1);
     }
     if (e instanceof HttpError) {
       console.error(
-        chalkColour`Could not download template: {redBright ${e.message}}`
+        chalkColour`Could not download template: {redBright ${e.message}}`,
       );
       process.exit(1);
     }

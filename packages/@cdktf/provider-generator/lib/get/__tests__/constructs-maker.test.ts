@@ -67,14 +67,14 @@ describe("constructsMaker", () => {
       await expect(determineGoModuleName(invalidSubdir)).rejects.toThrow(
         `Could not determine the root Go module name. Found ${path.join(
           invalidSubdir,
-          "go.mod"
-        )} but failed to regex match the module name directive`
+          "go.mod",
+        )} but failed to regex match the module name directive`,
       );
     });
 
     it("works from subdirectory that does not exist yet", async () => {
       const moduleName = await determineGoModuleName(
-        path.join(tmpDir, "subdir", "that", "does", "not", "exist", "yet")
+        path.join(tmpDir, "subdir", "that", "does", "not", "exist", "yet"),
       );
       expect(moduleName).toBe("cdk.tf/test/go/subdir/that/does/not/exist/yet");
     });
@@ -82,7 +82,7 @@ describe("constructsMaker", () => {
     it("throws if nothing could be found", async () => {
       const dir = "/cdktf-test/this/dir/does/not/exist"; //... and has no go.mod in any parent dir
       await expect(determineGoModuleName(dir)).rejects.toThrow(
-        `Could not determine the root Go module name. No go.mod found in ${dir} and any parent directories`
+        `Could not determine the root Go module name. No go.mod found in ${dir} and any parent directories`,
       );
     });
   });
@@ -95,7 +95,7 @@ describe("constructsMaker", () => {
           source: "google-beta",
           version: "~> 4.0",
         },
-        Language.GO
+        Language.GO,
       );
       expect(target.srcMakName).toEqual("google_beta");
     });
@@ -110,7 +110,7 @@ describe("constructsMaker", () => {
           version: "4.9.0",
           namespace: "terraform-aws-modules/aws",
         },
-        Language.GO
+        Language.GO,
       );
       expect(target.srcMakName).toEqual("security_group");
     });

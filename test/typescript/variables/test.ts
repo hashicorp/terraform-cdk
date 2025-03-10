@@ -30,7 +30,7 @@ describe("variables", () => {
     driver.copyFiles(
       "explicit.tfvars",
       "terraform.tfvars.json",
-      "testing.auto.tfvars"
+      "testing.auto.tfvars",
     );
     console.log(driver.workingDirectory);
   });
@@ -48,11 +48,11 @@ describe("variables", () => {
 
   it("deploys locally", async () => {
     expect(await driver.deploy(["stack"], undefined, cliFlags)).toContain(
-      "Apply complete!"
+      "Apply complete!",
     );
     const output = fs.readFileSync(
       path.join(driver.workingDirectory, "output.txt"),
-      "utf-8"
+      "utf-8",
     );
 
     expect(output).toContain("hello = world");

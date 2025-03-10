@@ -86,7 +86,7 @@ class TestComplexList extends ComplexList {
       this.terraformResource,
       this.terraformAttribute,
       this.wrapsSet,
-      index
+      index,
     );
   }
 }

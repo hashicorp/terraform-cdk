@@ -309,9 +309,9 @@ const dummy2: Thing = {
 describe("bindings for Terraform functions", () => {
   it("should convert Terraform AST into TS AST", () => {
     expect(
-      astToCode(terraformThingToTs(scope, dummy2, "dynamic"))
+      astToCode(terraformThingToTs(scope, dummy2, "dynamic")),
     ).toMatchInlineSnapshot(
-      `"Fn.replace(TodoReference-module-foo-output, "-", TodoReference-var-bar)"`
+      `"Fn.replace(TodoReference-module-foo-output, "-", TodoReference-var-bar)"`,
     );
   });
 
@@ -342,9 +342,9 @@ describe("bindings for Terraform functions", () => {
               },
             ],
           },
-          "number"
-        )
-      )
+          "number",
+        ),
+      ),
     ).toMatchInlineSnapshot(`"Fn.lengthOf(TodoReference-var-list)"`);
   });
 
@@ -389,11 +389,11 @@ describe("bindings for Terraform functions", () => {
               },
             ],
           },
-          "string"
-        )
-      )
+          "string",
+        ),
+      ),
     ).toMatchInlineSnapshot(
-      `"Fn.bcrypt(TodoReference-var-str, TodoReference-var-cost)"`
+      `"Fn.bcrypt(TodoReference-var-str, TodoReference-var-cost)"`,
     );
   });
 
@@ -424,9 +424,9 @@ describe("bindings for Terraform functions", () => {
               },
             ],
           },
-          "string"
-        )
-      )
+          "string",
+        ),
+      ),
     ).toMatchInlineSnapshot(`"Fn.bcrypt(TodoReference-var-str)"`);
   });
 
@@ -471,11 +471,11 @@ describe("bindings for Terraform functions", () => {
               },
             ],
           },
-          "dynamic"
-        )
-      )
+          "dynamic",
+        ),
+      ),
     ).toMatchInlineSnapshot(
-      `"Fn.try([TodoReference-var-strA, TodoReference-var-strB])"`
+      `"Fn.try([TodoReference-var-strA, TodoReference-var-strB])"`,
     );
   });
 
@@ -520,11 +520,11 @@ describe("bindings for Terraform functions", () => {
               },
             ],
           },
-          "string"
-        )
-      )
+          "string",
+        ),
+      ),
     ).toMatchInlineSnapshot(
-      `"Fn.join(TodoReference-var-str, TodoReference-var-list)"`
+      `"Fn.join(TodoReference-var-str, TodoReference-var-list)"`,
     );
   });
 
@@ -583,11 +583,11 @@ describe("bindings for Terraform functions", () => {
               },
             ],
           },
-          "string"
-        )
-      )
+          "string",
+        ),
+      ),
     ).toMatchInlineSnapshot(
-      `"Fn.join(TodoReference-var-str, Token.asList(Fn.concat([TodoReference-var-listA, TodoReference-var-listB])))"`
+      `"Fn.join(TodoReference-var-str, Token.asList(Fn.concat([TodoReference-var-listA, TodoReference-var-listB])))"`,
     );
   });
 
@@ -603,11 +603,11 @@ describe("bindings for Terraform functions", () => {
             },
             children: [],
           },
-          "string"
-        )
-      )
+          "string",
+        ),
+      ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Terraform function call to "bcrypt" is not valid! Parameter at index 0 of type string is not optional but received no value. The following parameters were passed: []"`
+      `"Terraform function call to "bcrypt" is not valid! Parameter at index 0 of type string is not optional but received no value. The following parameters were passed: []"`,
     );
   });
 
@@ -617,7 +617,7 @@ describe("bindings for Terraform functions", () => {
 function terraformThingToTs(
   scope: ProgramScope,
   tfAst: Thing,
-  targetType: AttributeType | undefined
+  targetType: AttributeType | undefined,
 ): t.Expression {
   switch (tfAst.type) {
     case "function": {
@@ -630,7 +630,7 @@ function terraformThingToTs(
       }
       throw new Error(
         "TemplateWrap with not exactly one child is not supported yet: " +
-          tfAst.children
+          tfAst.children,
       );
     }
     case "ScopeTraversal": {
@@ -649,17 +649,17 @@ function terraformThingToTs(
 
 function terraformScopeTraversalToTs(
   tfAst: ScopeTraversal,
-  _targetType: AttributeType | undefined
+  _targetType: AttributeType | undefined,
 ): t.Expression {
   return t.identifier(
-    "TodoReference-" + tfAst.meta.traversal.map((t) => t.segment).join("-")
+    "TodoReference-" + tfAst.meta.traversal.map((t) => t.segment).join("-"),
   );
 }
 
 function terraformTemplateToTs(
   scope: ProgramScope,
   tfAst: Template,
-  targetType: AttributeType | undefined
+  targetType: AttributeType | undefined,
 ): t.Expression {
   if (tfAst.children.length === 1) {
     return terraformThingToTs(scope, tfAst.children[0], targetType);
@@ -669,7 +669,7 @@ function terraformTemplateToTs(
 
 function terraformLiteralValueToTs(
   tfAst: LiteralValue,
-  targetType: AttributeType | undefined
+  targetType: AttributeType | undefined,
 ): t.Expression {
   const literalExpression = t.stringLiteral(tfAst.meta.value);
   return coerceType(
@@ -686,14 +686,14 @@ function terraformLiteralValueToTs(
     },
     literalExpression,
     tfAst.meta.type,
-    targetType
+    targetType,
   );
 }
 
 function terraformFunctionCallToTs(
   scope: ProgramScope,
   tfAst: FunctionCall,
-  targetType: AttributeType | undefined
+  targetType: AttributeType | undefined,
 ): t.Expression {
   const { name } = tfAst.meta;
 
@@ -715,7 +715,7 @@ function terraformFunctionCallToTs(
 
   const callee = t.memberExpression(
     t.identifier("Fn"),
-    t.identifier(mapping.name)
+    t.identifier(mapping.name),
   );
 
   const args: t.Expression[] = [];
@@ -726,8 +726,8 @@ function terraformFunctionCallToTs(
         t.arrayExpression(
           tfAst.children
             .slice(idx)
-            .map((child) => terraformThingToTs(scope, child, param.type))
-        )
+            .map((child) => terraformThingToTs(scope, child, param.type)),
+        ),
       );
     } else {
       const child = tfAst.children[idx];
@@ -738,8 +738,8 @@ function terraformFunctionCallToTs(
           `Terraform function call to "${name}" is not valid! Parameter at index ${idx} of type ${
             param.type
           } is not optional but received no value. The following parameters were passed: ${JSON.stringify(
-            tfAst.children
-          )}`
+            tfAst.children,
+          )}`,
         );
       }
     }
@@ -763,6 +763,6 @@ function terraformFunctionCallToTs(
     },
     callExpression,
     returnType,
-    targetType
+    targetType,
   );
 }

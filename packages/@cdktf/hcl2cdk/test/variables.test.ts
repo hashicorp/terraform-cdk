@@ -19,7 +19,7 @@ describe("variables", () => {
       `,
     [binding.local],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -46,7 +46,7 @@ describe("variables", () => {
           }`,
     [binding.local],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -68,7 +68,7 @@ describe("variables", () => {
       `,
     [binding.local],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -91,6 +91,6 @@ describe("variables", () => {
       `,
     [binding.local],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 });

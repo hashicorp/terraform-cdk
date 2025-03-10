@@ -75,7 +75,7 @@ export class MyStack extends TerraformStack {
     const lambdaFn = new aws_lambda.Function(awsAdapter, "lambda", {
       code: new aws_lambda.InlineCode(
         `def main(event, context):
-    print("I'm running!")`
+    print("I'm running!")`,
       ),
       handler: "index.main",
       timeout: Duration.seconds(300),

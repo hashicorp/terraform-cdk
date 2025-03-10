@@ -36,7 +36,7 @@ function renderString(str: string): string {
 
   if (typeof str !== "string") {
     throw new Error(
-      "Unable to process attribute that should have been a string, but isn't"
+      "Unable to process attribute that should have been a string, but isn't",
     );
   }
 
@@ -322,7 +322,7 @@ export function renderDynamicBlocks(dynamic: any) {
     ([dynamicName, dynamicAttrs]: [string, any]) => {
       const res = [`dynamic "${dynamicName}" {`];
       res.push(
-        `for_each = ${renderFuzzyJsonExpression(dynamicAttrs?.for_each)}`
+        `for_each = ${renderFuzzyJsonExpression(dynamicAttrs?.for_each)}`,
       );
       if (dynamicAttrs?.iterator) {
         res.push(`iterator = ${dynamicAttrs?.iterator}`);
@@ -336,7 +336,7 @@ export function renderDynamicBlocks(dynamic: any) {
       res.push(`}`);
 
       return res.join("\n");
-    }
+    },
   );
 }
 
@@ -482,7 +482,7 @@ ${renderAttributes(terraform.cloud)}
     : undefined;
 
   const otherAttributes = Object.keys(terraform).filter(
-    (key) => !blockAttributes.includes(key)
+    (key) => !blockAttributes.includes(key),
   );
   return `terraform {
 ${requiredProviders}
@@ -579,7 +579,7 @@ export function renderSimpleAttributes(attributes: any): string {
   return Object.entries(attributes)
     .map(
       ([name, value]) =>
-        `  ${name} = ${renderFuzzyJsonExpression(value as any)}`
+        `  ${name} = ${renderFuzzyJsonExpression(value as any)}`,
     )
     .join("\n");
 }

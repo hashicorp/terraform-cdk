@@ -29,7 +29,7 @@ describe("provider add command", () => {
         ]);
 
         expect(res.stdout).toContain(
-          `Installing package cdktf-cdktf-provider-random @ 0.2.55 using pipenv.`
+          `Installing package cdktf-cdktf-provider-random @ 0.2.55 using pipenv.`,
         );
         expect(res.stderr).toBe("");
 
@@ -72,7 +72,7 @@ describe("provider add command", () => {
         ]);
 
         expect(res.stdout).toContain(
-          `Installing package cdktf-cdktf-provider-random @ 0.2.55 using pip.`
+          `Installing package cdktf-cdktf-provider-random @ 0.2.55 using pip.`,
         );
         expect(res.stderr).toBe("");
 

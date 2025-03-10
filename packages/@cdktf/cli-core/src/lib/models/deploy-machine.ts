@@ -53,7 +53,7 @@ export type DeployEvent =
 
 export function isDeployEvent<DeployEventType extends DeployEvent["type"]>(
   event: EventObject,
-  type: DeployEventType
+  type: DeployEventType,
 ): event is DeployEvent & { type: DeployEventType } {
   return event.type === type;
 }
@@ -94,7 +94,7 @@ export function extractVariableNameFromPrompt(line: string) {
   const lineWithVar = lines.find((line) => line.includes("var."));
   if (!lineWithVar) {
     throw Errors.Internal(
-      `Could not find variable name in prompt: ${line}. This is most likely a bug in cdktf. Please report it at https://cdk.tf/bug`
+      `Could not find variable name in prompt: ${line}. This is most likely a bug in cdktf. Please report it at https://cdk.tf/bug`,
     );
   }
   return lineWithVar.split("var.")[1].trim();
@@ -111,7 +111,7 @@ interface BufferedReceiverFunction {
 
 // used to only send completed lines (= with a newline at the end of them) to our logic (#2827)
 export function bufferUnterminatedLines(
-  handler: (output: string) => void
+  handler: (output: string) => void,
 ): BufferedReceiverFunction {
   let buffer = "";
   function bufferedReceiverFunction(output: string) {
@@ -144,7 +144,7 @@ export function handleLineReceived(send: (event: DeployEvent) => void) {
       noColorLine.includes("Do you want to perform these actions") ||
       noColorLine.includes("Do you really want to destroy all resources?") ||
       noColorLine.includes(
-        "Do you really want to destroy all resources in workspace"
+        "Do you really want to destroy all resources in workspace",
       )
     ) {
       hideOutput = true;
@@ -164,7 +164,7 @@ export function handleLineReceived(send: (event: DeployEvent) => void) {
       send({ type: "VARIABLE_MISSING", variableName });
     } else if (
       noColorLine.includes(
-        "Do you want to override the soft failed policy check?"
+        "Do you want to override the soft failed policy check?",
       )
     ) {
       hideOutput = true;
@@ -235,7 +235,7 @@ export const deployMachine = createMachine<
                 target: "processing",
                 actions: send(
                   { type: "SEND_LINE", input: "yes" },
-                  { to: "pty" }
+                  { to: "pty" },
                 ),
               },
               REJECT: {
@@ -269,7 +269,7 @@ export const deployMachine = createMachine<
                 target: "processing",
                 actions: send(
                   { type: "SEND_LINE", input: "override" },
-                  { to: "pty" }
+                  { to: "pty" },
                 ),
               },
               REJECT_OVERRIDE: {
@@ -297,18 +297,18 @@ export const deployMachine = createMachine<
       runTerraformInPty: (context, event) =>
         terraformPtyService(context, event, spawnPty),
     },
-  }
+  },
 );
 
 export function terraformPtyService(
   _context: DeployContext,
   event: DeployEvent,
-  spawn = spawnPty
+  spawn = spawnPty,
 ): (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => void {
   return (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => {
     if (event.type !== "START") {
       throw Errors.Internal(
-        `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
+        `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`,
       );
     }
 
@@ -329,7 +329,7 @@ export function terraformPtyService(
       const lastBuffer = receiver.getBuffer();
       if (lastBuffer.length > 0) {
         logger.debug(
-          `Terraform CLI exited but the last outputted line was not terminated with a newline and hence is still in the buffer and wasn't printed: "${lastBuffer}"`
+          `Terraform CLI exited but the last outputted line was not terminated with a newline and hence is still in the buffer and wasn't printed: "${lastBuffer}"`,
         );
       }
 
@@ -379,7 +379,7 @@ export function createAndStartDeployService(options: {
   logger.debug(
     `Executing ${options.terraformBinaryName} ${args.join(" ")} in ${
       options.workdir
-    }`
+    }`,
   );
 
   const config: PtySpawnConfig = {
@@ -431,7 +431,7 @@ export function createAndStartDestroyService(options: {
   logger.debug(
     `Executing ${options.terraformBinaryName} ${args.join(" ")} in ${
       options.workdir
-    }`
+    }`,
   );
 
   const config: PtySpawnConfig = {

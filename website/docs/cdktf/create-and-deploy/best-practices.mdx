@@ -113,7 +113,7 @@ class MyS3Bucket extends Construct {
   constructor(
     protected scope: Construct,
     protected id: string,
-    protected s3Options: S3BucketConfig
+    protected s3Options: S3BucketConfig,
   ) {
     super(scope, id);
     new S3Bucket(this, "MyBucket", {

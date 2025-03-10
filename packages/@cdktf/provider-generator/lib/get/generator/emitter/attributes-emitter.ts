@@ -14,7 +14,7 @@ export class AttributesEmitter {
   public emit(att: AttributeModel, escapeReset: boolean, escapeInput: boolean) {
     this.code.line();
     this.code.line(
-      `// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`
+      `// ${att.terraformName} - computed: ${att.computed}, optional: ${att.isOptional}, required: ${att.isRequired}`,
     );
 
     const isStored = att.isStored;
@@ -26,11 +26,11 @@ export class AttributesEmitter {
 
     if (getterType._type === "stored_class") {
       this.code.line(
-        `private ${att.storageName} = ${this.storedClassInit(att)};`
+        `private ${att.storageName} = ${this.storedClassInit(att)};`,
       );
     } else if (isStored) {
       this.code.line(
-        `private ${att.storageName}?: ${att.type.inputTypeDefinition}; `
+        `private ${att.storageName}?: ${att.type.inputTypeDefinition}; `,
       );
     }
 
@@ -45,7 +45,7 @@ export class AttributesEmitter {
         this.code.openBlock(
           `public ${att.name}(${getterType.args})${
             getterType.returnType ? ": " + getterType.returnType : ""
-          }`
+          }`,
         );
         this.code.line(`return ${getterType.returnStatement};`);
         this.code.closeBlock();
@@ -63,7 +63,7 @@ export class AttributesEmitter {
     switch (setterType._type) {
       case "set":
         this.code.openBlock(
-          `public set ${att.name}(value: ${setterType.type})`
+          `public set ${att.name}(value: ${setterType.type})`,
         );
         this.code.line(`this.${att.storageName} = value;`);
         this.code.closeBlock();
@@ -71,7 +71,7 @@ export class AttributesEmitter {
 
       case "put":
         this.code.openBlock(
-          `public put${titleCase(att.name)}(value: ${setterType.type})`
+          `public put${titleCase(att.name)}(value: ${setterType.type})`,
         );
         this.code.line(`this.${att.storageName} = value;`);
         this.code.closeBlock();
@@ -79,7 +79,7 @@ export class AttributesEmitter {
 
       case "stored_class":
         this.code.openBlock(
-          `public put${titleCase(att.name)}(value: ${setterType.type})`
+          `public put${titleCase(att.name)}(value: ${setterType.type})`,
         );
         this.code.line(`this.${att.storageName}.internalValue = value;`);
         this.code.closeBlock();
@@ -88,7 +88,7 @@ export class AttributesEmitter {
 
     if (hasResetMethod) {
       this.code.openBlock(
-        `public ${this.getResetName(att.name, escapeReset)}()`
+        `public ${this.getResetName(att.name, escapeReset)}()`,
       );
 
       if (setterType._type === "stored_class") {
@@ -103,7 +103,7 @@ export class AttributesEmitter {
     if (hasInputMethod) {
       this.code.line(`// Temporarily expose input value. Use with caution.`);
       this.code.openBlock(
-        `public get ${this.getInputName(att, escapeInput)}()`
+        `public get ${this.getInputName(att, escapeInput)}()`,
       );
 
       if (setterType._type === "stored_class") {
@@ -131,11 +131,11 @@ export class AttributesEmitter {
 
   public needsInputEscape(
     att: AttributeModel,
-    attributes: AttributeModel[]
+    attributes: AttributeModel[],
   ): boolean {
     return (
       attributes.find((a) =>
-        a.terraformName.match(`^${att.terraformName}_input$`)
+        a.terraformName.match(`^${att.terraformName}_input$`),
       ) instanceof AttributeModel
     );
   }
@@ -150,11 +150,11 @@ export class AttributesEmitter {
 
   public needsResetEscape(
     att: AttributeModel,
-    attributes: AttributeModel[]
+    attributes: AttributeModel[],
   ): boolean {
     return (
       attributes.find((a) =>
-        a.terraformName.match(`^reset_${att.terraformName}$`)
+        a.terraformName.match(`^reset_${att.terraformName}$`),
       ) instanceof AttributeModel
     );
   }
@@ -219,7 +219,7 @@ export class AttributesEmitter {
         : "";
 
     this.code.line(
-      `${att.terraformName}: ${defaultCheck}${type.toTerraformFunction}(${varReference}),`
+      `${att.terraformName}: ${defaultCheck}${type.toTerraformFunction}(${varReference}),`,
     );
   }
 }

@@ -20,14 +20,14 @@ describe("python full integration test synth", () => {
   onlyJson("synth generates JSON", async () => {
     await driver.synth();
     expect(
-      driver.synthesizedStack("python-simple").toString()
+      driver.synthesizedStack("python-simple").toString(),
     ).toMatchSnapshot();
   });
 
   onlyHcl("synth generates HCL", async () => {
     await driver.synth();
     expect(
-      driver.synthesizedStackContentsRaw("python-simple").toString()
+      driver.synthesizedStackContentsRaw("python-simple").toString(),
     ).toMatchSnapshot();
   });
 });

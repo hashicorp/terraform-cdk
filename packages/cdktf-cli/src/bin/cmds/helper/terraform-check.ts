@@ -36,8 +36,8 @@ export const getTerraformVersion = async (): Promise<string | null> => {
     // Should always be the first match found in the string
     return semver.clean(
       terraformVersionMatches[0].substring(
-        terraformVersionMatches[0].indexOf("v")
-      )
+        terraformVersionMatches[0].indexOf("v"),
+      ),
     );
   } catch (e) {
     logger.info(`Unable to determine Terraform version: ${e}`);

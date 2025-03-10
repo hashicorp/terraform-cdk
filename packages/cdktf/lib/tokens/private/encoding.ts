@@ -27,20 +27,20 @@ const QUOTED_END_TOKEN_MARKER = regexQuote(END_TOKEN_MARKER);
 
 const STRING_TOKEN_REGEX = new RegExp(
   `${QUOTED_BEGIN_STRING_TOKEN_MARKER}([${VALID_KEY_CHARS}]+)${QUOTED_END_TOKEN_MARKER}`,
-  "g"
+  "g",
 );
 const LIST_TOKEN_REGEX = new RegExp(
   `${QUOTED_BEGIN_LIST_TOKEN_MARKER}([${VALID_KEY_CHARS}]+)${QUOTED_END_TOKEN_MARKER}`,
-  "g"
+  "g",
 );
 const MAP_TOKEN_REGEX = new RegExp(
   `${QUOTED_BEGIN_MAP_TOKEN_MARKER}([${VALID_KEY_CHARS}]+)${QUOTED_END_TOKEN_MARKER}`,
-  "g"
+  "g",
 );
 
 const NUMBER_TOKEN_REGEX = new RegExp(
   "[-|\\d|.\\+]+(e[-|\\d|.|e|E|\\+]+)",
-  "g"
+  "g",
 );
 
 const ESCAPE_TOKEN_BEGIN_REGEX = /\$\{(?!TfToken\[)/g;
@@ -60,14 +60,14 @@ export class TokenString {
   public static forString(
     s: string,
     includeEscapeSequences = false,
-    warnIfEscapeSequences = false
+    warnIfEscapeSequences = false,
   ) {
     return new TokenString(
       s,
       STRING_TOKEN_REGEX,
       1,
       includeEscapeSequences,
-      warnIfEscapeSequences
+      warnIfEscapeSequences,
     );
   }
 
@@ -97,7 +97,7 @@ export class TokenString {
     private readonly re: RegExp,
     private readonly regexMatchIndex: number = 1,
     private readonly includeEscapeSequences: boolean = false,
-    private readonly warnIfEscapeSequences: boolean = false
+    private readonly warnIfEscapeSequences: boolean = false,
   ) {}
 
   private testForEscapeTokens(startIndex: number, maxIndex: number): boolean {
@@ -115,7 +115,7 @@ export class TokenString {
     fragments: TokenizedStringFragments,
     startIndex: number,
     escapeDepth: number,
-    maxIndex: number
+    maxIndex: number,
   ) {
     ESCAPE_TOKEN_BEGIN_REGEX.lastIndex = startIndex;
     ESCAPE_TOKEN_END_REGEX.lastIndex = startIndex;
@@ -140,7 +140,7 @@ export class TokenString {
       if (startMatch.index > startIndex && startMatch.index > startIndex) {
         const lede = this.str.substring(
           startIndex,
-          Math.min(startMatch.index, endMatch.index)
+          Math.min(startMatch.index, endMatch.index),
         );
         fragments.addLiteral(lede);
       }
@@ -199,7 +199,7 @@ export class TokenString {
     lookup: LookupFunction,
     fragments: TokenizedStringFragments,
     startIndex: number,
-    escapeDepth: number
+    escapeDepth: number,
   ): { index: number; escapeDepth: number } {
     this.re.lastIndex = startIndex;
     if (startIndex >= this.str.length) {
@@ -216,7 +216,7 @@ export class TokenString {
           fragments,
           startIndex,
           escapeDepth,
-          this.str.length
+          this.str.length,
         );
         if (next.index === -1) {
           fragments.addLiteral(this.str.substring(startIndex));
@@ -242,7 +242,7 @@ export class TokenString {
           fragments,
           startIndex,
           escapeDepth,
-          match.index
+          match.index,
         );
         if (next.index === -1) {
           fragments.addLiteral(this.str.substring(startIndex, match.index));
@@ -293,7 +293,7 @@ export class TokenString {
     ) {
       // Only print warning and act as if escape sequences are ignored
       console.warn(
-        "You're using escape sequences (${...}) with CDKTF Built-in functions. This is not supported yet, and the output may be incorrect."
+        "You're using escape sequences (${...}) with CDKTF Built-in functions. This is not supported yet, and the output may be incorrect.",
       );
       console.warn(this.str);
     }
@@ -340,7 +340,7 @@ export class NullConcat implements IFragmentConcatenator {
  */
 export function containsStringListTokenElement(xs: any[]) {
   return xs.some(
-    (x) => typeof x === "string" && TokenString.forListToken(x).test()
+    (x) => typeof x === "string" && TokenString.forListToken(x).test(),
   );
 }
 
@@ -349,7 +349,7 @@ export function containsStringListTokenElement(xs: any[]) {
  */
 export function containsNumberListTokenElement(xs: any[]) {
   return xs.some(
-    (x) => typeof x === "number" && extractTokenDouble(x, true) !== undefined
+    (x) => typeof x === "number" && extractTokenDouble(x, true) !== undefined,
   );
 }
 
@@ -358,7 +358,7 @@ export function containsNumberListTokenElement(xs: any[]) {
  */
 export function containsMapToken(xs: { [key: string]: any }) {
   return Object.keys(xs).some(
-    (x) => typeof x === "string" && TokenString.forMapToken(x).test()
+    (x) => typeof x === "string" && TokenString.forMapToken(x).test(),
   );
 }
 
@@ -499,7 +499,7 @@ function shl32(x: number) {
  */
 export function extractTokenDouble(
   encoded: number,
-  list: boolean
+  list: boolean,
 ): number | undefined {
   const buf = new ArrayBuffer(8);
   new Float64Array(buf)[0] = encoded;

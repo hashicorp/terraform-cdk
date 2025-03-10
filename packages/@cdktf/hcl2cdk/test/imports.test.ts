@@ -16,7 +16,7 @@ describe("imports", () => {
       `,
     [binding.aws],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -34,7 +34,7 @@ describe("imports", () => {
       `,
     [binding.aws],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -54,7 +54,7 @@ describe("imports", () => {
       `,
     [binding.aws],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -75,7 +75,7 @@ describe("imports", () => {
     `,
     [binding.aws],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -98,7 +98,7 @@ describe("imports", () => {
       `,
     [binding.aws],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   describe("Not supported", () => {
@@ -115,7 +115,7 @@ describe("imports", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.never
+      Synth.never,
     );
 
     testCase.test(
@@ -135,7 +135,7 @@ describe("imports", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.never
+      Synth.never,
     );
   });
 });

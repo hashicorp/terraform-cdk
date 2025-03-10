@@ -40,7 +40,7 @@ export function sanitizedComment(code: CodeMaker) {
       if (wasSanitized) {
         code.line(` *`);
         code.line(
-          "* Note: The above comment contained a comment block ending sequence (* followed by /). We have introduced a space between to prevent syntax errors. Please ignore the space."
+          "* Note: The above comment contained a comment block ending sequence (* followed by /). We have introduced a space between to prevent syntax errors. Please ignore the space.",
         );
       }
       code.line(`*/`);

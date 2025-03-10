@@ -21,7 +21,7 @@ describe("tfExpressions", () => {
           }`,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -51,7 +51,7 @@ describe("tfExpressions", () => {
     Synth.yes,
     {
       resources: ["aws_s3_bucket", "aws_kms_key", "aws_s3_bucket_object"],
-    }
+    },
   );
 
   testCase.test(
@@ -80,7 +80,7 @@ describe("tfExpressions", () => {
             `,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -103,7 +103,7 @@ describe("tfExpressions", () => {
           }`,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -131,7 +131,7 @@ describe("tfExpressions", () => {
     Synth.yes,
     {
       resources: ["datadog_monitor"],
-    }
+    },
   );
 
   testCase.test(
@@ -154,7 +154,7 @@ describe("tfExpressions", () => {
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
-    }
+    },
   );
 
   testCase.test(
@@ -177,7 +177,7 @@ describe("tfExpressions", () => {
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
-    }
+    },
   );
 
   testCase.test(
@@ -216,7 +216,7 @@ describe("tfExpressions", () => {
     Synth.yes,
     {
       resources: ["google_compute_instance"],
-    }
+    },
   );
 
   testCase.test(
@@ -236,7 +236,7 @@ ITEM
     Synth.yes,
     {
       resources: [],
-    }
+    },
   );
 
   testCase.test(
@@ -255,7 +255,7 @@ ITEM
     Synth.yes_but_only_typescript_right_now_because_it_breaks,
     {
       resources: [],
-    }
+    },
   );
 
   testCase.test(
@@ -281,7 +281,7 @@ ITEM
     Synth.yes_but_only_typescript_right_now_because_it_breaks,
     {
       resources: [],
-    }
+    },
   );
 
   testCase.test(
@@ -295,6 +295,6 @@ ITEM
     Synth.yes,
     {
       resources: [],
-    }
+    },
   );
 });

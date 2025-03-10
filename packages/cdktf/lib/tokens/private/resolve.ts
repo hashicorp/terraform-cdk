@@ -150,7 +150,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
     const tokenStr = TokenString.forString(
       str,
       !context.ignoreEscapes,
-      context.warnEscapes
+      context.warnEscapes,
     );
     if (tokenStr.test()) {
       const fragments = tokenStr.split(tokenMap.lookupToken.bind(tokenMap));
@@ -276,7 +276,7 @@ export class RememberingTokenResolver extends DefaultTokenResolver {
   public resolveToken(
     t: IResolvable,
     context: IResolveContext,
-    postProcessor: IPostProcessor
+    postProcessor: IPostProcessor,
   ) {
     this.tokensSeen.add(t);
     return super.resolveToken(t, context, postProcessor);

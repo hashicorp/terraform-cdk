@@ -504,7 +504,11 @@ import { DockerBackend } from "./constructs/docker-backend";
 
 class VPCStack extends TerraformStack {
   public vpc: Vpc;
-  constructor(scope: Construct, id: string, public region = "us-east-1") {
+  constructor(
+    scope: Construct,
+    id: string,
+    public region = "us-east-1",
+  ) {
     super(scope, id);
 
     new AwsProvider(this, "aws", {

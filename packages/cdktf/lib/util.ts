@@ -25,7 +25,7 @@ export function deepMerge(target: any, ...sources: any[]) {
         JSON.stringify(source),
         typeof source,
         JSON.stringify(target),
-        typeof target
+        typeof target,
       );
     }
 

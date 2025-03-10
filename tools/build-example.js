@@ -35,7 +35,7 @@ async function runInExample(command) {
     return await run(`npx lerna run --scope='${exampleToBuild}' ${command}`);
   } catch (e) {
     const err = new Error(
-      `Failed to run ${command} in ${exampleToBuild} with status ${e.code} and signal ${e.signal}`
+      `Failed to run ${command} in ${exampleToBuild} with status ${e.code} and signal ${e.signal}`,
     );
     console.error(e.message);
     console.error(e);

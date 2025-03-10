@@ -79,7 +79,7 @@ export abstract class AbstractTerraformPlan implements TerraformPlan {
   constructor(
     public readonly planFile: string,
     private readonly resourceChanges: ResourceChanges[],
-    private readonly outputChanges: Record<string, ResourceChangesChange>
+    private readonly outputChanges: Record<string, ResourceChangesChange>,
   ) {}
 
   public get resources(): PlannedResource[] {
@@ -153,7 +153,7 @@ export interface Terraform {
       varFiles?: string[];
       noColor?: boolean;
     },
-    callback: (state: TerraformDeployState) => void
+    callback: (state: TerraformDeployState) => void,
   ): Promise<{ cancelled: boolean }>;
   destroy(
     options: {
@@ -163,7 +163,7 @@ export interface Terraform {
       varFiles?: string[];
       noColor?: boolean;
     },
-    callback: (state: TerraformDeployState) => void
+    callback: (state: TerraformDeployState) => void,
   ): Promise<{ cancelled: boolean }>;
   output(): Promise<{ [key: string]: TerraformOutput }>;
   abort: () => Promise<void>;

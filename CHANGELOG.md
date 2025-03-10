@@ -1758,7 +1758,7 @@ const bucket = new s3.S3Bucket(this, "bucket");
 const firstRuleStage = Fn.lookup(
   bucket.lifecycleRule("0").tags,
   "stage",
-  "no-stage"
+  "no-stage",
 );
 const firstRuleTags = bucket.lifecycleRule("0").tags;
 

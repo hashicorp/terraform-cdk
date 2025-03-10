@@ -214,7 +214,7 @@ test("validation block variable self reference", () => {
     condition: `${Fn.lengthOf(variable.fqn)} > 4 && ${Fn.substr(
       variable.fqn,
       0,
-      4
+      4,
     )} == "ami-"`,
     errorMessage:
       'The image_id value must be a valid AMI id, starting with "ami-".',

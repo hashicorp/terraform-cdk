@@ -18,7 +18,7 @@ export class TerraformResourceTargets {
   private prettyPrintEntries() {
     return [...this._resourceTargetMap.entries()].reduce(
       (accum, curr) => accum + "\n" + `${curr[0]}: ${curr[1].friendlyUniqueId}`,
-      ""
+      "",
     );
   }
 
@@ -26,7 +26,7 @@ export class TerraformResourceTargets {
     if (this._resourceTargetMap.has(target)) {
       throw moveTargetAlreadySet(
         target,
-        this._resourceTargetMap.get(target)?.friendlyUniqueId
+        this._resourceTargetMap.get(target)?.friendlyUniqueId,
       );
     }
     this._resourceTargetMap.set(target, resource);

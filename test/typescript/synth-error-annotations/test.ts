@@ -23,7 +23,7 @@ describe("full integration test synth", () => {
       expect(stdout).toContain("ERROR [hello-terra/dummy]: error annotation");
       const errorString = e.stderr.toString();
       expect(errorString).toContain(
-        `While synthesizing one or more error annotations have been encountered. Please check the log output above.`
+        `While synthesizing one or more error annotations have been encountered. Please check the log output above.`,
       );
     }
   });

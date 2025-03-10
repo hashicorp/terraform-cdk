@@ -112,7 +112,7 @@ export function hashPath(src: string) {
       hash.update(fs.readFileSync(p));
     } else if (stat.isDirectory()) {
       fs.readdirSync(p).forEach((filename) =>
-        hashRecursion(path.resolve(p, filename))
+        hashRecursion(path.resolve(p, filename)),
       );
     }
   }
@@ -124,7 +124,7 @@ export function hashPath(src: string) {
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function findFileAboveCwd(
   file: string,
-  rootPath = process.cwd()
+  rootPath = process.cwd(),
 ): string | null {
   const fullPath = path.resolve(rootPath, file);
   if (fs.existsSync(fullPath)) {

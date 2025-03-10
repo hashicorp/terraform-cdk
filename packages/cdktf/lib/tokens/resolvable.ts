@@ -108,7 +108,7 @@ export interface ITokenResolver {
   resolveToken(
     t: IResolvable,
     context: IResolveContext,
-    postProcessor: IPostProcessor
+    postProcessor: IPostProcessor,
   ): any;
 
   /**
@@ -188,7 +188,7 @@ export class DefaultTokenResolver implements ITokenResolver {
   public resolveToken(
     t: IResolvable,
     context: IResolveContext,
-    postProcessor: IPostProcessor
+    postProcessor: IPostProcessor,
   ) {
     try {
       let resolved = t.resolve(context);
@@ -202,7 +202,7 @@ export class DefaultTokenResolver implements ITokenResolver {
       let message = `Resolution error: ${err.message}.`;
       if (t.creationStack && t.creationStack.length > 0) {
         message += `\nObject creation stack:\n  at ${t.creationStack.join(
-          "\n  at "
+          "\n  at ",
         )}`;
       }
 
@@ -216,7 +216,7 @@ export class DefaultTokenResolver implements ITokenResolver {
    */
   public resolveString(
     fragments: TokenizedStringFragments,
-    context: IResolveContext
+    context: IResolveContext,
   ) {
     return fragments.mapTokens(context).join(this.concat);
   }

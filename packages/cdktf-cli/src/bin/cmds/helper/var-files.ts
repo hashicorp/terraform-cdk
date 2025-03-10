@@ -13,7 +13,7 @@ const autoLoadedFileExtensions = [".auto.tfvars", ".auto.tfvars.json"];
 
 export function sanitizeVarFiles(
   varFiles: string[],
-  cwd: string = process.cwd()
+  cwd: string = process.cwd(),
 ): string[] {
   const files: string[] = [];
 
@@ -42,13 +42,13 @@ export function sanitizeVarFiles(
     const resolvedPath = path.resolve(cwd, varFile);
     if (!fs.existsSync(resolvedPath)) {
       throw Errors.Usage(
-        `Could not find var-file ${varFile} at ${resolvedPath}`
+        `Could not find var-file ${varFile} at ${resolvedPath}`,
       );
     }
 
     if (!fs.lstatSync(resolvedPath).isFile()) {
       throw Errors.Usage(
-        `The var-file ${varFile} at ${resolvedPath} is no file.`
+        `The var-file ${varFile} at ${resolvedPath} is no file.`,
       );
     }
 

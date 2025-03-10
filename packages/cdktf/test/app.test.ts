@@ -61,7 +61,7 @@ test("cdktfVersion is accessible in context", () => {
 test("app synth does not throw error when validatons are disabled", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
   const app = Testing.stubVersion(
-    new App({ stackTraces: false, outdir, skipValidation: true })
+    new App({ stackTraces: false, outdir, skipValidation: true }),
   );
   const stack = new TerraformStack(app, "MyStack");
 
@@ -119,7 +119,7 @@ test("app synth supports app level validations", () => {
 test("app synth supports skipping app level validations", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
   const app = Testing.stubVersion(
-    new App({ stackTraces: false, outdir, skipValidation: true })
+    new App({ stackTraces: false, outdir, skipValidation: true }),
   );
 
   const mockValidation = {
@@ -134,7 +134,7 @@ test("app synth supports skipping app level validations", () => {
 test("app synth executes Aspects", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
   const app = Testing.stubVersion(
-    new App({ stackTraces: false, outdir, skipValidation: true })
+    new App({ stackTraces: false, outdir, skipValidation: true }),
   );
   const stack = new TerraformStack(app, "MyStack");
 
@@ -214,16 +214,16 @@ describe("Cross Stack references", () => {
   function getStackSynths(app: App, additionalStack?: TerraformStack) {
     const originStackSynth = fs.readFileSync(
       path.resolve(app.outdir, "stacks", "OriginStack", "cdk.tf.json"),
-      "utf8"
+      "utf8",
     );
     const targetStackSynth = fs.readFileSync(
       path.resolve(app.outdir, "stacks", "TestStack", "cdk.tf.json"),
-      "utf8"
+      "utf8",
     );
 
     const manifest = fs.readFileSync(
       path.resolve(app.outdir, "manifest.json"),
-      "utf8"
+      "utf8",
     );
     const result: StackSynthResult = {
       originStackSynth,
@@ -237,9 +237,9 @@ describe("Cross Stack references", () => {
           app.outdir,
           "stacks",
           additionalStack.toString(),
-          "cdk.tf.json"
+          "cdk.tf.json",
         ),
-        "utf8"
+        "utf8",
       );
     }
     return result;
@@ -251,7 +251,7 @@ describe("Cross Stack references", () => {
 
     expect(JSON.parse(originStackSynth).output).toBe(undefined);
     expect(targetStackSynth).not.toHaveDataSource(
-      DataTerraformRemoteStateLocal
+      DataTerraformRemoteStateLocal,
     );
   });
 
@@ -276,7 +276,7 @@ describe("Cross Stack references", () => {
   it("infers the correct path for local state", () => {
     const tfStatePath = path.resolve(
       process.cwd(),
-      `terraform.OriginStack.tfstate`
+      `terraform.OriginStack.tfstate`,
     );
     new TestResource(testStack, "Resource", {
       name: originStack.resource.stringValue,
@@ -301,7 +301,7 @@ describe("Cross Stack references", () => {
         config: {
           path: path.resolve(process.cwd(), `terraform.OriginStack.tfstate`),
         },
-      }
+      },
     );
   });
 
@@ -328,7 +328,7 @@ describe("Cross Stack references", () => {
         config: {
           path: targetPath,
         },
-      }
+      },
     );
   });
 
@@ -358,7 +358,7 @@ describe("Cross Stack references", () => {
             name: "testworkspace",
           },
         },
-      }
+      },
     );
   });
 
@@ -388,7 +388,7 @@ describe("Cross Stack references", () => {
             name: "testworkspace",
           },
         },
-      }
+      },
     );
   });
 
@@ -449,12 +449,12 @@ describe("Cross Stack references", () => {
     const { originStackSynth } = getStackSynths(app);
     const resources = JSON.parse(originStackSynth).resource.test_resource;
     const myResourceKey = Object.keys(resources).find((name) =>
-      name.includes("MyResourceWithRef")
+      name.includes("MyResourceWithRef"),
     );
 
     expect(myResourceKey).toBeDefined();
     expect(resources[myResourceKey as string].name).toMatchInlineSnapshot(
-      `"\${test_resource.resource.string_value}"`
+      `"\${test_resource.resource.string_value}"`,
     );
   });
 
@@ -471,24 +471,24 @@ describe("Cross Stack references", () => {
     const { targetStackSynth } = getStackSynths(app);
     const resources = JSON.parse(targetStackSynth).resource.test_resource;
     const resourceWithoutFunctionKey = Object.keys(resources).find((name) =>
-      name.includes("ResourceWithoutFunction")
+      name.includes("ResourceWithoutFunction"),
     );
     const resourceWithFunctionKey = Object.keys(resources).find((name) =>
-      name.includes("ResourceWithFunction")
+      name.includes("ResourceWithFunction"),
     );
 
     expect(resourceWithoutFunctionKey).toBeDefined();
     expect(
-      resources[resourceWithoutFunctionKey as string].name
+      resources[resourceWithoutFunctionKey as string].name,
     ).toMatchInlineSnapshot(
-      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-test_resourceresourcestring_value}"`
+      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-test_resourceresourcestring_value}"`,
     );
 
     expect(resourceWithFunctionKey).toBeDefined();
     expect(
-      resources[resourceWithFunctionKey as string].name
+      resources[resourceWithFunctionKey as string].name,
     ).toMatchInlineSnapshot(
-      `"\${tostring(data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-test_resourceresourcestring_value)}"`
+      `"\${tostring(data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-test_resourceresourcestring_value)}"`,
     );
   });
 
@@ -506,7 +506,7 @@ describe("Cross Stack references", () => {
           sensitive: true,
           value: expect.stringContaining(".string_value"),
         }),
-      ])
+      ]),
     );
   });
 
@@ -545,7 +545,7 @@ describe("Cross Stack references", () => {
     });
 
     expect(() => app.synth()).toThrow(
-      /Cannot add dependency TestStack to AnotherStack, because it would cause a circular dependency/
+      /Cannot add dependency TestStack to AnotherStack, because it would cause a circular dependency/,
     );
   });
 
@@ -574,7 +574,7 @@ describe("Cross Stack references", () => {
     expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
     expect(targetStackSynth).toHaveDataSource(DataTerraformRemoteStateLocal);
     expect(additionalStackSynth).toHaveDataSource(
-      DataTerraformRemoteStateLocal
+      DataTerraformRemoteStateLocal,
     );
   });
 
@@ -589,10 +589,10 @@ describe("Cross Stack references", () => {
     expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
     expect(targetStackSynth).toHaveDataSource(DataTerraformRemoteStateLocal);
     const originOutput = Object.values(
-      JSON.parse(originStackSynth).output as { value: string }[]
+      JSON.parse(originStackSynth).output as { value: string }[],
     )[0].value;
     const originOutputName = Object.keys(
-      JSON.parse(originStackSynth).output as { value: string }[]
+      JSON.parse(originStackSynth).output as { value: string }[],
     )[0];
     expect(originOutput).toContain(".complex_computed_list[42].id");
     expect(targetStackSynth).toHaveResourceWithProperties(TestResource, {
@@ -613,17 +613,17 @@ describe("Cross Stack references", () => {
 
     expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
     const originOutput = Object.values(
-      JSON.parse(originStackSynth).output as { value: string }[]
+      JSON.parse(originStackSynth).output as { value: string }[],
     )[0].value;
     expect(originOutput).toMatchInlineSnapshot(
-      `"\${other_test_resource.other.complex_computed_list[42]}"`
+      `"\${other_test_resource.other.complex_computed_list[42]}"`,
     );
     expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
     const targetOutput = Object.values(
-      JSON.parse(targetStackSynth).output as { value: string }[]
+      JSON.parse(targetStackSynth).output as { value: string }[],
     )[0].value;
     expect(targetOutput).toMatchInlineSnapshot(
-      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-other_test_resourceothercomplex_computed_list42}"`
+      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-other_test_resourceothercomplex_computed_list42}"`,
     );
   });
 
@@ -638,17 +638,17 @@ describe("Cross Stack references", () => {
 
     expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
     const originOutput = Object.values(
-      JSON.parse(originStackSynth).output as { value: string }[]
+      JSON.parse(originStackSynth).output as { value: string }[],
     )[0].value;
     expect(originOutput).toMatchInlineSnapshot(
-      `"\${other_test_resource.other.complex_computed_list}"`
+      `"\${other_test_resource.other.complex_computed_list}"`,
     );
     expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
     const targetOutput = Object.values(
-      JSON.parse(targetStackSynth).output as { value: string }[]
+      JSON.parse(targetStackSynth).output as { value: string }[],
     )[0].value;
     expect(targetOutput).toMatchInlineSnapshot(
-      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-other_test_resourceothercomplex_computed_list}"`
+      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-other_test_resourceothercomplex_computed_list}"`,
     );
   });
 
@@ -663,17 +663,17 @@ describe("Cross Stack references", () => {
 
     expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
     const originOutput = Object.values(
-      JSON.parse(originStackSynth).output as { value: string }[]
+      JSON.parse(originStackSynth).output as { value: string }[],
     )[0].value;
     expect(originOutput).toMatchInlineSnapshot(
-      `"\${other_test_resource.other.outputRef[0].value}"`
+      `"\${other_test_resource.other.outputRef[0].value}"`,
     );
     expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
     const targetOutput = Object.values(
-      JSON.parse(targetStackSynth).output as { value: string }[]
+      JSON.parse(targetStackSynth).output as { value: string }[],
     )[0].value;
     expect(targetOutput).toMatchInlineSnapshot(
-      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-other_test_resourceotheroutputRef0value}"`
+      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-other_test_resourceotheroutputRef0value}"`,
     );
   });
 
@@ -688,17 +688,17 @@ describe("Cross Stack references", () => {
 
     expect(Object.keys(JSON.parse(originStackSynth).output).length).toBe(1);
     const originOutput = Object.values(
-      JSON.parse(originStackSynth).output as { value: string }[]
+      JSON.parse(originStackSynth).output as { value: string }[],
     )[0].value;
     expect(originOutput).toMatchInlineSnapshot(
-      `"\${other_test_resource.other}"`
+      `"\${other_test_resource.other}"`,
     );
     expect(Object.keys(JSON.parse(targetStackSynth).output).length).toBe(1);
     const targetOutput = Object.values(
-      JSON.parse(targetStackSynth).output as { value: string }[]
+      JSON.parse(targetStackSynth).output as { value: string }[],
     )[0].value;
     expect(targetOutput).toMatchInlineSnapshot(
-      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-other_test_resourceother}"`
+      `"\${data.terraform_remote_state.cross-stack-reference-input-OriginStack.outputs.cross-stack-output-other_test_resourceother}"`,
     );
   });
 });

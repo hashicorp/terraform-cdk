@@ -177,12 +177,12 @@ export class App extends Construct {
   public crossStackReference(
     fromStack: TerraformStack,
     toStack: TerraformStack,
-    identifier: string
+    identifier: string,
   ): string {
     toStack.addDependency(fromStack);
     const outputId =
       fromStack.registerOutgoingCrossStackReference(
-        identifier
+        identifier,
       ).friendlyUniqueId;
 
     const remoteState = toStack.registerIncomingCrossStackReference(fromStack);

@@ -12,117 +12,117 @@ import { CodeMaker } from "codemaker";
 test("shard exports across multiple files to avoid generating files with more than a 1000 exports", async () => {
   const code = new CodeMaker();
   const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "export-sharding.test")
+    path.join(os.tmpdir(), "export-sharding.test"),
   );
 
   const spec = JSON.parse(
     fs.readFileSync(
       path.join(__dirname, "fixtures", "aws_wafv2_web_acl.test.fixture.json"),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/test/wafv2-web-acl/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot(`wafv2-web-acl-resource`);
 
   const outputStructsIndex = fs.readFileSync(
     path.join(workdir, "providers/test/wafv2-web-acl/index-structs/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructsIndex).toMatchSnapshot(`structs-index`);
 
   const outputStructs0 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs0.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs0.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs0).toMatchSnapshot(`structs0`);
 
   const outputStructs400 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs400.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs400.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs400).toMatchSnapshot(`structs400`);
 
   const outputStructs800 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs800.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs800.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs800).toMatchSnapshot(`structs800`);
 
   const outputStructs1200 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs1200.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs1200.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs1200).toMatchSnapshot(`structs1200`);
 
   const outputStructs1600 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs1600.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs1600.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs1600).toMatchSnapshot(`structs1600`);
 
   const outputStructs2000 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs2000.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs2000.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs2000).toMatchSnapshot(`structs2000`);
 
   const outputStructs2400 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs2400.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs2400.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs2400).toMatchSnapshot(`structs2400`);
 
   const outputStructs2800 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs2800.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs2800.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs2800).toMatchSnapshot(`structs2800`);
 
   const outputStructs3200 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs3200.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs3200.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs3200).toMatchSnapshot(`structs3200`);
 
   const outputStructs3600 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/test/wafv2-web-acl/index-structs/structs3600.ts"
+      "providers/test/wafv2-web-acl/index-structs/structs3600.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs3600).toMatchSnapshot(`structs3600`);
 });
@@ -130,42 +130,42 @@ test("shard exports across multiple files to avoid generating files with more th
 test("shard exports across multiple files to avoid generating files with more than a 1000 exports in a provider without namespaces", async () => {
   const code = new CodeMaker();
   const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "export-sharding-no-namespace.test")
+    path.join(os.tmpdir(), "export-sharding-no-namespace.test"),
   );
 
   const spec = JSON.parse(
     fs.readFileSync(
       path.join(__dirname, "fixtures", "datadog_dashboard.test.fixture.json"),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/datadog/dashboard/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot(`dashboard-resource`);
 
   const outputStructsIndex = fs.readFileSync(
     path.join(workdir, "providers/datadog/dashboard/index-structs/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructsIndex).toMatchSnapshot(`structs-index`);
 
   const outputStructs0 = fs.readFileSync(
     path.join(workdir, "providers/datadog/dashboard/index-structs/structs0.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs0).toMatchSnapshot(`structs0`);
 
   const outputStructs400 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/datadog/dashboard/index-structs/structs400.ts"
+      "providers/datadog/dashboard/index-structs/structs400.ts",
     ),
-    "utf-8"
+    "utf-8",
   );
   expect(outputStructs400).toMatchSnapshot(`structs400`);
 });

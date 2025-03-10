@@ -22,11 +22,11 @@ class Command extends BaseCommand {
       .example("cdktf login", "Takes you through the interactive login process")
       .example(
         "cdktf login --tfe-hostname tfe.my-company.com",
-        "Takes you through the interactive login process on your companies Terraform Enterprise instance."
+        "Takes you through the interactive login process on your companies Terraform Enterprise instance.",
       )
       .example(
         "cat my-token.txt | cdktf login",
-        "Uses a locally stored token directly, instead of going through the interactive login process"
+        "Uses a locally stored token directly, instead of going through the interactive login process",
       )
       .strict();
 
