@@ -32,7 +32,7 @@ describe("init command", () => {
       if (result.stderr.length > 0) {
         const lines = result.stderr.split("\n");
         for (const line of lines) {
-          expect(line).toContain("npm WARN");
+          expect(line.toLowerCase()).toContain("npm warn");
         }
       } else {
         expect(result.stderr).toEqual("");
