@@ -3,9 +3,12 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import { fixupConfigRules } from "@eslint/compat";
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
 import tsParser from "@typescript-eslint/parser";
+import react from "eslint-plugin-react";
+import prettierConfig from "eslint-plugin-prettier/recommended";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
@@ -21,36 +24,34 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ["**/node_modules", "**/dist", "**/coverage", "**/*.d.ts"],
+    ignores: [
+      "**/node_modules",
+      "**/dist",
+      "**/coverage",
+      "**/*.d.ts",
+      "**/*.js",
+    ],
   },
-  ...fixupConfigRules(
-    compat.extends(
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended",
-      "plugin:react-hooks/recommended",
-      "prettier"
-    )
-  ).map((config) => ({
-    ...config,
-    files: ["**/*.ts", "**/*.tsx"],
-  })),
+  ...tseslint.config(eslint.configs.recommended, tseslint.configs.recommended),
   {
-    files: ["**/*.ts", "**/*.tsx"],
-
-    plugins: {
-      "@typescript-eslint": fixupPluginRules(typescriptEslint),
-    },
-
-    languageOptions: {
-      parser: tsParser,
-    },
-
     settings: {
       react: {
         version: "detect",
       },
+    },
+  },
+  react.configs.flat.recommended,
+  ...fixupConfigRules(compat.extends("plugin:react-hooks/recommended")).map(
+    (config) => ({
+      ...config,
+      files: ["**/*.ts", "**/*.tsx"],
+    }),
+  ),
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+
+    languageOptions: {
+      parser: tsParser,
     },
 
     rules: {
@@ -70,4 +71,5 @@ export default [
       ],
     },
   },
+  prettierConfig,
 ];

@@ -53,8 +53,8 @@ import {
   const targets = Object.entries(providerRequirements).map(([name, version]) =>
     ConstructsMakerProviderTarget.from(
       new config.TerraformProviderConstraint(`${name}@ ${version}`),
-      LANGUAGES[0]
-    )
+      LANGUAGES[0],
+    ),
   );
   // Get all the provider schemas, making the conversion more precise
   const { providerSchema } = await readSchema(targets);
@@ -68,7 +68,7 @@ import {
     hcl,
     mainTs.code,
     require("../cdktf.json"),
-    { language: "typescript", providerSchema } // Currently we only support Typescript for project conversion
+    { language: "typescript", providerSchema }, // Currently we only support Typescript for project conversion
   );
 })();
 ```

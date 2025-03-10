@@ -53,10 +53,10 @@ describe("provider add command", () => {
         const proj = driver.readLocalFile("MyTerraformStack.csproj");
 
         expect(proj).toContain(
-          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />'
+          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />',
         );
       },
-      500_000
+      500_000,
     );
 
     onWindows(
@@ -87,10 +87,10 @@ describe("provider add command", () => {
         const proj = driver.readLocalFile("MyTerraformStack.csproj");
 
         expect(proj).toContain(
-          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />'
+          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />',
         );
       },
-      500_000
+      500_000,
     );
   });
 });

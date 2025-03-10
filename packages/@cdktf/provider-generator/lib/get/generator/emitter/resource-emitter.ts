@@ -16,11 +16,11 @@ export class ResourceEmitter {
     this.code.line();
     const comment = sanitizedComment(this.code);
     comment.line(
-      `Represents a {@link ${resource.linkToDocs} ${resource.terraformResourceType}}`
+      `Represents a {@link ${resource.linkToDocs} ${resource.terraformResourceType}}`,
     );
     comment.end();
     this.code.openBlock(
-      `export class ${resource.className} extends cdktf.${resource.parentClassName}`
+      `export class ${resource.className} extends cdktf.${resource.parentClassName}`,
     );
 
     this.emitHeader("STATIC PROPERTIES");
@@ -52,37 +52,37 @@ export class ResourceEmitter {
 
   private emitStaticProperties(resource: ResourceModel) {
     this.code.line(
-      `public static readonly tfResourceType = "${resource.terraformResourceType}";`
+      `public static readonly tfResourceType = "${resource.terraformResourceType}";`,
     );
   }
 
   private emitStaticMethods(resource: ResourceModel) {
     const comment = sanitizedComment(this.code);
     comment.line(
-      `Generates CDKTF code for importing a ${resource.className} resource upon running "cdktf plan <stack-name>"`
+      `Generates CDKTF code for importing a ${resource.className} resource upon running "cdktf plan <stack-name>"`,
     );
     comment.line(`@param scope The scope in which to define this construct`);
     comment.line(
-      `@param importToId The construct id used in the generated config for the ${resource.className} to import`
+      `@param importToId The construct id used in the generated config for the ${resource.className} to import`,
     );
     comment.line(
-      `@param importFromId The id of the existing ${resource.className} that should be imported. Refer to the {@link ${resource.linkToDocs}#import import section} in the documentation of this resource for the id to use`
+      `@param importFromId The id of the existing ${resource.className} that should be imported. Refer to the {@link ${resource.linkToDocs}#import import section} in the documentation of this resource for the id to use`,
     );
     comment.line(
-      `@param provider? Optional instance of the provider where the ${resource.className} to import is found`
+      `@param provider? Optional instance of the provider where the ${resource.className} to import is found`,
     );
     comment.end();
     this.code.line(
       `public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "${resource.terraformResourceType}", importId: importFromId, provider });
-      }`
+      }`,
     );
   }
 
   private emitHclResourceSynthesis(resource: ResourceModel) {
     this.code.line();
     this.code.openBlock(
-      `protected synthesizeHclAttributes(): { [name: string]: any }`
+      `protected synthesizeHclAttributes(): { [name: string]: any }`,
     );
     this.code.open(`const attrs = {`);
 
@@ -96,7 +96,7 @@ export class ResourceEmitter {
       this.code.line();
       this.code.line(`// remove undefined attributes`);
       this.code.line(
-        `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))`
+        `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined ))`,
       );
     } else {
       this.code.line(`return attrs;`);
@@ -108,7 +108,7 @@ export class ResourceEmitter {
   private emitResourceSynthesis(resource: ResourceModel) {
     this.code.line();
     this.code.openBlock(
-      `protected synthesizeAttributes(): { [name: string]: any }`
+      `protected synthesizeAttributes(): { [name: string]: any }`,
     );
     this.code.open(`return {`);
 
@@ -125,7 +125,7 @@ export class ResourceEmitter {
       this.attributesEmitter.emit(
         att,
         this.attributesEmitter.needsResetEscape(att, resource.attributes),
-        this.attributesEmitter.needsInputEscape(att, resource.attributes)
+        this.attributesEmitter.needsInputEscape(att, resource.attributes),
       );
     }
   }
@@ -136,17 +136,17 @@ export class ResourceEmitter {
     comment.line(
       `Create a new {@link ${resource.linkToDocs} ${
         resource.terraformResourceType
-      }} ${resource.isDataSource ? "Data Source" : "Resource"}`
+      }} ${resource.isDataSource ? "Data Source" : "Resource"}`,
     );
     comment.line(``);
     comment.line(`@param scope The scope in which to define this construct`);
     comment.line(
-      `@param id The scoped construct ID. Must be unique amongst siblings in the same scope`
+      `@param id The scoped construct ID. Must be unique amongst siblings in the same scope`,
     );
     comment.line(`@param options ${resource.configStruct.attributeType}`);
     comment.end();
     this.code.openBlock(
-      `public constructor(scope: Construct, id: string, config: ${resource.configStruct.attributeType})`
+      `public constructor(scope: Construct, id: string, config: ${resource.configStruct.attributeType})`,
     );
 
     resource.isProvider
@@ -157,7 +157,7 @@ export class ResourceEmitter {
     for (const att of resource.configStruct.assignableAttributes) {
       if (att.setterType._type === "stored_class") {
         this.code.line(
-          `this.${att.storageName}.internalValue = config.${att.name};`
+          `this.${att.storageName}.internalValue = config.${att.name};`,
         );
       } else {
         this.code.line(`this.${att.storageName} = config.${att.name};`);
@@ -170,7 +170,7 @@ export class ResourceEmitter {
   private emitResourceSuper(resource: ResourceModel) {
     this.code.open(`super(scope, id, {`);
     this.code.line(
-      `terraformResourceType: '${resource.terraformResourceType}',`
+      `terraformResourceType: '${resource.terraformResourceType}',`,
     );
     this.emitTerraformGeneratorMetadata(resource);
     this.code.line(`provider: config.provider,`);
@@ -186,11 +186,11 @@ export class ResourceEmitter {
   private emitProviderSuper(resource: ResourceModel) {
     this.code.open(`super(scope, id, {`);
     this.code.line(
-      `terraformResourceType: '${resource.terraformResourceType}',`
+      `terraformResourceType: '${resource.terraformResourceType}',`,
     );
     this.emitTerraformGeneratorMetadata(resource);
     this.code.line(
-      `terraformProviderSource: '${resource.terraformProviderSource}'`
+      `terraformProviderSource: '${resource.terraformProviderSource}'`,
     );
     this.code.close(`});`);
   }
@@ -202,20 +202,20 @@ export class ResourceEmitter {
         resource.providerVersion || resource.providerVersionConstraint
           ? ","
           : ""
-      }`
+      }`,
     );
 
     if (resource.providerVersion) {
       this.code.line(
         `providerVersion: '${resource.providerVersion}'${
           resource.providerVersionConstraint ? "," : ""
-        }`
+        }`,
       );
     }
 
     if (resource.providerVersionConstraint) {
       this.code.line(
-        `providerVersionConstraint: '${resource.providerVersionConstraint}'`
+        `providerVersionConstraint: '${resource.providerVersionConstraint}'`,
       );
     }
 

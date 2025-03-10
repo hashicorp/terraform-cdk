@@ -26,10 +26,10 @@ describe("multiple stacks", () => {
     onlyHcl("hcl synth", async () => {
       await driver.synth();
       expect(
-        driver.synthesizedStackContentsRaw("first").toString()
+        driver.synthesizedStackContentsRaw("first").toString(),
       ).toMatchSnapshot();
       expect(
-        driver.synthesizedStackContentsRaw("second").toString()
+        driver.synthesizedStackContentsRaw("second").toString(),
       ).toMatchSnapshot();
     });
 
@@ -85,21 +85,21 @@ describe("multiple stacks", () => {
     test("deploy", async () => {
       expect(await driver.deploy(["first"])).toContain(`Apply complete!`);
       expect(await driver.deploy(["first", "second"])).toContain(
-        `Apply complete!`
+        `Apply complete!`,
       );
 
       expect(driver.deploy()).rejects.toThrowError(
-        "Found more than one stack, please specify a target stack. Run cdktf deploy <stack> with one of these stacks: first, second"
+        "Found more than one stack, please specify a target stack. Run cdktf deploy <stack> with one of these stacks: first, second",
       );
     });
 
     test("destroy", () => {
       expect(driver.destroy(["first", "second"])).toContain(
-        `Destroy complete!`
+        `Destroy complete!`,
       );
 
       expect(() => driver.destroy()).toThrowError(
-        "Found more than one stack, please specify a target stack. Run cdktf destroy <stack> with one of these stacks: first, second"
+        "Found more than one stack, please specify a target stack. Run cdktf destroy <stack> with one of these stacks: first, second",
       );
     });
   });

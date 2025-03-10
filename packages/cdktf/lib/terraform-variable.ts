@@ -194,7 +194,7 @@ export class TerraformVariable
     };
 
     return Object.fromEntries(
-      Object.entries(attrs).filter(([_, value]) => !!value?.value)
+      Object.entries(attrs).filter(([_, value]) => !!value?.value),
     );
   }
 
@@ -217,7 +217,7 @@ export class TerraformVariable
       variable: {
         [this.friendlyUniqueId]: deepMerge(
           keysToSnakeCase(this.synthesizeHclAttributes()),
-          this.rawOverrides
+          this.rawOverrides,
         ),
       },
     };
@@ -228,7 +228,7 @@ export class TerraformVariable
       variable: {
         [this.friendlyUniqueId]: deepMerge(
           keysToSnakeCase(this.synthesizeAttributes()),
-          this.rawOverrides
+          this.rawOverrides,
         ),
       },
     };

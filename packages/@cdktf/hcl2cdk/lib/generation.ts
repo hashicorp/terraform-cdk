@@ -57,7 +57,7 @@ function getReference(graph: DirectedGraph, id: string) {
     if (edge) {
       logger.debug(`Found first edge ${edge} for ${id}`);
       logger.debug(
-        `Returning reference ${graph.getEdgeAttribute(edge, "ref")}`
+        `Returning reference ${graph.getEdgeAttribute(edge, "ref")}`,
       );
       return graph.getEdgeAttribute(edge, "ref") as Reference;
     } else {
@@ -77,31 +77,31 @@ export const valueToTs = async (
   scope: ResourceScope,
   item: TerraformResourceBlock,
   path: string,
-  isModule = false
+  isModule = false,
 ): Promise<t.Expression> => {
   switch (typeof item) {
     case "string":
       if (
         (await findUsedReferences(scope.nodeIds, item)).some((ref) =>
-          path.startsWith(ref.referencee.id)
+          path.startsWith(ref.referencee.id),
         )
       ) {
         return t.stringLiteral(item);
       }
 
       return await convertTerraformExpressionToTs(scope, `"${item}"`, () =>
-        getDesiredType(scope, path)
+        getDesiredType(scope, path),
       );
 
     case "boolean":
       return await convertTerraformExpressionToTs(scope, `${item}`, () =>
-        getDesiredType(scope, path)
+        getDesiredType(scope, path),
       );
     case "number":
       return await convertTerraformExpressionToTs(scope, `${item}`, () =>
-        getDesiredType(scope, path)
+        getDesiredType(scope, path),
       );
-    case "object":
+    case "object": {
       if (item === undefined || item === null) {
         return t.nullLiteral();
       }
@@ -114,7 +114,7 @@ export const valueToTs = async (
       const attributeType = getTypeAtPath(scope.providerSchema, path);
 
       function shouldRemoveArrayBasedOnType(
-        attributeType: Schema | AttributeType | BlockType | null
+        attributeType: Schema | AttributeType | BlockType | null,
       ): boolean {
         if (!attributeType) {
           return false; // The default assumption is we need the array
@@ -151,8 +151,8 @@ export const valueToTs = async (
       if (Array.isArray(unwrappedItem)) {
         return t.arrayExpression(
           await Promise.all(
-            unwrappedItem.map((i) => valueToTs(scope, i, `${path}.[]`))
-          )
+            unwrappedItem.map((i) => valueToTs(scope, i, `${path}.[]`)),
+          ),
         );
       }
 
@@ -171,27 +171,27 @@ export const valueToTs = async (
                   t.identifier(
                     scope.withinOverrideExpression
                       ? dynamicRef
-                      : escapeAttributeName(camelCase(dynamicRef))
+                      : escapeAttributeName(camelCase(dynamicRef)),
                   ),
-                  t.arrayExpression()
+                  t.arrayExpression(),
                 );
               }
 
               const itemPath = `${path}.${key}`;
               const itemAttributeType = getTypeAtPath(
                 scope.providerSchema,
-                itemPath
+                itemPath,
               );
 
               const typeMetadata = getTypeAtPath(
                 scope.providerSchema,
-                itemPath
+                itemPath,
               );
 
               const isSingleItemBlock =
                 typeMetadata &&
                 typeof typeMetadata === "object" &&
-                typeMetadata.hasOwnProperty("max_items")
+                Object.prototype.hasOwnProperty.call(typeMetadata, "max_items")
                   ? (typeMetadata as any).max_items === 1
                   : false;
 
@@ -217,23 +217,24 @@ export const valueToTs = async (
 
               return t.objectProperty(
                 t.stringLiteral(
-                  keepKeyName ? key : attributeNameToCdktfName(key)
+                  keepKeyName ? key : attributeNameToCdktfName(key),
                 ),
                 shouldBeArray
                   ? t.arrayExpression([await valueToTs(scope, value, itemPath)])
-                  : await valueToTs(scope, value, itemPath)
+                  : await valueToTs(scope, value, itemPath),
               );
-            })
+            }),
           )
-        ).filter((expr) => expr !== undefined) as t.ObjectProperty[]
+        ).filter((expr) => expr !== undefined) as t.ObjectProperty[],
       );
+    }
   }
   throw new Error("Unsupported type " + item);
 };
 
 export async function backendToExpression(
   scope: ProgramScope,
-  tf: TerraformConfig["backend"]
+  tf: TerraformConfig["backend"],
 ): Promise<t.Statement[]> {
   return (
     await Promise.all(
@@ -255,19 +256,19 @@ export async function backendToExpression(
                       await valueToTs(
                         scope,
                         value,
-                        "path-for-backends-can-be-ignored"
-                      )
-                    )
-                  )
+                        "path-for-backends-can-be-ignored",
+                      ),
+                    ),
+                  ),
                 )
               ).reduce(
                 (carry, item) => [...carry, item],
-                [] as t.ObjectProperty[]
-              )
+                [] as t.ObjectProperty[],
+              ),
             ),
-          ])
+          ]),
         );
-      })
+      }),
     )
   ).reduce((carry, item) => [...carry, item], [] as t.Statement[]);
 }
@@ -276,13 +277,13 @@ function addOverrideExpression(
   variable: string,
   path: string,
   value: t.Expression,
-  explanatoryComment?: string
+  explanatoryComment?: string,
 ) {
   const ast = t.expressionStatement(
     t.callExpression(
       t.memberExpression(t.identifier(variable), t.identifier("addOverride")),
-      [t.stringLiteral(path), value]
-    )
+      [t.stringLiteral(path), value],
+    ),
   );
 
   if (explanatoryComment) {
@@ -297,16 +298,16 @@ function addOverrideLogicalIdExpression(variable: string, logicalId: string) {
     t.callExpression(
       t.memberExpression(
         t.identifier(variable),
-        t.identifier("overrideLogicalId")
+        t.identifier("overrideLogicalId"),
       ),
-      [t.stringLiteral(logicalId)]
-    )
+      [t.stringLiteral(logicalId)],
+    ),
   );
 
   t.addComment(
     ast,
     "leading",
-    "This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match."
+    "This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.",
   );
 
   return ast;
@@ -333,7 +334,7 @@ function resourceType(provider: string, name: string[], item: Resource) {
   switch (provider) {
     case "data.terraform":
       return `cdktf.data_terraform_${name.join("_")}${getRemoteStateType(
-        item
+        item,
       )}`;
     case "null":
       return `NullProvider.${name.join("_")}`;
@@ -350,7 +351,7 @@ function mapConfigPerResourceType(resource: string, item: Resource[0]) {
   return item;
 }
 
-const loopComment = `In most cases loops should be handled in the programming language context and 
+const loopComment = `In most cases loops should be handled in the programming language context and
 not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
 you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
 you need to keep this like it is.`;
@@ -360,7 +361,7 @@ export async function resource(
   key: string,
   id: string,
   item: Resource,
-  graph: DirectedGraph
+  graph: DirectedGraph,
 ): Promise<t.Statement[]> {
   const [provider, ...name] = type.split("_");
   const resource = resourceType(provider, name, item);
@@ -378,12 +379,12 @@ export async function resource(
     forEachIteratorName = variableName(
       scope,
       resource,
-      `${key}_for_each_iterator`
+      `${key}_for_each_iterator`,
     );
     const referenceAst = await convertTerraformExpressionToTs(
       scope,
       `"${for_each}"`,
-      () => ["list", "dynamic"]
+      () => ["list", "dynamic"],
     );
 
     scope.importables.push({
@@ -397,11 +398,11 @@ export async function resource(
         t.callExpression(
           t.memberExpression(
             t.identifier("TerraformIterator"),
-            t.identifier("fromList")
+            t.identifier("fromList"),
           ),
 
-          [referenceAst]
-        )
+          [referenceAst],
+        ),
       ),
     ]);
     t.addComment(iterator, "leading", loopComment);
@@ -416,7 +417,7 @@ export async function resource(
     const referenceAst = await convertTerraformExpressionToTs(
       scope,
       `"${count}"`,
-      () => "number"
+      () => "number",
     );
 
     scope.importables.push({
@@ -430,10 +431,10 @@ export async function resource(
         t.callExpression(
           t.memberExpression(
             t.identifier("TerraformCount"),
-            t.identifier("of")
+            t.identifier("of"),
           ),
-          [referenceAst]
-        )
+          [referenceAst],
+        ),
       ),
     ]);
     t.addComment(iterator, "leading", loopComment);
@@ -443,7 +444,7 @@ export async function resource(
 
   const dynBlocks = extractDynamicBlocks(mappedConfig);
   const nestedDynamicBlocks = dynBlocks.filter((block) =>
-    isNestedDynamicBlock(dynBlocks, block)
+    isNestedDynamicBlock(dynBlocks, block),
   );
   const dynamicBlocksUsingOverrides = dynBlocks.filter(
     (block) =>
@@ -451,25 +452,25 @@ export async function resource(
       nestedDynamicBlocks.includes(block) ||
       // blocks that contain nested blocks need them as well
       nestedDynamicBlocks.some((nestedBlock) =>
-        nestedBlock.path.startsWith(block.path)
-      )
+        nestedBlock.path.startsWith(block.path),
+      ),
   );
   // all others can be handled by the CDKTF runtime
   const dynamicBlocksUsingRuntime = dynBlocks.filter(
-    (block) => !dynamicBlocksUsingOverrides.includes(block)
+    (block) => !dynamicBlocksUsingOverrides.includes(block),
   );
 
   for (const [i, block] of dynamicBlocksUsingRuntime.entries()) {
     const dynamicBlockIteratorName = variableName(
       scope,
       resource,
-      `${key}_dynamic_iterator_${i}`
+      `${key}_dynamic_iterator_${i}`,
     );
 
     const referenceAst = await convertTerraformExpressionToTs(
       scope,
       `"${block.for_each}"`,
-      () => ["list", "dynamic"]
+      () => ["list", "dynamic"],
     );
 
     scope.importables.push({
@@ -483,10 +484,10 @@ export async function resource(
         t.callExpression(
           t.memberExpression(
             t.identifier("TerraformIterator"),
-            t.identifier("fromList")
+            t.identifier("fromList"),
           ),
-          [referenceAst]
-        )
+          [referenceAst],
+        ),
       ),
     ]);
     t.addComment(iterator, "leading", loopComment);
@@ -494,7 +495,7 @@ export async function resource(
     const dynamicCallExpression = t.callExpression(
       t.memberExpression(
         t.identifier(dynamicBlockIteratorName),
-        t.identifier("dynamic")
+        t.identifier("dynamic"),
       ),
       [
         await valueToTs(
@@ -507,12 +508,12 @@ export async function resource(
           fillWithConfigAccessors(
             scope,
             Array.isArray(block.content) ? block.content[0] : block.content,
-            block.path.replace(block.scopedVar, "")
+            block.path.replace(block.scopedVar, ""),
           ),
           block.path.replace(block.scopedVar, ""),
-          false
+          false,
         ),
-      ]
+      ],
     );
 
     const parts = block.path
@@ -549,10 +550,10 @@ export async function resource(
           valueToTs(
             scope,
             { type, ...pp },
-            "path-for-provisioners-can-be-ignored"
-          )
-        )
-      )
+            "path-for-provisioners-can-be-ignored",
+          ),
+        ),
+      ),
     );
   }
 
@@ -570,8 +571,8 @@ export async function resource(
       false,
       false,
       getReference(graph, id) || overrideReference,
-      importDefinition
-    )
+      importDefinition,
+    ),
   );
 
   // Check for dynamic blocks
@@ -587,9 +588,9 @@ export async function resource(
             .substring(1) // The path starts with a dot that results in an empty split
             .split(".")
             .filter(
-              (p) => !["dynamic", "content"].includes(p) && isNaN(parseInt(p))
+              (p) => !["dynamic", "content"].includes(p) && isNaN(parseInt(p)),
             )
-            .map((p) => [p, "dynamic-block"])
+            .map((p) => [p, "dynamic-block"]),
         );
 
         return addOverrideExpression(
@@ -605,12 +606,12 @@ export async function resource(
               for_each,
               content,
             },
-            "path-for-dynamic-blocks-can-be-ignored"
+            "path-for-dynamic-blocks-can-be-ignored",
           ),
-          loopComment
+          loopComment,
         );
-      })
-    )
+      }),
+    ),
   );
 
   return expressions;
@@ -624,7 +625,7 @@ async function asExpression(
   isModuleImport: boolean,
   isProvider: boolean,
   reference?: Reference,
-  imported?: Import
+  imported?: Import,
 ) {
   const { providers, ...otherOptions } = config as any;
 
@@ -652,9 +653,9 @@ async function asExpression(
               : undefined,
         },
         `${type}`,
-        isModuleImport
+        isModuleImport,
       ),
-    ]
+    ],
   );
 
   const statements = [];
@@ -666,7 +667,7 @@ async function asExpression(
     statements.push(
       t.variableDeclaration("const", [
         t.variableDeclarator(t.identifier(varName), expression),
-      ])
+      ]),
     );
   } else {
     statements.push(t.expressionStatement(expression));
@@ -681,15 +682,15 @@ async function asExpression(
     const importExpression = t.expressionStatement(
       t.callExpression(
         t.memberExpression(t.identifier(varName), t.identifier("importFrom")),
-        [t.stringLiteral(imported.id)]
-      )
+        [t.stringLiteral(imported.id)],
+      ),
     );
 
     if (imported.provider) {
       t.addComment(
         importExpression,
         "leading",
-        `This import was configured with a provider. CDKTF does support this, but the cdktf convert command does not yet. Please add the provider reference manually. See https://developer.hashicorp.com/terraform/cdktf/concepts/resources#importing-resources for more information.`
+        `This import was configured with a provider. CDKTF does support this, but the cdktf convert command does not yet. Please add the provider reference manually. See https://developer.hashicorp.com/terraform/cdktf/concepts/resources#importing-resources for more information.`,
       );
     }
 
@@ -704,7 +705,7 @@ export async function output(
   key: string,
   _id: string,
   item: Output,
-  _graph: DirectedGraph
+  _graph: DirectedGraph,
 ) {
   const [{ value, description, sensitive }] = item;
 
@@ -720,13 +721,13 @@ export async function output(
     false,
     false,
     undefined,
-    undefined
+    undefined,
   );
 }
 
 export async function variableTypeToAst(
   scope: ProgramScope,
-  type: string
+  type: string,
 ): Promise<t.Expression> {
   const addVariableTypeToImports = () =>
     scope.importables.push({
@@ -760,7 +761,7 @@ export async function variableTypeToAst(
         case "object":
           return t.callExpression(
             t.identifier(`VariableType.${type.meta.name}`),
-            type.children.map((child) => parsedTypeToAst(child))
+            type.children.map((child) => parsedTypeToAst(child)),
           );
       }
     }
@@ -776,9 +777,9 @@ export async function variableTypeToAst(
             parsedTypeToAst({
               type: "scopeTraversal",
               meta: { value },
-            } as any)
-          )
-        )
+            } as any),
+          ),
+        ),
       );
     }
 
@@ -794,7 +795,7 @@ export async function variable(
   key: string,
   id: string,
   item: Variable,
-  graph: DirectedGraph
+  graph: DirectedGraph,
 ) {
   const [{ type, ...props }] = item;
 
@@ -810,7 +811,7 @@ export async function variable(
     false,
     false,
     getReference(graph, id),
-    undefined
+    undefined,
   );
 }
 
@@ -819,7 +820,7 @@ export async function local(
   key: string,
   id: string,
   item: TerraformResourceBlock,
-  graph: DirectedGraph
+  graph: DirectedGraph,
 ): Promise<t.VariableDeclaration[]> {
   logger.debug(`Initializing local resource ${key} with id ${id}`);
   if (!getReference(graph, id)) {
@@ -830,7 +831,7 @@ export async function local(
     t.variableDeclaration("const", [
       t.variableDeclarator(
         t.identifier(variableName(scope, "local", key)),
-        await valueToTs(scope, item, "path-for-local-blocks-can-be-ignored")
+        await valueToTs(scope, item, "path-for-local-blocks-can-be-ignored"),
       ),
     ]),
   ];
@@ -841,7 +842,7 @@ export async function modules(
   key: string,
   id: string,
   item: Module,
-  graph: DirectedGraph
+  graph: DirectedGraph,
 ) {
   const [{ source, version, ...props }] = item;
 
@@ -855,7 +856,7 @@ export async function modules(
     true,
     false,
     getReference(graph, id),
-    undefined
+    undefined,
   );
 }
 
@@ -863,7 +864,7 @@ export async function imports(
   scope: ProgramScope,
   _id: string,
   item: Import,
-  graph: DirectedGraph
+  graph: DirectedGraph,
 ) {
   // Move from ${aws_instance.example} to aws_instance.example
   const target =
@@ -877,7 +878,7 @@ export async function imports(
       t.addComment(
         t.emptyStatement(),
         "leading",
-        `CDKTF does not support imports into modules yet, please remove the import block importing ${item.id} into ${target} from your configuration`
+        `CDKTF does not support imports into modules yet, please remove the import block importing ${item.id} into ${target} from your configuration`,
       ),
     ];
   }
@@ -889,7 +890,7 @@ export async function imports(
       t.addComment(
         t.emptyStatement(),
         "leading",
-        `CDKTF does not support imports into resources with count or for_each yet, please remove the import block importing ${item.id} into ${target} from your configuration`
+        `CDKTF does not support imports into resources with count or for_each yet, please remove the import block importing ${item.id} into ${target} from your configuration`,
       ),
     ];
   }
@@ -908,21 +909,21 @@ export async function imports(
   const constructClass = constructAst(
     scope,
     `${provider}.${resourceTypeNameParts.join("_")}`,
-    false
+    false,
   );
   return [
     t.expressionStatement(
       t.callExpression(
         t.memberExpression(
           constructClass,
-          t.identifier("generateConfigForImport")
+          t.identifier("generateConfigForImport"),
         ),
         [
           t.thisExpression(),
           t.stringLiteral(constructId),
           t.stringLiteral(item.id),
-        ]
-      )
+        ],
+      ),
     ),
   ];
 }
@@ -932,7 +933,7 @@ export async function provider(
   key: string,
   id: string,
   item: Provider[0],
-  graph: DirectedGraph
+  graph: DirectedGraph,
 ) {
   const { version, ...props } = item;
 
@@ -946,16 +947,16 @@ export async function provider(
     false,
     true,
     getReference(graph, id),
-    undefined
+    undefined,
   );
 }
 
 export const cdktfImport = template(
-  `import * as cdktf from "cdktf"`
+  `import * as cdktf from "cdktf"`,
 )() as t.Statement;
 
 export const constructsImport = template(
-  `import * as constructs from "constructs"`
+  `import * as constructs from "constructs"`,
 )() as t.Statement;
 
 export const providerImports = (providers: string[]) =>
@@ -966,15 +967,15 @@ export const providerImports = (providers: string[]) =>
     return template(
       `import * as ${importName} from "./.gen/providers/${name.replace(
         "./",
-        ""
-      )}"`
+        "",
+      )}"`,
     )() as t.Statement;
   });
 
 export const moduleImports = (modules: Record<string, Module> | undefined) => {
   const uniqueModules = new Set<string>();
   Object.values(modules || {}).map(([module]) =>
-    uniqueModules.add(module.source)
+    uniqueModules.add(module.source),
   );
 
   const imports: t.Statement[] = [];
@@ -982,8 +983,8 @@ export const moduleImports = (modules: Record<string, Module> | undefined) => {
     const moduleConstraint = new TerraformModuleConstraint(m);
     imports.push(
       template.ast(
-        `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`
-      ) as t.Statement
+        `import * as ${moduleConstraint.className} from "./.gen/modules/${moduleConstraint.fileName}"`,
+      ) as t.Statement,
     );
   });
   return imports;
@@ -1002,7 +1003,7 @@ export async function gen(statements: t.Statement[]) {
 
 export function addImportForCodeContainer(
   scope: ProgramScope,
-  codeContainer: string
+  codeContainer: string,
 ) {
   switch (codeContainer) {
     case "constructs.Construct":
@@ -1027,7 +1028,7 @@ export function wrapCodeInConstructor(
   codeContainer: string,
   code: t.Statement[],
   className: string,
-  configTypeName?: string
+  configTypeName?: string,
 ): t.Statement {
   let baseContainerClass: t.Identifier;
   switch (codeContainer) {
@@ -1051,7 +1052,7 @@ export function wrapCodeInConstructor(
     }
   }
 `,
-      { syntacticPlaceholders: true, plugins: ["typescript"] }
+      { syntacticPlaceholders: true, plugins: ["typescript"] },
     )({
       code,
       base: baseContainerClass,
@@ -1067,7 +1068,7 @@ export function wrapCodeInConstructor(
     }
   }
 `,
-    { syntacticPlaceholders: true, plugins: ["typescript"] }
+    { syntacticPlaceholders: true, plugins: ["typescript"] },
   )({
     code,
     base: baseContainerClass,
@@ -1082,7 +1083,7 @@ export const providerConstructImports = (importable: ImportableConstruct[]) => {
 
   if (provider === "cdktf" || provider === "constructs") {
     return template(
-      `import { ${names.join(", ")} } from "${provider}"`
+      `import { ${names.join(", ")} } from "${provider}"`,
     )() as t.Statement;
   }
 
@@ -1097,48 +1098,51 @@ export const providerConstructImports = (importable: ImportableConstruct[]) => {
 
   return template(
     `import { ${names.join(
-      ", "
-    )} } from "./.gen/providers/${provider}/${namespace}"`
+      ", ",
+    )} } from "./.gen/providers/${provider}/${namespace}"`,
   )() as t.Statement;
 };
 
 export function buildImports(importables: ImportableConstruct[]) {
-  const groupedImportables = importables.reduce((acc, importable) => {
-    const ns = importable.namespace || "";
-    // Doing some hacky ordering of the imports to make them look a bit nicer
-    const prefix =
-      importable.provider === "constructs"
-        ? "1"
-        : importable.provider === "cdktf"
-        ? "2"
-        : "3";
-    const groupName = `${prefix}.${importable.provider}.${ns}`;
-    const fullName = `${importable.provider}.${ns}.${importable.constructName}`;
+  const groupedImportables = importables.reduce(
+    (acc, importable) => {
+      const ns = importable.namespace || "";
+      // Doing some hacky ordering of the imports to make them look a bit nicer
+      const prefix =
+        importable.provider === "constructs"
+          ? "1"
+          : importable.provider === "cdktf"
+            ? "2"
+            : "3";
+      const groupName = `${prefix}.${importable.provider}.${ns}`;
+      const fullName = `${importable.provider}.${ns}.${importable.constructName}`;
 
-    if (acc[groupName]) {
-      const existsAlready = acc[groupName].some(
-        (importable) =>
-          `${importable.provider}.${ns}.${importable.constructName}` ===
-          fullName
-      );
-      if (existsAlready) {
-        return acc;
+      if (acc[groupName]) {
+        const existsAlready = acc[groupName].some(
+          (importable) =>
+            `${importable.provider}.${ns}.${importable.constructName}` ===
+            fullName,
+        );
+        if (existsAlready) {
+          return acc;
+        }
+        acc[groupName].push(importable);
+        acc[groupName].sort();
+      } else {
+        acc[groupName] = [importable];
       }
-      acc[groupName].push(importable);
-      acc[groupName].sort();
-    } else {
-      acc[groupName] = [importable];
-    }
 
-    return acc;
-  }, {} as Record<string, ImportableConstruct[]>);
+      return acc;
+    },
+    {} as Record<string, ImportableConstruct[]>,
+  );
 
   let commentAdded = false;
   const constructImports = Object.keys(groupedImportables)
     .sort()
     .map((groupName) => {
       const importStatement = providerConstructImports(
-        groupedImportables[groupName]
+        groupedImportables[groupName],
       );
 
       if (groupName.startsWith("3.") && !commentAdded) {
@@ -1147,7 +1151,7 @@ export function buildImports(importables: ImportableConstruct[]) {
           importStatement,
           "leading",
           `\n* Provider bindings are generated by running \`cdktf get\`.
-* See https://cdk.tf/provider-generation for more details.\n`
+* See https://cdk.tf/provider-generation for more details.\n`,
         );
       }
       return importStatement;
@@ -1158,7 +1162,7 @@ export function buildImports(importables: ImportableConstruct[]) {
 
 export function generateConfigType(
   name: string,
-  config: Record<string, AttributePath>
+  config: Record<string, AttributePath>,
 ): t.Statement {
   return t.tsInterfaceDeclaration(
     t.identifier(name),
@@ -1168,9 +1172,9 @@ export function generateConfigType(
       Object.entries(config).map(([key, _value]) =>
         t.tsPropertySignature(
           t.identifier(key),
-          t.tSTypeAnnotation(t.tsAnyKeyword()) // TODO: Try to make this better than any
-        )
-      )
-    )
+          t.tSTypeAnnotation(t.tsAnyKeyword()), // TODO: Try to make this better than any
+        ),
+      ),
+    ),
   );
 }

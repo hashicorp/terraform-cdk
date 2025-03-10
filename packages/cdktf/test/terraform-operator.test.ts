@@ -19,27 +19,27 @@ test("Op.negate renders correctly", () => {
 });
 test("Op.mul renders correctly", () => {
   expect(resolveExpression(Op.mul(2, 3))).toMatchInlineSnapshot(
-    `"\${(2 * 3)}"`
+    `"\${(2 * 3)}"`,
   );
 });
 test("Op.div renders correctly", () => {
   expect(resolveExpression(Op.div(4, 2))).toMatchInlineSnapshot(
-    `"\${(4 / 2)}"`
+    `"\${(4 / 2)}"`,
   );
 });
 test("Op.mod renders correctly", () => {
   expect(resolveExpression(Op.mod(5, 3))).toMatchInlineSnapshot(
-    `"\${(5 % 3)}"`
+    `"\${(5 % 3)}"`,
   );
 });
 test("Op.add renders correctly", () => {
   expect(resolveExpression(Op.add(1, 1))).toMatchInlineSnapshot(
-    `"\${(1 + 1)}"`
+    `"\${(1 + 1)}"`,
   );
 });
 test("Op.sub renders correctly", () => {
   expect(resolveExpression(Op.sub(1, 2))).toMatchInlineSnapshot(
-    `"\${(1 - 2)}"`
+    `"\${(1 - 2)}"`,
   );
 });
 test("Op.gt renders correctly", () => {
@@ -47,7 +47,7 @@ test("Op.gt renders correctly", () => {
 });
 test("Op.gte renders correctly", () => {
   expect(resolveExpression(Op.gte(1, 2))).toMatchInlineSnapshot(
-    `"\${(1 >= 2)}"`
+    `"\${(1 >= 2)}"`,
   );
 });
 test("Op.lt renders correctly", () => {
@@ -55,26 +55,26 @@ test("Op.lt renders correctly", () => {
 });
 test("Op.lte renders correctly", () => {
   expect(resolveExpression(Op.lte(1, 2))).toMatchInlineSnapshot(
-    `"\${(1 <= 2)}"`
+    `"\${(1 <= 2)}"`,
   );
 });
 test("Op.eq renders correctly", () => {
   expect(resolveExpression(Op.eq(1, 1))).toMatchInlineSnapshot(
-    `"\${(1 == 1)}"`
+    `"\${(1 == 1)}"`,
   );
 });
 test("Op.neq renders correctly", () => {
   expect(resolveExpression(Op.neq(1, 2))).toMatchInlineSnapshot(
-    `"\${(1 != 2)}"`
+    `"\${(1 != 2)}"`,
   );
 });
 test("Op.and renders correctly", () => {
   expect(resolveExpression(Op.and(true, true))).toMatchInlineSnapshot(
-    `"\${(true && true)}"`
+    `"\${(true && true)}"`,
   );
 });
 test("Op.or renders correctly", () => {
   expect(resolveExpression(Op.or(true, true))).toMatchInlineSnapshot(
-    `"\${(true || true)}"`
+    `"\${(true || true)}"`,
   );
 });

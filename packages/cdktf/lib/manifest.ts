@@ -41,7 +41,7 @@ export class Manifest implements IManifest {
   constructor(
     public readonly version: string,
     public readonly outdir: string,
-    public readonly hclOutput: boolean
+    public readonly hclOutput: boolean,
   ) {
     const stacksPath = path.join(this.outdir, Manifest.stacksFolder);
     if (!fs.existsSync(stacksPath)) fs.mkdirSync(stacksPath);
@@ -64,12 +64,12 @@ export class Manifest implements IManifest {
       synthesizedStackPath: path.join(
         Manifest.stacksFolder,
         node.id,
-        this.stackFileName
+        this.stackFileName,
       ),
       stackMetadataPath: path.join(
         Manifest.stacksFolder,
         node.id,
-        Manifest.stackMetadataPath
+        Manifest.stackMetadataPath,
       ),
       annotations: [], // will be replaced later when processed in App
       dependencies: stack.dependencies.map((item) => item.node.path),
@@ -89,7 +89,7 @@ export class Manifest implements IManifest {
   public writeToFile() {
     fs.writeFileSync(
       path.join(this.outdir, Manifest.fileName),
-      stringify(this.buildManifest(), { space: 2 }) as string
+      stringify(this.buildManifest(), { space: 2 }) as string,
     );
   }
 }

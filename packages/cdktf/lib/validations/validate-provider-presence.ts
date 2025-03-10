@@ -58,7 +58,7 @@ export class ValidateProviderPresence implements IValidation {
 
     const missingProviders = Array.from(this.providerNames).filter((name) => {
       return !this.foundProviders.some(
-        (p) => p.terraformGeneratorMetadata?.providerName === name
+        (p) => p.terraformGeneratorMetadata?.providerName === name,
       );
     });
 

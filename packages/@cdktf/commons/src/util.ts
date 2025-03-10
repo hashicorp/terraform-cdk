@@ -14,7 +14,7 @@ import stripAnsi from "strip-ansi";
 export async function shell(
   program: string,
   args: string[] = [],
-  options: SpawnOptions & { noColor?: boolean } = {}
+  options: SpawnOptions & { noColor?: boolean } = {},
 ) {
   const stderr = new Array<string | Uint8Array>();
   const stdout = new Array<string>();
@@ -35,7 +35,7 @@ export async function shell(
           ? stripAnsi(chunk.toLocaleString())
           : chunk.toLocaleString();
         stderr.push(sanitizedChunk);
-      }
+      },
     );
   } catch (e: any) {
     if (stderr.length > 0) {
@@ -56,7 +56,7 @@ export async function shell(
 
 export async function withTempDir(
   dirname: string,
-  closure: () => Promise<void>
+  closure: () => Promise<void>,
 ) {
   const prevdir = process.cwd();
   const parent = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf."));
@@ -86,7 +86,7 @@ export const exec = async (
   options: SpawnOptions & { noColor?: boolean },
   stdout?: (chunk: string) => any,
   stderr?: (chunk: string | Uint8Array) => any,
-  sendToStderr = true
+  sendToStderr = true,
 ): Promise<string> => {
   // if options.noColor is not set, checking the flags & environment if it should be set
   // This is required for collectDebugInformation() which does not have knowledge about flags
@@ -181,7 +181,10 @@ export function downcaseFirst(str: string): string {
 }
 
 export class HttpError extends Error {
-  constructor(message?: string, public statusCode?: number) {
+  constructor(
+    message?: string,
+    public statusCode?: number,
+  ) {
     super(message); // 'Error' breaks prototype chain here
     Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
     // see: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-2.html#support-for-newtarget
@@ -190,7 +193,7 @@ export class HttpError extends Error {
 
 export async function downloadFile(
   url: string,
-  targetFilename: string
+  targetFilename: string,
 ): Promise<void> {
   // if the type is inferred to be "http|https" calling .get() is not possible
   // because the options parameter (which we don't use anyway) for get is
@@ -203,8 +206,8 @@ export async function downloadFile(
         ko(
           new HttpError(
             `Failed to get '${url}' (${response.statusCode})`,
-            response.statusCode
-          )
+            response.statusCode,
+          ),
         );
         return;
       }
@@ -233,7 +236,7 @@ export async function downloadFile(
  */
 export async function ensureAllSettledBeforeThrowing(
   p: Promise<any>,
-  promises: (Promise<any> | undefined)[]
+  promises: (Promise<any> | undefined)[],
 ) {
   try {
     await p;

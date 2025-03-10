@@ -57,7 +57,7 @@ export const Destroy = ({
         vars,
         varFiles,
         skipSynth,
-      })
+      }),
   );
 
   const bottomBar =

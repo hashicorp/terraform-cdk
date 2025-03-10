@@ -59,7 +59,7 @@ describe("convert", () => {
     }
   }
   `,
-      { language: "typescript", providerSchema: {} }
+      { language: "typescript", providerSchema: {} },
     );
 
     expect(stats).toMatchInlineSnapshot(`

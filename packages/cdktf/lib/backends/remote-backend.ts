@@ -11,7 +11,10 @@ import { getHostNameType } from "./cloud-backend";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class RemoteBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: RemoteBackendConfig) {
+  constructor(
+    scope: Construct,
+    private readonly props: RemoteBackendConfig,
+  ) {
     super(scope, "backend", "remote");
   }
 
@@ -31,7 +34,7 @@ export class RemoteBackend extends TerraformBackend {
   public getRemoteStateDataSource(
     scope: Construct,
     name: string,
-    _fromStack: string
+    _fromStack: string,
   ): TerraformRemoteState {
     return new DataTerraformRemoteState(scope, name, {
       ...this.props,
@@ -44,7 +47,7 @@ export class DataTerraformRemoteState extends TerraformRemoteState {
   constructor(
     scope: Construct,
     id: string,
-    config: DataTerraformRemoteStateRemoteConfig
+    config: DataTerraformRemoteStateRemoteConfig,
   ) {
     super(scope, id, "remote", config);
   }

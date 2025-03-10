@@ -23,7 +23,7 @@ describe("type coercion", () => {
     [binding.aws],
     Snapshot.yes,
     Synth.yes,
-    { resources: ["aws_route53_record"] }
+    { resources: ["aws_route53_record"] },
   );
 
   testCase.test(
@@ -46,7 +46,7 @@ describe("type coercion", () => {
     [binding.aws],
     Snapshot.yes,
     Synth.yes,
-    { resources: ["aws_route53_record"] }
+    { resources: ["aws_route53_record"] },
   );
 
   testCase.test(
@@ -69,7 +69,7 @@ describe("type coercion", () => {
     [binding.aws],
     Snapshot.yes,
     Synth.yes,
-    { resources: ["aws_route53_zone", "aws_route53_record"] }
+    { resources: ["aws_route53_zone", "aws_route53_record"] },
   );
 
   testCase.test(
@@ -92,7 +92,7 @@ describe("type coercion", () => {
     [binding.aws],
     Snapshot.yes,
     Synth.yes,
-    { resources: ["aws_iam_user_group_membership"] }
+    { resources: ["aws_iam_user_group_membership"] },
   );
 
   testCase.test(
@@ -125,7 +125,7 @@ describe("type coercion", () => {
     [binding.aws],
     Snapshot.yes,
     Synth.yes,
-    { resources: ["aws_eks_cluster"] }
+    { resources: ["aws_eks_cluster"] },
   );
 
   testCase.test(
@@ -149,6 +149,6 @@ describe("type coercion", () => {
     [binding.aws],
     Snapshot.yes,
     Synth.yes,
-    { resources: ["aws_security_group_rule"] }
+    { resources: ["aws_security_group_rule"] },
   );
 });

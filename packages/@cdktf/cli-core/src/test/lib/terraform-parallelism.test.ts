@@ -108,11 +108,11 @@ describe("terraform parallelism", () => {
 
     fs.copyFileSync(
       path.resolve(__dirname, "fixtures/default/main.ts.fixture"),
-      path.resolve(workingDirectory, "main.ts")
+      path.resolve(workingDirectory, "main.ts"),
     );
     fs.copyFileSync(
       path.resolve(__dirname, "fixtures/default/cdktf.json"),
-      path.resolve(workingDirectory, "cdktf.json")
+      path.resolve(workingDirectory, "cdktf.json"),
     );
 
     await get({

@@ -12,20 +12,20 @@ describe("full integration test", () => {
     driver.switchToTempDir();
     await driver.init(
       "typescript",
-      `--from-terraform-project ${driver.rootDir}/tf-project`
+      `--from-terraform-project ${driver.rootDir}/tf-project`,
     );
 
     let mainContent = fs.readFileSync(
       path.resolve(driver.workingDirectory, "main.ts"),
-      "utf-8"
+      "utf-8",
     );
     mainContent = mainContent.replace(
       path.parse(driver.workingDirectory).name,
-      "init-from-tf"
+      "init-from-tf",
     );
     fs.writeFileSync(
       path.resolve(driver.workingDirectory, "main.ts"),
-      mainContent
+      mainContent,
     );
 
     await driver.get();
@@ -34,7 +34,7 @@ describe("full integration test", () => {
   test("main.ts is valid", async () => {
     const mainContent = fs.readFileSync(
       path.resolve(driver.workingDirectory, "main.ts"),
-      "utf-8"
+      "utf-8",
     );
 
     expect(mainContent).toMatchSnapshot();
@@ -46,16 +46,16 @@ describe("full integration test", () => {
       "tf-project",
       "modules",
       "test",
-      "main.tf"
+      "main.tf",
     );
     const expectedModulePath = path.resolve(
       driver.workingDirectory,
       "modules",
       "test",
-      "main.tf"
+      "main.tf",
     );
     expect(fs.readFileSync(expectedModulePath, "utf-8")).toMatch(
-      fs.readFileSync(originalModulePath, "utf-8")
+      fs.readFileSync(originalModulePath, "utf-8"),
     );
   });
 });

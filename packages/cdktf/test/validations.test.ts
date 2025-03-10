@@ -55,7 +55,7 @@ class CustomConstruct extends Construct {
     scope: Construct,
     id: string,
     validation: IValidation,
-    nestedValidation: IValidation
+    nestedValidation: IValidation,
   ) {
     super(scope, id);
     this.node.addValidation(validation);
@@ -76,8 +76,8 @@ describe("ValidateBinaryVersion", () => {
       new ValidateBinaryVersion(
         "terraform",
         ">=1.3.0",
-        `echo "Terraform v1.2.0\non darwin_amd64"`
-      )
+        `echo "Terraform v1.2.0\non darwin_amd64"`,
+      ),
     );
     expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
       "Validation failed with the following errors:
@@ -100,8 +100,8 @@ describe("ValidateBinaryVersion", () => {
       new ValidateBinaryVersion(
         "terraform",
         ">=1.2.0",
-        `echo "Terraform v1.2.0\non darwin_amd64"`
-      )
+        `echo "Terraform v1.2.0\non darwin_amd64"`,
+      ),
     );
     expect(() => app.synth()).not.toThrow();
   });
@@ -115,7 +115,7 @@ describe("ValidateBinaryVersion", () => {
       name: "foo",
     });
     testResource.node.addValidation(
-      new ValidateBinaryVersion("terraform", ">=1.2.0", `exit 1`)
+      new ValidateBinaryVersion("terraform", ">=1.2.0", `exit 1`),
     );
     expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
       "Validation failed with the following errors:
@@ -135,7 +135,7 @@ describe("ValidateBinaryVersion", () => {
       name: "foo",
     });
     testResource.node.addValidation(
-      new ValidateBinaryVersion("terraform", ">=1.2.0", `echo "foo"`)
+      new ValidateBinaryVersion("terraform", ">=1.2.0", `echo "foo"`),
     );
     expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
       "Validation failed with the following errors:

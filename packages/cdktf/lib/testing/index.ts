@@ -51,7 +51,7 @@ export class Testing {
     const appConfig = { ...DefaultTestingAppConfig, ...options };
     if (!appConfig.outdir) {
       appConfig.outdir = fs.mkdtempSync(
-        path.join(os.tmpdir(), "cdktf.outdir.")
+        path.join(os.tmpdir(), "cdktf.outdir."),
       );
     }
 
@@ -89,7 +89,7 @@ export class Testing {
   public static enableFutureFlags(app: App): App {
     const node = app.node;
     Object.entries(FUTURE_FLAGS).forEach(([key, value]) =>
-      node.setContext(key, value)
+      node.setContext(key, value),
     );
     return app;
   }
@@ -123,7 +123,7 @@ export class Testing {
           .sort(([a], [b]) => a.localeCompare(b))
           .reduce(
             (acc, [key, value]) => ({ ...acc, [key]: removeMetadata(value) }),
-            {}
+            {},
           );
 
         // Remove metadata
@@ -144,7 +144,7 @@ export class Testing {
   public static synthHcl(
     stack: TerraformStack,
     runValidations = false,
-    returnMetadata = false
+    returnMetadata = false,
   ) {
     invokeAspects(stack);
     if (runValidations) {
@@ -180,7 +180,7 @@ export class Testing {
     function render(
       construct: IConstruct,
       level: number,
-      isLast: boolean
+      isLast: boolean,
     ): string {
       let prefix = "";
       if (level > 0) {
@@ -203,69 +203,69 @@ export class Testing {
   public static toHaveDataSourceWithProperties(
     received: string,
     resourceType: string,
-    properties: Record<string, any> = {}
+    properties: Record<string, any> = {},
   ): boolean {
     return getToHaveDataSourceWithProperties()(
       received,
       { tfResourceType: resourceType },
-      properties
+      properties,
     ).pass;
   }
 
   public static toHaveDataSource(
     received: string,
-    resourceType: string
+    resourceType: string,
   ): boolean {
     return getToHaveDataSourceWithProperties()(
       received,
       { tfResourceType: resourceType },
-      {}
+      {},
     ).pass;
   }
 
   public static toHaveResourceWithProperties(
     received: string,
     resourceType: string,
-    properties: Record<string, any> = {}
+    properties: Record<string, any> = {},
   ): boolean {
     return getToHaveResourceWithProperties()(
       received,
       { tfResourceType: resourceType },
-      properties
+      properties,
     ).pass;
   }
 
   public static toHaveResource(
     received: string,
-    resourceType: string
+    resourceType: string,
   ): boolean {
     return getToHaveResourceWithProperties()(
       received,
       { tfResourceType: resourceType },
-      {}
+      {},
     ).pass;
   }
 
   public static toHaveProviderWithProperties(
     received: string,
     resourceType: string,
-    properties: Record<string, any> = {}
+    properties: Record<string, any> = {},
   ): boolean {
     return getToHaveProviderWithProperties()(
       received,
       { tfResourceType: resourceType },
-      properties
+      properties,
     ).pass;
   }
 
   public static toHaveProvider(
     received: string,
-    resourceType: string
+    resourceType: string,
   ): boolean {
     return getToHaveProviderWithProperties()(
       received,
       { tfResourceType: resourceType },
-      {}
+      {},
     ).pass;
   }
 

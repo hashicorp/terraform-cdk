@@ -48,7 +48,7 @@ describe("provider list command", () => {
             providerConstraint: "=2.2.3",
             providerVersion: "2.2.3",
           }),
-        ])
+        ]),
       );
 
       expect(output.prebuilt[0]).toEqual(
@@ -58,7 +58,7 @@ describe("provider list command", () => {
           providerName: "random",
           providerVersion: "3.4.3",
           cdktfVersion: "^0.13.0",
-        })
+        }),
       );
     }, 120_000);
 

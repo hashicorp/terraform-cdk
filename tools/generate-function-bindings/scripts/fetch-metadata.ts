@@ -13,7 +13,7 @@ const TERRAFORM_BINARY_NAME = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
 async function fetchMetadata() {
   const json = execSync(
-    `${TERRAFORM_BINARY_NAME} metadata functions -json`
+    `${TERRAFORM_BINARY_NAME} metadata functions -json`,
   ).toString();
   const out = path.join(__dirname, FUNCTIONS_METADATA_FILE);
 

@@ -17,7 +17,7 @@ describe("python full integration test assets", () => {
   onlyJson("synth generates JSON and copies files", async () => {
     await driver.synth();
     expect(
-      driver.synthesizedStack("python-assets").toString()
+      driver.synthesizedStack("python-assets").toString(),
     ).toMatchSnapshot();
     const stack = driver.synthesizedStack("python-assets");
 
@@ -25,17 +25,17 @@ describe("python full integration test assets", () => {
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("python-assets"),
-          stack.output("fixture-output")
+          stack.output("fixture-output"),
         ),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     ).toMatchSnapshot();
 
     const stat = fs.statSync(
       path.resolve(
         driver.stackDirectory("python-assets"),
-        stack.output("fixtures-output")
-      )
+        stack.output("fixtures-output"),
+      ),
     );
     expect(stat.isFile()).toBe(true);
   });

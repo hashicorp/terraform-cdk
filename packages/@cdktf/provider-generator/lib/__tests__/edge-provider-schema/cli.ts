@@ -24,7 +24,7 @@ const deps = ["@types/node", "constructs", "cdktf"];
   await generateProviderBindingsFromSchema(targetPath, edgeSchema, {
     entrypoint: path.join("providers", "edge", "index.ts"),
     deps: deps.map((dep) =>
-      path.dirname(require.resolve(`${dep}/package.json`))
+      path.dirname(require.resolve(`${dep}/package.json`)),
     ),
     moduleKey: "edge",
     python: {

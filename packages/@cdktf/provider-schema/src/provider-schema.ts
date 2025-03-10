@@ -116,24 +116,24 @@ const transformOutputs = (outputs: any) => {
 
 const harvestModuleSchema = async (
   workingDirectory: string,
-  modules: string[]
+  modules: string[],
 ): Promise<Record<string, any>> => {
   const fileName = path.join(
     workingDirectory,
     ".terraform",
     "modules",
-    "modules.json"
+    "modules.json",
   );
   const result: Record<string, any> = {};
 
   if (!fs.existsSync(fileName)) {
     throw new Error(
-      `Modules were not generated properly - couldn't find ${fileName}`
+      `Modules were not generated properly - couldn't find ${fileName}`,
     );
   }
 
   const moduleIndex = JSON.parse(
-    fs.readFileSync(fileName, "utf-8")
+    fs.readFileSync(fileName, "utf-8"),
   ) as ModuleIndex;
 
   for (const mod of modules) {
@@ -147,7 +147,7 @@ const harvestModuleSchema = async (
 
     if (!parsed) {
       throw new Error(
-        `Modules were not generated properly - couldn't parse ${m.Dir}`
+        `Modules were not generated properly - couldn't parse ${m.Dir}`,
       );
     }
 
@@ -174,7 +174,7 @@ export interface TerraformConfig {
 }
 
 export async function readProviderSchema(
-  target: ConstructsMakerProviderTarget
+  target: ConstructsMakerProviderTarget,
 ) {
   const config: TerraformConfig = {
     provider: {},
@@ -200,13 +200,13 @@ export async function readProviderSchema(
     providerSchema = JSON.parse(
       await exec(terraformBinaryName, ["providers", "schema", "-json"], {
         cwd: outdir,
-      })
+      }),
     ) as ProviderSchema;
 
     const versionSchema = JSON.parse(
       await exec(terraformBinaryName, ["version", "-json"], {
         cwd: outdir,
-      })
+      }),
     ) as VersionSchema;
 
     providerSchema.provider_versions = versionSchema.provider_selections;
@@ -288,7 +288,7 @@ export async function readModuleSchema(target: ConstructsMakerModuleTarget) {
     if (config.module) {
       moduleSchema = await harvestModuleSchema(
         outdir,
-        Object.keys(config.module)
+        Object.keys(config.module),
       );
     }
   });

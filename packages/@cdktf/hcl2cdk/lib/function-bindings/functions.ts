@@ -100,5 +100,5 @@ export const tsFunctionsMap = Object.entries(functionsMap).reduce(
     acc[fnInfo.name] = { ...fnInfo, name: name };
     return acc;
   },
-  {} as Record<string, FunctionMeta>
+  {} as Record<string, FunctionMeta>,
 );

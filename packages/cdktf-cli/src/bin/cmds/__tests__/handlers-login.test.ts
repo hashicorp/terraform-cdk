@@ -80,7 +80,7 @@ describe("login", () => {
     await login({ tfeHostname: "foo-bar.com" });
     expect(getAccountDetails).toHaveBeenCalledWith(
       "foo-bar.com",
-      "token-stream"
+      "token-stream",
     );
     expect(askToLoginMock).not.toHaveBeenCalled();
   });

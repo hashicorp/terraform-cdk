@@ -22,7 +22,7 @@ export type OutputIdMap = OutputIdMapLeaf | OutputIdMapNode;
 
 function unpackTerraformOutput(
   outputs: NestedTerraformOutputs,
-  includeSensitiveOutputs: boolean
+  includeSensitiveOutputs: boolean,
 ): Record<string, string> {
   return Object.entries(outputs).reduce(
     (acc, [key, entry]) => ({
@@ -33,22 +33,22 @@ function unpackTerraformOutput(
           : undefined
         : unpackTerraformOutput(entry, includeSensitiveOutputs),
     }),
-    {}
+    {},
   );
 }
 
 export async function saveOutputs(
   filePath: string,
   outputs: NestedTerraformOutputs,
-  includeSensitiveOutputs: boolean
+  includeSensitiveOutputs: boolean,
 ) {
   fs.writeFileSync(
     filePath,
     JSON.stringify(
       unpackTerraformOutput(outputs, includeSensitiveOutputs),
       null,
-      2
-    )
+      2,
+    ),
   );
 }
 
@@ -79,7 +79,7 @@ const mapActionToState = (action: ActionTypes, done: boolean) => {
 };
 // This is deprecated and will be removed in a future version.
 const parseJsonOutputLine = (
-  line: string
+  line: string,
 ): Omit<DeployingResource, "action"> | undefined => {
   let json, message;
   try {
@@ -95,8 +95,8 @@ const parseJsonOutputLine = (
     if (err instanceof z.ZodError) {
       logger.trace(
         `Error parsing line into schema: ${JSON.stringify(
-          err.errors
-        )} => ${line}`
+          err.errors,
+        )} => ${line}`,
       );
     }
 
@@ -122,7 +122,7 @@ const parseJsonOutputLine = (
 };
 
 const parseTextOutputLine = (
-  line: string
+  line: string,
 ): Omit<DeployingResource, "action"> | undefined => {
   if (/^Outputs:/.test(line)) {
     return;
@@ -209,14 +209,14 @@ const isObjectEmpty = (obj: Record<string, any>): boolean => {
   return (
     Object.keys(obj).length === 0 ||
     Object.values(obj).every(
-      (v) => v === undefined || v === null || isObjectEmpty(v)
+      (v) => v === undefined || v === null || isObjectEmpty(v),
     )
   );
 };
 
 export const getConstructIdsForOutputs = (
   stackContent: Record<string, any>,
-  outputs: { [key: string]: TerraformOutput }
+  outputs: { [key: string]: TerraformOutput },
 ): NestedTerraformOutputs => {
   // Older cdktf versions might not have the output metadata
   if (!("//" in stackContent) || !("outputs" in stackContent["//"])) {

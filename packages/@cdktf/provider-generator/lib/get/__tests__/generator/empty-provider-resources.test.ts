@@ -9,17 +9,17 @@ import { CodeMaker } from "codemaker";
 test("provider with no resources", async () => {
   const code = new CodeMaker();
   const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "empty-provider-resources.test")
+    path.join(os.tmpdir(), "empty-provider-resources.test"),
   );
   const spec = JSON.parse(
     fs.readFileSync(
       path.join(
         __dirname,
         "fixtures",
-        "empty-provider-resources.test.fixture.json"
+        "empty-provider-resources.test.fixture.json",
       ),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);

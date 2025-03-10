@@ -77,16 +77,15 @@
     },
     "devDependencies": {
         "@types/prettier": "2.6.0",
-        "@typescript-eslint/eslint-plugin": "^8.24.0",
-        "@typescript-eslint/parser": "^8.23.0",
         "changelog-parser": "^2.8.1",
         "eslint": "^9.20.0",
         "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-monorepo": "^0.3.2",
         "husky": ">=6",
-        "lerna": "8.1.9",
+        "infer-owner": "^1.0.4",
+        "lerna": "^8.2.1",
         "lint-staged": ">=10",
-        "prettier": "^2.8.8",
+        "prettier": "^3.5.1",
         "standard-version": "^9.5.0"
     },
     "resolutions": {
@@ -96,5 +95,5 @@
         "**/*.{ts,tsx,js,css,md}": "prettier --write",
         "examples/**": "yarn lint:examples"
     },
-  "packageManager": "yarn@1.18.0"
+    "packageManager": "yarn@1.18.0"
 }

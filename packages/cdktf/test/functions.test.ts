@@ -240,7 +240,7 @@ test("complex example", () => {
     value: Fn.cidrsubnet(
       Fn.lookup(Fn.merge([variable1.value, variable2.value]), "key", "default"),
       4,
-      2
+      2,
     ),
   });
 
@@ -303,7 +303,7 @@ test("functions with object inputs", () => {
     value: Fn.lookup(
       { var: variable.value, stat: 4, internal: true, yes: "no" },
       "internal",
-      "waaat"
+      "waaat",
     ),
   });
 
@@ -553,9 +553,9 @@ test("tomap does not destroy incoming ref", () => {
         new TerraformLocal(
           scope,
           "test",
-          Fn.tomap(Token.asString(ref("test.instance.attr", stack)))
-        )
-    )
+          Fn.tomap(Token.asString(ref("test.instance.attr", stack))),
+        ),
+    ),
   ).toMatchInlineSnapshot(`
     "{
       "locals": {

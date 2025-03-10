@@ -151,7 +151,7 @@ function removeDupes(path: string[]): string[] {
  * @returns
  */
 function allocateLogicalIdOldVersion(
-  tfElement: TerraformElement | Node
+  tfElement: TerraformElement | Node,
 ): string {
   const node = TerraformElement.isTerraformElement(tfElement)
     ? tfElement.node
@@ -181,7 +181,7 @@ export class MigrateIds implements IAspect {
       const stackManifest = appManifest.forStack(TerraformStack.of(node));
       const stackOutdir = path.join(
         appManifest.outdir,
-        stackManifest.workingDirectory
+        stackManifest.workingDirectory,
       );
       Annotations.of(node)
         .addWarning(`Found module with new id ${node.friendlyUniqueId}. Moving this module requires a manual state migration.

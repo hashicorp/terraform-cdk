@@ -19,7 +19,7 @@ describe.skip("read", () => {
       const schema = await readSchema([
         new ConstructsMakerProviderTarget(
           new TerraformProviderConstraint("kreuzwerker/docker@=3.0.2"),
-          Language.TYPESCRIPT
+          Language.TYPESCRIPT,
         ),
       ]);
       expect(schema).toHaveProperty([
@@ -37,17 +37,17 @@ describe.skip("read", () => {
         const cacheKey = "kreuzwerker%2Fdocker@%3D3.0.2";
         await fs.writeFile(
           path.join(process.cwd(), `${cacheKey}.json`),
-          JSON.stringify(cached)
+          JSON.stringify(cached),
         );
 
         const schema = await readSchema(
           [
             new ConstructsMakerProviderTarget(
               new TerraformProviderConstraint("kreuzwerker/docker@=3.0.2"),
-              Language.TYPESCRIPT
+              Language.TYPESCRIPT,
             ),
           ],
-          process.cwd()
+          process.cwd(),
         );
         expect(schema).toEqual({
           moduleSchema: {},

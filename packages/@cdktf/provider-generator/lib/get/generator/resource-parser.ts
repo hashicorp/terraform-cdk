@@ -79,7 +79,7 @@ const getFileName = (provider: ProviderName, baseName: string): string => {
 
 export function sanitizeClassOrNamespaceName(
   baseName: string,
-  isProvider = false
+  isProvider = false,
 ) {
   const resourceIsNamedProvider = !isProvider && baseName === "provider";
 
@@ -98,7 +98,7 @@ export function sanitizeClassOrNamespaceName(
  * @param attributes
  */
 function deduplicateAttributesWithSameName(
-  attributes: AttributeModel[]
+  attributes: AttributeModel[],
 ): AttributeModel[] {
   return attributes.filter((attr, idx) => {
     const hasOtherWithSameName = attributes
@@ -126,7 +126,7 @@ class Parser {
     type: string,
     schema: Schema,
     terraformSchemaType: string,
-    constraint?: ConstructsMakerTarget
+    constraint?: ConstructsMakerTarget,
   ): ResourceModel {
     let baseName = type;
 
@@ -177,12 +177,12 @@ class Parser {
           ? undefined
           : new Scope({ name: providerName, isProvider: true }),
       }),
-      schema.block
+      schema.block,
     );
 
     function getStructAttribute(
       attributes: AttributeModel[],
-      path: string
+      path: string,
     ): AttributeModel {
       const [first, ...rest] = path.split(".");
       const attribute = attributes.find((att) => {
@@ -190,16 +190,16 @@ class Parser {
       });
       if (!attribute)
         throw new Error(
-          `Expected to find recursive attribute at path: ${path}`
+          `Expected to find recursive attribute at path: ${path}`,
         );
       if (!attribute.type.struct)
         throw new Error(
-          `Expected to find struct type attribute at path: ${path} but got ${attribute.type.storedClassType}`
+          `Expected to find struct type attribute at path: ${path} but got ${attribute.type.storedClassType}`,
         );
       if (rest.length === 0) return attribute;
       return getStructAttribute(
         attribute.type.struct.attributes,
-        rest.join(".")
+        rest.join("."),
       );
     }
 
@@ -211,14 +211,14 @@ class Parser {
         // TODO: build this to be a bit more defensive (e.g. remove ! operator)
         const recursionTargetStructAttribute = getStructAttribute(
           attributes,
-          structPath
+          structPath,
         );
         const parts = attributePath.split(".");
         const attributeName = parts.pop();
         const parentAttribute = getStructAttribute(attributes, parts.join("."));
         const indexToReplace =
           parentAttribute.type.struct!.attributes.findIndex(
-            (att) => att.terraformName === attributeName
+            (att) => att.terraformName === attributeName,
           );
         if (indexToReplace === -1)
           throw new Error("Can't find attribute at path " + attributePath);
@@ -238,7 +238,7 @@ class Parser {
         };
 
         disposeStructs(previousAttribute);
-      }
+      },
     );
 
     attributes = deduplicateAttributesWithSameName(attributes);
@@ -263,7 +263,7 @@ class Parser {
   private renderAttributeType(
     scope: Scope[],
     attributeType: AttributeType | AttributeNestedType,
-    parentKind?: string
+    parentKind?: string,
   ): AttributeTypeModel {
     const parent = scope[scope.length - 1];
     if (shouldSkipAttribute(parent.baseName)) {
@@ -296,7 +296,7 @@ class Parser {
         const elementType = this.renderAttributeType(
           scope,
           type as AttributeType,
-          [kind, parentKind].join("")
+          [kind, parentKind].join(""),
         );
         return kind === "list"
           ? new ListAttributeTypeModel(elementType, false, false)
@@ -307,7 +307,7 @@ class Parser {
         const valueType = this.renderAttributeType(
           scope,
           type as AttributeType,
-          [kind, parentKind].join("")
+          [kind, parentKind].join(""),
         );
         return new MapAttributeTypeModel(valueType);
       }
@@ -321,7 +321,7 @@ class Parser {
         const struct = this.addAnonymousStruct(
           scope,
           attributes,
-          parentKind ?? kind
+          parentKind ?? kind,
         );
         return new StructAttributeTypeModel(struct);
       }
@@ -335,41 +335,41 @@ class Parser {
           struct = this.addAnonymousStruct(
             scope,
             attributeType.attributes,
-            attributeType.nesting_mode
+            attributeType.nesting_mode,
           );
           typeModel = new ListAttributeTypeModel(
             new StructAttributeTypeModel(struct),
             false,
-            false
+            false,
           );
           break;
         case "set":
           struct = this.addAnonymousStruct(
             scope,
             attributeType.attributes,
-            attributeType.nesting_mode
+            attributeType.nesting_mode,
           );
           typeModel = new SetAttributeTypeModel(
             new StructAttributeTypeModel(struct),
             false,
-            false
+            false,
           );
           break;
         case "map":
           struct = this.addAnonymousStruct(
             scope,
             attributeType.attributes,
-            attributeType.nesting_mode
+            attributeType.nesting_mode,
           );
           typeModel = new MapAttributeTypeModel(
-            new StructAttributeTypeModel(struct)
+            new StructAttributeTypeModel(struct),
           );
           break;
         case "single":
           struct = this.addAnonymousStruct(
             scope,
             attributeType.attributes,
-            attributeType.nesting_mode
+            attributeType.nesting_mode,
           );
           typeModel = new StructAttributeTypeModel(struct);
           break;
@@ -379,7 +379,7 @@ class Parser {
               attributeType.nesting_mode
             }" not supported (attribute scope: ${scope
               .map((s) => s.fullName)
-              .join(",")}`
+              .join(",")}`,
           );
         }
       }
@@ -393,7 +393,7 @@ class Parser {
     const attributes = new Array<AttributeModel>();
 
     for (const [terraformAttributeName, att] of Object.entries(
-      block.attributes || {}
+      block.attributes || {},
     )) {
       let type: AttributeTypeModel;
       let forcePlainGetterType = false;
@@ -414,7 +414,7 @@ class Parser {
               isNestedType: isNestedTypeAttribute(att),
             }),
           ],
-          att.type || att.nested_type
+          att.type || att.nested_type,
         );
       }
 
@@ -433,12 +433,12 @@ class Parser {
           provider: parentType.isProvider,
           required: !!att.required,
           forcePlainGetterType,
-        })
+        }),
       );
     }
 
     for (const [blockTypeName, blockType] of Object.entries(
-      block.block_types || {}
+      block.block_types || {},
     )) {
       if (shouldSkipAttribute(parentType.fullName(blockTypeName))) {
         const name = toCamelCase(blockTypeName);
@@ -459,7 +459,7 @@ class Parser {
             computed: false,
             provider: parentType.isProvider,
             required: false,
-          })
+          }),
         );
         continue;
       }
@@ -471,7 +471,7 @@ class Parser {
           isProvider: parentType.isProvider,
           inBlockType: true,
         }),
-        blockType.block
+        blockType.block,
       );
 
       blockAttributes = deduplicateAttributesWithSameName(blockAttributes);
@@ -489,7 +489,7 @@ class Parser {
         blockType.nesting_mode,
         (blockType.nesting_mode === "list" ||
           blockType.nesting_mode === "set") &&
-          blockType.max_items === 1
+          blockType.max_items === 1,
       );
 
       // define the attribute
@@ -499,8 +499,8 @@ class Parser {
           blockType,
           blockStruct,
           parentType.isProvider,
-          parentType
-        )
+          parentType,
+        ),
       );
     }
 
@@ -511,7 +511,7 @@ class Parser {
       blockType: BlockType,
       struct: Struct,
       isProvider: boolean,
-      parent: Scope
+      parent: Scope,
     ): AttributeModel {
       const name = toCamelCase(terraformName);
       let optional: boolean;
@@ -550,7 +550,7 @@ class Parser {
             terraformName,
             terraformFullName: parent.fullName(terraformName),
             type: new MapAttributeTypeModel(
-              new StructAttributeTypeModel(struct)
+              new StructAttributeTypeModel(struct),
             ),
             description: `${terraformName} block`,
             storageName: `_${name}`,
@@ -575,12 +575,12 @@ class Parser {
                 ? new ListAttributeTypeModel(
                     new StructAttributeTypeModel(struct),
                     blockType.max_items === 1,
-                    true
+                    true,
                   )
                 : new SetAttributeTypeModel(
                     new StructAttributeTypeModel(struct),
                     blockType.max_items === 1,
-                    true
+                    true,
                   ),
             description: `${terraformName} block`,
             storageName: `_${name}`,
@@ -595,7 +595,7 @@ class Parser {
   private addAnonymousStruct(
     scope: Scope[],
     attrs: { [name: string]: Attribute } | undefined,
-    nesting_mode: string
+    nesting_mode: string,
   ) {
     let attributes = new Array<AttributeModel>();
     const parent = scope[scope.length - 1];
@@ -625,7 +625,7 @@ class Parser {
               isNestedType: parent.isNestedType,
             }),
           ],
-          att.type || att.nested_type
+          att.type || att.nested_type,
         );
         attributes.push(
           new AttributeModel({
@@ -639,7 +639,7 @@ class Parser {
             type,
             provider: parent.isProvider,
             required: required,
-          })
+          }),
         );
       }
     }
@@ -653,15 +653,15 @@ class Parser {
     scope: Scope[],
     attributes: AttributeModel[],
     nesting_mode: string,
-    isSingleItem = false
+    isSingleItem = false,
   ) {
     const possibleName = toPascalCase(
-      scope.map((x) => toSnakeCase(x.name)).join("_")
+      scope.map((x) => toSnakeCase(x.name)).join("_"),
     );
     const name = this.uniqueClassName(
       isReservedStructClassName(possibleName)
         ? `${possibleName}Struct`
-        : possibleName
+        : possibleName,
     );
 
     const parent = scope[scope.length - 1];
@@ -674,7 +674,7 @@ class Parser {
       isClass,
       isAnonymous,
       isSingleItem,
-      nesting_mode
+      nesting_mode,
     );
     this.structs.push(s);
     return s;
@@ -690,7 +690,7 @@ export class ResourceParser {
     type: string,
     schema: Schema,
     terraformType: string,
-    constraint?: ConstructsMakerTarget
+    constraint?: ConstructsMakerTarget,
   ): ResourceModel {
     if (this.resources[type]) {
       return this.resources[type];
@@ -702,7 +702,7 @@ export class ResourceParser {
       type,
       schema,
       terraformType,
-      constraint
+      constraint,
     );
     this.resources[type] = resource;
     return resource;

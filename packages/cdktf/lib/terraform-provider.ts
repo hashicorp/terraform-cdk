@@ -84,10 +84,10 @@ export abstract class TerraformProvider extends TerraformElement {
         [this.terraformResourceType]: [
           deepMerge(
             keysToSnakeCase(
-              processDynamicAttributesForHcl(this.synthesizeHclAttributes())
+              processDynamicAttributesForHcl(this.synthesizeHclAttributes()),
             ),
             this.rawOverrides,
-            this.metaAttributes
+            this.metaAttributes,
           ),
         ],
       },
@@ -113,10 +113,10 @@ export abstract class TerraformProvider extends TerraformElement {
         [this.terraformResourceType]: [
           deepMerge(
             keysToSnakeCase(
-              processDynamicAttributes(this.synthesizeAttributes())
+              processDynamicAttributes(this.synthesizeAttributes()),
             ),
             this.rawOverrides,
-            this.metaAttributes
+            this.metaAttributes,
           ),
         ],
       },

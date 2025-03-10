@@ -20,6 +20,6 @@ describe("Partial code (missing properties)", () => {
     Synth.never,
     {
       resources: ["docker_config"],
-    }
+    },
   );
 });

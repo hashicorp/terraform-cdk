@@ -158,14 +158,14 @@ export function asAny(value: IResolvable) {
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function terraformFunction(
   name: string,
-  argValidators: TFValueValidator<any>[]
+  argValidators: TFValueValidator<any>[],
 ): ExecutableTfFunction {
   return function (...args: any[]) {
     if (args.length !== argValidators.length) {
       throw functionReceivedWrongNumberOfArgs(
         name,
         argValidators.length,
-        args.length
+        args.length,
       );
     }
     return call(
@@ -180,7 +180,7 @@ export function terraformFunction(
         } catch (error) {
           throw functionArgumentValidationFailure(i, name, error);
         }
-      }, [])
+      }, []),
     );
   };
 }

@@ -33,30 +33,30 @@ export class TerraformModuleAsset extends Construct {
     const relativeModules: Array<string | { source: string }> | undefined =
       this.node.tryGetContext("cdktfRelativeModules");
     const staticModuleAssetHash: string | undefined = this.node.tryGetContext(
-      "cdktfStaticModuleAssetHash"
+      "cdktfStaticModuleAssetHash",
     );
 
     if (!relativeModules) {
       throw new Error(
-        "You are trying to use a local module with a relative path, but the cdktfRelativeModules context is not set. It is expected to be an array of strings containing the relative paths to the relative modules your app is using. You either need to supply it in the Apps constructor via the context option or invoke the synthesis through the CLI. We need this information so that assets with relative paths are properly handled when used with assets, so you can also set the skipAssetCreationFromLocalModules to true on your relative modules."
+        "You are trying to use a local module with a relative path, but the cdktfRelativeModules context is not set. It is expected to be an array of strings containing the relative paths to the relative modules your app is using. You either need to supply it in the Apps constructor via the context option or invoke the synthesis through the CLI. We need this information so that assets with relative paths are properly handled when used with assets, so you can also set the skipAssetCreationFromLocalModules to true on your relative modules.",
       );
     }
 
     const moduleSources = relativeModules.map((module) =>
-      typeof module === "string" ? module : module.source
+      typeof module === "string" ? module : module.source,
     );
 
     const relativeAssetPath = findLowestCommonPath(moduleSources);
     if (!relativeAssetPath) {
       throw new Error(
-        "Could not find lowest common path for relative modules. This should not happen, you might be overwriting the cdktfRelativeModules value of the context with something unexpected. We expect an array of string or objects with a source attribute where the string or the source attribute reference a relative path to a module. The context can be set in the context option of the App Constructor Options."
+        "Could not find lowest common path for relative modules. This should not happen, you might be overwriting the cdktfRelativeModules value of the context with something unexpected. We expect an array of string or objects with a source attribute where the string or the source attribute reference a relative path to a module. The context can be set in the context option of the App Constructor Options.",
       );
     }
     this.relativeAssetPath = relativeAssetPath;
 
     // Create a tmp dir for the asset
     const tmpDir = fs.mkdtempSync(
-      path.join(os.tmpdir(), "cdktf-module-asset-")
+      path.join(os.tmpdir(), "cdktf-module-asset-"),
     );
 
     // Copy all modules into the tmp dir

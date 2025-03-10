@@ -12,7 +12,7 @@ test("minimal configuration", () => {
       new TestDataSource(stack, "test", {
         name: "foo",
       });
-    })
+    }),
   ).toMatchSnapshot();
 });
 
@@ -27,7 +27,7 @@ test("with complex computed list", () => {
       new TestResource(stack, "test-resource", {
         name: dataSource.complexComputedList.get(0).id,
       });
-    })
+    }),
   ).toMatchSnapshot();
 });
 
@@ -42,7 +42,7 @@ test("with string map", () => {
       new TestResource(stack, "test-resource", {
         name: dataSource.stringMap("id"),
       });
-    })
+    }),
   ).toMatchSnapshot();
 });
 
@@ -57,7 +57,7 @@ test("with number map", () => {
       new TestResource(stack, "test-resource", {
         name: Token.asString(dataSource.numberMap("id")),
       });
-    })
+    }),
   ).toMatchSnapshot();
 });
 
@@ -72,7 +72,7 @@ test("with boolean map", () => {
       new TestResource(stack, "test-resource", {
         name: dataSource.booleanMap("id").toString(),
       });
-    })
+    }),
   ).toMatchSnapshot();
 });
 
@@ -87,7 +87,7 @@ test("with any map", () => {
       new TestResource(stack, "test-resource", {
         name: Token.asString(dataSource.anyMap("id")),
       });
-    })
+    }),
   ).toMatchSnapshot();
 });
 
@@ -104,6 +104,6 @@ test("dependent data source", () => {
         name: "foo",
         dependsOn: [resource],
       });
-    })
+    }),
   ).toMatchSnapshot();
 });

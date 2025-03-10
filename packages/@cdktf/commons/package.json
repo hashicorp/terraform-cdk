@@ -57,15 +57,15 @@
     "@types/fs-extra": "11.0.4",
     "@types/uuid": "9.0.8",
     "@types/validator": "13.12.2",
-    "@typescript-eslint/eslint-plugin": "^8.24.0",
-    "@typescript-eslint/parser": "^8.24.0",
-    "eslint-config-prettier": "8.10.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",
     "jest": "29.7.0",
     "lint-staged": "13.3.0",
     "ts-jest": "29.2.5",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "typescript-eslint": "^8.24.1"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": "tsc-files ambient.d.ts --noEmit"

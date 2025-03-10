@@ -36,14 +36,14 @@ export class StackDependencies {
 
   public startRun(stack: SynthesizedStack): void {
     this.pendingStacks = this.pendingStacks.filter(
-      (item) => item.name !== stack.name
+      (item) => item.name !== stack.name,
     );
     this.inflightStacks.push(stack);
   }
 
   public finishRun(stack: SynthesizedStack): void {
     this.inflightStacks = this.inflightStacks.filter(
-      (item) => item.name !== stack.name
+      (item) => item.name !== stack.name,
     );
     this.deployedStacks.push(stack);
   }
@@ -55,7 +55,7 @@ export class StackDependencies {
           return !this.deployedStacks.some((deployedStack) => {
             return deployedStack.name === dependency;
           });
-        }
+        },
       );
 
       return unmetDependencies.length === 0;
@@ -79,7 +79,7 @@ export class SynthStack {
     graceful = false, // will not exit the process but rethrow the error instead
     noColor = false,
     synthOrigin?: SynthOrigin,
-    hcl = false
+    hcl = false,
   ): Promise<SynthesizedStack[]> {
     // start performance timer
     const startTime = performance.now();
@@ -94,14 +94,14 @@ export class SynthStack {
     };
 
     const existingDirectories = getDirectories(
-      path.join(outdir, Manifest.stacksFolder)
+      path.join(outdir, Manifest.stacksFolder),
     );
 
     const env = Object.fromEntries(
       Object.entries(process.env).filter(
         // We don't want to pass Terraform variables to the synth command since they should only be used at execution time
-        ([key]) => !key.startsWith("TF_VAR_")
-      )
+        ([key]) => !key.startsWith("TF_VAR_"),
+      ),
     );
 
     // Increases the default memory available to Node.js when synthesizing a TypeScript CDK project.
@@ -201,7 +201,7 @@ Command output on stdout:
 
     const stackNames = stacks.map((s) => s.name);
     const orphanedDirectories = existingDirectories.filter(
-      (e) => !stackNames.includes(path.basename(e))
+      (e) => !stackNames.includes(path.basename(e)),
     );
 
     for (const orphanedDirectory of orphanedDirectories) {
@@ -215,12 +215,12 @@ Command output on stdout:
     const manifestPath = path.join(outDir, Manifest.fileName);
     if (!(await fs.pathExists(manifestPath))) {
       throw new Error(
-        `Could not find manifest file at ${manifestPath}. In case --skip-synth was passed, please try again without the flag.`
+        `Could not find manifest file at ${manifestPath}. In case --skip-synth was passed, please try again without the flag.`,
       );
     }
 
     const manifest = JSON.parse(
-      fs.readFileSync(manifestPath).toString()
+      fs.readFileSync(manifestPath).toString(),
     ) as ManifestJson;
 
     for (const stackName in manifest.stacks) {
@@ -234,18 +234,18 @@ Command output on stdout:
   }
 
   public static async readSynthesizedStacks(
-    outdir: string
+    outdir: string,
   ): Promise<SynthesizedStack[]> {
     const manifestPath = path.join(outdir, Manifest.fileName);
     if (!(await fs.pathExists(manifestPath))) {
       throw new Error(
-        `Could not find manifest file at ${manifestPath}. In case --skip-synth was passed, please try again without the flag.`
+        `Could not find manifest file at ${manifestPath}. In case --skip-synth was passed, please try again without the flag.`,
       );
     }
 
     const stacks: SynthesizedStack[] = [];
     const manifest = JSON.parse(
-      fs.readFileSync(manifestPath).toString()
+      fs.readFileSync(manifestPath).toString(),
     ) as ManifestJson;
 
     for (const stackName in manifest.stacks) {
@@ -272,7 +272,7 @@ Command output on stdout:
   public static async synthTelemetry(
     totalTime: number,
     stacks: SynthesizedStack[],
-    synthOrigin?: SynthOrigin
+    synthOrigin?: SynthOrigin,
   ): Promise<void> {
     const config = readConfigSync();
 
@@ -281,11 +281,11 @@ Command output on stdout:
       language: config.language,
       synthOrigin,
       stackMetadata: stacks.map(
-        (stack) => JSON.parse(stack.content)["//"].metadata
+        (stack) => JSON.parse(stack.content)["//"].metadata,
       ),
       requiredProviders: stacks.map(
         (stack: any) =>
-          JSON.parse(stack.content)["terraform"].required_providers
+          JSON.parse(stack.content)["terraform"].required_providers,
       ),
     });
   }

@@ -23,7 +23,7 @@ class EksClusterStack extends TerraformStack {
     scope: Construct,
     id: string,
     clusterName: string,
-    region = "us-east-1"
+    region = "us-east-1",
   ) {
     super(scope, id);
     new AwsProvider(this, "aws", {
@@ -33,7 +33,7 @@ class EksClusterStack extends TerraformStack {
     const allAvailabilityZones = new DataAwsAvailabilityZones(
       this,
       "all-availability-zones",
-      {}
+      {},
     ).names;
 
     // Create VPC
@@ -158,14 +158,14 @@ class KubernetesApplicationStack extends TerraformStack {
     scope: Construct,
     id: string,
     cluster: DataAwsEksCluster,
-    clusterAuth: DataAwsEksClusterAuth
+    clusterAuth: DataAwsEksClusterAuth,
   ) {
     super(scope, id);
 
     new KubernetesProvider(this, "cluster", {
       host: cluster.endpoint,
       clusterCaCertificate: Fn.base64decode(
-        cluster.certificateAuthority.get(0).data
+        cluster.certificateAuthority.get(0).data,
       ),
       token: clusterAuth.token,
     });
@@ -242,6 +242,6 @@ new KubernetesApplicationStack(
   app,
   "applications",
   cluster.eks,
-  cluster.eksAuth
+  cluster.eksAuth,
 );
 app.synth();

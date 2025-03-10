@@ -18,7 +18,7 @@ describe("full integration test diff", () => {
       expect(e).toHaveProperty("status", 1);
       const errorString = e.stderr.toString();
       expect(errorString).toContain(
-        `External Error: Stack failed to plan: hello-terra. Please check the logs for more information.`
+        `External Error: Stack failed to plan: hello-terra. Please check the logs for more information.`,
       );
     }
   });

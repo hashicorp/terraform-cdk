@@ -109,7 +109,7 @@ export interface Deps {
 }
 export async function determineDeps(
   version: string = pkg.version,
-  dist?: string
+  dist?: string,
 ): Promise<Deps> {
   // TS: cdktf-0.10.1-dev.2160938258
   // Py: cdktf-0.10.1.dev1658821493.whl
@@ -124,17 +124,17 @@ export async function determineDeps(
       pypi_cdktf: path.resolve(
         dist,
         "python",
-        `cdktf-${pythonVersion}-py3-none-any.whl`
+        `cdktf-${pythonVersion}-py3-none-any.whl`,
       ),
       mvn_cdktf: path.resolve(
         dist,
         "java",
-        `com/hashicorp/cdktf/${version}/cdktf-${version}.jar`
+        `com/hashicorp/cdktf/${version}/cdktf-${version}.jar`,
       ),
       nuget_cdktf: path.resolve(
         dist,
         "dotnet",
-        `HashiCorp.Cdktf.${version}.nupkg`
+        `HashiCorp.Cdktf.${version}.nupkg`,
       ),
       go_cdktf: path.resolve(dist, "go", `cdktf`),
     };
@@ -144,7 +144,7 @@ export async function determineDeps(
         throw Errors.Internal(
           `unable to find ${file} under the "dist" directory (${dist})`,
           new Error(),
-          { version }
+          { version },
         );
       }
     }
@@ -162,7 +162,7 @@ export async function determineDeps(
 
   if (version === "0.0.0") {
     throw Errors.Usage(
-      `cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory`
+      `cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory`,
     );
   }
 

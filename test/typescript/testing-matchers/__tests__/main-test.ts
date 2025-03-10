@@ -11,14 +11,14 @@ describe("Unit testing using assertions", () => {
     expect(
       Testing.synthScope((scope) => {
         new MyStack(scope, "test");
-      })
+      }),
     ).toHaveProvider(DockerProvider);
   });
   it("should use an docker provider with properties", () => {
     expect(
       Testing.synthScope((scope) => {
         new MyStack(scope, "test");
-      })
+      }),
     ).toHaveProviderWithProperties(DockerProvider, {
       host: "unix:///var/run/docker.sock",
     });

@@ -12,13 +12,13 @@ import pidusage from "pidusage";
  * current process since we start a lot of sub-processes with child_process.exec().
  */
 async function getCombinedMemoryUsageInBytes(
-  pid = process.pid
+  pid = process.pid,
 ): Promise<number> {
   const allPids = await pidtree(pid, { root: true });
   const usages = await pidusage(allPids);
   return Object.values(usages).reduce(
     (carry, item) => (item && "memory" in item ? carry + item.memory : carry),
-    0
+    0,
   );
 }
 
@@ -41,10 +41,10 @@ export function startPerformanceMonitoring() {
 
     logger.info(
       `Command took ${timeInS.toFixed(2)}s with ${memoryInGbAvg.toFixed(
-        2
+        2,
       )}Gb of memory on average and ${memoryInGbMax.toFixed(
-        2
-      )}Gb of memory at peak`
+        2,
+      )}Gb of memory at peak`,
     );
   };
 }

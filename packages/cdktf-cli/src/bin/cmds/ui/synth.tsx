@@ -38,7 +38,7 @@ export const Synth = ({
 }: SynthConfig): React.ReactElement => {
   const { returnValue, logEntries, status } = useCdktfProject(
     { outDir, synthCommand, hcl },
-    (project) => project.synth()
+    (project) => project.synth(),
   );
 
   return (
