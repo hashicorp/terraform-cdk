@@ -70,6 +70,7 @@ const customCompletion = function (
 // for the possible overload (which supports falling back to default completions)
 // https://github.com/yargs/yargs/blob/d33e9972291406490cd8fdad0b3589be234e0f12/lib/completion.ts#L202
 
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 yargs
   .command(require("./cmds/init"))
   .command(require("./cmds/get"))
@@ -169,4 +170,4 @@ yargs
 
     await Sentry.close(4000);
     process.exit(1);
-  });
+  }).argv;
