@@ -133,18 +133,10 @@ namespace Examples
                 ZoneId = dataAwsRoute53ZoneExample.ZoneId
             });
 
-            var recordsIterator = TerraformIterator.FromResources(records);
-
             new AcmCertificateValidation(this, "validation", new AcmCertificateValidationConfig
             {
                 CertificateArn = cert.Arn,
-                // DOCS_BLOCK_END:iterators-complex-lists
-                /* This is commented out because it currently fails to run with some JSII error
-                DOCS_BLOCK_START:iterators-complex-lists
-                ValidationRecordFqdns = Token.AsList(recordsIterator.PluckProperty("fqdn"))
-                DOCS_BLOCK_END:iterators-complex-lists
-                */
-                // DOCS_BLOCK_START:iterators-complex-lists
+                ValidationRecordFqdns = Token.AsList($"${{[for s in {records}: s.fqdn]}}")
             });
             // DOCS_BLOCK_END:iterators-complex-lists
 
