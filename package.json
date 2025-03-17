@@ -95,5 +95,27 @@
         "**/*.{ts,tsx,js,css,md}": "prettier --write",
         "examples/**": "yarn lint:examples"
     },
-    "packageManager": "yarn@1.18.0"
+    "eslintConfig": {
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "@typescript-eslint",
+            "monorepo"
+        ],
+        "settings": {
+            "react": {
+                "version": "detect"
+            }
+        },
+        "rules": {
+            "monorepo/no-relative-import": "error"
+        },
+        "ignorePatterns": [
+            "node_modules",
+            "dist",
+            "coverage",
+            "*.d.ts",
+            "*.js"
+        ]
+    },
+    "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
