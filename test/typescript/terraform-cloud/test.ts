@@ -31,6 +31,48 @@ describe("full integration test", () => {
   let workspaceName: string;
   const orgName = "cdktf";
 
+  async function createWorkspace(token: string, name: string) {
+    const response = await fetch(
+      `https://app.terraform.io/api/v2/organizations/${orgName}/workspaces`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/vnd.api+json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          data: {
+            attributes: {
+              name,
+              executionMode: "remote",
+              terraformVersion: TERRAFORM_VERSION,
+            },
+          },
+          type: "workspaces",
+        }),
+      },
+    );
+    const res = await response.json();
+
+    return res.data.id;
+  }
+
+  async function deleteWorkspace(token: string, name: string) {
+    const response = await fetch(
+      `https://app.terraform.io/api/v2/organizations/${orgName}/workspaces/${name}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/vnd.api+json",
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    const res = await response.json();
+
+    return res.data.id;
+  }
+
   beforeEach(async () => {
     workspaceName = `${GITHUB_RUN_NUMBER}-${crypto
       .randomBytes(10)
@@ -45,36 +87,15 @@ describe("full integration test", () => {
   });
 
   withAuth("deploy in Terraform Cloud", async () => {
-    const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
-
-    await client.Workspaces.create(orgName, {
-      data: {
-        attributes: {
-          name: workspaceName,
-          executionMode: "remote",
-          terraformVersion: TERRAFORM_VERSION,
-        },
-        type: "workspaces",
-      },
-    });
+    await createWorkspace(TERRAFORM_CLOUD_TOKEN, workspaceName);
 
     expect(await driver.deploy(["source-stack"])).toContain("Apply complete!");
-    await client.Workspaces.deleteByName(orgName, workspaceName);
+
+    await deleteWorkspace(TERRAFORM_CLOUD_TOKEN, workspaceName);
   });
 
   withAuth("deploy locally and then in Terraform Cloud", async () => {
-    const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
-
-    await client.Workspaces.create(orgName, {
-      data: {
-        attributes: {
-          name: workspaceName,
-          executionMode: "remote",
-          terraformVersion: TERRAFORM_VERSION,
-        },
-        type: "workspaces",
-      },
-    });
+    await createWorkspace(TERRAFORM_CLOUD_TOKEN, workspaceName);
 
     process.env.TF_EXECUTE_LOCAL = "true";
     await driver.deploy(["source-stack"], "before-migration.json");
@@ -87,31 +108,20 @@ describe("full integration test", () => {
       readFileSync("after-migration.json"),
     );
 
-    await client.Workspaces.deleteByName(orgName, workspaceName);
+    await deleteWorkspace(TERRAFORM_CLOUD_TOKEN, workspaceName);
   });
 
   // Only the origin stack is in TFC, the consumer stack is local
   withAuth(
     "deploy with cross stack reference origin in Terraform Cloud",
     async () => {
-      const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
-
-      await client.Workspaces.create(orgName, {
-        data: {
-          attributes: {
-            name: workspaceName,
-            executionMode: "remote",
-            terraformVersion: TERRAFORM_VERSION,
-          },
-          type: "workspaces",
-        },
-      });
+      await createWorkspace(TERRAFORM_CLOUD_TOKEN, workspaceName);
 
       await driver.deploy(["source-stack", "consumer-stack"]);
       driver.output("source-stack", "outputs.tmp.json", true);
       const outputs = JSON.parse(readFileSync("outputs.tmp.json").toString());
 
-      await client.Workspaces.deleteByName(orgName, workspaceName);
+      await deleteWorkspace(TERRAFORM_CLOUD_TOKEN, workspaceName);
 
       expect(driver.readLocalFile("consumer-file.txt")).toEqual(
         outputs["source-stack"].password_output,
