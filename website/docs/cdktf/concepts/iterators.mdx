@@ -439,12 +439,10 @@ new AcmCertificateValidation(this, "validation", {
                 ZoneId = dataAwsRoute53ZoneExample.ZoneId
             });
 
-            var recordsIterator = TerraformIterator.FromResources(records);
-
             new AcmCertificateValidation(this, "validation", new AcmCertificateValidationConfig
             {
                 CertificateArn = cert.Arn,
-                ValidationRecordFqdns = Token.AsList(recordsIterator.PluckProperty("fqdn"))
+                ValidationRecordFqdns = Token.AsList($"${{[for s in {records}: s.fqdn]}}")
             });
 ```
 
