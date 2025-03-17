@@ -14,7 +14,6 @@
   "license": "MPL-2.0",
   "devDependencies": {
     "@cdktf/node-pty-prebuilt-multiarch": "0.10.1-pre.11",
-    "@skorfmann/terraform-cloud": "^1.9.1",
     "@types/express": "^4.17.21",
     "@types/fs-extra": "^8.1.5",
     "@types/jest": "^29.5.12",
