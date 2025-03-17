@@ -1,7 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { TestDriver, onPosix } from "../../test-helper";
-import { TerraformCloud } from "@skorfmann/terraform-cloud";
 import * as crypto from "crypto";
 import { readFileSync } from "fs-extra";
 
