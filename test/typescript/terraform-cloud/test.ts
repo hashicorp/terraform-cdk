@@ -67,9 +67,19 @@ describe("full integration test", () => {
         },
       },
     );
-    const res = await response.json();
 
-    return res.data.id;
+    switch (response.status) {
+      case 204:
+        return true;
+      case 404:
+        throw new Error(
+          `Workspace not found, or unauthorized: ${response.statusText}`,
+        );
+      case 403:
+        throw new Error(
+          `not authorized to delete workspace:  ${response.statusText}`,
+        );
+    }
   }
 
   beforeEach(async () => {
