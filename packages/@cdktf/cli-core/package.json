@@ -117,7 +117,7 @@
     "@types/semver": "7.5.8",
     "@types/stream-buffers": "3.0.7",
     "@types/uuid": "8.3.4",
-    "esbuild": "0.24.2",
+    "esbuild": "^0.25.1",
     "esbuild-jest": "0.5.0",
     "eslint": "^9.20.0",
     "eslint-config-prettier": "^10.0.1",

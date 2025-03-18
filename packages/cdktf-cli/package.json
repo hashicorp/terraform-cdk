@@ -102,7 +102,7 @@
     "cli-spinners": "2.9.2",
     "cross-fetch": "3.2.0",
     "detect-port": "1.6.1",
-    "esbuild": "0.24.2",
+    "esbuild": "^0.25.1",
     "esbuild-jest": "0.5.0",
     "eslint": "^9.20.0",
     "eslint-config-prettier": "^10.0.1",
