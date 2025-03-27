@@ -22,13 +22,13 @@ describe("python full integration 3rd party", () => {
   describe("references", () => {
     onlyJson("simple references", () => {
       expect(
-        driver.synthesizedStack("references").byId("nginxContainer").image
+        driver.synthesizedStack("references").byId("nginxContainer").image,
       ).toContain("nginxImage.repo_digest");
     });
 
     onlyJson("single-item references", () => {
       expect(
-        driver.synthesizedStack("references").output("containerCapAdd")
+        driver.synthesizedStack("references").output("containerCapAdd"),
       ).toContain("nginxContainer.capabilities[0].add");
     });
   });
@@ -36,13 +36,13 @@ describe("python full integration 3rd party", () => {
   describe("mutation", () => {
     onlyJson("direct mutation", () => {
       expect(
-        driver.synthesizedStack("references").byId("nginxImage").keep_locally
+        driver.synthesizedStack("references").byId("nginxImage").keep_locally,
       ).toBeTruthy();
     });
 
     onlyJson("reference mutation", () => {
       expect(
-        driver.synthesizedStack("references").byId("nginxContainer").privileged
+        driver.synthesizedStack("references").byId("nginxContainer").privileged,
       ).toContain("nginxImage.keep_locally");
     });
   });

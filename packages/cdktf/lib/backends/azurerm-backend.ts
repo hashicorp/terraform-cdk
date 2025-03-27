@@ -10,7 +10,10 @@ import {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class AzurermBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: AzurermBackendConfig) {
+  constructor(
+    scope: Construct,
+    private readonly props: AzurermBackendConfig,
+  ) {
     super(scope, "backend", "azurerm");
   }
 
@@ -25,7 +28,7 @@ export class AzurermBackend extends TerraformBackend {
   public getRemoteStateDataSource(
     scope: Construct,
     name: string,
-    _fromStack: string
+    _fromStack: string,
   ): TerraformRemoteState {
     return new DataTerraformRemoteStateAzurerm(scope, name, {
       ...this.props,
@@ -39,7 +42,7 @@ export class DataTerraformRemoteStateAzurerm extends TerraformRemoteState {
   constructor(
     scope: Construct,
     id: string,
-    config: DataTerraformRemoteStateAzurermConfig
+    config: DataTerraformRemoteStateAzurermConfig,
   ) {
     super(scope, id, "azurerm", config);
   }

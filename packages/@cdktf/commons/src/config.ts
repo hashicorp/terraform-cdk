@@ -94,7 +94,7 @@ export class TerraformModuleConstraint
   }
 
   private parseDependencyConstraint(
-    item: string
+    item: string,
   ): TerraformDependencyConstraint {
     const localMatch = getLocalMatch(item);
     if (localMatch) {
@@ -229,7 +229,7 @@ export class TerraformProviderConstraint
   }
 
   private parseDependencyConstraint(
-    item: string
+    item: string,
   ): TerraformDependencyConstraint {
     const [fqn, version] = item.split("@");
     const nameParts = fqn.split("/");
@@ -268,13 +268,13 @@ export const parseConfig = (configJSON?: string) => {
 
   if (isPresent(config.terraformModules)) {
     config.terraformModules = config.terraformModules?.map(
-      (mod) => new TerraformModuleConstraint(mod)
+      (mod) => new TerraformModuleConstraint(mod),
     );
   }
 
   if (isPresent(config.terraformProviders)) {
     config.terraformProviders = config.terraformProviders?.map(
-      (provider) => new TerraformProviderConstraint(provider)
+      (provider) => new TerraformProviderConstraint(provider),
     );
   }
 
@@ -286,7 +286,7 @@ export const parseConfig = (configJSON?: string) => {
 };
 
 export function readConfigSync(
-  configFile = path.join(process.cwd(), CONFIG_FILE)
+  configFile = path.join(process.cwd(), CONFIG_FILE),
 ): Config {
   let configFileContent: string | undefined;
 

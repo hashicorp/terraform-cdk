@@ -32,7 +32,7 @@ describe("meta-properties", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.yes
+      Synth.yes,
     );
   });
 
@@ -88,7 +88,7 @@ describe("meta-properties", () => {
       `,
       [binding.google],
       Snapshot.yes,
-      Synth.yes
+      Synth.yes,
     );
   });
 
@@ -129,7 +129,7 @@ describe("meta-properties", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.yes
+      Synth.yes,
     );
 
     testCase.test(
@@ -157,7 +157,7 @@ describe("meta-properties", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.yes
+      Synth.yes,
     );
   });
 
@@ -186,7 +186,7 @@ describe("meta-properties", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.yes
+      Synth.yes,
     );
 
     testCase.test(
@@ -207,7 +207,7 @@ describe("meta-properties", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.yes
+      Synth.yes,
     );
 
     testCase.test(
@@ -244,7 +244,7 @@ describe("meta-properties", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.yes
+      Synth.yes,
     );
 
     testCase.test(
@@ -282,7 +282,7 @@ describe("meta-properties", () => {
       `,
       [binding.aws],
       Snapshot.yes,
-      Synth.yes
+      Synth.yes,
     );
   });
 });

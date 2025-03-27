@@ -258,7 +258,7 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(`""hello""`);
   });
@@ -269,7 +269,7 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(`"Token.asString(22)"`);
   });
@@ -280,7 +280,7 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(`"foo.stringValue"`);
   });
@@ -291,10 +291,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(fooBar.value)"`
+      `"Token.asString(fooBar.value)"`,
     );
   });
 
@@ -304,10 +304,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.replace("hello", "l", "w"))"`
+      `"Token.asString(Fn.replace("hello", "l", "w"))"`,
     );
   });
 
@@ -317,10 +317,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.replace("hello-" + Token.asString(Op.add(22, 22)), "44", "world"))"`
+      `"Token.asString(Fn.replace("hello-" + Token.asString(Op.add(22, 22)), "44", "world"))"`,
     );
   });
 
@@ -334,10 +334,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""dynamic-ingress-\${" + Token.asString(dynamic_iterator0.key) + "}""`
+      `""dynamic-ingress-\${" + Token.asString(dynamic_iterator0.key) + "}""`,
     );
   });
 
@@ -347,11 +347,11 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     // TODO: This seems broken
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(fooBar.value)"`
+      `"Token.asString(fooBar.value)"`,
     );
   });
 
@@ -361,7 +361,7 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(`""simple-\${" + foo.id + "}""`);
   });
@@ -372,10 +372,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""simple-\${" + foo.prop.test + "}""`
+      `""simple-\${" + foo.prop.test + "}""`,
     );
   });
 
@@ -385,7 +385,7 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(`""simple-\${" + foo + "}""`);
   });
@@ -399,10 +399,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Op.add(examplebucket.count, otherbucket.count))"`
+      `"Token.asString(Op.add(examplebucket.count, otherbucket.count))"`,
     );
   });
 
@@ -412,10 +412,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(foo, ["*", "id"]))"`
+      `"Token.asString(Fn.lookupNested(foo, ["*", "id"]))"`,
     );
   });
 
@@ -426,10 +426,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`,
     );
   });
 
@@ -440,10 +440,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`,
     );
   });
 
@@ -454,10 +454,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`,
     );
   });
 
@@ -467,10 +467,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.toset(Fn.lookupNested(examplebucket, ["*"])))"`
+      `"Token.asString(Fn.toset(Fn.lookupNested(examplebucket, ["*"])))"`,
     );
   });
 
@@ -481,10 +481,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(conditional(Op.gt(key.deletionWindowInDays, 3), examplebucket.id, []))"`
+      `"Token.asString(conditional(Op.gt(key.deletionWindowInDays, 3), examplebucket.id, []))"`,
     );
   });
 
@@ -494,10 +494,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(Fn.element(examplebucket, 0), ["id"]))"`
+      `"Token.asString(Fn.lookupNested(Fn.element(examplebucket, 0), ["id"]))"`,
     );
   });
 
@@ -507,10 +507,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.element(Fn.lookupNested(examplebucket, ["*", "id"]), 0))"`
+      `"Token.asString(Fn.element(Fn.lookupNested(examplebucket, ["*", "id"]), 0))"`,
     );
   });
 
@@ -522,10 +522,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${{ for name, user in \${" + users.value + "} : user.role => name...}}""`
+      `""\${{ for name, user in \${" + users.value + "} : user.role => name...}}""`,
     );
   });
 
@@ -536,10 +536,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${{ for s in \${" + list.value + "} : s => upper(s)}}""`
+      `""\${{ for s in \${" + list.value + "} : s => upper(s)}}""`,
     );
   });
 
@@ -550,10 +550,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${[ for s in \${" + list.value + "} : upper(s)]}""`
+      `""\${[ for s in \${" + list.value + "} : upper(s)]}""`,
     );
   });
 
@@ -563,10 +563,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${[ for s in \${" + list.value + "} : upper(s) if s != \\"\\"]}""`
+      `""\${[ for s in \${" + list.value + "} : upper(s) if s != \\"\\"]}""`,
     );
   });
 
@@ -576,10 +576,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(examplebucket, ["0", "id"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket, ["0", "id"]))"`,
     );
   });
 
@@ -589,10 +589,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      () => "bool"
+      () => "bool",
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asBoolean(Op.not(enabled.value))"`
+      `"Token.asBoolean(Op.not(enabled.value))"`,
     );
   });
 
@@ -611,11 +611,11 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     // TODO: See if we have a way to preserve comments
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.compact(Token.asList([examplebucket, input.value])))"`
+      `"Token.asString(Fn.compact(Token.asList([examplebucket, input.value])))"`,
     );
   });
 
@@ -625,10 +625,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(conditional(Op.eq(input.value, "test"), "azure-ad-int", "azure-ad-\${" + input.value + "}"))"`
+      `"Token.asString(conditional(Op.eq(input.value, "test"), "azure-ad-int", "azure-ad-\${" + input.value + "}"))"`,
     );
   });
 
@@ -638,10 +638,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.element(Fn.lookupNested(test2.value, ["\\"val1\\""]), 0))"`
+      `"Token.asString(Fn.element(Fn.lookupNested(test2.value, ["\\"val1\\""]), 0))"`,
     );
   });
 
@@ -651,10 +651,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.flatten(Fn.lookupNested(vnets.value, ["*", "subnets", "*", "name"])))"`
+      `"Token.asString(Fn.flatten(Fn.lookupNested(vnets.value, ["*", "subnets", "*", "name"])))"`,
     );
   });
 
@@ -669,10 +669,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${{ for vnet in \${" + Fn.lookupNested(vnets.value, ["*"]) + "} : (vnet.vnet_name) => vnet.subnets[*].name}}""`
+      `""\${{ for vnet in \${" + Fn.lookupNested(vnets.value, ["*"]) + "} : (vnet.vnet_name) => vnet.subnets[*].name}}""`,
     );
   });
 
@@ -692,10 +692,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.flatten("\${[ for k, v in \${" + route.value + "} : [\\n      for n, s in v : [\\n        {\\n          key = k,\\n          name = n,\\n          svc_url = s\\n        }\\n      ]\\n    ]]}"))"`
+      `"Token.asString(Fn.flatten("\${[ for k, v in \${" + route.value + "} : [\\n      for n, s in v : [\\n        {\\n          key = k,\\n          name = n,\\n          svc_url = s\\n        }\\n      ]\\n    ]]}"))"`,
     );
   });
 
@@ -705,10 +705,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Op.not(enabled))"`
+      `"Token.asString(Op.not(enabled))"`,
     );
   });
 
@@ -721,10 +721,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + serviceName + "},\${" + owner + "},\${" + isItGreat + "},\${" + howMany + "}""`
+      `""\${" + serviceName + "},\${" + owner + "},\${" + isItGreat + "},\${" + howMany + "}""`,
     );
   });
 
@@ -734,10 +734,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + test.value + "} + 1""`
+      `""\${" + test.value + "} + 1""`,
     );
   });
 
@@ -747,7 +747,7 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(`"enabled"`);
   });
@@ -758,10 +758,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(TerraformSelf.getAny("path"))"`
+      `"Token.asString(TerraformSelf.getAny("path"))"`,
     );
   });
 
@@ -771,10 +771,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.join("-", Token.asList([Fn.lookupNested(tags.value, ["app"]), Fn.lookupNested(tags.value, ["env"])])))"`
+      `"Token.asString(Fn.join("-", Token.asList([Fn.lookupNested(tags.value, ["app"]), Fn.lookupNested(tags.value, ["env"])])))"`,
     );
   });
 
@@ -785,10 +785,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.join("-", Token.asList(Fn.concat([Fn.lookupNested(tags.value, ["app"]), Fn.lookupNested(tags.value, ["env"]), Fn.lookupNested(tags.value, ["other"])]))))"`
+      `"Token.asString(Fn.join("-", Token.asList(Fn.concat([Fn.lookupNested(tags.value, ["app"]), Fn.lookupNested(tags.value, ["env"]), Fn.lookupNested(tags.value, ["other"])]))))"`,
     );
   });
 
@@ -798,10 +798,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""app-\${terraform.workspace}""`
+      `""app-\${terraform.workspace}""`,
     );
   });
 
@@ -811,10 +811,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${[ for record in \${" + example.fqn + "} : record.fqdn]}""`
+      `""\${[ for record in \${" + example.fqn + "} : record.fqdn]}""`,
     );
   });
 
@@ -824,10 +824,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(example.zoneId)"`
+      `"Token.asString(example.zoneId)"`,
     );
   });
 
@@ -837,10 +837,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(myIterator.value, ["name"]))"`
+      `"Token.asString(Fn.lookupNested(myIterator.value, ["name"]))"`,
     );
   });
 
@@ -850,10 +850,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(Fn.element(examplebucket, 0), ["id"]))"`
+      `"Token.asString(Fn.lookupNested(Fn.element(examplebucket, 0), ["id"]))"`,
     );
   });
 
@@ -865,10 +865,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.concat([Fn.lookupNested(privateSubnets.value, ["*", "id"]), Fn.lookupNested(publicSubnets.value, ["*", "id"])]))"`
+      `"Token.asString(Fn.concat([Fn.lookupNested(privateSubnets.value, ["*", "id"]), Fn.lookupNested(publicSubnets.value, ["*", "id"])]))"`,
     );
   });
 
@@ -881,10 +881,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(myIterator.key)"`
+      `"Token.asString(myIterator.key)"`,
     );
   });
 
@@ -897,10 +897,10 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(TerraformSelf.getAny("subnet.id"))"`
+      `"Token.asString(TerraformSelf.getAny("subnet.id"))"`,
     );
   });
 
@@ -920,10 +920,10 @@ EOF
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""[{\\n    \\"Condition\\": {\\n        \\"KeyPrefixEquals\\": \\"docs/\\"\\n    },\\n    \\"Redirect\\": {\\n        \\"ReplaceKeyPrefixWith\\": \\"documents/\\"\\n    }\\n}]\\n""`
+      `""[{\\n    \\"Condition\\": {\\n        \\"KeyPrefixEquals\\": \\"docs/\\"\\n    },\\n    \\"Redirect\\": {\\n        \\"ReplaceKeyPrefixWith\\": \\"documents/\\"\\n    }\\n}]\\n""`,
     );
   });
 
@@ -935,7 +935,7 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(`""hello world\\n""`);
   });
@@ -948,7 +948,7 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(`""hello world\\n""`);
   });
@@ -964,10 +964,10 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${required_resource_access.value[\\"resource_access\\"]}""`
+      `""\${required_resource_access.value[\\"resource_access\\"]}""`,
     );
   });
 
@@ -979,10 +979,10 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Op.and(Op.gt(Fn.lengthOf(imageId.value), 4), Op.eq(Fn.substr(imageId.stringValue, 0, 4), "ami-")))"`
+      `"Token.asString(Op.and(Op.gt(Fn.lengthOf(imageId.value), 4), Op.eq(Fn.substr(imageId.stringValue, 0, 4), "ami-")))"`,
     );
   });
 
@@ -995,10 +995,10 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(changemeAzListEbsSnapshot.names, ["0"]))"`
+      `"Token.asString(Fn.lookupNested(changemeAzListEbsSnapshot.names, ["0"]))"`,
     );
   });
 
@@ -1011,10 +1011,10 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(changemeAzListEbsSnapshot, ["testing_map", "foo"]))"`
+      `"Token.asString(Fn.lookupNested(changemeAzListEbsSnapshot, ["testing_map", "foo"]))"`,
     );
   });
 
@@ -1027,11 +1027,11 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      () => ["map", "string"]
+      () => ["map", "string"],
     );
 
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asStringMap(changemeAzListEbsSnapshot.testingMap)"`
+      `"Token.asStringMap(changemeAzListEbsSnapshot.testingMap)"`,
     );
   });
 
@@ -1045,10 +1045,10 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      () => ["map", "string"]
+      () => ["map", "string"],
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asStringMap(Fn.lookupNested(changemeExternalThumbprintData, ["result", "thumbprint"]))"`
+      `"Token.asStringMap(Fn.lookupNested(changemeExternalThumbprintData, ["result", "thumbprint"]))"`,
     );
   });
 
@@ -1061,10 +1061,10 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      () => "string"
+      () => "string",
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(examplebucket, ["foo", "bar"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket, ["foo", "bar"]))"`,
     );
   });
 
@@ -1078,10 +1078,10 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      () => "string"
+      () => "string",
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(defaultTags.value, ["project"])) + "-client-tg""`
+      `"Token.asString(Fn.lookupNested(defaultTags.value, ["project"])) + "-client-tg""`,
     );
   });
 
@@ -1093,7 +1093,7 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      () => "bool"
+      () => "bool",
     );
     expect(code(result)).toMatchInlineSnapshot(`"false"`);
   });
@@ -1107,10 +1107,10 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.lookupNested(available.names, ["\${count.index}"]))"`
+      `"Token.asString(Fn.lookupNested(available.names, ["\${count.index}"]))"`,
     );
   });
 
@@ -1125,7 +1125,7 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
     expect(code(result)).toMatchInlineSnapshot(`
       "Token.asString(Fn.jsonencode({
@@ -1143,11 +1143,11 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
 
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.cidrsubnets("fd00:fd12:3456:7890::/56", [16, 16, 16, 32]))"`
+      `"Token.asString(Fn.cidrsubnets("fd00:fd12:3456:7890::/56", [16, 16, 16, 32]))"`,
     );
   });
 
@@ -1157,11 +1157,11 @@ EOF`;
     const result = await convertTerraformExpressionToTs(
       scope,
       expression,
-      getType
+      getType,
     );
 
     expect(code(result)).toMatchInlineSnapshot(
-      `"["$\${path:name.givenName}"]"`
+      `"["$\${path:name.givenName}"]"`,
     );
   });
 });

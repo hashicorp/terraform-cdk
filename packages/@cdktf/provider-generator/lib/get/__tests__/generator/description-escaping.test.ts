@@ -9,24 +9,24 @@ import { CodeMaker } from "codemaker";
 test("broken attribute description comments", async () => {
   const code = new CodeMaker();
   const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "description-escaping.test")
+    path.join(os.tmpdir(), "description-escaping.test"),
   );
   const spec = JSON.parse(
     fs.readFileSync(
       path.join(
         __dirname,
         "fixtures",
-        "description-escaping.test.fixture.json"
+        "description-escaping.test.fixture.json",
       ),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/google/description-escaping/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot();
 });
@@ -40,24 +40,24 @@ test("broken attribute description comments", async () => {
 test("malformed code blocks which break in python rst", async () => {
   const code = new CodeMaker();
   const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "markdown-description-with-code-blocks.test")
+    path.join(os.tmpdir(), "markdown-description-with-code-blocks.test"),
   );
   const spec = JSON.parse(
     fs.readFileSync(
       path.join(
         __dirname,
         "fixtures",
-        "markdown-description-with-code-blocks.test.fixture.json"
+        "markdown-description-with-code-blocks.test.fixture.json",
       ),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/aws/code-blocks/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot();
 });
@@ -65,24 +65,24 @@ test("malformed code blocks which break in python rst", async () => {
 test("comment ending sequence in comment", async () => {
   const code = new CodeMaker();
   const workdir = fs.mkdtempSync(
-    path.join(os.tmpdir(), "comment-ending-sequence.test")
+    path.join(os.tmpdir(), "comment-ending-sequence.test"),
   );
   const spec = JSON.parse(
     fs.readFileSync(
       path.join(
         __dirname,
         "fixtures",
-        "comment-ending-sequence.test.fixture.json"
+        "comment-ending-sequence.test.fixture.json",
       ),
-      "utf-8"
-    )
+      "utf-8",
+    ),
   );
   new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
     path.join(workdir, "providers/aws/code-blocks/index.ts"),
-    "utf-8"
+    "utf-8",
   );
   expect(output).toMatchSnapshot();
 });

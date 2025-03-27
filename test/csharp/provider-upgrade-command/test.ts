@@ -25,19 +25,19 @@ describe("provider upgrade command", () => {
         ]);
 
         expect(driver.readLocalFile("MyTerraformStack.csproj")).toContain(
-          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />'
+          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />',
         );
 
         await driver.exec("cdktf", ["provider", "upgrade", "random@=3.4.3"]);
 
         expect(driver.readLocalFile("MyTerraformStack.csproj")).not.toContain(
-          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />'
+          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />',
         );
         expect(driver.readLocalFile("MyTerraformStack.csproj")).toContain(
-          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.79" />'
+          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.79" />',
         );
       },
-      500_000
+      500_000,
     );
 
     onWindows(
@@ -50,19 +50,19 @@ describe("provider upgrade command", () => {
         ]);
 
         expect(driver.readLocalFile("MyTerraformStack.csproj")).toContain(
-          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />'
+          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />',
         );
 
         await driver.exec("cdktf", ["provider", "upgrade", "random@=3.4.3"]);
 
         expect(driver.readLocalFile("MyTerraformStack.csproj")).not.toContain(
-          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />'
+          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.52" />',
         );
         expect(driver.readLocalFile("MyTerraformStack.csproj")).toContain(
-          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.79" />'
+          '<PackageReference Include="HashiCorp.Cdktf.Providers.Random" Version="2.0.79" />',
         );
       },
-      500_000
+      500_000,
     );
   });
 });

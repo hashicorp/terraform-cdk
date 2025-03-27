@@ -108,7 +108,7 @@ export class TerraformProviderLock {
     const lockedProvider = providerLockData[constraint.source];
     if (lockedProvider) {
       return lockedProvider.constraints?.matchesVersion(
-        constraint.version ?? ">0"
+        constraint.version ?? ">0",
       );
     }
 

@@ -15,14 +15,14 @@ import {
 
 export async function convertConfigurationFile(
   configuration: string,
-  stackWorkingDirectory: string
+  stackWorkingDirectory: string,
 ) {
   const cfg = CdktfConfig.read(stackWorkingDirectory);
   const targets = cfg.terraformProviders.map((constraint) =>
     ConstructsMakerProviderTarget.from(
       new TerraformProviderConstraint(constraint),
-      LANGUAGES[0]
-    )
+      LANGUAGES[0],
+    ),
   );
   const { providerSchema } = await readSchema(targets);
   if (!providerSchema) {

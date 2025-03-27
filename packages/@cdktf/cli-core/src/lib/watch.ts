@@ -25,7 +25,7 @@ function getOrWriteDefaultWatchConfig(projectPath = process.cwd()) {
   } catch (err: any) {
     throw Errors.Internal(
       `Could not find cdktf.json file in ${projectPath}`,
-      err
+      err,
     );
   }
 
@@ -43,7 +43,7 @@ function getOrWriteDefaultWatchConfig(projectPath = process.cwd()) {
 
   if (!language) {
     throw Errors.Usage(
-      `No language specified in cdktf.json, please either specify a language or watchPattern to use the watch command`
+      `No language specified in cdktf.json, please either specify a language or watchPattern to use the watch command`,
     );
   }
 
@@ -57,7 +57,11 @@ function getOrWriteDefaultWatchConfig(projectPath = process.cwd()) {
 
   fs.writeFileSync(
     cdktfJsonPath,
-    JSON.stringify({ ...cdktfJson, watchPattern: defaultWatchPattern }, null, 2)
+    JSON.stringify(
+      { ...cdktfJson, watchPattern: defaultWatchPattern },
+      null,
+      2,
+    ),
   );
   logger.debug(`Write default watchPattern for ${language} in cdktf.json.`);
 
@@ -97,7 +101,7 @@ export async function watch(
   projectOptions: CdktfProjectOptions,
   mutationOptions: MutationOptions,
   abortSignal: AbortSignal,
-  onStateChange: (newState: State) => void
+  onStateChange: (newState: State) => void,
 ) {
   const patterns = getOrWriteDefaultWatchConfig();
   const watcher = chokidar.watch(patterns, {
@@ -131,7 +135,7 @@ export async function watch(
 
     if (state.type !== "running") {
       throw Errors.Internal(
-        "Watch was in a state where the state was not running in the run phase"
+        "Watch was in a state where the state was not running in the run phase",
       );
     }
 

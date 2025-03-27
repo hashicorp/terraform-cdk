@@ -39,7 +39,7 @@ describe("iteration", () => {
     Synth.yes,
     {
       resources: ["aws_kms_key", "aws_s3_bucket", "aws_s3_bucket_object"],
-    }
+    },
   );
 
   testCase.test(
@@ -67,7 +67,7 @@ describe("iteration", () => {
     Synth.yes,
     {
       resources: ["aws_iam_user"],
-    }
+    },
   );
 
   testCase.test(
@@ -94,7 +94,7 @@ describe("iteration", () => {
     Synth.yes,
     {
       resources: ["aws_iam_user"],
-    }
+    },
   );
 
   testCase.test(
@@ -119,7 +119,7 @@ describe("iteration", () => {
     Synth.yes,
     {
       resources: ["aws_instance"],
-    }
+    },
   );
 
   testCase.test(
@@ -155,7 +155,7 @@ describe("iteration", () => {
     Synth.yes,
     {
       resources: ["aws_elastic_beanstalk_environment"],
-    }
+    },
   );
 
   testCase.test(
@@ -208,7 +208,7 @@ describe("iteration", () => {
     Synth.yes,
     {
       resources: ["azuread_application"],
-    }
+    },
   );
   testCase.test(
     "complex for each loops",
@@ -271,7 +271,7 @@ describe("iteration", () => {
         "aws_acm_certificate",
       ],
       dataSources: ["aws_route53_zone"],
-    }
+    },
   );
 
   testCase.test(
@@ -304,7 +304,7 @@ describe("iteration", () => {
     Synth.yes,
     {
       resources: ["azuread_user"],
-    }
+    },
   );
 
   testCase.test(
@@ -337,6 +337,6 @@ describe("iteration", () => {
     {
       resources: ["aws_subnet"],
       dataSources: ["aws_availability_zones"],
-    }
+    },
   );
 });

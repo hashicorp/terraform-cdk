@@ -97,8 +97,8 @@ export class NestingNestedConstructToMoveTo extends Construct {
         bucket: "test-move-bucket-name-3",
       }).addMoveTarget("move");
     }
-    if (process.env.STEP_1) {
-    }
+    // if (process.env.STEP_1) {
+    // }
   }
 }
 // NESTING RESOURCE
@@ -126,7 +126,7 @@ export class ListIteratorMoveStack extends TerraformStack {
         bucket: "website-static-file-list-iterator-one",
       }).moveTo(
         "moveToResourceWithListIterator",
-        "website-static-file-list-iterator-one"
+        "website-static-file-list-iterator-one",
       );
     }
     if (process.env.STEP_1) {

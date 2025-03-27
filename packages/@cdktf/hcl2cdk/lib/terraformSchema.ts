@@ -65,7 +65,7 @@ function getResourceAtPath(schema: ProviderSchema, path: string) {
 
 function findType(
   item: Schema | BlockType | AttributeType,
-  parts: string[]
+  parts: string[],
 ): Schema | BlockType | AttributeType | null {
   if (!parts.length) {
     return item;
@@ -136,7 +136,7 @@ function findType(
 
 export function getTypeAtPath(
   schema: ProviderSchema,
-  path: string
+  path: string,
 ): Schema | BlockType | AttributeType | null {
   const resourceSchema = getResourceAtPath(schema, path);
 
@@ -148,12 +148,12 @@ export function getTypeAtPath(
 }
 
 export const isMapAttribute = (
-  attribute: Schema | AttributeType | BlockType | null
+  attribute: Schema | AttributeType | BlockType | null,
 ) => (Array.isArray(attribute) ? attribute[0] === "map" : false);
 
 export function getDesiredType(
   scope: ProgramScope,
-  path: string
+  path: string,
 ): AttributeType {
   const attributeOrBlockType = getTypeAtPath(scope.providerSchema, path);
 

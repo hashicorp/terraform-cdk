@@ -111,8 +111,8 @@ async function getTerraformClient(
   stack: SynthesizedStack,
   createTerraformLogHandler: (
     phase: string,
-    filter?: OutputFilter[]
-  ) => (message: string, isError?: boolean) => void
+    filter?: OutputFilter[],
+  ) => (message: string, isError?: boolean) => void,
 ): Promise<Terraform> {
   return new TerraformCli(abortSignal, stack, createTerraformLogHandler);
 }
@@ -125,7 +125,7 @@ type CdktfStackOptions = {
       | StackApprovalUpdate
       | ExternalStackApprovalUpdate
       | StackSentinelOverrideUpdate
-      | ExternalStackSentinelOverrideUpdate
+      | ExternalStackSentinelOverrideUpdate,
   ) => void;
   onLog?: (log: { message: string; isError: boolean }) => void;
   autoApprove?: boolean;
@@ -155,7 +155,7 @@ export class CdktfStack {
   constructor(public options: CdktfStackOptions) {
     this.stack = options.stack;
     this.parsedContent = terraformJsonSchema.parse(
-      JSON.parse(this.stack.content)
+      JSON.parse(this.stack.content),
     );
   }
 
@@ -181,7 +181,7 @@ export class CdktfStack {
       | ExternalStackApprovalUpdate
       | ExternalStackSentinelOverrideUpdate
       | { type: "idle" }
-      | { type: "done" }
+      | { type: "done" },
   ) {
     logger.debug(`[${this.stack.name}]: ${update.type}`);
     (this.currentState as CdktfStackStates) = update.type;
@@ -199,7 +199,7 @@ export class CdktfStack {
       case "deployed":
         logger.debug(`Outputs: ${JSON.stringify(update.outputs)}`);
         logger.debug(
-          `OutputsByConstructId: ${JSON.stringify(update.outputsByConstructId)}`
+          `OutputsByConstructId: ${JSON.stringify(update.outputsByConstructId)}`,
         );
         this.outputs = update.outputs;
         this.outputsByConstructId = update.outputsByConstructId;
@@ -214,7 +214,7 @@ export class CdktfStack {
 
   private createTerraformLogHandler(
     phase: string,
-    filters?: OutputFilter[]
+    filters?: OutputFilter[],
   ): (message: string, isError?: boolean) => void {
     logger.debug("Creating terraform log handler", phase);
 
@@ -224,7 +224,7 @@ export class CdktfStack {
       logger.debug(`[${this.options.stack.name}](${phase}): ${msg}`);
 
       const filterToApply = filters?.find((filter) =>
-        filter.condition(message)
+        filter.condition(message),
       );
       const filteredMessage = filterToApply
         ? filterToApply.transform(message)
@@ -232,7 +232,7 @@ export class CdktfStack {
 
       if (filteredMessage) {
         logger.debug(
-          `Filter ${filterToApply} applied on line '${message}' with result '${filteredMessage}'`
+          `Filter ${filterToApply} applied on line '${message}' with result '${filteredMessage}'`,
         );
       }
 
@@ -246,7 +246,7 @@ export class CdktfStack {
     return await getTerraformClient(
       this.options.abortSignal,
       this.options.stack,
-      this.createTerraformLogHandler.bind(this)
+      this.createTerraformLogHandler.bind(this),
     );
   }
 
@@ -267,11 +267,14 @@ export class CdktfStack {
     // Read required providers from the stack output
     const requiredProviders = this.parsedContent.terraform?.required_providers;
 
-    return Object.values(requiredProviders || {}).reduce((acc, obj) => {
-      const constraint = new ProviderConstraint(obj.source, obj.version);
-      acc[constraint.source] = constraint;
-      return acc;
-    }, {} as Record<string, ProviderConstraint>);
+    return Object.values(requiredProviders || {}).reduce(
+      (acc, obj) => {
+        const constraint = new ProviderConstraint(obj.source, obj.version);
+        acc[constraint.source] = constraint;
+        return acc;
+      },
+      {} as Record<string, ProviderConstraint>,
+    );
   }
 
   private async checkNeedsLockfileUpdate(): Promise<boolean> {
@@ -314,7 +317,7 @@ export class CdktfStack {
         // Provider lock doesn't have a constraint specified, so we can't check.
         // This shouldn't happen
         logger.debug(
-          `Provider lock doesn't have a constraint for ${lockedProvider.name}`
+          `Provider lock doesn't have a constraint for ${lockedProvider.name}`,
         );
         return false;
       }
@@ -381,7 +384,7 @@ export class CdktfStack {
 
       // Find generated file
       const configFile = await tryReadGeneratedConfigurationFile(
-        this.stack.workingDirectory
+        this.stack.workingDirectory,
       );
       if (configFile) {
         this.updateState({
@@ -392,7 +395,7 @@ export class CdktfStack {
 
         const convertedCode = await convertConfigurationFile(
           configFile,
-          this.stack.workingDirectory
+          this.stack.workingDirectory,
         );
         this.updateState({
           type: "import with configuration converted",
@@ -492,14 +495,14 @@ new SomeResource(...).importFrom("some_id")
               overridden: state.overridden,
             });
           }
-        }
+        },
       );
 
       if (!cancelled) {
         const outputs = await terraform.output();
         const outputsByConstructId = getConstructIdsForOutputs(
           JSON.parse(this.stack.content),
-          outputs
+          outputs,
         );
 
         this.updateState({
@@ -576,7 +579,7 @@ new SomeResource(...).importFrom("some_id")
               overridden: state.overridden,
             });
           }
-        }
+        },
       );
 
       if (!cancelled)
@@ -594,7 +597,7 @@ new SomeResource(...).importFrom("some_id")
       const outputs = await terraform.output();
       const outputsByConstructId = getConstructIdsForOutputs(
         JSON.parse(this.stack.content),
-        outputs
+        outputs,
       );
       this.updateState({
         type: "outputs fetched",

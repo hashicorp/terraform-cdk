@@ -31,26 +31,26 @@ describe("provider upgrade command", () => {
 
     it("can update withing the same cdktf version to a specific version", async () => {
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "0.2.55")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.55"),
       );
 
       await driver.exec("cdktf", ["provider", "upgrade", "random@=3.2.0"]);
 
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "0.2.64")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.64"),
       );
     });
 
     it("can update within the same cdktf version to the latest version", async () => {
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "0.2.55")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.55"),
       );
 
       await driver.exec("cdktf", ["provider", "upgrade", "random"]);
 
       // Assert that we have version 0.2.64
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "0.2.64")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.64"),
       );
     });
 
@@ -58,7 +58,7 @@ describe("provider upgrade command", () => {
       // Pin random provider version so that the upgrade can do anything
       await driver.exec("yarn", ["add", "@cdktf/provider-random@0.2.55"]);
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "0.2.55")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.55"),
       );
       await driver.exec("rm", ["-rf", "node_modules"]);
       await driver.exec("rm", ["package-lock.json"]);
@@ -67,7 +67,7 @@ describe("provider upgrade command", () => {
 
       // Assert that we have version 0.2.64
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "0.2.64")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.64"),
       );
     });
   });
@@ -87,11 +87,11 @@ describe("provider upgrade command", () => {
 
       // Assert that we have version 3.2.0 in the cdktf.json and get ran
       const genVersionsFile = JSON.parse(
-        driver.readLocalFile(".gen/versions.json")
+        driver.readLocalFile(".gen/versions.json"),
       );
 
       expect(genVersionsFile["registry.terraform.io/hashicorp/random"]).toEqual(
-        "3.2.0"
+        "3.2.0",
       );
     });
 
@@ -108,14 +108,14 @@ describe("provider upgrade command", () => {
 
         // Assert that we have version 3.2.0 in the cdktf.json and get ran
         const genVersionsFile = JSON.parse(
-          driver.readLocalFile(".gen/versions.json")
+          driver.readLocalFile(".gen/versions.json"),
         );
 
         expect(
-          genVersionsFile["registry.terraform.io/hashicorp/random"]
+          genVersionsFile["registry.terraform.io/hashicorp/random"],
         ).toEqual("3.2.0");
       },
-      120_000
+      120_000,
     );
   });
 });

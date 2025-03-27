@@ -30,17 +30,13 @@ export const requireHandlers = () => {
   if (fs.existsSync(filePath)) {
     return require(filePath);
   }
-  return require(path.join(
-    projectRootPath(),
-    "bundle",
-    "bin",
-    "cmds",
-    "handlers.js"
-  ));
+  return require(
+    path.join(projectRootPath(), "bundle", "bin", "cmds", "handlers.js"),
+  );
 };
 
 export function readStreamAsString(
-  stream: typeof process.stdin
+  stream: typeof process.stdin,
 ): Promise<string> {
   return new Promise((ok, ko) => {
     if (stream.isTTY) {
@@ -57,7 +53,7 @@ export function readStreamAsString(
 
 export function findFileAboveCwd(
   file: string,
-  rootPath = process.cwd()
+  rootPath = process.cwd(),
 ): string | null {
   const fullPath = path.resolve(rootPath, file);
   if (fs.existsSync(fullPath)) {

@@ -11,19 +11,19 @@ import * as path from "path";
 // we might need to do housekeeping / include terraform / cdktf version in the future
 function cacheKey(input: ConstructsMakerTarget): string {
   return `${encodeURIComponent(input.fqn)}@${encodeURIComponent(
-    input.version || ""
+    input.version || "",
   )}`;
 }
 
 export function cachedAccess<I extends ConstructsMakerTarget, O>(
   producer: (input: I) => Promise<O>,
-  cacheDir?: string | null
+  cacheDir?: string | null,
 ): (input: I) => Promise<O> {
   const cacheEnabled = typeof cacheDir === "string" && cacheDir.length > 0;
 
   if (cacheEnabled && !fs.lstatSync(cacheDir as string).isDirectory()) {
     throw Errors.Usage(
-      `Provider Schema Cache directory '${cacheDir}' is not a directory`
+      `Provider Schema Cache directory '${cacheDir}' is not a directory`,
     );
   }
 

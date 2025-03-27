@@ -32,9 +32,9 @@ const customCompletion = function (
   _current: string,
   argv: any,
   completionsFilter: (
-    done?: (err: any, defaultCompletions: string[]) => void
+    done?: (err: any, defaultCompletions: string[]) => void,
   ) => void,
-  done: (completions: string[]) => void
+  done: (completions: string[]) => void,
 ) {
   // The completion function gets called when bash completion is invoked and
   // we have very little context there. So when debugging via logs use e.g.
@@ -53,8 +53,8 @@ const customCompletion = function (
         const manifest = await readCDKTFManifest();
         stacks.push(
           ...Object.values(manifest.stacks).map(
-            (stack) => `${stack.name}:target stack "${stack.name}"`
-          )
+            (stack) => `${stack.name}:target stack "${stack.name}"`,
+          ),
         );
       } finally {
         done([...defaults, ...stacks]);
@@ -70,6 +70,7 @@ const customCompletion = function (
 // for the possible overload (which supports falling back to default completions)
 // https://github.com/yargs/yargs/blob/d33e9972291406490cd8fdad0b3589be234e0f12/lib/completion.ts#L202
 
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 yargs
   .command(require("./cmds/init"))
   .command(require("./cmds/get"))
@@ -90,7 +91,7 @@ yargs
   .showHelpOnFail(false)
   .env("CDKTF")
   .epilogue(
-    `Options can be specified via environment variables with the "CDKTF_" prefix (e.g. "CDKTF_OUTPUT")`
+    `Options can be specified via environment variables with the "CDKTF_" prefix (e.g. "CDKTF_OUTPUT")`,
   )
   .help()
   .alias("h", "help")
@@ -136,7 +137,7 @@ yargs
       console.error(
         cmd
           ? `Could not find command "${cmd}", here are all available ones:`
-          : `Please pass a command to cdktf, here are all available ones:`
+          : `Please pass a command to cdktf, here are all available ones:`,
       );
       yargs.showHelp();
       process.exit(1);

@@ -72,7 +72,7 @@ async function discoverService(hostname: string): Promise<ServiceDiscovery> {
           cachedServiceDiscovery = response as ServiceDiscovery;
           return resolve(cachedServiceDiscovery);
         });
-      }
+      },
     );
     req.end();
   });
@@ -97,7 +97,7 @@ async function get<T>(url: string, token: string) {
         if (res.statusCode !== 200) {
           if (res.statusCode === 401) {
             console.log(
-              "ERROR: Your existing token for Terraform Cloud is invalid."
+              "ERROR: Your existing token for Terraform Cloud is invalid.",
             );
           }
           const error = new Error(res.statusMessage);
@@ -112,7 +112,7 @@ async function get<T>(url: string, token: string) {
           const response = JSON.parse(Buffer.concat(data).toString("utf-8"));
           return ok(response as T);
         });
-      }
+      },
     );
 
     req.end();
@@ -152,7 +152,7 @@ async function post(url: string, token: string, data: string) {
           }
           return ok(response);
         });
-      }
+      },
     );
 
     req.write(data);
@@ -173,7 +173,7 @@ async function endpointUrl(tfeHostname: string, path: string) {
 export async function getAccountDetails(tfeHostname: string, token: string) {
   return await get<Account>(
     await endpointUrl(tfeHostname, "/account/details"),
-    token
+    token,
   );
 }
 
@@ -181,12 +181,12 @@ export async function createWorkspace(
   tfeHostname: string,
   organizationName: string,
   workspaceName: string,
-  token: string
+  token: string,
 ) {
   await post(
     await endpointUrl(
       tfeHostname,
-      `/organizations/${organizationName}/workspaces`
+      `/organizations/${organizationName}/workspaces`,
     ),
     token,
     JSON.stringify({
@@ -197,14 +197,14 @@ export async function createWorkspace(
         },
         type: "workspaces",
       },
-    })
+    }),
   );
 }
 
 export async function getOrganizationIds(tfeHostname: string, token: string) {
   const organizations = await get<Organization>(
     await endpointUrl(tfeHostname, "/organizations"),
-    token
+    token,
   );
 
   return organizations.data.map((organization) => organization.id);
@@ -214,11 +214,11 @@ export async function isExistingWorkspaceWithName(
   tfeHostname: string,
   organizationName: string,
   workspaceName: string,
-  token: string
+  token: string,
 ) {
   const url = await endpointUrl(
     tfeHostname,
-    `/organizations/${organizationName}/workspaces`
+    `/organizations/${organizationName}/workspaces`,
   );
   const queryParameters = querystring.stringify({
     "search[name]": workspaceName,

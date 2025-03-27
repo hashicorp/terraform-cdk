@@ -17,7 +17,7 @@
         "test:ci": "lerna run --scope 'cdktf*' --scope @cdktf/* test:ci",
         "test:update": "npx lerna exec --parallel --no-bail --scope 'cdktf*' --scope '@cdktf/*' npx 'jest -u'",
         "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope 'cdktf*' watch-preserve-output",
-        "lint:workspace": "eslint .",
+        "lint:workspace": "eslint --flag unstable_config_lookup_from_file .",
         "lint:prettier": "prettier --check .",
         "lint:examples": "node tools/lint-examples.js",
         "link-packages": "lerna exec --scope 'cdktf*' --scope @cdktf/* yarn link",
@@ -77,20 +77,19 @@
     },
     "devDependencies": {
         "@types/prettier": "2.6.0",
-        "@typescript-eslint/eslint-plugin": "^4.33.0",
-        "@typescript-eslint/parser": "^4.33.0",
         "changelog-parser": "^2.8.1",
-        "eslint": "^7.32.0",
-        "eslint-plugin-import": "^2.29.1",
+        "eslint": "^9.20.0",
+        "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-monorepo": "^0.3.2",
         "husky": ">=6",
-        "lerna": "^6.6.1",
+        "infer-owner": "^1.0.4",
+        "lerna": "^8.2.1",
         "lint-staged": ">=10",
-        "prettier": "^2.8.8",
+        "prettier": "^3.5.1",
         "standard-version": "^9.5.0"
     },
     "resolutions": {
-        "**/@types/react": "18.2.37"
+        "**/@types/react": "18.3.18"
     },
     "lint-staged": {
         "**/*.{ts,tsx,js,css,md}": "prettier --write",
@@ -117,5 +116,6 @@
             "*.d.ts",
             "*.js"
         ]
-    }
+    },
+    "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }

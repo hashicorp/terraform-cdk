@@ -8,9 +8,9 @@ import (
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 
-	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/azurermprovider"
 	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/linuxvirtualmachine"
 	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/networkinterface"
+	azurermprovider "github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/provider"
 	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/resourcegroup"
 	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/subnet"
 	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/virtualnetwork"

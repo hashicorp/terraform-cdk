@@ -14,7 +14,7 @@ describe("outputs", () => {
       }`,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
   testCase.test(
     "sensitive output",
@@ -26,7 +26,7 @@ describe("outputs", () => {
 
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
   testCase.test(
     "output withdescription",
@@ -38,7 +38,7 @@ describe("outputs", () => {
       }`,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -52,7 +52,7 @@ describe("outputs", () => {
       }`,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 
   testCase.test(
@@ -64,6 +64,6 @@ describe("outputs", () => {
     `,
     [],
     Snapshot.yes,
-    Synth.yes
+    Synth.yes,
   );
 });

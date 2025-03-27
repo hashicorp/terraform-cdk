@@ -19,7 +19,7 @@ describe("test with colors", () => {
     driver.copyFiles("main.ts", "cdktf.json");
     fs.copySync(
       path.join(__dirname, "local-module"),
-      path.join(driver.workingDirectory, "local-module")
+      path.join(driver.workingDirectory, "local-module"),
     );
     await driver.get();
   });

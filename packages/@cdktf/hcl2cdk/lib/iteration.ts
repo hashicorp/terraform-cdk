@@ -15,8 +15,8 @@ export function forEachGlobal<T, R>(
     key: string,
     id: string,
     value: T,
-    graph: DirectedGraph
-  ) => Promise<R>
+    graph: DirectedGraph,
+  ) => Promise<R>,
 ): Record<string, { code: (graph: DirectedGraph) => Promise<R>; value: T }> {
   return Object.entries(record || {}).reduce((carry, [key, item]) => {
     const id = `${prefix}.${key}`;
@@ -39,8 +39,8 @@ export function forEachImport<R>(
     scope: ProgramScope,
     id: string,
     value: Import,
-    graph: DirectedGraph
-  ) => Promise<R>
+    graph: DirectedGraph,
+  ) => Promise<R>,
 ): Record<
   string,
   { code: (graph: DirectedGraph) => Promise<R>; value: Import }
@@ -71,8 +71,8 @@ export function forEachProvider<T extends { alias?: string }, R>(
     key: string,
     id: string,
     value: T,
-    graph: DirectedGraph
-  ) => Promise<R>
+    graph: DirectedGraph,
+  ) => Promise<R>,
 ): Record<string, { code: (graph: DirectedGraph) => Promise<R>; value: T }> {
   return Object.entries(record || {}).reduce((carry, [key, items]) => {
     return {
@@ -102,46 +102,55 @@ export function forEachNamespaced<T, R>(
     key: string,
     id: string,
     value: T,
-    graph: DirectedGraph
+    graph: DirectedGraph,
   ) => Promise<R>,
-  prefix?: string
+  prefix?: string,
 ): Record<string, { code: (graph: DirectedGraph) => Promise<R>; value: T }> {
   return Object.entries(record || {}).reduce(
     (outerCarry, [type, items]) => ({
       ...outerCarry,
-      ...Object.entries(items).reduce((innerCarry, [key, item]) => {
-        const prefixedType = prefix ? `${prefix}.${type}` : type;
-        const id = prefix ? `${prefix}.${type}.${key}` : `${type}.${key}`;
-        return {
-          ...innerCarry,
-          [id]: {
-            code: async (graph: DirectedGraph) =>
-              await iterator(scope, prefixedType, key, id, item, graph),
-            value: item,
-          },
-        };
-      }, {} as Record<string, { code: (graph: DirectedGraph) => Promise<R>; value: T }>),
+      ...Object.entries(items).reduce(
+        (innerCarry, [key, item]) => {
+          const prefixedType = prefix ? `${prefix}.${type}` : type;
+          const id = prefix ? `${prefix}.${type}.${key}` : `${type}.${key}`;
+          return {
+            ...innerCarry,
+            [id]: {
+              code: async (graph: DirectedGraph) =>
+                await iterator(scope, prefixedType, key, id, item, graph),
+              value: item,
+            },
+          };
+        },
+        {} as Record<
+          string,
+          { code: (graph: DirectedGraph) => Promise<R>; value: T }
+        >,
+      ),
     }),
     {} as Record<
       string,
       { code: (graph: DirectedGraph) => Promise<R>; value: T }
-    >
+    >,
   );
 }
 
 export function resourceStats(obj: Record<string, Record<string, unknown>>) {
-  return Object.entries(obj).reduce((carry, [key, value]) => {
-    const [provider, ...resourceParts] = key.split("_");
-    const shouldBeTracked = telemetryAllowedProviders.includes(provider);
-    const providerKey = shouldBeTracked ? provider : "other";
-    const resourceName = shouldBeTracked ? resourceParts.join("_") : "other";
+  return Object.entries(obj).reduce(
+    (carry, [key, value]) => {
+      const [provider, ...resourceParts] = key.split("_");
+      const shouldBeTracked = telemetryAllowedProviders.includes(provider);
+      const providerKey = shouldBeTracked ? provider : "other";
+      const resourceName = shouldBeTracked ? resourceParts.join("_") : "other";
 
-    return {
-      ...carry,
-      [providerKey]: {
-        ...(carry[providerKey] || {}),
-        [resourceName]: Object.keys(value).length,
-      },
-    };
-  }, {} as Record<string, Record<string, number>>);
+      return {
+        ...carry,
+        [providerKey]: {
+          ...(carry[providerKey] || {}),
+          [resourceName]: Object.keys(value).length,
+        },
+      };
+    },
+    {} as Record<string, Record<string, number>>,
+  );
 }

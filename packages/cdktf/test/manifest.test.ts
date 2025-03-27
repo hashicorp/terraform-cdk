@@ -25,7 +25,7 @@ test("get stack manifest", () => {
 
   const app = new App();
   const stackManifest = manifest.forStack(
-    new TerraformStack(app, "this-is-a-stack")
+    new TerraformStack(app, "this-is-a-stack"),
   );
 
   expect(stackManifest).toMatchInlineSnapshot(`
@@ -73,7 +73,7 @@ test("write manifest", () => {
 
 describe("manifest annotations", () => {
   beforeAll(
-    () => (process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS = "true")
+    () => (process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS = "true"),
   );
   afterAll(() => delete process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS);
 

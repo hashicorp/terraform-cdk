@@ -44,13 +44,13 @@ function directorySnapshot(root: string) {
 
 function resourceTypesPresentInSnapshot(
   snapshot: SynthOutput,
-  providerNameInPath: string
+  providerNameInPath: string,
 ) {
   const resources: string[] = [];
   const files = Object.keys(snapshot);
   for (const file of files) {
     const match = file.match(
-      `/providers\/${providerNameInPath}\/(.*?)\/index\.ts/`
+      `/providers\/${providerNameInPath}\/(.*?)\/index\.ts/`,
     );
     // avoids any not resources from being pushed
     if (
@@ -68,7 +68,7 @@ function resourceTypesPresentInSnapshot(
 describe("Provider", () => {
   it("generates a provider", async () => {
     const constraint = new TerraformProviderConstraint(
-      "DataDog/datadog@= 3.12.0"
+      "DataDog/datadog@= 3.12.0",
     );
     return await mkdtemp(async (workdir) => {
       const jsiiPath = path.join(workdir, ".jsii");
@@ -78,7 +78,7 @@ describe("Provider", () => {
           outputJsii: jsiiPath,
           targetLanguage: Language.TYPESCRIPT,
         },
-        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
       );
       await maker.generate([constraint]);
       const snapshot = directorySnapshot(workdir);
@@ -88,7 +88,7 @@ describe("Provider", () => {
 
   it("has generated provider that includes static import functions", async () => {
     const constraint = new TerraformProviderConstraint(
-      "DataDog/datadog@= 3.12.0"
+      "DataDog/datadog@= 3.12.0",
     );
     return await mkdtemp(async (workdir) => {
       const jsiiPath = path.join(workdir, ".jsii");
@@ -109,10 +109,10 @@ describe("Provider", () => {
           terraformResourceType = `datadog_${terraformResourceType}`;
         }
         expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
-          `public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {`
+          `public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {`,
         );
         expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
-          `return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "${terraformResourceType}", importId: importFromId, provider });`
+          `return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "${terraformResourceType}", importId: importFromId, provider });`,
         );
       });
     });
@@ -132,7 +132,7 @@ describe("Provider", () => {
           outputJsii: jsiiPath,
           targetLanguage: Language.TYPESCRIPT,
         },
-        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
       );
       await maker.generate([constraint]);
       const snapshot = directorySnapshot(workdir);
@@ -142,7 +142,7 @@ describe("Provider", () => {
 
       terraformResourceTypesPresent.forEach((resource) => {
         expect(
-          snapshot[`providers/dockerr/${resource}/index.ts`]
+          snapshot[`providers/dockerr/${resource}/index.ts`],
         ).toBeDefined();
       });
     });
@@ -169,7 +169,7 @@ describe("Provider", () => {
           outputJsii: jsiiPath,
           targetLanguage: Language.TYPESCRIPT,
         },
-        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
       );
       await maker.generate([constraint, constraint2]);
       console.log("workdir", workdir);

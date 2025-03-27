@@ -109,7 +109,7 @@ export class Lazy {
    */
   public static stringValue(
     producer: IStringProducer,
-    options: LazyStringValueOptions = {}
+    options: LazyStringValueOptions = {},
   ) {
     return Token.asString(new LazyString(producer), options);
   }
@@ -129,7 +129,7 @@ export class Lazy {
    */
   public static listValue(
     producer: IListProducer,
-    options: LazyListValueOptions = {}
+    options: LazyListValueOptions = {},
   ) {
     return Token.asList(new LazyList(producer, options), options);
   }
@@ -141,7 +141,7 @@ export class Lazy {
    */
   public static anyValue(
     producer: IAnyProducer,
-    options: LazyAnyValueOptions = {}
+    options: LazyAnyValueOptions = {},
   ): IResolvable {
     return new LazyAny(producer, options);
   }
@@ -159,7 +159,7 @@ export abstract class LazyBase implements IResolvable {
   public resolve(context: IResolveContext): any {
     return this.postProcessors.reduce(
       (val, pp) => pp.postProcess(val, context),
-      this.resolveLazy(context)
+      this.resolveLazy(context),
     );
   }
 
@@ -210,7 +210,7 @@ class LazyNumber extends LazyBase {
 class LazyList extends LazyBase {
   constructor(
     private readonly producer: IListProducer,
-    private readonly options: LazyListValueOptions = {}
+    private readonly options: LazyListValueOptions = {},
   ) {
     super();
   }
@@ -228,7 +228,7 @@ class LazyList extends LazyBase {
 class LazyAny extends LazyBase {
   constructor(
     private readonly producer: IAnyProducer,
-    private readonly options: LazyAnyValueOptions = {}
+    private readonly options: LazyAnyValueOptions = {},
   ) {
     super();
   }

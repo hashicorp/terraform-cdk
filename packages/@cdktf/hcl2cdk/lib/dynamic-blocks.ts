@@ -7,16 +7,16 @@ import { DynamicBlock, TerraformResourceBlock } from "./types";
 
 export function isNestedDynamicBlock(
   dynBlocks: DynamicBlock[],
-  block: DynamicBlock
+  block: DynamicBlock,
 ): boolean {
   return dynBlocks.some(
-    (dyn) => dyn.path !== block.path && block.path.startsWith(dyn.path)
+    (dyn) => dyn.path !== block.path && block.path.startsWith(dyn.path),
   );
 }
 
 export const extractDynamicBlocks = (
   config: TerraformResourceBlock,
-  path = ""
+  path = "",
 ): DynamicBlock[] => {
   if (typeof config !== "object") {
     return [];
@@ -32,7 +32,7 @@ export const extractDynamicBlocks = (
         ...carry,
         ...extractDynamicBlocks(item, `${path}.${index}`),
       ],
-      []
+      [],
     );
   }
 
@@ -50,7 +50,7 @@ export const extractDynamicBlocks = (
       },
       ...extractDynamicBlocks(
         content,
-        `${path}.dynamic.${scopedVar}.0.content`
+        `${path}.dynamic.${scopedVar}.0.content`,
       ),
     ];
   }

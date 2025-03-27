@@ -27,11 +27,13 @@ describe("Runtime", () => {
     it("leaves references in tact", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
       const reference = Token.asString(
-        "${some_resource.my_resource.some_attribute_array}"
+        "${some_resource.my_resource.some_attribute_array}",
       );
 
       expect(
-        resolveExpression(listMapper(identity)(["a", reference, "b", "c", "d"]))
+        resolveExpression(
+          listMapper(identity)(["a", reference, "b", "c", "d"]),
+        ),
       ).toMatchInlineSnapshot(`
         [
           "a",
@@ -47,26 +49,26 @@ describe("Runtime", () => {
     it("leaves directly passed references in tact with a list", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
       const reference = Token.asString(
-        "${some_resource.my_resource.some_attribute_array}"
+        "${some_resource.my_resource.some_attribute_array}",
       );
 
       expect(
-        resolveExpression(listMapper(identity)(reference))
+        resolveExpression(listMapper(identity)(reference)),
       ).toMatchInlineSnapshot(
-        `"\${some_resource.my_resource.some_attribute_array}"`
+        `"\${some_resource.my_resource.some_attribute_array}"`,
       );
     });
 
     it("leaves directly passed references intact with a tokenized list", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
       const reference = Token.asString(
-        "${some_resource.my_resource.some_attribute_array}"
+        "${some_resource.my_resource.some_attribute_array}",
       );
 
       expect(
         resolveExpression({
           x: listMapper(identity)(Token.asList(reference)),
-        })
+        }),
       ).toMatchInlineSnapshot(`
         {
           "x": "\${some_resource.my_resource.some_attribute_array}",
@@ -76,13 +78,13 @@ describe("Runtime", () => {
 
     it("works together with a hashmapper", () => {
       const reference = Token.asString(
-        "${some_resource.my_resource.some_attribute_array}"
+        "${some_resource.my_resource.some_attribute_array}",
       );
 
       expect(
         resolveExpression({
           match_labels: hashMapper(anyToTerraform)(reference),
-        })
+        }),
       ).toMatchInlineSnapshot(`
         {
           "match_labels": "\${some_resource.my_resource.some_attribute_array}",
@@ -93,13 +95,13 @@ describe("Runtime", () => {
     it("can be passed tokenized resolvables", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
       const reference = Token.asList(
-        "${some_resource.my_resource.some_attribute_array}"
+        "${some_resource.my_resource.some_attribute_array}",
       );
 
       expect(
         resolveExpression({
           x: listMapper(identity)(reference),
-        })
+        }),
       ).toMatchInlineSnapshot(`
         {
           "x": "\${some_resource.my_resource.some_attribute_array}",
@@ -110,13 +112,13 @@ describe("Runtime", () => {
     it("can be passed untokenized resolvables", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
       const reference = new Intrinsic(
-        "${some_resource.my_resource.some_attribute_array}"
+        "${some_resource.my_resource.some_attribute_array}",
       );
 
       expect(
         resolveExpression({
           x: listMapper(identity)(reference),
-        })
+        }),
       ).toMatchInlineSnapshot(`
         {
           "x": "\${some_resource.my_resource.some_attribute_array}",
@@ -127,13 +129,13 @@ describe("Runtime", () => {
     it("can be passed untokenized resolvables in a mixed list ", () => {
       const identity = jest.fn().mockImplementation((x: any) => x);
       const reference = new Intrinsic(
-        "${some_resource.my_resource.some_attribute_array}"
+        "${some_resource.my_resource.some_attribute_array}",
       );
 
       expect(
         resolveExpression({
           x: listMapper(identity)(["a", reference, "b"]),
-        })
+        }),
       ).toMatchInlineSnapshot(`
         {
           "x": [
@@ -147,7 +149,7 @@ describe("Runtime", () => {
 
     it("throws an error when a value a token is overwriten", () => {
       const reference = new Intrinsic(
-        "${some_resource.my_resource.some_attribute_array}"
+        "${some_resource.my_resource.some_attribute_array}",
       );
 
       expect(() =>
@@ -156,9 +158,9 @@ describe("Runtime", () => {
             {
               x: reference,
             },
-            { x: { foo: "bar" } }
-          )
-        )
+            { x: { foo: "bar" } },
+          ),
+        ),
       ).toThrowErrorMatchingInlineSnapshot(`
         "Target (\${TfToken[TOKEN.2]}) cannot be a resolvable token if you specified overrides. Replace the value of the field you are overriding with a static value.
 

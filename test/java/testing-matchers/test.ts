@@ -10,7 +10,7 @@ describe("java testing assertions", () => {
     await driver.setupJavaProject();
     await driver.copyFile(
       "MainTest.java",
-      "src/test/java/com/company/app/MainTest.java"
+      "src/test/java/com/company/app/MainTest.java",
     );
   }, 6000000);
 
@@ -28,10 +28,10 @@ describe("java testing assertions", () => {
       // TODO: Currently Gradle doesn't give the number of tests run.
       // We need to update that with a change to build.gradle
       expect(output.stdout).toEqual(
-        expect.stringContaining("BUILD SUCCESSFUL")
+        expect.stringContaining("BUILD SUCCESSFUL"),
       );
       expect(output.stdout).toEqual(expect.stringContaining("Task :test"));
     },
-    6000000
+    6000000,
   );
 });

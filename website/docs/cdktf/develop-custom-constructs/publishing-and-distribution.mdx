@@ -121,7 +121,7 @@ const project = new cdktf.ConstructLibraryCdktf({
 project.addPeerDeps(
   "@cdktf/provider-aws@10.x", // You want to pin the major version to stay
   "@cdktf/provider-pagerduty@3.x", // compatible with the current cdktf version
-  "@cdktf/provider-datadog@3.x"
+  "@cdktf/provider-datadog@3.x",
 );
 
 project.synth();

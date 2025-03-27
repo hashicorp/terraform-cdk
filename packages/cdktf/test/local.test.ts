@@ -25,7 +25,7 @@ test("function local", () => {
   new TerraformLocal(
     stack,
     "instance_ids",
-    "${concat(aws_instance.blue.*.id, aws_instance.green.*.id)}"
+    "${concat(aws_instance.blue.*.id, aws_instance.green.*.id)}",
   );
 
   expect(Testing.synth(stack)).toMatchSnapshot();
@@ -51,7 +51,7 @@ test("local reference", () => {
   const resourceName = new TerraformLocal(
     stack,
     "resource_name",
-    "my_resource"
+    "my_resource",
   );
 
   new TestResource(stack, "test-resource", {

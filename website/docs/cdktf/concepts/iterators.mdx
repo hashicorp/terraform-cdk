@@ -317,7 +317,7 @@ const dataAwsRoute53ZoneExample = new DataAwsRoute53Zone(this, "dns_zone", {
 
 const exampleForEachIterator = TerraformIterator.fromComplexList(
   cert.domainValidationOptions,
-  "domain_name"
+  "domain_name",
 );
 
 const records = new Route53Record(this, "record", {
@@ -439,12 +439,10 @@ new AcmCertificateValidation(this, "validation", {
                 ZoneId = dataAwsRoute53ZoneExample.ZoneId
             });
 
-            var recordsIterator = TerraformIterator.FromResources(records);
-
             new AcmCertificateValidation(this, "validation", new AcmCertificateValidationConfig
             {
                 CertificateArn = cert.Arn,
-                ValidationRecordFqdns = Token.AsList(recordsIterator.PluckProperty("fqdn"))
+                ValidationRecordFqdns = Token.AsList($"${{[for s in {records}: s.fqdn]}}")
             });
 ```
 
@@ -878,12 +876,12 @@ new TerraformLocal(this, "list-of-names", mapIterator.pluckProperty("name"));
 new TerraformLocal(
   this,
   "list-of-names-of-included",
-  mapIterator.forExpressionForList("val.name if val.included")
+  mapIterator.forExpressionForList("val.name if val.included"),
 );
 new TerraformLocal(
   this,
   "map-with-names-as-key-and-tags-as-value-of-included",
-  mapIterator.forExpressionForMap("val.name", "val.tags if val.included")
+  mapIterator.forExpressionForMap("val.name", "val.tags if val.included"),
 );
 ```
 

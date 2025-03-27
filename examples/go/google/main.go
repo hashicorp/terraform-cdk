@@ -9,10 +9,16 @@ import (
 
 	jsii "github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/gkeAuth"
-	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/google"
-	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/helm"
-	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/kubernetes"
-	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/local"
+	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/google/containercluster"
+	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/google/containernodepool"
+	google "github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/google/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/google/serviceaccount"
+	helm "github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/helm/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/helm/release"
+	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/kubernetes/namespace"
+	kubernetes "github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/kubernetes/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/local/file"
+	local "github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/local/provider"
 )
 
 func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
@@ -23,21 +29,21 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	})
 	local.NewLocalProvider(stack, jsii.String("local"), &local.LocalProviderConfig{})
 
-	sa := google.NewServiceAccount(stack, jsii.String("sa"), &google.ServiceAccountConfig{
+	sa := serviceaccount.NewServiceAccount(stack, jsii.String("sa"), &serviceaccount.ServiceAccountConfig{
 		AccountId:   jsii.String("cluster-admin"),
 		DisplayName: jsii.String("Cluster Admin"),
 	})
 
-	cluster := google.NewContainerCluster(stack, jsii.String("cluster"), &google.ContainerClusterConfig{
+	cluster := containercluster.NewContainerCluster(stack, jsii.String("cluster"), &containercluster.ContainerClusterConfig{
 		Name:                  jsii.String("cluster"),
 		RemoveDefaultNodePool: jsii.Bool(true),
 		InitialNodeCount:      jsii.Number(1),
 	})
 
-	google.NewContainerNodePool(stack, jsii.String("main-pool"), &google.ContainerNodePoolConfig{
+	containernodepool.NewContainerNodePool(stack, jsii.String("main-pool"), &containernodepool.ContainerNodePoolConfig{
 		Name:    jsii.String("main"),
 		Cluster: cluster.Name(),
-		NodeConfig: &google.ContainerNodePoolNodeConfig{
+		NodeConfig: &containernodepool.ContainerNodePoolNodeConfig{
 			MachineType:    jsii.String("e2-medium"),
 			Preemptible:    jsii.Bool(true),
 			ServiceAccount: sa.Email(),
@@ -51,7 +57,7 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 		ProjectId:   cluster.Project(),
 	})
 
-	local.NewFile(stack, jsii.String("kubeconfig"), &local.FileConfig{
+	file.NewFile(stack, jsii.String("kubeconfig"), &file.FileConfig{
 		Filename: jsii.String("kubeconfig.yaml"),
 		Content:  auth.KubeconfigRawOutput(),
 	})
@@ -63,8 +69,8 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	})
 
 	namespaceName := "development"
-	kubernetes.NewNamespace(stack, jsii.String("namespace"), &kubernetes.NamespaceConfig{
-		Metadata: &kubernetes.NamespaceMetadata{
+	namespace.NewNamespace(stack, jsii.String("namespace"), &namespace.NamespaceConfig{
+		Metadata: &namespace.NamespaceMetadata{
 			Name: jsii.String(namespaceName),
 		},
 	})
@@ -77,7 +83,7 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 		},
 	})
 
-	helm.NewRelease(stack, jsii.String("cert-manager"), &helm.ReleaseConfig{
+	release.NewRelease(stack, jsii.String("cert-manager"), &release.ReleaseConfig{
 		Name:            jsii.String("cert-manager"),
 		Repository:      jsii.String("https://charts.jetstack.io"),
 		Chart:           jsii.String("cert-manager"),

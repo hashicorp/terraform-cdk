@@ -25,7 +25,7 @@ export function parseConstraint(constraint: string): {
 
 export function versionMatchesConstraint(
   version: string,
-  constraint: string
+  constraint: string,
 ): boolean {
   // https://www.terraform.io/language/expressions/version-constraints
   // version can contain multiple constraints split by ","
@@ -80,7 +80,7 @@ export function versionMatchesConstraint(
         return semver.lt(version, cleanedParsedVersion);
       default:
         throw Errors.External(
-          `Unknown constraint operator: ${parsed.operator} in version constraint ${constraint}`
+          `Unknown constraint operator: ${parsed.operator} in version constraint ${constraint}`,
         );
     }
   });

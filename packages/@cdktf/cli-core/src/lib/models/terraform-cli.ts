@@ -37,7 +37,7 @@ export class TerraformCliPlan
 {
   constructor(
     public readonly planFile: string,
-    public readonly plan: { [key: string]: any }
+    public readonly plan: { [key: string]: any },
   ) {
     super(planFile, plan?.resource_changes, plan?.output_changes);
   }
@@ -74,7 +74,7 @@ class VariableRequiredFilter extends AbstractOutputFilter {
     const startMarker = 'The root module input variable "';
     const variableName = line.substring(
       line.indexOf(startMarker) + startMarker.length,
-      line.indexOf('" is not set')
+      line.indexOf('" is not set'),
     );
 
     return missingVariable(variableName);
@@ -85,25 +85,25 @@ export class TerraformCli implements Terraform {
   public readonly workdir: string;
   private readonly onStdout: (
     stateName: string,
-    filter?: OutputFilter[]
+    filter?: OutputFilter[],
   ) => (stdout: Buffer | string) => void;
   private readonly onStderr: (
     stateName: string,
-    filter?: OutputFilter[]
+    filter?: OutputFilter[],
   ) => (stderr: string | Uint8Array) => void;
 
   constructor(
     private readonly abortSignal: AbortSignal,
     public readonly stack: SynthesizedStack,
     createTerraformLogHandler = (_phase: string, _filter?: OutputFilter[]) =>
-      (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
+      (_stdout: string, _isErr = false) => {}, // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     this.workdir = stack.workingDirectory;
     this.onStdout =
       (phase: string, filter?: OutputFilter[]) => (stdout: Buffer | string) =>
         createTerraformLogHandler(
           phase,
-          filter
+          filter,
         )(Buffer.isBuffer(stdout) ? stdout.toString() : stdout);
     this.onStderr =
       (phase: string, filter?: OutputFilter[]) =>
@@ -151,11 +151,11 @@ export class TerraformCli implements Terraform {
           } else {
             actions.stop();
             initCanNotContinue(
-              "Please pass the --migrate-state flag to migrate your state"
+              "Please pass the --migrate-state flag to migrate your state",
             );
           }
         }
-      }
+      },
     );
     this.abortSignal.addEventListener("abort", () => {
       actions.stop();
@@ -187,24 +187,24 @@ export class TerraformCli implements Terraform {
           noColor: opts.noColor,
         },
         this.onStdout("init"),
-        this.onStderr("init")
+        this.onStderr("init"),
       );
     }
   }
 
   private get isCloudStack(): boolean {
     const parsedStack = terraformJsonSchema.parse(
-      JSON.parse(this.stack.content)
+      JSON.parse(this.stack.content),
     );
 
     return Boolean(
-      parsedStack.terraform?.backend?.remote || parsedStack.terraform?.cloud
+      parsedStack.terraform?.backend?.remote || parsedStack.terraform?.cloud,
     );
   }
 
   private get hasImports(): boolean {
     const parsedStack = terraformJsonSchema.parse(
-      JSON.parse(this.stack.content)
+      JSON.parse(this.stack.content),
     );
 
     return Boolean(parsedStack.import);
@@ -230,7 +230,7 @@ export class TerraformCli implements Terraform {
 
     const generatedConfigFile = path.join(
       this.workdir,
-      GENERATE_CONFIG_OUT_FILE
+      GENERATE_CONFIG_OUT_FILE,
     );
     if (fs.existsSync(generatedConfigFile)) {
       fs.remove(generatedConfigFile);
@@ -260,7 +260,7 @@ export class TerraformCli implements Terraform {
     varFiles.forEach((v) => options.push(`-var-file=${v}`));
 
     logger.debug(
-      `Executing ${terraformBinaryName} ${options.join(" ")} in ${this.workdir}`
+      `Executing ${terraformBinaryName} ${options.join(" ")} in ${this.workdir}`,
     );
 
     await this.setUserAgent();
@@ -275,7 +275,7 @@ export class TerraformCli implements Terraform {
         noColor,
       },
       this.onStdout("plan", [VariableRequiredFilter]),
-      this.onStderr("plan", [VariableRequiredFilter])
+      this.onStderr("plan", [VariableRequiredFilter]),
     );
   }
 
@@ -289,7 +289,7 @@ export class TerraformCli implements Terraform {
       vars = [],
       varFiles = [],
     },
-    callback: (state: TerraformDeployState) => void
+    callback: (state: TerraformDeployState) => void,
   ): Promise<{ cancelled: boolean }> {
     await this.setUserAgent();
     const service = createAndStartDeployService({
@@ -315,7 +315,7 @@ export class TerraformCli implements Terraform {
       vars = [],
       varFiles = [],
     },
-    callback: (state: TerraformDeployState) => void
+    callback: (state: TerraformDeployState) => void,
   ): Promise<{ cancelled: boolean }> {
     await this.setUserAgent();
     const service = createAndStartDestroyService({
@@ -336,7 +336,7 @@ export class TerraformCli implements Terraform {
     service:
       | ReturnType<typeof createAndStartDeployService>
       | ReturnType<typeof createAndStartDestroyService>,
-    callback: (state: TerraformDeployState) => void
+    callback: (state: TerraformDeployState) => void,
   ): Promise<{ cancelled: boolean }> {
     // stop terraform apply if signaled as such from the outside (e.g. via ctrl+c)
     this.abortSignal.addEventListener(
@@ -344,13 +344,13 @@ export class TerraformCli implements Terraform {
       () => {
         service.send("STOP");
       },
-      { once: true }
+      { once: true },
     );
 
     // relay logs to stdout
     service.onEvent((event) => {
       logger.trace(
-        `Terraform CLI state machine event: ${JSON.stringify(event)}`
+        `Terraform CLI state machine event: ${JSON.stringify(event)}`,
       );
       if (isDeployEvent(event, "OUTPUT_RECEIVED"))
         this.onStdout(type)(event.output);
@@ -379,8 +379,8 @@ export class TerraformCli implements Terraform {
 
       logger.trace(
         `Terraform CLI state machine state transition: ${JSON.stringify(
-          previousState
-        )} => ${JSON.stringify(state.value)}`
+          previousState,
+        )} => ${JSON.stringify(state.value)}`,
       );
 
       if (state.matches({ running: "awaiting_approval" })) {
@@ -410,8 +410,8 @@ export class TerraformCli implements Terraform {
 
     logger.trace(
       `Invoking Terraform CLI for ${type} done (state machine reached final state). Last event: ${JSON.stringify(
-        state.event
-      )}. Context: ${JSON.stringify(state.context)}`
+        state.event,
+      )}. Context: ${JSON.stringify(state.context)}`,
     );
 
     // example events: { type: 'EXITED', exitCode: 0 }, { type: 'EXTERNAL_REJECT' }
@@ -438,11 +438,11 @@ export class TerraformCli implements Terraform {
           noColor: true,
         },
         this.onStdout("version"),
-        this.onStderr("version")
+        this.onStderr("version"),
       );
     } catch {
       throw new Error(
-        "Terraform CLI not present - Please install a current version https://learn.hashicorp.com/terraform/getting-started/install.html"
+        "Terraform CLI not present - Please install a current version https://learn.hashicorp.com/terraform/getting-started/install.html",
       );
     }
   }
@@ -459,14 +459,14 @@ export class TerraformCli implements Terraform {
       },
       // We don't need to log the output here since we use it later on
       () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-      this.onStderr("output")
+      this.onStderr("output"),
     );
 
     try {
       return JSON.parse(output);
     } catch (e) {
       throw Errors.External(
-        `Failed to parse terraform output: ${e}. The output was '${output}'`
+        `Failed to parse terraform output: ${e}. The output was '${output}'`,
       );
     }
   }
@@ -488,7 +488,7 @@ export class TerraformCli implements Terraform {
 }
 
 export async function tryReadGeneratedConfigurationFile(
-  workingDir: string
+  workingDir: string,
 ): Promise<string | null> {
   const generatedConfigPath = path.join(workingDir, GENERATE_CONFIG_OUT_FILE);
   if (!fs.existsSync(generatedConfigPath)) {

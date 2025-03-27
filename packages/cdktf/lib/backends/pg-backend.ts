@@ -10,7 +10,10 @@ import {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class PgBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: PgBackendConfig) {
+  constructor(
+    scope: Construct,
+    private readonly props: PgBackendConfig,
+  ) {
     super(scope, "backend", "pg");
   }
 
@@ -25,7 +28,7 @@ export class PgBackend extends TerraformBackend {
   public getRemoteStateDataSource(
     scope: Construct,
     name: string,
-    _fromStack: string
+    _fromStack: string,
   ): TerraformRemoteState {
     return new DataTerraformRemoteStatePg(scope, name, {
       ...this.props,
@@ -39,7 +42,7 @@ export class DataTerraformRemoteStatePg extends TerraformRemoteState {
   constructor(
     scope: Construct,
     id: string,
-    config: DataTerraformRemoteStatePgConfig
+    config: DataTerraformRemoteStatePgConfig,
   ) {
     super(scope, id, "pg", config);
   }

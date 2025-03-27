@@ -37,12 +37,12 @@ describe.skip("full watch integration test", () => {
 
       let line = await waitForLine(
         (line) => line.includes("Synthesizing hello-deploy"),
-        120_000
+        120_000,
       ); // longer timeout for start of watch
       expect(line).toContain("Synthesizing hello-deploy");
 
       line = await waitForLine((line) =>
-        line.includes("Deploying hello-deploy")
+        line.includes("Deploying hello-deploy"),
       );
       expect(line).toContain("Deploying hello-deploy");
 
@@ -50,22 +50,22 @@ describe.skip("full watch integration test", () => {
       expect(line).toContain("+ null_resource.test");
 
       line = await waitForLine((line) =>
-        line.includes("Deployment done. Watching hello-deploy for changes")
+        line.includes("Deployment done. Watching hello-deploy for changes"),
       );
       expect(line).toContain(
-        "Deployment done. Watching hello-deploy for changes"
+        "Deployment done. Watching hello-deploy for changes",
       );
     },
-    240_000
+    240_000,
   );
 });
 
 const screenOutput = (
-  pty: IPty
+  pty: IPty,
 ): {
   waitForLine: (
     check: (line: string) => boolean,
-    timeout?: number
+    timeout?: number,
   ) => Promise<string>;
 } => {
   let disposables: IDisposable[] = [];
@@ -80,19 +80,19 @@ const screenOutput = (
       // buffer until we get a new subscriber
       if (subscriber === undefined) lines.push(line);
       else subscriber(line, false);
-    })
+    }),
   );
   disposables.push(
     pty.onExit(() => {
       if (subscriber === undefined) exited = true;
       else subscriber(undefined, true);
       disposables.forEach((d) => d.dispose());
-    })
+    }),
   );
 
   const waitForLine = async (
     check: (line: string) => boolean,
-    timeout = 30_000
+    timeout = 30_000,
   ): Promise<string> => {
     return new Promise((resolve, reject) => {
       let timeoutId: NodeJS.Timeout; // timeout must be cancelled to allow Jest to terminate

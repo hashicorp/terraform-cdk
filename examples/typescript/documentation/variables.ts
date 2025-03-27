@@ -68,7 +68,7 @@ export function outputVariablesRunner() {
     constructor(
       scope: Construct,
       name: string,
-      config: OutputVariableStackConfig
+      config: OutputVariableStackConfig,
     ) {
       super(scope, name);
 

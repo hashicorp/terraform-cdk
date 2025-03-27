@@ -134,7 +134,7 @@ test("static output id (without feature flags enabled)", () => {
   }
   new CustomConstruct(
     stack,
-    "custom-construct-id-which-does-not-appear-in-output-name"
+    "custom-construct-id-which-does-not-appear-in-output-name",
   );
 
   expect(Testing.synth(stack)).toMatchSnapshot();

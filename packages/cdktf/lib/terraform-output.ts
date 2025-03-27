@@ -61,7 +61,7 @@ export class TerraformOutput extends TerraformElement {
   }
 
   private isITerraformAddressable(
-    object: any
+    object: any,
   ): object is ITerraformAddressable {
     return (
       object &&
@@ -85,10 +85,13 @@ export class TerraformOutput extends TerraformElement {
     }
 
     if (typeof arg === "object") {
-      return Object.keys(arg).reduce((result, key) => {
-        result[key] = this.synthesizeValue(arg[key]);
-        return result;
-      }, {} as { [key: string]: string });
+      return Object.keys(arg).reduce(
+        (result, key) => {
+          result[key] = this.synthesizeValue(arg[key]);
+          return result;
+        },
+        {} as { [key: string]: string },
+      );
     }
 
     return arg;
@@ -130,7 +133,7 @@ export class TerraformOutput extends TerraformElement {
           isBlock: false,
           storageClassType: "stringList",
         },
-      }).filter(([, value]) => value.value !== undefined)
+      }).filter(([, value]) => value.value !== undefined),
     );
   }
 
@@ -139,7 +142,7 @@ export class TerraformOutput extends TerraformElement {
       output: {
         [this.friendlyUniqueId]: deepMerge(
           this.synthesizeHclAttributes(),
-          this.rawOverrides
+          this.rawOverrides,
         ),
       },
     };
@@ -150,7 +153,7 @@ export class TerraformOutput extends TerraformElement {
       output: {
         [this.friendlyUniqueId]: deepMerge(
           this.synthesizeAttributes(),
-          this.rawOverrides
+          this.rawOverrides,
         ),
       },
     };

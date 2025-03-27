@@ -46,13 +46,13 @@ export class LocalProviderConstraints {
         Object.entries(providerConstraints.providers).map(
           ([name, constraint]) => {
             return [name.toLowerCase(), constraint];
-          }
-        )
+          },
+        ),
       );
     } catch (e: any) {
       throw Errors.External(
         "constraints.json file is malformed. The root must be a JSON object.",
-        e
+        e,
       );
     }
 
@@ -70,7 +70,7 @@ export class LocalProviderConstraints {
   }
 
   public async constraintForProvider(
-    providerName: string
+    providerName: string,
   ): Promise<string | null> {
     const constraints = await this.constraintsForAllProviders();
 

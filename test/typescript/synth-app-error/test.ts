@@ -18,11 +18,11 @@ describe("full integration test synth", () => {
       expect(e.code).toBe(1);
       const errorString = e.stderr.toString();
       expect(errorString).toContain(
-        `cdktf encountered an error while synthesizing`
+        `cdktf encountered an error while synthesizing`,
       );
 
       expect(errorString).toContain(
-        `npm run --silent compile && node thisFileDoesNotExist.js`
+        `npm run --silent compile && node thisFileDoesNotExist.js`,
       );
     }
   });

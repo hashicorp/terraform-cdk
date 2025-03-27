@@ -48,7 +48,7 @@ export type Status =
 
 export function useCdktfProject<T>(
   opts: CdktfProjectOpts,
-  projectCallback: (project: CdktfProject) => Promise<T>
+  projectCallback: (project: CdktfProject) => Promise<T>,
 ) {
   const { exit } = useApp();
   const [id, setID] = useState<number>(0);

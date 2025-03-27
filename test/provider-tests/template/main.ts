@@ -1,5 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Construct } from "constructs";
 import { App, TerraformStack, Testing } from "cdktf";
 import * as NullProvider from "./.gen/providers/null";

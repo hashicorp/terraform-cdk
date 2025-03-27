@@ -9,11 +9,11 @@ import { SynthesizedStack } from "../synth-stack";
 export function getSingleStack(
   stacks: SynthesizedStack[],
   stackName?: string,
-  targetAction?: string
+  targetAction?: string,
 ) {
   if (!stacks) {
     throw Errors.Internal(
-      "Trying to access a stack before it has been synthesized"
+      "Trying to access a stack before it has been synthesized",
     );
   }
 
@@ -35,14 +35,14 @@ export function getSingleStack(
       targetAction || "<verb>"
     } <stack> with one of these stacks: ${stacks
       .map((s) => s.name)
-      .join(", ")} `
+      .join(", ")} `,
   );
 }
 
 export function getMultipleStacks(
   stacks: SynthesizedStack[],
   patterns?: string[],
-  targetAction?: string
+  targetAction?: string,
 ) {
   if (!patterns || !patterns.length) {
     if (stacks.length === 1) {
@@ -53,13 +53,13 @@ export function getMultipleStacks(
         targetAction || "<verb>"
       } <stack> with one of these stacks: ${stacks
         .map((s) => s.name)
-        .join(", ")} `
+        .join(", ")} `,
     );
   }
 
   return patterns.flatMap((pattern) => {
     const matchingStacks = stacks.filter((stack) =>
-      minimatch(stack.name, pattern)
+      minimatch(stack.name, pattern),
     );
 
     if (matchingStacks.length === 0) {
@@ -75,7 +75,7 @@ export function getMultipleStacks(
 // If there is no unfinished stack, returns undefined
 // If there is no stack ready to be worked on, it returns a promise that will resolve as soon as there is a follow-up stack available
 export async function getStackWithNoUnmetDependencies(
-  stackExecutors: CdktfStack[]
+  stackExecutors: CdktfStack[],
 ): Promise<CdktfStack | undefined> {
   logger.debug("Checking for stacks with unmet dependencies");
   logger.debug("stack executors:", stackExecutors);
@@ -90,8 +90,8 @@ export async function getStackWithNoUnmetDependencies(
     executor.stack.dependencies.every(
       (dependency) =>
         stackExecutors.find((executor) => executor.stack.name === dependency)
-          ?.currentState === "done"
-    )
+          ?.currentState === "done",
+    ),
   );
 
   if (currentlyReadyStack) {
@@ -104,7 +104,7 @@ export async function getStackWithNoUnmetDependencies(
     .map((ex) => ex.currentWorkPromise);
 
   logger.debug(
-    `${stackExecutionPromises.length} stacks are currently busy, waiting for one to finish`
+    `${stackExecutionPromises.length} stacks are currently busy, waiting for one to finish`,
   );
 
   if (!stackExecutionPromises.length) {
@@ -113,7 +113,7 @@ export async function getStackWithNoUnmetDependencies(
 
   await ensureAllSettledBeforeThrowing(
     Promise.race(stackExecutionPromises),
-    stackExecutionPromises
+    stackExecutionPromises,
   );
 
   return await getStackWithNoUnmetDependencies(stackExecutors);
@@ -121,17 +121,17 @@ export async function getStackWithNoUnmetDependencies(
 
 function findAllDependantStacks(
   stackExecutors: CdktfStack[],
-  stackName: string
+  stackName: string,
 ): CdktfStack[] {
   return stackExecutors.filter((innerExecutor) =>
-    innerExecutor.stack.dependencies.includes(stackName)
+    innerExecutor.stack.dependencies.includes(stackName),
   );
 }
 
 export function findAllNestedDependantStacks(
   stackExecutors: CdktfStack[],
   stackName: string,
-  knownDependantStackNames: Set<string> = new Set()
+  knownDependantStackNames: Set<string> = new Set(),
 ): CdktfStack[] {
   const dependantStacks = findAllDependantStacks(stackExecutors, stackName);
   dependantStacks.forEach((stack) => {
@@ -143,18 +143,18 @@ export function findAllNestedDependantStacks(
     findAllNestedDependantStacks(
       stackExecutors,
       stack.stack.name,
-      knownDependantStackNames
+      knownDependantStackNames,
     );
   });
 
   return stackExecutors.filter((executor) =>
-    knownDependantStackNames.has(executor.stack.name)
+    knownDependantStackNames.has(executor.stack.name),
   );
 }
 
 // Returns the first stack that has no dependents that need to be destroyed first
 export async function getStackWithNoUnmetDependants(
-  stackExecutors: CdktfStack[]
+  stackExecutors: CdktfStack[],
 ): Promise<CdktfStack | undefined> {
   logger.debug("Checking for stacks with unmet dependants");
   logger.debug("stack executors:", stackExecutors);
@@ -168,7 +168,7 @@ export async function getStackWithNoUnmetDependants(
   const currentlyReadyStack = pendingStacks.find((executor) => {
     const dependantStacks = findAllDependantStacks(
       stackExecutors,
-      executor.stack.name
+      executor.stack.name,
     );
     return dependantStacks.every((stack) => stack.currentState === "done");
   });
@@ -182,7 +182,7 @@ export async function getStackWithNoUnmetDependants(
     .map((ex) => ex.currentWorkPromise);
 
   logger.debug(
-    `${stackExecutionPromises.length} stacks are currently busy, waiting for one to finish`
+    `${stackExecutionPromises.length} stacks are currently busy, waiting for one to finish`,
   );
   if (!stackExecutionPromises.length) {
     return undefined;
@@ -195,26 +195,26 @@ export async function getStackWithNoUnmetDependants(
 // Throws an error if there is a dependant stack that is not included
 export function checkIfAllDependantsAreIncluded(
   stacksToRun: SynthesizedStack[],
-  allStacks: SynthesizedStack[]
+  allStacks: SynthesizedStack[],
 ) {
   const allDependants = new Set<string>();
   stacksToRun
     .map((stack) =>
-      allStacks.filter((s) => s.dependencies.includes(stack.name))
+      allStacks.filter((s) => s.dependencies.includes(stack.name)),
     )
     .flat()
     .forEach((dependant) => allDependants.add(dependant.name));
 
   const stackNames = stacksToRun.map((stack) => stack.name);
   const missingDependants = [...allDependants].filter(
-    (dependant) => !stackNames.includes(dependant)
+    (dependant) => !stackNames.includes(dependant),
   );
 
   if (missingDependants.length > 0) {
     throw Errors.Usage(
       `The following dependant stacks are not included in the stacks to run: ${missingDependants.join(
-        ", "
-      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`
+        ", ",
+      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`,
     );
   }
 }
@@ -226,7 +226,7 @@ export function checkIfAllDependantsAreIncluded(
   have to wait for a stack to be deployed that is not included to be run
 */
 export function checkIfAllDependenciesAreIncluded(
-  stacksToRun: SynthesizedStack[]
+  stacksToRun: SynthesizedStack[],
 ) {
   const allDependencies = new Set<string>();
   stacksToRun
@@ -236,14 +236,14 @@ export function checkIfAllDependenciesAreIncluded(
 
   const stackNames = stacksToRun.map((stack) => stack.name);
   const missingDependencies = [...allDependencies].filter(
-    (dependency) => !stackNames.includes(dependency)
+    (dependency) => !stackNames.includes(dependency),
   );
 
   if (missingDependencies.length > 0) {
     throw Errors.Usage(
       `The following dependencies are not included in the stacks to run: ${missingDependencies.join(
-        ", "
-      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`
+        ", ",
+      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`,
     );
   }
 }

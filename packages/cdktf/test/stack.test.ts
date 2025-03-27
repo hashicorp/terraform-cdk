@@ -14,7 +14,7 @@ import { Construct } from "constructs";
 
 test("stack synthesis merges all elements into a single output", () => {
   const app = Testing.stubVersion(
-    Testing.enableFutureFlags(new App({ stackTraces: false }))
+    Testing.enableFutureFlags(new App({ stackTraces: false })),
   );
   const stack = new TerraformStack(app, "MyStack");
 
@@ -160,7 +160,7 @@ describe("output id map", () => {
 
     expect(Object.keys(outputs.MyStack)).toEqual(["output1", "output2"]);
     expect(Object.keys(tf.output)).toEqual(
-      expect.arrayContaining(Object.values(outputs.MyStack))
+      expect.arrayContaining(Object.values(outputs.MyStack)),
     );
   });
 

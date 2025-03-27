@@ -45,7 +45,7 @@ export const Diff = ({
         noColor,
         migrateState,
         skipSynth,
-      })
+      }),
   );
 
   return (

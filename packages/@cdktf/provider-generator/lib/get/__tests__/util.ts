@@ -12,7 +12,7 @@ import * as path from "path";
 export function expectModuleToMatchSnapshot(
   testName: string,
   testCategory: string,
-  fixtureNames: string[]
+  fixtureNames: string[],
 ) {
   test(testName, async () => {
     await withTempDir(`${testName.replace(/\s*/, "-")}.test`, async () => {
@@ -22,7 +22,7 @@ export function expectModuleToMatchSnapshot(
       fixtureNames.forEach((fixtureName) => {
         fs.copyFileSync(
           path.join(__dirname, testCategory, "fixtures", fixtureName),
-          path.join(curdir, "module", fixtureName)
+          path.join(curdir, "module", fixtureName),
         );
       });
 
@@ -40,13 +40,13 @@ export function expectModuleToMatchSnapshot(
           codeMakerOutput: workdir,
           targetLanguage: Language.TYPESCRIPT,
         },
-        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
       );
       await maker.generate([constraint]);
 
       const output = fs.readFileSync(
         path.join(workdir, "modules/module.ts"),
-        "utf-8"
+        "utf-8",
       );
       expect(output).toMatchSnapshot();
     });

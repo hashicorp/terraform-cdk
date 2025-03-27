@@ -73,7 +73,7 @@ describe("granular-imports", () => {
     Synth.yes_but_only_typescript_right_now_because_it_breaks,
     {
       resources: ["kubernetes_deployment"],
-    }
+    },
   );
 
   testCase.test(
@@ -156,6 +156,6 @@ describe("granular-imports", () => {
     Synth.yes,
     {
       resources: ["google_compute_autoscaler", "local_file"],
-    }
+    },
   );
 });

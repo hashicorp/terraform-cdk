@@ -35,7 +35,7 @@ export class LocalBackend extends TerraformBackend {
   public getRemoteStateDataSource(
     scope: Construct,
     name: string,
-    fromStack: string
+    fromStack: string,
   ): TerraformRemoteState {
     return new DataTerraformRemoteStateLocal(scope, name, {
       workspaceDir: this.props.workspaceDir,
@@ -52,7 +52,7 @@ export class DataTerraformRemoteStateLocal extends TerraformRemoteState {
   constructor(
     scope: Construct,
     id: string,
-    config: DataTerraformRemoteStateLocalConfig
+    config: DataTerraformRemoteStateLocalConfig,
   ) {
     super(scope, id, "local", config);
   }

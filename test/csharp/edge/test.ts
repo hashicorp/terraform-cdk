@@ -21,9 +21,9 @@ describe("csharp full integration test synth", () => {
         "..",
         "edge-provider-bindings",
         "csharp",
-        "Providers.Edge"
+        "Providers.Edge",
       ),
-      path.resolve(driver.workingDirectory, ".gen", "Providers.Edge")
+      path.resolve(driver.workingDirectory, ".gen", "Providers.Edge"),
     );
 
     execSync("dotnet add reference .gen/Providers.Edge/Providers.Edge.csproj", {
@@ -74,22 +74,22 @@ describe("csharp full integration test synth", () => {
 
     onlyJson("references plain values", () => {
       expect(stack.byId("plain").str).toEqual(
-        "${optional_attribute_resource.test.str}"
+        "${optional_attribute_resource.test.str}",
       );
       expect(stack.byId("plain").num).toEqual(
-        "${optional_attribute_resource.test.num}"
+        "${optional_attribute_resource.test.num}",
       );
       expect(stack.byId("plain").bool).toEqual(
-        "${optional_attribute_resource.test.bool}"
+        "${optional_attribute_resource.test.bool}",
       );
       expect(stack.byId("plain").strList).toEqual(
-        "${optional_attribute_resource.test.strList}"
+        "${optional_attribute_resource.test.strList}",
       );
       expect(stack.byId("plain").numList).toEqual(
-        "${optional_attribute_resource.test.numList}"
+        "${optional_attribute_resource.test.numList}",
       );
       expect(stack.byId("plain").boolList).toEqual(
-        "${optional_attribute_resource.test.boolList}"
+        "${optional_attribute_resource.test.boolList}",
       );
     });
 
@@ -99,13 +99,13 @@ describe("csharp full integration test synth", () => {
         const item = stack.byId("from_single_list");
 
         expect(item.bool).toEqual(
-          "${list_block_resource.list.singlereq[0].reqbool}"
+          "${list_block_resource.list.singlereq[0].reqbool}",
         );
         expect(item.str).toEqual(
-          "${list_block_resource.list.singlereq[0].reqstr}"
+          "${list_block_resource.list.singlereq[0].reqstr}",
         );
         expect(item.num).toEqual(
-          "${list_block_resource.list.singlereq[0].reqnum}"
+          "${list_block_resource.list.singlereq[0].reqnum}",
         );
         expect(item.boolList).toEqual([
           "${list_block_resource.list.singlereq[0].reqbool}",
@@ -116,18 +116,18 @@ describe("csharp full integration test synth", () => {
         expect(item.numList).toEqual([
           "${list_block_resource.list.singlereq[0].reqnum}",
         ]);
-      }
+      },
     );
 
     onlyJson("item references required values from multi-item lists", () => {
       const item = stack.byId("from_list");
 
       expect(item.bool).toEqual(
-        "${element(list_block_resource.list.req, 0).reqbool}"
+        "${element(list_block_resource.list.req, 0).reqbool}",
       );
       expect(item.str).toEqual("${list_block_resource.list.req[0].reqstr}");
       expect(item.num).toEqual(
-        "${element(list_block_resource.list.req, 0).reqnum}"
+        "${element(list_block_resource.list.req, 0).reqnum}",
       );
       expect(item.boolList).toEqual([
         "${element(list_block_resource.list.req, 0).reqbool}",
@@ -182,7 +182,7 @@ describe("csharp full integration test synth", () => {
       // Expands map references
       expect(item.bool).toEqual("${map_resource.map.reqMap.key1}");
       expect(item.str).toEqual(
-        '${lookup(map_resource.map.optMap, "key1", "missing")}'
+        '${lookup(map_resource.map.optMap, "key1", "missing")}',
       );
       expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
       expect(item.boolList).toEqual(["${map_resource.map.reqMap.key1}"]);
@@ -216,7 +216,7 @@ describe("csharp full integration test synth", () => {
       const output = stack.output("list_from_list_type_ref");
 
       expect(output).toEqual(
-        "${list_block_resource.list.computedListOfObject}"
+        "${list_block_resource.list.computedListOfObject}",
       );
     });
 
@@ -226,9 +226,9 @@ describe("csharp full integration test synth", () => {
         const item = stack.byId("list_item_from_list_type_ref");
 
         expect(item.str).toEqual(
-          "${list_block_resource.list.computedListOfObject[5].str}"
+          "${list_block_resource.list.computedListOfObject[5].str}",
         );
-      }
+      },
     );
 
     onlyJson("allows passing null as an attribute", () => {
@@ -252,7 +252,7 @@ describe("csharp full integration test synth", () => {
 
       onlyJson("renders for_each property", () => {
         expect(t.for_each).toBe(
-          "${toset(optional_attribute_resource.target.strList)}"
+          "${toset(optional_attribute_resource.target.strList)}",
         );
       });
 

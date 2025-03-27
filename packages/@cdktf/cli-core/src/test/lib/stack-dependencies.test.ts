@@ -4,7 +4,7 @@ import { StackDependencies, SynthesizedStack } from "../../lib/synth-stack";
 
 function createStack(
   name: string,
-  dependencies: string[] = []
+  dependencies: string[] = [],
 ): SynthesizedStack {
   return {
     name,
@@ -27,7 +27,7 @@ describe("StackDependencies", () => {
     ];
 
     expect(new StackDependencies(stacks).pendingDeployableStacks).toEqual(
-      stacks
+      stacks,
     );
   });
 
@@ -37,7 +37,7 @@ describe("StackDependencies", () => {
     const stack3 = createStack("stack3", [stack2.name]);
 
     expect(
-      new StackDependencies([stack1, stack2, stack3]).pendingDeployableStacks
+      new StackDependencies([stack1, stack2, stack3]).pendingDeployableStacks,
     ).toEqual([stack1]);
   });
 

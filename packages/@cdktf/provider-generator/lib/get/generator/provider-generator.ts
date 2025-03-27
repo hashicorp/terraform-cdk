@@ -22,7 +22,7 @@ interface ProviderData {
 
 const isMatching = (
   target: ConstructsMakerTarget,
-  terraformSchemaName: string
+  terraformSchemaName: string,
 ): boolean => {
   if (target.isModule) return false;
 
@@ -61,7 +61,7 @@ const isMatching = (
           break;
         default:
           throw new Error(
-            `can't handle ${target.source}. Expected string with 1, 2 or 3 elements separated by '/'`
+            `can't handle ${target.source}. Expected string with 1, 2 or 3 elements separated by '/'`,
           );
       }
 
@@ -90,7 +90,7 @@ export class TerraformProviderGenerator {
 
   constructor(
     private readonly code: CodeMaker,
-    private readonly schema: ProviderSchema
+    private readonly schema: ProviderSchema,
   ) {
     this.code.indentation = 2;
     this.resourceEmitter = new ResourceEmitter(this.code);
@@ -98,10 +98,10 @@ export class TerraformProviderGenerator {
   }
 
   private getProviderByConstraint(
-    providerConstraint: ConstructsMakerTarget
+    providerConstraint: ConstructsMakerTarget,
   ): FQPN | undefined {
     return Object.keys(this.schema.provider_schemas || {}).find((fqpn) =>
-      isMatching(providerConstraint, fqpn)
+      isMatching(providerConstraint, fqpn),
     ) as FQPN | undefined;
   }
 
@@ -112,13 +112,13 @@ export class TerraformProviderGenerator {
         `Could not find provider constraint for ${providerConstraint} in schema: ${JSON.stringify(
           this.schema,
           null,
-          2
-        )}`
+          2,
+        )}`,
       );
       throw new Error(
         `Could not find provider with constraint ${JSON.stringify(
-          providerConstraint
-        )}`
+          providerConstraint,
+        )}`,
       );
     }
 
@@ -132,8 +132,8 @@ export class TerraformProviderGenerator {
       this.generate(
         new ConstructsMakerProviderTarget(
           new TerraformProviderConstraint(fqpn),
-          LANGUAGES[0]
-        )
+          LANGUAGES[0],
+        ),
       );
     }
   }
@@ -144,7 +144,7 @@ export class TerraformProviderGenerator {
 
   public buildResourceModels(
     fqpn: FQPN,
-    constraint?: ConstructsMakerTarget
+    constraint?: ConstructsMakerTarget,
   ): ResourceModel[] {
     const provider = this.schema.provider_schemas?.[fqpn];
     if (!provider) {
@@ -153,7 +153,7 @@ export class TerraformProviderGenerator {
 
     const resources = Object.entries(provider.resource_schemas || {}).map(
       ([type, resource]) =>
-        this.resourceParser.parse(fqpn, type, resource, "resource", constraint)
+        this.resourceParser.parse(fqpn, type, resource, "resource", constraint),
     );
 
     const dataSources = Object.entries(provider.data_source_schemas || {}).map(
@@ -163,8 +163,8 @@ export class TerraformProviderGenerator {
           `data_${type}`,
           resource,
           "data_source",
-          constraint
-        )
+          constraint,
+        ),
     );
 
     return ([] as ResourceModel[]).concat(...resources, ...dataSources);
@@ -181,7 +181,7 @@ export class TerraformProviderGenerator {
   private emitProvider(
     fqpn: FQPN,
     providerVersion?: string,
-    constraint?: ConstructsMakerTarget
+    constraint?: ConstructsMakerTarget,
   ) {
     const name = constraint?.name
       ? (constraint.name as ProviderName)
@@ -213,7 +213,7 @@ export class TerraformProviderGenerator {
         `provider`,
         provider.provider,
         "provider",
-        constraint
+        constraint,
       );
       if (constraint) {
         providerResource.providerVersionConstraint = constraint.version;
@@ -238,7 +238,7 @@ export class TerraformProviderGenerator {
       ? resource.provider
       : resource.terraformType;
     this.code.line(
-      `Refer to the Terraform Registry for docs: [\`${type}\`](${resource.linkToDocs}).`
+      `Refer to the Terraform Registry for docs: [\`${type}\`](${resource.linkToDocs}).`,
     );
     this.code.closeFile(filePath);
   }
@@ -251,7 +251,7 @@ export class TerraformProviderGenerator {
     for (const file of files) {
       const dirName = file.replace(`${folder}/`, "").replace("/index.ts", "");
       this.code.line(
-        `export * as ${toCamelCase(dirName)} from './${dirName}';`
+        `export * as ${toCamelCase(dirName)} from './${dirName}';`,
       );
     }
     this.code.line();
@@ -267,8 +267,8 @@ export class TerraformProviderGenerator {
       const dirName = file.replace(`${folder}/`, "").replace("/index.ts", "");
       this.code.line(
         `Object.defineProperty(exports, '${toCamelCase(
-          dirName
-        )}', { get: function () { return require('./${dirName}'); } });`
+          dirName,
+        )}', { get: function () { return require('./${dirName}'); } });`,
       );
     }
     this.code.line();
@@ -299,14 +299,14 @@ export class TerraformProviderGenerator {
         this.code.line(
           `import { ${resource.referencedTypes.join(", \n")}} from './${
             resource.structsFolderName
-          }'`
+          }'`,
         );
       }
 
       this.code.line(`export * from './${resource.structsFolderName}'`);
 
       resource.importStatements.forEach((statement) =>
-        this.code.line(statement)
+        this.code.line(statement),
       );
 
       this.structEmitter.emitInterface(resource, resource.configStruct);
@@ -319,7 +319,7 @@ export class TerraformProviderGenerator {
       generatedFiles.push(resource.structsFolderName);
     } else {
       resource.importStatements.forEach((statement) =>
-        this.code.line(statement)
+        this.code.line(statement),
       );
 
       this.structEmitter.emit(resource);

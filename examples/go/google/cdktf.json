@@ -4,7 +4,7 @@
   "codeMakerOutput": "generated",
   "terraformProviders": [
     "hashicorp/kubernetes@ ~> 2.2.0",
-    "kreuzwerker/docker@ ~> 2.11.0",
+    "kreuzwerker/docker@ ~> 2.11",
     "hashicorp/local@ ~> 2.1.0",
     "hashicorp/helm@ ~> 2.1.2",
     "hashicorp/google@ ~> 3.69.0"

@@ -22,7 +22,7 @@ export function getLanguage(projectPath = process.cwd()): string | undefined {
 
 async function getBinaryVersion(
   binary: string,
-  versionCommand: string
+  versionCommand: string,
 ): Promise<string | undefined> {
   const noOp = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
   try {
@@ -31,7 +31,7 @@ async function getBinaryVersion(
       [versionCommand],
       { env: process.env, stdio: [undefined, undefined, "ignore"] },
       noOp,
-      noOp
+      noOp,
     );
     return result.trim().replace(/\r?\n|\r/g, "");
   } catch (e) {
@@ -77,7 +77,7 @@ export function getNodeVersion() {
 }
 
 async function getNodeModuleVersion(
-  packageName: string
+  packageName: string,
 ): Promise<string | undefined> {
   // Use the presence of the pnpm lock file as a signal that
   // we should interrogate packages via pnpm instead of npm.
@@ -89,7 +89,7 @@ async function getNodeModuleVersion(
 }
 
 async function getPnpmNodeModuleVersion(
-  packageName: string
+  packageName: string,
 ): Promise<string | undefined> {
   let output;
 
@@ -107,7 +107,7 @@ async function getPnpmNodeModuleVersion(
     json = JSON.parse(output);
   } catch (e) {
     logger.debug(
-      `Unable to parse output of 'pnpm list ${packageName} --json': ${e}`
+      `Unable to parse output of 'pnpm list ${packageName} --json': ${e}`,
     );
     return undefined;
   }
@@ -119,7 +119,7 @@ async function getPnpmNodeModuleVersion(
     !json[0]?.dependencies?.[packageName]?.version
   ) {
     logger.debug(
-      `Unable to find '${packageName}' in 'pnpm list ${packageName} --json': ${output}`
+      `Unable to find '${packageName}' in 'pnpm list ${packageName} --json': ${output}`,
     );
     return undefined;
   }
@@ -128,7 +128,7 @@ async function getPnpmNodeModuleVersion(
 }
 
 async function getNpmNodeModuleVersion(
-  packageName: string
+  packageName: string,
 ): Promise<string | undefined> {
   let output;
 
@@ -146,7 +146,7 @@ async function getNpmNodeModuleVersion(
     json = JSON.parse(output);
   } catch (e) {
     logger.debug(
-      `Unable to parse output of 'npm list ${packageName} --json': ${e}`
+      `Unable to parse output of 'npm list ${packageName} --json': ${e}`,
     );
     return undefined;
   }
@@ -157,7 +157,7 @@ async function getNpmNodeModuleVersion(
     !json.dependencies[packageName].version
   ) {
     logger.debug(
-      `Unable to find '${packageName}' in 'npm list ${packageName} --json': ${output}`
+      `Unable to find '${packageName}' in 'npm list ${packageName} --json': ${output}`,
     );
     return undefined;
   }
@@ -166,7 +166,7 @@ async function getNpmNodeModuleVersion(
 }
 
 async function getPythonPackageVersion(
-  packageName: string
+  packageName: string,
 ): Promise<string | undefined> {
   let output;
   try {
@@ -198,7 +198,7 @@ async function getPythonPackageVersion(
 
   if (!versionInfo) {
     logger.debug(
-      `Unable to find version in output of 'pipenv run pip show ${packageName}' / 'pip show ${packageName}': ${output}`
+      `Unable to find version in output of 'pipenv run pip show ${packageName}' / 'pip show ${packageName}': ${output}`,
     );
     return undefined;
   }
@@ -223,7 +223,7 @@ async function getCSharpPackageVersion(packageName: string) {
     });
   } catch (e) {
     logger.debug(
-      `Unable to run 'dotnet list package --include-transitive': ${e}`
+      `Unable to run 'dotnet list package --include-transitive': ${e}`,
     );
     return undefined;
   }
@@ -234,7 +234,7 @@ async function getCSharpPackageVersion(packageName: string) {
 
   if (!versionLine) {
     logger.debug(
-      `Unable to find version for '${cSharpPackageName}' in output of 'dotnet list package --include-transitive': ${output}`
+      `Unable to find version for '${cSharpPackageName}' in output of 'dotnet list package --include-transitive': ${output}`,
     );
     return undefined;
   }
@@ -273,7 +273,7 @@ async function getGoPackageVersion(packageName: string) {
 
   if (!versionLine) {
     logger.debug(
-      `Unable to find version for '${goPackageName}' in output of 'go list -m all': ${output}`
+      `Unable to find version for '${goPackageName}' in output of 'go list -m all': ${output}`,
     );
     return undefined;
   }
@@ -304,11 +304,11 @@ async function getMavenPackageVersion(packageName: string) {
   }
 
   const resolutionPart = output.split(
-    "The following files have been resolved"
+    "The following files have been resolved",
   )[1];
   if (!resolutionPart) {
     logger.debug(
-      `Unable to find resolution passage in output of 'mvn dependency:list': ${output}`
+      `Unable to find resolution passage in output of 'mvn dependency:list': ${output}`,
     );
     return undefined;
   }
@@ -322,7 +322,7 @@ async function getMavenPackageVersion(packageName: string) {
 
   if (!versionLine) {
     logger.debug(
-      `Unable to find version for '${javaPackageName}' in output of 'mvn dependency:list': ${output}`
+      `Unable to find version for '${javaPackageName}' in output of 'mvn dependency:list': ${output}`,
     );
     return undefined;
   }
@@ -346,7 +346,7 @@ async function getJavaPackageVersion(packageName: string) {
 
 export async function getPackageVersion(
   language: string,
-  packageName: string
+  packageName: string,
 ): Promise<string | undefined> {
   const noOp = async () => undefined; // eslint-disable-line @typescript-eslint/no-empty-function
   const getLibraryVersionMap: Record<
@@ -361,7 +361,7 @@ export async function getPackageVersion(
   };
 
   const libVersion = await (getLibraryVersionMap[language] || noOp)(
-    packageName
+    packageName,
   );
   return libVersion ?? undefined;
 }

@@ -71,10 +71,10 @@ describe("ConstructsMakerModuleTarget", () => {
         const constraint = new TerraformModuleConstraint(fqn as any);
         const target = new ConstructsMakerModuleTarget(
           constraint,
-          language as Language
+          language as Language,
         );
         expect(target.srcMakName).toBe(name);
-      }
+      },
     );
   });
 });

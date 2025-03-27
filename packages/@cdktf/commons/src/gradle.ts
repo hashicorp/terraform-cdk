@@ -35,11 +35,11 @@ export async function getGradleDependencies() {
 
   // find the implementation section
   const implementationSection = lines.findIndex((line) =>
-    line.includes("implementation - ")
+    line.includes("implementation - "),
   );
   if (implementationSection === -1) {
     logger.debug(
-      `Unable to find implementation section in output of 'gradle dependencies': ${output}`
+      `Unable to find implementation section in output of 'gradle dependencies': ${output}`,
     );
     return undefined;
   }
@@ -47,7 +47,7 @@ export async function getGradleDependencies() {
   const emptyLineRegex = /^\s*$/;
   const implementationSectionLines = lines.slice(implementationSection + 1);
   const sectionEnd = implementationSectionLines.findIndex((line) =>
-    emptyLineRegex.test(line)
+    emptyLineRegex.test(line),
   );
   const implementationLines = implementationSectionLines.slice(0, sectionEnd);
 
@@ -55,14 +55,14 @@ export async function getGradleDependencies() {
   const apiSection = lines.findIndex((line) => line.includes("api - "));
   if (apiSection === -1) {
     logger.debug(
-      `Unable to find api section in output of 'gradle dependencies': ${output}`
+      `Unable to find api section in output of 'gradle dependencies': ${output}`,
     );
     return undefined;
   }
 
   const apiSectionLines = lines.slice(apiSection + 1);
   const apiSectionEnd = apiSectionLines.findIndex((line) =>
-    emptyLineRegex.test(line)
+    emptyLineRegex.test(line),
   );
 
   const apiLines = apiSectionLines.slice(0, apiSectionEnd);
@@ -81,13 +81,13 @@ export type DependencyInformation = {
   version: string;
 };
 export function getDependencyInformationFromLine(
-  line: string
+  line: string,
 ): DependencyInformation | undefined {
   const packageNameRegex = /^\s*([^:]+):([^:]+)(?::([^\s]+))?/;
   const matches = line.match(packageNameRegex);
   if (!matches) {
     logger.debug(
-      "Unexpected format for gradle build. Please file an issue at https://cdk.tf/bug"
+      "Unexpected format for gradle build. Please file an issue at https://cdk.tf/bug",
     );
     return undefined;
   }
@@ -122,7 +122,7 @@ export async function getGradlePackageVersion(packageName: string) {
   const gradlePackageName = translationMap[packageName] || packageName;
   logger.debug(
     "Running 'gradle dependencies' to find package version",
-    gradlePackageName
+    gradlePackageName,
   );
 
   const lines = await getGradleDependencies();
@@ -157,7 +157,7 @@ export async function getGradlePackageVersionFromBuild(packageName: string) {
 
   const dependenciesRegex = /^\s*dependencies\s*\{/i;
   const dependenciesStart = buildLines.findIndex((line) =>
-    dependenciesRegex.test(line)
+    dependenciesRegex.test(line),
   );
 
   if (dependenciesStart === -1) {
@@ -168,7 +168,7 @@ export async function getGradlePackageVersionFromBuild(packageName: string) {
   const foundIndex = buildLines.findIndex((line) => line.includes(packageName));
   if (foundIndex === -1) {
     logger.debug(
-      `Unable to find package ${packageName} in output build.gradle`
+      `Unable to find package ${packageName} in output build.gradle`,
     );
     return undefined;
   }
@@ -176,7 +176,7 @@ export async function getGradlePackageVersionFromBuild(packageName: string) {
 
   const colonSeparatedPackageNameRegex = new RegExp(
     `([^:]+):${packageName}(?::([^\\s]+))?`,
-    "i"
+    "i",
   );
 
   const colonMatch = colonSeparatedPackageNameRegex.exec(line);
@@ -190,7 +190,7 @@ export async function getGradlePackageVersionFromBuild(packageName: string) {
 
   const fileSeparatedPackageNameRegex = new RegExp(
     `java/(.*)/${packageName}/([^/]+)/.*\\.jar`,
-    "i"
+    "i",
   );
 
   const fileMatch = fileSeparatedPackageNameRegex.exec(line);

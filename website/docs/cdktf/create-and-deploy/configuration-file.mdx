@@ -75,9 +75,9 @@ You can declare providers and modules using either JSON or a string with the for
     "terraformModules": [
       {
         "name": "myLocalModule",
-        "source": "../my-modules/local-module"
-      }
-    ]
+        "source": "../my-modules/local-module",
+      },
+    ],
   }
   ```
 
@@ -94,9 +94,9 @@ When you declare providers in JSON, add the constraint in the `version` property
     {
       "name": "aws",
       "source": "hashicorp/aws",
-      "version": "~> 3.22"
-    }
-  ]
+      "version": "~> 3.22",
+    },
+  ],
 }
 ```
 

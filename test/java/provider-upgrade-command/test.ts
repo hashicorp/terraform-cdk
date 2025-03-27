@@ -26,10 +26,10 @@ describe("provider upgrade command", () => {
       await driver.exec("cdktf", ["provider", "upgrade", "random@=3.2.0"]);
 
       expect(driver.readLocalFile("build.gradle")).not.toContain(
-        "cdktf-provider-random:0.2.55"
+        "cdktf-provider-random:0.2.55",
       );
       expect(driver.readLocalFile("build.gradle")).toContain(
-        "cdktf-provider-random:0.2.64"
+        "cdktf-provider-random:0.2.64",
       );
     }, 500_000);
   });

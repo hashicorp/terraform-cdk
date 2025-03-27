@@ -12,7 +12,7 @@ export const renderInk = async (component: React.ReactElement) => {
   await terraformCheck();
 
   const { waitUntilExit } = render(
-    React.createElement(Fragment, {}, component)
+    React.createElement(Fragment, {}, component),
   );
 
   try {

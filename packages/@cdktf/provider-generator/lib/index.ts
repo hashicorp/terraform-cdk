@@ -24,7 +24,7 @@ export { TerraformProviderGenerator, CodeMaker };
 export async function generateProviderBindingsFromSchema(
   targetPath: string,
   schemaJSON: ProviderSchema,
-  options?: GenerateJSIIOptions
+  options?: GenerateJSIIOptions,
 ): Promise<void> {
   const code = new CodeMaker();
   const generator = new TerraformProviderGenerator(code, schemaJSON);

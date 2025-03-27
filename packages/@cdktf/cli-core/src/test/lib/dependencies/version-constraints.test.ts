@@ -68,14 +68,18 @@ describe("version constraints", () => {
           operator: ">=",
           version: "4.12.1",
         },
-      ].map((testCase) => [testCase.input, testCase.operator, testCase.version])
+      ].map((testCase) => [
+        testCase.input,
+        testCase.operator,
+        testCase.version,
+      ]),
     )(
       "parsing '%s' returns operator '%s' and version '%s'",
       (input, operator, version) => {
         const result = parseConstraint(input);
         expect(result.operator).toBe(operator);
         expect(result.version).toBe(version);
-      }
+      },
     );
   });
   describe("versionMatchesConstraint", () => {
@@ -160,7 +164,7 @@ describe("version constraints", () => {
         { constraint: ">=4.0,<=5.0,!=4.3", version: "4.0", matches: true },
         { constraint: ">=4.0,<=5.0,!=4.3", version: "4.3", matches: false },
         { constraint: ">=4.0,<=5.0,!=4.3", version: "4.3.0", matches: false },
-      ].map((o) => [o.constraint, o.version, o.matches] as const)
+      ].map((o) => [o.constraint, o.version, o.matches] as const),
     )("%s matches %s returns %s", (constraint, version, matches) => {
       expect(versionMatchesConstraint(version, constraint)).toBe(matches);
     });

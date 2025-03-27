@@ -47,7 +47,7 @@ type supportedUnaryOperators = keyof typeof tfUnaryOperatorsToCdktf;
 
 function traversalPartsToString(
   traversals: tex.TerraformTraversalPart[],
-  asSuffix = false
+  asSuffix = false,
 ) {
   let seed = "";
   if (asSuffix && tex.isNameTraversalPart(traversals[0])) {
@@ -76,12 +76,12 @@ function canUseFqn(expression: tex.ExpressionType) {
 
 function traversalToVariableName(
   scope: ProgramScope,
-  node: tex.ExpressionType
+  node: tex.ExpressionType,
 ) {
   if (!tex.isScopeTraversalExpression(node)) {
     logger.error(
       `Unexpected expression type ${node.type} with value ${node.meta.value} passed to convert to a variable. 
-        ${leaveCommentText}`
+        ${leaveCommentText}`,
     );
     return "";
   }
@@ -103,7 +103,7 @@ function traversalToVariableName(
 
 function expressionForSerialStringConcatenation(
   scope: ResourceScope,
-  nodes: t.Expression[]
+  nodes: t.Expression[],
 ) {
   const reducedNodes = nodes.reduce((acc, node) => {
     const prev = acc[acc.length - 1];
@@ -141,7 +141,7 @@ function expressionForSerialStringConcatenation(
       }
 
       return t.binaryExpression("+", acc as t.Expression, node);
-    }
+    },
   );
 }
 
@@ -184,7 +184,7 @@ function getTfResourcePathFromNode(node: tex.ScopeTraversalExpression) {
 
 function convertLiteralValueExpressionToTs(
   _scope: ResourceScope,
-  node: tex.LiteralValueExpression
+  node: tex.LiteralValueExpression,
 ) {
   const literalType = node.meta.type;
   if (literalType === "number") {
@@ -199,7 +199,7 @@ function convertLiteralValueExpressionToTs(
 
 function convertScopeTraversalExpressionToTs(
   scope: ResourceScope,
-  node: tex.ScopeTraversalExpression
+  node: tex.ScopeTraversalExpression,
 ) {
   const hasReference = containsReference(node);
 
@@ -222,7 +222,7 @@ function convertScopeTraversalExpressionToTs(
     return t.callExpression(
       t.memberExpression(t.identifier("TerraformSelf"), t.identifier("getAny")),
 
-      [t.stringLiteral(traversalPartsToString(segments.slice(1)))]
+      [t.stringLiteral(traversalPartsToString(segments.slice(1)))],
     );
   }
 
@@ -234,7 +234,7 @@ function convertScopeTraversalExpressionToTs(
         scope,
         node,
         dynamicBlock,
-        traversalPartsToString(segments)
+        traversalPartsToString(segments),
       );
     }
     return dynamicVariableToAst(scope, node, dynamicBlock, segments[0].segment);
@@ -243,12 +243,12 @@ function convertScopeTraversalExpressionToTs(
   // This may be a variable reference that we don't understand yet, so we wrap it in a template string
   // for Terraform to handle
   let varIdentifier: t.Expression = t.stringLiteral(
-    `\${${node.meta.fullAccessor}}`
+    `\${${node.meta.fullAccessor}}`,
   );
 
   if (hasReference) {
     varIdentifier = t.identifier(
-      camelCase(traversalToVariableName(scope, node))
+      camelCase(traversalToVariableName(scope, node)),
     );
   }
 
@@ -265,12 +265,12 @@ function convertScopeTraversalExpressionToTs(
       });
       const callee = t.memberExpression(
         t.identifier("Fn"),
-        t.identifier("lookupNested")
+        t.identifier("lookupNested"),
       );
       return t.callExpression(callee, [
         variableAccessor,
         t.arrayExpression(
-          segments.slice(2).map((s) => t.stringLiteral(s.segment))
+          segments.slice(2).map((s) => t.stringLiteral(s.segment)),
         ),
       ]);
     }
@@ -286,7 +286,7 @@ function convertScopeTraversalExpressionToTs(
   const attributeIndex = rootSegment === "data" ? 3 : 2;
   const attributeSegments = segments.slice(attributeIndex);
   const numericAccessorIndex = attributeSegments.findIndex((seg) =>
-    tex.isIndexTraversalPart(seg)
+    tex.isIndexTraversalPart(seg),
   );
   let minAccessorIndex = numericAccessorIndex;
   let mapAccessorIndex = -1;
@@ -333,10 +333,10 @@ function convertScopeTraversalExpressionToTs(
         t.identifier(
           index === 0 && rootSegment === "module"
             ? camelCase(seg.segment + "Output")
-            : camelCase(seg.segment)
-        )
+            : camelCase(seg.segment),
+        ),
       ),
-    varIdentifier
+    varIdentifier,
   );
 
   if (nonRefSegments.length === 0) {
@@ -349,7 +349,7 @@ function convertScopeTraversalExpressionToTs(
   });
   const callee = t.memberExpression(
     t.identifier("Fn"),
-    t.identifier("lookupNested")
+    t.identifier("lookupNested"),
   );
   return t.callExpression(callee, [
     ref,
@@ -359,11 +359,11 @@ function convertScopeTraversalExpressionToTs(
 
 function convertUnaryOpExpressionToTs(
   scope: ResourceScope,
-  node: tex.UnaryOpExpression
+  node: tex.UnaryOpExpression,
 ) {
   const operand = convertTFExpressionAstToTs(
     scope,
-    tex.getChildWithValue(node, node.meta.valueExpression)!
+    tex.getChildWithValue(node, node.meta.valueExpression)!,
   );
 
   let fnName = node.meta.operator;
@@ -385,15 +385,15 @@ function convertUnaryOpExpressionToTs(
 
 function convertBinaryOpExpressionToTs(
   scope: ResourceScope,
-  node: tex.BinaryOpExpression
+  node: tex.BinaryOpExpression,
 ) {
   const left = convertTFExpressionAstToTs(
     scope,
-    tex.getChildWithValue(node, node.meta.lhsExpression)!
+    tex.getChildWithValue(node, node.meta.lhsExpression)!,
   );
   const right = convertTFExpressionAstToTs(
     scope,
-    tex.getChildWithValue(node, node.meta.rhsExpression)!
+    tex.getChildWithValue(node, node.meta.rhsExpression)!,
   );
 
   let fnName = node.meta.operator;
@@ -414,7 +414,7 @@ function convertBinaryOpExpressionToTs(
 
 function convertTemplateExpressionToTs(
   scope: ResourceScope,
-  node: tex.TemplateExpression | tex.TemplateWrapExpression
+  node: tex.TemplateExpression | tex.TemplateWrapExpression,
 ) {
   const parts = node.children.map((child) => ({
     node: child,
@@ -460,7 +460,7 @@ function convertTemplateExpressionToTs(
       expressions.push(
         template.expression(`Token.asString(%%expr%%)`)({
           expr,
-        }) as t.Expression
+        }) as t.Expression,
       );
       continue;
     } else {
@@ -481,7 +481,7 @@ function convertTemplateExpressionToTs(
 
 function convertObjectExpressionToTs(
   scope: ResourceScope,
-  node: tex.ObjectExpression
+  node: tex.ObjectExpression,
 ) {
   return t.objectExpression(
     Object.entries(node.meta.items)
@@ -494,26 +494,26 @@ function convertObjectExpressionToTs(
 
         return t.objectProperty(
           t.identifier(key),
-          convertTFExpressionAstToTs(scope, valueChild)
+          convertTFExpressionAstToTs(scope, valueChild),
         );
       })
-      .filter((s) => s !== null) as t.ObjectProperty[]
+      .filter((s) => s !== null) as t.ObjectProperty[],
   );
 }
 
 function convertFunctionCallExpressionToTs(
   scope: ResourceScope,
-  node: tex.FunctionCallExpression
+  node: tex.FunctionCallExpression,
 ) {
   const functionName = node.meta.name;
   const mapping = functionsMap[functionName];
 
   if (!mapping) {
     logger.error(
-      `Unknown function ${functionName} encountered. ${leaveCommentText}`
+      `Unknown function ${functionName} encountered. ${leaveCommentText}`,
     );
     const argumentExpressions = node.children.map((child) =>
-      convertTFExpressionAstToTs(scope, child)
+      convertTFExpressionAstToTs(scope, child),
     );
 
     return t.callExpression(t.identifier(functionName), argumentExpressions);
@@ -524,7 +524,7 @@ function convertFunctionCallExpressionToTs(
     : node;
 
   const argumentExpressions = transformedNode.children.map((child) =>
-    convertTFExpressionAstToTs(scope, child)
+    convertTFExpressionAstToTs(scope, child),
   );
 
   scope.importables.push({
@@ -534,7 +534,7 @@ function convertFunctionCallExpressionToTs(
 
   const callee = t.memberExpression(
     t.identifier("Fn"),
-    t.identifier(mapping.name)
+    t.identifier(mapping.name),
   );
 
   if (
@@ -545,7 +545,7 @@ function convertFunctionCallExpressionToTs(
       mapping.parameters[mapping.parameters.length - 1].type;
     const nonVariadicArguments = argumentExpressions.slice(
       0,
-      mapping.parameters.length - 1
+      mapping.parameters.length - 1,
     );
 
     const fnCallArguments = [
@@ -554,8 +554,8 @@ function convertFunctionCallExpressionToTs(
           scope,
           argExpr,
           findExpressionType(scope, argExpr),
-          mapping.parameters[index].type
-        )
+          mapping.parameters[index].type,
+        ),
       ),
 
       t.arrayExpression(
@@ -566,9 +566,9 @@ function convertFunctionCallExpressionToTs(
               scope,
               argExpr,
               findExpressionType(scope, argExpr),
-              lastParameterType
-            )
-          )
+              lastParameterType,
+            ),
+          ),
       ),
     ];
 
@@ -582,28 +582,28 @@ function convertFunctionCallExpressionToTs(
         scope,
         argExpr,
         findExpressionType(scope, argExpr),
-        mapping.parameters[index].type
-      )
-    )
+        mapping.parameters[index].type,
+      ),
+    ),
   );
 }
 
 function convertIndexExpressionToTs(
   scope: ResourceScope,
-  node: tex.IndexExpression
+  node: tex.IndexExpression,
 ) {
   const collectionExpressionChild = tex.getChildWithValue(
     node,
-    node.meta.collectionExpression
+    node.meta.collectionExpression,
   );
   const keyExpressionChild = tex.getChildWithValue(
     node,
-    node.meta.keyExpression
+    node.meta.keyExpression,
   );
 
   const collectionExpression = convertTFExpressionAstToTs(
     scope,
-    collectionExpressionChild!
+    collectionExpressionChild!,
   );
   const keyExpression = convertTFExpressionAstToTs(scope, keyExpressionChild!);
 
@@ -613,7 +613,7 @@ function convertIndexExpressionToTs(
   });
   const callee = t.memberExpression(
     t.identifier("Fn"),
-    t.identifier("lookupNested")
+    t.identifier("lookupNested"),
   );
   return t.callExpression(callee, [
     collectionExpression,
@@ -623,21 +623,21 @@ function convertIndexExpressionToTs(
 
 function convertSplatExpressionToTs(
   scope: ResourceScope,
-  node: tex.SplatExpression
+  node: tex.SplatExpression,
 ) {
   const sourceExpressionChild = tex.getChildWithValue(
     node,
-    node.meta.sourceExpression
+    node.meta.sourceExpression,
   )!;
   let sourceExpression = convertTFExpressionAstToTs(
     scope,
-    sourceExpressionChild
+    sourceExpressionChild,
   );
 
   // We don't convert the relative expression because everything after the splat is going to be
   // a string
   let relativeExpression = node.meta.eachExpression.startsWith(
-    node.meta.anonSymbolExpression
+    node.meta.anonSymbolExpression,
   )
     ? node.meta.eachExpression.slice(node.meta.anonSymbolExpression.length)
     : node.meta.eachExpression;
@@ -649,7 +649,7 @@ function convertSplatExpressionToTs(
   });
   const callee = t.memberExpression(
     t.identifier("Fn"),
-    t.identifier("lookupNested")
+    t.identifier("lookupNested"),
   );
 
   return t.callExpression(callee, [
@@ -665,11 +665,11 @@ function convertSplatExpressionToTs(
 
 function convertConditionalExpressionToTs(
   scope: ResourceScope,
-  node: tex.ConditionalExpression
+  node: tex.ConditionalExpression,
 ) {
   const conditionChild = tex.getChildWithValue(
     node,
-    node.meta.conditionExpression
+    node.meta.conditionExpression,
   )!;
   let condition = convertTFExpressionAstToTs(scope, conditionChild);
   if (t.isIdentifier(condition) && canUseFqn(conditionChild)) {
@@ -680,12 +680,12 @@ function convertConditionalExpressionToTs(
 
   const trueExpression = convertTFExpressionAstToTs(
     scope,
-    tex.getChildWithValue(node, node.meta.trueExpression)!
+    tex.getChildWithValue(node, node.meta.trueExpression)!,
   );
 
   const falseExpression = convertTFExpressionAstToTs(
     scope,
-    tex.getChildWithValue(node, node.meta.falseExpression)!
+    tex.getChildWithValue(node, node.meta.falseExpression)!,
   );
 
   scope.importables.push({
@@ -702,10 +702,10 @@ function convertConditionalExpressionToTs(
 
 function convertTupleExpressionToTs(
   scope: ResourceScope,
-  node: tex.TupleExpression
+  node: tex.TupleExpression,
 ) {
   const expressions = node.children.map((child) =>
-    convertTFExpressionAstToTs(scope, child)
+    convertTFExpressionAstToTs(scope, child),
   );
 
   return t.arrayExpression(expressions);
@@ -713,7 +713,7 @@ function convertTupleExpressionToTs(
 
 function convertRelativeTraversalExpressionToTs(
   scope: ResourceScope,
-  node: tex.RelativeTraversalExpression
+  node: tex.RelativeTraversalExpression,
 ) {
   const segments = node.meta.traversal;
 
@@ -721,7 +721,7 @@ function convertRelativeTraversalExpressionToTs(
   // object / resource / data thing that is being referenced
   const source = convertTFExpressionAstToTs(
     scope,
-    tex.getChildWithValue(node, node.meta.sourceExpression)!
+    tex.getChildWithValue(node, node.meta.sourceExpression)!,
   );
 
   scope.importables.push({
@@ -730,7 +730,7 @@ function convertRelativeTraversalExpressionToTs(
   });
   const callee = t.memberExpression(
     t.identifier("Fn"),
-    t.identifier("lookupNested")
+    t.identifier("lookupNested"),
   );
 
   return t.callExpression(callee, [
@@ -741,11 +741,11 @@ function convertRelativeTraversalExpressionToTs(
 
 function convertForExpressionToTs(
   scope: ResourceScope,
-  node: tex.ForExpression
+  node: tex.ForExpression,
 ) {
   const collectionChild = tex.getChildWithValue(
     node,
-    node.meta.collectionExpression
+    node.meta.collectionExpression,
   )!;
 
   let collectionExpression = convertTFExpressionAstToTs(scope, collectionChild);
@@ -755,7 +755,7 @@ function convertForExpressionToTs(
     // reference using fqn
     collectionExpression = t.memberExpression(
       collectionExpression,
-      t.identifier("fqn")
+      t.identifier("fqn"),
     );
   }
 
@@ -794,7 +794,7 @@ function convertForExpressionToTs(
 
 function convertTFExpressionAstToTs(
   scope: ResourceScope,
-  node: tex.ExpressionType
+  node: tex.ExpressionType,
 ): t.Expression {
   if (tex.isLiteralValueExpression(node)) {
     return convertLiteralValueExpressionToTs(scope, node);
@@ -852,7 +852,7 @@ function convertTFExpressionAstToTs(
 }
 
 export async function expressionAst(
-  input: string
+  input: string,
 ): Promise<tex.ExpressionType> {
   const { wrap, wrapOffset } = wrapTerraformExpression(input);
   const ast = await getExpressionAst("main.tf", wrap);
@@ -871,28 +871,28 @@ export async function expressionAst(
 export async function convertTerraformExpressionToTs(
   scope: ResourceScope,
   input: string,
-  targetType: () => AttributeType
+  targetType: () => AttributeType,
 ): Promise<t.Expression> {
   logger.debug(`convertTerraformExpressionToTs(${input})`);
   const tsExpression = convertTFExpressionAstToTs(
     scope,
-    await expressionAst(input)
+    await expressionAst(input),
   );
 
   return coerceType(
     scope,
     tsExpression,
     findExpressionType(scope, tsExpression),
-    targetType()
+    targetType(),
   );
 }
 
 export async function extractIteratorVariablesFromExpression(
-  input: string
+  input: string,
 ): Promise<IteratorVariableReference[]> {
   const possibleVariableSpots = await getReferencesInExpression(
     "main.tf",
-    input
+    input,
   );
 
   return possibleVariableSpots
@@ -908,7 +908,7 @@ export function dynamicVariableToAst(
   scope: ProgramScope,
   node: tex.ScopeTraversalExpression,
   iteratorName: string,
-  block: string = "each"
+  block: string = "each",
 ): t.Expression {
   if (iteratorName === "dynamic-block") {
     return expressionForSerialStringConcatenation(scope, [
@@ -923,14 +923,14 @@ export function dynamicVariableToAst(
   if (node.meta.value === `${block}.value`) {
     return t.memberExpression(
       t.identifier(iteratorName),
-      t.identifier("value")
+      t.identifier("value"),
     );
   }
 
   if (block === "count" && node.meta.value === `${block}.index`) {
     return t.memberExpression(
       t.identifier(iteratorName),
-      t.identifier("index")
+      t.identifier("index"),
     );
   }
 
@@ -948,7 +948,7 @@ export function dynamicVariableToAst(
     });
     const callee = t.memberExpression(
       t.identifier("Fn"),
-      t.identifier("lookupNested")
+      t.identifier("lookupNested"),
     );
     return t.callExpression(callee, [
       t.memberExpression(t.identifier(iteratorName), t.identifier("value")),
@@ -959,12 +959,12 @@ export function dynamicVariableToAst(
           } else {
             return t.stringLiteral(`[${part.segment}]`);
           }
-        })
+        }),
       ),
     ]);
   }
 
   throw new Error(
-    `Can not create AST for iterator variable of '${node.meta.value}'`
+    `Can not create AST for iterator variable of '${node.meta.value}'`,
   );
 }

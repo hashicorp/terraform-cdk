@@ -17,14 +17,14 @@ export type Reference = {
 
 export function traversalToReference(
   traversalExpression: ExpressionAst,
-  localVariables?: string[]
+  localVariables?: string[],
 ): Reference | null {
   const meta = traversalExpression.meta as ScopeTraversalExpressionMeta;
 
   // We do not want to include property access through brackets here
   // although it is technically a traversal / reference
   function onlyTakeTraversalPartsUntilFirstBracketPropertyAccess(
-    traversals: TerraformTraversalPart[]
+    traversals: TerraformTraversalPart[],
   ) {
     let filtered = [];
     let index = 0;
@@ -49,7 +49,7 @@ export function traversalToReference(
   }
 
   const filteredParts = onlyTakeTraversalPartsUntilFirstBracketPropertyAccess(
-    meta.traversal
+    meta.traversal,
   );
 
   if (filteredParts.length === 0) {
@@ -69,19 +69,20 @@ export function traversalToReference(
 export function findAllReferencesInAst(
   input: string,
   entry: ExpressionAst | undefined | null,
-  localVariables?: string[]
+  localVariables?: string[],
 ): Reference[] {
   if (!entry) {
     return [];
   }
 
   switch (entry.type) {
-    case "scopeTraversal":
+    case "scopeTraversal": {
       // For traversals within a for expression,
       // we want to ignore the local variables of the for expression
       const reference = traversalToReference(entry, localVariables);
       if (reference) return [reference];
       return [];
+    }
 
     case "for": {
       const meta = entry.meta as ForExpressionMeta;
@@ -95,12 +96,12 @@ export function findAllReferencesInAst(
         ...findAllReferencesInAst(
           input,
           getChildWithValue(entry, meta.collectionExpression),
-          additionalLocalVariables
+          additionalLocalVariables,
         ),
         ...findAllReferencesInAst(
           input,
           getChildWithValue(entry, meta.conditionalExpression),
-          additionalLocalVariables
+          additionalLocalVariables,
         ),
       ];
     }

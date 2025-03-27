@@ -15,10 +15,10 @@ describe("Templates", () => {
             "..",
             "templates",
             "typescript",
-            "main.ts"
+            "main.ts",
           ),
-          "utf8"
-        )
+          "utf8",
+        ),
       ).toContain(CODE_MARKER);
     });
   });

@@ -40,7 +40,7 @@ describe("extractVariableNameFromPrompt", () => {
     `should extract variable '%s' name from prompt '%s'`,
     (expected, prompt) => {
       expect(extractVariableNameFromPrompt(prompt)).toBe(expected);
-    }
+    },
   );
 });
 
@@ -98,9 +98,12 @@ function mockPty(ptyEvents: string[]): typeof spawnPty {
   };
   return (_config: any, onData: (data: string) => void) => {
     ptyEvents.forEach((event, index) => {
-      setTimeout(() => {
-        onData(event);
-      }, 100 * (index + 1));
+      setTimeout(
+        () => {
+          onData(event);
+        },
+        100 * (index + 1),
+      );
     });
 
     return {
@@ -124,7 +127,7 @@ describe("pty events", () => {
           terraformPtyService(
             context,
             event,
-            mockPty([`Do you want to perform these actions\nEnter a value:`])
+            mockPty([`Do you want to perform these actions\nEnter a value:`]),
           ),
       },
     });
@@ -161,7 +164,7 @@ describe("pty events", () => {
             mockPty([
               `Do you want to per`,
               `form these actions\nEnter a value:`,
-            ])
+            ]),
           ),
       },
     });
@@ -199,7 +202,7 @@ describe("pty events", () => {
           Only 'override' will be accepted to override.
           
           Enter a value:`,
-            ])
+            ]),
           ),
       },
     });
@@ -237,7 +240,7 @@ describe("pty events", () => {
           
           Enter a value:`,
               `discarded using the UI or API\n`,
-            ])
+            ]),
           ),
       },
     });
@@ -249,7 +252,7 @@ describe("pty events", () => {
 
       if (enteredAwaiting && state.matches("exited")) {
         expect(states).toEqual(
-          expect.arrayContaining(["OVERRIDE_REJECTED_EXTERNALLY"])
+          expect.arrayContaining(["OVERRIDE_REJECTED_EXTERNALLY"]),
         );
         done();
       }
@@ -346,7 +349,7 @@ describe("bufferUnterminatedLines", () => {
         in: [`a${EOL}b${EOL}c`, EOL],
         out: [`a${EOL}b${EOL}`, `c${EOL}`],
       },
-    ].map((testCase) => [testCase.description, testCase.in, testCase.out])
+    ].map((testCase) => [testCase.description, testCase.in, testCase.out]),
   )("%s", (_desc, input, output) => {
     const realOutput: string[] = [];
     const handler = (str: string) => realOutput.push(str);

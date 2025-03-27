@@ -47,7 +47,7 @@ export class QueryableStack {
       ] as Record<string, any>[]
     ).reduce(
       (carry, item) => ({ ...carry, ...item }),
-      {} as Record<string, any>
+      {} as Record<string, any>,
     );
 
     return constructs[id];
@@ -70,7 +70,10 @@ export class TestDriver {
   public env: Record<string, string>;
   public workingDirectory: string;
 
-  constructor(public rootDir: string, addToEnv: Record<string, string> = {}) {
+  constructor(
+    public rootDir: string,
+    addToEnv: Record<string, string> = {},
+  ) {
     // Node.js prepends all parent node_modules/.bin directories to the PATH env var
     // which shadows the cdktf CLI we want to test against and set in run-against-dist.sh
     // While the code is the same, we want the CLI to be installed in a temporary directory
@@ -84,14 +87,14 @@ export class TestDriver {
       { CI: 1 },
       process.env,
       { PATH: newPath },
-      addToEnv
+      addToEnv,
     );
   }
 
   public async exec(
     command: string,
     args: string[] = [],
-    cwd?: string
+    cwd?: string,
   ): Promise<{ stdout: string; stderr: string }> {
     try {
       return await new Promise((resolve, reject) => {
@@ -117,7 +120,7 @@ export class TestDriver {
             });
           } else {
             const error = new Error(
-              `spawned command ${command} with args ${args} failed with exit code ${code}`
+              `spawned command ${command} with args ${args} failed with exit code ${code}`,
             );
             (error as any).code = code;
             (error as any).stdout = stripAnsi(stdout.join("\n"));
@@ -183,7 +186,7 @@ export class TestDriver {
   manifest = () => {
     return fs.readFileSync(
       path.join(this.workingDirectory, "cdktf.out", "manifest.json"),
-      "utf8"
+      "utf8",
     );
   };
 
@@ -191,13 +194,13 @@ export class TestDriver {
     if (fs.existsSync(path.join(this.stackDirectory(stackName), "cdk.tf"))) {
       return fs.readFileSync(
         path.join(this.stackDirectory(stackName), "cdk.tf"),
-        "utf-8"
+        "utf-8",
       );
     }
 
     return fs.readFileSync(
       path.join(this.stackDirectory(stackName), "cdk.tf.json"),
-      "utf-8"
+      "utf-8",
     );
   };
 
@@ -206,21 +209,21 @@ export class TestDriver {
       fs.existsSync(path.join(this.stackDirectory(stackName), "metadata.json"))
     ) {
       throw new Error(
-        "Stack uses HCL output which is not supported to be queried via a QueriableStack. Use onlyJson to run your test only against JSON output."
+        "Stack uses HCL output which is not supported to be queried via a QueriableStack. Use onlyJson to run your test only against JSON output.",
       );
     }
 
     return new QueryableStack(
       fs.readFileSync(
         path.join(this.stackDirectory(stackName), "cdk.tf.json"),
-        "utf-8"
-      )
+        "utf-8",
+      ),
     );
   };
 
   init = async (template: string, additionalOptions = "") => {
     await this.exec(
-      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local --enable-crash-reporting=false ${additionalOptions}`
+      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local --enable-crash-reporting=false ${additionalOptions}`,
     );
   };
 
@@ -236,7 +239,7 @@ export class TestDriver {
     return stripAnsi(
       execSyncLogErrors(`cdktf list ${flags ? flags : ""}`, {
         env: this.env,
-      }).toString()
+      }).toString(),
     );
   };
 
@@ -248,15 +251,15 @@ export class TestDriver {
         }`,
         {
           env: this.env,
-        }
-      ).toString()
+        },
+      ).toString(),
     );
   };
 
   deploy = async (
     stackNames?: string[],
     outputsFilePath?: string,
-    otherFlags?: string[]
+    otherFlags?: string[],
   ) => {
     const result = await execa(
       "cdktf",
@@ -267,7 +270,7 @@ export class TestDriver {
         ...(outputsFilePath ? [`--outputs-file=${outputsFilePath}`] : []),
         ...(otherFlags || []),
       ],
-      { env: { ...process.env, ...this.env } } // make sure env is up to date
+      { env: { ...process.env, ...this.env } }, // make sure env is up to date
     );
     return stripAnsi(result.stdout);
   };
@@ -275,7 +278,7 @@ export class TestDriver {
   output = (
     stackName?: string,
     outputsFilePath?: string,
-    includeSensitiveOutputs?: boolean
+    includeSensitiveOutputs?: boolean,
   ) => {
     return stripAnsi(
       execSyncLogErrors(
@@ -286,8 +289,8 @@ export class TestDriver {
             ? `--outputs-file-include-sensitive-outputs=true`
             : ""
         }`,
-        { env: this.env }
-      ).toString()
+        { env: this.env },
+      ).toString(),
     );
   };
 
@@ -299,8 +302,8 @@ export class TestDriver {
         } --auto-approve`,
         {
           env: this.env,
-        }
-      ).toString()
+        },
+      ).toString(),
     );
   };
 
@@ -326,7 +329,7 @@ export class TestDriver {
       baseDirectory || this.workingDirectory,
       "cdktf.out",
       "stacks",
-      stack
+      stack,
     );
     await this.exec("terraform", ["init"], cwd);
     const res = await this.exec("terraform", ["validate"], cwd);
@@ -363,7 +366,7 @@ export class TestDriver {
       {
         stdio: "inherit",
         env: this.env,
-      }
+      },
     );
   };
 
@@ -387,6 +390,7 @@ export class TestDriver {
     this.copyFile("main.go", "main.go");
 
     await this.get();
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     options?.cb && options.cb(this.workingDirectory);
 
     // automatically retrieves required jsii-runtime module (used in generated providers)
@@ -398,8 +402,8 @@ export class TestDriver {
       path.resolve(
         __dirname,
         "..",
-        "packages/@cdktf/cli-core/templates/typescript"
-      )
+        "packages/@cdktf/cli-core/templates/typescript",
+      ),
     );
     try {
       const url = await templateServer.start();
@@ -422,7 +426,7 @@ export class TestDriver {
     this.setEnv("VIRTUAL_ENV", path.join(this.workingDirectory, ".venv"));
     this.setEnv(
       "PATH",
-      `${path.join(this.workingDirectory, ".venv", "bin")}:${process.env.PATH}`
+      `${path.join(this.workingDirectory, ".venv", "bin")}:${process.env.PATH}`,
     );
   };
 
@@ -458,6 +462,6 @@ export const onPosixWithoutHcl = isPosix && !isHcl ? it : it.skip;
 export function sanitizeTimestamps(output: string): string {
   return output.replace(
     /\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}\]/gm,
-    "[<TIMESTAMP>]"
+    "[<TIMESTAMP>]",
   );
 }

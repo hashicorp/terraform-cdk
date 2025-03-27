@@ -74,7 +74,7 @@ test("resource fqn", () => {
   });
 
   expect(JSON.parse(Testing.synth(stack) as any).output.result.value).toEqual(
-    "${test_resource.test}"
+    "${test_resource.test}",
   );
 });
 
@@ -256,13 +256,13 @@ test("using the same reference in two contexts", () => {
   const q = JSON.parse(Testing.synth(stack)).resource.test_resource;
 
   expect(q["plain-function"].name).toBe(
-    "plain:${test_resource.resource.string_value}|inFunction:${lower(test_resource.resource.string_value)}"
+    "plain:${test_resource.resource.string_value}|inFunction:${lower(test_resource.resource.string_value)}",
   );
   expect(q["function-plain"].name).toBe(
-    "inFunction:${lower(test_resource.resource.string_value)}|plain:${test_resource.resource.string_value}"
+    "inFunction:${lower(test_resource.resource.string_value)}|plain:${test_resource.resource.string_value}",
   );
   expect(q["join"].name).toBe(
-    `first:\${join(",", [test_resource.resource.string_value, "this is the ref: \${test_resource.resource.string_value}"])}|second:\${join(",", ["this is the ref: \${test_resource.resource.string_value}", test_resource.resource.string_value])}`
+    `first:\${join(",", [test_resource.resource.string_value, "this is the ref: \${test_resource.resource.string_value}"])}|second:\${join(",", ["this is the ref: \${test_resource.resource.string_value}", test_resource.resource.string_value])}`,
   );
 });
 
@@ -399,14 +399,14 @@ it("moves resource to greater nesting in contained construct", () => {
   const synthedStack = JSON.parse(Testing.synth(stack));
   expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
   expect(synthedStack.moved[0].to).toEqual(
-    "test_resource.construct_nested-construct_simple_2C3755B0"
+    "test_resource.construct_nested-construct_simple_2C3755B0",
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
-    "construct_nested-construct_simple_2C3755B0"
+    "construct_nested-construct_simple_2C3755B0",
   );
   // Must not include old resource being moved from
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "simple"
+    "simple",
   );
 });
 
@@ -437,13 +437,13 @@ it("moves resource to a lesser nesting from contained construct", () => {
 
   const synthedStack = JSON.parse(Testing.synth(stack));
   expect(synthedStack.moved[0].from).toEqual(
-    "test_resource.construct_nested-construct_simple_2C3755B0"
+    "test_resource.construct_nested-construct_simple_2C3755B0",
   );
   expect(synthedStack.moved[0].to).toEqual("test_resource.simple");
   expect(Object.keys(synthedStack.resource.test_resource)).toContain("simple");
   // Must not include old resource being moved from
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "construct_nested-construct_simple_2C3755B0"
+    "construct_nested-construct_simple_2C3755B0",
   );
 });
 
@@ -476,14 +476,14 @@ it("moves resource to be in composition with foreach using list iterator", () =>
   const synthedStack = JSON.parse(Testing.synth(stack));
   expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
   expect(synthedStack.moved[0].to).toEqual(
-    `test_resource.simple-foreach[\"foo-one\"]`
+    `test_resource.simple-foreach[\"foo-one\"]`,
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
-    "simple-foreach"
+    "simple-foreach",
   );
   // Must not include old resource being moved from
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "simple"
+    "simple",
   );
 });
 
@@ -523,14 +523,14 @@ it("moves resource to be in composition with foreach using complex iterator", ()
   const synthedStack = JSON.parse(Testing.synth(stack));
   expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
   expect(synthedStack.moved[0].to).toEqual(
-    `test_resource.simple-foreach[\"simple-foreach-one\"]`
+    `test_resource.simple-foreach[\"simple-foreach-one\"]`,
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
-    "simple-foreach"
+    "simple-foreach",
   );
   // Must not include old resource being moved from
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "simple"
+    "simple",
   );
 });
 
@@ -581,24 +581,24 @@ it("moves multiple resources", () => {
   const synthedStack = JSON.parse(Testing.synth(stack));
   expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
   expect(synthedStack.moved[0].to).toEqual(
-    "test_resource.construct_nested-construct_simple_2C3755B0"
+    "test_resource.construct_nested-construct_simple_2C3755B0",
   );
   expect(synthedStack.moved[1].from).toEqual("test_resource.simple-2");
   expect(synthedStack.moved[1].to).toEqual(
-    "test_resource.construct_nested-construct_simple-2_078CE0AF"
+    "test_resource.construct_nested-construct_simple-2_078CE0AF",
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
-    "construct_nested-construct_simple-2_078CE0AF"
+    "construct_nested-construct_simple-2_078CE0AF",
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
-    "construct_nested-construct_simple_2C3755B0"
+    "construct_nested-construct_simple_2C3755B0",
   );
   // Must not include old resources being moved from
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "simple"
+    "simple",
   );
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "simple-2"
+    "simple-2",
   );
 });
 
@@ -632,14 +632,14 @@ it("moves correctly when target set after call to moveTo", () => {
   const synthedStack = JSON.parse(Testing.synth(stack));
   expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
   expect(synthedStack.moved[0].to).toEqual(
-    "test_resource.construct_nested-construct_simple_2C3755B0"
+    "test_resource.construct_nested-construct_simple_2C3755B0",
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
-    "construct_nested-construct_simple_2C3755B0"
+    "construct_nested-construct_simple_2C3755B0",
   );
   // Must not include old resource being moved from
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "simple"
+    "simple",
   );
 });
 
@@ -674,14 +674,14 @@ it("override logical ID - before move to id", () => {
   const synthedStack = JSON.parse(Testing.synth(stack));
   expect(synthedStack.moved[0].from).toEqual("test_resource.old_logical_id");
   expect(synthedStack.moved[0].to).toEqual(
-    "test_resource.construct_nested-construct_simple_2C3755B0"
+    "test_resource.construct_nested-construct_simple_2C3755B0",
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
-    "construct_nested-construct_simple_2C3755B0"
+    "construct_nested-construct_simple_2C3755B0",
   );
   // Must not include old resource being moved from
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "old_logical_id"
+    "old_logical_id",
   );
 });
 
@@ -709,10 +709,10 @@ it("override logical ID - before move from id", () => {
   expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
   expect(synthedStack.moved[0].to).toEqual("test_resource.old_logical_id");
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
-    "old_logical_id"
+    "old_logical_id",
   );
   // Must not include old resource being moved from
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "simple"
+    "simple",
   );
 });

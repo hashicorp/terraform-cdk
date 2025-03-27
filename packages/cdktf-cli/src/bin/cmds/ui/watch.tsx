@@ -68,7 +68,7 @@ export const Watch = ({
       ac.signal as any,
       (state) => {
         setCurrentState(state);
-      }
+      },
     );
   }, []);
 

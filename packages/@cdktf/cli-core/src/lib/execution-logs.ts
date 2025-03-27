@@ -29,7 +29,7 @@ const lineHasExactMatch = (line: string, tfIdentifier: string) =>
   new RegExp(`\\b${escapeRegexSpecialChars(tfIdentifier)}\\b`).test(line);
 
 export function createEnhanceLogMessage(
-  stack: SynthesizedStack
+  stack: SynthesizedStack,
 ): (message: string) => string | undefined {
   // we never want to throw, if it does not work we just do as if it did not happen
   const pathMapping: Record<TFIdentifier, CDKTFResourcePath> = {};
@@ -51,9 +51,9 @@ export function createEnhanceLogMessage(
                   "//"
                 ].metadata.path.replace(`${stack.name}/`, "");
               }
-            }
+            },
           );
-        }
+        },
       );
     });
   } catch (e) {
@@ -65,7 +65,7 @@ export function createEnhanceLogMessage(
       .split("\n")
       .map((line) => {
         const matchingEntry = Object.entries(pathMapping).find(
-          ([tfIdentifier]) => lineHasExactMatch(line, tfIdentifier)
+          ([tfIdentifier]) => lineHasExactMatch(line, tfIdentifier),
         );
         if (!matchingEntry) {
           return line;

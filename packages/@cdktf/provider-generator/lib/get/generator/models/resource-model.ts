@@ -118,24 +118,24 @@ export class ResourceModel {
     return this.isProvider
       ? "TerraformProvider"
       : this.isDataSource
-      ? "TerraformDataSource"
-      : "TerraformResource";
+        ? "TerraformDataSource"
+        : "TerraformResource";
   }
 
   public get terraformResourceType(): string {
     return this.isProvider
       ? this.terraformProviderName
       : this.isDataSource
-      ? this.terraformType.replace(/^data_/, "")
-      : this.terraformType;
+        ? this.terraformType.replace(/^data_/, "")
+        : this.terraformType;
   }
 
   public get terraformDocName(): string {
     return toSnakeCase(
       this.terraformResourceType.replace(
         new RegExp(`^${this.provider}_`, "i"),
-        ""
-      )
+        "",
+      ),
     );
   }
 

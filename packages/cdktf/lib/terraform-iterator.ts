@@ -106,7 +106,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
    */
   public static fromComplexList(
     list: ComplexListType,
-    mapKeyAttributeName: string
+    mapKeyAttributeName: string,
   ): DynamicListTerraformIterator {
     return new DynamicListTerraformIterator(list, mapKeyAttributeName);
   }
@@ -120,7 +120,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
       | { [key: string]: any }
       | { [key: string]: string }
       | { [key: string]: number }
-      | { [key: string]: boolean }
+      | { [key: string]: boolean },
   ): MapTerraformIterator {
     return new MapTerraformIterator(map);
   }
@@ -130,7 +130,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
    * has been created with the `for_each` argument.
    */
   public static fromResources(
-    resource: ITerraformResource
+    resource: ITerraformResource,
   ): ResourceTerraformIterator {
     return new ResourceTerraformIterator(resource);
   }
@@ -140,7 +140,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
    * has been created with the `for_each` argument.
    */
   public static fromDataSources(
-    resource: ITerraformResource
+    resource: ITerraformResource,
   ): ResourceTerraformIterator {
     return new ResourceTerraformIterator(resource);
   }
@@ -252,7 +252,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
           }
         },
       },
-      { displayHint: "<iterator value>" }
+      { displayHint: "<iterator value>" },
     );
   }
 
@@ -275,7 +275,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
           }
         },
       },
-      { displayHint: "<iterator key>" }
+      { displayHint: "<iterator key>" },
     );
   }
 
@@ -291,7 +291,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
       new TerraformDynamicExpression({
         iterator: this,
         content: attributes,
-      })
+      }),
     );
   }
 
@@ -303,7 +303,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
    */
   public keys(): IResolvable {
     return Token.asAny(
-      forExpression(this._getForEachExpression(), FOR_EXPRESSION_KEY)
+      forExpression(this._getForEachExpression(), FOR_EXPRESSION_KEY),
     );
   }
 
@@ -315,7 +315,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
    */
   public values(): IResolvable {
     return Token.asAny(
-      forExpression(this._getForEachExpression(), FOR_EXPRESSION_VALUE)
+      forExpression(this._getForEachExpression(), FOR_EXPRESSION_VALUE),
     );
   }
 
@@ -329,8 +329,8 @@ export abstract class TerraformIterator implements ITerraformIterator {
     return Token.asAny(
       forExpression(
         this._getForEachExpression(),
-        propertyAccess(FOR_EXPRESSION_VALUE, [property])
-      )
+        propertyAccess(FOR_EXPRESSION_VALUE, [property]),
+      ),
     );
   }
 
@@ -369,14 +369,14 @@ export abstract class TerraformIterator implements ITerraformIterator {
    */
   public forExpressionForMap(
     keyExpression: string | IResolvable,
-    valueExpression: string | IResolvable
+    valueExpression: string | IResolvable,
   ) {
     return Token.asAny(
       forExpression(
         this._getForEachExpression(),
         valueExpression,
-        keyExpression
-      )
+        keyExpression,
+      ),
     );
   }
 }
@@ -485,7 +485,7 @@ export class ResourceTerraformIterator extends TerraformIterator {
 export class DynamicListTerraformIterator extends MapTerraformIterator {
   constructor(
     private readonly list: ListType,
-    private readonly mapKeyAttributeName: string
+    private readonly mapKeyAttributeName: string,
   ) {
     super(list);
   }
@@ -510,12 +510,12 @@ export class DynamicListTerraformIterator extends MapTerraformIterator {
                 FOR_EXPRESSION_VALUE, // valueExpression
                 Fn.lookupNested(FOR_EXPRESSION_VALUE, [
                   this.mapKeyAttributeName,
-                ]) // keyExpression
+                ]), // keyExpression
               );
           }
         },
       },
-      { displayHint: "<iterator value>" }
+      { displayHint: "<iterator value>" },
     );
   }
 }

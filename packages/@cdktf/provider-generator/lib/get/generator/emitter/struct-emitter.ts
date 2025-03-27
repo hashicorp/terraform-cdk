@@ -30,10 +30,10 @@ export class StructEmitter {
     if (att.name === "id") {
       this.code.line(`*`);
       this.code.line(
-        `* Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.`
+        `* Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.`,
       );
       this.code.line(
-        `* If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.`
+        `* If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.`,
       );
     }
   }
@@ -41,7 +41,7 @@ export class StructEmitter {
   public emitInterface(
     resource: ResourceModel,
     struct: Struct,
-    name = struct.name
+    name = struct.name,
   ) {
     if (resource.isProvider) {
       this.code.openBlock(`export interface ${name}`);
@@ -55,13 +55,13 @@ export class StructEmitter {
         comment.line(att.description);
         comment.line(``);
         comment.line(
-          `Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
+          `Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`,
         );
         this.warnAboutIdField(att);
         comment.end();
       } else {
         comment.line(
-          `Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
+          `Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`,
         );
         this.warnAboutIdField(att);
         comment.end();
@@ -123,7 +123,7 @@ export class StructEmitter {
       // associate current structs batch with the file it will be written to
       // to find it in subsequent files for importing
       structs.forEach(
-        (struct) => (structImports[struct.name] = structFilename)
+        (struct) => (structImports[struct.name] = structFilename),
       );
     }
 
@@ -149,7 +149,7 @@ export class StructEmitter {
               (structsToImport[fileToImport] = []);
 
             const attReferences = att.getReferencedTypes(
-              struct instanceof ConfigStruct
+              struct instanceof ConfigStruct,
             );
             if (attReferences) {
               structsToImport[fileToImport].push(...attReferences);
@@ -160,7 +160,7 @@ export class StructEmitter {
 
       const namespacedFilePath = path.join(
         resource.structsFolderPath,
-        structFilename
+        structFilename,
       );
 
       this.code.openFile(namespacedFilePath);
@@ -169,8 +169,8 @@ export class StructEmitter {
       Object.entries(structsToImport).forEach(([fileToImport, structs]) => {
         this.code.line(
           `import { ${[...new Set(structs)].join(
-            ",\n"
-          )} } from './${path.basename(fileToImport, ".ts")}'`
+            ",\n",
+          )} } from './${path.basename(fileToImport, ".ts")}'`,
         );
       });
 
@@ -201,7 +201,7 @@ export class StructEmitter {
 
   private emitClass(struct: Struct) {
     this.code.openBlock(
-      `export class ${struct.outputReferenceName} extends cdktf.ComplexObject`
+      `export class ${struct.outputReferenceName} extends cdktf.ComplexObject`,
     );
 
     this.code.line("private isEmptyObject = false;");
@@ -213,12 +213,12 @@ export class StructEmitter {
     const comment = sanitizedComment(this.code);
     comment.line(`@param terraformResource The parent resource`);
     comment.line(
-      `@param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`,
     );
     if (struct.isSingleItem) {
       comment.end();
       this.code.openBlock(
-        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string)`
+        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string)`,
       );
       this.code.line(`super(terraformResource, terraformAttribute, false, 0);`);
       this.code.closeBlock();
@@ -228,35 +228,35 @@ export class StructEmitter {
     ) {
       comment.end();
       this.code.openBlock(
-        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string)`
+        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string)`,
       );
       this.code.line(`super(terraformResource, terraformAttribute, false);`);
       this.code.closeBlock();
     } else if (struct.nestingMode.startsWith("map")) {
       this.code.line(
-        `* @param complexObjectKey the key of this item in the map`
+        `* @param complexObjectKey the key of this item in the map`,
       );
       comment.end();
       this.code.openBlock(
-        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectKey: string)`
+        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectKey: string)`,
       );
       this.code.line(
-        `super(terraformResource, terraformAttribute, false, complexObjectKey);`
+        `super(terraformResource, terraformAttribute, false, complexObjectKey);`,
       );
       this.code.closeBlock();
     } else {
       comment.line(
-        `@param complexObjectIndex the index of this item in the list`
+        `@param complexObjectIndex the index of this item in the list`,
       );
       comment.line(
-        `@param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+        `@param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`,
       );
       comment.end();
       this.code.openBlock(
-        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean)`
+        `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean)`,
       );
       this.code.line(
-        `super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);`
+        `super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);`,
       );
       this.code.closeBlock();
     }
@@ -270,7 +270,7 @@ export class StructEmitter {
       this.attributesEmitter.emit(
         att,
         this.attributesEmitter.needsResetEscape(att, struct.attributes),
-        this.attributesEmitter.needsInputEscape(att, struct.attributes)
+        this.attributesEmitter.needsInputEscape(att, struct.attributes),
       );
     }
 
@@ -305,12 +305,12 @@ export class StructEmitter {
   private emitComplexListClass(struct: Struct) {
     this.code.line();
     this.code.openBlock(
-      `export class ${struct.listName} extends cdktf.ComplexList`
+      `export class ${struct.listName} extends cdktf.ComplexList`,
     );
 
     if (struct.assignable) {
       this.code.line(
-        `public internalValue? : ${struct.name}[] | cdktf.IResolvable`
+        `public internalValue? : ${struct.name}[] | cdktf.IResolvable`,
       );
     }
 
@@ -318,14 +318,14 @@ export class StructEmitter {
     const constructorComment = sanitizedComment(this.code);
     constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `@param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`,
     );
     constructorComment.line(
-      `@param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+      `@param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`,
     );
     constructorComment.end();
     this.code.openBlock(
-      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`,
     );
     this.code.line(`super(terraformResource, terraformAttribute, wrapsSet)`);
     this.code.closeBlock();
@@ -335,10 +335,10 @@ export class StructEmitter {
     getterComment.line(`@param index the index of the item to return`);
     getterComment.end();
     this.code.openBlock(
-      `public get(index: number): ${struct.outputReferenceName}`
+      `public get(index: number): ${struct.outputReferenceName}`,
     );
     this.code.line(
-      `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);`
+      `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);`,
     );
     this.code.closeBlock();
 
@@ -348,12 +348,12 @@ export class StructEmitter {
   private emitComplexMapClass(struct: Struct) {
     this.code.line();
     this.code.openBlock(
-      `export class ${struct.mapName} extends cdktf.ComplexMap`
+      `export class ${struct.mapName} extends cdktf.ComplexMap`,
     );
 
     if (struct.assignable) {
       this.code.line(
-        `public internalValue? : { [key: string]: ${struct.name} } | cdktf.IResolvable`
+        `public internalValue? : { [key: string]: ${struct.name} } | cdktf.IResolvable`,
       );
     }
 
@@ -361,11 +361,11 @@ export class StructEmitter {
     const constructorComment = sanitizedComment(this.code);
     constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `@param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`,
     );
     constructorComment.end();
     this.code.openBlock(
-      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`,
     );
     this.code.line(`super(terraformResource, terraformAttribute)`);
     this.code.closeBlock();
@@ -375,10 +375,10 @@ export class StructEmitter {
     getterComment.line(`@param key the key of the item to return`);
     getterComment.end();
     this.code.openBlock(
-      `public get(key: string): ${struct.outputReferenceName}`
+      `public get(key: string): ${struct.outputReferenceName}`,
     );
     this.code.line(
-      `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, key);`
+      `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, key);`,
     );
     this.code.closeBlock();
 
@@ -393,12 +393,12 @@ export class StructEmitter {
   private emitComplexMapListClass(struct: Struct) {
     this.code.line();
     this.code.openBlock(
-      `export class ${struct.mapListName} extends cdktf.MapList`
+      `export class ${struct.mapListName} extends cdktf.MapList`,
     );
 
     if (struct.assignable) {
       this.code.line(
-        `public internalValue? : ${struct.mapName}[] | cdktf.IResolvable`
+        `public internalValue? : ${struct.mapName}[] | cdktf.IResolvable`,
       );
     }
 
@@ -406,14 +406,14 @@ export class StructEmitter {
     const constructorComment = sanitizedComment(this.code);
     constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `@param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`,
     );
     constructorComment.line(
-      `@param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+      `@param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`,
     );
     constructorComment.end();
     this.code.openBlock(
-      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`,
     );
     this.code.line(`super(terraformResource, terraformAttribute, wrapsSet)`);
     this.code.closeBlock();
@@ -437,12 +437,12 @@ export class StructEmitter {
   private emitComplexListMapClass(struct: Struct, isSet: boolean) {
     this.code.line();
     this.code.openBlock(
-      `export class ${struct.listMapName} extends cdktf.ComplexMap`
+      `export class ${struct.listMapName} extends cdktf.ComplexMap`,
     );
 
     if (struct.assignable) {
       this.code.line(
-        `public internalValue? : { [key: string]: ${struct.name}[] } | cdktf.IResolvable`
+        `public internalValue? : { [key: string]: ${struct.name}[] } | cdktf.IResolvable`,
       );
     }
 
@@ -450,11 +450,11 @@ export class StructEmitter {
     const constructorComment = sanitizedComment(this.code);
     constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `@param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`,
     );
     constructorComment.end();
     this.code.openBlock(
-      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`,
     );
     this.code.line(`super(terraformResource, terraformAttribute)`);
     this.code.closeBlock();
@@ -465,7 +465,7 @@ export class StructEmitter {
     getterComment.end();
     this.code.openBlock(`public get(key: string): ${struct.listName}`);
     this.code.line(
-      `return new ${struct.listName}(this, \`[\${key}]\`, ${isSet});`
+      `return new ${struct.listName}(this, \`[\${key}]\`, ${isSet});`,
     );
     this.code.closeBlock();
 
@@ -480,12 +480,12 @@ export class StructEmitter {
   private emitComplexListListClass(struct: Struct) {
     this.code.line();
     this.code.openBlock(
-      `export class ${struct.listListName} extends cdktf.MapList` // despite name, need the same behavior
+      `export class ${struct.listListName} extends cdktf.MapList`, // despite name, need the same behavior
     );
 
     if (struct.assignable) {
       this.code.line(
-        `public internalValue? : ${struct.name}[][] | cdktf.IResolvable`
+        `public internalValue? : ${struct.name}[][] | cdktf.IResolvable`,
       );
     }
 
@@ -493,14 +493,14 @@ export class StructEmitter {
     const constructorComment = sanitizedComment(this.code);
     constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `@param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`,
     );
     constructorComment.line(
-      `@param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+      `@param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`,
     );
     constructorComment.end();
     this.code.openBlock(
-      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`,
     );
     this.code.line(`super(terraformResource, terraformAttribute, wrapsSet)`);
     this.code.closeBlock();
@@ -513,7 +513,7 @@ export class StructEmitter {
     this.code.line(
       `return new ${struct.listName}(this, \`[\${index}]\`, ${
         struct.nestingMode === "setlist" || struct.nestingMode === "setset"
-      });`
+      });`,
     );
     this.code.closeBlock();
 
@@ -524,7 +524,7 @@ export class StructEmitter {
     this.code.openBlock(
       `public get internalValue(): ${struct.name}${
         !struct.isClass ? " | cdktf.IResolvable" : ""
-      } | undefined`
+      } | undefined`,
     );
 
     if (!struct.isClass) {
@@ -539,7 +539,7 @@ export class StructEmitter {
       if (att.isStored) {
         if (att.getterType._type === "stored_class") {
           this.code.openBlock(
-            `if (this.${att.storageName}?.internalValue !== undefined)`
+            `if (this.${att.storageName}?.internalValue !== undefined)`,
           );
         } else {
           this.code.openBlock(`if (this.${att.storageName} !== undefined)`);
@@ -547,11 +547,11 @@ export class StructEmitter {
         this.code.line("hasAnyValues = true;");
         if (att.getterType._type === "stored_class") {
           this.code.line(
-            `internalValueResult.${att.name} = this.${att.storageName}?.internalValue;`
+            `internalValueResult.${att.name} = this.${att.storageName}?.internalValue;`,
           );
         } else {
           this.code.line(
-            `internalValueResult.${att.name} = this.${att.storageName};`
+            `internalValueResult.${att.name} = this.${att.storageName};`,
           );
         }
         this.code.closeBlock();
@@ -565,7 +565,7 @@ export class StructEmitter {
     this.code.openBlock(
       `public set internalValue(value: ${struct.name}${
         !struct.isClass ? " | cdktf.IResolvable" : ""
-      } | undefined)`
+      } | undefined)`,
     );
 
     this.code.openBlock("if (value === undefined)");
@@ -598,7 +598,7 @@ export class StructEmitter {
       if (att.isStored) {
         if (att.setterType._type === "stored_class") {
           this.code.line(
-            `this.${att.storageName}.internalValue = value.${att.name};`
+            `this.${att.storageName}.internalValue = value.${att.name};`,
           );
         } else if (att.setterType._type !== "none") {
           this.code.line(`this.${att.storageName} = value.${att.name};`);
@@ -616,14 +616,14 @@ export class StructEmitter {
         struct.isSingleItem && !struct.isProvider
           ? `${struct.name}OutputReference | `
           : ""
-      }${struct.name}${!struct.isClass ? " | cdktf.IResolvable" : ""}): any`
+      }${struct.name}${!struct.isClass ? " | cdktf.IResolvable" : ""}): any`,
     );
     this.code.line(
-      `if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }`
+      `if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }`,
     );
     this.code.openBlock(`if (cdktf.isComplexElement(struct))`);
     this.code.line(
-      `throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");`
+      `throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");`,
     );
     this.code.closeBlock();
 
@@ -639,7 +639,7 @@ export class StructEmitter {
       this.code.line();
       this.code.line(`// remove undefined attributes`);
       this.code.line(
-        `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));`
+        `return Object.fromEntries(Object.entries(attrs).filter(([_, value]) => value !== undefined && value.value !== undefined));`,
       );
     } else {
       this.code.line(`return attrs;`);
@@ -656,14 +656,14 @@ export class StructEmitter {
         struct.isSingleItem && !struct.isProvider
           ? `${struct.name}OutputReference | `
           : ""
-      }${struct.name}${!struct.isClass ? " | cdktf.IResolvable" : ""}): any`
+      }${struct.name}${!struct.isClass ? " | cdktf.IResolvable" : ""}): any`,
     );
     this.code.line(
-      `if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }`
+      `if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }`,
     );
     this.code.openBlock(`if (cdktf.isComplexElement(struct))`);
     this.code.line(
-      `throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");`
+      `throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");`,
     );
     this.code.closeBlock();
 

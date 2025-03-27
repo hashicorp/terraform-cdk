@@ -48,18 +48,21 @@ export class ProviderConstraint {
   // TODO: add examples to cli command description (i.e. =,~>.> etc.)
   // if no version constraint is specified, we assume the latest version
   // if specific version is specified without e.g. =, we allow patch level increments (e.g. ~>2.12 for "2.12")
-  constructor(source: string, public readonly version: string | undefined) {
+  constructor(
+    source: string,
+    public readonly version: string | undefined,
+  ) {
     this.source = normalizeProviderSource(source);
   }
 
   static fromConfigEntry(
-    provider: string | TerraformDependencyConstraint
+    provider: string | TerraformDependencyConstraint,
   ): ProviderConstraint {
     if (typeof provider === "string") {
       const [src, version] = provider.split("@");
       return new ProviderConstraint(
         src.trim(),
-        version ? version.trim() : undefined
+        version ? version.trim() : undefined,
       );
     }
 
@@ -135,16 +138,16 @@ export class DependencyManager {
   constructor(
     private readonly targetLanguage: Language,
     private cdktfVersion: string,
-    private readonly projectDirectory: string
+    private readonly projectDirectory: string,
   ) {
     this.packageManager = PackageManager.forLanguage(
       targetLanguage,
-      this.projectDirectory
+      this.projectDirectory,
     );
   }
 
   async addProvider(
-    constraint: ProviderConstraint
+    constraint: ProviderConstraint,
   ): Promise<{ addedLocalProvider: boolean }> {
     if (await this.hasPrebuiltProvider(constraint)) {
       await this.addPrebuiltProvider(constraint);
@@ -169,7 +172,7 @@ export class DependencyManager {
     }
 
     throw Errors.Usage(
-      `Trying to upgrade ${constraint.simplifiedName} but it is not installed, please use "cdktf provider add ${constraint.simplifiedName}" to add it.`
+      `Trying to upgrade ${constraint.simplifiedName} but it is not installed, please use "cdktf provider add ${constraint.simplifiedName}" to add it.`,
     );
   }
 
@@ -180,7 +183,7 @@ export class DependencyManager {
     if (!packageName) return; // not available as pre-built provider, so can't be installed as such
 
     logger.debug(
-      `Expecting package ${packageName} to be installed if provider is installed as pre-built one`
+      `Expecting package ${packageName} to be installed if provider is installed as pre-built one`,
     );
 
     let installedPackages;
@@ -191,7 +194,7 @@ export class DependencyManager {
     }
 
     logger.debug(
-      `Installed packages found: ${JSON.stringify(installedPackages, null, 2)}`
+      `Installed packages found: ${JSON.stringify(installedPackages, null, 2)}`,
     );
 
     return installedPackages.find((pkg) => pkg.name === packageName)?.version;
@@ -199,10 +202,10 @@ export class DependencyManager {
 
   async upgradePrebuiltProvider(
     constraint: ProviderConstraint,
-    currentVersion: string
+    currentVersion: string,
   ) {
     logger.debug(
-      `Searching for latest matching version of ${constraint.simplifiedName}`
+      `Searching for latest matching version of ${constraint.simplifiedName}`,
     );
 
     const packageName = await this.getPackageName(constraint);
@@ -213,14 +216,14 @@ export class DependencyManager {
       await this.packageManager.addPackage(packageName, packageVersion);
     } else {
       console.log(
-        `The latest version of ${packageName} is already installed: ${packageVersion}`
+        `The latest version of ${packageName} is already installed: ${packageVersion}`,
       );
     }
   }
 
   async hasPrebuiltProvider(constraint: ProviderConstraint): Promise<boolean> {
     logger.debug(
-      `determining whether pre-built provider exists for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`
+      `determining whether pre-built provider exists for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`,
     );
 
     logger.info(`Checking whether pre-built provider exists for the following constraints:
@@ -235,7 +238,7 @@ export class DependencyManager {
       semver.lt(this.cdktfVersion, "0.12.0")
     ) {
       logger.info(
-        `Before CDKTF 0.12.0 there were no pre-built providers published for Go.`
+        `Before CDKTF 0.12.0 there were no pre-built providers published for Go.`,
       );
       return false;
     }
@@ -247,7 +250,7 @@ export class DependencyManager {
       logger.info(`Found pre-built provider.`);
     } else {
       logger.info(
-        `Pre-built provider does not exist for the given constraints.`
+        `Pre-built provider does not exist for the given constraints.`,
       );
     }
 
@@ -255,26 +258,25 @@ export class DependencyManager {
   }
 
   private async tryGetPackageName(
-    constraint: ProviderConstraint
+    constraint: ProviderConstraint,
   ): Promise<string | undefined> {
     const npmPackageName = await getNpmPackageName(constraint);
 
     if (!npmPackageName) return;
 
-    const prebuiltProviderRepository = await getPrebuiltProviderRepositoryName(
-      npmPackageName
-    );
+    const prebuiltProviderRepository =
+      await getPrebuiltProviderRepositoryName(npmPackageName);
 
     return this.convertPackageName(npmPackageName, prebuiltProviderRepository);
   }
 
   private async getPackageName(
-    constraint: ProviderConstraint
+    constraint: ProviderConstraint,
   ): Promise<string> {
     const packageName = await this.tryGetPackageName(constraint);
     if (!packageName) {
       throw Errors.Usage(
-        `Could not find pre-built provider for ${constraint.source}`
+        `Could not find pre-built provider for ${constraint.source}`,
       );
     }
     return packageName;
@@ -285,22 +287,22 @@ export class DependencyManager {
 
     const prebuiltProviderNpmVersions = await getPrebuiltProviderVersions(
       constraint,
-      this.cdktfVersion
+      this.cdktfVersion,
     );
     if (!prebuiltProviderNpmVersions) {
       throw Errors.Usage(
-        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`
+        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`,
       );
     }
 
     const packageVersion = await this.getLanguageSpecificPackageVersion(
       packageName,
-      prebuiltProviderNpmVersions
+      prebuiltProviderNpmVersions,
     );
 
     if (!packageVersion) {
       throw Errors.Usage(
-        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion} for language ${this.targetLanguage}.`
+        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion} for language ${this.targetLanguage}.`,
       );
     }
 
@@ -309,7 +311,7 @@ export class DependencyManager {
 
   async addPrebuiltProvider(constraint: ProviderConstraint, silent = false) {
     logger.debug(
-      `adding pre-built provider ${constraint.source} with version constraint ${constraint.version} for cdktf version ${this.cdktfVersion}`
+      `adding pre-built provider ${constraint.source} with version constraint ${constraint.version} for cdktf version ${this.cdktfVersion}`,
     );
 
     const packageName = await this.getPackageName(constraint);
@@ -324,28 +326,28 @@ export class DependencyManager {
   // In that case we use the latest version that was published successfully and works with the current cdktf release
   private async getLanguageSpecificPackageVersion(
     packageName: string,
-    prebuiltProviderNpmVersions: string[]
+    prebuiltProviderNpmVersions: string[],
   ) {
     logger.debug(
       "Found possibly matching versions (released on npm): ",
-      prebuiltProviderNpmVersions
+      prebuiltProviderNpmVersions,
     );
     logger.debug(
-      "Searching through package manager to find latest available version for given language"
+      "Searching through package manager to find latest available version for given language",
     );
 
     for (const version of prebuiltProviderNpmVersions) {
       try {
         const isAvailable = await this.packageManager.isNpmVersionAvailable(
           packageName,
-          version
+          version,
         );
         if (isAvailable) {
           return version;
         }
       } catch (err) {
         logger.info(
-          `Could not find version ${version} for package ${packageName}: '${err}'. Skipping...`
+          `Could not find version ${version} for package ${packageName}: '${err}'. Skipping...`,
         );
       }
     }
@@ -354,7 +356,7 @@ export class DependencyManager {
 
   async addLocalProvider(constraint: ProviderConstraint) {
     logger.info(
-      `Adding local provider ${constraint.source} with version constraint ${constraint.version} to cdktf.json`
+      `Adding local provider ${constraint.source} with version constraint ${constraint.version} to cdktf.json`,
     );
 
     if (!constraint.version && constraint.isFromTerraformRegistry()) {
@@ -363,11 +365,11 @@ export class DependencyManager {
         constraint = new ProviderConstraint(
           constraint.source,
           // "1.3.2" -> "~> 1.3"
-          `~> ${v.split(".").slice(0, 2).join(".")}`
+          `~> ${v.split(".").slice(0, 2).join(".")}`,
         );
       } else {
         throw Errors.Usage(
-          `Could not find a version for the provider '${constraint}' in the public registry. This could be due to a typo, please take a look at https://cdk.tf/registry-providers to find all supported providers.`
+          `Could not find a version for the provider '${constraint}' in the public registry. This could be due to a typo, please take a look at https://cdk.tf/registry-providers to find all supported providers.`,
         );
       }
     }
@@ -397,7 +399,7 @@ export class DependencyManager {
         return `cdktf-cdktf-provider-${providerName}`;
       default:
         throw new Error(
-          `converting package name for language ${this.targetLanguage} not implemented yet`
+          `converting package name for language ${this.targetLanguage} not implemented yet`,
         );
     }
   }
@@ -439,7 +441,7 @@ export class DependencyManager {
         return npmPackagePrefix + match[1];
       default:
         throw new Error(
-          `converting package name for language ${this.targetLanguage} not implemented yet`
+          `converting package name for language ${this.targetLanguage} not implemented yet`,
         );
     }
   }
@@ -455,19 +457,19 @@ export class DependencyManager {
     const prebuiltProvidersInfo = await Promise.all(
       prebuiltProviderConfigs.map(async (prebuiltProviderConfig) => {
         const packageName = this.convertFromPackageNameToNpm(
-          prebuiltProviderConfig.name
+          prebuiltProviderConfig.name,
         );
 
         const providerInformation = await getPrebuiltProviderVersionInformation(
           packageName,
-          prebuiltProviderConfig.version
+          prebuiltProviderConfig.version,
         );
 
         return {
           ...providerInformation,
           packageName: prebuiltProviderConfig.name,
         };
-      })
+      }),
     );
 
     const constraints = new LocalProviderConstraints();
@@ -477,10 +479,10 @@ export class DependencyManager {
         const constraint =
           ProviderConstraint.fromConfigEntry(localProviderConfig);
         const version = await localVersions.versionForProvider(
-          constraint.simplifiedName
+          constraint.simplifiedName,
         );
         const constraintValue = await constraints.constraintForProvider(
-          constraint.simplifiedName
+          constraint.simplifiedName,
         );
 
         return {
@@ -488,7 +490,7 @@ export class DependencyManager {
           providerConstraint: constraintValue || constraint.version,
           providerVersion: version,
         };
-      })
+      }),
     );
 
     return {

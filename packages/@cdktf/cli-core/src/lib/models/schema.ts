@@ -56,7 +56,7 @@ const outputs = baseMessage.extend({
       sensitive: z.boolean(),
       type: z.string(),
       value: z.string(),
-    })
+    }),
   ),
 });
 

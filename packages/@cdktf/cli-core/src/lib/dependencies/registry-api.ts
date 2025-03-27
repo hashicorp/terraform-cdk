@@ -16,7 +16,7 @@ type VersionsReturnType = {
 };
 
 async function fetchVersions(
-  constraint: ProviderConstraint
+  constraint: ProviderConstraint,
 ): Promise<VersionsReturnType["versions"] | null> {
   const proxy = process.env.http_proxy || process.env.HTTP_PROXY;
   let agent;
@@ -47,7 +47,7 @@ async function fetchVersions(
  * returns null, if the provider does not exist
  */
 export async function getLatestVersion(
-  constraint: ProviderConstraint
+  constraint: ProviderConstraint,
 ): Promise<string | null> {
   const versions = await fetchVersions(constraint);
   if (!versions) {

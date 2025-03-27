@@ -22,6 +22,7 @@ import { ref, dependable } from "./tfExpression";
 import { IInterpolatingParent } from "./terraform-addressable";
 import { ITerraformIterator } from "./terraform-iterator";
 import { TerraformCount } from "./terraform-count";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import assert = require("assert");
 
 const TERRAFORM_DATA_SOURCE_SYMBOL = Symbol.for("cdktf/TerraformDataSource");
@@ -50,7 +51,7 @@ export class TerraformDataSource
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     if (Array.isArray(config.dependsOn)) {
       this.dependsOn = config.dependsOn.map((dependency) =>
-        dependable(dependency)
+        dependable(dependency),
       );
     }
     this.count = config.count;
@@ -83,25 +84,25 @@ export class TerraformDataSource
 
   public getNumberListAttribute(terraformAttribute: string) {
     return Token.asNumberList(
-      this.interpolationForAttribute(terraformAttribute)
+      this.interpolationForAttribute(terraformAttribute),
     );
   }
 
   public getStringMapAttribute(terraformAttribute: string) {
     return Token.asStringMap(
-      this.interpolationForAttribute(terraformAttribute)
+      this.interpolationForAttribute(terraformAttribute),
     );
   }
 
   public getNumberMapAttribute(terraformAttribute: string) {
     return Token.asNumberMap(
-      this.interpolationForAttribute(terraformAttribute)
+      this.interpolationForAttribute(terraformAttribute),
     );
   }
 
   public getBooleanMapAttribute(terraformAttribute: string) {
     return Token.asBooleanMap(
-      this.interpolationForAttribute(terraformAttribute)
+      this.interpolationForAttribute(terraformAttribute),
     );
   }
 
@@ -112,7 +113,7 @@ export class TerraformDataSource
   public get terraformMetaArguments(): { [name: string]: any } {
     assert(
       !this.forEach || typeof this.count === "undefined",
-      `forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the data source at path: ${this.node.path}`
+      `forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the data source at path: ${this.node.path}`,
     );
 
     return {
@@ -142,7 +143,7 @@ export class TerraformDataSource
     const attributes = deepMerge(
       processDynamicAttributesForHcl(this.synthesizeHclAttributes()),
       keysToSnakeCase(this.terraformMetaArguments),
-      this.rawOverrides
+      this.rawOverrides,
     );
 
     attributes["//"] = this.constructNodeMetadata;
@@ -163,7 +164,7 @@ export class TerraformDataSource
     const attributes = deepMerge(
       processDynamicAttributes(this.synthesizeAttributes()),
       keysToSnakeCase(this.terraformMetaArguments),
-      this.rawOverrides
+      this.rawOverrides,
     );
 
     attributes["//"] = this.constructNodeMetadata;
@@ -193,7 +194,7 @@ export class TerraformDataSource
       `data.${this.terraformResourceType}.${this.friendlyUniqueId}${
         this.forEach ? ".*" : ""
       }.${terraformAttribute}`,
-      this.cdktfStack
+      this.cdktfStack,
     );
   }
 }

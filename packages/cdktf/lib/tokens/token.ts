@@ -57,7 +57,7 @@ export class Token {
 
     return TokenMap.instance().registerString(
       Token.asAny(value),
-      options.displayHint
+      options.displayHint,
     );
   }
 
@@ -80,7 +80,7 @@ export class Token {
     }
     return TokenMap.instance().registerList(
       Token.asAny(value),
-      options.displayHint
+      options.displayHint,
     );
   }
 
@@ -100,13 +100,13 @@ export class Token {
   public static asMap(
     value: any,
     mapValue: any,
-    options: EncodingOptions = {}
+    options: EncodingOptions = {},
   ): { [key: string]: any } {
     // since the return value is basically an object, just encode always
     return TokenMap.instance().registerMap(
       Token.asAny(value),
       mapValue,
-      options.displayHint
+      options.displayHint,
     );
   }
 
@@ -120,7 +120,7 @@ export class Token {
    */
   public static asStringMap(
     value: any,
-    options: EncodingOptions = {}
+    options: EncodingOptions = {},
   ): { [key: string]: string } {
     return this.asMap(value, Token.STRING_MAP_TOKEN_VALUE, options);
   }
@@ -135,7 +135,7 @@ export class Token {
    */
   public static asNumberMap(
     value: any,
-    options: EncodingOptions = {}
+    options: EncodingOptions = {},
   ): { [key: string]: number } {
     return this.asMap(value, Token.NUMBER_MAP_TOKEN_VALUE, options);
   }
@@ -145,7 +145,7 @@ export class Token {
    */
   public static asBooleanMap(
     value: any,
-    options: EncodingOptions = {}
+    options: EncodingOptions = {},
   ): { [key: string]: boolean } {
     return this.asMap(value, true, options);
   }
@@ -160,7 +160,7 @@ export class Token {
    */
   public static asAnyMap(
     value: any,
-    options: EncodingOptions = {}
+    options: EncodingOptions = {},
   ): { [key: string]: any } {
     return this.asMap(value, Token.ANY_MAP_TOKEN_VALUE, options);
   }

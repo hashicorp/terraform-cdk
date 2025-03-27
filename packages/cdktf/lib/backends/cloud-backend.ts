@@ -27,14 +27,17 @@ export function getHostNameType(hostname?: string): "tfc" | "tfe" {
  * When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
  */
 export class CloudBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: CloudBackendConfig) {
+  constructor(
+    scope: Construct,
+    private readonly props: CloudBackendConfig,
+  ) {
     super(scope, "backend", "cloud");
 
     this.node.addValidation(
       new ValidateTerraformVersion(
         ">=1.1",
-        `The cloud block is only supported for Terraform >=1.1. Please upgrade your Terraform version.`
-      )
+        `The cloud block is only supported for Terraform >=1.1. Please upgrade your Terraform version.`,
+      ),
     );
   }
 
@@ -84,7 +87,7 @@ export class CloudBackend extends TerraformBackend {
   public getRemoteStateDataSource(
     scope: Construct,
     name: string,
-    _fromStack: string
+    _fromStack: string,
   ): TerraformRemoteState {
     // The cloud "backend" does not have a coresponding remote state data source since it's meant to also
     // work with multiple workspaces through tags.
@@ -148,7 +151,10 @@ export abstract class CloudWorkspace {
  * You will only be able to use the workspace specified in the configuration with this working directory, and cannot manage workspaces from the CLI (e.g. terraform workspace select or terraform workspace new).
  */
 export class NamedCloudWorkspace extends CloudWorkspace {
-  public constructor(public name: string, public project?: string) {
+  public constructor(
+    public name: string,
+    public project?: string,
+  ) {
     super();
   }
 
@@ -174,7 +180,10 @@ export class NamedCloudWorkspace extends CloudWorkspace {
  *  A set of Terraform Cloud workspace tags. You will be able to use this working directory with any workspaces that have all of the specified tags, and can use the terraform workspace commands to switch between them or create new workspaces. New workspaces will automatically have the specified tags. This option conflicts with name.
  */
 export class TaggedCloudWorkspaces extends CloudWorkspace {
-  public constructor(public tags: string[], public project?: string) {
+  public constructor(
+    public tags: string[],
+    public project?: string,
+  ) {
     super();
   }
 

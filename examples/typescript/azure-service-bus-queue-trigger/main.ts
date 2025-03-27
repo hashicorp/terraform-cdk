@@ -14,7 +14,7 @@ import { Construct } from "constructs";
 
 const uid = () => {
   return "xxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
+    const r = (Math.random() * 16) | 0,
       v = c == "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
@@ -46,7 +46,7 @@ class MyStack extends TerraformStack {
         location,
         resourceGroupName: rg.name,
         applicationType: "Node.JS",
-      }
+      },
     );
 
     // Creates the Service Bus Namespace
@@ -73,7 +73,7 @@ class MyStack extends TerraformStack {
         listen: true,
         send: false,
         manage: false,
-      }
+      },
     );
 
     // Creates the App Service Plan
@@ -90,7 +90,7 @@ class MyStack extends TerraformStack {
         },
         kind: "Linux",
         reserved: true,
-      }
+      },
     );
 
     // Creates the Storage Account
@@ -120,7 +120,7 @@ class MyStack extends TerraformStack {
         ServiceBusConnectionString: Fn.replace(
           serviceBusAuthorizationRule.primaryConnectionString,
           "/;EntityPath.*/",
-          ""
+          "",
         ),
       },
     });

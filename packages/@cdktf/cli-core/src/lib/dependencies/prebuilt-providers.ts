@@ -47,7 +47,7 @@ async function fetchWrapped<T>(url: string): Promise<T> {
   } catch (e) {
     // Fetch only fails here because of connectivity issues
     logger.error(
-      "Unable to request pre-built provider information: Network error, please check if you're connected to the internet and try again"
+      "Unable to request pre-built provider information: Network error, please check if you're connected to the internet and try again",
     );
 
     throw new Error("Connection error");
@@ -56,7 +56,7 @@ async function fetchWrapped<T>(url: string): Promise<T> {
   if (!response.ok) {
     if (response.status >= 500) {
       throw new Error(
-        "Unexpected error while finding pre-built provider. Please try again."
+        "Unexpected error while finding pre-built provider. Please try again.",
       );
     }
     if (response.status === 404) {
@@ -66,11 +66,11 @@ async function fetchWrapped<T>(url: string): Promise<T> {
       const responseText = await response.text();
       // This means that we're sending a bad request. We should record this in sentry too.
       logger.error(
-        `Received ${response.status} response from ${url}: ${responseText}`
+        `Received ${response.status} response from ${url}: ${responseText}`,
       );
 
       throw new Error(
-        "Unexpected error while finding pre-built provider. Please try again."
+        "Unexpected error while finding pre-built provider. Please try again.",
       );
     }
   }
@@ -83,14 +83,14 @@ export async function getAllPrebuiltProviders() {
 }
 
 export async function getNpmPackageName(
-  constraint: ProviderConstraint
+  constraint: ProviderConstraint,
 ): Promise<string | undefined> {
   const providers = await getAllPrebuiltProviders();
 
   const entry = Object.entries(providers).find(
     ([, p]) =>
       ProviderConstraint.fromConfigEntry(p).source.toLowerCase() ===
-      constraint.source.toLowerCase()
+      constraint.source.toLowerCase(),
   );
   if (!entry) {
     return undefined; // no pre-built provider found for this constraint
@@ -159,7 +159,7 @@ type PrebuiltProviderVersion = {
 };
 
 export async function getPrebuiltProviderRepositoryName(
-  packageName: string
+  packageName: string,
 ): Promise<string> {
   const url = `https://registry.npmjs.org/${packageName}`;
   const result = await cachedFetch<NpmPackageResult>(url);
@@ -177,7 +177,7 @@ export async function getPrebuiltProviderRepositoryName(
 }
 
 export async function getAllPrebuiltProviderVersions(
-  packageName: string
+  packageName: string,
 ): Promise<PrebuiltProviderVersion[]> {
   const url = `https://registry.npmjs.org/${packageName}`;
   const result = await cachedFetch<NpmPackageResult>(url);
@@ -187,7 +187,7 @@ export async function getAllPrebuiltProviderVersions(
       const provider = packageJson.cdktf?.provider;
       if (!provider || !packageJson.peerDependencies?.cdktf) {
         logger.trace(
-          `skipping version ${version} of ${packageName} as it does not have a cdktf.provider or peerDependencies.cdktf in package.json`
+          `skipping version ${version} of ${packageName} as it does not have a cdktf.provider or peerDependencies.cdktf in package.json`,
         );
         return undefined;
       }
@@ -216,14 +216,14 @@ export async function getAllPrebuiltProviderVersions(
 
 function cdktfVersionMatches(
   cdktfVersion: string,
-  cdktfPeerDependencyConstraint: string
+  cdktfPeerDependencyConstraint: string,
 ): boolean {
   return semver.satisfies(cdktfVersion, cdktfPeerDependencyConstraint);
 }
 
 export async function getPrebuiltProviderVersions(
   constraint: ProviderConstraint,
-  cdktfVersion: string
+  cdktfVersion: string,
 ): Promise<string[] | null> {
   const providerName = await getNpmPackageName(constraint); // TODO: add lots of debug logs to this call
 
@@ -234,7 +234,7 @@ export async function getPrebuiltProviderVersions(
 
   const versions = await getAllPrebuiltProviderVersions(providerName);
   logger.debug(
-    `Found versions for ${providerName}: ${JSON.stringify(versions, null, 2)}`
+    `Found versions for ${providerName}: ${JSON.stringify(versions, null, 2)}`,
   );
 
   // find first the version that matches the requested provider version and cdktf version
@@ -260,7 +260,7 @@ export async function getPrebuiltProviderVersions(
 
 export async function getPrebuiltProviderVersionInformation(
   packageName: string,
-  packageVersion: string
+  packageVersion: string,
 ): Promise<any> {
   // Go packages include an extra `vX.Y.Z`
   if (packageVersion.startsWith("v")) {

@@ -21,7 +21,7 @@ describe("modules with relative paths", () => {
     // copy modules
     fs.copySync(
       path.join(__dirname, "terraform-modules"),
-      path.join(driver.workingDirectory, "terraform-modules")
+      path.join(driver.workingDirectory, "terraform-modules"),
     );
 
     console.log("working directory", driver.workingDirectory);
@@ -35,7 +35,7 @@ describe("modules with relative paths", () => {
     await driver.synth();
     await driver.validate(
       "modules-relative-paths",
-      path.join(driver.workingDirectory, "cdktf-project")
+      path.join(driver.workingDirectory, "cdktf-project"),
     );
   }, 120_000);
 });

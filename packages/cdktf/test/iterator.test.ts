@@ -28,11 +28,11 @@ test("iterator inline list", () => {
 
   expect(synth).toHaveProperty(
     "resource.test_resource.test.for_each",
-    '${toset(["a", "b", "c"])}'
+    '${toset(["a", "b", "c"])}',
   );
   expect(synth).toHaveProperty(
     "resource.test_resource.test.name",
-    "${each.value}"
+    "${each.value}",
   );
 });
 
@@ -53,11 +53,11 @@ test("iterator list attribute", () => {
 
   expect(synth).toHaveProperty(
     "resource.test_resource.test.for_each",
-    "${toset(test_resource.input.list_value)}"
+    "${toset(test_resource.input.list_value)}",
   );
   expect(synth).toHaveProperty(
     "resource.test_resource.test.name",
-    "${each.value}"
+    "${each.value}",
   );
 });
 
@@ -82,7 +82,7 @@ test("iterator inline map", () => {
   });
   expect(synth).toHaveProperty(
     "resource.test_resource.test.name",
-    "${each.value}"
+    "${each.value}",
   );
   expect(synth).toHaveProperty("resource.test_resource.test.tags", {
     resource_map_key: "${each.key}",
@@ -107,11 +107,11 @@ test("iterator map attribute", () => {
 
   expect(synth).toHaveProperty(
     "resource.test_resource.test.for_each",
-    "${test_resource.input.string_map}"
+    "${test_resource.input.string_map}",
   );
   expect(synth).toHaveProperty(
     "resource.test_resource.test.name",
-    "${each.value}"
+    "${each.value}",
   );
   expect(synth).toHaveProperty("resource.test_resource.test.tags", {
     resource_map_key: "${each.key}",
@@ -137,7 +137,7 @@ test("iterator access nested types", () => {
       map: Fn.lookup(it.getMap("map"), "a", "default"),
       number: Fn.tostring(it.getNumber("number_attribute")),
       number_list: Fn.tostring(
-        Fn.sum(it.getNumberList("number_list_attribute"))
+        Fn.sum(it.getNumberList("number_list_attribute")),
       ),
       number_map: Fn.lookup(it.getNumberMap("map"), "a", 1),
       string: it.getString("string_attribute"),
@@ -149,7 +149,7 @@ test("iterator access nested types", () => {
 
   expect(synth).toHaveProperty(
     "resource.test_resource.test.for_each",
-    "${toset(test_resource.input.list_value)}"
+    "${toset(test_resource.input.list_value)}",
   );
   expect(synth.resource.test_resource.test.tags).toMatchInlineSnapshot(`
     {
@@ -180,11 +180,11 @@ test("iterator on a data source", () => {
 
   expect(synth).toHaveProperty(
     "data.test_data_source.test.for_each",
-    '${toset(["a", "b", "c"])}'
+    '${toset(["a", "b", "c"])}',
   );
   expect(synth).toHaveProperty(
     "data.test_data_source.test.name",
-    "${each.value}"
+    "${each.value}",
   );
 });
 
@@ -206,7 +206,7 @@ test("iterator on a module", () => {
 
   expect(synth).toHaveProperty(
     "module.test.for_each",
-    '${toset(["a", "b", "c"])}'
+    '${toset(["a", "b", "c"])}',
   );
   expect(synth).toHaveProperty("module.test.param1", "${each.value}");
 });
@@ -224,7 +224,7 @@ test("iterator throws if both count and forEach are set on resources", () => {
   });
 
   expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(
-    `"forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the resource at path: test/resource"`
+    `"forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the resource at path: test/resource"`,
   );
 });
 
@@ -241,7 +241,7 @@ test("iterator throws if both count and forEach are set on data sources", () => 
   });
 
   expect(() => Testing.synth(stack)).toThrowErrorMatchingInlineSnapshot(
-    `"forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the data source at path: test/data"`
+    `"forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the data source at path: test/data"`,
   );
 });
 
@@ -267,15 +267,15 @@ test("iterator across stacks", () => {
 
   expect(targetSynth).toHaveProperty(
     "resource.test_resource.test.for_each",
-    "${toset(data.terraform_remote_state.cross-stack-reference-input-source.outputs.cross-stack-output-test_resourceinputlist_value)}"
+    "${toset(data.terraform_remote_state.cross-stack-reference-input-source.outputs.cross-stack-output-test_resourceinputlist_value)}",
   );
   expect(targetSynth).toHaveProperty(
     "resource.test_resource.test.name",
-    "${each.value}"
+    "${each.value}",
   );
   expect(sourceSynth).toHaveProperty(
     "output.cross-stack-output-test_resourceinputlist_value.value",
-    "${test_resource.input.list_value}"
+    "${test_resource.input.list_value}",
   );
 });
 
@@ -300,21 +300,21 @@ test("iterator chaining on resources", () => {
 
   expect(synth).toHaveProperty(
     "resource.test_resource.test.for_each",
-    "${toset(test_resource.input.list_value)}"
+    "${toset(test_resource.input.list_value)}",
   );
   expect(synth).toHaveProperty(
     "resource.test_resource.test.name",
-    "${each.value}"
+    "${each.value}",
   );
 
   // Chained properties
   expect(synth).toHaveProperty(
     "resource.test_resource.chained.for_each",
-    "${toset(test_resource.test.*.list_value)}"
+    "${toset(test_resource.test.*.list_value)}",
   );
   expect(synth).toHaveProperty(
     "resource.test_resource.chained.name",
-    "${each.value}"
+    "${each.value}",
   );
 });
 
@@ -339,17 +339,17 @@ test("iterator chaining on data sources", () => {
   expect(synth).toHaveProperty("data.test_data_source.test.for_each");
   expect(synth).toHaveProperty(
     "data.test_data_source.test.name",
-    "${each.value}"
+    "${each.value}",
   );
 
   // Chained properties
   expect(synth).toHaveProperty(
     "data.test_data_source.chained.for_each",
-    "${toset(data.test_data_source.test.*.list_value)}"
+    "${toset(data.test_data_source.test.*.list_value)}",
   );
   expect(synth).toHaveProperty(
     "data.test_data_source.chained.name",
-    "${each.value}"
+    "${each.value}",
   );
 });
 
@@ -369,11 +369,11 @@ test("iterator can be accessed from Complex List", () => {
 
   expect(synth).toHaveProperty(
     "data.test_data_source.iterated.for_each",
-    "${{ for key, val in other_test_resource.test.complex_computed_list: val.name => val }}"
+    "${{ for key, val in other_test_resource.test.complex_computed_list: val.name => val }}",
   );
   expect(synth).toHaveProperty(
     "data.test_data_source.iterated.name",
-    "${each.value}"
+    "${each.value}",
   );
 });
 
@@ -392,7 +392,7 @@ test("count can count values", () => {
   expect(synth).toHaveProperty("data.test_data_source.test.count", 3);
   expect(synth).toHaveProperty(
     "data.test_data_source.test.name",
-    "data${count.index}"
+    "data${count.index}",
   );
 });
 
@@ -412,11 +412,11 @@ test("count can count references", () => {
 
   expect(synth).toHaveProperty(
     "data.test_data_source.test_data.count",
-    "${test_resource.test.numeric_value}"
+    "${test_resource.test.numeric_value}",
   );
   expect(synth).toHaveProperty(
     "data.test_data_source.test_data.name",
-    "data${count.index}"
+    "data${count.index}",
   );
 });
 
@@ -438,11 +438,11 @@ test("chained iterators used in for_each", () => {
   const synth = JSON.parse(Testing.synth(stack));
   expect(synth).toHaveProperty(
     "resource.test_resource.chained.for_each",
-    "${test_resource.test}"
+    "${test_resource.test}",
   );
   expect(synth).toHaveProperty(
     "resource.test_resource.chained.name",
-    "${each.value.string_value}"
+    "${each.value.string_value}",
   );
 });
 
@@ -495,15 +495,15 @@ test("for expressions from iterators", () => {
       arnProperties: Token.asString(it.pluckProperty("arn")),
       // Filter out empty values
       owners: Token.asString(
-        it.forExpressionForList(`val.owner if val.owner != ""`)
+        it.forExpressionForList(`val.owner if val.owner != ""`),
       ),
 
       // Filter out teams with no members and join them with a comma
       teams: Token.asString(
         it.forExpressionForMap(
           "val.teamName",
-          `join(",", val.teamMembers) if length(val.teamMembers) > 0`
-        )
+          `join(",", val.teamMembers) if length(val.teamMembers) > 0`,
+        ),
       ),
       // Get the keys of the map
       keys: Token.asString(it.keys()),
@@ -513,19 +513,19 @@ test("for expressions from iterators", () => {
   const synth = JSON.parse(Testing.synth(stack));
   expect(synth).toHaveProperty(
     "resource.test_resource.test.tags.arnProperties",
-    "${[ for key, val in toset(var.list): val.arn]}"
+    "${[ for key, val in toset(var.list): val.arn]}",
   );
   expect(synth).toHaveProperty(
     "resource.test_resource.test.tags.owners",
-    '${[ for key, val in toset(var.list): val.owner if val.owner != ""]}'
+    '${[ for key, val in toset(var.list): val.owner if val.owner != ""]}',
   );
 
   expect(synth).toHaveProperty(
     "resource.test_resource.test.tags.teams",
-    `\${{ for key, val in toset(var.list): val.teamName => join(",", val.teamMembers) if length(val.teamMembers) > 0 }}`
+    `\${{ for key, val in toset(var.list): val.teamName => join(",", val.teamMembers) if length(val.teamMembers) > 0 }}`,
   );
   expect(synth).toHaveProperty(
     "resource.test_resource.test.tags.keys",
-    "${[ for key, val in toset(var.list): key]}"
+    "${[ for key, val in toset(var.list): key]}",
   );
 });

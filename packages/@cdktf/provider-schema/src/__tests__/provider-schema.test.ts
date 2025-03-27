@@ -29,7 +29,7 @@ describe("readSchema", () => {
     const provider = new TerraformProviderConstraint("hashicorp/null@3.1.0");
     const target = new ConstructsMakerProviderTarget(
       provider,
-      Language.TYPESCRIPT
+      Language.TYPESCRIPT,
     );
     const result = await readProviderSchema(target);
     expect(sanitizeJson(result)).toMatchSnapshot();
@@ -37,7 +37,7 @@ describe("readSchema", () => {
 
   it("generates a single module schema", async () => {
     const module = new TerraformModuleConstraint(
-      "terraform-aws-modules/iam/aws//modules/iam-account@3.12.0"
+      "terraform-aws-modules/iam/aws//modules/iam-account@3.12.0",
     );
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
@@ -46,7 +46,7 @@ describe("readSchema", () => {
 
   it("generates a more complex schema", async () => {
     const module = new TerraformModuleConstraint(
-      "terraform-aws-modules/eks/aws@7.0.1"
+      "terraform-aws-modules/eks/aws@7.0.1",
     );
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);

@@ -236,7 +236,7 @@ class MyConvertedCode extends TerraformStack {
       deletionWindowInDays: 7,
       description: "KMS key 1",
     });
-    /*In most cases loops should be handled in the programming language context and 
+    /*In most cases loops should be handled in the programming language context and
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/

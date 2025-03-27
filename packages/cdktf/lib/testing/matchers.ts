@@ -30,7 +30,10 @@ export class AssertionReturn {
    * @param message - String message containing information about the result of the assertion
    * @param pass - Boolean pass denoting the success of the assertion
    */
-  constructor(public readonly message: string, public readonly pass: boolean) {}
+  constructor(
+    public readonly message: string,
+    public readonly pass: boolean,
+  ) {}
 }
 
 export type MatcherReturnJest = { message: () => string; pass: boolean };
@@ -41,7 +44,7 @@ export type MatcherReturnJest = { message: () => string; pass: boolean };
  * @returns {MatcherReturnJest}
  */
 export function returnMatcherToJest(
-  toReturn: AssertionReturn
+  toReturn: AssertionReturn,
 ): MatcherReturnJest {
   return {
     message: () => toReturn.message,
@@ -58,7 +61,7 @@ export function returnMatcherToJest(
  */
 export function asymetricDeepEqualIgnoringObjectCasing(
   expected: unknown,
-  received: unknown
+  received: unknown,
 ): boolean {
   switch (typeof expected) {
     case "object":
@@ -68,7 +71,7 @@ export function asymetricDeepEqualIgnoringObjectCasing(
           expected.length === received.length &&
           expected.every(
             (item, index) =>
-              asymetricDeepEqualIgnoringObjectCasing(item, received[index]) // recursively compare arrays
+              asymetricDeepEqualIgnoringObjectCasing(item, received[index]), // recursively compare arrays
           )
         );
       }
@@ -87,14 +90,14 @@ export function asymetricDeepEqualIgnoringObjectCasing(
         if ((received as any)[key] !== undefined) {
           return asymetricDeepEqualIgnoringObjectCasing(
             (expected as any)[key],
-            (received as any)[key]
+            (received as any)[key],
           );
         }
 
         if ((received as any)[snakeCase(key)] !== undefined) {
           return asymetricDeepEqualIgnoringObjectCasing(
             (expected as any)[key],
-            (received as any)[snakeCase(key)]
+            (received as any)[snakeCase(key)],
           );
         }
 
@@ -106,10 +109,10 @@ export function asymetricDeepEqualIgnoringObjectCasing(
 }
 const defaultPassEvaluation = (
   items: any,
-  assertedProperties: Record<string, any>
+  assertedProperties: Record<string, any>,
 ) => {
   return Object.values(items).some((item: any) =>
-    asymetricDeepEqualIgnoringObjectCasing(assertedProperties, item)
+    asymetricDeepEqualIgnoringObjectCasing(assertedProperties, item),
   );
 };
 
@@ -130,15 +133,15 @@ function getAssertElementWithProperties(
   // This makes the resulting tests more native to the testing framework
   customPassEvaluation?: (
     items: any[], // configurations of the requested type
-    assertedProperties: Record<string, any>
-  ) => boolean
+    assertedProperties: Record<string, any>,
+  ) => boolean,
 ) {
   const passEvaluation = customPassEvaluation || defaultPassEvaluation;
   return function getAssertElementWithProperties(
     type: keyof SynthesizedStack,
     received: string,
     itemType: TerraformConstructor,
-    properties: Record<string, any> = {}
+    properties: Record<string, any> = {},
   ): AssertionReturn {
     let stack: SynthesizedStack;
 
@@ -158,8 +161,8 @@ function getAssertElementWithProperties(
         Object.entries(stack[type] || {}) // for all data/resource entries
           .find(
             // find the object with a matching name
-            ([type, _values]) => type === itemType.tfResourceType
-          )?.[1] || {} // get all items of that type (encoded as a record of name -> config)
+            ([type, _values]) => type === itemType.tfResourceType,
+          )?.[1] || {}, // get all items of that type (encoded as a record of name -> config)
       ) || []; // get a list of all configs of that type
     const pass = passEvaluation(items, properties);
     if (pass) {
@@ -168,27 +171,27 @@ function getAssertElementWithProperties(
           itemType.tfResourceType
         } with properties ${JSON.stringify(
           properties,
-          jestAsymetricMatcherStringifyReplacer
+          jestAsymetricMatcherStringifyReplacer,
         )} to be present in synthesized stack.
 Found ${items.length === 0 ? "no" : items.length} ${
           itemType.tfResourceType
         } resources instead${
           items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
         }`,
-        pass
+        pass,
       );
     } else {
       return new AssertionReturn(
         `Expected ${itemType.tfResourceType} with properties ${JSON.stringify(
           properties,
-          jestAsymetricMatcherStringifyReplacer
+          jestAsymetricMatcherStringifyReplacer,
         )} to be present in synthesized stack.
 Found ${items.length === 0 ? "no" : items.length} ${
           itemType.tfResourceType
         } resources instead${
           items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
         }`,
-        pass
+        pass,
       );
     }
   };
@@ -202,8 +205,8 @@ Found ${items.length === 0 ? "no" : items.length} ${
 export function getToHaveDataSourceWithProperties(
   customPassEvaluation?: (
     items: any,
-    assertedProperties: Record<string, any>
-  ) => boolean
+    assertedProperties: Record<string, any>,
+  ) => boolean,
 ) {
   /**
    * Evaluates the received stack to have the data source resourceType containing specified properties
@@ -215,11 +218,11 @@ export function getToHaveDataSourceWithProperties(
   return function toHaveDataSourceWithProperties(
     received: string,
     resourceType: TerraformConstructor,
-    properties: Record<string, any> = {}
+    properties: Record<string, any> = {},
   ): AssertionReturn {
     return getAssertElementWithProperties(
       "toHaveDataSourceWithProperties",
-      customPassEvaluation
+      customPassEvaluation,
     )("data", received, resourceType, properties);
   };
 }
@@ -232,8 +235,8 @@ export function getToHaveDataSourceWithProperties(
 export function getToHaveResourceWithProperties(
   customPassEvaluation?: (
     items: any,
-    assertedProperties: Record<string, any>
-  ) => boolean
+    assertedProperties: Record<string, any>,
+  ) => boolean,
 ) {
   /**
    * Evaluates the received stack to have the resource resourceType containing specified properties
@@ -245,11 +248,11 @@ export function getToHaveResourceWithProperties(
   return function toHaveResourceWithProperties(
     received: string,
     resourceType: TerraformConstructor,
-    properties: Record<string, any> = {}
+    properties: Record<string, any> = {},
   ): AssertionReturn {
     return getAssertElementWithProperties(
       "toHaveResourceWithProperties",
-      customPassEvaluation
+      customPassEvaluation,
     )("resource", received, resourceType, properties);
   };
 }
@@ -296,8 +299,8 @@ const withProcessOutput = (message: string, err: unknown) => {
 export function getToHaveProviderWithProperties(
   customPassEvaluation?: (
     items: any,
-    assertedProperties: Record<string, any>
-  ) => boolean
+    assertedProperties: Record<string, any>,
+  ) => boolean,
 ) {
   /**
    * Evaluates the received stack to have the provider resourceType containing specified properties
@@ -309,11 +312,11 @@ export function getToHaveProviderWithProperties(
   return function toHaveProviderWithProperties(
     received: string,
     resourceType: TerraformConstructor,
-    properties: Record<string, any> = {}
+    properties: Record<string, any> = {},
   ): AssertionReturn {
     return getAssertElementWithProperties(
       "toHaveProviderWithProperties",
-      customPassEvaluation
+      customPassEvaluation,
     )("provider", received, resourceType, properties);
   };
 }
@@ -331,13 +334,13 @@ export function toBeValidTerraform(received: string): AssertionReturn {
   } catch (e) {
     return new AssertionReturn(
       `Expected subject to be a terraform directory: ${e}`,
-      false
+      false,
     );
   }
 
   try {
     const manifest = JSON.parse(
-      fs.readFileSync(path.resolve(received, "manifest.json"), "utf8")
+      fs.readFileSync(path.resolve(received, "manifest.json"), "utf8"),
     );
 
     const stacks = Object.entries(manifest.stacks);
@@ -356,18 +359,18 @@ export function toBeValidTerraform(received: string): AssertionReturn {
         throw matchersFoundErrorsInStack(
           result.error_count,
           name,
-          result.diagnostics.join("\n")
+          result.diagnostics.join("\n"),
         );
       }
     });
     return new AssertionReturn(
       `Expected subject not to be a valid terraform stack`,
-      true
+      true,
     );
   } catch (e) {
     return new AssertionReturn(
       withProcessOutput(`Expected subject to be a valid terraform stack`, e),
-      false
+      false,
     );
   }
 }
@@ -385,13 +388,13 @@ export function toPlanSuccessfully(received: string): AssertionReturn {
   } catch (e) {
     return new AssertionReturn(
       `Expected subject to be a terraform directory: ${e}`,
-      false
+      false,
     );
   }
 
   try {
     const manifest = JSON.parse(
-      fs.readFileSync(path.resolve(received, "manifest.json"), "utf8")
+      fs.readFileSync(path.resolve(received, "manifest.json"), "utf8"),
     );
 
     const stacks = Object.entries(manifest.stacks);
@@ -410,12 +413,12 @@ export function toPlanSuccessfully(received: string): AssertionReturn {
 
     return new AssertionReturn(
       `Expected subject not to plan successfully`,
-      true
+      true,
     );
   } catch (e) {
     return new AssertionReturn(
       withProcessOutput(`Expected subject to plan successfully`, e),
-      false
+      false,
     );
   }
 }

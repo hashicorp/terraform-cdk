@@ -18,7 +18,7 @@ import * as path from "path";
 
 function corruptSynthesizedStack(stackPath: string) {
   const manifest = JSON.parse(
-    fs.readFileSync(path.resolve(stackPath, "manifest.json"), "utf8")
+    fs.readFileSync(path.resolve(stackPath, "manifest.json"), "utf8"),
   );
 
   const { synthesizedStackPath } = Object.values(manifest.stacks)[0] as any;
@@ -28,7 +28,7 @@ function corruptSynthesizedStack(stackPath: string) {
     absoluteStackPath,
     fs.readFileSync(absoluteStackPath, "utf8") +
       "Weird text that makes the JSON file invalid",
-    "utf8"
+    "utf8",
   );
 }
 
@@ -40,13 +40,13 @@ describe("deepEqualIgnoringObjectCasing", () => {
     expect(asymetricDeepEqualIgnoringObjectCasing(false, false)).toBe(true);
     expect(asymetricDeepEqualIgnoringObjectCasing(null, null)).toBe(true);
     expect(asymetricDeepEqualIgnoringObjectCasing(undefined, undefined)).toBe(
-      true
+      true,
     );
     expect(asymetricDeepEqualIgnoringObjectCasing([1, 2, 3], [1, 2, 3])).toBe(
-      true
+      true,
     );
     expect(
-      asymetricDeepEqualIgnoringObjectCasing({ a: 1, b: 2 }, { a: 1, b: 2 })
+      asymetricDeepEqualIgnoringObjectCasing({ a: 1, b: 2 }, { a: 1, b: 2 }),
     ).toBe(true);
 
     expect(asymetricDeepEqualIgnoringObjectCasing(1, 2)).toBe(false);
@@ -54,39 +54,39 @@ describe("deepEqualIgnoringObjectCasing", () => {
 
   it("should compare arrays", () => {
     expect(asymetricDeepEqualIgnoringObjectCasing([1, 2, 3], [1, 2, 3])).toBe(
-      true
+      true,
     );
 
     expect(asymetricDeepEqualIgnoringObjectCasing([1, 2, 3], [1, 2, 4])).toBe(
-      false
+      false,
     );
     expect(
-      asymetricDeepEqualIgnoringObjectCasing([1, 2, 3], [1, 2, 3, 4])
+      asymetricDeepEqualIgnoringObjectCasing([1, 2, 3], [1, 2, 3, 4]),
     ).toBe(false);
   });
 
   it("should compare objects", () => {
     expect(
-      asymetricDeepEqualIgnoringObjectCasing({ a: 1, b: 2 }, { a: 1, b: 2 })
+      asymetricDeepEqualIgnoringObjectCasing({ a: 1, b: 2 }, { a: 1, b: 2 }),
     ).toBe(true);
     expect(
       asymetricDeepEqualIgnoringObjectCasing(
         { a: { c: 3 }, b: 2 },
-        { a: { c: 3 }, b: 2 }
-      )
+        { a: { c: 3 }, b: 2 },
+      ),
     ).toBe(true);
 
     expect(
       asymetricDeepEqualIgnoringObjectCasing(
         { a: 3, b: 2 },
-        { a: { c: 3 }, b: 2 }
-      )
+        { a: { c: 3 }, b: 2 },
+      ),
     ).toBe(false);
     expect(
       asymetricDeepEqualIgnoringObjectCasing(
         { a: { c: 3 }, b: 2 },
-        { a: 3, b: 2 }
-      )
+        { a: 3, b: 2 },
+      ),
     ).toBe(false);
   });
 
@@ -94,14 +94,14 @@ describe("deepEqualIgnoringObjectCasing", () => {
     expect(
       asymetricDeepEqualIgnoringObjectCasing(
         { a: 1, fooBar: 2 },
-        { a: 1, foo_bar: 2 }
-      )
+        { a: 1, foo_bar: 2 },
+      ),
     ).toBe(true);
     expect(
       asymetricDeepEqualIgnoringObjectCasing(
         { a: { fooBar: 2 } },
-        { a: { foo_bar: 2 } }
-      )
+        { a: { foo_bar: 2 } },
+      ),
     ).toBe(true);
   });
 
@@ -109,8 +109,8 @@ describe("deepEqualIgnoringObjectCasing", () => {
     expect(
       asymetricDeepEqualIgnoringObjectCasing(
         { a: { fooBar: 2 } },
-        { a: { foo_bar: 2 }, b: 3 }
-      )
+        { a: { foo_bar: 2 }, b: 3 },
+      ),
     ).toBe(true);
   });
 });
@@ -146,7 +146,7 @@ describe("matchers", () => {
     it("should fail with wrong resouce", () => {
       const res = toHaveResourceWithProperties(
         synthesizedStack,
-        TestDataSource
+        TestDataSource,
       );
 
       expect(res.pass).toBeFalsy();
@@ -184,7 +184,7 @@ describe("matchers", () => {
     it("should not find resources", () => {
       const res = toHaveDataSourceWithProperties(
         synthesizedStack,
-        TestResource
+        TestResource,
       );
 
       expect(res.pass).toBeFalsy();
@@ -194,7 +194,7 @@ describe("matchers", () => {
       const res = toHaveDataSourceWithProperties(
         synthesizedStack,
         TestDataSource,
-        { name: "data" }
+        { name: "data" },
       );
 
       expect(res.pass).toBeTruthy();
@@ -223,7 +223,7 @@ describe("matchers", () => {
       const res = toHaveProviderWithProperties(
         synthesizedStack,
         DockerProvider,
-        { alias: "test-alias", ssh_opts: ["-o", "StrictHostKeyChecking=no"] }
+        { alias: "test-alias", ssh_opts: ["-o", "StrictHostKeyChecking=no"] },
       );
 
       expect(res.pass).toBeTruthy();
@@ -233,7 +233,7 @@ describe("matchers", () => {
       const res = toHaveProviderWithProperties(
         synthesizedStackNoProvider,
         DockerProvider,
-        {}
+        {},
       );
 
       expect(res.pass).toBeFalsy();
@@ -248,7 +248,7 @@ describe("matchers", () => {
     it("should not find data sources", () => {
       const res = toHaveProviderWithProperties(
         synthesizedStack,
-        TestDataSource
+        TestDataSource,
       );
 
       expect(res.pass).toBeFalsy();
@@ -260,7 +260,7 @@ describe("matchers", () => {
       const res = toBeValidTerraform("not a path");
       expect(res.pass).toBeFalsy();
       expect(res.message).toMatchInlineSnapshot(
-        `"Expected subject to be a terraform directory: Error: ENOENT: no such file or directory, stat 'not a path'"`
+        `"Expected subject to be a terraform directory: Error: ENOENT: no such file or directory, stat 'not a path'"`,
       );
     });
 
@@ -274,7 +274,7 @@ describe("matchers", () => {
       const res = toBeValidTerraform(Testing.fullSynth(stack));
       expect(res.pass).toBeTruthy();
       expect(res.message).toMatchInlineSnapshot(
-        `"Expected subject not to be a valid terraform stack"`
+        `"Expected subject not to be a valid terraform stack"`,
       );
     });
 
@@ -291,8 +291,8 @@ describe("matchers", () => {
       expect(res.pass).toBeFalsy();
       expect(res.message).toEqual(
         expect.stringContaining(
-          "Expected subject to be a valid terraform stack"
-        )
+          "Expected subject to be a valid terraform stack",
+        ),
       );
       const tf1_3 =
         "There are some problems with the configuration, described below";
@@ -301,7 +301,7 @@ describe("matchers", () => {
       const tf1_5 = "Extra characters appear after the JSON value";
 
       expect(res.message).toEqual(
-        expect.stringMatching(new RegExp(`${tf1_3}|${tf1_4}|${tf1_5}`))
+        expect.stringMatching(new RegExp(`${tf1_3}|${tf1_4}|${tf1_5}`)),
       );
     });
   });
@@ -311,7 +311,7 @@ describe("matchers", () => {
       const res = toPlanSuccessfully("not a path");
       expect(res.pass).toBeFalsy();
       expect(res.message).toMatchInlineSnapshot(
-        `"Expected subject to be a terraform directory: Error: ENOENT: no such file or directory, stat 'not a path'"`
+        `"Expected subject to be a terraform directory: Error: ENOENT: no such file or directory, stat 'not a path'"`,
       );
     });
 
@@ -326,7 +326,7 @@ describe("matchers", () => {
 
       expect(res.pass).toBeTruthy();
       expect(res.message).toMatchInlineSnapshot(
-        `"Expected subject not to plan successfully"`
+        `"Expected subject not to plan successfully"`,
       );
     });
 
@@ -343,7 +343,7 @@ describe("matchers", () => {
       const res = toPlanSuccessfully(result);
       expect(res.pass).toBeFalsy();
       expect(res.message).toEqual(
-        expect.stringContaining("Expected subject to plan successfully")
+        expect.stringContaining("Expected subject to plan successfully"),
       );
     });
   });
