@@ -32,6 +32,7 @@ import {
   renderVariable,
   renderImport,
   cleanForMetadata,
+  renderRemoved,
 } from "./hcl/render";
 import {
   noStackForConstruct,
@@ -303,6 +304,10 @@ export class TerraformStack extends Construct {
 
         if (frag.import) {
           res = [res, renderImport(frag.import)].join("\n\n");
+        }
+
+        if (frag.removed) {
+          res = [res, renderRemoved(frag.removed)].join("\n\n");
         }
 
         if (frag.locals) {

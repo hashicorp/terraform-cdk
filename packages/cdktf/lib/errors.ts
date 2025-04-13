@@ -90,6 +90,34 @@ export const modulesWithSameAlias = (alias: string) =>
 Each provider must have a unique alias when passing multiple providers of the same type to modules.
   `);
 
+export const cannotRemoveMovedResource = (resourceId: string) =>
+  new Error(
+    `Cannot remove the resource "${resourceId}" because it has already been marked for a move operation.
+
+A resource cannot be moved and removed at the same time. Please ensure the resource is not moved before attempting to remove it.`,
+  );
+
+export const cannotMoveRemovedResource = (resourceId: string) =>
+  new Error(
+    `Cannot move the resource "${resourceId}" because it has already been marked for removal.
+
+A resource cannot be moved and removed at the same time. Please ensure the resource is not removed before attempting to move it.`,
+  );
+
+export const cannotRemoveImportedResource = (resourceId: string) =>
+  new Error(
+    `Cannot remove the resource "${resourceId}" because it has already been marked for import.
+
+A resource cannot be imported and removed at the same time. Please ensure the resource is not imported before attempting to remove it.`,
+  );
+
+export const cannotImportRemovedResource = (resourceId: string) =>
+  new Error(
+    `Cannot import the resource "${resourceId}" because it has already been marked for removal.
+
+A resource cannot be imported and removed at the same time. Please ensure the resource is not removed before attempting to import it.`,
+  );
+
 export const moveTargetAlreadySet = (
   target: string,
   friendlyUniqueId: string | undefined,

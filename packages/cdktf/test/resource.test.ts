@@ -716,3 +716,228 @@ it("override logical ID - before move from id", () => {
     "simple",
   );
 });
+
+test("Only removes the specified resource", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const removeResource = new TestResource(stack, "remove", {
+    name: "fooA",
+  });
+
+  new TestResource(stack, "keep", {
+    name: "fooB",
+  });
+
+  removeResource.remove({ destroy: true });
+
+  const synthedStack = JSON.parse(Testing.synth(stack));
+  // We should only have 1 removed item
+  expect(synthedStack.removed).toHaveLength(1);
+  expect(synthedStack.removed[0].from).toEqual("test_resource.remove");
+  expect(synthedStack.removed[0].lifecycle).toEqual({ destroy: true });
+  // We should only have 1 retained resource
+  expect(Object.keys(synthedStack.resource)).toHaveLength(1);
+  expect(Object.keys(synthedStack.resource.test_resource)).toContain("keep");
+  expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
+    "remove",
+  );
+});
+
+test("Can remove multiple resources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const removeResourceA = new TestResource(stack, "removeA", {
+    name: "fooA",
+  });
+
+  const removeResourceB = new TestResource(stack, "removeB", {
+    name: "fooB",
+  });
+
+  new TestResource(stack, "keep", {
+    name: "fooC",
+  });
+
+  removeResourceA.remove({ destroy: true });
+  removeResourceB.remove({ destroy: true }, [
+    {
+      type: "local-exec",
+      command: "echo 'Resource removed'",
+      when: "destroy",
+    },
+  ]);
+
+  const synthedStack = JSON.parse(Testing.synth(stack));
+  // We should only have 1 removed item
+  expect(synthedStack.removed).toHaveLength(2);
+  expect(synthedStack.removed.map((item: any) => item.from)).toContain(
+    "test_resource.removeA",
+  );
+  expect(synthedStack.removed.map((item: any) => item.from)).toContain(
+    "test_resource.removeB",
+  );
+  // We should only have 1 retained resource
+  expect(Object.keys(synthedStack.resource)).toHaveLength(1);
+  expect(Object.keys(synthedStack.resource.test_resource)).toContain("keep");
+  expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
+    "remove",
+  );
+});
+
+test("Should properly generate hcl", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const removeResourceA = new TestResource(stack, "removeA", {
+    name: "fooA",
+  });
+
+  const removeResourceB = new TestResource(stack, "removeB", {
+    name: "fooB",
+  });
+
+  new TestResource(stack, "keep", {
+    name: "fooC",
+  });
+
+  removeResourceA.remove({ destroy: true });
+  removeResourceB.remove({ destroy: true }, [
+    {
+      type: "local-exec",
+      command: "echo 'Resource removed'",
+      when: "destroy",
+    },
+  ]);
+
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+"terraform {
+required_providers {
+  test = {
+version = "~> 2.0"
+}
+}
+
+
+}
+
+provider "test" {
+}
+
+removed {
+from = "test_resource.removeA"
+lifecycle {
+  destroy = true
+}
+}
+
+removed {
+from = "test_resource.removeB"
+lifecycle {
+  destroy = true
+}
+provisioner "local-exec" {
+command = "echo 'Resource removed'"
+when = "destroy"
+}
+}
+resource "test_resource" "keep" {
+name = "fooC"
+}"
+`);
+});
+
+test("remove resource with lifecycle and provisioner", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const resource = new TestResource(stack, "test", {
+    name: "foo",
+  });
+
+  resource.remove({ destroy: true }, [
+    {
+      type: "local-exec",
+      command: "echo 'Resource removed'",
+      when: "destroy",
+    },
+  ]);
+
+  const synthedStack = JSON.parse(Testing.synth(stack));
+  expect(synthedStack.removed[0]).toEqual({
+    from: "test_resource.test",
+    lifecycle: { destroy: true },
+    provisioner: [
+      {
+        "local-exec": {
+          command: "echo 'Resource removed'",
+          when: "destroy",
+        },
+      },
+    ],
+  });
+});
+
+test.each([
+  {
+    description: "cannot remove a resource marked for import",
+    setup: (resource: TestResource) => resource.importFrom("testId"),
+    action: (resource: TestResource) => resource.remove({ destroy: true }),
+    expectedError: `
+      "Cannot remove the resource "test" because it has already been marked for import.
+
+      A resource cannot be imported and removed at the same time. Please ensure the resource is not imported before attempting to remove it."
+    `,
+  },
+  {
+    description: "cannot import a resource marked for removal",
+    setup: (resource: TestResource) => resource.remove({ destroy: true }),
+    action: (resource: TestResource) => resource.importFrom("testId"),
+    expectedError: `
+      "Cannot import the resource "test" because it has already been marked for removal.
+
+      A resource cannot be imported and removed at the same time. Please ensure the resource is not removed before attempting to import it."
+    `,
+  },
+  {
+    description: "cannot remove a resource marked for a move operation",
+    setup: (resource: TestResource) => resource.moveTo("moveTarget"),
+    action: (resource: TestResource) => resource.remove({ destroy: true }),
+    expectedError: `
+      "Cannot remove the resource "test" because it has already been marked for a move operation.
+
+      A resource cannot be moved and removed at the same time. Please ensure the resource is not moved before attempting to remove it."
+    `,
+  },
+  {
+    description: "cannot move a resource marked for removal",
+    setup: (resource: TestResource) => resource.remove({ destroy: true }),
+    action: (resource: TestResource) => resource.moveTo("moveTarget"),
+    expectedError: `
+      "Cannot move the resource "test" because it has already been marked for removal.
+
+      A resource cannot be moved and removed at the same time. Please ensure the resource is not removed before attempting to move it."
+    `,
+  },
+])("$description", ({ setup, action, expectedError }) => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const resource = new TestResource(stack, "test", {
+    name: "foo",
+  });
+
+  // Perform the setup step
+  setup(resource);
+
+  // Assert that the action throws the expected error
+  expect(() => action(resource)).toThrowErrorMatchingInlineSnapshot(
+    expectedError,
+  );
+});
