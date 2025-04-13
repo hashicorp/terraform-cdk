@@ -18,6 +18,7 @@ import { ITerraformIterator } from "./terraform-iterator";
 import { Precondition, Postcondition } from "./terraform-conditions";
 import { TerraformCount } from "./terraform-count";
 import {
+  RemovedBlockLocalExecProvisioner,
   SSHProvisionerConnection,
   WinrmProvisionerConnection,
 } from "./terraform-provisioner";
@@ -31,6 +32,10 @@ import {
 import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
 import { TerraformStack } from "./terraform-stack";
 import {
+  cannotImportRemovedResource,
+  cannotMoveRemovedResource,
+  cannotRemoveImportedResource,
+  cannotRemoveMovedResource,
   movedToResourceOfDifferentType,
   resourceGivenTwoMoveOperationsById,
   resourceGivenTwoMoveOperationsByTarget,
@@ -128,6 +133,19 @@ export interface TerraformResourceImport {
   readonly provider?: TerraformProvider;
 }
 
+export interface TerraformResourceRemoveLifecycle {
+  readonly destroy: boolean;
+}
+
+export type TerraformResourceRemoveProvisioner =
+  RemovedBlockLocalExecProvisioner;
+
+export interface TerraformResourceRemove {
+  readonly from: string;
+  readonly lifecycle?: TerraformResourceRemoveLifecycle;
+  readonly provisioners?: Array<TerraformResourceRemoveProvisioner>;
+}
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformResource
   extends TerraformElement
@@ -148,6 +166,7 @@ export class TerraformResource
     FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
   private _imported?: TerraformResourceImport;
+  private _removed?: TerraformResourceRemove;
   private _movedByTarget?: TerraformResourceMoveByTarget;
   private _movedById?: TerraformResourceMoveById;
   private _hasMoved = false;
@@ -271,6 +290,22 @@ export class TerraformResource
       ...this.constructNodeMetadata,
     };
 
+    // If we are removing a resource imports and moved blocks are not supported
+    if (this._removed) {
+      const { provisioners, ...props } = this._removed;
+      return {
+        resource: undefined,
+        removed: [
+          {
+            ...props,
+            provisioner: provisioners?.map(({ type, ...props }) => ({
+              [type]: keysToSnakeCase(props),
+            })),
+          },
+        ],
+      };
+    }
+
     const movedBlock = this._buildMovedBlock();
     return {
       resource: this._hasMoved
@@ -321,6 +356,24 @@ export class TerraformResource
       ...(attributes["//"] ?? {}),
       ...this.constructNodeMetadata,
     };
+
+    // If we are removing a resource imports and moved blocks are not supported
+    if (this._removed) {
+      const { provisioners, ...props } = this._removed;
+      return {
+        resource: undefined,
+        removed: [
+          {
+            ...props,
+            provisioner: provisioners?.map(({ type, ...props }) => ({
+              [type]: {
+                value: keysToSnakeCase(props),
+              },
+            })),
+          },
+        ],
+      };
+    }
 
     const movedBlock = this._buildMovedBlock();
     return {
@@ -393,6 +446,11 @@ export class TerraformResource
               [this.terraformResourceType]: [this.friendlyUniqueId],
             }
           : undefined,
+      removed: this._removed
+        ? {
+            [this.terraformResourceType]: [this.friendlyUniqueId],
+          }
+        : undefined,
     };
   }
 
@@ -406,6 +464,9 @@ export class TerraformResource
   }
 
   public importFrom(id: string, provider?: TerraformProvider) {
+    if (this._removed) {
+      throw cannotImportRemovedResource(this.node.id);
+    }
     this._imported = { id, provider };
     this.node.addValidation(
       new ValidateTerraformVersion(
@@ -413,6 +474,42 @@ export class TerraformResource
         `Import blocks are only supported for Terraform >=1.5. Please upgrade your Terraform version.`,
       ),
     );
+  }
+
+  /**
+   * Remove this resource, this will destroy the resource and place it within the removed block
+   * @param lifecycle The lifecycle block to be used for the removed resource
+   * @param provisioners Optional The provisioners to be used for the removed resource
+   */
+  public remove(
+    lifecycle: TerraformResourceRemoveLifecycle,
+    provisioners?: Array<TerraformResourceRemoveProvisioner>,
+  ) {
+    if (this._movedByTarget) {
+      throw cannotRemoveMovedResource(this.node.id);
+    }
+    if (this._imported) {
+      throw cannotRemoveImportedResource(this.node.id);
+    }
+    this.node.addValidation(
+      new ValidateTerraformVersion(
+        ">=1.7",
+        `Removed blocks are only supported for Terraform >=1.7. Please upgrade your Terraform version.`,
+      ),
+    );
+    if (provisioners) {
+      this.node.addValidation(
+        new ValidateTerraformVersion(
+          ">=1.9",
+          `A Removed block provisioner is only supported for Terraform >=1.9. Please upgrade your Terraform version.`,
+        ),
+      );
+    }
+    this._removed = {
+      from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+      lifecycle,
+      provisioners,
+    };
   }
 
   private _getResourceTarget(moveTarget: string) {
@@ -472,6 +569,9 @@ export class TerraformResource
    * @param index Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to
    */
   public moveTo(moveTarget: string, index?: string | number) {
+    if (this._removed) {
+      throw cannotMoveRemovedResource(this.node.id);
+    }
     if (this._movedByTarget) {
       throw resourceGivenTwoMoveOperationsByTarget(
         this.friendlyUniqueId,
@@ -496,6 +596,9 @@ export class TerraformResource
    * @param id Full id of resource to move to, e.g. "aws_s3_bucket.example"
    */
   public moveToId(id: string) {
+    if (this._removed) {
+      throw cannotMoveRemovedResource(this.node.id);
+    }
     if (this._movedById) {
       throw resourceGivenTwoMoveOperationsById(
         this.node.id,
@@ -519,6 +622,9 @@ export class TerraformResource
    * @param id Full id of resource being moved from, e.g. "aws_s3_bucket.example"
    */
   public moveFromId(id: string) {
+    if (this._removed) {
+      throw cannotMoveRemovedResource(this.node.id);
+    }
     if (this._movedById) {
       throw resourceGivenTwoMoveOperationsById(
         this.node.id,
