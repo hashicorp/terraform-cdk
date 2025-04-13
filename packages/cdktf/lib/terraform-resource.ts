@@ -446,6 +446,7 @@ export class TerraformResource
               [this.terraformResourceType]: [this.friendlyUniqueId],
             }
           : undefined,
+      // TODO: its was unclear to me if how removed should interact with `toMetadata`
       removed: this._removed
         ? {
             [this.terraformResourceType]: [this.friendlyUniqueId],
