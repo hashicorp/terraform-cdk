@@ -4,9 +4,8 @@
 import { promisify } from "util";
 import path from "path";
 import fs from "fs/promises";
-import g from "glob";
+import { glob } from "glob";
 import execa from "execa";
-const glob = promisify(g);
 
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 const resolveRepoPath = (...parts: string[]) =>
