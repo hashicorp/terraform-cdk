@@ -38,6 +38,9 @@
   "bugs": {
     "url": "https://github.com/hashicorp/terraform-cdk/issues"
   },
+  "dependencies": {
+    "fs-extra": "^11.3.0"
+  },
   "devDependencies": {
     "@types/jest": "29.5.14",
     "@types/node": "^20.9.4",
