@@ -1,3 +1,37 @@
+## 0.20.12
+
+### feat
+
+- feat: Upgrade JSII [\#3837](https://github.com/hashicorp/terraform-cdk/pull/3837)
+
+### chore
+
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3847](https://github.com/hashicorp/terraform-cdk/pull/3847)
+- chore(docs): Update example for remote backend to show cloud backend [\#3833](https://github.com/hashicorp/terraform-cdk/pull/3833)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3828](https://github.com/hashicorp/terraform-cdk/pull/3828)
+- chore: Update docker container with latest version of node and JSII [\#3821](https://github.com/hashicorp/terraform-cdk/pull/3821)
+- chore: Upgrade archiver version to 7.0.1 [\#3818](https://github.com/hashicorp/terraform-cdk/pull/3818)
+- chore: Upgrade dependencies for lib [\#3815](https://github.com/hashicorp/terraform-cdk/pull/3815)
+- chore: Use tmccombs/hcl2json and fix go examples [\#3814](https://github.com/hashicorp/terraform-cdk/pull/3814)
+- chore: Remove web team from CODEOWNERS for content directories [\#3811](https://github.com/hashicorp/terraform-cdk/pull/3811)
+- chore: Upgrade dependencies for all [\#3800](https://github.com/hashicorp/terraform-cdk/pull/3800)
+- chore: update changelog [\#3798](https://github.com/hashicorp/terraform-cdk/pull/3798)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3795](https://github.com/hashicorp/terraform-cdk/pull/3795)
+- chore: Upgrade dependencies for all [\#3789](https://github.com/hashicorp/terraform-cdk/pull/3789)
+- chore: Upgrade dependencies for lib [\#3776](https://github.com/hashicorp/terraform-cdk/pull/3776)
+- chore: Upgrade dependencies for util [\#3767](https://github.com/hashicorp/terraform-cdk/pull/3767)
+- chore: Upgrade dependencies for cli [\#3765](https://github.com/hashicorp/terraform-cdk/pull/3765)
+
+### fix
+
+- fix: Upgrade dependencies to remove vulnerable version of micromatch [\#3844](https://github.com/hashicorp/terraform-cdk/pull/3844)
+- fix: Upgrade version of esbuild without security vuln [\#3843](https://github.com/hashicorp/terraform-cdk/pull/3843)
+- fix: Security warning on version of Axios [\#3841](https://github.com/hashicorp/terraform-cdk/pull/3841)
+- fix(examples): The Complex iterators example for C# that has been broken for a while [\#3840](https://github.com/hashicorp/terraform-cdk/pull/3840)
+- fix: Update slack action usage for slack action v2 [\#3802](https://github.com/hashicorp/terraform-cdk/pull/3802)
+- fix: always save terraform credentials [\#3785](https://github.com/hashicorp/terraform-cdk/pull/3785)
+- fix(lib): correct the concat method in TokenizedStringFragments [\#3772](https://github.com/hashicorp/terraform-cdk/pull/3772)
+
 ## 0.20.11
 
 ### fix
