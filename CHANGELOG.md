@@ -6,6 +6,8 @@
 
 ### chore
 
+- chore: add missing dependency on `fs-extra` to `@cdktf/hcl-tools` [\#3854](https://github.com/hashicorp/terraform-cdk/pull/3854)
+- chore: Upgrade node-pty-prebuilt to support Node LTS [\#3851](https://github.com/hashicorp/terraform-cdk/pull/3851)
 - chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3847](https://github.com/hashicorp/terraform-cdk/pull/3847)
 - chore(docs): Update example for remote backend to show cloud backend [\#3833](https://github.com/hashicorp/terraform-cdk/pull/3833)
 - chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3828](https://github.com/hashicorp/terraform-cdk/pull/3828)
