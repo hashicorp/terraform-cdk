@@ -11,12 +11,13 @@ if [[ -z "${GOROOT-}" ]]; then
   exit 1
 fi
 
-if [ ! -f "$GOROOT/misc/wasm/wasm_exec.js" ]
-then
-    echo "File $GOROOT/misc/wasm/wasm_exec.js does not exist!"
-    exit 1
+WASM_EXEC_PATH="${GOROOT}/misc/wasm/wasm_exec.js"
+
+# After Go version 1.24, the wasm_exec is in the lib/wasm directory instead
+if [[ ! -f "${WASM_EXEC_PATH}" ]]; then
+    WASM_EXEC_PATH="${GOROOT}/lib/wasm/wasm_exec.js"
 fi
 
-cp "$GOROOT/misc/wasm/wasm_exec.js" ./wasm/wasm_exec.js
+cp "$WASM_EXEC_PATH" ./wasm/wasm_exec.js
 
 echo "Copied build system wasm_exec.js file to wasm/ directory."
