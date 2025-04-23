@@ -5,7 +5,6 @@ import { TerraformElement } from "./terraform-element";
 import { deepMerge } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Expression } from ".";
-import { isArray } from "util";
 import { ITerraformAddressable } from "./terraform-addressable";
 import { Token } from "./tokens";
 import { Precondition } from "./terraform-conditions";
@@ -66,7 +65,7 @@ export class TerraformOutput extends TerraformElement {
     return (
       object &&
       typeof object === "object" &&
-      !isArray(object) &&
+      !Array.isArray(object) &&
       "fqn" in object
     );
   }
