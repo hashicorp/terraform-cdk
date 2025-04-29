@@ -1,5 +1,8 @@
 # Terraform Documentation
 
+> [!IMPORTANT]  
+> **Documentation Update:** Product documentation previously located in `/website` has moved to the [`hashicorp/web-unified-docs`](https://github.com/hashicorp/web-unified-docs) repository, where all product documentation is now centralized. Please make contributions directly to `web-unified-docs`, since changes to `/website` in this repository will not appear on developer.hashicorp.com.
+
 This directory contains the portions of [the Terraform website][terraform.io] that pertain to the Terraform CDK.
 
 The files in this directory are intended to be used in conjunction with
