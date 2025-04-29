@@ -463,6 +463,23 @@ ${renderAttributes(importBlock)}
 /**
  *
  */
+export function renderRemoved(removed: any) {
+  const removedBlocks = removed.map((removedBlock: any) => {
+    const { provisioner, ...otherAttrs } = removedBlock;
+    const hcl = [`removed {`];
+    const attrs = renderAttributes(otherAttrs);
+    if (attrs) hcl.push(attrs);
+    if (provisioner) hcl.push(renderProvisionerBlock(provisioner));
+    hcl.push("}");
+    return hcl.join("\n");
+  });
+
+  return removedBlocks.join("\n");
+}
+
+/**
+ *
+ */
 export function renderTerraform(terraform: any) {
   const blockAttributes = ["required_providers", "backend", "cloud"];
   const requiredProviders = `required_providers {
