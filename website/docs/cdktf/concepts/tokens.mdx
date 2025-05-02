@@ -21,7 +21,7 @@ You may need to use Tokens for:
 - [Module outputs](/terraform/cdktf/concepts/modules) for boolean, string, lists, maps, and other complex types.
 - Resource attributes (such as `id`).
 - Terraform outputs based on resource attributes.
-- Using Terraforms `null` type.
+- Using Terraform's `null` type and [terraform.workspace](/terraform/language/state/workspaces#current-workspace-interpolation).
 
 ### Example
 
@@ -213,6 +213,54 @@ Token.NullValue()
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Token_NullValue()
+```
+
+</CodeTabs>
+
+### Using `terraform.workspace`
+
+In the code below, the outer `Token.as_number()` avoids:
+
+> TypeError: type of argument count must be one of (int, float, cdktf.TerraformCount, NoneType); got jsii.\_reference_map.InterfaceDynamicProxy instead
+
+The inner `Token.as_any()` avoids generating extra quotes `"terraform.workspace"` and extra dollar signs `"$${terraform.workspace}"`.
+
+<CodeTabs>
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#functions-conditional -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#functions-conditional -->
+
+```python
+Instance(
+    self,
+    'web',
+    ami='ami-2757f631',
+    count=Token.as_number(
+        Fn.conditional(Op.eq(Token.as_any('terraform.workspace'), 'prod'), 2, 1)
+    ),
+    instance_type='t2.micro',
+)
+```
+
+```ts
+import { Token } from "cdktf";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
+import { Fn } from "cdktf";
+import { Op } from "cdktf";
+new Instance(this, "web", {
+  ami: "ami-2757f631",
+  count: Token.asNumber(
+    Fn.conditional(Op.eq(Token.asAny("terraform.workspace"), "prod"), 2, 1),
+  ),
+  instanceType: "t2.micro",
+});
+```
+
+```terraform
+resource "aws_instance" "web" {
+  ami = "ami-2757f631"
+  count = (terraform.workspace == "prod") ? 2 : 1
+  instance_type = "t2.micro"
+}
 ```
 
 </CodeTabs>
