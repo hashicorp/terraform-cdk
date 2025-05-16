@@ -25,11 +25,11 @@ type SynthOutputConfig = {
 const SynthOutput = ({ stacks }: SynthOutputConfig): React.ReactElement => {
   return (
     <Text>
-    {stacks?.length ? (
-        `Generated Terraform code for the stacks: ${stacks.map((s) => s.name).join(", ")}`
-      ) : (
-        "No stacks found in configuration."
-      )}
+      {stacks?.length
+        ? `Generated Terraform code for the stacks: ${stacks
+            .map((s) => s.name)
+            .join(", ")}`
+        : "No stacks found in configuration."}
     </Text>
   );
 };
