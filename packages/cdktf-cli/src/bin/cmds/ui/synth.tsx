@@ -22,14 +22,16 @@ interface SynthConfig extends CommonSynthConfig {
 type SynthOutputConfig = {
   stacks: SynthesizedStack[];
 };
-const SynthOutput = ({ stacks }: SynthOutputConfig): React.ReactElement => {
+export const SynthOutput = ({
+  stacks,
+}: SynthOutputConfig): React.ReactElement => {
   return (
     <Text>
-    {stacks?.length ? (
-        `Generated Terraform code for the stacks: ${stacks.map((s) => s.name).join(", ")}`
-      ) : (
-        "No stacks found in configuration."
-      )}
+      {stacks?.length
+        ? `Generated Terraform code for the stacks: ${stacks
+            .map((s) => s.name)
+            .join(", ")}`
+        : "No stacks found in configuration."}
     </Text>
   );
 };
