@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "tsc && ./build-go.sh",
+    "postbuild": "yarn generate-license-notices -- --ci",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "test": "jest",
@@ -16,7 +17,8 @@
     "jest-watch": "jest --watch",
     "package": "./package.sh",
     "dist-clean": "rm -rf dist",
-    "prebuild": "./prebuild.sh"
+    "prebuild": "./prebuild.sh",
+    "generate-license-notices": "npx generate-license-file --input package.json --output NOTICES.txt --overwrite"
   },
   "repository": {
     "type": "git",

@@ -4,6 +4,7 @@
   "description": "CDK for Terraform CLI Core, meant for internal use only",
   "scripts": {
     "build": "tsc",
+    "postbuild": "yarn generate-license-notices -- --ci",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "lint": "eslint .",
@@ -14,7 +15,8 @@
     "test:ci": "yarn lint && jest --ci",
     "jest-watch": "jest --watch",
     "package": "./package.sh",
-    "dist-clean": "rm -rf dist"
+    "dist-clean": "rm -rf dist",
+    "generate-license-notices": "npx generate-license-file --input package.json --output NOTICES.txt --overwrite"
   },
   "main": "src/lib/index.js",
   "types": "src/lib/index.d.ts",
