@@ -36,7 +36,7 @@
     "dependencies": {
         "@cdktf/commons": "0.0.0",
         "@cdktf/provider-schema": "0.0.0",
-        "@types/node": "18.19.71",
+        "@types/node": "18.19.101",
         "codemaker": "1.102.0",
         "fs-extra": "8.1.0",
         "glob": "10.4.5"
@@ -48,7 +48,7 @@
         "@types/jest": "29.5.14",
         "@types/reserved-words": "0.1.4",
         "jest": "^29.7.0",
-        "ts-jest": "29.2.5",
+        "ts-jest": "29.3.4",
         "typescript": "5.4.5"
     }
 }
