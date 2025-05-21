@@ -24,7 +24,6 @@ export class StackSynthesizer implements IStackSynthesizer {
   constructor(
     protected stack: TerraformStack,
     private continueOnErrorAnnotations = false,
-    private hclOutput = false,
   ) {}
 
   synthesize(session: ISynthesisSession) {
@@ -90,7 +89,7 @@ export class StackSynthesizer implements IStackSynthesizer {
       );
     }
 
-    if (this.hclOutput) {
+    if (manifest.hclOutput) {
       const hcl = this.stack.toHclTerraform();
       fs.writeFileSync(
         path.join(session.outdir, stackManifest.synthesizedStackPath),
