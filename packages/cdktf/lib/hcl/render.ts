@@ -682,7 +682,7 @@ ${renderAttributes(value)}
 # Warning: The following attribute is of an unexpected type. Either there's a problem with the provider
 # or CDKTF has chosen to skip generating a detailed type for this because it increases the size of the provider library significantly. 
 # Please check if this resource is included in our skip list: 
-# https://github.com/hashicorp/terraform-cdk/blob/main/packages/%40cdktf/provider-generator/lib/get/generator/skipped-attributes.ts
+# https://github.com/hashicorp/terraform-cdk/blob/1fb8588095a55d475dc4be28882ec4f42006ec8d/packages/%40cdktf/provider-generator/lib/get/generator/skipped-attributes.ts
 # and if not, please check with the provider authors to see if the provider schema is accurate.
 # 
 # We understand this is not ideal, so we suggest using JSON synthesis instead of HCL synthesis for this particular case.
