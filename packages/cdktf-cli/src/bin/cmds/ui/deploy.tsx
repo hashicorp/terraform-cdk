@@ -67,6 +67,7 @@ interface DeployConfig {
   noColor?: boolean;
   migrateState?: boolean;
   skipSynth?: boolean;
+  skipProviderLock?: boolean;
 }
 
 export const Deploy = ({
@@ -85,6 +86,7 @@ export const Deploy = ({
   noColor,
   migrateState,
   skipSynth,
+  skipProviderLock,
 }: DeployConfig): React.ReactElement => {
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
   const { status, logEntries } = useCdktfProject(
@@ -102,6 +104,7 @@ export const Deploy = ({
         noColor,
         migrateState,
         skipSynth,
+        skipProviderLock,
       });
 
       if (onOutputsRetrieved) {

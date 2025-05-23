@@ -108,6 +108,12 @@ class Command extends BaseCommand {
         required: false,
         desc: "Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date",
       })
+      .option("skip-provider-lock", {
+        type: "boolean",
+        default: false,
+        required: false,
+        desc: "Block `terraform provider lock` from being run for any reason. Warning: This may cause issues when used with HCP Terraform",
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {
