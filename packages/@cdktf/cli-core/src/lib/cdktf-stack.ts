@@ -250,9 +250,14 @@ export class CdktfStack {
     );
   }
 
-  public async initalizeTerraform(noColor?: boolean) {
+  public async initalizeTerraform(
+    noColor?: boolean,
+    skipProviderLock?: boolean,
+  ) {
     const terraform = await this.terraformClient();
-    const needsLockfileUpdate = await this.checkNeedsLockfileUpdate();
+    const needsLockfileUpdate = skipProviderLock
+      ? false
+      : await this.checkNeedsLockfileUpdate();
     const needsUpgrade = await this.checkNeedsUpgrade();
     await terraform.init({
       needsUpgrade,
