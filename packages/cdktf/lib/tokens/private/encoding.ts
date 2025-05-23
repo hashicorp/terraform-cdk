@@ -137,7 +137,7 @@ export class TokenString {
     }
 
     if (startMatch && endMatch) {
-      if (startMatch.index > startIndex && startMatch.index > startIndex) {
+      if (startMatch.index > startIndex) {
         const lede = this.str.substring(
           startIndex,
           Math.min(startMatch.index, endMatch.index),
