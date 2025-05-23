@@ -74,13 +74,20 @@ export type SkipSynthOptions = {
   skipSynth?: boolean;
 };
 
-export type FetchOutputOptions = SkipSynthOptions & MultipleStackOptions;
+export type SkipProviderLockOptions = {
+  skipProviderLock?: boolean;
+};
+
+export type FetchOutputOptions = SkipSynthOptions &
+  SkipProviderLockOptions &
+  MultipleStackOptions;
 
 export type AutoApproveOptions = {
   autoApprove?: boolean;
 };
 
 export type DiffOptions = SingleStackOptions &
+  SkipProviderLockOptions &
   SkipSynthOptions & {
     refreshOnly?: boolean;
     terraformParallelism?: number;
@@ -88,10 +95,10 @@ export type DiffOptions = SingleStackOptions &
     varFiles?: string[];
     noColor?: boolean;
     migrateState?: boolean;
-    skipSynth?: boolean;
   };
 
 export type MutationOptions = MultipleStackOptions &
+  SkipProviderLockOptions &
   SkipSynthOptions &
   AutoApproveOptions & {
     refreshOnly?: boolean;
@@ -400,7 +407,7 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff"),
     );
-    await stack.initalizeTerraform(opts.noColor);
+    await stack.initalizeTerraform(opts.noColor, opts.skipProviderLock);
 
     try {
       await stack.diff(opts);
@@ -449,7 +456,10 @@ export class CdktfProject {
       !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
     const allExecutions = [];
 
-    await this.initializeStacksToRunInSerial(opts.noColor);
+    await this.initializeStacksToRunInSerial(
+      opts.noColor,
+      opts.skipProviderLock,
+    );
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
@@ -657,7 +667,7 @@ export class CdktfProject {
       this.getStackExecutor(stack, {}),
     );
 
-    await this.initializeStacksToRunInSerial();
+    await this.initializeStacksToRunInSerial(undefined, opts.skipProviderLock);
     const outputs = await Promise.all(
       this.stacksToRun.map(async (s) => {
         const output = await s.fetchOutputs();
@@ -676,9 +686,10 @@ export class CdktfProject {
   // Serially run terraform init to prohibit text file busy errors for the cache files
   private async initializeStacksToRunInSerial(
     noColor?: boolean,
+    skipProviderLock?: boolean,
   ): Promise<void> {
     for (const stack of this.stacksToRun) {
-      await stack.initalizeTerraform(noColor);
+      await stack.initalizeTerraform(noColor, skipProviderLock);
     }
   }
 }

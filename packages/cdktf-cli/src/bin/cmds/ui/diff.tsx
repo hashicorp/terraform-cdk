@@ -19,6 +19,7 @@ interface DiffConfig {
   noColor?: boolean;
   migrateState?: boolean;
   skipSynth?: boolean;
+  skipProviderLock?: boolean;
 }
 
 export const Diff = ({
@@ -32,6 +33,7 @@ export const Diff = ({
   noColor,
   migrateState,
   skipSynth,
+  skipProviderLock,
 }: DiffConfig): React.ReactElement => {
   const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
@@ -45,6 +47,7 @@ export const Diff = ({
         noColor,
         migrateState,
         skipSynth,
+        skipProviderLock,
       }),
   );
 
