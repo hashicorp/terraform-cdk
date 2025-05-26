@@ -85,7 +85,7 @@
     "xstate": "4.38.3",
     "yargs": "17.7.2",
     "yoga-layout-prebuilt": "1.10.0",
-    "zod": "3.24.4"
+    "zod": "3.25.28"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": "tsc-files ambient.d.ts --noEmit"
@@ -109,10 +109,10 @@
     "@types/json-schema": "7.0.15",
     "@types/lodash.isequal": "4.5.8",
     "@types/nock": "11.1.0",
-    "@types/node": "18.19.101",
+    "@types/node": "18.19.103",
     "@types/node-fetch": "2.6.12",
     "@types/parse-gitignore": "1.0.2",
-    "@types/react": "18.3.21",
+    "@types/react": "18.3.22",
     "@types/scheduler": "^0.26.0",
     "@types/semver": "7.7.0",
     "@types/stream-buffers": "3.0.7",
