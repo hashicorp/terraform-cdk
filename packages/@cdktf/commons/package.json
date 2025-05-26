@@ -56,7 +56,7 @@
     "@types/follow-redirects": "1.14.4",
     "@types/fs-extra": "11.0.4",
     "@types/uuid": "9.0.8",
-    "@types/validator": "13.15.0",
+    "@types/validator": "13.15.1",
     "@typescript-eslint/parser": "^8.32.1",
     "eslint": "^9.27.0",
     "eslint-plugin-prettier": "^5.4.0",
