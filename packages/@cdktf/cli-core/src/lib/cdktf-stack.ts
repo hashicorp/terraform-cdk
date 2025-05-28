@@ -253,6 +253,7 @@ export class CdktfStack {
   public async initalizeTerraform(
     noColor?: boolean,
     skipProviderLock?: boolean,
+    migrateState?: boolean,
   ) {
     const terraform = await this.terraformClient();
     const needsLockfileUpdate = skipProviderLock
@@ -263,7 +264,7 @@ export class CdktfStack {
       needsUpgrade,
       noColor: noColor ?? false,
       needsLockfileUpdate,
-      migrateState: this.options.migrateState ?? false,
+      migrateState: migrateState ?? false,
     });
     return terraform;
   }
