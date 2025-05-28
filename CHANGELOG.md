@@ -1101,7 +1101,7 @@ CDKTF used to use feature flags to enable potentially breaking behaviors in a re
 
 ### refactor
 
-- refactor: rename all *Props and*Options classes and interfaces to \*Config [\#2471](https://github.com/hashicorp/terraform-cdk/pull/2471)
+- refactor: rename all *Props and *Options classes and interfaces to \*Config [\#2471](https://github.com/hashicorp/terraform-cdk/pull/2471)
 
 ## 0.14.3
 
@@ -2693,4 +2693,4 @@ Up until CDK for Terraform version `0.2` only a single stack was supported. For 
 
 **Fixed bugs:**
 
-- `cdktf init` was broken on Windows [\#198](<https://github.com/hashicorp/terraform-cd>
+- `cdktf init` was broken on Windows [\#198](https://github.com/hashicorp/terraform-cd
