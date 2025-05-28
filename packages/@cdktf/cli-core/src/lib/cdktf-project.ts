@@ -407,7 +407,11 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff"),
     );
-    await stack.initalizeTerraform(opts.noColor, opts.skipProviderLock);
+    await stack.initalizeTerraform(
+      opts.noColor,
+      opts.skipProviderLock,
+      opts.migrateState,
+    );
 
     try {
       await stack.diff(opts);
@@ -459,6 +463,7 @@ export class CdktfProject {
     await this.initializeStacksToRunInSerial(
       opts.noColor,
       opts.skipProviderLock,
+      opts.migrateState,
     );
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
@@ -687,9 +692,10 @@ export class CdktfProject {
   private async initializeStacksToRunInSerial(
     noColor?: boolean,
     skipProviderLock?: boolean,
+    migrateState?: boolean,
   ): Promise<void> {
     for (const stack of this.stacksToRun) {
-      await stack.initalizeTerraform(noColor, skipProviderLock);
+      await stack.initalizeTerraform(noColor, skipProviderLock, migrateState);
     }
   }
 }

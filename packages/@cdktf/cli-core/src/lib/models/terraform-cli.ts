@@ -126,6 +126,9 @@ export class TerraformCli implements Terraform {
     if (opts.noColor) {
       args.push("-no-color");
     }
+    if (opts.migrateState) {
+      args.push("-migrate-state");
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     let initCanNotContinue = (_err: any) => {};
@@ -145,7 +148,11 @@ export class TerraformCli implements Terraform {
       },
       (data) => {
         stdout(data);
-        if (data.includes("Should Terraform migrate your existing state?")) {
+        if (
+          data.includes("Should Terraform migrate your existing state?") ||
+          data.includes("Do you want to copy existing state to the new backend")
+        ) {
+          // TODO: This only happens when terraform is passed the -migrate-state anyway, so this check is redundant
           if (opts.migrateState) {
             actions.writeLine("yes");
           } else {
