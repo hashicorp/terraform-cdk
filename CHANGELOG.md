@@ -1,8 +1,10 @@
 ## Unreleased
 
+**Breaking Changes**
+
 ### Minimum required Node version updated to 20.19
 
-Since long-term support for node 18 has ended, we updated our minimum compatible node version to 20.19.
+Since long-term support for Node.js 18 has ended, we updated our minimum compatible node version to 20.19.
 
 ## 0.20.12
 
