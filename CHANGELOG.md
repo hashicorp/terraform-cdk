@@ -1,3 +1,9 @@
+## Unreleased
+
+### Minimum required Node version updated to 20.19
+
+Since long-term support for node 18 has ended, we updated our minimum compatible node version to 20.19.
+
 ## 0.20.12
 
 ### feat
@@ -1093,7 +1099,7 @@ CDKTF used to use feature flags to enable potentially breaking behaviors in a re
 
 ### refactor
 
-- refactor: rename all *Props and *Options classes and interfaces to \*Config [\#2471](https://github.com/hashicorp/terraform-cdk/pull/2471)
+- refactor: rename all *Props and*Options classes and interfaces to \*Config [\#2471](https://github.com/hashicorp/terraform-cdk/pull/2471)
 
 ## 0.14.3
 
@@ -1794,7 +1800,7 @@ const bucket = new s3.S3Bucket(this, "bucket");
 const firstRuleStage = Fn.lookup(
   bucket.lifecycleRule("0").tags,
   "stage",
-  "no-stage",
+  "no-stage"
 );
 const firstRuleTags = bucket.lifecycleRule("0").tags;
 
@@ -2685,4 +2691,4 @@ Up until CDK for Terraform version `0.2` only a single stack was supported. For 
 
 **Fixed bugs:**
 
-- `cdktf init` was broken on Windows [\#198](https://github.com/hashicorp/terraform-cd
+- `cdktf init` was broken on Windows [\#198](<https://github.com/hashicorp/terraform-cd>
