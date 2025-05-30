@@ -89,7 +89,7 @@
     "@types/json-schema": "7.0.15",
     "@types/lodash.isequal": "4.5.8",
     "@types/nock": "11.1.0",
-    "@types/node": "18.19.101",
+    "@types/node": "20.17.51",
     "@types/parse-gitignore": "1.0.2",
     "@types/pidusage": "2.0.5",
     "@types/react": "18.3.21",

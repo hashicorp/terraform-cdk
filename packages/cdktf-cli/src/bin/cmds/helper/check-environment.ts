@@ -52,7 +52,7 @@ async function checkPythonVersion() {
 
 async function checkNodeVersion() {
   const out = await getNodeVersion();
-  throwIfLowerVersion("Node.js", "18.12.0", out);
+  throwIfLowerVersion("Node.js", "20.9.0", out);
 }
 
 export async function checkEnvironment() {
