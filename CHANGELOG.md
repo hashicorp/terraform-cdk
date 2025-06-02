@@ -1,10 +1,30 @@
-## Unreleased
+## 0.21.0
 
 **Breaking Changes**
 
 ### Minimum required Node version updated to 20.9
 
 Since long-term support for Node.js 18 has ended, we updated our minimum compatible node version to 20.9.
+
+### fix
+
+- fix: Stop escaping quotes within HEREDOC [\#3890](https://github.com/hashicorp/terraform-cdk/pull/3890)
+- fix: Pass migrate-state flag through to terraform init [\#3887](https://github.com/hashicorp/terraform-cdk/pull/3887)
+- fix: #3630 Slightly improve HCL rendering for skipped attributes [\#3878](https://github.com/hashicorp/terraform-cdk/pull/3878)
+- fix: issue where archive was being closed before the file finished writing causing corrupt TerraformAssets [\#3873](https://github.com/hashicorp/terraform-cdk/pull/3873)
+
+### feat
+
+- feat!: update minimum required Node.js version to 20.19 [\#3888](https://github.com/hashicorp/terraform-cdk/pull/3888)
+- feat: Skip Provider Locking on request [\#3879](https://github.com/hashicorp/terraform-cdk/pull/3879)
+
+### chore
+
+- chore: Upgrade base image for docker image used in building CDKTF [\#3872](https://github.com/hashicorp/terraform-cdk/pull/3872)
+- chore: Upgrading dependencies [\#3871](https://github.com/hashicorp/terraform-cdk/pull/3871)
+- chore(deps): bump the github-actions-backward-compatible group with 6 updates [\#3869](https://github.com/hashicorp/terraform-cdk/pull/3869)
+- chore(ci): use Dependabot to keep GitHub Actions updated [\#3867](https://github.com/hashicorp/terraform-cdk/pull/3867)
+- chore: add comments to docs [\#3863](https://github.com/hashicorp/terraform-cdk/pull/3863)
 
 ## 0.20.12
 
