@@ -57,7 +57,7 @@
     "@types/deep-equal": "1.0.4",
     "@types/glob": "8.1.0",
     "@types/jest": "29.5.14",
-    "@types/node": "18.19.101",
+    "@types/node": "20.17.51",
     "@types/prettier": "2.7.3",
     "@types/reserved-words": "0.1.4",
     "execa": "5.1.1",

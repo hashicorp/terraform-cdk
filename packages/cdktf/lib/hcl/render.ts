@@ -44,7 +44,7 @@ function renderString(str: string): string {
 
   if (lines.length === 1) return `"${escapeQuotes(str)}"`;
 
-  return `<<EOF\n${lines.map((s) => escapeQuotes(s)).join("\n")}\nEOF`;
+  return `<<EOF\n${lines.join("\n")}\nEOF`;
 }
 
 /**
