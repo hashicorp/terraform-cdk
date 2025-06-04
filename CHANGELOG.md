@@ -20,6 +20,7 @@ Since long-term support for Node.js 18 has ended, we updated our minimum compati
 
 ### chore
 
+- chore(deps): bump tar-fs from 2.1.2 to 2.1.3 [\#3897](https://github.com/hashicorp/terraform-cdk/pull/3897)
 - chore: Upgrade base image for docker image used in building CDKTF [\#3872](https://github.com/hashicorp/terraform-cdk/pull/3872)
 - chore: Upgrading dependencies [\#3871](https://github.com/hashicorp/terraform-cdk/pull/3871)
 - chore(deps): bump the github-actions-backward-compatible group with 6 updates [\#3869](https://github.com/hashicorp/terraform-cdk/pull/3869)
