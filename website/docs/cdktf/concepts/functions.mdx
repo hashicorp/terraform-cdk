@@ -36,7 +36,8 @@ The `element` function gets the first element from the list of Availability Zone
 import { TerraformStack, TerraformVariable } from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
-import { Fn, TerraformOutput } from "cdktf";
+import { Fn } from "cdktf";
+import { TerraformOutput } from "cdktf";
 import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
 export class FunctionsStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -79,15 +80,13 @@ import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZonesConfig;
 from cdktf import Fn, TerraformOutput
 from imports.aws.provider import AwsProvider
 from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
-
         zones = DataAwsAvailabilityZones(self, 'zones',
-                    state="available",
-                )
+            state="available",
+        )
 
         TerraformOutput(self, 'first-zone',
             value=Fn.element(zones.names, 0)
         )
-
 ```
 
 ```csharp
@@ -159,6 +158,15 @@ func NewFunctionsStack(scope constructs.Construct, name string) cdktf.TerraformS
 
 ## Special functions
 
+### Conditional Expressions
+
+The ternary [conditional expression](/terraform/language/expressions/conditionals) is supported in CDKTF as a function. Its first argument for the condition or predicate is usually an [operator](/terraform/cdktf/concepts/functions#operators) such as `Op.eq()` to ensure a runtime comparison. Programming language operators like `==` will be evaluated at synthesis time and the result hardcoded into the generated JSON or HCL. Depending on usage, output and inputs may need their [Token](/terraform/cdktf/concepts/tokens) types specified.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/typescript/documentation#functions-conditional -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#functions-conditional -->
+
+<CodeTabs></CodeTabs>
+
 ### Property Access Helpers
 
 To access nested properties from untyped objects or other datasources that return a dynamic datatype, use the Terraform function `lookup` or, for nested access, the function "Fn.lookupNested()" which is a function offered by CDKTF that allows to avoid nesting `Fn.lookup` calls.
@@ -168,6 +176,8 @@ To access nested properties from untyped objects or other datasources that retur
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#functions-lookup -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#functions-lookup -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#functions-lookup -->
+
+<CodeTabs>
 
 ```ts
 const v = new TerraformVariable(this, "complex_object", {
@@ -181,7 +191,7 @@ new TerraformOutput(this, "first_user_name", {
 
 ```python
 v = TerraformVariable(self, "complex-object",
-    type = 'object({users: list(object({name: string}))})',
+    type='object({users: list(object({name: string}))})',
 )
 TerraformOutput(self, 'users',
     value=Fn.lookup(v.string_value, "users")
@@ -230,6 +240,8 @@ cdktf.NewTerraformOutput(stack, jsii.String("first-user-name"), &cdktf.Terraform
 })
 ```
 
+</CodeTabs>
+
 ### Raw string helper
 
 Another helper function offered by CDKTF is `Fn.rawString` which can be used to escape raw strings that contain characters that CDKTF or Terraform would try to interpret otherwise.
@@ -239,6 +251,8 @@ Another helper function offered by CDKTF is `Fn.rawString` which can be used to 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#functions-raw-string -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#functions-raw-string -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#functions-raw-string -->
+
+<CodeTabs>
 
 ```ts
 new TerraformOutput(this, "quotes", {
@@ -287,6 +301,8 @@ cdktf.NewTerraformOutput(stack, jsii.String("template"), &cdktf.TerraformOutputC
 })
 ```
 
+</CodeTabs>
+
 ## Operators
 
 Use the `Op` object to include operators like `!`, `+`, and `-`.
@@ -298,7 +314,8 @@ Use the `Op` object to include operators like `!`, `+`, and `-`.
 <CodeTabs>
 
 ```ts
-import { Fn, TerraformOutput } from "cdktf";
+import { Fn } from "cdktf";
+import { TerraformOutput } from "cdktf";
 import { Op } from "cdktf";
 
 const zones = new DataAwsAvailabilityZones(this, "zones", {
@@ -360,7 +377,8 @@ It is also possible to use all built-in Terraform functions without using CDKTF'
 <CodeTabs>
 
 ```ts
-import { Fn, TerraformOutput } from "cdktf";
+import { Fn } from "cdktf";
+import { TerraformOutput } from "cdktf";
 import { Op } from "cdktf";
 import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
 

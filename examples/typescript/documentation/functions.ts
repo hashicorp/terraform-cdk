@@ -5,12 +5,19 @@ import { TerraformStack, TerraformVariable } from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 // DOCS_BLOCK_END:functions
+// DOCS_BLOCK_START:functions-conditional
+import { Token } from "cdktf";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
+// DOCS_BLOCK_END:functions-conditional
+// DOCS_BLOCK_START:functions-conditional,operators,functions,functions-raw
+import { Fn } from "cdktf";
+// DOCS_BLOCK_END:functions-conditional,operators,functions,functions-raw
 // DOCS_BLOCK_START:operators,functions,functions-raw
-import { Fn, TerraformOutput } from "cdktf";
+import { TerraformOutput } from "cdktf";
 // DOCS_BLOCK_END:operators,functions,functions-raw
-// DOCS_BLOCK_START:operators,functions-raw
+// DOCS_BLOCK_START:functions-conditional,operators,functions-raw
 import { Op } from "cdktf";
-// DOCS_BLOCK_END:operators,functions-raw
+// DOCS_BLOCK_END:functions-conditional,operators,functions-raw
 // DOCS_BLOCK_START:functions-raw,functions
 import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
 // DOCS_BLOCK_END:functions-raw,functions
@@ -36,6 +43,16 @@ export class FunctionsStack extends TerraformStack {
       value: Fn.element(zones.names, 0),
     });
     // DOCS_BLOCK_END:functions
+
+    // DOCS_BLOCK_START:functions-conditional
+    new Instance(this, "web", {
+      ami: "ami-2757f631",
+      count: Token.asNumber(
+        Fn.conditional(Op.eq(Token.asAny("terraform.workspace"), "prod"), 2, 1),
+      ),
+      instanceType: "t2.micro",
+    });
+    // DOCS_BLOCK_END:functions-conditional
 
     // DOCS_BLOCK_START:functions-lookup
     const v = new TerraformVariable(this, "complex_object", {
