@@ -78,7 +78,7 @@
     "devDependencies": {
         "@types/prettier": "2.6.0",
         "changelog-parser": "^2.8.1",
-        "eslint": "^9.27.0",
+        "eslint": "^9.28.0",
         "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-monorepo": "^0.3.2",
         "husky": ">=6",
