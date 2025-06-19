@@ -31,7 +31,7 @@ export const SynthOutput = ({
         ? `Generated Terraform code for the stacks: ${stacks
             .map((s) => s.name)
             .join(", ")}`
-        : "No stacks found in configuration."}
+        : "No stacks found in the configuration."}
     </Text>
   );
 };
