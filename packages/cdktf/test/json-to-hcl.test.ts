@@ -1103,7 +1103,7 @@ test("string variable default", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
-  new TerraformVariable(stack, "test-string-variable-default", {
+  new TerraformVariable(stack, "test-variable", {
     type: "string",
     default: false
   });
@@ -1121,7 +1121,7 @@ test("bool variable default", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
 
-  new TerraformVariable(stack, "test-bool-variable-default", {
+  new TerraformVariable(stack, "test-variable", {
     type: "bool",
     default: false
   });
@@ -1131,6 +1131,24 @@ test("bool variable default", () => {
     variable "test-variable" {
     type = bool
     default = false
+    }"
+  `);
+});
+
+test("string variable sensitive", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "string",
+    sensitive: false
+  });
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "
+
+    variable "test-variable" {
+    type = string
+    sensitive = false
     }"
   `);
 });
