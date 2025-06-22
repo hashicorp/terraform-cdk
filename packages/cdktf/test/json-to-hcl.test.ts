@@ -363,6 +363,23 @@ describe("output", () => {
     `);
   });
 
+  test("sensitive output false", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new TerraformOutput(stack, "test-output", {
+      value: 1,
+      sensitive: false,
+    });
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+      "
+
+      output "test-output" {
+      value = 1
+      sensitive = false
+      }"
+    `);
+  });
   test("map keys with invalid identifier chars", async () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");
