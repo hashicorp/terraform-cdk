@@ -48,7 +48,7 @@
     "glob": "10.4.5",
     "graphology": "0.26.0",
     "graphology-types": "0.24.7",
-    "jsii-rosetta": "5.8.8",
+    "jsii-rosetta": "5.8.9",
     "prettier": "2.8.8",
     "reserved-words": "0.1.2",
     "zod": "3.24.4"
