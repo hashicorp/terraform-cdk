@@ -78,7 +78,7 @@ app.synth();`,
           "upgrade:next": "npm i cdktf@next cdktf-cli@next"
         },
         "engines": {
-          "node": ">=18.0"
+          "node": ">=20.9"
         },
         "dependencies": {
           "cdktf": "latest",

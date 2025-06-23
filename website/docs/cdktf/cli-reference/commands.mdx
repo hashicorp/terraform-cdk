@@ -5,6 +5,9 @@ description: >-
   Terraform configuration files, and more.
 ---
 
+> [!IMPORTANT]  
+> **Documentation Update:** Product documentation previously located in `/website` has moved to the [`hashicorp/web-unified-docs`](https://github.com/hashicorp/web-unified-docs) repository, where all product documentation is now centralized. Please make contributions directly to `web-unified-docs`, since changes to `/website` in this repository will not appear on developer.hashicorp.com.
+
 # CLI Commands
 
 The CDK for Terraform CLI has the following commands:
@@ -139,7 +142,7 @@ pbpaste | cdktf convert --language python | pbcopy
 This command deploys a given application.
 
 ```bash
-$ cdktf deploy --help
+cdktf deploy --help
 ```
 
 **Help Output**
@@ -150,36 +153,38 @@ cdktf deploy [stacks...]
 Deploy the given stacks
 
 Positionals:
-  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app                                                            [array] [default: []]
+  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app                                                                     [array] [default: []]
 
 Options:
-      --version                                  Show version number                                                                                                           [boolean]
+      --version                                  Show version number                                                                                                                    [boolean]
       --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
-                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                         [string] [default: false]
       --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
-                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
-      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
-      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
-  -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
-  -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
-      --auto-approve                             Auto approve                                                                                                 [boolean] [default: false]
-      --outputs-file                             Path to file where stack outputs will be written as JSON                                                                       [string]
-      --outputs-file-include-sensitive-outputs   Whether to include sensitive outputs in the output file                                                      [boolean] [default: false]
-      --ignore-missing-stack-dependencies        Don't check if all stacks specified in the command have their dependencies included as well                  [boolean] [default: false]
-      --parallelism                              Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                    [number] [default: -1]
-      --refresh-only                             Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply
-                                                 but does not propose any actions to undo any changes made outside of Terraform.                              [boolean] [default: false]
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                       [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                   [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard out at
+                                                 the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                         [required] [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                          [required] [default: "cdktf.out"]
+      --auto-approve                             Auto approve                                                                                                          [boolean] [default: false]
+      --outputs-file                             Path to file where stack outputs will be written as JSON                                                                                [string]
+      --outputs-file-include-sensitive-outputs   Whether to include sensitive outputs in the output file                                                               [boolean] [default: false]
+      --ignore-missing-stack-dependencies        Don't check if all stacks specified in the command have their dependencies included as well                           [boolean] [default: false]
+      --parallelism                              Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                             [number] [default: -1]
+      --refresh-only                             Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does
+                                                 not propose any actions to undo any changes made outside of Terraform.                                                [boolean] [default: false]
       --terraform-parallelism                    Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not
-                                                 supported by remote / cloud backend                                                                              [number] [default: -1]
-      --no-color                                 Disables terminal formatting sequences in the output.                                                        [boolean] [default: false]
-      --migrate-state                            Pass this flag after switching state backends to approve a state migration for all targeted stacks           [boolean] [default: false]
-      --var                                      Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one
-                                                 variable.                                                                                                         [array] [default: []]
-      --var-file                                 Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more
-                                                 than once to include more than one variables file.                                                                [array] [default: []]
-      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date   [boolean] [default: false]
-  -h, --help                                     Show help                                                                                                                     [boolean]
+                                                 supported by remote / cloud backend                                                                                       [number] [default: -1]
+      --no-color                                 Disables terminal formatting sequences in the output.                                                                 [boolean] [default: false]
+      --migrate-state                            Pass this flag after switching state backends to approve a state migration for all targeted stacks                    [boolean] [default: false]
+      --var                                      Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one variable.
+                                                                                                                                                                            [array] [default: []]
+      --var-file                                 Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to
+                                                 include more than one variables file.                                                                                      [array] [default: []]
+      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date            [boolean] [default: false]
+      --skip-provider-lock                       Block `terraform provider lock` from being run for any reason. Warning: This may cause issues when used with HCP Terraform
+                                                                                                                                                                       [boolean] [default: false]
+  -h, --help                                     Show help
 ```
 
 ~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
@@ -189,31 +194,31 @@ Options:
 Deploy an application.
 
 ```bash
-$ cdktf deploy
+cdktf deploy
 ```
 
 Deploy an application with automatic approval of the diff (Terraform plan).
 
 ```bash
-$ cdktf deploy --auto-approve my-first-stack my-second-stack my-third-stack
+cdktf deploy --auto-approve my-first-stack my-second-stack my-third-stack
 ```
 
 Deploy multiple stacks in one run.
 
 ```bash
-$ cdktf deploy my-first-stack my-second-stack my-third-stack
+cdktf deploy my-first-stack my-second-stack my-third-stack
 ```
 
 Deploy all stacks in one run:
 
 ```bash
-$ cdktf deploy '*'
+cdktf deploy '*'
 ```
 
 Deploy all stacks ending with `-production` in one run:
 
 ```bash
-$ cdktf deploy '*-production'
+cdktf deploy '*-production'
 ```
 
 If the stacks have dependencies (through cross stack references or by calling `myStack.addDependency(otherStack)`) deploy will figure out the right order to run.
@@ -225,7 +230,7 @@ For more info on the `--outputs-file` option, refer to the [`output` command](/t
 This command destroys a given application.
 
 ```bash
-$ cdktf destroy --help
+cdktf destroy --help
 ```
 
 Help output:
@@ -236,32 +241,34 @@ cdktf destroy [stacks..]
 Destroy the given stacks
 
 Positionals:
-  stacks  Destroy stacks matching the given ids. Required when more than one stack is present in the app                                                           [array] [default: []]
+  stacks  Destroy stacks matching the given ids. Required when more than one stack is present in the app                                                                    [array] [default: []]
 
 Options:
-      --version                                  Show version number                                                                                                           [boolean]
+      --version                                  Show version number                                                                                                                    [boolean]
       --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
-                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                         [string] [default: false]
       --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
-                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
-      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
-      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
-  -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
-  -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
-      --auto-approve                             Auto approve                                                                                                 [boolean] [default: false]
-      --ignore-missing-stack-dependencies        Don't check if all stacks specified in the command have their dependencies included as well                  [boolean] [default: false]
-      --parallelism                              Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                    [number] [default: -1]
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                       [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                   [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard out at
+                                                 the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                         [required] [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                          [required] [default: "cdktf.out"]
+      --auto-approve                             Auto approve                                                                                                          [boolean] [default: false]
+      --ignore-missing-stack-dependencies        Don't check if all stacks specified in the command have their dependencies included as well                           [boolean] [default: false]
+      --parallelism                              Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                             [number] [default: -1]
       --terraform-parallelism                    Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not
-                                                 supported by remote / cloud backend                                                                              [number] [default: -1]
-      --var                                      Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one
-                                                 variable.                                                                                                         [array] [default: []]
-      --var-file                                 Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more
-                                                 than once to include more than one variables file.                                                                [array] [default: []]
-      --no-color                                 Disables terminal formatting sequences in the output.                                                        [boolean] [default: false]
-      --migrate-state                            Pass this flag after switching state backends to approve a state migration for all targeted stacks           [boolean] [default: false]
-      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date   [boolean] [default: false]
-  -h, --help                                     Show help                                                                                                                     [boolean]
+                                                 supported by remote / cloud backend                                                                                       [number] [default: -1]
+      --var                                      Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one variable.
+                                                                                                                                                                            [array] [default: []]
+      --var-file                                 Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to
+                                                 include more than one variables file.                                                                                      [array] [default: []]
+      --no-color                                 Disables terminal formatting sequences in the output.                                                                 [boolean] [default: false]
+      --migrate-state                            Pass this flag after switching state backends to approve a state migration for all targeted stacks                    [boolean] [default: false]
+      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date            [boolean] [default: false]
+      --skip-provider-lock                       Block `terraform provider lock` from being run for any reason. Warning: This may cause issues when used with HCP Terraform
+                                                                                                                                                                       [boolean] [default: false]
+  -h, --help                                     Show help
 ```
 
 ~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
@@ -271,31 +278,31 @@ Options:
 Destroy an application.
 
 ```bash
-$ cdktf destroy
+cdktf destroy
 ```
 
 Destroy an application with automatic approval of the diff (Terraform plan).
 
 ```bash
-$ cdktf destroy --auto-approve
+cdktf destroy --auto-approve
 ```
 
 Destroy multiple stacks in one run.
 
 ```bash
-$ cdktf destroy my-first-stack my-second-stack my-third-stack
+cdktf destroy my-first-stack my-second-stack my-third-stack
 ```
 
 Destroy all stacks in one run:
 
 ```bash
-$ cdktf destroy '*'
+cdktf destroy '*'
 ```
 
 Destroy all stacks ending with production in one run:
 
 ```bash
-$ cdktf destroy '*-production'
+cdktf destroy '*-production'
 ```
 
 If the stacks have dependencies (through cross stack references or by calling `myStack.addDependency(otherStack)`) deploy will figure out the right order to run.
@@ -305,7 +312,7 @@ If the stacks have dependencies (through cross stack references or by calling `m
 This command generates a diff for a given application by running Terraform plan.
 
 ```bash
-$ cdktf diff --help
+cdktf diff --help
 ```
 
 Help output:
@@ -316,31 +323,32 @@ cdktf diff [stack]
 Perform a diff (terraform plan) for the given stack
 
 Positionals:
-  stack  Diff stack which matches the given id only. Required when more than one stack is present in the app                                                                    [string]
+  stack  Diff stack which matches the given id only. Required when more than one stack is present in the app                                                                             [string]
 
 Options:
-      --version                                  Show version number                                                                                                           [boolean]
+      --version                                  Show version number                                                                                                                    [boolean]
       --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
-                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                         [string] [default: false]
       --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
-                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
-      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
-      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
-  -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
-  -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
-      --refresh-only                             Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply
-                                                 but does not propose any actions to undo any changes made outside of Terraform.                              [boolean] [default: false]
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                       [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                   [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard out at
+                                                 the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                         [required] [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                          [required] [default: "cdktf.out"]
+      --refresh-only                             Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does
+                                                 not propose any actions to undo any changes made outside of Terraform.                                                [boolean] [default: false]
       --terraform-parallelism                    Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not
-                                                 supported by remote / cloud backend                                                                              [number] [default: -1]
-      --var                                      Set a value for one of the input variables in the stack. Use this option more than once to set more than one variable.
-                                                                                                                                                                   [array] [default: []]
-      --var-file                                 Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more
-                                                 than once to include more than one variables file.                                                                [array] [default: []]
-      --no-color                                 Disables terminal formatting sequences in the output.                                                        [boolean] [default: false]
-      --migrate-state                            Pass this flag after switching state backends to approve a state migration for the targeted stack            [boolean] [default: false]
-      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date   [boolean] [default: false]
-  -h, --help                                     Show help                                                                                                                     [boolean]
+                                                 supported by remote / cloud backend                                                                                       [number] [default: -1]
+      --var                                      Set a value for one of the input variables in the stack. Use this option more than once to set more than one variable.     [array] [default: []]
+      --var-file                                 Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to
+                                                 include more than one variables file.                                                                                      [array] [default: []]
+      --no-color                                 Disables terminal formatting sequences in the output.                                                                 [boolean] [default: false]
+      --migrate-state                            Pass this flag after switching state backends to approve a state migration for the targeted stack                     [boolean] [default: false]
+      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date            [boolean] [default: false]
+      --skip-provider-lock                       Block `terraform provider lock` from being run for any reason. Warning: This may cause issues when used with HCP Terraform
+                                                                                                                                                                       [boolean] [default: false]
+  -h, --help                                     Show help
 ```
 
 ~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/plan#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
@@ -350,7 +358,7 @@ Examples:
 Generate a diff for a given application.
 
 ```bash
-$ cdktf diff
+cdktf diff
 ```
 
 ## get
@@ -363,7 +371,7 @@ The command does not update the version when you specify loose version constrain
 When you change a version constraint, the `cdktf get` command recreates the bindings for that provider.
 
 ```bash
-$ cdktf get --help
+cdktf get --help
 ```
 
 **Help Output**
@@ -405,13 +413,13 @@ $ cat cdktf.json
 ```
 
 ```bash
-$ cdktf get
+cdktf get
 ```
 
 If you run into issues generating a lot of bindings you can use the `--parallelism` option to limit the number of bindings generated in parallel.
 
 ```bash
-$ cdktf get --parallelism 1
+cdktf get --parallelism 1
 ```
 
 ## init
@@ -419,7 +427,7 @@ $ cdktf get --parallelism 1
 This command creates a new CDK for Terraform project using a template.
 
 ```sh
-$ cdktf init --help
+cdktf init --help
 ```
 
 **Help Output**
@@ -457,19 +465,19 @@ Options:
 Create a new Typescript project.
 
 ```bash
-$ cdktf init --template="typescript"
+cdktf init --template="typescript"
 ```
 
 Create a new Python project and use a specific version of the `cdktf` package.
 
 ```bash
-$ cdktf init --template="python" --cdktf-version="0.0.1"
+cdktf init --template="python" --cdktf-version="0.0.1"
 ```
 
 Create a new Typescript project from an existing Terraform codebase. Currently, you can only use the `--from-terraform-project` flag with TypeScript, and there are some known limitations.
 
 ```bash
-$ cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
+cdktf init --template="typescript" --from-terraform-project /path/to/terraform/project
 ```
 
 ## login
@@ -477,7 +485,7 @@ $ cdktf init --template="typescript" --from-terraform-project /path/to/terraform
 This command helps log in to HCP Terraform by fetching a HCP Terraform API token.
 
 ```bash
-$ cdktf login --help
+cdktf login --help
 ```
 
 **Help Output**
@@ -513,7 +521,7 @@ Please note that we currently expect custom TFE instances to be using the `https
 Fetch an API token from HCP Terraform.
 
 ```bash
-$ cdktf login
+cdktf login
 ```
 
 ## synth
@@ -521,7 +529,7 @@ $ cdktf login
 This command synthesizes Terraform configuration for an application. CDKTF stores the synthesized configuration in the `cdktf.out` directory, unless you use the `--output` flag to specify a different location. The output folder is ephemeral and might be erased for each `synth` that you run manually or that happens automatically when you run `deploy`, `diff`, or `destroy`.
 
 ```sh
-$ cdktf synth --help
+cdktf synth --help
 ```
 
 **Help Output**
@@ -553,19 +561,19 @@ Options:
 Synthesize code for an application.
 
 ```bash
-$ cdktf synth
+cdktf synth
 ```
 
 Synthesize code when providing a custom command to execute and an output directory.
 
 ```bash
-$ cdktf synth --app="npm compile && node main.js" --output="dirname"
+cdktf synth --app="npm compile && node main.js" --output="dirname"
 ```
 
 Synthesize code in Terraform HCL instead of JSON
 
 ```bash
-$ cdktf synth --hcl
+cdktf synth --hcl
 ```
 
 ## watch
@@ -583,7 +591,7 @@ Before using `watch` you should check your environment. The `watch` command shou
 ### Run watch
 
 ```sh
-$ cdktf watch --help
+cdktf watch --help
 ```
 
 **Help Output**
@@ -639,7 +647,7 @@ The debug output is directed to a `cdktf.log` file in your projects root directo
 This command gets the outputs defined in the Terraform configuration of the given stack. It uses `terraform output` under the hood.
 
 ```sh
-$ cdktf output --help
+cdktf output --help
 ```
 
 **Help Output**
@@ -650,24 +658,25 @@ cdktf output [stacks..]
 Prints the output of stacks
 
 Positionals:
-  stacks  Get outputs of the stacks matching the given ids. Required when more than one stack is present in the app                                                [array] [default: []]
+  stacks  Get outputs of the stacks matching the given ids. Required when more than one stack is present in the app                                                         [array] [default: []]
 
 Options:
-      --version                                  Show version number                                                                                                           [boolean]
+      --version                                  Show version number                                                                                                                    [boolean]
       --experimental-provider-schema-cache-path  An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env
-                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                [string] [default: false]
+                                                 CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.                                                                         [string] [default: false]
       --disable-plugin-cache-env                 Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
-                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                              [boolean] [default: false]
-      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                          [string]
-      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard
-                                                 out at the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
-  -a, --app                                      Command to use in order to execute cdktf app                                                [required] [default: "npx ts-node main.ts"]
-  -o, --output                                   Output directory for the synthesized Terraform config                                                 [required] [default: "cdktf.out"]
-      --outputs-file                             Path to file where stack outputs will be written as JSON                                                                       [string]
-      --outputs-file-include-sensitive-outputs   Whether to include sensitive outputs in the output file                                                      [boolean] [default: false]
-      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date   [boolean] [default: false]
-  -h, --help                                     Show help                                                                                                                     [boolean]
-➜
+                                                 CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                       [boolean] [default: false]
+      --log-level                                Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                   [string]
+      --log-file-directory                       The directory path where CDKTF should create `cdktf.log` and print logs at the `debug` level. If not set, CDKTF writes logs to standard out at
+                                                 the level specified in `CDKTF_LOG_LEVEL`. Only supported via setting the env CDKTF_LOG_FILE_DIRECTORY
+  -a, --app                                      Command to use in order to execute cdktf app                                                         [required] [default: "npx ts-node main.ts"]
+  -o, --output                                   Output directory for the synthesized Terraform config                                                          [required] [default: "cdktf.out"]
+      --outputs-file                             Path to file where stack outputs will be written as JSON                                                                                [string]
+      --outputs-file-include-sensitive-outputs   Whether to include sensitive outputs in the output file                                                               [boolean] [default: false]
+      --skip-synth                               Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date            [boolean] [default: false]
+      --skip-provider-lock                       Block `terraform provider lock` from being run for any reason. Warning: This may cause issues when used with HCP Terraform
+                                                                                                                                                                       [boolean] [default: false]
+  -h, --help                                     Show help
 ```
 
 ### `--outputs-file`
@@ -745,7 +754,7 @@ com.hashicorp.cdktf-provider-ad (PREBUILT)
 This command facilitates adding Terraform providers to a CDKTF project. If a [pre-built provider](/terraform/cdktf/concepts/providers#install-pre-built-providers) is available for the CDKTF version you are using and the Terraform provider version you requested (if any), it will be installed using e.g. `npm install` or `dotnet add` depending on the language you are using. Otherwise, the provider will be added to the `cdktf.json` config and `cdktf get` will be automatically invoked to generate [local provider bindings](/terraform/cdktf/concepts/providers#add-provider-to-cdktf-json).
 
 ```sh
-$ cdktf provider add --help
+cdktf provider add --help
 ```
 
 **Help Output**
@@ -776,25 +785,25 @@ Options:
 Add the `aws` provider to the project. As the namespace of the AWS Terraform provider is `hashicorp` it can be left out.
 
 ```bash
-$ cdktf provider add aws
+cdktf provider add aws
 ```
 
 Add a specific version of the `aws` provider to the project. You can use the `@` symbol to specify a [version constraint](/terraform/language/providers/requirements#version-constraints).
 
 ```bash
-$ cdktf provider add aws@~>4.0
+cdktf provider add aws@~>4.0
 ```
 
 Add multiple providers to the project and force local generation of provider bindings.
 
 ```bash
-$ cdktf provider add kreuzwerker/docker google --force-local
+cdktf provider add kreuzwerker/docker google --force-local
 ```
 
 Add a provider from a private registry to the project.
 
 ```bash
-$ cdktf provider add registry.example.com/acme/my-provider
+cdktf provider add registry.example.com/acme/my-provider
 ```
 
 ## provider upgrade
@@ -880,17 +889,17 @@ Options:
 Upgrade the `aws` provider to the newest version available for your `cdktf` version.
 
 ```bash
-$ cdktf provider add aws
+cdktf provider add aws
 ```
 
 Upgrade the `aws` provider to the newest version available for your `cdktf` version and at version `4` of the provider version.
 
 ```bash
-$ cdktf provider add aws@~>4.0
+cdktf provider add aws@~>4.0
 ```
 
 Upgrade multiple providers to the latest version available for your `cdktf` version.
 
 ```bash
-$ cdktf provider add kreuzwerker/docker google
+cdktf provider add kreuzwerker/docker google
 ```

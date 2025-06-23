@@ -198,6 +198,7 @@ export async function deploy(argv: any) {
   const noColor = argv.noColor;
   const migrateState = argv.migrateState;
   const skipSynth = argv.skipSynth;
+  const skipProviderLock = argv.skipProviderLock;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -225,6 +226,7 @@ export async function deploy(argv: any) {
       noColor,
       migrateState,
       skipSynth,
+      skipProviderLock,
     }),
   );
 }
@@ -247,6 +249,7 @@ export async function destroy(argv: any) {
   const noColor = argv.noColor;
   const migrateState = argv.migrateState;
   const skipSynth = argv.skipSynth;
+  const skipProviderLock = argv.skipProviderLock;
 
   await renderInk(
     React.createElement(Destroy, {
@@ -262,6 +265,7 @@ export async function destroy(argv: any) {
       noColor,
       migrateState,
       skipSynth,
+      skipProviderLock,
     }),
   );
 }
@@ -281,6 +285,7 @@ export async function diff(argv: any) {
   const noColor = argv.noColor;
   const migrateState = argv.migrateState;
   const skipSynth = argv.skipSynth;
+  const skipProviderLock = argv.skipProviderLock;
 
   await renderInk(
     React.createElement(Diff, {
@@ -294,6 +299,7 @@ export async function diff(argv: any) {
       noColor,
       migrateState,
       skipSynth,
+      skipProviderLock,
     }),
   );
 }
@@ -519,6 +525,7 @@ export async function output(argv: any) {
   const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   const skipSynth = argv.skipSynth;
+  const skipProviderLock = argv.skipProviderLock;
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   let onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void = () => {};
@@ -537,6 +544,7 @@ export async function output(argv: any) {
       onOutputsRetrieved,
       outputsPath,
       skipSynth,
+      skipProviderLock,
     }),
   );
 }

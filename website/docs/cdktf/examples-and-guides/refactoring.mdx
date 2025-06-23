@@ -4,6 +4,9 @@ description: >-
   Refactor stacks as your CDKTF application grows in size and complexity.
 ---
 
+> [!IMPORTANT]  
+> **Documentation Update:** Product documentation previously located in `/website` has moved to the [`hashicorp/web-unified-docs`](https://github.com/hashicorp/web-unified-docs) repository, where all product documentation is now centralized. Please make contributions directly to `web-unified-docs`, since changes to `/website` in this repository will not appear on developer.hashicorp.com.
+
 # Refactoring
 
 You may need to move resources between stacks as your CDK for Terraform (CDKTF) application grows in size and complexity. This guide demonstrates how to refactor your stacks. In general you can change the names of stacks freely without an effect on the synthesized code. If you change the name of a resource this might lead to a re-creation of the resource, especially if you move the resource from one stack to another.
