@@ -571,3 +571,28 @@ test("list of list of strings", async () => {
   );
   expect(datasourceOutput).toMatchSnapshot();
 });
+
+test("map of map of string attribute", async () => {
+  const code = new CodeMaker();
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "map-of-map-of-string.test"),
+  );
+  const spec = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        __dirname,
+        "fixtures",
+        "map-of-map-of-string.test.fixture.json",
+      ),
+      "utf-8",
+    ),
+  );
+  new TerraformProviderGenerator(code, spec).generateAll();
+  await code.save(workdir);
+
+  const output = fs.readFileSync(
+    path.join(workdir, "providers/aws/map-of-map-of-string/index.ts"),
+    "utf-8",
+  );
+  expect(output).toMatchSnapshot();
+});

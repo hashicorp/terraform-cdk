@@ -211,6 +211,32 @@ export class AnyMap extends ComplexResolvable implements ITerraformAddressable {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class StringMapMap
+  extends ComplexResolvable
+  implements ITerraformAddressable
+{
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
+
+  public lookup(key: string): StringMap {
+    return new StringMap(
+      this.terraformResource,
+      `${this.terraformAttribute}["${key}"]`,
+    );
+  }
+
+  computeFqn(): string {
+    return Token.asString(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute),
+    );
+  }
+}
+
 /**
  * @deprecated Going to be replaced by Array of ComplexListItem
  * and will be removed in the future
