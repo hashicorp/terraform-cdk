@@ -37,35 +37,35 @@
   ],
   "license": "MPL-2.0",
   "dependencies": {
-    "@sentry/node": "7.120.3",
+    "@sentry/node": "7.120.4",
     "cdktf": "0.0.0",
     "ci-info": "3.9.0",
     "codemaker": "1.112.0",
     "cross-spawn": "7.0.6",
-    "follow-redirects": "1.15.9",
-    "fs-extra": "11.3.0",
+    "follow-redirects": "1.15.11",
+    "fs-extra": "11.3.1",
     "log4js": "6.9.1",
     "strip-ansi": "6.0.1",
     "uuid": "9.0.1",
-    "validator": "13.15.0"
+    "validator": "13.15.15"
   },
   "devDependencies": {
-    "@eslint/compat": "^1.2.9",
+    "@eslint/compat": "^1.3.2",
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.27.0",
+    "@eslint/js": "^9.33.0",
     "@types/follow-redirects": "1.14.4",
     "@types/fs-extra": "11.0.4",
     "@types/uuid": "9.0.8",
-    "@types/validator": "13.15.0",
-    "@typescript-eslint/parser": "^8.32.1",
-    "eslint": "^9.27.0",
-    "eslint-plugin-prettier": "^5.4.0",
+    "@types/validator": "13.15.2",
+    "@typescript-eslint/parser": "^8.39.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "7.37.5",
     "jest": "^29.7.0",
     "lint-staged": "^15.5.2",
-    "ts-jest": "29.3.4",
+    "ts-jest": "29.4.1",
     "typescript": "5.4.5",
-    "typescript-eslint": "^8.32.1"
+    "typescript-eslint": "^8.39.0"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": "tsc-files ambient.d.ts --noEmit"
