@@ -82,9 +82,9 @@
         "eslint-plugin-jsdoc": "^50.6.17",
         "eslint-plugin-no-instanceof": "1.0.1",
         "jest": "^29.7.0",
-        "jsii": "5.8.9",
-        "jsii-docgen": "10.7.4",
-        "jsii-pacmak": "1.112.0",
+        "jsii": "5.9.2",
+        "jsii-docgen": "10.8.0",
+        "jsii-pacmak": "1.113.0",
         "ts-jest": "29.3.4",
         "typescript": "5.4.5"
     },
