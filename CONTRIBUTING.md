@@ -89,7 +89,7 @@ Ensuring your PR titles follow this format helps us quickly identify the purpose
 
 To build and install `terraform-cdk` locally you need to install:
 
-- Node version 14.0+
+- Node version 20.0+
 - Go 1.18
 - dotnet (v6.0)
 - mvn
@@ -365,14 +365,17 @@ Most of our tests are automated but there are some workflows we need to manually
 1. Create a new branch (e.g. `prepare-release-0.9.0`)
 2. Update the [CHANGELOG](./CHANGELOG.md): `./tools/create-changelog.sh` should get you a good start
 3. Update the version in the root `package.json`
-4. Write an [upgrade guide](website/docs/cdktf/release/) (for major releases)
-5. Run `yarn generate-docs` to bring our api documentation up to date
-6. Create a PR to merge the new branch into `main`
-7. Merge the PR, a new release will be build and published because the version changed
+4. Create a PR to merge the new branch into `main`
+5. Merge the PR, a new release will be build and published because the version changed
+6. For major releases:
+
+- Write an [upgrade guide](https://github.com/hashicorp/web-unified-docs/tree/main/content/terraform-cdk/v0.21.x/docs/cdktf/release)
+- Run `yarn generate-docs` to bring our api documentation up to date
+- Make a PR with the changes over in the [`hashicorp/web-unified-docs`](https://github.com/hashicorp/web-unified-docs) repository
 
 #### After the release
 
-- Update the prebuilt provider repository [like this](https://github.com/hashicorp/cdktf-repository-manager/pull/48) (If the release contains breaking changes the commit message needs to have a `!` after the scope so that the minor version is bumped. Example: `chore!: update cdktf version`) and run the [prebuilt provider upgrade workflow](https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml)
+- Updates in our other repos should largely be automated, but some of the updates require manual approval before they'll be auto-merged
 - Update the learn examples and the end to end examples
 - Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
 
@@ -473,4 +476,4 @@ A good way to tackle windows related things is to use an AWS EC2 instance runnin
 
 ## Documentation
 
-The markdown files containing the documentation for CDK for Terraform are in the [`/website`](./website) directory. Refer to the [website README](./website/README.md) for more information.
+Product documentation previously located in `/website` has moved to the [`hashicorp/web-unified-docs`](https://github.com/hashicorp/web-unified-docs) repository, where all product documentation is now centralized. Please make contributions directly to the [`terraform-cdk`](https://github.com/hashicorp/web-unified-docs/tree/main/content/terraform-cdk) directory under `web-unified-docs`, since changes to `/website` in this repository will not appear on [developer.hashicorp.com](https://developer.hashicorp.com).

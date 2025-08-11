@@ -13,7 +13,6 @@ node_modules
 .cdk.staging
 cdktf.out
 
-
 **/.DS_Store
 **/.gen
 **/*.log
@@ -41,3 +40,6 @@ examples/java/gradle-shared-module/.gradle/
 .nx/
 .yarn
 test/.yarn
+
+website/*
+!website/README.md

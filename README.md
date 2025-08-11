@@ -54,7 +54,7 @@ The development team would love your feedback to help guide the project.
 
 ## Build
 
-About prerequisites, refer the [followings](./CONTRIBUTING.md#prerequisites).
+For prerequisites, refer to the [following](./CONTRIBUTING.md#prerequisites).
 
 Clone the project repository.
 
