@@ -17,6 +17,11 @@ const SKIPPED_ATTRIBUTES: string[] = [
 
   "oci.data_oci_objectstorage_private_endpoint.fqdns",
   "oci.data_oci_objectstorage_private_endpoint_summaries.private_endpoint_summaries.fqdns",
+
+  // The below is a quick fix to get the AWSCC provider tests passing / get the provider building again
+  // This is the quickest solution in lieu of a proper long-term fix due to bandwidth constraints
+  // @TODO Fix this by implementing StringListMapMap in packages/cdktf/lib/complex-computed-list.ts
+  "awscc.data_awscc_appintegrations_data_integration.object_configuration",
 ];
 
 /**
