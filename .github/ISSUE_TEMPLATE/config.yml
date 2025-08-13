@@ -3,6 +3,9 @@
 
 blank_issues_enabled: false
 contact_links:
+  - name: 📕 Documentation Issue
+    url: https://github.com/hashicorp/web-unified-docs
+    about: Documentation has its own repository for all HashiCorp products and related issues or questions should be directed there
   - name: ❓ Question
     url: https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/47
     about: 🙋 For usage questions that may not require a core maintainer to answer, post in our community forum

@@ -20,7 +20,7 @@ In plain English, describe your approach to addressing the issue linked above. F
 - [ ] I have run the linter on my code locally
 - [ ] I have performed a self-review of my code
 - [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation if applicable
+- [ ] I have made corresponding changes to the [documentation](https://github.com/hashicorp/web-unified-docs/tree/main/content/terraform-cdk) if applicable
 - [ ] My changes generate no new warnings
 - [ ] I have added tests that prove my fix is effective or that my feature works if applicable
 - [ ] New and existing unit tests pass locally with my changes

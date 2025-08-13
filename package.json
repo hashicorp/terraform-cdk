@@ -43,9 +43,8 @@
         "prepare-next-release": "standard-version --prerelease pre --release-as minor --skip.changelog=true --skip.commit=true",
         "prepare-release": "tools/prepare-release.sh",
         "release": "standard-version",
-        "generate-docs:api": "yarn && yarn build && yarn package && cd tools/documentation-generation && git clean -dfx . && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/**",
-        "generate-docs:translations": "cd tools/documentation-code-snippets && yarn && yarn update-snippets && cd ../../ && yarn run format",
-        "generate-docs": "yarn generate-docs:translations && yarn generate-docs:api",
+        "generate-docs:api": "yarn && yarn build && yarn package && git clean -dfx . && mkdir -p website/docs/cdktf/api-reference && cd tools/documentation-generation && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/**",
+        "generate-docs": "yarn generate-docs:api",
         "generate-function-bindings": "cd tools/generate-function-bindings && yarn && yarn fetch-metadata && yarn generate"
     },
     "workspaces": {
