@@ -663,7 +663,7 @@ describe("backends", () => {
     `);
   });
 
-  test("remote", async () => {
+  test("remote as datasource", async () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");
 
@@ -676,6 +676,7 @@ describe("backends", () => {
       },
     });
 
+    // Data for terraform_remote_state is different than remote backend configuration
     expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
       "
       data "terraform_remote_state" "remote" {
@@ -687,6 +688,59 @@ describe("backends", () => {
       name = "my-app-prod"
       }
       }
+      }"
+    `);
+  });
+
+  test("remote as backend", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new b.RemoteBackend(stack, {
+      organization: "test-organization",
+      workspaces: new b.NamedRemoteWorkspace("test-stack"),
+      hostname: "test.artifactory.local",
+    });
+
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+      "terraform {
+      required_providers {
+
+      }
+      backend "remote" {
+      organization = "test-organization"
+      workspaces {
+      name = "test-stack"
+      }
+      hostname = "test.artifactory.local"
+      }
+
+
+      }"
+    `);
+  });
+
+  test("cloud as backend", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new b.CloudBackend(stack, {
+      organization: "test-organization",
+      workspaces: new b.NamedCloudWorkspace("test-stack"),
+    });
+
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+      "terraform {
+      required_providers {
+
+      }
+      cloud {
+      organization = "test-organization"
+      workspaces {
+      name = "test-stack"
+      }
+      }
+
       }"
     `);
   });
@@ -1261,6 +1315,30 @@ test("import block", () => {
     import {
     to = test_resource.test
     id = "foo"
+    }"
+  `);
+});
+
+test("lifecycle ignore", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TestResource(stack, "test", {
+    name: "test",
+    lifecycle: {
+      ignoreChanges: ["tags"],
+    },
+  });
+
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "
+    resource "test_resource" "test" {
+    name = "test"
+    lifecycle {
+      ignore_changes = [
+    "tags",
+    ]
+    }
     }"
   `);
 });

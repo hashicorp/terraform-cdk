@@ -19,11 +19,22 @@ export class RemoteBackend extends TerraformBackend {
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
-    return keysToSnakeCase({ ...this.props });
+    return {
+      ...keysToSnakeCase({ ...this.props }),
+      workspaces: this.props.workspaces.toTerraform(),
+    };
   }
 
   protected synthesizeHclAttributes(): { [name: string]: any } {
-    return keysToSnakeCase({ ...this.props });
+    return {
+      ...keysToSnakeCase(this.props),
+      workspaces: {
+        value: this.props.workspaces.toHclTerraform(),
+        isBlock: true,
+        type: "map",
+        storageClassType: "stringmap",
+      },
+    };
   }
 
   public toMetadata() {
@@ -53,26 +64,79 @@ export class DataTerraformRemoteState extends TerraformRemoteState {
   }
 }
 
+export interface DataRemoteBackendConfig {
+  readonly hostname?: string;
+  readonly organization: string;
+  readonly token?: string;
+  workspaces: IRemoteWorkspace;
+}
+
 export interface RemoteBackendConfig {
   readonly hostname?: string;
   readonly organization: string;
   readonly token?: string;
-  readonly workspaces: IRemoteWorkspace;
+  /**
+   * A nested block that specifies which remote Terraform workspaces to use for the current configuration.
+   */
+  readonly workspaces: NamedRemoteWorkspace | PrefixedRemoteWorkspaces;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IRemoteWorkspace {}
 
-// eslint-disable-next-line jsdoc/require-jsdoc
-export class NamedRemoteWorkspace implements IRemoteWorkspace {
-  public constructor(public name: string) {}
+/**
+ * A cloud workspace can either be a single named workspace, or a list of tagged workspaces.
+ */
+export abstract class RemoteWorkspace {
+  public abstract toTerraform(): any;
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-export class PrefixedRemoteWorkspaces implements IRemoteWorkspace {
-  public constructor(public prefix: string) {}
+export class NamedRemoteWorkspace extends RemoteWorkspace {
+  public constructor(public name: string) {
+    super();
+  }
+
+  public toHclTerraform(): any {
+    return {
+      name: {
+        value: this.name,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+  }
+
+  public toTerraform(): any {
+    return {
+      name: this.name,
+    };
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class PrefixedRemoteWorkspaces extends RemoteWorkspace {
+  public constructor(public prefix: string) {
+    super();
+  }
+
+  public toHclTerraform(): any {
+    return {
+      prefix: {
+        value: this.prefix,
+        type: "simple",
+        storageClassType: "string",
+      },
+    };
+  }
+
+  public toTerraform(): any {
+    return {
+      prefix: this.prefix,
+    };
+  }
 }
 
 export interface DataTerraformRemoteStateRemoteConfig
   extends DataTerraformRemoteStateConfig,
-    RemoteBackendConfig {}
+    DataRemoteBackendConfig {}
