@@ -363,6 +363,23 @@ describe("output", () => {
     `);
   });
 
+  test("sensitive output false", async () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+
+    new TerraformOutput(stack, "test-output", {
+      value: 1,
+      sensitive: false,
+    });
+    expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+      "
+
+      output "test-output" {
+      value = 1
+      sensitive = false
+      }"
+    `);
+  });
   test("map keys with invalid identifier chars", async () => {
     const app = Testing.app();
     const stack = new TerraformStack(app, "test");
@@ -1095,6 +1112,125 @@ test("string type", () => {
 
     variable "test-variable" {
     type = string
+    }"
+  `);
+});
+
+test("string variable default", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "string",
+    default: false
+  });
+  const hcl = Testing.synthHcl(stack);
+  expect(hcl).toContain('default = false');
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "
+
+    variable "test-variable" {
+    type = string
+    default = false
+    }"
+  `);
+});
+
+test("bool variable default", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "bool",
+    default: false
+  });
+  const hcl = Testing.synthHcl(stack);
+  expect(hcl).toContain("default = false"); // assume CDKTF standard output formatting has space around the equals sign.
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "
+
+    variable "test-variable" {
+    type = bool
+    default = false
+    }"
+  `);
+});
+
+test("string variable sensitive", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "string",
+    sensitive: false
+  });
+  const hcl = Testing.synthHcl(stack);
+  expect(hcl).toContain("sensitive = false"); 
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "
+
+    variable "test-variable" {
+    type = string
+    sensitive = false
+    }"
+  `);
+});
+
+test("number variable default zero", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const hcl = Testing.synthHcl(stack);
+  expect(hcl).toContain("default = 0"); 
+  new TerraformVariable(stack, "test-variable", {
+    type: "number",
+    default: 0
+  });
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "
+
+    variable "test-variable" {
+    type = number
+    default = 0
+    }"
+  `);
+});
+
+test("string variable default empty", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "string",
+    default: ""
+  });
+  const hcl = Testing.synthHcl(stack);
+  expect(hcl).toContain('default = ""');
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "
+
+    variable "test-variable" {
+    type = string
+    default = ""
+    }"
+  `);
+});
+
+test("variable default null", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  new TerraformVariable(stack, "test-variable", {
+    type: "string",
+    default: null,
+  });
+  const hcl = Testing.synthHcl(stack);
+  expect(hcl).toContain('default = null');
+  expect(Testing.synthHcl(stack)).toMatchInlineSnapshot(`
+    "
+    variable "test-variable" {
+    type = string
+    default = null
     }"
   `);
 });

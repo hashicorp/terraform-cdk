@@ -600,15 +600,24 @@ export function renderAttributes(attributes: any): string {
       //
       // We might have some attributes that don't have type information
       // just try to guess them
+      
+      // Handle primitive values and falsy values explicitly
+      if (v === undefined) {
+        return undefined;
+      }
+      if (v === null) {
+        return `${name} = null`;
+      }
+      if (typeof v === "boolean") {
+        return `${name} = ${v}`;
+      }
       if (typeof v === "string" || typeof v === "number") {
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
-      } else if (typeof v === "boolean") {
-        return `${name} = ${v}`;
-      } else if (Array.isArray(v)) {
+      }
+      if (Array.isArray(v)) {
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
-      } else if (v === null) {
-        return `${name} = null`;
-      } else if (
+      }
+      if (
         typeof v === "object" &&
         // eslint-disable-next-line no-prototype-builtins
         !v.hasOwnProperty("value") &&
@@ -621,9 +630,7 @@ ${renderSimpleAttributes(v)}
 }`;
         }
         return `${name} = ${renderFuzzyJsonExpression(v)}`;
-      } else if (v === undefined) {
-        return undefined;
-      }
+      } 
 
       // Referencing both isBlock and is_block, because sometimes we pass through a snake case filter
       // within attributes.
@@ -677,6 +684,14 @@ ${renderAttributes(value)}
         // In either case, we should try to not output [object Object] here
         // and try a best approximation. Though, it would not work for
         // blocks
+        if (
+          typeof value === "string" ||
+          typeof value === "number" ||
+          typeof value === "boolean" ||
+          value === null
+        ) {
+          return `${name} = ${renderFuzzyJsonExpression(value)}`;
+        }
         if (typeof value === "object") {
           return `
 # Warning: The following attribute is of an unexpected type. Either there's a problem with the provider
