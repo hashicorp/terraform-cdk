@@ -393,6 +393,10 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   get storedClassType() {
+    // Special case for map of map of string
+    if (this.elementType.storedClassType === "StringMap") {
+      return "StringMapMap";
+    }
     return `${this.elementType.storedClassType}Map`;
   }
 

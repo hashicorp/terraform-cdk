@@ -3967,6 +3967,97 @@ export class ListOfStringMap extends cdktf.TerraformResource {
 "
 `;
 
+exports[`map of map of string attribute 1`] = `
+"// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/map_of_map_of_string
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface MapOfMapOfStringConfig extends cdktf.TerraformMetaArguments {
+}
+
+/**
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/map_of_map_of_string aws_map_of_map_of_string}
+*/
+export class MapOfMapOfString extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = "aws_map_of_map_of_string";
+
+  // ==============
+  // STATIC Methods
+  // ==============
+  /**
+  * Generates CDKTF code for importing a MapOfMapOfString resource upon running "cdktf plan <stack-name>"
+  * @param scope The scope in which to define this construct
+  * @param importToId The construct id used in the generated config for the MapOfMapOfString to import
+  * @param importFromId The id of the existing MapOfMapOfString that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/map_of_map_of_string#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the MapOfMapOfString to import is found
+  */
+  public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_map_of_map_of_string", importId: importFromId, provider });
+      }
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/map_of_map_of_string aws_map_of_map_of_string} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options MapOfMapOfStringConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: MapOfMapOfStringConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_map_of_map_of_string',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
+    });
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // labels - computed: true, optional: false, required: false
+  private _labels = new cdktf.StringMapMap(this, "labels");
+  public get labels() {
+    return this._labels;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+    };
+  }
+
+  protected synthesizeHclAttributes(): { [name: string]: any } {
+    const attrs = {
+    };
+    return attrs;
+  }
+}
+"
+`;
+
 exports[`map of string list attribute 1`] = `
 "// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/map_of_string_list
 // generated from terraform resource schema
