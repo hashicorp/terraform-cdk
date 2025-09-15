@@ -466,6 +466,33 @@ export function dependable(dependable: ITerraformDependable): string {
   return Token.asString(new Dependable(dependable));
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
+class ReplaceTriggeredBy extends TFExpression {
+  constructor(private readonly trigger: ITerraformDependable | string) {
+    super(trigger);
+  }
+
+  public resolve(context: IResolveContext) {
+    context.suppressBraces = true;
+
+    if (typeof this.trigger === "string") {
+      return context.resolve(this.trigger);
+    }
+    return context.resolve(this.trigger.fqn);
+  }
+}
+
+/**
+ * Takes either a full resource or a resource property and then
+ * returns the logical address without braces/interpolation to
+ * be used in replaceTriggeredBy directives.
+ */
+export function replaceTriggeredBy(
+  trigger: ITerraformDependable | string,
+): string {
+  return Token.asString(new ReplaceTriggeredBy(trigger));
+}
+
 export type Expression =
   | Reference
   | FunctionCall
@@ -473,6 +500,7 @@ export type Expression =
   | ConditionalExpression
   | OperatorExpression
   | Dependable
+  | ReplaceTriggeredBy
   | ForExpression
   | string
   | string[]

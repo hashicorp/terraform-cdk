@@ -456,8 +456,8 @@ exports[`supports resource and attribute references in lifecycle.replaceTriggere
       "simple": {
         "lifecycle": {
           "replace_triggered_by": [
-            "\${test_resource.other}",
-            "\${test_resource.other.string_value}"
+            "test_resource.other",
+            "test_resource.other.string_value"
           ]
         },
         "name": "foo"
