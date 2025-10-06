@@ -32,9 +32,11 @@ export class HelloTerra extends TerraformStack {
 // stack1 ---|-----> (passed)
 // stack2 ---|-----------------> (failed)
 // stack3 ---|--------------------------> (passed)
+// stack4 ---|--------------------------> (passed)
 
 const app = Testing.stubVersion(new App({ stackTraces: false }));
 new HelloTerra(app, "stack1", 1);
 new HelloTerra(app, "stack2", 20, true);
 new HelloTerra(app, "stack3", 40);
+new HelloTerra(app, "stack4", 40);
 app.synth();

@@ -454,6 +454,62 @@ describe("CdktfProject", () => {
       );
     }, 120_000);
 
+    it("waits for running stacks to complete when one fails with limited parallelism", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        ...installFixturesInWorkingDirectory(
+          inNewWorkingDirectory(),
+          "parallel-error",
+        ),
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      try {
+        await cdktfProject.deploy({
+          stackNames: ["stack1", "stack2", "stack3", "stack4"],
+          parallelism: 2,
+          autoApprove: true,
+        });
+      } catch (e) {
+        expect(e).toMatchInlineSnapshot(
+          `"Invoking Terraform CLI failed with exit code 1"`,
+        );
+      }
+
+      const relevantEvents = events
+        .filter((e) => !e.type.includes("update"))
+        .map((e) => `${e.stackName || "global"}: ${e.type}`);
+
+      // All stacks that are picked up should be planned
+      expect(relevantEvents).toContain("stack1: planning");
+      expect(relevantEvents).toContain("stack2: planning");
+      expect(relevantEvents).toContain("stack3: planning");
+
+      // Stack1 and Stack2 start immediately (parallelism=2)
+      expect(relevantEvents).toContain("stack1: deploying");
+      expect(relevantEvents).toContain("stack2: deploying");
+
+      // Stack1 completes first (~1s), then Stack3 starts
+      expect(relevantEvents).toContain("stack1: deployed");
+      expect(relevantEvents).toContain("stack3: deploying");
+
+      // We should never start Stack4 because Stack2 fails
+      expect(relevantEvents).not.toContain("stack4: planning");
+      expect(relevantEvents).not.toContain("stack4: deploying");
+
+      // Stack2 fails at ~20s while Stack3 is still running
+      expect(relevantEvents).toContain("stack2: errored");
+
+      // THE KEY TEST: Stack3 must complete even though Stack2 failed
+      // Without the fix, Promise.race() throws and exits immediately,
+      // killing Stack3's Terraform process mid-deployment
+      // With the fix, we wait for Stack3 to complete before throwing
+      expect(relevantEvents).toContain("stack3: deployed");
+    }, 120_000);
+
     it("deploys stacks in the right order with auto approve", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
