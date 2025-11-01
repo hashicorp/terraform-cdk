@@ -69,7 +69,7 @@ jobs:
   cdktfDocsCleanupBranches:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
@@ -88,7 +88,7 @@ jobs:
     needs:
       - cdktfDocsCleanupBranches
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
@@ -110,14 +110,14 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
           token: ${{ secrets.GH_PR_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: "20.x"
 
@@ -150,7 +150,7 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     timeout-minutes: 360
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.branch }}
@@ -162,7 +162,7 @@ jobs:
           git config --global --add safe.directory $(pwd)
 
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: "20.x"
 
@@ -200,7 +200,7 @@ jobs:
       - cdktfDocsConvert
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           repository: ${{ inputs.repository }}
           fetch-depth: 0 # complete checkout
