@@ -152,7 +152,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: dist
           path: dist
@@ -176,7 +176,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: dist
           path: dist
@@ -211,7 +211,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: dist
           path: dist
@@ -240,7 +240,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: dist
           path: dist
@@ -261,7 +261,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: dist
           path: dist
@@ -324,7 +324,7 @@ jobs:
       - unit_test
     steps:
       - name: Send failures to Slack
-        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
+        uses: slackapi/slack-github-action@b0fa283ad8fea605de13dc3f449259339835fc52 # v2.1.0
         with:
           webhook: ${{ secrets.FAILURE_SLACK_WEBHOOK_URL }}
           webhook-type: webhook-trigger

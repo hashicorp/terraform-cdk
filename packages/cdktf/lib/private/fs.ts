@@ -74,7 +74,7 @@ async function runArchive(src: string, dest: string) {
     archive.on("error", (err: Error) => {
       reject(err);
     });
-    archive.on("close", () => {
+    output.on("close", () => {
       resolve();
     });
 

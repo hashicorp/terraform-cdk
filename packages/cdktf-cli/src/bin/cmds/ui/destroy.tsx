@@ -27,6 +27,7 @@ interface DestroyConfig {
   vars?: string[];
   varFiles?: string[];
   skipSynth?: boolean;
+  skipProviderLock?: boolean;
 }
 
 export const Destroy = ({
@@ -42,6 +43,7 @@ export const Destroy = ({
   vars,
   varFiles,
   skipSynth,
+  skipProviderLock,
 }: DestroyConfig): React.ReactElement => {
   const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
@@ -57,6 +59,7 @@ export const Destroy = ({
         vars,
         varFiles,
         skipSynth,
+        skipProviderLock,
       }),
   );
 

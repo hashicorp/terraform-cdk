@@ -44,7 +44,7 @@ function renderString(str: string): string {
 
   if (lines.length === 1) return `"${escapeQuotes(str)}"`;
 
-  return `<<EOF\n${lines.map((s) => escapeQuotes(s)).join("\n")}\nEOF`;
+  return `<<EOF\n${lines.join("\n")}\nEOF`;
 }
 
 /**
@@ -670,6 +670,25 @@ ${renderAttributes(value)}
         }
         if (classType === "number" || classType === "boolean") {
           return `${name} = ${value}`;
+        }
+
+        // Not sure why we're here, but there's either a bug in the provider
+        // or we have skipped the attribute to reduce the size of our provider
+        // In either case, we should try to not output [object Object] here
+        // and try a best approximation. Though, it would not work for
+        // blocks
+        if (typeof value === "object") {
+          return `
+# Warning: The following attribute is of an unexpected type. Either there's a problem with the provider
+# or CDKTF has chosen to skip generating a detailed type for this because it increases the size of the provider library significantly. 
+# Please check if this resource is included in our skip list: 
+# https://github.com/hashicorp/terraform-cdk/blob/1fb8588095a55d475dc4be28882ec4f42006ec8d/packages/%40cdktf/provider-generator/lib/get/generator/skipped-attributes.ts
+# and if not, please check with the provider authors to see if the provider schema is accurate.
+# 
+# We understand this is not ideal, so we suggest using JSON synthesis instead of HCL synthesis for this particular case.
+
+${name} = ${renderFuzzyJsonExpression(value)}
+`;
         }
       }
 
