@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIRECTORY="$PWD/dist/go/cdktf"
-COPYRIGHT="Copyright (c) HashiCorp, Inc."
+COPYRIGHT="Copyright IBM Corp. 2019, 2025"
 LICENSE="SPDX-License-Identifier: MPL-2.0"
 
 # search for all files in the dist/go/cdktf directory and its subdirectories

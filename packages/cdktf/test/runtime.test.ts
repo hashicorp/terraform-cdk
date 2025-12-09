@@ -1,4 +1,4 @@
-// Copyright (c) HashiCorp, Inc
+// Copyright IBM Corp. 2019, 2025
 // SPDX-License-Identifier: MPL-2.0
 import { resolve } from "../lib/_tokens";
 import { listMapper, hashMapper, anyToTerraform } from "../lib/runtime";

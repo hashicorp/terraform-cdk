@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2019, 2025
 # SPDX-License-Identifier: MPL-2.0
 
 FROM docker.mirror.hashicorp.services/jsii/superchain:1-bookworm-slim-node20-nightly@sha256:cd75861281b3f9d503629a87e3529026b588500a752ae60b16c5f226344de2a7

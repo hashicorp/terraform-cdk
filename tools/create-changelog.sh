@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Copyright (c) HashiCorp, Inc.
+// Copyright IBM Corp. 2019, 2025
 // SPDX-License-Identifier: MPL-2.0
 
 const exec = (cmd) => require("child_process").execSync(cmd).toString();

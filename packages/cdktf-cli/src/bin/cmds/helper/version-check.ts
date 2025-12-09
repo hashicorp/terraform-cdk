@@ -1,4 +1,4 @@
-// Copyright (c) HashiCorp, Inc
+// Copyright IBM Corp. 2019, 2025
 // SPDX-License-Identifier: MPL-2.0
 // This code was mostly copied from https://github.com/aws/aws-cdk/blob/0e96415ea9f365db93aa4b26e7464096b3d62af2/packages/aws-cdk/lib/version.ts
 
