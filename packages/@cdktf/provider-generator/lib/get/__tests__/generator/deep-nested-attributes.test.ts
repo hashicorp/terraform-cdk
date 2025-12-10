@@ -1,4 +1,4 @@
-// Copyright (c) HashiCorp, Inc // SPDX-License-Identifier: MPL-2.0
+// Copyright IBM Corp. 2019, 2025 // SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";

@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2019, 2025
 # SPDX-License-Identifier: MPL-2.0
 
 # work around for changelog when pre-release versions exist

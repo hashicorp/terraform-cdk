@@ -1,4 +1,4 @@
-// Copyright (c) HashiCorp, Inc
+// Copyright IBM Corp. 2019, 2025
 // SPDX-License-Identifier: MPL-2.0
 // DOCS_BLOCK_START:providers-import,providers-import-classes
 import { Construct } from "constructs";

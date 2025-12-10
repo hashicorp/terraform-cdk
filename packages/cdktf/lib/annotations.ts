@@ -1,4 +1,4 @@
-// Copyright (c) HashiCorp, Inc
+// Copyright IBM Corp. 2019, 2025
 // SPDX-License-Identifier: MPL-2.0
 // Originally from aws-cdk v2 because with constructs v10 addMessage was removed
 // in favor of Annotations in the AWS CDK

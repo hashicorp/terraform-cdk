@@ -1,4 +1,4 @@
-// Copyright (c) HashiCorp, Inc
+// Copyright IBM Corp. 2019, 2025
 // SPDX-License-Identifier: MPL-2.0
 import { App, TerraformHclModule, TerraformStack, Testing } from "../lib";
 import * as path from "path";

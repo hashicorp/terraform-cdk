@@ -1,4 +1,4 @@
-// Copyright (c) HashiCorp, Inc
+// Copyright IBM Corp. 2019, 2025
 // SPDX-License-Identifier: MPL-2.0
 import { App } from "cdktf";
 import { AspectTaggingStack } from "./aspect-tagging";

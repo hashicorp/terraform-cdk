@@ -1,4 +1,4 @@
-// Copyright (c) HashiCorp, Inc
+// Copyright IBM Corp. 2019, 2025
 // SPDX-License-Identifier: MPL-2.0
 // This is the programmatic entrypoint that the CLI uses.
 // While this is the closest we have to a programmatic API, please understand that the interfaces in this file are not stable.
