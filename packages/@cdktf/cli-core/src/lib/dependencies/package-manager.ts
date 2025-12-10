@@ -241,8 +241,311 @@ class NodePackageManager extends PackageManager {
   }
 }
 
+/* eslint-disable no-unused-vars */
+abstract class PythonPackageTool {
+  /* Abstract base class for Python package manager tools.
+  This is a bit messy, but it seems smarter to split each package manager up
+  into its own context than it does to create a single class with a bunch of if statements.
+   */
+  constructor(protected readonly workingDirectory: string) {}
+
+  abstract get name(): string;
+
+  abstract validateInstallation(): void;
+
+  abstract addPackage(
+    packageName: string,
+    packageVersion?: string,
+  ): Promise<void>;
+
+  abstract listPackages(): Promise<{ name: string; version: string }[]>; // Returns parsed JSON output
+}
+/* eslint-enable no-unused-vars */
+
+class PipTool extends PythonPackageTool {
+  get name(): string {
+    return "pip";
+  }
+
+  validateInstallation(): void {
+    try {
+      exec("pip", ["--version"], { cwd: this.workingDirectory }).then();
+      return;
+    } catch {
+      throw Errors.Usage(
+        "Using Python with pip, but the pip command is not available. Please check your environment and try again.",
+      );
+    }
+  }
+
+  async addPackage(
+    packageName: string,
+    packageVersion?: string,
+  ): Promise<void> {
+    const requirementsFilePath = path.join(
+      this.workingDirectory,
+      "requirements.txt",
+    );
+    if (!fs.existsSync(requirementsFilePath)) {
+      throw Errors.Usage(
+        `Could not find requirements.txt in ${this.workingDirectory}`,
+      );
+    }
+    // add new requirements to the requirements.txt file
+    const requirements = await fs.readFile(requirementsFilePath, "utf8");
+    const requirementLine = requirements
+      .split("\n")
+      .find((line: string) => line.includes(packageName));
+
+    logger.debug(
+      `Read requirements.txt file and found line including ${packageName}: ${requirementLine}`,
+    );
+
+    if (requirementLine) {
+      if (packageVersion ? requirementLine.includes(packageVersion) : true) {
+        logger.info(
+          `Package ${packageName} already in requirements file. Skipping installation.`,
+        );
+        return;
+      } else {
+        logger.debug(
+          `Found the package ${packageName} already in requirements file, but with a different version, continuing`,
+        );
+      }
+    }
+
+    const newRequirements =
+      requirements
+        .split("\n")
+        .filter((line: string) => !line.startsWith(packageName))
+        .join("\n") +
+      `\n${packageName}${packageVersion ? `~=${packageVersion}` : ""}`;
+    await fs.writeFile(requirementsFilePath, newRequirements, "utf8");
+
+    await exec("pip", ["install", "-r", "requirements.txt"], {
+      cwd: this.workingDirectory,
+      stdio: ["inherit", 1, 1],
+    });
+  }
+
+  async listPackages(): Promise<{ name: string; version: string }[]> {
+    try {
+      const stdout: string = await exec("pip", ["list", "--format=json"], {
+        cwd: this.workingDirectory,
+      });
+      logger.debug(
+        `Listing pip packages using "pip list --format=json": ${stdout}`,
+      );
+      return pipPackageSchema.parse(JSON.parse(stdout));
+    } catch (e: any) {
+      throw new Error(
+        `Could not determine installed packages using 'pip list --format=json': ${e.message}`,
+      );
+    }
+  }
+}
+
+class PipenvTool extends PythonPackageTool {
+  get name(): string {
+    return "pipenv";
+  }
+
+  validateInstallation(): void {
+    try {
+      exec("pipenv", ["--version"], { cwd: this.workingDirectory });
+      return;
+    } catch {
+      throw Errors.Usage(
+        'Found "pipenv" in app command but the pipenv command is not available. Please install pipenv or update your app command.',
+      );
+    }
+  }
+
+  async addPackage(
+    packageName: string,
+    packageVersion?: string,
+  ): Promise<void> {
+    const args: string[] = [
+      "install",
+      packageVersion ? `${packageName}~=${packageVersion}` : packageName,
+    ];
+    await exec("pipenv", args, {
+      cwd: this.workingDirectory,
+      env: {
+        ...process.env,
+        PIPENV_QUIET: "1",
+      },
+      stdio: ["inherit", 1, 1],
+    });
+  }
+
+  async listPackages(): Promise<{ name: string; version: string }[]> {
+    try {
+      const stdout: string = await exec(
+        "pipenv",
+        ["run", "pip", "list", "--format=json"],
+        {
+          cwd: this.workingDirectory,
+        },
+      );
+      logger.debug(
+        `Listing pipenv packages using "pipenv run pip list --format=json": ${stdout}`,
+      );
+      return pipPackageSchema.parse(JSON.parse(stdout));
+    } catch (e: any) {
+      throw new Error(
+        `Could not determine installed packages using 'pipenv run pip list --format=json': ${e.message}`,
+      );
+    }
+  }
+}
+
+class PoetryTool extends PythonPackageTool {
+  get name(): string {
+    return "poetry";
+  }
+
+  validateInstallation() {
+    try {
+      exec("poetry", ["--version"], { cwd: this.workingDirectory });
+      return;
+    } catch {
+      throw Errors.Usage(
+        'Found "poetry" in app command but the poetry command is not available. Please install poetry or update your app command.',
+      );
+    }
+  }
+
+  async addPackage(
+    packageName: string,
+    packageVersion?: string,
+  ): Promise<void> {
+    const args = [
+      "add",
+      packageVersion ? `${packageName}@^${packageVersion}` : packageName,
+    ];
+    await exec("poetry", args, {
+      cwd: this.workingDirectory,
+      stdio: ["inherit", 1, 1],
+    });
+  }
+
+  async listPackages(): Promise<{ name: string; version: string }[]> {
+    try {
+      const stdout: string = await exec(
+        "poetry",
+        ["run", "pip", "list", "--format=json"],
+        {
+          cwd: this.workingDirectory,
+        },
+      );
+      logger.debug(
+        `Listing poetry packages using "poetry show --format=json": ${stdout}`,
+      );
+      return pipPackageSchema.parse(JSON.parse(stdout));
+    } catch (e: any) {
+      throw new Error(
+        `Could not determine installed packages using 'poetry run pip list --format=json': ${e.message}`,
+      );
+    }
+  }
+}
+
+class UvTool extends PythonPackageTool {
+  get name(): string {
+    return "uv";
+  }
+
+  validateInstallation() {
+    try {
+      exec("uv", ["--version"], { cwd: this.workingDirectory });
+      return;
+    } catch {
+      throw Errors.Usage(
+        'Found "uv" in app command but the uv command is not available. Please install uv or update your app command.',
+      );
+    }
+  }
+
+  async addPackage(
+    packageName: string,
+    packageVersion?: string,
+  ): Promise<void> {
+    const args: string[] = [
+      "add",
+      packageVersion ? `${packageName}~=${packageVersion}` : packageName,
+    ];
+    await exec("uv", args, {
+      cwd: this.workingDirectory,
+      stdio: ["inherit", 1, 1],
+    });
+  }
+
+  async listPackages(): Promise<{ name: string; version: string }[]> {
+    try {
+      const stdout: string = await exec(
+        "uv",
+        ["pip", "list", "--format=json"],
+        {
+          cwd: this.workingDirectory,
+        },
+      );
+      logger.debug(
+        `Listing uv packages using "uv list --format=json": ${stdout}`,
+      );
+      return pipPackageSchema.parse(JSON.parse(stdout));
+    } catch (e: any) {
+      throw new Error(
+        `Could not determine installed packages using 'uv pip list --format=json': ${e.message}`,
+      );
+    }
+  }
+}
+
 class PythonPackageManager extends PackageManager {
+  /*
+  Python Package Manager should default to using pip
+  if it cannot detect the usage of any other package manager.
+  A package manager being installed does not mean it is being used for this project.
+  We will check the app command in cdktf.json for pipenv usage.
+
+  What would be better is for this to be explicitly set in cdktf.json
+  but that would be a breaking change.
+  Ideally language `python` would be python with pip and
+  `python-pipenv` would be python with pipenv.
+   */
+
+  private _pythonPackageTool: PythonPackageTool | undefined;
+
+  get packageManager(): PythonPackageTool {
+    if (this._pythonPackageTool !== undefined) {
+      return this._pythonPackageTool;
+    }
+
+    const appCmd = this.appCommand?.toLowerCase() || "";
+    const firstAppCmd: string = appCmd.split(" ")[0];
+    switch (firstAppCmd) {
+      case "pipenv":
+        this._pythonPackageTool = new PipenvTool(this.workingDirectory);
+        break;
+      case "poetry":
+        this._pythonPackageTool = new PoetryTool(this.workingDirectory);
+        break;
+      case "uv":
+        this._pythonPackageTool = new UvTool(this.workingDirectory);
+        break;
+      default:
+        // Fall back to pip as the default
+        this._pythonPackageTool = new PipTool(this.workingDirectory);
+    }
+    // Validate the installation of the package manager
+    this._pythonPackageTool.validateInstallation();
+
+    return this._pythonPackageTool;
+  }
+
   private get appCommand() {
+    // extract the app command from cdktf.json
     try {
       return JSON.parse(
         fs.readFileSync(
@@ -262,75 +565,19 @@ class PythonPackageManager extends PackageManager {
     packageName: string,
     packageVersion?: string,
   ): Promise<void> {
-    const usePipenv = this.appCommand.includes("pipenv");
+    console.log(
+      `Installing package ${packageName} @ ${packageVersion} using ${this.packageManager.name}.`,
+    );
+    await this.packageManager.addPackage(packageName, packageVersion);
+    console.log("Package installed.");
+  }
 
-    if (usePipenv) {
-      console.log(
-        `Installing package ${packageName} @ ${packageVersion} using pipenv.`,
-      );
-
-      await exec("pipenv", ["install", `${packageName}~=${packageVersion}`], {
-        cwd: this.workingDirectory,
-        env: {
-          ...process.env,
-          PIPENV_QUIET: "1",
-        },
-        stdio: ["inherit", 1, 1],
-      });
-
-      console.log("Package installed.");
-    } else {
-      console.log(
-        `Installing package ${packageName} @ ${packageVersion} using pip.`,
-      );
-
-      const requirementsFilePath = path.join(
-        this.workingDirectory,
-        "requirements.txt",
-      );
-      if (!fs.existsSync(requirementsFilePath)) {
-        throw Errors.Usage(
-          `Could not find requirements.txt in ${this.workingDirectory}`,
-        );
-      }
-
-      const requirements = await fs.readFile(requirementsFilePath, "utf8");
-      const requirementLine = requirements
-        .split("\n")
-        .find((line) => line.includes(packageName));
-
-      logger.debug(
-        `Read requirements.txt file and found line including ${packageName}: ${requirementLine}`,
-      );
-
-      if (requirementLine) {
-        if (packageVersion ? requirementLine.includes(packageVersion) : true) {
-          logger.info(
-            `Package ${packageName} already installed. Skipping installation.`,
-          );
-          return;
-        } else {
-          logger.debug(
-            `Found the package but with a different version, continuing`,
-          );
-        }
-      }
-
-      const newRequirements =
-        requirements
-          .split("\n")
-          .filter((line) => !line.startsWith(packageName))
-          .join("\n") +
-        `\n${packageName}${packageVersion ? `~=${packageVersion}` : ""}`;
-      await fs.writeFile(requirementsFilePath, newRequirements, "utf8");
-
-      await exec("pip", ["install", "-r", "requirements.txt"], {
-        cwd: this.workingDirectory,
-        stdio: ["inherit", 1, 1],
-      });
-
-      console.log("Package installed.");
-    }
+  public async listProviderPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    const list: { name: string; version: string }[] =
+      await this.packageManager.listPackages();
+    return list.filter((item) => item.name.startsWith("cdktf-cdktf-provider"));
   }
 
   public async isNpmVersionAvailable(
@@ -360,60 +607,6 @@ class PythonPackageManager extends PackageManager {
       );
       return false;
     }
-  }
-
-  public async listPipenvPackages(): Promise<
-    { name: string; version: string }[]
-  > {
-    try {
-      const stdout = await exec(
-        "pipenv",
-        ["run", "pip", "list", "--format=json"],
-        {
-          cwd: this.workingDirectory,
-        },
-      );
-      logger.debug(
-        `Listing pipenv packages using "pipenv run pip list --format=json": ${stdout}`,
-      );
-
-      const list = pipPackageSchema.parse(JSON.parse(stdout));
-      return list.filter((item) =>
-        item.name.startsWith("cdktf-cdktf-provider"),
-      );
-    } catch (e: any) {
-      throw new Error(
-        `Could not determine installed packages using 'pipenv run pip list --format=json': ${e.message}`,
-      );
-    }
-  }
-
-  public async listPipPackages(): Promise<{ name: string; version: string }[]> {
-    try {
-      const stdout = await exec("pip", ["list", "--format=json"], {
-        cwd: this.workingDirectory,
-      });
-      logger.debug(
-        `Listing pipenv packages using "pip list --format=json": ${stdout}`,
-      );
-
-      const list = pipPackageSchema.parse(JSON.parse(stdout));
-      return list.filter((item) =>
-        item.name.startsWith("cdktf-cdktf-provider"),
-      );
-    } catch (e: any) {
-      throw new Error(
-        `Could not determine installed packages using 'pip list --format=json': ${e.message}`,
-      );
-    }
-  }
-
-  public async listProviderPackages(): Promise<
-    { name: string; version: string }[]
-  > {
-    return this.appCommand.includes("pipenv")
-      ? this.listPipenvPackages()
-      : this.listPipPackages();
   }
 }
 
