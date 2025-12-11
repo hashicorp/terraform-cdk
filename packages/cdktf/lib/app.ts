@@ -97,7 +97,7 @@ export class App extends Construct {
     const envHclOutput = process.env.SYNTH_HCL_OUTPUT;
     let hclOutput = config.hclOutput || false;
     if (envHclOutput !== undefined) {
-      hclOutput = envHclOutput === "true";
+      hclOutput = envHclOutput === "true" || envHclOutput === "1";
     }
 
     this.hclOutput = hclOutput;
