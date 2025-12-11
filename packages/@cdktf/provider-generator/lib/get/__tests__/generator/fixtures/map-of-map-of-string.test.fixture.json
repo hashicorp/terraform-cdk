@@ -1,0 +1,27 @@
+{
+  "provider_schemas": {
+    "registry.terraform.io/hashicorp/aws": {
+      "resource_schemas": {
+        "aws_map_of_map_of_string": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "labels": {
+                "type": [
+                  "map",
+                  [
+                    "map",
+                    "string"
+                  ]
+                ],
+                "description": "Map of map of string.",
+                "computed": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+} 
