@@ -468,7 +468,15 @@ export class CdktfProject {
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
-        await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
+        try {
+          await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
+        } catch (e) {
+          logger.debug(
+            "Encountered an error in one of the stacks, allowing running stacks to finish before exit",
+            e,
+          );
+          break;
+        }
         continue;
       }
       try {
