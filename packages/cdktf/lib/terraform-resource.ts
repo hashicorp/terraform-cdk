@@ -11,7 +11,7 @@ import {
   processDynamicAttributesForHcl,
 } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
-import { ref, dependable } from "./tfExpression";
+import { ref, dependable, replaceTriggeredBy } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { IInterpolatingParent } from "./terraform-addressable";
 import { ITerraformIterator } from "./terraform-iterator";
@@ -78,13 +78,9 @@ export function lifecycleToTerraform(
     ...lifecycle,
     ...(lifecycle?.replaceTriggeredBy?.length
       ? {
-          replaceTriggeredBy: lifecycle?.replaceTriggeredBy?.map((x) => {
-            if (typeof x === "string") {
-              return x;
-            } else {
-              return x.fqn;
-            }
-          }),
+          replaceTriggeredBy: lifecycle?.replaceTriggeredBy?.map((x) =>
+            replaceTriggeredBy(x),
+          ),
         }
       : undefined),
   };
